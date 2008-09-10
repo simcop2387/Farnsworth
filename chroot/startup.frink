@@ -3,4 +3,4 @@ time :-> [0, "centuries", "years", "days", "hours", "minutes", "seconds"]
 microwavetime[mass, end , start = frozen, watts = 1000W, sh = 1 calorie/gram/degC] := (mass sh)(end - start)/watts -> ["minutes", "seconds"]
 charge :-> "coulombs"
 electric_potential :-> "volts"
-
+phi = (1 + sqrt[5])/2
