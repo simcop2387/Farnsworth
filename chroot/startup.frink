@@ -1,2 +1,3 @@
 source = "You can see my insides at https://vdiddy.sexypenguins.com/subversion/frinkbot BUT do not try to run me, as i have no documentation and i can probably cause your computer to neuter the cats in your neighborhood"
 time :-> [0, "centuries", "years", "days", "hours", "minutes", "seconds"]
+microwavetime[mass, end , start = frozen, watts = 1000W, sh = 1 calorie/gram/degC] := (mass sh)(end - start)/watts -> ["minutes", "seconds"]
