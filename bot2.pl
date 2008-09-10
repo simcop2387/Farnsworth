@@ -29,6 +29,17 @@ use Math::BigFloat;
          );
          $bot->run();
 
+sub help
+{
+  my $help = q{
+I know math-fu.  Have a look at  http://futureboy.homeip.net/frinkdocs/#HowFrinkIsDifferent to understand how to use me!
+If you have a question or function you would like preserved across crashes/restarts send a pm to simcop2387.};
+  $help =~ s/\n//g;
+  $help =~ s/\s{2,}/ /g;
+  
+  return $help;
+}
+
 
 sub said
 {
@@ -99,9 +110,9 @@ sub submitform
     $q =~ s/\n/ /g; #filter a few annoying things
     $q =~ s/\s{2,}/ /g;
 
-    if ((length $q > 128) && $ad ne "msg")
+    if ((length $q > 220) && $ad ne "msg")
     {
-      $q = "SHORTENED [SEEALL USING /MSG]: ".(substr $q, 0, 128);
+      $q = "SHORTENED [SEEALL USING /MSG]: ".(substr $q, 0, 220);
     }
 
     return $q;
