@@ -1,0 +1,15 @@
+
+// Finds the smallest prime with n or more digits.
+
+digits = eval[input["Enter number of digits: "]]
+
+start = now[]
+n = 10^(digits-1)+1
+
+while(! isPrime[n])
+   n = n + 2
+
+println[n]
+end = now[]
+
+println["Total time is " + (end-start -> "s")]

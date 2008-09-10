@@ -1,0 +1,88 @@
+baseball: Calculates trajectory of a baseball.
+
+bert: Calculates the probability of two first names appearing in the same movie.
+
+classtest: A sample of object-oriented programming; demonstrates writing and using a class specification.
+
+CoordinateConversions: Converts latitude and longitude to and from UTM coordinates.
+
+ChineseNumbers: Formats integers into their Chinese equivalents (formal and casual)
+
+Datum: A data structure used to represent the ellipsoidal shape of the earth, used in various navigation routines.
+
+daylight: Calculates duration of daylight over the course of a year.
+
+elements:  A basic periodic table of the elements.
+
+erf: Functions for statistics including the forward and inverse error function, the normal distribution, etc.
+
+Fourier: Routines for discrete and fast Fourier transforms (FFT) of data.
+
+hints: Provides hints and help for common errors in Frink calculations.
+
+homonyms: Finds homophones of words.
+
+JacobiSymbol: Functions for calculating the Jacobi symbol and Legendre symbol.
+
+JVMinfo: Displays the properties of your Java Virtual Machine.  Demonstrates use of Java Introspection.
+
+HTMLUtils: Utilities for processing HTML.
+
+LucasLehmer: Implements the Lucas-Lehmer test for proving primality of Mersenne primes.
+
+mandelbrot:  Draws a Mandelbrot set in plain text.
+
+mithengecorridor: Data for the Infinite Corridor at MIT.
+
+mithengemoon: Calculates moon alignments with MIT's Infinite Corridor.
+
+mithengesun: Calculates sun alignments in MIT's Infinite Corridor.
+
+navigation:  A library of high-precision calculations for navigating on the earth.
+
+palindromicNumbers: Finds palindromic numbers by the "reverse and add" method.
+
+planets: A library to calculate the positions of the the planets to high accuracy using the VSOP87 theory.
+
+pollardP-1: An implementation of the Pollard p-1 factoring algorithm.
+
+siderealtime: Calculates Greenwich Mean Sidereal Time.
+
+sieve: Sieve of Eratosthenes to find prime numbers.
+
+simplegraph: An simple but interesting program that uses interval arithmetic to plot equations.
+
+StandardAtmosphere: A class which implements the U.S. Standard Atmosphere of 1976.  This allows calculation of pressure, temperature, air density, speed of sound, etc. at varying altitudes.
+
+StandardAtmosphereTest:  Contains examples of doing standard atmosphere calculations.
+
+stock: Fetches stock prices from the internet.
+
+sun: A massive library of astronomical calculations to find positions of the sun, moon, and other calculations.
+
+sunplot: Creates data to plot the location of the sun for an entire year.
+
+sunrise: Calculates times of sunrise, sunset, and twilights.
+
+RiemannZeta: Calculates values of the Riemann Zeta function.
+
+trigram:  Program to find the most frequent <I>n</I>-letter patterns in words.
+
+holeearthuniform: Calculates time to fall through a hole in the center of the earth with na&iuml;ve uniform density model.
+
+holeearthgradient: Calculates time to fall through a hole in the center of the earth with overly-simplistic model of densities.
+
+holeearthfullgradient: Calculates time to fall through a hole in the center of the earth with realistic model of densities.
+
+webspider: Simple program to find all of the links in an HTML page.
+
+wheelgame3: Simulator to find optimum play for the big-wheel-spinnin' "Showcase Showdown" game on The Price Is Right
+
+ziplocator: Locates latitude and longitude of U.S. zip codes (requires <A HREF="neighbors/zipnov99.txt">data file</A>)
+
+xmldump: Demonstrates dumping units in an XML format.
+
+PollardP-1: Factorization using the Pollard <I>p-1</I> factorization method.
+
+WilliamsPPlus1: Factorization using the Williams <I>p+1</I> factorization method.
+

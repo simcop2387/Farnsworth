@@ -1,0 +1,91 @@
+
+print["Case 1..."]
+if 3<2
+   println["error"]
+else
+   println["ok"]
+
+print["Case 2..."]
+if 3<2
+   println["error"]
+else
+{
+   println["ok"]
+}
+
+print["Case 3..."]
+if (1<2)
+   println["ok"]
+else
+   println["error"]
+
+print["Case 4..."]
+if (1<2)
+   println["ok"]
+else
+   println["error"]
+
+print["Case 5..."]
+if 3<2
+{
+   println["error"]
+} else
+{
+   println["ok"]
+}
+
+print["Case 6..."]
+if 3<2
+{
+   println["error"]
+} else
+   println["ok"]
+
+
+print["Case 7..."]
+if 2<3
+{
+   println["ok"]
+} else
+   println["error"]
+
+
+print["Case 8..."]
+if 2<3
+   println["ok"]
+else
+   println["error"]
+
+print["Case 9..."]
+if 3<2
+{
+   println["error"]
+}
+else
+{
+   println["ok"]
+}
+
+print["Case 10..."]
+if 3<2
+{
+   println["error"]
+}
+else
+   println["ok"]
+
+
+print["Case 11..."]
+if 2<3
+{
+   println["ok"]
+} 
+else
+   println["error"]
+
+print["Case 12..."]
+if 2<3
+   println["ok"]
+
+if 2<4
+   println["ok"]

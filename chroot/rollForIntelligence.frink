@@ -1,0 +1,35 @@
+
+// This is a silly little test to find the approximate IQ corresponding to
+// D&D rolls.
+
+use erf.frink
+
+rolls = new array
+for r=3 to 18
+   rolls@r = 0
+
+for d1=1 to 6
+   for d2=1 to 6
+      for d3=1 to 6
+      {
+         sum = d1 + d2 + d3
+         rolls@sum = rolls@sum + 1
+      }
+
+sum = 0
+for r = 3 to 18
+{
+   prob = sum/216
+   freq = 1/(1-prob)
+   iq = 0
+
+   do
+   {
+      iq = iq + .1
+      phi = phi[iq,100,15]
+   } while (phi < prob)
+
+   println["$r\t$sum\t" + format[prob*100,1,3] + "\t" + format[freq,1,3] + "\t" + iq]
+   sum = sum + rolls@r
+}
+

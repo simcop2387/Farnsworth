@@ -1,0 +1,46 @@
+// Program to calculate the value of the largest known Mersenne prime.
+
+//p=13466917
+
+//p=20_996_011   // Largest known as of Nov. 2003
+//p=25_964_951    // Largest known as of Feb. 2005.
+// p = 30_402_457    // Largest known as of Dec. 2005.
+p = 32_582_657   // Largest as of September 2006
+
+start = now[]
+m=2^p
+end = now[]
+println["Time to perform exponent: " + ((end-start) -> "seconds")]
+
+start = now[]
+mp = m - 1
+end = now[]
+
+println["Time to perform subtraction: " + ((end-start) -> 1. seconds) + "\n"]
+println["2^" + p + " - 1 =\n"]
+
+
+start = now[]
+out = newToString[mp]   // Get string representation
+end = now[]
+
+//println[out]
+
+println["Time to format (w/Frink optimizations): " + ((end-start) -> 1. seconds) + "\n"]
+
+
+start = now[]
+out = oldToString[mp]   // Get string representation
+end = now[]
+
+//println[out]
+
+println["Time to format (native): " + ((end-start) -> 1. seconds) + "\n"]
+
+start = now[]
+out = "$mp"   // Get string representation using automatically-selected algo.
+end = now[]
+
+//println[out]
+
+println["Time to format (w/automatic algorithm): " + ((end-start) -> 1. seconds) + "\n"]

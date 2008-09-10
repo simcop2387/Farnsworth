@@ -1,0 +1,32 @@
+
+// Exhaustive and inefficient test to check isPrime, but one that
+// doesn't require memory proportional to the largest number checked.
+
+a = eval[input["Start from [2]: ", 2]]
+
+highest = 2^31 - 1;
+
+for n = a to highest
+{
+   if n % 50000 == 0		// Print progress every 50000 digits
+      print["$n\t"]
+   
+   if isPrimeByDivision[n] != isPrime[n]  // Test against internal routine
+      println["Error!  $n"];
+}
+
+
+// Function to exhaustively test if a number is prime by trial division.
+// It checks all intergers up to the square root of the number to
+// be tested.
+isPrimeByDivision[n] :=
+{
+   for i = 2 to floor[sqrt[n]]
+   {
+      if (n mod i == 0)
+         return false
+   }
+
+   return true
+}
+      

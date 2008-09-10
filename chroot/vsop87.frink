@@ -1,0 +1,91 @@
+//
+// Routines for parsing VSOP87 coefficient files and generating Frink code
+// from them (or, with small modifications, for other languages).
+// The output of running this program is a partial Frink program
+// that contains function definitions to find the coordinates of each planet.
+//
+// The full coefficients of the VSOP87 theory are available for download
+// from:
+//  ftp://ftp.imcce.fr/pub/ephem/planets/vsop87/
+//
+// From this, the series we require for use with the equations in Meeus
+// are the VSOP87D.xxx files, which contains the
+// heliocentric spherical variables referred to equinox and ecliptic of date.
+//
+// This reverses the lines in the file so that smaller coefficients are
+// added first, reducing numerical error.
+
+planets = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"]
+
+for planet = planets
+{
+   ext = lc[left[planet, 3]]
+
+   firstline = true
+   fullvar = undef
+   running = undef
+
+   println["""
+//
+// $planet
+//   
+// This function calculates the heliocentric coordinates of $planet
+// referred to the mean equinox *of the date*.  You may want to convert this
+// to another coordinate system, such as FK5.
+//
+// arguments:
+//     d: the date/time to be calculated for
+//   
+// returns:
+//   [L, B, R]
+//   
+// Where 
+//       L is the heliocentric longitude,
+//       B is the heliocentric latitude
+//       R is the distance from the sun.
+${planet}HeliocentricCoordinates = {|d|
+
+   tau = meeusT[d] / 10
+   """]
+
+   for line=lines["file:vsop87/VSOP87D.$ext"]
+   {
+      if [planet, varno, varnames, exponent] = line =~ %r/VSOP87\s+VERSION\s+D4\s+(\w+)\s+VARIABLE\s+(\d)\s+\((\w+)\)\s+\*T\*\*(\d)/
+      {
+         varno = parseInt[varno]
+         varname = substrLen[varnames, varno-1, 1]
+         firstline = true
+         if (fullvar)
+            println["   $fullvar = $running;\n"]
+
+         fullvar = varname+exponent
+         running = ""
+         //      println["Planet: $planet\tvarno: $varno\tvarname: $varname\texponent: $exponent\tname: $fullvar"]
+      } else
+      {
+         A = eval[substr[line, 79, 97]]
+         B = eval[substr[line, 97, 111]]
+         C = eval[substr[line, 111, 132]]
+
+         if length[line] != 132
+            println[length[line]]
+
+         // Remove lines with coefficients of 0.0
+         if (eval[A] != 0.0)
+         {
+            running = "$A * cos[$B + $C * tau]" + (firstline ? "" : " +\n        ") + running
+            firstline = false
+         }
+      }
+   }
+
+   println["""
+   $fullvar = $running;
+
+   L = ((L0 + L1 tau + L2 tau^2 + L3 tau^3 + L4 tau^4 + L5 tau^5) radians) mod circle
+   B = ((B0 + B1 tau + B2 tau^2 + B3 tau^3 + B4 tau^4 + B5 tau^5) radians) mod circle
+   R = (R0 + R1 tau + R2 tau^2 + R3 tau^3 + R4 tau^4 + R5 tau^5) au
+
+   return [L, B, R]
+}"""]
+}

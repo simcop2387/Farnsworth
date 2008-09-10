@@ -1,0 +1,162 @@
+
+// Library for converting numbers to various Chinese representations.
+// See:
+// http://www.mandarintools.com/numbers.html
+// http://en.wikipedia.org/wiki/Chinese_numerals
+//
+class ChineseNumbers
+{
+   // Dictionaries that store the styles.
+   class var casual = undef
+   class var formal = undef
+
+   // Class variable indicating if internal data structures have been
+   // initialized.
+   class var initialized = false
+
+   // Initialize the dictionaries
+   initializeClass[] :=
+   {
+      if initialized
+         return
+      
+      casual = new dict
+      
+      casual@"0" = "\u96F6"
+      casual@"1" = "\u4e00"
+      casual@"2" = "\u4e8c"
+      casual@"3" = "\u4e09"
+      casual@"4" = "\u56db"
+      casual@"5" = "\u4e94"
+      casual@"6" = "\u516d"
+      casual@"7" = "\u4e03"
+      casual@"8" = "\u516b"
+      casual@"9" = "\u4e5d"
+      casual@"10"= "\u5341"
+      casual@"100" = "\u767e"
+      casual@"1000" = "\u5343"
+      casual@"10000" = "\u4e07"
+
+      formal = new dict
+      
+      formal@"0" = "\u96F6"
+      formal@"1" = "\u58F9"
+      formal@"2" = "\u8cb3"
+      formal@"3" = "\u53c4"
+      formal@"4" = "\u8086"
+      formal@"5" = "\u4f0d"
+      formal@"6" = "\u9678"
+      formal@"7" = "\u67D2"
+      formal@"8" = "\u634C"
+      formal@"9" = "\u7396"
+      formal@"10"= "\u62fe"
+      formal@"100" = "\u4f70"
+      formal@"1000" = "\u4edf"
+      formal@"10000" = "\u842c"
+   }
+
+   // Get string corresponding to casual Chinese writing.
+   formatCasual[num is dimensionless] :=
+   {
+      initializeClass[]
+
+      return format[num, casual]
+   }
+
+   // Get string corresponding to formal Chinese writing.
+   formatFormal[num is dimensionless] :=
+   {
+      initializeClass[]
+
+      return format[num, formal]
+   }
+   
+   // Function to format according to style.
+   format[num, dict, hasLeading=false] :=
+   {
+      ret = formatTenThousands[num, dict, false]
+
+      re = subst["(.)" + dict@"0" + "+$", "$1"] // Remove trailing zeroes
+      ret =~ re
+
+      re = subst[dict@"0" + "{2,}", dict@"0"] // Remove doubled zeroes
+      ret =~ re
+   }
+
+   // Format ten-thousands place
+   formatTenThousands[num, dict, hasLeading] :=
+   {
+      digits = num div 10000
+      remainder = num mod 10000
+
+      if digits == 0
+         if !hasLeading
+            return formatThousands[remainder, dict, false]
+         else
+            return dict@"0" + formatThousands[remainder, dict, true]
+
+      return format[digits,dict,true] + dict@"10000" + formatThousands[remainder, dict, true]
+   }
+   
+   // Format thousands place
+   formatThousands[num, dict, hasLeading] :=
+   {
+      digit = num div 1000
+      remainder = num mod 1000
+
+      if digit == 0
+         if !hasLeading
+            return formatHundreds[remainder, dict, false]
+         else
+            return dict@"0" + formatHundreds[remainder, dict, true]
+
+      return dict@"$digit" + dict@"1000" + formatHundreds[remainder, dict, true]
+   }
+   
+   // Format hundreds place
+   formatHundreds[num, dict, hasLeading] :=
+   {
+      digit = num div 100
+      remainder = num mod 100
+
+      if digit == 0
+         if !hasLeading
+            return formatTens[remainder, dict, false]
+         else
+            return dict@"0" + formatTens[remainder, dict, true]
+
+      return dict@"$digit" + dict@"100" + formatTens[remainder, dict, true]
+   }   
+
+   // Format tens place
+   formatTens[num, dict, hasLeading] :=
+   {
+      digit = num div 10
+      remainder = num mod 10
+
+      if digit == 0
+         if !hasLeading
+            return formatOnes[remainder, dict, false]
+         else
+            return dict@"0" + formatOnes[remainder, dict, true]
+         
+      
+      if digit == 1             // Special case for 11-99
+         if !hasLeading
+            return dict@"10" + formatOnes[remainder, dict, true]
+
+      return dict@"$digit" + dict@"10" + formatOnes[remainder, dict, true]
+   }   
+
+   // Format ones place
+   formatOnes[num, dict, hasLeading] :=
+   {
+      if num == 0
+         if !hasLeading         // No leading, return zero character
+            return dict@"0"
+         else                   // Has leading, skip if zero
+            return ""
+
+      return dict@"$num"        // Normal case
+   }
+}

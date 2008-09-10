@@ -1,0 +1,38 @@
+
+// Program to convert Richter Scale numbers to energy.
+//
+// Both of these functions can take either a dimensionless number, which
+// indicates a number on the Richter Scale, or a unit with dimensions of
+// energy.  If a dimensionless number is passed in, this returns an energy.
+// If an energy is passed in, this returns a dimensionless number which is
+// the number on the Richter scale.
+//
+// The first approximation is due to Richter and Gutenberg, but this
+// approximation uses a very narrow frequency band, which is not the band
+// in which earthquakes primarily radiate their energy.
+
+RichterGutenberg[n] :=
+{
+   if (n conforms 1)            // Passed in dimensionless.  (Richter number)
+      return 10^(4.8 + 1.5n) J  // Convert to energy.
+
+   if (n conforms joule)        // Passed in energy.  Convert to Richter.
+      return -3.2 + 0.28953 ln[n/J]
+
+   return "Error:  Expected dimensionless number or unit with dimensions of energy."
+}
+
+
+// The Choy-Boatwright approximation (1995) assumes higher-frequency components
+// and is thus more realistic.  This returns the amount of energy radiated
+// as seismic energy.
+ChoyBoatwright[n] :=
+{
+   if (n conforms 1)             // Passed in dimensionless.  (Richter number)
+      return 22387 e^(3.45388 n) J  // Convert to energy.
+
+   if (n conforms joule)        // Passed in energy.  Convert to Richter.
+      return -2.9 + 0.28953 ln[n/J]
+
+   return "Error:  Expected dimensionless number or unit with dimensions of energy."
+}

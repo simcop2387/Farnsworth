@@ -1,0 +1,22 @@
+
+// Program to detect maximal length cyclic expansions of the digits
+// of 1/n, 2/n, 3/n... (n-1)/n in a given base.
+// To find the values of n, the base must be a primitive root modulo n.
+
+base = eval[input["Enter base [10]: ", 10]]
+for n = 3 to 1001 step 2
+   if isPrime[n] and isPrimitiveRoot[base,n]
+      println[n]
+
+// Returns true if base is a primitive root modulo n.   
+isPrimitiveRoot[base,n] :=
+{
+   if modPow[base,n-1,n] != 1
+      return false
+
+   for k = 1 to n-2
+      if modPow[base,k,n] == 1
+         return false
+
+   return true
+}

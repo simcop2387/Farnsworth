@@ -1,0 +1,22 @@
+
+// Fetch average temperature data for a given weather station.
+
+urlbase = "http://www.weather.com/weather/wxclimatology/daily/USMA0066?climoMonth="
+
+println["mean = new dict"]
+
+for month = 1 to 12
+{
+   infile = read["$urlbase$month"]
+   for [line] = infile =~ %r/<TD\s*[^>]*\s*CLASS="lapAvgDataRow"[^>]*>(.*?)<\/TR>/gs
+   {
+      line =~ %s/<\/?TD[^>]*>//gs
+      line =~ %s/\n\s*/\t/gs
+      [day,sunrise,sunset,high,low,mean] = split["\t", line]
+      if [t] = mean =~ %r/([\-]?\d+)/
+         println["mean@\"$month-$day\" = F[$t]"]
+   }
+}
+
+println["mean@\"2-29\" = mean@\"2-28\""]
+println["\"Ok\""]

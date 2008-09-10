@@ -1,0 +1,14 @@
+D/perl////
+D/regex////
+/DefaultMatchAction.class/1.1/Thu Jun 12 21:57:28 2003/-kb/
+/GenericPatternCache.class/1.1/Thu Jun 12 21:57:29 2003/-kb/
+/GlobCompiler.class/1.1/Thu Jun 12 21:57:29 2003/-kb/
+/MalformedCachePatternException.class/1.1/Thu Jun 12 21:57:29 2003/-kb/
+/MatchAction.class/1.1/Thu Jun 12 21:57:30 2003/-kb/
+/MatchActionInfo.class/1.1/Thu Jun 12 21:57:30 2003/-kb/
+/MatchActionProcessor.class/1.1/Thu Jun 12 21:57:31 2003/-kb/
+/PatternCache.class/1.1/Thu Jun 12 21:57:31 2003/-kb/
+/PatternCacheFIFO.class/1.1/Thu Jun 12 21:57:31 2003/-kb/
+/PatternCacheFIFO2.class/1.1/Thu Jun 12 21:57:32 2003/-kb/
+/PatternCacheLRU.class/1.1/Thu Jun 12 21:57:32 2003/-kb/
+/PatternCacheRandom.class/1.1/Thu Jun 12 21:57:33 2003/-kb/

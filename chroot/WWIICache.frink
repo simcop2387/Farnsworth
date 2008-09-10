@@ -1,0 +1,175 @@
+
+// Solution for the "WWII" geocache (GCYANP)
+
+// http://www.geocaching.com/seek/cache_details.aspx?guid=a94cdfa3-a467-40e2-974c-37cb57adba95
+
+// "WAYPOINT #1
+// There is a 14k+ mountain peak in CO that is named the same as the
+// battleship where the Japanese signed their WWII surrender to the US."
+
+// "If you stood on the summit of this mountain at 7pm UT on the day of the
+// Japanese surrender signing, you would observe the Sun at an altitude of
+// ____ degrees and at an azimuth (E of N) of ______ degrees."
+
+//
+// The ship will be trivial to anyone who has seen the fabulous Steven Seagal
+// epic "Under Siege".
+//
+// Location of the summit of the mountain 
+// http://www.14ers.com/php14ers/qpick.php?parmpeak=36
+summitLat =DMS[38,56,50]
+summitLong=DMS[106,22,40]
+summitHeight=14067 feet
+
+// Grab in my sun/moon prediction library
+use sun.frink
+
+surrenderDate = #September 2, 1945 7:00 PM UT#
+
+println["Local time is " + (surrenderDate -> Mountain)]
+
+// Calculate refracted, parallax-corrected apparent position of sun.
+[azimuth, altitude] = refractedSunAzimuthAltitude[surrenderDate, summitLat, summitLong]
+
+// Convert Meeus' odd coordinate system to normal coordinates
+azimuth = (azimuth + 180 degrees) mod circle
+
+println["Altitude is: " + format[altitude, "degrees", 5]]
+println["Azimuth is: "  + format[azimuth,  "degrees", 5]]
+
+// Meta-Calculation:
+// It's hard to guess what temperature and atmospheric pressure they assumed
+// for the day, so use my defaults.  The calculations show that the sun
+// would be at an altitude of about 59 degrees (with refraction) so refraction
+// error should hopefully be sort of low.  Let's calculate it here.
+println["\nMeta-Calculation of possible refraction discrepancy:"]
+[airlessAz, airlessAlt] = airlessSunAzimuthAltitude[surrenderDate, summitLat, summitLong]
+
+// Convert from Meeus odd coordinate system
+airlessAz = (airlessAz + 180 degrees) mod circle
+println["Airless Altitude is: " + format[airlessAlt, "degrees", 5]]
+println["Airless Azimuth is: "  + format[airlessAz,  "degrees", 5]]
+
+// Calculate refraction angle using my defaults.
+refractionAngle = refractionAngle[airlessAlt]
+
+println[]
+println["Refraction angle is: " + format[refractionAngle, "degrees", 5]]
+println["If they didn't correct for refraction, error is " + format[refractionAngle earthradius, "feet", 1] + "."]
+
+// Running this shows that the refraction angle is small (about 0.01 degrees)
+// so it shouldn't be a problem if we round to the nearest degree, but it is
+// possibly a problem if we round to the nearest 0.1 degree, and certainly
+// if we round to the nearest 0.01 degree.
+
+// The problem solution doesn't state if/how they rounded the value.  This is
+// potentially a show-stopper.
+
+// After more research, the USNO page seems to show one decimal place
+// after the decimal point for altitude and azimuth.  Can we assume that's
+// what they were using?  It's too big of an assumption to make carelessly;
+// .1 degree on the earth's surface is (in Frink notation:)
+
+//       .1 degree earthradius -> miles
+//
+// that's still almost 7 miles!  Far too large an area for me to hike.
+
+// In addition, it's hard to know if they really corrected for the parallax
+// of the summit, as opposed to just using the reference geoid.  The problem
+// statement says "from the summit," so let's assume so.  Unfortunately,
+// my parallax model only currently calculates from the reference geoid,
+// so let's see how bad that might throw us off.
+
+// Based on the link they gave to the USNO, http://aa.usno.navy.mil/ ,
+// which doesn't have inputs for altitude, I might guess that they didn't
+// correct parallax for the actual altitude of the summit, but rather just
+// used the reference geoid or even something simpler.  The USNO's notes
+// don't say anything about parallax or refraction, but my previous encounters
+// with USNO predictions show that they do have some refraction model close
+// to my defaults (but theirs do a crazy step-function to zero as soon as the
+// centerline of the sun or moon crosses the horizon.)  Hmmm...  let's
+// calculate the magnitude of possible error due to parallax.
+
+
+println["\nMeta-Calculation of possible parallax discrepancy:"]
+// The maximum magnitude of the parallax error would occur if the sun were
+// at the horizon, but since it's high, parallax is reduced.
+parallax = parallaxAngleAlt[sundist, airlessAlt]
+println["Total parallax angle is: " + format[parallax, "degrees", 5]]
+
+// Running this, the nominal parallax angle is about 0.00126 degrees, which
+// is small (but nonzero).  The error due to not adjusting for geodetic
+// elevation would be:
+parallaxErrorFactor = summitHeight / earthradius
+println["Parallax error factor is: " + format[parallaxErrorFactor, 1, 5]]
+println["If they didn't correct for parallax at all, error is " + format[parallax earthradius, "feet", 1] + "."]
+println["If they corrected for parallax for the geoid, but not for the mountain summit, error is " + format[parallax earthradius parallaxErrorFactor, "feet", 1] + "."]
+
+// So again, multiplying this is small, at least for the sun.  (It would be
+// significant for the moon, which is 389 times closer!)
+// We're still stuck by not knowing how much they rounded the alt/azimuth
+// figures.  Without knowing this, we might be off by as much as a degree
+// (about 70 miles) in lat or long!
+//
+// Clarification has been requested.  We'll see what they say.
+
+
+roundAlt = round[altitude, 0.1 degrees]
+roundAz  = round[azimuth, 0.1 degrees]
+println["Rounded altitude is: " + format[roundAlt, "degrees", 5]]
+println["Rounded azimuth is : "  + format[roundAz,  "degrees", 5]]
+
+// "Actual latitude (N) of Waypoint #1 is the Sun's altitude
+// minus 19.23007 degrees."
+
+W1lat = roundAlt - 19.23007 degrees
+
+// "Actual longitude (W) of Waypoint #1 is the Sun's azimuth
+// minus 72.63358 degrees."
+
+W1long = roundAz - 72.63358 degrees
+
+println[]
+println["Waypoint 1 latitude is:   " + format[W1lat, "degrees", 5]]
+println["Waypoint 1 longitude is: "  + format[W1long,  "degrees", 5]]
+
+
+// "WAYPOINT #2
+// "At Waypoint #1 you will find a Rx pill bottle containing "adjusted" UTM
+// coordinates for WP #2 and a specific factor ________________used in
+// calculating the coordinates of Waypoint 2._______________ N and
+// _____________________ E"
+
+// Hmmm... by "unadjusted" do they mean what that usually means for UTM
+// coordinates, that the easting is shifted by 500000 meters and is relative
+// to the bounding meridians and not to the central meridian?  Or do they
+// mean that they're "normal" UTM coordinates and the "unadjusted" means that
+// they just haven't added the numbers below?  Must ask.
+
+// "WP 1 is
+// located in a small park named after a location where terrible events took
+// place during WWII. These events were memorialized by a poem set to music. A
+// number in the music title is used in calculating WP2 coordinates.
+
+// The UTM values found at WP1 must be adjusted as follows to obtain the
+// actual WP2 coordinates:
+
+println[]
+println["Waypoint 2"]
+println["a. The mountain peak elevation, in feet, " + (summitHeight->feet) + ", multiplied by 0.97588."]
+
+a2 = (summitHeight/feet) * 0.97588
+
+println["result is $a2"]
+
+// Do they round the Julian day?  To the nearest day, or do they use
+// all the digits?  Are they including the 7 PM UT in the JD calculation?
+// I guess it doesn't matter too much, because these are offsets to UTM
+// coordinates and thus just have units of meters.
+
+b2 = JD[surrenderDate] / days
+println["\nAdd the UT Julian date of the Japanese surrender signing: "]
+println[format[b2, 1, 5] + ", to result A."]
+
+b3 = a2 + b2
+println["b. result is " + format[b3, 1, 5]]

@@ -1,0 +1,28 @@
+
+// Test for procedure blocks
+
+// Test zero-arg function
+zero = { || 10 }
+println[zero[]]
+
+// Test one-arg function
+one = { |x|  x^2 }
+println[one[4]]
+
+// Test two-arg function
+pre = { |x,y| x^2 + y^2 }
+println[pre[4, 5]]
+
+// Select all of the even items out of the list.
+ary = [1,2,3,4,5]
+even = select[ary, { |i| i mod 2 == 0 }]
+println[even]
+
+// Select all the lines that match a certain pattern.
+alanline = { |line| line =~ %r/alan/i }
+println[select[lines["http://futureboy.homeip.net/"], alanline]]
+
+// Try with 2 args... return numbers which are divisible by each other.
+array2 = [[2,3], [2,4], [2,5], [2,6]]
+divisible = select[array2, { |x,y|  y % x == 0 }]
+println[divisible]

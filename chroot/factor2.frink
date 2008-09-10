@@ -1,0 +1,20 @@
+
+// A (very) slightly smarter factoring algorithm.  This factors into 
+// prime factors. 
+
+n = eval[input["Enter number to factor: "]]
+
+factor[n]
+
+factor[x, start=2] :=
+{
+   m = int[sqrt[x]]
+
+   for i = start to m
+      if (x mod i) == 0
+      {
+         print[i + ", "]
+         return factor[x/i, i]
+      }
+   println[x]
+}

@@ -1,0 +1,8 @@
+
+// Interactive program to fetch stock prices.
+
+use stock.frink
+
+while symbol = input["Enter ticker symbol: "]
+   println["$symbol: $" + (stock[symbol] -> dollars)]
+

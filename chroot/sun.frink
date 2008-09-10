@@ -1,0 +1,1214 @@
+
+// This is a library of calculations for calculating astronomical positions.
+// Most algorithms are based on Jean Meeus book _Astronomical Algorithms_
+
+// Sign conventions 
+// It is *highly* recommended that you use these constants instead of
+// assuming a sign convention.  These are the conventions used in Meeus and
+// many other astronomical calculations, which often differ than sign
+// conventions used in geoinformatics.
+North := +1
+South := -1
+West := +1
+East := -1
+
+
+// Turn a latitude measurement into the appropriate letter or word.  (e.g.
+// "N" or "S"
+// Pass in the latitude and an optional flag to produce the letter
+// or word.  Default is letter only.
+latitudeName[lat, short=true] :=
+{
+   if lat >= 0 degrees
+      short ? "N" : "North"
+   else
+      short ? "S" : "South"
+}
+
+// Turn a longitude measurement into the appropriate letter or word.  (e.g.
+// "N" or "S"
+// Pass in the longitude and an optional flag to produce the letter
+// or word.  Default is letter only.
+longitudeName[long, short=true] :=
+{
+   if long >= 0 degrees
+      short ? "W" : "West"
+   else
+      short ? "E" : "East"
+}
+
+// Returns the value of omega from Chapter 25 of Jean Meeus.
+meeusOmega[date] := 
+{
+   T = meeusT[date]
+   return (125.04 - 1934.136 T) degree
+}
+
+
+// Returns the apparent longitude of the sun (lambda) (low accuracy)
+// from Meeus, Chapter 25
+sunApparentLongitude[date] :=
+{
+   T = meeusT[date]
+
+   omega = meeusOmega[date]
+//   println["omega: " + (omega mod (360 degree) -> "degrees")];
+
+   return sunTrueLongitude[date] - 0.00569 degree - 0.00478 degree sin[omega]
+}
+
+
+// Returns geometric mean longitude L0 of the sun, referred to the mean equinox
+// of the date.  Equation 25.2 in Jean Meeus.
+sunGeometricMeanLongitude[date] := 
+{
+   T = meeusT[date]
+   return (280.46646 + 36000.76983 T + 0.0003032 T^2) degree
+}
+
+
+// Returns true longitude (sunSymbol) of the sun for a specified date.
+// From Chapter 25 in Jean Meeus.
+sunTrueLongitude[date] := 
+{
+   return sunGeometricMeanLongitude[date] + sunCenter[date]
+}
+
+
+// Returns the mean anomaly M of the sun for a given date.
+// Equation 25.3 in Jean Meeus.
+sunMeanAnomaly[date] := 
+{
+   T = meeusT[date]
+   return ((357.52911 + 35999.05029 T - 0.0001537 T^2) degree) mod (360 degree)
+}
+
+
+// Returns the true anomaly nu of the sun for a given date.
+// From Chapter 25 of Meeus.
+sunTrueAnomaly[date] := 
+{
+   T = meeusT[date]
+   return sunMeanAnomaly[date] + sunCenter[date]
+}
+
+
+// Equation for center of the Sun C from Chapter 25 of Meeus.
+sunCenter[date] :=
+{
+   T = meeusT[date]
+   M = sunMeanAnomaly[date]
+
+   return ((1.914602 - 0.004817 T - 0.000014 T^2) degree) sin[M] + 
+          ((0.019993 - 0.000101 T) degree) sin[2 M] +
+          (0.000289 degree) sin[3 M]
+}
+
+
+// Returns the eccentricity of the earth's orbit for a given date.
+// Equation 25.4 in Meeus.
+earthEccentricity[date] :=
+{
+   T = meeusT[date]
+   return 0.016708634 - 0.000042037 T - 0.0000001267 T^2
+}
+
+
+// Distance between center of Sun and Earth
+sunDistance[date] :=
+{
+   eccentricity = earthEccentricity[date]
+   trueAnomaly = sunTrueAnomaly[date]
+   return 1.000001018 au ( 1 - eccentricity^2 ) / (1 + eccentricity cos[trueAnomaly])
+}
+
+// Calculates the apparent sun radius angle, corrected for distance, but not
+// corrected for refraction.  It gives a true arcsin geometric interpretation.
+sunRadiusAngle[date] := arcsin[sunradius / (sunradius + sunDistance[date])]
+
+// This returns the number of Julian centuries since JDE 2451545 as a 
+// dimensionless number.
+// Equation 25.1 in Jean Meeus
+meeusT[date] := (JDE[date] - 2451545 days) / juliancentury
+
+
+// Mean obliquity of the ecliptic epsilon0 from Jean Meeus, eq. 22.3.  This 
+// is a high accuracy version of the function that is valid for a period
+// of 10000 years before or after J2000.0
+// It is NOT corrected for nutation.
+// In Meeus, this symbol is referred to as epsilon_0
+meanObliquityOfEcliptic[date] :=
+{
+   T = meeusT[date]
+   U = T/100
+
+   return 23 degree + 26 arcmin + 21.448 arcsec +
+      (-4680.93 U   - 1.55 U^2 + 1999.25 U^3 - 51.38 U^4 - 249.67 U^5 +
+       -39.05 U^6 + 7.12 U^7 +   27.87 U^8 +  5.79 U^9 +   2.45 U^10) arcsec
+}
+
+
+// True obliquity of the ecliptic corrected for nutation.  This is called
+// epsilon in Meeus.
+trueObliquityOfEcliptic[date] :=
+{
+   epsilon0 = meanObliquityOfEcliptic[date]
+   
+   [deltapsi, deltaepsilon] = highAccuracyNutation[date]
+   return epsilon0 + deltaepsilon
+}
+
+
+// Mean obliquity of the ecliptic epsilon0 from Jean Meeus, eq. 22.3.  This 
+// is a high accuracy version of the function that is only valid for a period
+// of 10000 years before or after J2000.0
+// In Meeus, this symbol is referred to as epsilon_0
+narrowValidityMeanObliquityOfEcliptic[date] :=
+{
+   T = meeusT[date]
+
+   return 23 degree + 26 arcmin + 21.448 arcsec +
+        (-46.8150 T - 0.00059 T^2 + 0.001813 T^3) arcsec
+}
+
+
+// Returns the apparent right ascension and declination of the sun for a
+// given date.  It implements the corrected versions of equation 25.6
+// and 25.7 in Meeus.
+// Returns [ra, decl]
+sunApparentRADecl[date] :=
+{
+   epsilon = trueObliquityOfEcliptic[date]
+   
+   epsilonprime = epsilon + 0.00256 degree cos[meeusOmega[date]]
+   sunLong = sunApparentLongitude[date]
+
+   ssl = sin[sunLong]
+   ra = arctan[cos[epsilonprime] ssl, cos[sunLong]]
+   decl = arcsin[sin[epsilonprime] ssl]
+   return [ra, decl]
+}
+
+
+
+// Calculate mean Sidereal time theta_0 at Greenwich for any instant as an
+// angle.
+// Equation 12.4 in Meeus.
+meanGreenwichSiderealAngle[date] :=
+{
+   T = meeusT[date]
+
+   return ((280.46061837 + 360.98564736629 (JD[date]/day - 2451545) +
+           0.000387933 T^2 - T^3/38710000) degree) mod circle
+}
+
+
+// Calculate apparent Sidereal time as an angle at Greenwich for any instant.
+// From Chapter 12 of Meeus.
+apparentGreenwichSiderealAngle[date] :=
+{
+   deltapsi = highAccuracyNutation[date]@0
+   trueObliquity = trueObliquityOfEcliptic[date]
+   correction = deltapsi cos[trueObliquity]
+   return (meanGreenwichSiderealAngle[date] + correction) mod circle
+}
+
+// Calculate apparent local sidereal time as an angle.
+apparentLocalSiderealAngle[date, longitude] :=
+{
+   angle = apparentGreenwichSiderealAngle[date]
+   return angle - longitude
+}
+
+
+// Calculate the hour angle H of a body with right ascension ra.
+// See chapter 13 in Meeus.
+hourAngle[date, longitude, ra] :=
+{
+   return apparentLocalSiderealAngle[date, longitude] - ra
+}
+
+// Returns the parallactic angle q for a given body from a point [lat, long]
+// on the earth of a body at right ascension ra
+// and declination decl.
+// See equation 14.1 in Meeus.
+parallacticAngle[date, lat, long, ra, decl] :=
+{
+   H = hourAngle[date, long, ra]
+   return arctan[sin[H], tan[lat] cos[decl] - sin[decl] cos[H]]
+}
+
+// Calculate the approximate date of the equinoxes and solstices
+// (to medium accuracy.)  The value should be correct within a minute;
+// see Table 27.D in Meeus.
+// This is from chapter 27 of Meeus.
+
+// This function is called by the equinox and solstice methods below.
+equinoxDate[JDE0] :=
+{
+   T = (JDE0 - 2451545.0) / 36525
+   W = (35999.373 T - 2.47) degrees
+   deltaLambda = 1 + 0.0334 cos[W] + 0.0007 cos[2 W]
+
+   // These values are from Table 27.C
+   S = 485 cos[(324.96 +   1934.136 T) degrees] +
+       203 cos[(337.23 +  32964.467 T) degrees] +
+       199 cos[(342.08 +     20.186 T) degrees] +
+       182 cos[( 27.85 + 445267.112 T) degrees] +
+       156 cos[( 73.14 +  45036.886 T) degrees] +
+       136 cos[(171.52 +  22518.443 T) degrees] +
+        77 cos[(222.54 +  65928.934 T) degrees] +
+        74 cos[(296.72 +   3034.906 T) degrees] +
+        70 cos[(243.58 +   9037.513 T) degrees] +
+        58 cos[(119.81 +  33718.147 T) degrees] +
+        52 cos[(297.17 +    150.678 T) degrees] +
+        50 cos[( 21.02 +   2281.226 T) degrees] +
+        45 cos[(247.54 +  29929.562 T) degrees] +
+        44 cos[(325.15 +  31555.956 T) degrees] +
+        29 cos[( 60.93 +   4443.417 T) degrees] +
+        18 cos[(155.12 +  67555.328 T) degrees] +
+        17 cos[(288.79 +   4562.452 T) degrees] +
+        16 cos[(198.04 +  62894.029 T) degrees] +
+        14 cos[(199.76 +  31436.921 T) degrees] +
+        12 cos[( 95.39 +  14577.848 T) degrees] +
+        12 cos[(287.11 +  31931.756 T) degrees] +
+        12 cos[(320.81 +  34777.259 T) degrees] +
+         9 cos[(227.73 +   1222.114 T) degrees] +
+         8 cos[( 15.45 +  16859.074 T) degrees]
+
+   ss = JDE0 + 0.00001 S/deltaLambda
+   return JDE[ss]
+}
+   
+
+// Spring Equinox for the years +1000 to +3000, Table 27.B in Meeus.
+// The year passed in must be an integer!
+springEquinox[year] :=
+{
+   Y = (year - 2000)/1000
+   JDE0 = 2451623.80984 + 365242.37404 Y + 0.05169 Y^2 - 0.00411 Y^3 -
+           0.00057 Y^4
+   return equinoxDate[JDE0]
+}
+
+// Summer Solstice for the years +1000 to +3000, Table 27.B in Meeus.
+// The year passed in must be an integer!
+summerSolstice[year] :=
+{
+   Y = (year - 2000)/1000
+   JDE0 = 2451716.56767 + 365241.62603 Y + 0.00325 Y^2 + 0.00888 Y^3 -
+           0.00030 Y^4
+   return equinoxDate[JDE0]
+}
+
+// Autumn Equinox for the years +1000 to +3000, Table 27.B in Meeus.
+// The year passed in must be an integer!
+autumnEquinox[year] :=
+{
+   Y = (year - 2000)/1000
+   JDE0 = 2451810.21715 + 365242.01767 Y - 0.11575 Y^2 + 0.00337 Y^3 +
+           0.00078 Y^4
+   return equinoxDate[JDE0]
+}
+
+// Winter Solstice for the years +1000 to +3000, Table 27.B in Meeus.
+// The year passed in must be an integer!
+winterSolstice[year] :=
+{
+   Y = (year - 2000)/1000
+   JDE0 = 2451900.05952 + 365242.74049 Y - 0.06223 Y^2 - 0.00823 Y^3 +
+           0.00032 Y^4
+   return equinoxDate[JDE0]
+}
+
+
+// Calculate Nutation in longitude (delta psi) and
+// obliquity (delta epsilon) to low accuracy.  
+// Returns [deltapsi, deltaepsilon]
+// From chapter 22 in Meeus.
+lowAccuracyNutation[date] :=
+{
+   T = meeusT[date]
+   omega = (125.04452 - 1934.136261 T) degree
+
+   // Mean longitude of the sun
+   L = (280.4665 + 36000.7698 T) degree
+
+   // Mean longitude of the moon
+   Lmoon = (218.3165 + 481267.8813 T) degree
+
+   deltapsi = (-17.20 sin[omega] - 1.32 sin[2 L] - 0.23 sin[2 Lmoon] +
+               0.21 sin[2 omega] ) arcsec
+
+   deltaepsilon = (9.20 cos[omega] + 0.57 cos[2 L] + 0.10 cos[2 Lmoon] -
+                   0.09 cos[2 omega] ) arcsec
+
+   return [deltapsi, deltaepsilon]
+}
+
+
+// Calculate Nutation in longitude (delta psi) and
+// obliquity (delta epsilon) to high
+// Returns [deltapsi, deltaepsilon]
+// From chapter 22 in Meeus.
+highAccuracyNutation[date] :=
+{
+   T = meeusT[date]
+//   println["T: $T"]
+
+   // Mean elongation of the moon from the sun:
+   D = (297.85036 + 445267.111480 T - 0.0019142 T^2 + T^3/189474) degree 
+//   println["D: " + (D->"degree")]
+
+   // Mean anomaly of the Sun:
+   M = (357.52772 + 35999.050340 T - 0.0001603 T^2 - T^3/300000) degree
+//   println["M: " + (M->"degree")]
+
+   // Mean anomaly of the Moon:
+   MP = (134.96298 + 477198.867398 T + 0.0086972 T^2 + T^3/56250) degree
+//   println["MP: " + (MP->"degree")]
+
+
+   // Moon's argument of Latitude:
+   F = (93.27191 + 483202.017538 T - 0.0036825 T^2 + T^3/327270) degree
+//   println["F: " + (F->"degree")]
+
+
+   // Longitude of the ascending node of the moon's mean orbit on the ecliptic
+   // measured from the mean equinox of the date.
+   Omega = (125.04452 - 1934.136261 T + 0.0020708 T^2 + T^3/450000) degree
+//   println["Omega: " + (Omega->"degree")]
+
+   // These lines generated by iau1980.frink and pasted in here.
+   deltapsi = 0.0001 arcsec ( + (-171996 + -174.2 T) sin[ + Omega] + (-13187 + -1.6 T) sin[ -2 D + 2 F + 2 Omega] + (-2274 + -0.2 T) sin[ + 2 F + 2 Omega] + (2062 + 0.2 T) sin[ + 2 Omega] + (1426 + -3.4 T) sin[ + M] + (712 + 0.1 T) sin[ + MP] + (-517 + 1.2 T) sin[ -2 D + M + 2 F + 2 Omega] + (-386 + -0.4 T) sin[ + 2 F + Omega] + (-301) sin[ + MP + 2 F + 2 Omega] + (217 + -0.5 T) sin[ -2 D -1 M + 2 F + 2 Omega] + (-158) sin[ -2 D + MP] + (129 + 0.1 T) sin[ -2 D + 2 F + Omega] + (123) sin[ -1 MP + 2 F + 2 Omega] + (63) sin[ + 2 D] + (63 + 0.1 T) sin[ + MP + Omega] + (-59) sin[ + 2 D -1 MP + 2 F + 2 Omega] + (-58 + -0.1 T) sin[ -1 MP + Omega] + (-51) sin[ + MP + 2 F + Omega] + (48) sin[ -2 D + 2 MP] + (46) sin[ -2 MP + 2 F + Omega] + (-38) sin[ + 2 D + 2 F + 2 Omega] + (-31) sin[ + 2 MP + 2 F + 2 Omega] + (29) sin[ + 2 MP] + (29) sin[ -2 D + MP + 2 F + 2 Omega] + (26) sin[ + 2 F] + (-22) sin[ -2 D + 2 F] + (21) sin[ -1 MP + 2 F + Omega] + (17 + -0.1 T) sin[ + 2 M] + (16) sin[ + 2 D -1 MP + Omega] + (-16 + 0.1 T) sin[ -2 D + 2 M + 2 F + 2 Omega] + (-15) sin[ + M + Omega] + (-13) sin[ -2 D + MP + Omega] + (-12) sin[ -1 M + Omega] + (11) sin[ + 2 MP -2 F] + (-10) sin[ + 2 D -1 MP + 2 F + Omega] + (-8) sin[ + 2 D + MP + 2 F + 2 Omega] + (7) sin[ + M + 2 F + 2 Omega] + (-7) sin[ -2 D + M + MP] + (-7) sin[ -1 M + 2 F + 2 Omega] + (-8) sin[ + 2 D + 2 F + Omega] + (6) sin[ + 2 D + MP] + (6) sin[ -2 D + 2 MP + 2 F + 2 Omega] + (6) sin[ -2 D + MP + 2 F + Omega] + (-6) sin[ + 2 D -2 MP + Omega] + (-6) sin[ + 2 D + Omega] + (5) sin[ -1 M + MP] + (-5) sin[ -2 D -1 M + 2 F + Omega] + (-5) sin[ -2 D + Omega] + (-5) sin[ + 2 MP + 2 F + Omega] + (4) sin[ -2 D + 2 MP + Omega] + (4) sin[ -2 D + M + 2 F + Omega] + (4) sin[ + MP -2 F] + (-4) sin[ -1 D + MP] + (-4) sin[ -2 D + M] + (-4) sin[ + D] + (3) sin[ + MP + 2 F] + (-3) sin[ -2 MP + 2 F + 2 Omega] + (-3) sin[ -1 D -1 M + MP] + (-3) sin[ + M + MP] + (-3) sin[ -1 M + MP + 2 F + 2 Omega] + (-3) sin[ + 2 D -1 M -1 MP + 2 F + 2 Omega] + (-3) sin[ + 3 MP + 2 F + 2 Omega] + (-3) sin[ + 2 D -1 M + 2 F + 2 Omega])
+
+   deltaepsilon = 0.0001 arcsec ( + (92025 + 8.9 T) cos[ + Omega] + (5736 + -3.1 T) cos[ -2 D + 2 F + 2 Omega] + (977 + -0.5 T) cos[ + 2 F + 2 Omega] + (-895 + 0.5 T) cos[ + 2 Omega] + (54 + -0.1 T) cos[ + M] + (-7) cos[ + MP] + (224 + -0.6 T) cos[ -2 D + M + 2 F + 2 Omega] + (200) cos[ + 2 F + Omega] + (129 + -0.1 T) cos[ + MP + 2 F + 2 Omega] + (-95 + 0.3 T) cos[ -2 D -1 M + 2 F + 2 Omega] + (-70) cos[ -2 D + 2 F + Omega] + (-53) cos[ -1 MP + 2 F + 2 Omega] + (-33) cos[ + MP + Omega] + (26) cos[ + 2 D -1 MP + 2 F + 2 Omega] + (32) cos[ -1 MP + Omega] + (27) cos[ + MP + 2 F + Omega] + (-24) cos[ -2 MP + 2 F + Omega] + (16) cos[ + 2 D + 2 F + 2 Omega] + (13) cos[ + 2 MP + 2 F + 2 Omega] + (-12) cos[ -2 D + MP + 2 F + 2 Omega] + (-10) cos[ -1 MP + 2 F + Omega] + (-8) cos[ + 2 D -1 MP + Omega] + (7) cos[ -2 D + 2 M + 2 F + 2 Omega] + (9) cos[ + M + Omega] + (7) cos[ -2 D + MP + Omega] + (6) cos[ -1 M + Omega] + (5) cos[ + 2 D -1 MP + 2 F + Omega] + (3) cos[ + 2 D + MP + 2 F + 2 Omega] + (-3) cos[ + M + 2 F + 2 Omega] + (3) cos[ -1 M + 2 F + 2 Omega] + (3) cos[ + 2 D + 2 F + Omega] + (-3) cos[ -2 D + 2 MP + 2 F + 2 Omega] + (-3) cos[ -2 D + MP + 2 F + Omega] + (3) cos[ + 2 D -2 MP + Omega] + (3) cos[ + 2 D + Omega] + (3) cos[ -2 D -1 M + 2 F + Omega] + (3) cos[ -2 D + Omega] + (3) cos[ + 2 MP + 2 F + Omega])
+
+   return[deltapsi, deltaepsilon]
+}
+
+
+// Calculate the right ascension and declination of an object given ecliptical
+// coordinates.  This is an implementation of eq. 13.3 and 13.4 in Meeus.
+//
+// arguments:
+//  [lambda, beta, epsilon]
+//
+// returns:
+//  [ra, decl]
+eclipticalToRADecl[lambda, beta, epsilon] :=
+{
+   alpha = arctan[sin[lambda] cos[epsilon] - tan[beta] sin[epsilon], cos[lambda]]
+
+   delta = arcsin[sin[beta] cos[epsilon] + cos[beta] sin[epsilon] sin[lambda]]
+
+   return [alpha, delta]
+}
+
+
+// Calculate the azimuth and altitude of an object.
+// Arguments:
+//  [date, objectRA, objectDecl, lat, long]
+//
+// date: time of observation
+// objectRA:    Right Ascension of object (can be angle or time)
+// objectDecl:  Declination of object
+// lat:         Latitude of observer (North is positive)
+// long:        Longitude of observer (West is positive)
+//
+// Returns:
+//    [azimuth, altitude] as angles.  Azimuth is calculated as angle west from
+//                                    south.  To get compass bearing, use
+//                                    (azimuth + 180 degrees) mod circle
+// 
+// Implements equations 13.5 and 13.6 from Meeus.
+// NOTE: This is not corrected for refraction nor parallax!  These are
+// geocentric coordinates, that is, relative to the center of the earth.
+// Due to parallax, the altitude figure may be significantly in error for
+// nearby bodies like the moon.  To get the corrected altitudes, use the
+// refractedAzimuthAltitude function below.
+airlessAzimuthAltitude[date, objectRA, objectDecl, lat, long] :=
+{
+   // We want all of this in angles... correct if necessary.
+   if (objectRA conforms hour)
+      objectRA = objectRA (circle/day)
+
+   H = hourAngle[date, long, objectRA]
+
+   azimuth = arctan[sin[H], cos[H] sin[lat] - tan[objectDecl] cos[lat]]
+   altitude = arcsin[sin[lat] sin[objectDecl] + cos[lat] cos[objectDecl] cos[H]]
+
+   return [azimuth, altitude]
+}
+
+
+// Calculate the apparent azimuth and altitude of an object with atmospheric
+// refraction and parallax corrections.
+// Arguments:
+//  [date, objectRA, objectDecl, lat, long, distance, temp, pressure]
+//
+// date: time of observation
+// objectRA:    Right Ascension of object (can be angle or time)
+// objectDecl:  Declination of object
+// lat:         Latitude of observer (North is positive)
+// long:        Longitude of observer (West is positive)
+// distance:    Distance to object (undef means don't correct for parallax)
+// temp:        Temperature of atmosphere
+// pressure:    Atmospheric pressure
+//
+// Returns:
+//    [azimuth, altitude] as angles.  Azimuth is calculated as angle west from
+//                                    south.  To get compass bearing, use
+//                                    (azimuth + 180 degrees) mod circle
+// 
+// Implements equations 13.5 and 13.6 from Meeus.
+//
+refractedAzimuthAltitude[date, objectRA, objectDecl, lat, long, distance=undef, temp=283K, pressure=1010 millibars] :=
+{
+   [azimuth, altitude] = airlessAzimuthAltitude[date, objectRA, objectDecl, lat, long]
+
+   // Correct for parallax is distance is defined.
+   if distance != undef
+      altitude = altitude - parallaxAngleAlt[distance, altitude]
+
+//   println["Parallax angle is " + (parallaxAngleAlt[distance, altitude] -> "degrees")]
+
+   corrAltitude = altitude + refractionAngle[altitude, temp, pressure]
+   return[azimuth, corrAltitude]
+}
+
+
+// Calculate angle of refraction given the altitude in airless coordinates.
+// This is equation 16.4 in Meeus, although the equation in the book
+// is explained ridiculously poorly, and I had to dig through old 
+// Sky & Telescope program listings to figure out how to apply the equation.
+// This is the angle to be *added* to the airless altitude to get the
+// refracted altitude.
+refractionAngle[altitude, temp = 283 K, pressure = 1010 millibars] :=
+{
+   // h5 is altitude in degrees
+   h5 = altitude/degree  
+   v5 = (h5 + 10.3/(h5+5.11)) degree
+   pressCorr = pressure/(1010 millibars) (283 K)/temp
+   R = pressCorr 1.02 arcmin / tan[v5]
+
+   return R
+}
+
+
+// Returns the apparent azimuth and altitude for the sun, adjusted for
+// nutation, but not adjusted for refraction.
+// 
+// Returns:
+//   [azimuth, altitude]  Azimuth is calculated as angle west from
+//                        south.  To get compass bearing, use
+//                        (azimuth + 180 degrees) mod circle
+airlessSunAzimuthAltitude[date, lat, long] :=
+{
+   [sunRA, sunDecl] = sunApparentRADecl[date]
+
+   return airlessAzimuthAltitude[date, sunRA, sunDecl, lat, long]
+}
+
+
+// Returns the apparent azimuth and altitude for the sun, adjusted for
+// nutation, atmospheric refraction, and parallax.
+// 
+// Returns:
+//   [azimuth, altitude] as angles.  Azimuth is calculated as angle west from
+//                                   south.  To get compass bearing, use
+//                                   (azimuth + 180 degrees) mod circle
+refractedSunAzimuthAltitude[date, lat, long, temp = 283K, pressure = 1010 millibars] :=
+{
+   [sunRA, sunDecl] = sunApparentRADecl[date]
+
+   return refractedAzimuthAltitude[date, sunRA, sunDecl, lat, long, sunDistance[date], temp, pressure]
+}
+
+
+// Secant method solver to find when the sun is at a given altitude to
+// an observer at the specified latitude and longitude on the Earth.
+// It takes a first guess at date1 and adds an hour to that to find
+// its two starting points.  Thus, to find sunrise, give it a guess
+// of sometime around 6 AM local time and a desired altitude of 0 degrees,
+// or about -16 arcmin to account for the time that the sun's upper limb
+// is just crosses the horizon.  To find sunset, give it a guess
+// around 6 PM local time.
+// 
+// This currently doesn't handle the case where the sun doesn't cross through
+// the specified azimuth on that date and may give unpredictable results in
+// this case or in the case when the initial guess is far off.
+sunSecantAltitude[date1, lat, long, desiredAltitude, temperature = 283 K,
+                  pressure=1010 millibars ] :=
+{
+   date2 = date1 + 1 hour
+   [azimuth1, altitude1] = refractedSunAzimuthAltitude[date1, lat, long, temperature, pressure]
+   [azimuth2, altitude2] = refractedSunAzimuthAltitude[date2, lat, long, temperature, pressure]
+
+   altitude1 = altitude1 - desiredAltitude
+   altitude2 = altitude2 - desiredAltitude
+
+//   println["Altitude 1: $altitude1"]
+//   println["Altitude 2: $altitude2"]
+
+   while (true)
+   {
+      correction = (altitude1 * (date1 - date2)) / (altitude1-altitude2)
+
+      date = date1 - correction
+//      println[date -> ### HH:mm:ss.SSS ###]
+      if abs[correction] < 1 second
+         return date 
+
+      date2 = date1
+      date1 = date
+      altitude2 = altitude1
+
+      [azimuth1, altitude1] = refractedSunAzimuthAltitude[date, lat, long, temperature, pressure]
+      altitude1 = altitude1 - desiredAltitude
+   }
+}
+
+// Secant method solver to find when the sun is at a given altitude to
+// an observer at the specified latitude and longitude on the Earth.
+// This version does *not* correct for refraction.  To correct for refraction,
+// use the function sunSecantAltitude[] instead.
+// It takes a first guess at date1 and adds an hour to that to find
+// its two starting points.  Thus, to find sunrise, give it a guess
+// of sometime around 6 AM local time and a desired altitude of 0 degrees,
+// or about -16 arcmin to account for the time that the sun's upper limb
+// is just crosses the horizon.  To find sunset, give it a guess
+// around 6 PM local time.
+// 
+// This currently doesn't handle the case where the sun doesn't cross through
+// the specified azimuth on that date and may give unpredictable results in
+// this case or in the case when the initial guess is far off.
+sunSecantAirlessAltitude[date1, lat, long, desiredAltitude ] :=
+{
+   date2 = date1 + 1 hour
+   [azimuth1, altitude1] = airlessSunAzimuthAltitude[date1, lat, long]
+   [azimuth2, altitude2] = airlessSunAzimuthAltitude[date2, lat, long]
+
+   altitude1 = altitude1 - desiredAltitude
+   altitude2 = altitude2 - desiredAltitude
+
+//   println["Altitude 1: $altitude1"]
+//   println["Altitude 2: $altitude2"]
+
+   while (true)
+   {
+      correction = (altitude1 * (date1 - date2)) / (altitude1-altitude2)
+
+      date = date1 - correction
+//      println[date -> ### HH:mm:ss.SSS ###]
+      if abs[correction] < 1 second
+         return date 
+
+      date2 = date1
+      date1 = date
+      altitude2 = altitude1
+
+      [azimuth1, altitude1] = airlessSunAzimuthAltitude[date, lat, long]
+      altitude1 = altitude1 - desiredAltitude
+   }
+}
+
+
+// Secant method solver to find when the sun is at a given azimuth to
+// an observer at the specified latitude and longitude on the Earth.
+// It takes a first guess at date1 and adds an hour to that to find
+// its two starting points.  Thus, to find sunrise, give it a guess
+// of sometime around 6 AM local time and a desired altitude of 0 degrees,
+// or about -16 arcmin to account for the time that the sun's upper limb
+// is just crosses the horizon.  To find sunset, give it a guess
+// around 6 PM local time.
+//
+// This function corrects for refraction.
+// 
+// This currently doesn't handle the case where the sun doesn't pass through
+// the desired azimuth on that date and may give unpredictable results in
+// this case or the case where the initial guess is far off.
+//
+// desiredAzimuth should be specified in the coordinate system specified by
+// Meeus, which is angle west of south.  To convert from normal true compass
+// bearings, use   (trueAzimuth + 180 degrees) mod circle
+sunSecantAzimuth[date1, lat, long, desiredAzimuth, temperature = 283 K, 
+                pressure=1010 millibars ] :=
+{
+   date2 = date1 + 5 minutes
+   [azimuth1, altitude1] = refractedSunAzimuthAltitude[date1, lat, long, temperature, pressure]
+   [azimuth2, altitude2] = refractedSunAzimuthAltitude[date2, lat, long, temperature, pressure]
+
+   azimuth1 = azimuth1 - desiredAzimuth
+   azimuth2 = azimuth2 - desiredAzimuth
+
+//   println["Azimuth 1: $azimuth1"]
+//   println["Azimuth 2: $azimuth2"]
+
+   while (true)
+   {
+      correction = (azimuth1 * (date1 - date2)) / (azimuth1-azimuth2)
+
+      date = date1 - correction
+//      println[date]
+      if abs[correction] < 1 second
+         return date 
+
+      date2 = date1
+      date1 = date
+      azimuth2 = azimuth1
+
+      [azimuth1, altitude1] = refractedSunAzimuthAltitude[date, lat, long, temperature, pressure]
+      azimuth1 = azimuth1 - desiredAzimuth
+   }
+}
+
+
+// Secant method solver to find when the moon is at a given altitude to
+// an observer at the specified latitude and longitude on the Earth.
+// It takes a first guess at date1 and adds an hour to that to find
+// its two starting points.
+// 
+// This currently doesn't handle the case where the moon doesn't cross through
+// the specified altitude on that date, or if initial guess is very wrong,
+// and may give unpredictable results.
+moonSecantAltitude[date1, lat, long, desiredAltitude, temperature = 283 K, 
+                   pressure=1010 millibars ] :=
+{
+   date2 = date1 + 1 hour
+   [azimuth1, altitude1] = refractedMoonAzimuthAltitude[date1, lat, long, temperature, pressure]
+   [azimuth2, altitude2] = refractedMoonAzimuthAltitude[date2, lat, long, temperature, pressure]
+
+   altitude1 = altitude1 - desiredAltitude
+   altitude2 = altitude2 - desiredAltitude
+
+//   println["Altitude 1: $altitude1"]
+//   println["Altitude 2: $altitude2"]
+
+   while (true)
+   {
+      correction = (altitude1 * (date1 - date2)) / (altitude1-altitude2)
+
+      date = date1 - correction
+//      println[date -> ### HH:mm:ss.SSS ###]
+      if abs[correction] < 1 second
+         return date 
+
+      date2 = date1
+      date1 = date
+      altitude2 = altitude1
+
+      [azimuth1, altitude1] = refractedMoonAzimuthAltitude[date, lat, long, temperature, pressure]
+      altitude1 = altitude1 - desiredAltitude
+   }
+}
+
+
+// Calculate the approximate mean time of various phases of the moon.
+// This will give the approximate time that the specified phase
+// will occur near the given date.   This is only accurate to within
+// some number of hours.
+//
+// The phaseAdjust can be only one of 4 values:
+//  0  for New Moon
+// 1/4 for First Quarter
+// 1/2 for Full Moon
+// 3/4 for Last Quarter
+//
+// All other values give meaningless results!
+// 
+// This guess serves to supply a good starting guess to moonPhase
+// which is much higher accuracy.
+moonApproximatePhase[date, phaseAdjust] :=
+{
+   // This was found experimentally by Alan Eliasen to give a better initial
+   // estimate that centers around the closest phase of the moon, with a
+   // slight bias of about 4-5 days toward selecting the "next" event.
+   d1 = date - phaseAdjust lunarmonth
+   
+   // Get approximate k, Meeus eq. 49.2
+   k = round[(JDE[d1] - JDE[#2000-01-01#])/year * 12.3685] + phaseAdjust
+
+   T = k / 1236.85
+
+   approxDate = JDE[2451550.09766 + 29.530588861 k + 0.00015437 T^2 -
+                                  0.000000150 T^3 + 0.00000000073 T^4]
+
+   return approxDate
+}
+
+
+// This finds the excess of the apparent geocentric latitude of the moon
+// over the apparent geocentric longitude of the sun.  It is used to find
+// the phases of the moon to medium accuracy.  The accuracy of this is limited
+// to the somewhat low accuracy calculation of sunApparentLongitude.
+// This could be improved by using the high-accuracy VSOP87 theory
+// implemented in planets.frink and Meeus p. 166
+// See Meeus chapter 49.
+moonExcessLongitude[date] := (moonApparentLongitude[date] - sunApparentLongitude[date]) mod circle
+
+
+// Find high accuracy phases of the moon.
+// The phaseAdjust can be only one of 4 values:
+//  0  for New Moon
+// 1/4 for First Quarter
+// 1/2 for Full Moon
+// 3/4 for Last Quarter
+//
+// All other values give meaningless results!
+// 
+// For simplicity, you should probably use one of the convenience functions:
+// newMoon[date], fullMoon[date], etc.
+//
+// This function uses a secant method successive approximation to find the
+// moment of the desired phase to high accuracy using the full-precision
+// moon calculations.  The convergence limit is set at one second or less.
+moonPhase[date, phaseAdjust] :=
+{
+   desiredAngle = phaseAdjust * circle
+   date1 = moonApproximatePhase[date, phaseAdjust]
+//   println[date1]
+   date2 = date1 + 5 min
+   
+   excess1 = moonExcessLongitude[date1]
+   excess2 = moonExcessLongitude[date2]
+
+//   println["$excess1\t$excess2"]
+
+//   println["Phase is " + excess1 / circle]
+
+   // Don't overcorrect... if we're correcting more than half a phase forward
+   // from the initial guess, then go back a phase.
+   // This generally corrects the problem around the new moon where the angle
+   // jumps from close to 360 degrees back to 0 degrees, and may prevent other
+   // as-yet-undetected weird jumps.
+   if (excess1 - desiredAngle > 180 degrees)
+         excess1 = excess1 - circle
+
+   if (excess2 - desiredAngle > 180 degrees)
+        excess2 = excess2 - circle
+   
+   // did we wrap around the circle?
+   if abs[excess1 - excess2] > 180 degrees
+      if (excess1 < excess2)
+         excess2 = excess2 - circle
+      else
+         excess1 = excess1 - circle
+
+//   println["$excess1\t$excess2"]
+   excess1 = excess1 - desiredAngle
+   excess2 = excess2 - desiredAngle
+//   println["$excess1\t$excess2"]
+
+   while (true)
+   {
+      correction = (excess1 * (date1 - date2)) / (excess1-excess2)
+
+      date = date1 - correction
+//      println[date]
+//      println["$excess1\t$excess2"]
+
+      if abs[correction] < 1 second
+         return date
+
+      date2 = date1
+      date1 = date
+      excess2 = excess1
+
+      excess1 = moonExcessLongitude[date1]
+      excess1 = excess1 - desiredAngle
+
+      // did we wrap around the circle?
+      if abs[excess1 - excess2] > 180 degrees
+         if (excess1 < excess2)
+            excess2 = excess2 - circle
+         else
+            excess1 = excess1 - circle
+   }
+
+   return date
+}
+
+
+// Finds the date of the New Moon close to the specifed date.
+newMoon[date] := moonPhase[date, 0]
+
+// Finds the date of the First Quarter moon close to the specifed date.
+firstQuarterMoon[date] := moonPhase[date, 1/4]
+
+// Finds the date of the Full Moon close to the specifed date.
+fullMoon[date] := moonPhase[date, 1/2]
+
+// Finds the date of the Last Quarter moon close to the specifed date.
+lastQuarterMoon[date] := moonPhase[date, 3/4]
+
+
+// Secant method solver to find when the moon is at a given azimuth to
+// an observer at the specified latitude and longitude on the Earth.
+// 
+// This currently doesn't handle the case where the moon doesn't pass through
+// a certain azimuth on that date and may give unpredictable results in that
+// case or the case where the initial guess is far off.
+//
+// desiredAzimuth should be specified in the coordinate system specified by
+// Meeus, which is angle west of south.  To convert from normal true compass
+// bearings, use   (trueAzimuth + 180 degrees) mod circle
+moonSecantAzimuth[date1, lat, long, desiredAzimuth, temperature = 283 K,
+                  pressure=1010 millibars ] :=
+{
+   date2 = date1 + 5 minutes
+   [azimuth1, altitude1] = refractedMoonAzimuthAltitude[date1, lat, long, temperature, pressure]
+   [azimuth2, altitude2] = refractedMoonAzimuthAltitude[date2, lat, long, temperature, pressure]
+
+   azimuth1 = azimuth1 - desiredAzimuth
+   azimuth2 = azimuth2 - desiredAzimuth
+
+//   println["Azimuth 1: $azimuth1"]
+//   println["Azimuth 2: $azimuth2"]
+
+   while (true)
+   {
+      correction = (azimuth1 * (date1 - date2)) / (azimuth1-azimuth2)
+
+      date = date1 - correction
+//      println[date]
+      if abs[correction] < 1 second
+         return date 
+
+      date2 = date1
+      date1 = date
+      azimuth2 = azimuth1
+
+      [azimuth1, altitude1] = refractedMoonAzimuthAltitude[date, lat, long, temperature, pressure]
+      azimuth1 = azimuth1 - desiredAzimuth
+   }
+}
+
+
+// Calculate the time when the upper limb of the sun just crosses the
+// horizon.
+sunrise[date, lat, long, temp = 283 K, pressure=1010 millibars ] := sunSecantAltitude[approxMidnight[date, long] + 5.5 hours,
+                                      lat, long, -16 arcmin, temp, pressure]
+
+// Calculate the time when the upper limb of the sun just crosses the
+// horizon.
+sunset[date, lat, long, temp = 283 K, pressure=1010 millibars ] := sunSecantAltitude[approxMidnight[date, long] + 17.5 hours,
+                                      lat, long, -16 arcmin, temp, pressure]
+
+civilTwilightBegin[date, lat, long] := sunSecantAirlessAltitude[approxMidnight[date, long] + 5 hour, lat, long, -6 degree]
+
+civilTwilightEnd[date, lat, long] := sunSecantAirlessAltitude[approxMidnight[date, long] + 18 hour, lat, long, -6 degree]
+
+nauticalTwilightBegin[date, lat, long] := sunSecantAirlessAltitude[approxMidnight[date, long] + 4.7 hour, lat, long, -12 degree]
+
+nauticalTwilightEnd[date, lat, long] := sunSecantAirlessAltitude[approxMidnight[date, long] + 18.3 hour, lat, long, -12 degree]
+
+astronomicalTwilightBegin[date, lat, long] := sunSecantAirlessAltitude[approxMidnight[date, long] + 4.3 hour, lat, long, -18 degree]
+
+astronomicalTwilightEnd[date, lat, long] := sunSecantAirlessAltitude[approxMidnight[date, long] + 18.7 hour, lat, long, -18 degree]
+
+// Get a time object representing the approximate midnight that begins the 
+// the specified date at the specified longitude.  It is highly recommended
+// that you use a date significantly after midnight to eliminate issues with
+// the local meridian and daylight savings time. 
+approxMidnight[date, longitude] := 
+{
+   d0 = #2003-01-01 UTC# + (longitude / (circle/day))
+   r = d0 + floor[(date - d0) / day] day
+//   println[r]
+   return r
+}       
+
+// Besselian Date, as defined by http://maia.usno.navy.mil/
+BesselianDate[date] := 2000 + (MJD[date]/day - 51544.03) / 365.2422
+
+//
+// Moon position calculations
+//
+
+// Moon mean longitude L', referred to the mean equinox of date, including the 
+// constant term of the effect of the light-time.  This is equation 47.1
+// in Meeus.
+moonMeanLongitude[date] :=
+{
+   T = meeusT[date]
+   return ((218.3164477 + 481267.88123421 T - 0.0015786 T^2 + T^3/538_841 -
+          T^4/65_194_000) degree) mod circle
+}
+
+// Moon mean elongation as an angle D.  This is equation 47.2 in Meeus.
+moonMeanElongation[date] :=
+{
+   T = meeusT[date]
+   return ((297.8501921 + 445267.1114034 T - 0.0018819 T^2 + T^3/545_868 -
+           T^4/113_065_000) degree) mod circle
+}
+
+// Calculate the mean anomaly of the sun, M.  This is equation 47.3 in Meeus.
+// Note that these numbers are very slightly different than the sun anomaly
+// function given by equation 25.3 and called sunMeanAnomaly above.
+moonCalcSunMeanAnomaly[date] :=
+{
+   T = meeusT[date]
+   return ((357.5291092 + 35999.0502909 T - 0.0001536 T^2 + 
+           T^3/24_490_000) degree) mod circle
+}
+
+// Moon mean anomaly M'.  This is equation 47.4 in Meeus.
+moonMeanAnomaly[date] :=
+{
+   T = meeusT[date]
+   return ((134.9633964 + 477198.8675055 T + 0.0087414 T^2 + T^3/69_699 -
+           T^4 / 14_712_000) degree) mod circle
+}
+
+// Moon's argument of latitude F, the mean distance of the Moon from its
+// ascending node.  This is equation 47.5 in Meeus.
+moonArgumentOfLatitude[date] :=
+{
+   T = meeusT[date]
+   return ((93.2720950 + 483202.0175233 T - 0.0036539 T^2 - T^3 / 3_526_000 +
+           T^4 / 863_310_000) degree) mod circle
+}
+
+// Moon correction term A1 (listed after equation 47.5 in Meeus)
+// This is due to the action of Venus.
+moonA1[date] := 
+{
+   T = meeusT[date]
+   return ((119.75 + 131.849 T) degree) mod circle
+}
+
+// Moon correction term A2 (listed after equation 47.5 in Meeus)
+// This is due to the action of Jupiter.
+moonA2[date] := 
+{
+   T = meeusT[date]
+   return ((53.09 + 479264.290 T) degree) mod circle
+}
+
+// Moon correction term A3 (listed after equation 47.5 in Meeus)
+moonA3[date] := 
+{
+   T = meeusT[date]
+   return ((313.45 + 481266.484 T) degree) mod circle
+}
+
+// Earth eccentricity E for Moon calculations.  This is equation 47.6 in 
+// Meeus.  This is not the eccentricity given by eq. 25.4
+moonCalcEarthEccentricity[date] :=
+{
+   T = meeusT[date]
+   return 1 - 0.002516 T - 0.0000074 T^2
+}
+
+// Moon sum of L from Meeus, chapter 47.  This is with the extra additive
+// terms listed on p. 342.
+moonSumL[date] := 
+{
+   D = moonMeanElongation[date]
+   M = moonCalcSunMeanAnomaly[date]
+   MP = moonMeanAnomaly[date]
+   F = moonArgumentOfLatitude[date]
+   E = moonCalcEarthEccentricity[date]
+   LP = moonMeanLongitude[date]
+
+   sumL = ( + (6288774) sin[ + MP] + (1274027) sin[ + 2 D - MP] + (658314) sin[ + 2 D] + (213618) sin[ + 2 MP] + (-185116 E) sin[ + M] + (-114332) sin[ + 2 F] + (58793) sin[ + 2 D -2 MP] + (57066 E) sin[ + 2 D - M - MP] + (53322) sin[ + 2 D + MP] + (45758 E) sin[ + 2 D - M] + (-40923 E) sin[ + M - MP] + (-34720) sin[ + D] + (-30383 E) sin[ + M + MP] + (15327) sin[ + 2 D -2 F] + (-12528) sin[ + MP + 2 F] + (10980) sin[ + MP -2 F] + (10675) sin[ + 4 D - MP] + (10034) sin[ + 3 MP] + (8548) sin[ + 4 D -2 MP] + (-7888 E) sin[ + 2 D + M - MP] + (-6766 E) sin[ + 2 D + M] + (-5163) sin[ + D - MP] + (4987 E) sin[ + D + M] + (4036 E) sin[ + 2 D - M + MP] + (3994) sin[ + 2 D + 2 MP] + (3861) sin[ + 4 D] + (3665) sin[ + 2 D -3 MP] + (-2689 E) sin[ + M -2 MP] + (-2602) sin[ + 2 D - MP + 2 F] + (2390 E) sin[ + 2 D - M -2 MP] + (-2348) sin[ + D + MP] + (2236 E^2) sin[ + 2 D -2 M] + (-2120 E) sin[ + M + 2 MP] + (-2069 E^2) sin[ + 2 M] + (2048 E^2) sin[ + 2 D -2 M - MP] + (-1773) sin[ + 2 D + MP -2 F] + (-1595) sin[ + 2 D + 2 F] + (1215 E) sin[ + 4 D - M - MP] + (-1110) sin[ + 2 MP + 2 F] + (-892) sin[ + 3 D - MP] + (-810 E) sin[ + 2 D + M + MP] + (759 E) sin[ + 4 D - M -2 MP] + (-713 E^2) sin[ + 2 M - MP] + (-700 E^2) sin[ + 2 D + 2 M - MP] + (691 E) sin[ + 2 D + M -2 MP] + (596 E) sin[ + 2 D - M -2 F] + (549) sin[ + 4 D + MP] + (537) sin[ + 4 MP] + (520 E) sin[ + 4 D - M] + (-487) sin[ + D -2 MP] + (-399 E) sin[ + 2 D + M -2 F] + (-381) sin[ + 2 MP -2 F] + (351 E) sin[ + D + M + MP] + (-340) sin[ + 3 D -2 MP] + (330) sin[ + 4 D -3 MP] + (327 E) sin[ + 2 D - M + 2 MP] + (-323 E^2) sin[ + 2 M + MP] + (299 E) sin[ + D + M - MP] + (294) sin[ + 2 D + 3 MP])
+
+   sumL = sumL + 3958 sin[moonA1[date]] + 
+            1962 sin[LP - F] +
+            318 sin[moonA2[date]]
+
+   return sumL
+}
+
+// Moon longitude calculation from section 47 of Meeus.  This is not corrected
+// for Earth's nutation.  For that, use moonApparentLongitude[date]
+moonLongitude[date] :=
+{
+   return moonMeanLongitude[date] + (moonSumL[date]/1000000 degree)
+}
+
+// Returns the moon's apparent longitude, corrected for Earth's
+// nutation.  It is not corrected for refraction.
+moonApparentLongitude[date] :=
+{
+   [deltaPsi, deltaEpsilon] = highAccuracyNutation[date]
+   return moonLongitude[date] + deltaPsi
+}
+
+// Moon distance calculation Delta from section 47 of Meeus.
+moonDistance[date] :=
+{
+   D = moonMeanElongation[date]
+   M = moonCalcSunMeanAnomaly[date]
+   MP = moonMeanAnomaly[date]
+   F = moonArgumentOfLatitude[date]
+   E = moonCalcEarthEccentricity[date]
+   LP = moonMeanLongitude[date]
+
+   sumR = ( + (-20905355) cos[ + MP] + (-3699111) cos[ + 2 D - MP] + (-2955968) cos[ + 2 D] + (-569925) cos[ + 2 MP] + (48888 E) cos[ + M] + (-3149) cos[ + 2 F] + (246158) cos[ + 2 D -2 MP] + (-152138 E) cos[ + 2 D - M - MP] + (-170733) cos[ + 2 D + MP] + (-204586 E) cos[ + 2 D - M] + (-129620 E) cos[ + M - MP] + (108743) cos[ + D] + (104755 E) cos[ + M + MP] + (10321) cos[ + 2 D -2 F] + (79661) cos[ + MP -2 F] + (-34782) cos[ + 4 D - MP] + (-23210) cos[ + 3 MP] + (-21636) cos[ + 4 D -2 MP] + (24208 E) cos[ + 2 D + M - MP] + (30824 E) cos[ + 2 D + M] + (-8379) cos[ + D - MP] + (-16675 E) cos[ + D + M] + (-12831 E) cos[ + 2 D - M + MP] + (-10445) cos[ + 2 D + 2 MP] + (-11650) cos[ + 4 D] + (14403) cos[ + 2 D -3 MP] + (-7003 E) cos[ + M -2 MP] + (10056 E) cos[ + 2 D - M -2 MP] + (6322) cos[ + D + MP] + (-9884 E^2) cos[ + 2 D -2 M] + (5751 E) cos[ + M + 2 MP] + (-4950 E^2) cos[ + 2 D -2 M - MP] + (4130) cos[ + 2 D + MP -2 F] + (-3958 E) cos[ + 4 D - M - MP] + (3258) cos[ + 3 D - MP] + (2616 E) cos[ + 2 D + M + MP] + (-1897 E) cos[ + 4 D - M -2 MP] + (-2117 E^2) cos[ + 2 M - MP] + (2354 E^2) cos[ + 2 D + 2 M - MP] + (-1423) cos[ + 4 D + MP] + (-1117) cos[ + 4 MP] + (-1571 E) cos[ + 4 D - M] + (-1739) cos[ + D -2 MP] + (-4421) cos[ + 2 MP -2 F] + (1165 E^2) cos[ + 2 M + MP] + (8752) cos[ + 2 D - MP -2 F])
+
+   return (385000560 + sumR) meter
+}
+
+// Moon latitude calculation beta from section 47 of Meeus.
+moonLatitude[date] :=
+{
+   D = moonMeanElongation[date]
+   M = moonCalcSunMeanAnomaly[date]
+   MP = moonMeanAnomaly[date]
+   F = moonArgumentOfLatitude[date]
+   E = moonCalcEarthEccentricity[date]
+   LP = moonMeanLongitude[date]
+   A1 = moonA1[date]
+
+   sumB = ( + (5128122) sin[ + F] + (280602) sin[ + MP + F] + (277693) sin[ + MP - F] + (173237) sin[ + 2 D - F] + (55413) sin[ + 2 D - MP + F] + (46271) sin[ + 2 D - MP - F] + (32573) sin[ + 2 D + F] + (17198) sin[ + 2 MP + F] + (9266) sin[ + 2 D + MP - F] + (8822) sin[ + 2 MP - F] + (8216 E) sin[ + 2 D - M - F] + (4324) sin[ + 2 D -2 MP - F] + (4200) sin[ + 2 D + MP + F] + (-3359 E) sin[ + 2 D + M - F] + (2463 E) sin[ + 2 D - M - MP + F] + (2211 E) sin[ + 2 D - M + F] + (2065 E) sin[ + 2 D - M - MP - F] + (-1870 E) sin[ + M - MP - F] + (1828) sin[ + 4 D - MP - F] + (-1794 E) sin[ + M + F] + (-1749) sin[ + 3 F] + (-1565 E) sin[ + M - MP + F] + (-1491) sin[ + D + F] + (-1475 E) sin[ + M + MP + F] + (-1410 E) sin[ + M + MP - F] + (-1344 E) sin[ + M - F] + (-1335) sin[ + D - F] + (1107) sin[ + 3 MP + F] + (1021) sin[ + 4 D - F] + (833) sin[ + 4 D - MP + F] + (777) sin[ + MP -3 F] + (671) sin[ + 4 D -2 MP + F] + (607) sin[ + 2 D -3 F] + (596) sin[ + 2 D + 2 MP - F] + (491 E) sin[ + 2 D - M + MP - F] + (-451) sin[ + 2 D -2 MP + F] + (439) sin[ + 3 MP - F] + (422) sin[ + 2 D + 2 MP + F] + (421) sin[ + 2 D -3 MP - F] + (-366 E) sin[ + 2 D + M - MP + F] + (-351 E) sin[ + 2 D + M + F] + (331) sin[ + 4 D + F] + (315 E) sin[ + 2 D - M + MP + F] + (302 E^2) sin[ + 2 D -2 M - F] + (-283) sin[ + MP + 3 F] + (-229 E) sin[ + 2 D + M + MP - F] + (223 E) sin[ + D + M - F] + (223 E) sin[ + D + M + F] + (-220 E) sin[ + M -2 MP - F] + (-220 E) sin[ + 2 D + M - MP - F] + (-185) sin[ + D + MP + F] + (181 E) sin[ + 2 D - M -2 MP - F] + (-177 E) sin[ + M + 2 MP + F] + (176) sin[ + 4 D -2 MP - F] + (166 E) sin[ + 4 D - M - MP - F] + (-164) sin[ + D + MP - F] + (132) sin[ + 4 D + MP - F] + (-119) sin[ + D - MP - F] + (115 E) sin[ + 4 D - M - F] + (107 E^2) sin[ + 2 D -2 M + F])
+
+   sumB = sumB - 2235 sin[LP] + 382 sin[moonA3[date]] + 175 sin[A1 - F] +
+          175 sin[A1 + F] + 127 sin[LP - MP] - 115 sin[LP + MP]
+
+   return (sumB / 1000000) degree
+}
+
+
+// Calculates the apparent Right ascension and declination of the moon
+// at a given date.
+// returns [ra, decl]
+moonApparentRADecl[date] :=
+{
+   epsilon = trueObliquityOfEcliptic[date]
+
+   moonLong = moonApparentLongitude[date]
+   moonLat = moonLatitude[date]
+   se = sin[epsilon]
+   ce = cos[epsilon]
+   sm = sin[moonLong]
+   ra = arctan[sm ce - tan[moonLat] se,
+               cos[moonLong]]
+   decl = arcsin[sin[moonLat] ce + cos[moonLat] sin[epsilon] sm]
+   return[ra,decl]
+}
+
+// Returns the apparent azimuth and altitude for the moon, adjusted for
+// nutation, but not adjusted for refraction.
+// 
+// Returns:
+//   [azimuth, altitude]  Azimuth is calculated as angle west from
+//                        south.  To get compass bearing, use
+//                        (azimuth + 180 degrees) mod circle
+airlessMoonAzimuthAltitude[date, lat, long] :=
+{
+   [moonRA, moonDecl] = moonApparentRADecl[date]
+
+   return airlessAzimuthAltitude[date, moonRA, moonDecl, lat, long]
+}
+
+// Returns the apparent azimuth and altitude for the moon, adjusted for
+// nutation, atmospheric refraction, and parallax.
+// 
+// Returns:
+//   [azimuth, altitude] as angles.  Azimuth is calculated as angle west from
+//                                   south.  To get compass bearing, use
+//                                   (azimuth + 180 degrees) mod circle
+refractedMoonAzimuthAltitude[date, lat, long, temp = 283K, pressure=1010 millibars] :=
+{
+   [moonRA, moonDecl] = moonApparentRADecl[date]
+
+   return refractedAzimuthAltitude[date, moonRA, moonDecl, lat, long, moonDistance[date], temp, pressure]
+}
+
+// Calculates the apparent moon radius angle, corrected for distance, but not
+// corrected for refraction.  It gives a true arcsin geometric interpretation.
+moonRadiusAngle[date] := arcsin[moonradius / (moonradius + moonDistance[date])]
+
+// Calculates the geocentric elongation of the moon from the sun
+// by Meeus equation 48.2 (second equation)
+moonGeocentricElongationFromSun[date] := 
+{
+   arccos[cos[moonLatitude[date]] * cos[moonApparentLongitude[date] - sunTrueLongitude[date]]]
+}
+
+// Calculates the geocentric elongation of the moon from the sun
+// by Meeus equation 48.2 (first equation)
+moonGeocentricElongationFromSun2[date] := 
+{
+   [alpha0, delta0] = sunApparentRADecl[date]
+   [alpha, delta] = moonApparentRADecl[date]
+   
+   return arccos[sin[delta0] sin[delta] +
+                 cos[delta0] cos[delta] cos[alpha0 - alpha]]
+}
+
+// Phase angle of the moon as seen from earth, by equation 48.3 of Meeus
+// This is constrained to be in the range 0-180 degrees as expected by the
+// illuminated fraction calculations.
+moonPhaseAngle[date] :=
+{
+   R = sunDistance[date]
+   delta = moonDistance[date]
+   phi = moonGeocentricElongationFromSun[date]
+
+   return arctan[R sin[phi] / (delta - R cos[phi])] mod (180 degrees)
+}
+
+// Illuminated fraction of the moon as seen from earth.  This is found by
+// equation 48.1 of Meeus.
+moonIlluminatedFraction[date] := (1 + cos[moonPhaseAngle[date]]) / 2
+
+
+// The position angle of the moon's bright limb, reckoned eastward from the
+// North Point of the moon.  (That is, relative to the earth's North/South
+// axis projected onto the moon's disc, *not* relative to the moon's axis.)
+// This is equation 48.5 in Meeus.
+moonPositionAngle[date] :=
+{
+   [alpha0, delta0] = sunApparentRADecl[date]
+   [alpha, delta] = moonApparentRADecl[date]
+   return arctan[cos[delta0] sin[alpha0 - alpha],
+             sin[delta0] cos[delta] - cos[delta0] sin[delta] cos[alpha0-alpha]]
+}
+
+
+// The position angle of the moon's bright limb, reckoned "eastward" (?)
+// from the zenith.  Note that this gives the direction *counterclockwise*
+// from the zenith as seen from an observer standing on earth.  The "eastward"
+// terminology is confusing.
+// This is equation 48.5 in Meeus.
+moonPositionAngleRelativeToZenith[date, lat, long] :=
+{
+   chi = moonPositionAngle[date]
+   [ra, decl] = moonApparentRADecl[date]
+   q = parallacticAngle[date, lat, long, ra, decl]
+   return chi - q
+}
+
+
+// Parallax angle corrections (in azimuth and altitude) of an object as seen
+// from earth.  This is needed because most of the other calculations here
+// are geocentric, i.e., taken relative to the center of the earth.  The
+// parallax becomes especially significant when taken to objects like the
+// moon which are close to earth, and when looking at them close to the
+// horizon.  Sigh.  I found this out the hard way.
+// RETURNS:
+//  altParallax
+parallaxAngleAlt[distance, origAltitude] :=
+{
+   // TODO:  Add a term for altitude above the reference geoid
+   
+   // Horizontal parallax, called pi in Meeus
+   // This is the equation *before* equation 40.1 in Meeus.
+   // azParallax = arcsin[8.794 arcsec/(distance/au)]
+
+   // The following possibly gives more accuracy and is more general
+   // without the random unexplained factors of Meeus.
+   azParallax = arcsin[earthradius_equatorial/distance]
+
+   // TODO:  Correct this for non-sphericity of Earth.  For now, rho
+   // is taken to be 1.
+   altParallax = arcsin[sin[azParallax] cos[origAltitude]]
+
+   return altParallax
+}
+
+"Ok"

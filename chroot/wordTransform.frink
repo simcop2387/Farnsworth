@@ -1,0 +1,62 @@
+
+// Routines to transform one word into another by substituting one letter
+// at a time.
+
+transform[initWord, finalWord] :=
+{
+   // Initialize wordlist with words of the same length.
+   wordlist = new set
+   len = length[initWord]
+   for word = lines["file:///home/eliasen/prog/mobydict/mwords/singlewords.txt"]
+      if length[word] == len
+         wordlist.put[word]
+
+   queue = [[initWord]]
+   evaluateList[finalWord, wordlist, queue]
+}
+
+// Perform a breadth-first search of the list
+evaluateList[finalWord, wordlist, queue] :=
+{
+   do
+   {
+      initWordList = queue.popFirst[]
+//      println["Wordlist: $initWordList"]
+      initWord = initWordList@(length[initWordList]-1)
+      
+      for word = wordlist
+      {
+//         println["*$initWord\t$word"]
+         if difference[initWord, word] == 1
+         {
+//            println["$initWord\t$word"]
+//            wordlist.remove[word]
+            if word == finalWord
+            {
+               newList = initWordList.shallowCopy[]
+               newList.push[finalWord]
+               println[newList]
+//               return newList
+            } else
+            {
+               newList = initWordList.shallowCopy[]
+               newList.push[word]
+               queue.push[newList]
+            }
+         }
+      }
+   } while length[queue] > 0
+}
+
+// Return the number of different characters in the two words.
+difference[initWord, finalWord] :=
+{
+   len = length[initWord]
+   count = len
+
+   for i = 0 to len-1
+      if substrLen[initWord,i,1] == substrLen[finalWord,i,1]
+         count = count - 1
+
+   return count
+}

@@ -1,0 +1,22 @@
+
+// Test program to calculate sunrise, sunset, and various twilights.
+
+use sun.frink
+
+out = ### hh:mm:ss a z ###
+
+lat = 39.58560 degrees North
+long = 104.89598 degrees West
+
+println["Sunrise:                      " + (sunrise[now[], lat, long] -> out)]
+println["Sunset:                       " + (sunset[now[], lat, long] -> out)]
+
+println["\nCivil twilight begins:        " + (civilTwilightBegin[now[], lat, long] -> out)]
+println["Civil twilight ends:          " + (civilTwilightEnd[now[], lat, long] -> out)]
+
+println["\nNautical twilight begins:     " + (nauticalTwilightBegin[now[], lat, long] -> out)]
+println["Nautical twilight ends:       " + (nauticalTwilightEnd[now[], lat, long] -> out)]
+
+println["\nAstronomical twilight begins: " + (astronomicalTwilightBegin[now[], lat, long] -> out)]
+println["Astronomical twilight ends:   " + (astronomicalTwilightEnd[now[], lat, long] -> out)]
+

@@ -1,0 +1,133 @@
+
+// Simulator for the big-wheel-spinnin' game on The Price Is Right
+// This produces the probabilties (and best plays) for each player.
+
+players = eval[input["Enter number of players: "]]
+beat = eval[input["Enter score to beat: [0] ", 0]]
+
+pe1 = pe[beat, 1, players]
+
+println["Projected earnings for player 1 are $pe1"]
+
+// Find projected earnings for player, given a score to beat, the player
+// number, and the number of players.
+pe[beat, player, players] :=
+{
+   if player == players
+      return spinToBeat[beat]
+   
+   sum = 0
+   for s = 5 to 100 step 5
+   {
+      p = makeProjections[s, beat, player, players]
+      sum = sum + p
+   }
+   return sum / 20
+}
+
+
+// Make projections for a player, given their total is already sum,
+// Value to beat is beat, their player number is player, and
+// players is the total number of players.
+makeProjections[sum, beat, player, players] :=
+{
+   spin = projSpin[sum, beat, player, players]
+   stay = projStay[sum, beat, player, players]
+
+   if player == 1
+   {
+      println["$sum"]
+      println["  Stay: " + stay]
+      println["  Spin: " + spin]
+   }
+   
+   if spin > stay
+      return spin
+   else
+      return stay
+}
+
+
+// Gets projected value for spinning the wheel.
+projSpin[num, beat, player, players] :=
+{
+   pe = 0
+   
+   for s = 5 to 100 step 5
+   {
+      sum = s + num
+      if player == 1
+      {
+         if sum >= beat
+            if sum <= 100
+               pe = pe + (1-pe[sum, player+1, players])
+      } else
+      {
+         // Not first player
+         if sum > beat
+            if sum <= 100
+               pe = pe + 1  // Beat first player.
+            else            // Too high, defer to next player
+               pe = pe + pe[beat, player+1, players]
+         else
+            if sum == beat
+               pe = pe + (1 - 1/2 * (1 - pe[beat, player+1, players]))
+            else
+               pe = pe + pe[beat, player+1, players]
+       }
+   }
+
+   return pe/20      
+}
+
+// Gets projected value from staying.
+projStay[num, beat, player, players] :=
+{
+   if player == 1
+      if num < beat
+         return 0
+      else
+         return (1 - pe[num, player+1, players])
+   else
+      if num > beat
+         return 1
+      else  // This player can't win, return pe of next player(s)
+         if num == beat
+            return 1 - (1/2 * (1 - pe[num, player+1, players]))
+         else
+            return pe[beat, player+1, players]
+}
+
+
+// Return probability that you'll beat the value
+// given by beat.  This should only be called for the last player.
+spinToBeat[beat, val=0, spinNum=1] :=
+{
+   if beat > 100
+      return 1    // Other guy busted, you win
+   
+   if val > beat
+      return 1    // Don't spin... you've won.
+
+   if spinNum > 2  // You have no more spins
+      if val == beat
+         return 1/2  // Tie
+      else
+         return 0    // Lost
+
+   pe = 0
+   
+   for n = 5 to 100 step 5
+   {
+      sum = n + val
+      if sum <= 100
+         if sum > beat   
+            pe = pe + 1      // You've beat it
+         else
+            pe = pe + spinToBeat[beat, sum, spinNum+1] // Spin again
+   }
+
+   return pe/20      
+}
+
+max[a,b] := a > b ? a : b

@@ -1,0 +1,11 @@
+last = -999
+for n = 1 to 1 billion step 10
+{
+   if isPrime[n] AND isPrime[n+2] AND isPrime[n+6] AND isPrime[n+8]
+   {
+      diff = n-last
+      if diff <= 30
+         println["$last\t$n\t$diff"]
+      last = n
+   }
+}

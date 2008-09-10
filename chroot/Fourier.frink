@@ -1,0 +1,197 @@
+
+// Routines for Fourier transforms in Frink.
+//
+// Since different fields of mathematics and engineering use different
+// conventions for the Fourier transform, all of these functions allow you
+// to (optionally) specify the scaling factor and sign convention.
+//
+// The Fourier transform implemented by all of these functions can be
+// described, in most general terms, as giving element j of the FFT
+// of the sequence:
+//
+// x0, x1, x2, ... , x_n-1
+//
+// (Where j = 0, 1, ... n-1) as:
+//
+//                              n - 1
+//                               ---                    __
+//                    1          \          direction 2 || i j k / n
+//    FFT(j) = ----------------   >   x  * e
+//              (1-divFactor)/2  /     k
+//             n                 ---
+//                              k = 0
+//
+// (Whew!)  Thanks to the excellent program "JavE" for drawing this
+// equation.  http://www.jave.de/ 
+//
+// The (optional) second argument divFactor sets the scaling factor for
+// the results.  This means that the scaling factor (the whole
+// expression to the left of the summation symbol above) becomes:
+//
+//                           FFT       InverseFFT
+//
+//    divFactor =  0:     1/sqrt[n]    1/sqrt[n]   (default)
+//    divFactor = -1:     1/n          1
+//    divFactor =  1:     1            1/n
+//
+//
+// The (optional) third argument direction sets the sign used in the
+// exponent.
+//
+//                              FFT          |        InverseFFT
+//                                           |
+//    direction =  1:   e^( 2 pi i j k / n)  |  e^(-2 pi i j k / n)   (default)
+//    direction = -1:   e^(-2 pi i j k / n)  |  e^( 2 pi i j k / n)
+//
+
+// Performs the Discrete Fourier Transform of an array of values.
+// This is a naïve implementation and is O(n^2).
+// See the excellent exposition at:
+//   http://www.spd.eee.strath.ac.uk/~interact/fourier/dft/dftmaths.html
+//
+DFT[values, divFactor=0, direction=1] :=
+{
+   len = length[values]
+
+   println["Length is $len"]
+
+   results = new array[len]
+
+   mulFactor = 1/len^((1-divFactor)/2)
+
+   s = (direction 2 pi i)/len
+
+   for k = 0 to len-1
+   {
+      ss = s*k
+      sum = 0
+      for n = 0 to len-1
+         sum = sum + values@n * e^(ss*n)
+
+      results@k = sum*mulFactor  // Optional scaling factor
+   }
+
+   return results
+}
+
+
+// Produces the inverse of the DFT given by the DFT function.  In fact, it just
+// calls the DFT function with appropriately-reversed parameters.
+//
+// If you specified the optional second or third arguments for the DFT
+// function, you will need to pass in the *same* arguments to this function
+// to get the inverse operation.  This function takes care of reversing them
+// appropriately.
+//
+// See the top of this file for information on optional parameters.
+InverseDFT[x, divFactor=0, direction = 1] := DFT[x, -divFactor, -direction]
+
+
+// Fast Fourier Transform
+//
+// (Cooley-Tukey decimation-in-time)
+// Crandall and Pomerance algorithm 9.5.5
+//
+// The first argument is an array containing a list of (real or complex) data.
+// This algorithm pads the input data out to the next largest power of 2
+// (using zeros,) but does not modify the original.
+//
+// See the top of this file for information on optional parameters.
+FFT[x, divFactor=0, direction=1] :=
+{
+   x = padAndScramble[x]
+   n = length[x]
+
+   g = e^(direction 2 pi i/n)
+
+   m = 1
+   while m<n
+   {
+      mm = n/(2 m)
+      for j = 0 to m-1
+      {
+         a = g^(j mm)
+         ii = j
+         while ii<n
+         {
+            i2 = ii+m
+            xi = x@ii
+            xim = x@i2
+            axim = a xim
+            x@ii = xi + axim
+            x@i2 = xi - axim
+            ii = ii + 2 m
+         }
+      }
+      m = 2 m
+   }
+
+   // Optional scaling
+   mulFactor = 1/n^((1-divFactor)/2)
+
+   if (mulFactor != 1)
+   {
+      for ii=0 to n-1
+         x@ii = x@ii * mulFactor
+   }
+
+   return x
+}
+
+// Produces the inverse of the FFT given by the FFT function.  In fact, it just
+// calls the FFT function with appropriately-reversed parameters.
+//
+// If you specified the optional second or third arguments for the FFT
+// function, you will need to pass in the *same* arguments to this function
+// to get the inverse operation.  This function takes care of reversing them
+// appropriately.  See the top of the file for more information about these
+// parameters.
+//
+// See the top of this file for information on optional parameters.
+InverseFFT[x, divFactor=0, direction = 1] := FFT[x, -divFactor, -direction]
+
+
+// Returns a copy of the array x scrambled for use in a FFT and padded out
+// to the next largest power of 2.
+//
+// You don't need to call this; it's done by the FFT function.
+//
+// Modified from Crandall and Pomerance, algorithm 9.5.5 part 3
+padAndScramble[x] :=
+{
+   n = length[x]
+   newSize = 2^(bitLength[n]-1)
+   if newSize < n
+      newSize = newSize * 2
+
+   println["New size is $newSize"]
+   newArray = new array[newSize]
+
+   for ii = 0 to n-1
+      newArray@ii = x@ii
+   
+   for ii = n to newSize-1      // Do padding
+      newArray@ii = 0
+
+   j = 0
+   for ii = 0 to newSize-2
+   {
+      if ii<j
+      {
+         temp = newArray@ii
+         newArray@ii = newArray@j
+         newArray@j = temp
+      }
+      k = newSize div 2
+      while k<=j
+      {
+         j = j - k
+         k = k div 2
+      }
+
+      j = j+k
+   }
+
+   return newArray
+}
+

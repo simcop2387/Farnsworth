@@ -1,0 +1,27 @@
+
+// Puzzle from CarTalk via Jenny Williams:
+// What's a five letter, one syllable word, that if you removed either of the
+// first two letters (but not both), you'd end up with a homophone of the
+// original word?
+
+
+// Put four-letter, one-syllable words into a dictionary
+fours = new dict
+
+for line = lines["file:///home/eliasen/prog/mobydict/mpron/cmupronunciation.txt"]
+   if [word, pron] = line =~ %r/^(\w{4})(?:\(\d\))?\s+(.*)/
+//      if ! (pron =~ %r/(0|2)/)  // Eliminate multi-syllable words
+         fours@word = pron
+
+//  Now test five-letter words
+for line = lines["file:///home/eliasen/prog/mobydict/mpron/cmupronunciation.txt"]
+   if [word, pron] = line =~ %r/^(\w{5})(?:\(\d\))?\s+(.*)/
+//      if ! (pron =~ %r/(0|2)/)  // Eliminate multi-syllable words
+      {
+         w2 = right[word, 4]         // Take last 4 letters
+         p2 = fours@w2               // Look up pronunciation
+         w3 = left[word,1] + right[word,3]  // Take first letter & last 3
+         p3 = fours@w3               // Look up pronunciation
+         if pron == p2 and pron == p3
+            println["$word\t$w2\t$w3\t$pron"]
+      }

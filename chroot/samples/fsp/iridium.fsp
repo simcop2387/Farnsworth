@@ -1,0 +1,30 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+  <TITLE>Iridium</TITLE>
+ </HEAD>
+
+ <BODY>
+  <%
+     url = "http://heavens-above.com/iridium.asp?lat=$lat&lng=$lng&TZ=$TZ&Dur=$Dur"
+     file = read[url] 
+     cols = array[file =~ %r/<TR>\s+
+                         <TD>(.*?)<\/TD>\s*
+                         <TD><\s*A\s+HREF[^>]*?>(.*?)<\/A><\/TD>\s*
+                         <TD[^>]*>(.*?)<\/TD>\s*
+                         <TD[^>]*>(.*?)<\/TD>\s*
+                         <TD[^>]*>(.*?)<\/TD>
+                       /sigx]
+
+     println["<TABLE BORDER=1>"]
+     println["<TR><TH>Date</TH><TH>M</TH><TH>Al</TH><TH>Az</TH></TR>"]
+     for [date, time, mag, alt, az] = cols
+     {
+	alt =~ %s/\s*(\d+).*/$1/g;
+	az =~ %s/(\d+).*\(\s*(\w+)\s*\)/$1 $2/    // Remove spaces and parens
+        println["<TR><TD>$date $time<TD>$mag<TD>$alt<TD>$az"]
+     }
+     println["</TABLE>"]
+  %>
+ </BODY>
+</HTML>

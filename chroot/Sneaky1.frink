@@ -1,0 +1,44 @@
+
+// Solver for the "Sneaky #1" Geocache (GCC46E)
+// http://www.geocaching.com/seek/cache_details.aspx?guid=17684393-408c-49ac-b439-4e0d6c8fefea
+
+// This uses the Public Land Survey System (PLSS) to describe the coordinates.
+//
+// SE 1/4 of NW 1/4, S27, T6S, R66W, 6PM.
+// The cache is located 0.0805 minutes north and 0.1495 minutes east of the
+// south west corner .
+
+use navigation.frink
+use Datum.frink
+
+ColoradoBaseline =  DMS[40,0,7]
+SixthPrincipal   = -DMS[97,22,08]
+
+[lat,long] = swTownshipCorner[SixthPrincipal, ColoradoBaseline, -6, -66]
+println[[lat,long] -> DMS]
+
+[d,b] = earthDistanceAndBearing[ColoradoBaseline, SixthPrincipal, lat, long]
+println["Distance is " + (d->"surveymiles")]
+
+
+// Find the latitude of the south edge of the township.
+// Returns:
+//  [lat, long]
+swTownshipCorner[meridian,baseline,unitsNorth,unitsEast, d is Datum = Datum.WGS84] :=
+{
+   if (unitsNorth > 0)
+      unitsNorth = unitsNorth-1
+   
+   [lat,long] = resultantLatLong[baseline, meridian, 6 surveymiles * unitsNorth, 0 degrees]
+
+   // This gives the circumference of a circle at a given latitude.
+   // (Meeus, p. 83)
+   circumferenceLat = d.a cos[lat]/sqrt[1 - d.e^2 sin[lat]^2]
+
+   if (unitsEast > 0)
+      unitsEast = unitsEast-1
+   
+   long = meridian + (6 surveymiles * unitsEast) / circumferenceLat
+
+   return [lat,long]
+}

@@ -1,0 +1,48 @@
+// -*- coding: utf-8 -*-
+
+// This file is UTF-8 encoded.  To run under Frink, if UTF-8 is not your
+// default encoding, use:
+// frink --encoding UTF-8 -f encoding.frink
+
+println["""
+Amharic	(አማርኛ)	ሠላም
+Arabic			�����������
+Croatian (Hrvatski)	Bog (Bok), Dobar dan
+Czech (česky)		Dobrý den
+Danish (Dansk)		Hej, Goddag
+English			Hello
+Esperanto		Saluton
+Estonian		Tere, Tervist
+FORTRAN			PROGRAM
+Finnish (Suomi)		Hei
+French (Français)	Bonjour, Salut
+German (Deutsch Nord)	Guten Tag
+German (Deutsch Süd)	Grüß Gott
+Greek (Ελληνικά)	Γειά σας
+Hebrew			שלום
+Italiano		Ciao, Buon giorno
+Maltese			Ciao
+Nederlands, Vlaams	Hallo, Hoi, Goedendag
+Norwegian (Norsk)	Hei, God dag
+Polish			Cześć!
+Russian (Русский)	Здравствуйте!
+Slovak			Dobrý deň
+Spanish (Español)	¡Hola!
+Swedish (Svenska)	Hej, Goddag
+Thai (�������)		�������, ������
+
+Tigrigna (ትግርኛ)	ሰላማት
+Turkish (Türkçe)	Merhaba
+Vietnamese (Tiếng Việt)	Chào bạn
+
+Japanese (日本語)		こんにちは, ｺﾝﾆﾁﾊ, 騏驎
+Chinese (中文,普通话,汉语)	你好
+Cantonese (粵語,廣東話)		早晨, 你好
+Hangul (한글)			안녕하세요, 안녕하십니까
+
+Difference among chinese characters in GB, JIS, KSC, BIG5:
+	GB   -- 元气  开发  
+	JIS  -- 元気  開発
+	KSC  -- 元氣  開發
+	BIG5 -- 元氣  開發
+"""]

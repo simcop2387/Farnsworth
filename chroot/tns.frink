@@ -1,0 +1,146 @@
+
+// Minimal data structure to hold information about a person.
+class AddressData
+{
+   var name
+   var address
+   var fullLine
+
+   // Array of dates of postings.
+   var postings = new array
+
+   addPosting[date] := postings.push[date]
+
+   numPostings[] := length[postings]
+}
+
+files = ["file:///C:/Documents and Settings/eliasen/Application Data/Mozilla/Profiles/eliasen@mindspring-1.com/tob3br3e.slt/Mail/mail.mindspring.com/triplenine"]
+
+// Key is email address (lowercased)
+// Value is an AddressData object.
+addresses = new dict[]
+
+// Array containing hour in day
+hours = new array
+for hour=0 to 23
+   hours@hour = 0
+
+// Array containing day in week
+days = new array
+for day=0 to 6
+   days@day = 0
+
+dayshours = new array
+for day=0 to 6
+{
+   dayshours@day = new array
+   for hour = 0 to 23
+      dayshours@day@hour = 0
+}
+
+daynames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+
+// Mozilla date format
+### MMM dd HH:mm:ss yyyy ###
+
+for file files
+{
+   headermode = false
+   
+   for line = lines[file]
+   {
+      if (! headermode)
+      {
+         // Look for start of a new message.
+         if [dateStr] = line =~ %r/^From - \w{3} (\w{3} \d{2} \d{2}:\d{2}:\d{2} \d{4})/
+         {
+            headermode = true
+            date = parseDate[dateStr]
+//          println[date]
+            next
+         }
+      }
+
+      // Inside a header
+      if (headermode)
+      {
+         if (line =~ %r/^\s*$/)  // Blank line means end of headers
+         {
+            headermode = false
+            next
+         }
+
+         // Look for sender's name
+         if [fullAddress] = line =~ %r/^From:\s+(.*)/
+         {
+            if [name, address] = fullAddress =~ %r/(.*)\s*<(.*)>/
+            {
+               name =~ %s/"(.*)"/$1/   // Remove quotes
+               //
+            } else
+               if [address] = fullAddress =~ %r/^(\S+)\s*$/
+                  name = ""
+               else
+                  println["UNMATCHED: $fullAddress"]
+
+            address = lc[address]
+               
+            if (addresses@address != undef)
+            {
+               // Address already exists
+               addrObj = addresses@address
+               addrObj.addPosting[date]
+            } else
+            {
+               // New address
+               // println["$name\t$address"]
+               addrObj = new AddressData[]
+               addrObj.address = address
+               addrObj.name = name
+               addrObj.fullLine = fullAddress
+               addrObj.addPosting[date]
+               addresses@address = addrObj
+            }
+
+            hourOfDay = (date - #2000-01-02 00:00#) mod day div hour
+            dayOfWeek = (date - #2000-01-02 00:00#) mod week div day
+
+            hours@hourOfDay = hours@hourOfDay + 1
+            days@dayOfWeek = days@dayOfWeek + 1
+            dayshours@dayOfWeek@hourOfDay = dayshours@dayOfWeek@hourOfDay + 1
+         }
+      }
+   }
+}
+
+// Sort the array
+for [key, val] sort[addresses, { |a,b| (a@1).numPostings[] <=> (b@1).numPostings[]} ]
+{
+   println[key + "\t" + val.name + "\t" + val.numPostings[]]
+}
+
+println["\nHours of day:"]
+
+// Array containing hour in day
+for hour = 0 to 23
+   println[hour + "\t" + hours@hour]
+
+
+println["\nDays of week:"]
+// Array containing hour in day
+for day = 0 to 6
+   println[daynames@day + "\t" + days@day]
+
+println["\nDays and hours:"]
+
+for day = 0 to 6
+   print["\t" + daynames@day]
+println[]
+
+for hour = 0 to 23
+{
+   print["$hour\t"]
+   for day = 0 to 6
+      print[dayshours@day@hour + "\t"]
+   println[]
+}

@@ -1,0 +1,314 @@
+
+// Sudoku solver class.
+// The board is a 9x9 array, each element of which is a set which contains
+// the possible values for that cell.  The values in each cell are expected
+// to be the integers 1 through 9.
+//
+class Sudoku
+{
+   var board;
+
+   // Constructor;  creates a board with no items yet set.
+   new[] :=
+   {
+      board = new array[8]
+      for row = 0 to 8
+      {
+         thisrow = board@row = new array[]
+         for col = 0 to 8
+         {
+            thisset = thisrow@col = new set
+            for n = 1 to 9
+               thisset.put[n]
+         }
+      }
+   }
+
+   // Create a new board from a 2-dimensional array of values, like the
+   // following:
+   //
+   // c=["----19-4-",
+   //    "--48--6--",
+   //    "75------2",
+   //    "-9-1-2--4",
+   //    "-----3---",
+   //    "5--4-6-3-",
+   //    "8------73",
+   //    "--6--84--",
+   //    "-1-29----"]
+   // b = Sudoku.createFromArray[c]
+   // b.solve[]
+   // b.dump[]
+   //
+   // Any character other than [1-9] can be used for the "placeholder"
+   // character.
+   // Note that this will automatically begin to simplify the 
+   class createFromArray[array] :=
+   {
+      b = new Sudoku
+      for row=0 to 8
+      {
+         r = array@row
+         for col=0 to 8
+         {
+            c = substrLen[r, col, 1]
+            if c >= "1" and c <= "9"
+               b.setNoCheck[row, col, parseInt[c]]
+         }
+      }
+      return b
+   }
+
+   // Prints a representation of the current state of the solution.
+   dump[] :=
+   {
+      for row = 0 to 8
+      {
+         for col = 0 to 8
+         {
+            dumpCell[board@row@col]
+            if col != 8
+               print["|"]
+         }
+         println[]
+      }
+      println[]
+   }
+
+   dumpCell[cell] :=
+   {
+      for n = 1 to 9
+         if cell.contains[n]
+            print[n]
+         else
+            print[" "]
+   }
+
+   // Internal set method
+   setNoCheck[row, col, value] :=
+   {
+      x = new set
+      x.put[value]
+      board@row@col = x
+
+      // Remove all instances of that value from all columns in that row.
+      for c = 0 to 8
+         if c != col
+         {
+            len = length[board@row@c]
+            if len > 1
+            {
+               board@row@c.remove[value]
+               // If it's the last remaining value, eliminate it.
+               if length[board@row@c] == 1
+               {
+                  for val = board@row@c
+                     setNoCheck[row, c, val]
+               }
+            }
+         }
+
+      // Remove all instances of that value from all rows in that column.
+      for r = 0 to 8
+         if r != row
+         {
+            len = length[board@r@col]
+            if len > 1
+            {
+               board@r@col.remove[value]
+               // If it's the last remaining value, eliminate it.
+               if length[board@r@col] == 1
+                  for val = board@r@col
+                     setNoCheck[r, col, val]
+            }
+         }
+
+      // Remove all instances of that value from all boxes in that square.
+      rowstart = (row div 3) * 3
+      colstart = (col div 3) * 3
+      for r = rowstart to rowstart + 2
+         for c = colstart to colstart + 2
+            if !(r==row and c==col)
+            {
+               len = length[board@r@c]
+               if len > 1
+               {
+                  board@r@c.remove[value]
+                  // If it's the last remaining value, eliminate it.
+                  if length[board@r@c] == 1
+                  {
+                     for val = board@r@c
+                        setNoCheck[r, c, val]
+                  }
+               }
+            }
+            
+    }
+
+
+    // Solve the board.
+    solve[verbose=false] :=
+    {
+       do
+       {
+          dump[]
+          changed = findSingletons[verbose]
+       } while (changed)
+    }
+
+    
+    // Find and remove the singletons.
+    // See http://www.eddaardvark.co.uk/sudokusolver.html#Singletons
+    findSingletons[verbose] :=
+    {
+       if (verbose)
+          println["Starting findSingletons"]
+       changed = false
+       count = new array
+
+       // Remove in rows
+       for r = 0 to 8
+       {
+          for c = 0 to 8
+             count@c = 0
+
+          row = board@r
+          
+          // Remove all instances of that value from all columns in that row.
+          for c = 0 to 8
+          {
+             cell = row@c
+             if length[cell] > 1 // Exclude already-found values
+                for v = cell
+                   count@(v-1) = count@(v-1) + 1
+          }
+
+          for n = 0 to 8
+             if count@n == 1
+             {
+                println["Singleton found, row=$r, value=" + (n+1)]
+                // Find that value
+                COL1:
+                for c = 0 to 8
+                   if (board@r@c).contains[n+1] and length[board@r@c] > 1
+                   {
+                      if verbose
+                         println["Found singleton at [$r, $c], changed to " + n+1]
+                      setNoCheck[r,c,n+1]
+                      dump[]
+                      changed = true
+                      break COL1 
+                   }
+             }
+       }
+
+       // Remove in cols
+       for c = 0 to 8
+       {
+          for r = 0 to 8
+             count@r = 0
+       
+          // Remove all instances of that value from all columns in that row.
+          for r = 0 to 8
+          {
+             cell = board@r@c
+             if length[cell] > 1 // Exclude already-found values
+                for v = cell
+                   count@(v-1) = count@(v-1) + 1
+          }
+
+          for n = 0 to 8
+             if count@n == 1
+             {
+                println["Singleton found, col=$c, value=" + (n+1)]
+                // Find that value
+                ROW1:
+                for r = 0 to 8
+                   if (board@r@c).contains[n+1] and length[board@r@c] > 1
+                   {
+                      if verbose
+                         println["Found singleton at [$r, $c], changed to " + n+1]
+                      setNoCheck[r,c,n+1]
+                      dump[]
+                      changed = true
+                      break ROW1
+                   }
+             }
+       }
+
+       // Remove in block
+       for rowblock = 0 to 2
+          for colblock = 0 to 2
+          {
+             rowstart = rowblock * 3
+             colstart = colblock * 3
+             for r = 0 to 8
+                count@r = 0
+
+             // Remove all instances of that value from all cells in that
+             // block
+             for c = colstart to colstart+2
+             {
+                for r = rowstart to rowstart+2
+                {
+                   cell = board@r@c
+                   if length[cell] > 1 // Exclude already-found values
+                      for v = cell
+                         count@(v-1) = count@(v-1) + 1
+                }
+             }
+
+             for n = 0 to 8
+                if count@n == 1
+             {
+                println["Singleton found, block=[$rowblock, $colblock] value=" + (n+1)]
+                // Find that value
+                BLOCK1:
+                for c = colstart to colstart+2
+                {
+                   for r = rowstart to rowstart+2
+                   if (board@r@c).contains[n+1] and length[board@r@c] > 1
+                   {
+                      if verbose
+                         println["Found singleton at [$r, $c], changed to " + n+1]
+                      setNoCheck[r,c,n+1]
+                      dump[]
+                      changed = true
+                      break BLOCK1
+                   }
+                }
+             }
+          }
+       
+       return changed
+    }
+}
+
+a=["1-8--7462",
+   "---1--8--",
+   "9---2---1",
+   "-----4---",
+   "6-2-8-3-9",
+   "---3-----",
+   "8---5---6",
+   "--6--2---",
+   "5136--7-8"]
+
+b = Sudoku.createFromArray[a]
+b.dump[]
+b.solve[verbose=true]
+b.dump[]
+
+c=["----19-4-",
+   "--48--6--",
+   "75------2",
+   "-9-1-2--4",
+   "-----3---",
+   "5--4-6-3-",
+   "8------73",
+   "--6--84--",
+   "-1-29----"]
+b = Sudoku.createFromArray[c]
+b.dump[]
+b.solve[false]
+b.dump[]

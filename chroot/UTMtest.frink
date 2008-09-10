@@ -1,0 +1,28 @@
+
+// Torture test for UTM to lat-long conversions.
+
+use CoordinateConversions.frink
+
+biggest = 0
+errorsum = 0
+samples = 1000
+
+for n = 1 to samples
+{
+   lat = randomFloat[-80,72] degrees
+   long = randomFloat[-180,180] degrees
+
+   [x,y] = LatLongToUTM[lat,long,Datum.WGS84]
+   [lat1,long1] = UTMToLatLong[x,y,LatLongToUTMZone[lat,long],Datum.WGS84]
+   error = sqrt[(lat1-lat)^2 + (long1-long)^2]
+   errorsum = errorsum + error
+   if (error > biggest)
+      biggest = error
+//   println[error earthradius]
+}
+
+println["Largest error: " + biggest earthradius]
+average = errorsum/samples
+println["Average error: " + average earthradius]
+
+   

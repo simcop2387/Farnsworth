@@ -1,0 +1,79 @@
+
+// Program to find the largest number that is made up of the concatenation of
+// unique n-digit prime numbers.
+// For example, for 2-digit primes, the sequence 31, 11, 17, 79 becomes
+// the number 31179.
+
+start = now[]
+
+digits = eval[input["Enter length of chain: ", 3]]
+
+// Find limits of range
+smallest = 1
+
+for i = 1 to digits-1
+   smallest = smallest * 10 + 1
+
+largest = smallest * 9
+
+leading = new dict
+
+// Find prime numbers in this range
+for n = largest to smallest step -2
+{
+   if isPrime[n]
+   {
+      n = "$n"
+      lead = substringLen[n, 0, digits-1]
+
+      if leading@lead
+         leading@lead.push[[n, false]]
+      else
+         leading@lead = [[n, false]]
+   }
+}
+
+orderSort = { |a,b| a@0 <=> b@0 }
+
+sortedList = new array
+            
+stack = new array
+
+greatest = 0
+
+for [num, list] reverse[sort[leading, orderSort]]
+{
+   c = 0
+   for c = 0 to length[list]-1
+   {
+      list@c@1 = true           // Mark used
+      n = list@c@0
+      greatest = test[n, digits, stack, leading, greatest]
+      list@c@1 = false
+   }
+}
+
+// Recursive function to test numbers.
+test[n, digits, stack, leading, greatest] :=
+{
+   stack.push[n]
+   if (length[stack] > greatest)
+   {
+      greatest = length[stack]
+      println["$stack\t($greatest)"]
+   }
+
+   n = substringLen[n, 1, digits-1]
+
+   for i = 0 to length[leading@n]-1
+   {
+      if leading@n@i@1 == false
+      {
+         leading@n@i@1 = true        // Mark used
+         greatest = test[leading@n@i@0, digits, stack, leading, greatest]
+         leading@n@i@1 = false
+      }
+   }
+   stack.pop[]
+   return greatest
+}

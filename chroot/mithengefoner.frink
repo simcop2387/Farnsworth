@@ -1,0 +1,82 @@
+
+// Frink program to convert Lenny Foner's GPS readings to bearing and distance.
+
+use navigation.frink
+use CoordinateConversions.frink
+
+IC_E_lat  = 42.36010 deg North
+IC_E_long = 71.09042 deg West
+
+// West end of infinite corridor
+IW_W_lat =  42.35919 deg North
+IW_W_long = 71.09339 deg West
+
+// Westest end of infinite corridor
+IC_W_lat =  42.35910 deg North
+IC_W_long = 71.09341 deg West
+print["West End:\t"]
+
+dumpDirections[IW_W_lat, IW_W_long]
+
+// Across Mass. Ave
+across_lat =  42.35897 deg North
+across_long = 71.09378 deg West
+print["Across street:\t"]
+dumpDirections[across_lat, across_long]
+
+// Scoreboard at track
+track_lat  = 42.35749 deg North
+track_long = 71.09827 deg West
+print["Track:   \t"]
+dumpDirections[track_lat, track_long]
+
+
+// Westgate G (284 Vassar)
+Westgate_lat  = 42.35577 deg North
+Westgate_long = 71.10332 deg West
+print["Westgate:\t"]
+dumpDirections[Westgate_lat, Westgate_long]
+
+//  the telephone pole/streetlight
+IC_STL_lat  = North 42.35520 deg
+IC_STL_long = West 71.10509 deg
+print["Telephone Pole:\t"]
+dumpDirections[IC_STL_lat, IC_STL_long]
+
+//    the fake "extended" waypoint
+IC_EXT_lat  = North 42.35390 deg
+IC_EXT_long = West 71.10896 deg
+print["Extended:\t"]
+dumpDirections[IC_EXT_lat, IC_EXT_long]
+
+// IC_E_Resurvey
+[IC_E_resurvey_lat, IC_E_resurvey_long] = UTMToLatLong[327867.7, 4691882.7, "19R", Datum.WGS84]
+print["IC_E_resurvey:\t"]
+println[[IC_E_resurvey_lat, IC_E_resurvey_long]->degrees]
+IC_E_resurvey_long = -IC_E_resurvey_long
+
+// IC_W_Resurvey (not really; this is Westgate from TwoTrails and needs to be
+// renamed)
+[IC_W_resurvey_lat, IC_W_resurvey_long] = UTMToLatLong[326631.6, 4691363.7, "19R", Datum.WGS84]
+print["IC_W_resurvey:\t"]
+println[[IC_W_resurvey_lat, IC_W_resurvey_long]->degrees]
+IC_W_resurvey_long = -IC_W_resurvey_long
+
+dumpDirections[IC_W_resurvey_lat, IC_W_resurvey_long, IC_E_resurvey_lat, IC_E_resurvey_long]
+
+// New locations
+[IC_W_W20_lat, IC_W_W20_long] = UTMToLatLong[327504.3, 4691731.6, "19N", Datum.WGS84]
+print["IC_W_W20:\t"]
+dumpDirections[IC_W_W20_lat, -IC_W_W20_long]
+
+// Westgate new
+[Westgate_New_lat, Westgate_New_long] = UTMToLatLong[326773.9, 4691419.2, "19N", Datum.WGS84]
+print["Westgate new:\t"]
+dumpDirections[IC_E_lat, IC_E_long, Westgate_New_lat, Westgate_New_long]
+
+dumpDirections[lat2, long2, lat1= IC_E_lat, long1 = IC_E_long] :=
+{
+   [dist, bearing] = earthDistanceAndBearing[lat1, long1, lat2, long2]
+   print[format[bearing, "degrees", 3]]
+   println["\t" + format[dist, "m", 1]]
+}

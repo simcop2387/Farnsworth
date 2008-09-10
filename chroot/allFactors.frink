@@ -1,0 +1,41 @@
+
+// This function finds all divisors of a number, including 1 and the number
+// itself.
+
+allFactors[n] :=
+{
+   factors = factor[n]
+   size = length[factors]
+   count = new array
+   allfactors = new array
+   for i = 0 to size-1
+      count@i=0
+
+   index = 1
+   done = false
+   do
+   {
+      for n = 0 to factors@0@1
+      {
+         count@0 = n
+         
+         product = 1
+         for i = 0 to size-1
+            product = product * (factors@i@0)^(count@i)
+         allfactors.push[product]
+      }
+      
+      while (index < size) and (count@index == factors@index@1)
+      {
+         count@index = 0
+         index = index + 1
+      }
+      if (index < size)
+         count@index = count@index + 1
+      else
+         done = true
+      index = 1
+   } while ! done
+
+   return sort[allfactors]
+}

@@ -1,0 +1,116 @@
+// Some samples to test the workings of the sun.frink astronomical library.
+
+use sun.frink
+
+// This is a test function. 
+sunpos[date] :=
+{
+   T = meeusT[date]
+
+   println["T: $T"]
+   
+   // L0 is geometric mean longitude of the sun, referred to the mean equinox
+   // of the date.
+   L0 = sunGeometricMeanLongitude[date]
+   println["L0: " + (L0 mod (360 degree) -> "degrees")];
+
+   M = sunMeanAnomaly[date]
+   println["M: " + (M mod (360 degree) -> "degrees")];
+
+   eccentricity = earthEccentricity[date]
+   println["Eccentricity: $eccentricity"]
+
+   trueSunLong = sunTrueLongitude[date]
+   println["trueSunLong: " + (trueSunLong mod (360 degree) -> "degrees")];
+
+   trueAnomaly = sunTrueAnomaly[date]
+   println["trueAnomaly: " + (trueAnomaly mod (360 degree) -> "degrees")];
+
+   R = sunDistance[date]
+   println["R: " + (R -> "au")]
+
+   apparentLongitude = sunApparentLongitude[date]
+
+   return apparentLongitude mod (360 degree)
+}
+
+// Test dates from Meeus' book example 25.a
+d = #1992 October 13 00:00 TD#
+//d = #JDE 2448908.5#
+
+println["Date is   " + (d -> JDE)]
+println["Should be JDE 2448908.5"]
+
+println["Apparent longitude: " + (sunpos[d] -> "degrees")]
+
+epsilon0 = meanObliquityOfEcliptic[d]
+println["epsilon0: " + (epsilon0 mod (360 degree) -> "degrees")];
+
+epsilon = trueObliquityOfEcliptic[d]
+println["epsilon: " + (epsilon mod (360 degree) -> "degrees")];
+
+[sunRA, sunDec] = sunApparentRADecl[d]
+println["sunRA: " + (sunRA mod (360 degree) -> "degrees")];
+
+println["sunDeclination: " + (sunDec mod (360 degree) -> "degrees")];
+
+meanSiderealTime = meanGreenwichSiderealTime[d]
+println["Mean Sidereal Time: " + (meanSiderealTime mod (360 degree) -> "degrees")];
+
+println[]
+
+// Meeus Example 22a
+println["Meeus Example 22.a"]
+d22a = #1987 April 10 00:00 TD#
+//d22a = #JDE 2446895.5#
+
+println["Date is   " + (d22a -> JDE)]
+println["Should be JDE 2446895.5"]
+
+
+[deltapsi, deltaepsilon] = lowAccuracyNutation[d22a]
+println["Delta psi: " + (deltapsi -> "arcsec")]
+println["Delta epsilon: " + (deltaepsilon -> "arcsec")]
+
+[deltapsi, deltaepsilon] = highAccuracyNutation[d22a]
+println["Delta psi: " + (deltapsi -> "arcsec")]
+println["Delta epsilon: " + (deltaepsilon -> "arcsec")]
+
+epsilon0 = meanObliquityOfEcliptic[d22a]
+println["epsilon0: " + (epsilon0 mod (360 degree) -> ["degrees", "arcmin", "arcsec"])];
+epsilon = trueObliquityOfEcliptic[d22a]
+println["epsilon:  " + (epsilon mod (360 degree) -> ["degrees", "arcmin", "arcsec"])];
+
+// Moon position test, meeus Example 47.a
+println[]
+println["Moon Position test"]
+println["Meeus example 47.a"]
+d = # 1992 April 12 00:00 TD #
+println["Date is   " + (d -> JDE)]
+println["Should be JDE 2448724.5"]
+
+println["Moon mean longitude L':  " + (moonMeanLongitude[d] -> "degrees")]
+println["Moon mean elongation D:  " + (moonMeanElongation[d] -> "degrees")]
+println["Mean anomaly of sun M:   " + (moonCalcSunMeanAnomaly[d] -> "degrees")]
+println["Mean anomaly of moon M': " + (moonMeanAnomaly[d] -> "degrees")]
+println["Arg. of latitude F:      " + (moonArgumentOfLatitude[d] -> "degrees")]
+println["Correction term A1:      " + (moonA1[d] -> "degrees")]
+println["Correction term A2:      " + (moonA2[d] -> "degrees")]
+println["Correction term A3:      " + (moonA3[d] -> "degrees")]
+println["Earth eccentricity E:    " + moonCalcEarthEccentricity[d]]
+println["Moon corrected sigmaL:   " + moonSumL[d]]
+println["Moon Longitude lambda:   " + (moonLongitude[d] -> "degrees")]
+println["                         " + (moonLongitude[d] -> [deg, arcmin, arcsec])]
+println["Moon Latitude beta:      " + (moonLatitude[d] -> "degrees")]
+println["                         " + (-moonLatitude[d] -> [deg, arcmin, arcsec])]
+println["Moon distance delta:     " + (moonDistance[d] -> "km")]
+println["DeltaPsi:                " + (highAccuracyNutation[d]@0 -> "degrees")]
+println["Moon apparent longitude: " + (moonApparentLongitude[d] -> "degrees")]
+println["                         " + (moonApparentLongitude[d] -> [deg, arcmin, arcsec])]
+[ra, decl] = moonApparentRADecl[d]
+println["True obliquity epsilon:  " + (trueObliquityOfEcliptic[d] -> "degrees")]
+println["Moon apparent RA alpha:  " + (ra -> "degrees")]
+println["                         " + (ra day/circle -> [hour, min, sec])]
+
+println["Moon app. decl. delta:   " + (decl -> "degrees")]
+println["                         " + (decl -> [deg, arcmin, arcsec])]

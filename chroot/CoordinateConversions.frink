@@ -1,0 +1,175 @@
+
+// Conversions between different geodetic coordinate systems.
+
+// References:
+// http://www.uwgb.edu/dutchs/UsefulData/UTMFormulas.HTM
+
+// Requires use of a datum data structure from another file to
+// represent the shape of the earth in that datum.
+use Datum.frink
+
+// Convert a set of coordinates from UTM to Lat/Long.
+// easting and northing are given as dimensionless numbers
+// (consider changing this to meters?), zone indicates the UTM zone as a
+// string, e.g. "13E".  (The letter is ignored,) and the datum is a Datum
+// object (see Datum.frink)
+//   Returns:  [lat, long]
+UTMToLatLong[easting, northing, zone, datum is Datum] :=
+{
+   y = northing
+   x = easting - 500000         // Relative to central meridian
+
+   k0 = 0.9996  // Scale along long0
+
+   // Meridional arc (that looks spelled funny)
+   M = y/k0 m
+
+   // println["M = $M"]
+
+   // Footprint latitude
+
+   // Add more terms to this?
+   mu = M/(datum.a (1 - datum.e^2/4 - 3 datum.e^4/64 - 5 datum.e^6/256))
+//   println["mu = $mu"] //  format[mu, "degrees", 5]]
+
+   e1 = (1 - (1 - datum.e^2)^(1/2)) / (1 + (1 - datum.e^2)^(1/2))
+   // println["e1 = $e1"]
+
+   // Add more terms to these?
+   J1 = (3 e1/2 - 27 e1^3/32)
+   J2 = (21 e1^2/16 - 55 e1^4/32)
+   J3 = (151 e1^3/96)
+   J4 = (1097 e1^4/512)
+
+   fp = mu + J1 sin[2 mu] + J2 sin[4 mu] + J3 sin[6 mu] + J4 sin[8 mu]
+   // println["fp = " + format[fp, "degrees", 5]]
+
+   // Now go to lat/long
+   C1 = datum.eprime^2 cos[fp]^2
+   T1 = tan[fp]^2
+
+   // This is the same as rho in the forward conversion formulas, but
+   // calculated for fp instead of lat. 
+   R1 = datum.a (1 - datum.e^2) / (1 - datum.e^2 sin[fp]^2)^(3/2)
+
+   // This is the same as nu in the forward conversion formulas above, but
+   // calculated for fp instead of lat.
+   N1 = datum.a / (1 - datum.e^2 sin[fp]^2)^(1/2)
+
+   D = x / (N1 k0/m)
+
+   // Coefficients for latitude
+   Q1 = N1 tan[fp]/R1
+   Q2 = (D^2/2)
+   Q3 = (5 + 3 T1 + 10 C1 - 4 C1^2 - 9 datum.eprime^2) D^4/24
+   Q4 = (61 + 90 T1 + 298 C1 + 45 T1^2 - 3 C1^2 - 252 datum.eprime^2) D^6/720
+
+//   println["$Q1\t$Q2\t$Q3\t$Q4"]
+   lat = fp - Q1 (Q2 - Q3 + Q4)
+   // println["lat= " + format[lat, "degrees", 5]]
+
+   // Coefficients for longitude
+   Q5 = D
+   Q6 = (1 + 2 T1 + C1) D^3/6
+   Q7 = (5 - 2 C1 + 28 T1 - 3C1^2 + 8 datum.eprime^2 + 24 T1^2) D^5/120
+
+   // Get central meridian
+   long0 = UTMZoneToLong[zone]@1
+   
+   long = long0 + (Q5 - Q6 + Q7) / cos[fp]
+//   println["long= " + format[long, "degrees", 5]]
+
+   return [lat,long]
+}
+
+
+// Convert a set of coordinates from Lat/Long to UTM.  The datum is an
+// object of type Datum (see Datum.frink)
+// Equation numbers listed in comments are for reference to Snyder,
+// _Map Projections, A Working Manual_
+//   Returns:  [easting, northing, zone]
+LatLongToUTM[lat, long, datum is Datum] :=
+{
+   k0 = 0.9996  // Scale along lat
+
+   e = datum.e
+
+   // Calculate the meridional arc
+   // TODO:  Add more terms
+   M = datum.a ((1 - e^2/4 - 3 e^4/64 - 5 e^6/256) lat -
+       (3 e^2/8 + 3 e^4/32 + 45 e^6/1024) sin[2 lat] +
+       (15 e^4/256 + 45 e^6/1024) sin[4 lat] - 
+       (35 e^6/3072) sin[6 lat])
+
+   ep2 = e^2/(1-e^2)                          // 8-12
+   N = datum.a/(1 - e^2 sin[lat]^2)^(1/2)     // 4-20
+   T = tan[lat]^2                             // 8-13
+   C = ep2 cos[lat]^2                         // 8-14
+
+   long0 = centralMeridianLongitude[long]
+   A = (long - long0) cos[lat]                // 8-15
+
+   // Calculate (false) easting
+
+   // Eq. 8-9
+   x = k0 N ( A + (1-T+C) A^3/6 + (5 - 18T + T^2 + 72C - 58 ep2) A^5 / 120)
+
+   // Eq. 8-10
+   y = k0 * (M + N tan[lat] (A^2/2 + (5 - T + 9C + 4C^2) A^4/24 +
+                            (61 - 58T + T^2 + 600C - 330 ep2) A^6/720))
+
+   return [x/m+500000,y/m]
+}
+
+
+// This converts a UTM zone to a longitude triplet.
+// The zone is a string like "13E".  The letters are currently ignored.
+//   Returns:
+// [longW, longCenter, longE] representing the west, center, and east meridian
+// of a zone.
+UTMZoneToLong[zone] :=
+{
+   [zoneNum] = zone =~ %r/^\s*(\d+)/      // Parse out number
+   zoneNum = parseInt[zoneNum]
+   longL = -180 degrees + 6 degrees (zoneNum-1)
+   return [longL, longL + 3 degrees, longL + 6 degrees]
+}
+
+
+// This finds the central meridian of the nearest UTM zone for a given
+// longitude.
+centralMeridianLongitude[long] :=
+{
+   long1 = (long/degrees) + 180
+   west = floor[long1/6]*6 - 180       // West side of zone.
+   center = west + 3
+   return center degrees
+}
+
+
+// This converts a lat/long to the UTM zone in which it is located.
+// This may give unpredictable results if taken exactly on the border between
+// two zones, so don't do that.
+// This also returns a zone letter for latitude zones C-W.  If the latitude
+// is outside this zone, this will return a question mark for the zone letter,
+// as a warning that things are getting really unsafe for UTM coordinates.
+LatLongToUTMZone[lat, long] :=
+{
+   long1 = ((long/degrees)+180)/6
+   zoneNum= ceil[long1]
+
+   // Now find latitude letter.  Some letters like I and O are not used.
+   letters = ["C","D","E","F","G","H","J","K","L","M","N","P","Q","R","S","T","U","V","W"]
+
+   if (lat < 72 degrees) and (lat > -80 degrees)
+   {
+      lat1 = ((lat/degrees) + 80)/8   // C starts at 80 south, bands 8 deg tall
+      latband = floor[lat1]
+      zoneLetter = letters@latband
+   } else
+      zoneLetter = "?"
+
+   return "$zoneNum$zoneLetter"
+}
+
+"CoordinateConversions included successfully"

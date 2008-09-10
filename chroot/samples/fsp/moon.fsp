@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<HTML LANG="en">
+ <HEAD>
+  <TITLE>Moon Locator</TITLE>
+  <META HTTP-EQUIV="Default-Style" CONTENT="Spaceship"> 
+  <LINK REL="StyleSheet" HREF="/frinkdocs/spaceship.css"
+        TYPE="text/css" TITLE="Spaceship">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/apeairy.css"
+        TYPE="text/css" TITLE="APE Airy"> 
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style.css" TYPE="text/css"
+        TITLE="APE Classic">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style2.css" TYPE="text/css"
+        TITLE="Compact"> 
+  <LINK REL="icon" HREF="/images/futureboyicon.png" TYPE="image/png">
+ </HEAD>
+
+ <BODY>
+  <H1>Moon Locator</H1>
+
+  <%
+  use ../sun.frink
+  
+  North = +1
+  South = -1
+  West = +1
+  East = -1
+  
+  latitude = "$latitude" ? latitude : "39.58560"
+  long = "$long" ? long : "104.89598"
+  latHemi = "$latHemi" ? latHemi : "North"
+  longHemi = "$longHemi" ? longHemi : "West"
+  %>
+
+  <FORM ACTION="moon.fsp" METHOD="GET">
+   <TABLE>
+     <TR>
+      <TD>Latitude:
+      <TD><INPUT TYPE="text" NAME="latitude" VALUE="$latitude">
+      <TD>degrees
+      <TD>
+       <SELECT NAME="latHemi">
+        <OPTION>North
+        <Option>South
+       </SELECT>
+     <TR>
+      <TD>Longitude:
+      <TD><INPUT TYPE="text" NAME="long" VALUE="$long">
+      <TD>degrees
+      <TD>
+       <SELECT NAME="longHemi">
+        <OPTION>West
+        <Option>East
+       </SELECT>
+
+   </TABLE>
+   <INPUT TYPE="SUBMIT">
+  </FORM>
+
+  <%
+    t = now[] 
+    latNum = eval["$latitude * $latHemi"] degree
+    longNum = eval["$long * $longHemi"] degree
+    [azimuth, altitude] = refractedMoonAzimuthAltitude[t, latNum, longNum]
+    phaseAngle = moonPhaseAngle[t]
+    illum = moonIlluminatedFraction[t]
+    [az1, alt1] = refractedMoonAzimuthAltitude[t+5 s, latNum, longNum]
+    illum1 = moonIlluminatedFraction[t + 5 s]
+    inc = 5 s
+    distance = moonDistance[t]
+    distance1 = moonDistance[t+inc]
+    velocity = (distance1-distance) / inc
+    direction = velocity > 0 mph ? "receding" : "approaching"
+    velocity = abs[velocity]
+    limb = moonPositionAngleRelativeToZenith[t, latNum, longNum] mod circle
+    clockwiseLimb = 360 degrees - limb
+  %>
+
+  <P>
+   From latitude <%= latNum -> "degrees" %>, 
+   longitude <%= longNum -> "degrees" %>:
+
+  <P>
+   The moon is located <%= format[altitude, degree, 4] %>
+   degrees above the horizon (<%= alt1 > altitude ? "rising" : "setting" %>).
+
+   <BR>
+   
+   True compass bearing:
+   <%= format[(azimuth + 180 degrees) mod circle, degree,4 ] %> degrees.
+  </P>
+
+  <P>
+   Illuminated fraction: 
+   <%= format[illum, percent, 2 ] %>% 
+   (<%= illum1 > illum ? "waxing" : "waning" %>).</P>
+
+  <P>
+   Angle of center of moon's bright limb: <BR><%= format[clockwiseLimb, "degrees", 1] %> clockwise (<%= format[limb, "degrees", 1] %> counterclockwise) from zenith.
+  </P>	
+   
+
+   <P>
+   Distance: <%= format[distance, "miles", 2] %>, <%= direction %> at <%= format[velocity, "mph", 3] %>.
+  </P>
+
+  <P>
+   Time: <%= now[] %> </P>
+
+  <HR>
+  <P>
+   View source of <A HREF="/fsp/highlight.fsp?fileName=moon.fsp">This FSP
+    page</A> or the <A HREF="/fsp/colorize.fsp?fileName=sun.frink">astronomical library</A>
+   used by this code.
+  </P>
+  
+  <P>
+   <I><A HREF="mailto:eliasen@mindspring.com">Alan Eliasen</A></I> was born
+   <%= round[now[] - #1969-08-19 04:54 PM Mountain#, minute] -> ["days", "hours", "minutes"] %> ago.
+  </P>
+
+  <P>
+   Powered by <A HREF="/frinkdocs/">Frink</A> and <A HREF="/frinkdocs/fspdocs.html">Frink Server Pages</A>.
+  </P>  
+ </BODY>
+</HTML>

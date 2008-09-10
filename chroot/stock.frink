@@ -1,0 +1,14 @@
+
+// Program to fetch stock prices.  Try the stocktest.frink program for an
+// interactive version.
+
+stock[symbol] := 
+{
+   url = "http://finance.yahoo.com/q?s=" + symbol
+   file = read[url]
+
+   if [price] = ( file =~ %r/Last Trade.*?<b>(\d+\.\d+)<\/b>/si )
+      return eval[price + " USD"]
+   else
+      return undef
+}

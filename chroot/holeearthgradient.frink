@@ -1,0 +1,44 @@
+
+// Program to find the time spent falling through a hole in the earth assuming
+// a non-uniform earth.  The density of the earth is modeled using a linear
+// range of densities starting from 2.2 g/cm^3 at the surface and going to
+// 13.0 g/cm^3 at the core.  There is a small "fudge-factor" to make this
+// integrated density equal the known mass of the earth.
+
+// This program is written in Frink:
+//  http://futureboy.homeip.net/frinkdocs/
+//
+// Alan Eliasen, eliasen@mindspring.com
+
+earthdensity := earthmass / (4/3 pi earthradius^3)
+
+// This finds the mass that's still below you at a given distance from the
+// earth's center.
+mass[dist is length] := dist^3 21.4938 1.0748347372 ((2.2-13.0) dist/earthradius  + 13.0) g/cm^3 / 2.2 
+
+// Find the acceleration at a given distance from the core.
+a[dist is length] := G mass[dist]/dist^2
+
+println[mass[earthradius]]
+
+var v is velocity = 0 m/s         // Velocity at end of timestep
+var stepsize is time = 1/100 s
+var d is length = earthradius
+var t is time = 0 s
+var a is acceleration = 0 gravity
+
+while (d > 0 m)
+{
+   t = t + stepsize
+   a = a[d]
+   v = v + a stepsize
+   d = d - v stepsize
+
+   // Print results every second
+   if (t mod sec == 0 s)
+     println[(t -> sec) + "\t" + (d->km) + "\t" + (v->mph) + "\t" + (a->m/s^2)]
+}
+
+// Print final times
+println[(1. t -> ["min", "sec"]) + "\t, " + (v->"mph")]
+

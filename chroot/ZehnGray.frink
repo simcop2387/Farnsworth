@@ -1,0 +1,100 @@
+// Solution to the "Zehn Grey" geocache (GCR49C)
+//
+// http://www.geocaching.com/seek/cache_details.aspx?guid=3e7679d6-ecd9-4947-b648-78fb0916a080
+
+// Import the navigation.frink file which contains great circle calculations
+// and definitions for the navigation functions below.
+use navigation.frink
+
+// This file includes point-to-line distance formulas.
+use geometry.frink
+
+// We know that 1.) The cache is equidistant from the following two points:
+
+// Zehn Grey (GCR49C) points (P1)
+lat1 =   DMS[ 39, 58.475] North
+long1 =  DMS[105, 16.605] West
+
+// Boulder Orphan (GCGFMN) points (P2)
+lat2 =   DMS[ 39, 59.479] North
+long2 =  DMS[105, 16.389] West
+
+
+// We also know that "2.) A line containing this cache's coordinates and GCJ3A4
+// is parallel with the line using the two points in (1)."
+//
+// We'll call the coordinates of the actual cache PC.
+
+// Vince's Royal (GCJ3A4) coordinates (P3)
+lat3 =   DMS[ 39, 59.474] North
+long3 =  DMS[105, 17.232] West
+
+// Thus, we want to find the bearing from P3 to PC.  This is the same
+// as the bearing from P1 to P2 (or P2 to P1)
+// Actually, this is not quite true.  No two different great circles are ever
+// parallel!  I'll be curious to see how close this gets.
+
+bearing = earthBearing[lat1, long1, lat2, long2]
+println["Bearing from P1 to P2: " + format[bearing,"degrees", 5]]
+println["Bearing from P2 to P1: " + format[(bearing+180 degrees) mod circle,"degrees", 5]]
+
+
+// Because PC is equidistant from P1 and P2, this must be an isosceles
+// triangle. P1-P2-PC
+
+// Now we need to find the midpoint between P1 and P2.
+
+d12 = earthDistance[lat1, long1, lat2, long2]
+println["Distance from P1 to P2: " + format[d12, "miles", 4]]
+
+// Half the distance
+hd12 = 1/2 d12
+
+// Find the centerpoint
+[lat12, long12] = resultantLatLong[lat1, long1, hd12, bearing]
+
+println["Lat12:  " + (lat12 -> DM)]
+println["Long12: " + (long12 -> DM)]
+
+d = 0 feet
+shortestDist = 1000 km
+prevDist = 1000 km
+
+var shortlat
+var shortlong
+
+// Now do a sloppy linear search along a line from P3 to find the shortest
+// distance.  I'd like it if this were more elegant, but it works and is
+// a lot easier than solving the simultaneous spherical and ellipsoidal
+// equations. 
+do
+{
+   d = d - 1 feet
+   prevDist = shortestDist
+   [latc, longc] = resultantLatLong[lat3, long3, d, bearing]
+
+   dc1 = earthDistance[lat1, long1, latc, longc]
+   dc2 = earthDistance[lat2, long2, latc, longc]
+   currdist = abs[dc1-dc2]
+
+   if (currdist < shortestDist)
+   {
+      shortestDist = currdist
+      shortlat = latc
+      shortlong = longc
+   }
+} while (prevDist > shortestDist)
+
+println["\nShortest solution was found at: "]
+println[(latc->DM) + " " + latitudeName[latc] + ", " + (longc->DM) + " " + longitudeName[longc]]
+
+dc1 = earthDistance[lat1, long1, latc, longc]
+dc2 = earthDistance[lat2, long2, latc, longc]
+
+println["\nDouble check:"]
+// Double check; these should be close to each other.
+println["dc1 is " + format[dc1, "miles", 4]]
+println["dc2 is " + format[dc2, "miles", 4]]
+
+bcheck = earthBearing[lat3, long3, latc, longc]
+println["Bearing from P3 to PC: " + format[bcheck,"degrees", 5]]

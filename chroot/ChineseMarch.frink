@@ -1,0 +1,52 @@
+// Program to test the e-mail claim:
+// "If the population of China walked past you, 8 abreast, the line would never
+// end because of the rate of reproduction.
+
+// China's birth rate for 2007, taken from:  
+// http://www.indexmundi.com/china/birth_rate.html
+birthrate = 13.45 / 1000 / year
+
+//println[(1/birthrate) -> years]
+
+// China population estimate, June 2007
+// http://wikitravel.org/en/China
+pop = 1_321_851_888
+
+// Number of people marching abreast
+numAbreast = 8
+
+// Marching speed.  This is taken from an estimate of my walking speed. (About
+// 3.4 mph, reduced for marching.)
+speed = 2 mph
+
+// Distance between rows.
+distance = 5 feet
+
+// Distance marched per year
+distPerYear = year * speed
+
+// Linear density of people 
+density = numAbreast / distance
+
+// Number of people that march by per unit time
+personvelocity = density * speed
+
+println[personvelocity + " people walk by in a second."]
+println[(personvelocity * year -> "million") + " people walk by in a year."]
+
+timestep = 1 week
+time = 0 s
+
+remaining = pop
+
+do
+{
+   println[format[time, years, 2] + "\t" + format[pop,1,0] + "\t" + format[remaining,1,0]]
+   time = time + timestep
+   remaining = remaining - (personvelocity * timestep)
+   born = pop * birthrate * timestep
+
+   pop = pop + born
+
+   remaining = remaining + born
+} while remaining > 0

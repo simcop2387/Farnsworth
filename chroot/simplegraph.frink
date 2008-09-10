@@ -1,0 +1,38 @@
+
+// This is a simple but rather interesting program that graphs equations.
+// You enter equations in terms of x and y, something like one of the
+// following:
+//
+//  y = sin[x]
+//
+//  x^2 + y^2 = 81
+// 
+while func = input["Enter equation: "]
+{
+   func =~ %s/=/ PEQ /            // Replace = with possibly equals
+
+   xsteps = 78
+   xmin = -10
+   xmax = 10
+   xstep = (xmax-xmin) / xsteps
+
+   ysteps = 39
+   ymin = -10
+   ymax = 10
+   ystep = (ymax-ymin) / ysteps
+
+   for yy=ymax to ymin step -ystep
+   {
+      y = new interval[yy, yy+ystep]
+      for xx=xmin to xmax step xstep
+      {
+         x = new interval[xx, xx+xstep]
+
+         if eval[func]
+            print["X"]
+         else
+            print["."]
+      }
+      println[]
+   }
+}

@@ -1,0 +1,39 @@
+// This contains some routines to test the StandardAtmosphere class, contained
+// in the file StandardAtmosphere.frink .
+
+use StandardAtmosphere.frink
+
+defaultAlt = "0 feet"
+alt = eval[input["Enter geometric altitude [$defaultAlt]: ", defaultAlt]]
+
+[t,p] = StandardAtmosphere.getTemperatureAndPressure[alt]
+
+println["Temperature is: " + format[t, "K", 3]]
+println["Pressure is: " + format[p, "millibars", 4]]
+
+density = StandardAtmosphere.getDensity[t, p]
+println["Density is: $density"]
+
+moleVolume = StandardAtmosphere.getMoleVolume[t, p]
+println["Mole volume is: $moleVolume"]
+
+numberDensity = StandardAtmosphere.getNumberDensity[t, p]
+println["Number density is: $numberDensity"]
+
+meanSpeed = StandardAtmosphere.getMeanAirParticleSpeed[t, p]
+println["Mean air particle speed is: $meanSpeed"]
+
+meanPath = StandardAtmosphere.getMeanFreePath[t, p]
+println["Mean free path is: $meanPath"]
+
+meanCollisionFrequency = StandardAtmosphere.getMeanCollisionFrequency[t, p]
+println["Mean collision frequency is: $meanCollisionFrequency"]
+
+speedOfSound = StandardAtmosphere.getSpeedOfSound[t, p]
+println["Speed of sound is: $speedOfSound"]
+
+dynamicViscosity = StandardAtmosphere.getDynamicViscosity[t, p]
+println["Dynamic viscosity is: $dynamicViscosity"]
+
+kinematicViscosity = StandardAtmosphere.getKinematicViscosity[t, p]
+println["Kinematic viscosity is: $kinematicViscosity"]

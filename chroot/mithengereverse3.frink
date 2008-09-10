@@ -1,0 +1,53 @@
+
+// This is reverse-engineering of Jim Leonard's picture of MIThenge #5145
+
+use sun.frink
+use mithengecorridor.frink
+
+// Date from EXIF data
+
+exifdate = #2007-01-29 16:47:46 Eastern#
+
+// According to Lenny Foner, Jim's camera is 2 seconds ahead of GPS time
+// this was also a 10 s exposure and the date was probably recorded at
+// the end of exposure (?)
+
+truedate = exifdate - 2 s - 5 s
+
+// We don't care all that much about refraction, so the temp/pressure figures
+// below may not be accurate but shouldn't matter much.
+[sunAzimuth, sunAltitude] = refractedSunAzimuthAltitude[truedate, lat, long, F[29], 30.42 inHg]
+
+
+// Convert Meeus azimuth conventions to normal conventions.
+sunAzimuth = (sunAzimuth + 180 degrees) mod circle
+println["True sun azimuth at this time was " + format[sunAzimuth,"degrees",5]]
+println["Approx. altitude at this time was " + format[sunAltitude,"degrees",5]]
+
+
+// Jim's camera was 39 inches right of the centerline of the fluorescents
+rightoffset = 39 inches
+
+latticewidth = 31.5 in
+
+// The grating is offset to the right of the centerline of the corridor?
+//grateOffset = (8.5 / 43) latticewidth
+// grateOffset = (8.0 / 45.5) latticewidth
+
+grateOffset = (1.5 cm / (11 cm)) latticewidth
+
+println["The grate offset is " + format[grateOffset, "inches", 2]]
+
+// Distance from grating
+gratingDist = 460 feet + 7.5 in
+
+// Calculate the sun radius at this time.
+sunRadius = sunRadiusAngle[truedate]
+println["Sun radius is " + format[sunRadius,"degrees", 5]]
+
+azimuthOffset = arctan[rightoffset - grateOffset, gratingDist]
+
+println["Azimuth offset is " + format[azimuthOffset,"degrees",5]]
+
+corridorAzimuth = sunAzimuth + azimuthOffset
+println["Corridor azimuth is " + format[corridorAzimuth,"degrees",3]]

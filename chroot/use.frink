@@ -1,0 +1,4 @@
+
+// Test of including from relative path.
+use include/hi.frink
+

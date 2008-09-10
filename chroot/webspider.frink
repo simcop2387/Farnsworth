@@ -1,0 +1,15 @@
+// Prints a list of all of the URLs (converted to absolute URLs) in a document.
+
+default = "http://futureboy.homeip.net/ape/"
+url = input["Enter a URL [APE]: ", default]
+
+println[join["\n", findURLs[url]]]
+
+findURLs[u] := 
+{
+   results = []
+   for [rel] read[u] =~ %r/<\s*A\s+[^>]*HREF\s*=\s*"([^ "]+)"/gsi
+      results.push[url[u, rel]]
+
+   return sort[results]
+}

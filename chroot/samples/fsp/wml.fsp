@@ -1,0 +1,97 @@
+<%@ contentType="text/vnd.wap.wml" %>
+<%
+   printHead[]
+
+   if (fromVal)
+   {
+      if (toVal)
+         result = eval["$fromVal -> $toVal"]
+      else
+         result = eval[fromVal] 
+
+      result = "$result"  // Coerce to string in all cases.
+      result = WMLEncode[result]
+      printResults[result]
+   }
+   printEntry[]
+   printTail[]
+
+printResults[result] :=
+{
+   print["""
+ <card id="res" title="Results">
+ <p>
+  <do type="accept" label="New">
+   <go href="#from">
+    <setvar name="fromVal" value="" />
+    <setvar name="toVal" value="" />
+   </go>
+  </do>
+  $result
+ </p>
+ </card>
+"""]
+}
+  
+printHead[] :=
+{
+   print["""<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN"
+    "http://www.wapforum.org/DTD/wml_1.1.xml">
+<wml>
+ <head>
+  <meta http-equiv="Cache-Control" content="max-age=0" forua="true"/>
+  <meta name="vnd.up.bookmark" forua="true" content="http://futureboy.us/fsp/wml.fsp" />
+ </head>
+"""]
+}
+
+printEntry[] :=
+{
+   // This keeps the browser from caching.
+   time = floor[(now[] - #2000-01-01#)/s]
+
+print["""
+ <card id="from" title="Frink">
+  <do type="accept" label="Ok">
+   <go href="#to" />
+  </do>
+  <p>
+   From:
+   <input name="fromVal" format="*m" />
+  </p>
+ </card>
+
+ <card id="to" title="Frink">
+  <do type="accept" label="Ok">
+   <go href="http://futureboy.us/fsp/wml.fsp">
+    <postfield name="t" value="$time" />
+    <postfield name="fromVal" value="$$fromVal" />
+    <postfield name="toVal" value="$$toVal" />
+   </go>
+  </do>
+  <p>
+   To:
+   <input name="toVal" format="*m" emptyok="true" />
+  </p>
+ </card>
+"""]
+}
+
+printTail[] :=
+{
+   print["""</wml>"""]
+}
+
+WMLEncode[line] :=
+{
+   line =~ %s/&/&amp;/g;
+   line =~ %s/</&lt;/g;
+   line =~ %s/>/&gt;/g;
+   line =~ %s/'/&apos;/g;
+   line =~ %s/"/&quot;/g;
+   line =~ %s/\$/$$/g;
+   return line
+}
+
+%>

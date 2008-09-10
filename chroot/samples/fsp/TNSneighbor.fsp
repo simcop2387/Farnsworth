@@ -1,0 +1,246 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<HTML LANG="en">
+ <HEAD>
+  <TITLE>TNS Nearest Neighbors</TITLE>
+  <META HTTP-EQUIV="Default-Style" CONTENT="APE Airy"> 
+  <LINK REL="StyleSheet" HREF="/frinkdocs/apeairy.css" TYPE="text/css"
+        TITLE="APE Airy"> 
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style.css" TYPE="text/css"
+        TITLE="APE Classic">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style2.css" TYPE="text/css"
+        TITLE="Compact"> 
+  <LINK REL="icon" HREF="/images/futureboyicon.png" TYPE="image/png">
+ </HEAD>
+
+ <BODY>
+  <H1>TNS Nearest Neighbors</H1>
+
+  <P>
+   Find your nearest neighbors in TNS.  Distances are approximate.
+  </P>
+
+  <FORM ACTION="TNSneighbor.fsp" METHOD="POST">
+   <P><B>Enter your 5-digit zip code:</B>
+    <INPUT NAME="zipCode" TYPE="TEXT" SIZE="5" MAXLENGTH="5">
+   </P>
+   <P>
+    <B>-or-</B>
+   </P>
+
+   <P>
+    <B>Your latitude and longitude:</B> (Latitude and longitude can be entered
+    by degrees and minutes in the separate boxes provided, or as decimal
+    degrees by entering a number like "39.999535" in the degrees box and
+    leaving the minutes box empty.)  Minutes can also contain decimal points,
+    but due to the coarseness of zip code data, the improved precision will
+    most often be illusory unless the member has given me exact data.
+   </P>
+    
+   <TABLE BORDER=0>
+     <TR><TH>Latitude<TD><INPUT NAME="myLatDeg" TYPE="TEXT" SIZE="6"> degrees
+      <TD><INPUT NAME="myLatMin" TYPE="TEXT" SIZE="2"> minutes<BR>
+      <TD>
+       <SELECT NAME="latHemi">
+        <OPTION VALUE="1">North
+        <OPTION VALUE="-1">South
+       </SELECT>
+       
+     <TR><TH>Longitude<TD><INPUT NAME="myLongDeg" TYPE="TEXT" SIZE="6"> degrees
+      <TD><INPUT NAME="myLongMin" TYPE="TEXT" SIZE="2"> minutes
+      <TD>
+       <SELECT NAME="longHemi">
+        <OPTION VALUE="-1">West
+        <OPTION VALUE="1">East
+       </SELECT>
+   </TABLE>
+
+   <P>
+    I want to see distances in:
+    <SELECT NAME="distUnits">
+     <OPTION>miles
+     <OPTION>km
+    </SELECT>
+   </P>
+    
+   <INPUT TYPE="Submit" VALUE="Calculate">
+  </FORM>
+  
+
+  <%
+distUnits = distUnits ? distUnits : "miles"
+  
+if ((myLatDeg) && (myLongDeg))
+{
+   if myLatMin
+      centerLat = eval["$latHemi * ($myLatDeg degrees + $myLatMin arcmin)"]
+   else
+      centerLat = eval["$latHemi * ($myLatDeg degrees)"]
+
+   if myLongMin
+      centerLong = eval["$longHemi * ($myLongDeg degrees + $myLongMin arcmin)"]
+   else
+      centerLong = eval["$longHemi * ($myLongDeg degrees)"]
+}
+
+if (zipCode || (myLatDeg && myLongDeg))
+{
+   // Read in zip codes
+   zips = new dict[]
+
+   for [line] lines["file:///$FSPRoot/neighbors/zipnov99.txt"]
+      if [zip, lat, long] = line =~ %r/^(\d{5})\t([^\t]+)\t([^\t]+)/
+         zips@zip = [lat, long]
+
+   // Done parsing zips
+
+   if (zipCode)
+   {
+     centerLat = eval[zips@zipCode@0] degrees
+     centerLong = eval[zips@zipCode@1] degrees
+   }
+
+   // Parse the whole TNS members USA list from the original HTML
+   members = read["file:///$FSPRoot/neighbors/membersusa.html"] =~ %r/
+     <tr[^<]*?
+     <td>\s*(.*?)\s*<\/td>\s*
+     <td>\s*([^<]*?)\s*<\/td>\s*
+     <td>\s*([^<]*?)\s*<\/td>\s*
+     <td>\s*(\d{5})[^<]*?\s*<\/td>\s*
+     <\/tr>/gxs
+   // Done parsing US members.
+
+   distMemb = new array
+
+    // Render Google Map
+%>
+    <script src="http://maps.google.com/maps?file=api&v=1&key=ABQIAAAAzPILgAtgPwOVhb3y3TCk1RSYK9YBUQyA-APNOp2PbKIRcrKc6xRUDzeSctK4zWAgiGkyLU7g-mI2Ng" type="text/javascript"></script>
+    <div id="map" style="width: 100%; height: 550px"></div>
+    <script type="text/javascript">
+    //<![CDATA[
+
+// Creates a marker whose info window displays the given number
+   function createMarker(map, point, name, city, state, country, dist)
+   {
+      var marker = new GMarker(point);
+
+      // Show this marker's index in the info window when it is clicked
+      var html = "<B>" + name + "</B><BR>" + city + ", " + state + ", " + country + "<BR>" + dist;
+      GEvent.addListener(marker, "click", function() {
+         marker.openInfoWindowHtml(html);
+         });
+
+       map.addOverlay(marker);
+       return marker;
+    }
+    
+    var map = new GMap(document.getElementById("map"));
+    map.setMapType(G_HYBRID_TYPE);
+    map.addControl(new GLargeMapControl());
+    map.addControl(new GMapTypeControl());
+    var center = new GPoint(<%= formatPoint[centerLat, centerLong] %>);
+    map.centerAndZoom(center, 8);
+    var marker = createMarker(map, center, "Requested Center");
+    //map.addOverlay(marker);
+    
+<%
+   // Read in members that have sent me their lat/long
+   for [line] lines["file:///$FSPRoot/neighbors/members.txt"]
+   {
+       [name, city, territory, country, lat, long] = split[%r/\s*,\s*/, line]
+       lat = eval[lat] degrees
+       long = eval[long] degrees
+       dist = sphereDist[centerLat, centerLong, lat, long]
+       distMemb.push[[name, city, territory, "N/A", dist, country]]
+       println["createMarker(map, new GPoint(" + formatPoint[lat, long] + "), \"$name\", \"$city\", \"$territory\", \"$country\", \"" + format[dist, distUnits, 2] + "\");"]
+    }
+
+   for [member, city, state, zip] members
+   {
+       zipdata = zips@zip    
+       if (zipdata == undef)  
+          next
+
+       memberLat  = eval[zipdata@0] degrees
+       memberLong = eval[zipdata@1] degrees
+
+       if (zip == zipCode)
+          dist = 0 miles
+       else
+          dist = sphereDist[centerLat, centerLong, memberLat, memberLong]
+
+        println["createMarker(map, new GPoint(" + formatPoint[memberLat, memberLong] + "), \"$member\", \"$city\", \"$state\", \"USA\", \"" + format[dist, distUnits, 2] + "\");"]
+//       println["map.addOverlay(new GMarker(new GPoint(" + formatPoint[memberLat, memberLong] + ")));"]
+
+       distMemb.push[[member, city, state, zip, dist, "USA"]]
+   }
+   members = undef  // Allow early cleanup
+
+%>    
+    //]]>
+    </script>
+    <P>
+     <I>Note:</I>  The map does not use exact street addresses to plot 
+     members, but solely uses their zip code.  
+    <EM>Do not use this for driving directions!</EM>
+   </P>
+<%
+
+   // Sort by distance
+   sort[distMemb, { |a,b| a@4 <=> b@4 }]
+
+   distU = eval[distUnits]
+
+   println["<TABLE BORDER=0><TR><TH>Name<TH>City<TH>State<TH>Zip Code<TH>Country<TH>Distance"]
+   for [member, city, state, zip, dist, country] distMemb
+      println["<TR><TD>$member<TD>$city<TD>$state<TD>$zip<TD>$country<TD>" + format[dist, distU, 2] + " $distUnits"]
+
+   println["</TABLE>"]
+   distMemb = undef
+
+   println["<P><B>Center is:</B><BR>Latitude: " + (centerLat -> ["degrees","arcmin",0])+"<BR>"]
+   println["Longitude: " + (centerLong -> ["degrees","arcmin",0]) + "</P>"]
+}
+    
+// Function for great circle distance on the earth
+sphereDist[lat1, long1, lat2, long2] := arccos[sin[lat1] * sin[lat2] + cos[lat1] * cos[lat2] * cos[long2 - long1]] earthradius
+
+// Helper function to format Lat/Long into a format suitable for Google API
+formatPoint[lat, long] :=
+{
+   // GPoint wants long, lat for whatever reason.
+   return format[long, degrees, 6] + ", " + format[lat, degrees, 6]
+}
+%>
+
+    <P>
+     Distances are approximate unless the member has given me their exact
+     location.  For example, the location for the approximate center of my
+     (Alan Eliasen's) zip code (as estimated by the U.S. Census Bureau) is 5.3
+     miles from my true location.  Zip codes are not polygons, so they have no
+     well-defined centroid.  I have entered precise sub-arcsecond data
+     for my own location as determined by averaging GPS signals over a long
+     time.  You will see my name twice, with one indicating exact location.
+    </P>
+
+    <P>
+     Distances cited are great-circle distances on the earth, with no
+     correction for the fact that the earth is slightly non-spherical.
+    </P>
+
+  <HR>
+  <P>
+   <A HREF="highlight.fsp?fileName=TNSneighbor.fsp">View Source</A>
+  </P>
+    
+  <P>
+   <I><A HREF="mailto:eliasen@mindspring.com">Alan Eliasen</A></I> was born
+   <%= round[now[] - #1969-08-19 04:54 PM Mountain#, minute] -> ["days", "hours", "minutes"] %> ago.
+  </P>
+
+  <P>
+   Back to <A HREF="/frinkdocs/fspdocs.html">Frink Server Pages
+    documentation.</A>
+  </P>  
+ </BODY>
+</HTML>

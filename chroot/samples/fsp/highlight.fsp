@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<HTML LANG="en">
+ <% fileName = fileName ? fileName : "highlight.fsp" %>
+ <HEAD>
+  <TITLE>Frink Server Pages Highlighter - $fileName</TITLE>
+  <META HTTP-EQUIV="Default-Style" CONTENT="APE Airy"> 
+  <LINK REL="StyleSheet" HREF="/frinkdocs/apeairy.css" TYPE="text/css"
+        TITLE="APE Airy"> 
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/spaceship.css"
+        TYPE="text/css" TITLE="Spaceship">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style.css" TYPE="text/css"
+        TITLE="APE Classic">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style2.css" TYPE="text/css"
+        TITLE="Compact"> 
+  <LINK REL="icon" HREF="/images/futureboyicon.png" TYPE="image/png">
+ </HEAD>
+
+ <BODY>
+  <H1>Frink Server Pages Highlighter - $fileName</H1>
+  <P CLASS="CENTER">
+   [<A HREF="/fsp/$fileName">Try $fileName</A>]
+  </P>
+  
+  <% 
+  baseFile = "file:///$FSPRoot/"
+
+  if ((fileName =~ %r/\.\./) or (! (fileName =~ %r/\.fsp$/)))
+     println["<P CLASS=\"CENTER\"><B>Nice try.</B></P>"]
+  else
+  {
+     file = "$baseFile$fileName"
+     print["<DIV CLASS=\"code\">" + highlightFile[file] + "</DIV>"]
+  }
+
+  highlightFile[filename] :=
+  {
+     text = read[filename]
+     text =~ %s/&/&amp;/g
+     text =~ %s/</&lt;/g
+     text =~ %s/>/&gt;/g
+     text =~ %s/ /&nbsp;/g
+
+     // Link "use" programs.
+     text =~ %s/^((?:&nbsp;)*use(?:&nbsp;)+(?:\.\.\/)?)(\S+)/$1<A HREF="colorize.fsp?fileName=$2">$2<\/A>/gm
+     // Find $varname
+     text =~ %s/(\$[[:alpha:]]([[:alpha:]]|[[:digit:]]|_)*)/<CODE CLASS="fsp">$1<\/CODE>/g
+     // Find ${varname} including possible Unicode escape sequences
+     text =~ %s/(\${(?:\\u|[[:alpha:]])(\\u|[[:alpha:]]|[[:digit:]]|_)*})/<CODE CLASS="fsp">$1<\/CODE>/g
+     // Highlight remaining Unicode escape sequences
+     text =~ %s/([^${])(\\u[0-9a-fA-F]{4})/$1<CODE CLASS="fsp">$2<\/CODE>/g
+
+     // Matches single-line FSP code snippets
+     text =~ %s/&lt;(%=?)([^\r\n]*?)%&gt;/<CODE CLASS="fsp">&llt;$1$2%&gt;<\/CODE>/gs
+
+     // Matches code snippets that start and end with FSP block delimiters
+     // on their own lines
+     text =~ %s/[\r\n]((?:&nbsp;)*)&lt;(%=?.*?%&gt;)(?:&nbsp;)*[\r\n]/<\/DIV><DIV CLASS="fsp">$1&llt;$2<\/DIV><DIV CLASS="code">/gs
+
+     // Matches other not-so-clean multi-line FSP blocks
+     text =~ %s/(&lt;%=?[^\r\n]*)([\r\n].*?)([^\r\n]*)%&gt;/<CODE CLASS="fsp">$1<\/CODE><\/DIV><DIV CLASS="fsp">$2<\/DIV><DIV CLASS="code"><CODE CLASS="fsp">$3%&gt;<\/CODE>/gs
+
+     text =~ %s/&llt;/&lt;/g
+     
+     text =~ %s/(\r\n|\n\r?)/<BR>\n/g
+     return text
+  }
+  %>
+  
+  <P CLASS="CENTER">
+   [<A HREF="/fsp/$fileName">Try $fileName</A>]
+  </P>
+  
+  <HR>
+  <P>
+   <I><A HREF="mailto:eliasen@mindspring.com">Alan Eliasen</A></I> was born
+   <%= round[now[] - #1969-08-19 04:54 PM Mountain#, minute] -> ["days", "hours", "minutes"] %> ago.
+  </P>
+
+  <P>
+   Back to <A HREF="/frinkdocs/fspdocs.html">Frink Server Pages
+    documentation.</A>
+  </P>  
+ </BODY>
+</HTML>

@@ -1,0 +1,19 @@
+
+// Timing test for astronomical library.
+
+use sun.frink
+
+lat = 40 degrees
+long = 105 degrees
+
+iters = 1000
+
+start = now[]
+
+for a = 1 to iters
+  [azimuth, altitude] = refractedSunAzimuthAltitude[now[], lat, long]
+
+end = now[]
+
+println["The loop took " + (end - start -> seconds) + " seconds."]
+println["This is " + (iters / (end-start) -> s^-1) + " operations/sec."]

@@ -1,0 +1,27 @@
+
+class test
+{
+   var num = 1;
+   
+   new[mnum] :=
+   {
+      num = mnum;
+   }
+}
+
+a = new test[1];
+b = new test[2];
+
+arr = new array;
+
+println["Starting"];
+arr.push[xxx]
+println[arr];
+arr.push[b];
+println[arr];
+arr.push[a];
+println[arr];
+arr.push[1]
+println[arr];
+
+println[length[arr]]

@@ -1,0 +1,42 @@
+
+// This is a test to make sure that toString[x] works right for all integers.
+
+println["Verifying powers of 2 and 10: "]
+for exp = 0 to 10000
+{
+   verify[2^exp]
+   verify[10^exp]
+   verify[2^exp - 1]
+   verify[10^exp - 1]
+   verify[2^exp + 1]
+   verify[10^exp + 1]
+   if (exp mod 100 == 0)
+      print["$exp "]
+}
+
+iter = 0
+
+println["\nDone.\n\nVerifying random numbers. "]
+
+while (true)
+{
+   bits = random[10000]
+   a = randomBits[bits]
+   
+   verify[a]
+   iter = iter + 1
+   if (iter mod 1000 == 0)
+      print["$iter "]
+}
+
+verify[a] :=
+{
+   j = "$a"
+   t = oldToString[a]
+
+   if (t != j)
+   {
+     println["j: $j"]
+     println["t: $t"]
+   }
+}

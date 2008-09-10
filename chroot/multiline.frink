@@ -1,0 +1,14 @@
+
+// Test of triple-quoted multi-line strings.
+
+president = "Herbert Hoover"
+
+a = """Those were the days
+And you knew who you were then
+Girls were girls and men were men
+Mister, we could use a man like $president again.
+
+"That's it, boys\""""
+
+println[a]
+println["Brought to you by $president"]

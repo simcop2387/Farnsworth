@@ -1,0 +1,39 @@
+
+// Functions for converting frequencies to notes.
+
+note[f] :=
+{
+   notesize = 2^(1/12)
+   noteNames = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
+   
+   A4 = 440 Hz
+   C4 = A4 / (notesize^9)
+   C0 = C4 / 2^4
+   ratio = f/C0
+   notes = ln[ratio]/ln[notesize]
+   roundnotes = round[notes]
+   octaves = floor[roundnotes/12]
+   scale = roundnotes - (octaves * 12)
+   return noteNames@scale + octaves
+}
+
+
+// Planck's Law function with respect to frequency and temperature.
+Planck[v,T] := 2 h v^3 / c^2 * 1 / (e^((h v)/(k T)) - 1)
+
+T = 2.725 K
+maxP = 0 s^-2 kg
+maxV = 0
+
+// Quick-and-dirty way to find maximum frequency
+for v = 160.1 GHz to 160.3 GHz step .001 GHz
+{
+   p = Planck[v,T]
+   if p > maxP
+   {
+      maxP = p
+      maxV = v
+   }
+}
+
+println[note[maxV]]

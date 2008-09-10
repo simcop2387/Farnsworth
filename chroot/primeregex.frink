@@ -1,0 +1,8 @@
+
+isPrimeRE[x] := ("$x" =~ %r/^1?$|^(11+?)\1+$/) ? true : false
+
+for a = 2 to 1000
+   if isPrimeRE[a] != isPrime[a]
+      println[a]
+
+   

@@ -1,0 +1,32 @@
+
+// Example 33.a from Meeus, to test planetary positions.
+
+use planets.frink
+
+d = #1992 December 20 00:00 TD#
+println["Date is " + (d->JDE)]
+
+[L,B,R] = VenusHeliocentricCoordinates[d]
+[L0,B0,R0] = EarthHeliocentricCoordinates[d]
+
+println["L:\t" + (L->"degrees")]
+println["B:\t" + (B->"degrees")]
+println["R:\t" + (R->"au")]
+
+println[]
+println["L0:\t" + (L0->"degrees")]
+println["B0:\t" + (B0->"degrees")]
+println["R0:\t" + (R0->"au")]
+
+[x,y,z,d] = distanceBetweenSphericalCoordinates[L,B,R,L0,B0,R0]
+println["x:\t" + (x->"au")]
+println["y:\t" + (y->"au")]
+println["z:\t" + (z->"au")]
+println["d:\t" + (d->"au")]
+
+delta = d / c
+println["Light time is " + (delta->"days")]
+
+
+
+

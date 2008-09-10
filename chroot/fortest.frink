@@ -1,0 +1,32 @@
+
+println["Counting up"]
+for i = 1 to 10 step 1/2
+   println[i]
+
+println["\nCounting down"]
+for i = 10 to 1 step -2
+   println[i]
+
+// Nested loops
+println["\nNested loops"]
+for i = 1 to 4
+   for j = 1 to 4
+      println[i + " " + j]
+
+println["\nRunning timing loops..."]
+
+for iter = 1 to 5
+{
+   start = now[]
+
+   // Timing
+   limit = 100 million
+   for i = 1 to limit
+   {
+   }
+
+   end = now[]
+   println["Iteration $iter:"]
+   println["The loop took " + (end - start -> seconds) + " seconds."]
+   println["This is " + (limit / (end-start) -> s^-1) + " operations/sec."]
+}

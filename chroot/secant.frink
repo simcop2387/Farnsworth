@@ -1,0 +1,27 @@
+// Secant method solver
+secant[f, x1, x2, maxDelta = .001] :=
+{
+   f1 = f[x1]
+   f2 = f[x2]
+   while (true)
+   {
+      x = x1 - (f1 * (x1 - x2)) / (f1-f2)
+      println[x]
+
+      if abs[x - x1] < maxDelta
+         return x
+
+      x2 = x1
+      x1 = x
+      f2 = f1
+
+      f1 = f[x]
+   }
+}
+
+// Define a procedure block that represents the equation
+// (this is just a function without a name, or think of it
+//  as a reference to a function.)
+f = { |x| log[x] + 1 - x/10000 }
+
+println["Solution: " + secant[f, 50000, 60000]]

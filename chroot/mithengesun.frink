@@ -1,0 +1,52 @@
+
+// Program to calculate sun crossing of the Infinite Corridor at MIT
+// known as "MIThenge"
+//
+// More info at also http://web.mit.edu/planning/www/mithenge.html
+// Thanks to Keith Winstein and Ken Olum for various data.
+//
+// For worked predictions, see http://futureboy.us/mithenge/
+//
+// Alan Eliasen, eliasen@mindspring.com
+
+use mithengecorridor.frink
+use sun.frink
+
+sep = "\t"
+preamble = ""
+
+if length[ARGS] > 0 && ARGS@0 == "--html"
+{
+   sep = "<TD>"
+   preamble = "<TR><TD>"
+}
+
+out = ["degrees", "arcmin", "arcsec"]
+dateOut = ### yyyy-MM-dd hh:mm:ss a zzz ###
+
+date = #2007-01-01#
+
+while (date <= #2009-12-31#)
+{
+   date = sunSecantAzimuth[date, lat, long, corridorAzimuthMeeus, temperature, pressure]
+   
+   // Generate date key suitable for use in looking up in "mean" dictionary
+   dateKey = date -> ###M-d###
+
+   // Comment out this line to use hardcoded temperature in mithengecorridor
+   temperature = mean@dateKey
+   
+   [azimuth, altitude] = refractedSunAzimuthAltitude[date, lat, long, temperature, pressure]
+   print[preamble]
+   print[(date -> [dateOut, "Eastern"]) + "$sep"]
+   print[format[JD[date],day,5] + "$sep"]
+   print[format[altitude,degrees,2] + "$sep"]
+   print[format[F[temperature],1,0]]
+   radiusAngle = sunRadiusAngle[date]
+   if altitude < (0.91 degrees + radiusAngle) and altitude > -radiusAngle
+      print["$sep*"]
+
+   println[]
+
+   date = date + 1 day
+}

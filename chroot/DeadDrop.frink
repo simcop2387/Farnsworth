@@ -1,0 +1,21 @@
+
+// Solution for "The Agency: Dead Drop" geocache
+// http://www.geocaching.com/seek/cache_details.aspx?guid=507656d6-5944-4489-8f6f-3f765791fd51
+
+orig = "ADSDETIKGEPDFENEEDEIRDAPNRCSOCTITOITMOECKPFALOSKMAINIRMUATECSDAP"
+hint1 = "ssetwutdsemaiildngsvicite"
+hint2 = "tanvfahryeedeeabwcrmludoeaites"
+hint3 = "NAAMHCORLAEITYDLXMBOENAAICCODLNTIREX"
+
+rect[orig, sqrt[length[orig]]]
+rect[hint1, sqrt[length[hint1]]]
+rect[hint2, ceil[sqrt[length[hint2]]]]
+rect[hint3, sqrt[length[hint3]]]
+
+// Put the characters in a rectangle.
+rect[str, len] :=
+{
+   println["\n$len"]
+   for i = 0 to length[str] step len
+      println[substrLen[str,i,len]]
+}

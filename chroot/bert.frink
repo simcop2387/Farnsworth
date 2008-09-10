@@ -1,0 +1,70 @@
+
+// Program to calculate the probability of 2 names appearing in the same
+// movie.
+//
+// This program was written to bolster my probabilistic argument that the
+// Sesame Street characters Bert & Ernie were *not* named after the cab driver
+// and policeman in the movie "It's a Wonderful Life," and was rather just
+// a probabilistic coincidence, and that any two reasonably-common names
+// could be found with a reasonable probability in a reasonable number of
+// movies. 
+//
+// By the way, they weren't named after the movie.
+
+
+nameA = input["Enter name(s) A: "]
+freqA = frequency[nameA]
+println["Frequency of " + nameA + " (in either sex) is: " + (freqA -> "percent")]
+
+nameB = input["\nEnter name(s) B: "]
+freqB = frequency[nameB]
+println["Frequency of " + nameB + " (in either sex) is: " + (freqB -> "percent")]
+
+chars = eval[input["\nEnter number of characters in an average movie: "]]
+
+probA = probAlone[freqA, chars]
+probB = probAlone[freqB, chars]
+
+println["Probability of " + nameA + " and " + nameB + " appearing together in an average movie: "]
+println[probTogether[probA, probB] -> "percent"]
+
+movies = eval[input["\nEnter number of movies to compare: "]]
+println["Probability of " + nameA + " and " + nameB + " appearing in at least one of " + movies + " movies together:"]
+println[probTogether[probA, probB, movies] -> "percent\n"]
+
+println["These two names will tend to appear together at least once in every " + predictTogether[probA, probB] + " movies."]
+
+
+// Functions used by above program
+
+// Probability of a single name with frequency freq being in a movie with
+// chars characters...
+probAlone[freq, chars] := 1 - (1-freq)^chars
+
+// Probability those two characters appear together in n movies
+probTogether[probA, probB, movies=1] := 1 - (1 - probA * probB)^movies
+
+// Predict the number of movies to get a 50% probability
+predictTogether[probA, probB] := ceil[- ln[2] / ln[1 - probA * probB]]
+
+// Contact www.placesnamed.com and fetch probabilities.
+frequency[names] :=
+{
+   nameList = split[%r/[\s,\/]+/, names]
+   freq = 0
+   for [name] nameList
+   {
+      if (name == "") then next          // Ignore leading/trailing space
+      [let1, let2] = name =~ %r/(.)(.)/  // Get first 2 letters
+      url = "http://www.placesnamed.com/"+ let1 + "/" + let2 + "/" + name + ".asp"
+      pattern = regex[name + ".* popular ((?:fe)?male).*frequency is (.*?)%","i"]
+
+      for [line] lines[url]
+         if [sex, p] = line =~ pattern
+         {
+            println[name + " (" + sex + "): " + p + "%"]
+            freq = freq + eval[p] percent
+         }
+   }
+   return freq/2   // Return frequency for *either* sex
+}

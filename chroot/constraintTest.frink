@@ -1,0 +1,15 @@
+class test
+{
+   var size //is string
+   var name //is string
+
+   new[s, n] :=
+   {
+      println[n]
+      println["here"]
+      size = s
+      name = n
+   }
+}
+
+b = new test[1 foot, "xyzzy"]

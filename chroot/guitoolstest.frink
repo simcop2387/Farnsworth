@@ -1,0 +1,45 @@
+
+// Small test of creating a GUI in Frink
+
+// Helper function from the guitools package.
+
+// c will be an instance of a FrinkCanvas object which is just a specialization
+// of java.awt.Canvas which we can set our onPaint method.
+c = createCanvasFrame[]
+f=c.getParent[]
+f.setSize[200,200]
+f.setTitle["Resize me!"]
+f.show[]
+
+// This is a paint function that will get called when Java calls onPaint
+// to refresh the GUI.  It's just an anonymous function that takes one
+// parameter g (which will be a java.awt.Graphics object that we draw to.)
+// The other calls are methods of java.awt.Canvas
+ff = {|g|
+   black = staticJava["java.awt.Color", "BLACK"]
+   g.setColor[black]
+   ww = getWidth[]
+   hh = getHeight[]
+   g.fillRect[0,0,ww,hh]
+
+   yellow = staticJava["java.awt.Color", "YELLOW"]
+   g.setColor[yellow]
+   w = min[ww, hh] - 20
+   g.fillOval[10,10,w,w]
+
+   g.setColor[black]
+   g.fillOval[int[w/3], int[w/3], int[w/8], int[w/8]]
+   g.fillOval[int[w*(2/3)], int[w/3], int[w/8], int[w/8]]
+   g.fillRect[int[w*(1/4)], int[w*(2/3)], int[w*(2/3)], int[w/15]]
+}
+
+// Set that function as the onPaint function.
+c.setPaint[ff]
+
+// Create an empty update method.  You rarely need this unless you're doing
+// some sort of incremental painting.
+//uu = {|g| paint[g]}
+//c.setUpdate[uu]
+
+// Force a repaint.  (setPaint may do this in the future.)
+c.repaint[]

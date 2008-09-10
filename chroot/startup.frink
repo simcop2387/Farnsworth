@@ -1,0 +1,2 @@
+source = "Not uploaded anywhere yet, also not secure to run on its own, needs to be run in a virtual machine or throw away pc"
+time :-> [0, "centuries", "years", "days", "hours", "minutes", "seconds"]

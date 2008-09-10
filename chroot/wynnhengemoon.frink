@@ -1,0 +1,39 @@
+
+// Program to calculate moon alignments with the focus of the Wynn hotel
+// in Las Vegas.
+
+use sun.frink
+
+North = +1
+South = -1
+West = +1
+East = -1
+
+lat = 36.12815 degrees North
+long = 115.16615 degrees West
+
+// Approximate direction of the focus (pretty close to due west)
+axis = (177.86 + 90) degrees
+
+// Conversion to coordinate system used by Meeus
+axisMeeus = (axis - 180 degrees) mod circle
+
+date = #2007-01-01#
+dateOut = ### yyyy-MM-dd hh:mm:ss a zzz ###
+
+sep = "\t"
+
+while (date <= #2007-12-31#)
+{
+   date = moonSecantAzimuth[date, lat, long, axisMeeus]
+   
+   [azimuth, altitude] = refractedMoonAzimuthAltitude[date, lat, long]
+   print[(date -> [dateOut, "Pacific"]) + "$sep"]
+   print[format[JD[date],day,5] + "$sep"]
+   print[format[altitude,degrees,2] + "$sep"]
+   print[format[moonIlluminatedFraction[date], percent, 1] + "$sep"]
+//   radiusAngle = moonRadiusAngle[date]
+   println[]
+   
+   date = date + 1 day
+}

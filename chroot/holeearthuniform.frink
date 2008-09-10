@@ -1,0 +1,34 @@
+
+// Program to find the time spent falling through a hole in the earth
+// This assumes that the earth has uniform density (a pretty odd assumption.)
+
+earthdensity := earthmass / (4/3 pi earthradius^3)
+
+// This finds the mass that's still below you at a given distance from the
+// earth's center.
+mass[dist is length, rho is mass_density = earthdensity] := 4/3 pi rho dist^3 
+
+// Find the acceleration at a given distance from the center.
+a[dist is length, rho is mass_density = earthdensity] := G mass[dist, rho]/dist^2
+
+var v is velocity = 0 m/s
+var stepsize is time = 1/100 s
+var d is length = earthradius
+var t is time = 0 s
+var a is acceleration = 0 gravity
+
+while (d > 0 m)
+{
+   t = t + stepsize
+   a = a[d]
+   v = v + a stepsize
+   d = d - v stepsize
+
+   // Print results every second.
+   if (t mod sec == 0 s)
+     println[(t -> sec) + "\t" + (d->km) + "\t" + (v->mph) + "\t" + (a->m/s^2)]
+}
+
+// Print total time to reach core
+println[(1. t -> ["min", "sec"]) + "\t, " + (v->"mph")]
+

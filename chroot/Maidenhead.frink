@@ -1,0 +1,73 @@
+
+// Utilities for converting Maidenhead coordinates to lat/long and vice
+// versa.  See http://www.arrl.org/files/contests/ln9404.pdf
+
+// This makes the assumption that west longitudes are negative.
+
+// Convert a lat/long coordinate to a 6-character Maidenhead coordinate.
+LatLongToMaidenhead[lat, long] :=
+{
+   z1 = floor[(long / degrees) + 180]
+   longZone1 = z1 div 20
+   char1 = char[char["A"] + longZone1]
+
+   z2 = floor[(lat/degrees) + 90]
+   latZone1 = z2 div 10
+   char2 = char[char["A"] + latZone1]
+
+//   println["z1 = $z1"]
+   longZone2 = (z1 mod 20) div 2
+   char3 = "$longZone2"
+
+   latZone4 = z2 mod 10
+   char4 = "$latZone4"
+
+   longZone5 = floor[(((long/degrees) + 180) mod 2) * 12]
+   char5 = char[char["A"] + longZone5]
+
+   latZone6 = floor[(((lat/degrees) + 90) mod 1) * 24]
+   char6 = char[char["A"] + latZone6]
+   
+   return "$char1$char2$char3$char4$char5$char6"
+}
+
+
+// Convert a set of Maidenhead coordinates to the lat/long coordinates of
+// the box surrounding these coordinates.
+//
+// returns:
+//  [latS, longW, latN, longE]
+// which are the south, west, north, and east sides of the box respectively.
+MaidenheadToLatLong[str] :=
+{
+   str = uc[str]                // Uppercase
+   longC1 = (char[substrLen[str,0,1]] - char["A"]) * 20
+   longC2 = (char[substrLen[str,2,1]] - char["0"]) * 2
+   if (length[str] > 4)
+   {
+      longC3 = (char[substrLen[str,4,1]] - char["A"]) / 12
+      width = 5 arcmin
+   } else
+   {
+      longC3 = 0
+      width = 2 degrees
+   }
+
+   longW = ((longC1 + longC2 + longC3) - 180) degrees
+
+   latC1 = (char[substrLen[str,1,1]] - char["A"]) * 10
+   latC2 = (char[substrLen[str,3,1]] - char["0"])
+   if (length[str] > 5)
+   {
+      latC3 = (char[substrLen[str,5,1]] - char["A"]) / 24
+      height = 2.5 arcmin
+   } else
+   {
+      latC3 = 0
+      height = 1 degree
+   }
+
+   latS = ((latC1 + latC2 + latC3) - 90) degrees
+
+   return [latS, longW, latS+height, longW+width]
+}

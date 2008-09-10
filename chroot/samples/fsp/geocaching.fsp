@@ -1,0 +1,310 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<HTML LANG="en">
+ <HEAD>
+  <TITLE>Geocaching Tools</TITLE>
+  <META HTTP-EQUIV="Default-Style" CONTENT="APE Airy"> 
+  <LINK REL="StyleSheet" HREF="/frinkdocs/apeairy.css" TYPE="text/css"
+        TITLE="APE Airy"> 
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style.css" TYPE="text/css"
+        TITLE="APE Classic">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style2.css" TYPE="text/css"
+        TITLE="Compact"> 
+  <LINK REL="icon" HREF="/images/futureboyicon.png" TYPE="image/png">
+ </HEAD>
+
+<%
+use ../navigation.frink
+use ../HTMLUtils.frink
+use ../GoogleEarth.frink
+use ../CoordinateConversions.frink
+
+   latHemis = [["North", North], ["South", South]]
+   longHemis = [["West", West], ["East", East]]
+   distOptions = ["miles", "km", "meters", "feet", "yards", ["statute miles", "statutemiles"], ["nautical miles", "nauticalmile"]]
+   resultOptions = [["DD.DDDDD", "degrees"],
+                    ["DD MM.MMM", "DM"],
+                    ["DD MM SS", "DMS"]]
+%>
+
+ <BODY>
+  <H1>Geocaching Tools</H1>
+
+  <DIV CLASS="back">
+  <FORM ACTION="geocaching.fsp" METHOD="POST">
+   <H2>Find distance and bearing between points</H2>
+   <P>
+     Latitude and longitude
+     can be entered by degrees and minutes in the separate boxes provided, or
+     as decimal degrees by entering a number like "39.999535" in the degrees
+     box and leaving the minutes and seconds boxes empty.)  Minutes or seconds
+     can also contain decimal points.
+   </P>
+    
+   <TABLE BORDER=0>
+     <TR><TH>Latitude 1<TD><INPUT NAME="latDeg1" TYPE="TEXT" SIZE="12" VALUE="$latDeg1"> degrees
+      <TD><INPUT NAME="latMin1" TYPE="TEXT" SIZE="8" VALUE="$latMin1"> minutes<BR>
+      <TD><INPUT NAME="latSec1" TYPE="TEXT" SIZE="8" VALUE="$latSec1"> seconds<BR>
+      <TD>
+       <SELECT NAME="latHemi1">
+        <% makeSelect[latHemis, latHemi1] %> 
+       </SELECT>
+       
+     <TR><TH>Longitude 1<TD><INPUT NAME="longDeg1" TYPE="TEXT" SIZE="12" VALUE="$longDeg1"> degrees
+      <TD><INPUT NAME="longMin1" TYPE="TEXT" SIZE="8" VALUE="$longMin1"> minutes
+      <TD><INPUT NAME="longSec1" TYPE="TEXT" SIZE="8" VALUE="$longSec1"> seconds
+      <TD>
+       <SELECT NAME="longHemi1">
+        <% makeSelect[longHemis, longHemi1] %> 
+       </SELECT>
+
+     <TR><TH>Latitude 2<TD><INPUT NAME="latDeg2" TYPE="TEXT" SIZE="12" VALUE="$latDeg2"> degrees
+      <TD><INPUT NAME="latMin2" TYPE="TEXT" SIZE="8" VALUE="$latMin2"> minutes<BR>
+      <TD><INPUT NAME="latSec2" TYPE="TEXT" SIZE="8" VALUE="$latSec2"> seconds<BR>
+      <TD>
+       <SELECT NAME="latHemi2">
+        <% makeSelect[latHemis, latHemi2] %> 
+       </SELECT>
+       
+     <TR><TH>Longitude 2<TD><INPUT NAME="longDeg2" TYPE="TEXT" SIZE="12" VALUE="$longDeg2"> degrees
+      <TD><INPUT NAME="longMin2" TYPE="TEXT" SIZE="8" VALUE="$longMin2"> minutes
+      <TD><INPUT NAME="longSec2" TYPE="TEXT" SIZE="8" VALUE="$longSec2"> seconds
+      <TD>
+       <SELECT NAME="longHemi2">
+        <% makeSelect[longHemis, longHemi2] %> 
+       </SELECT>
+   </TABLE>
+
+   <P>
+    I want to see distances in:
+    <SELECT NAME="distUnits">
+<%
+	makeSelect[distOptions, distUnits]
+%>
+    </SELECT>
+   </P>
+    
+   <INPUT TYPE="Submit" VALUE="Calculate">
+  </FORM>
+  </DIV>	
+  
+  <%
+distUnits = distUnits ? distUnits : "miles"
+  
+if (latDeg1 && longDeg1 && latDeg2 && longDeg2)
+{
+   lat1 = DMSParse[latDeg1, latMin1, latSec1, latHemi1]
+   long1 = DMSParse[longDeg1, longMin1, longSec1, longHemi1]	
+   lat2 = DMSParse[latDeg2, latMin2, latSec2, latHemi2]
+   long2 = DMSParse[longDeg2, longMin2, longSec2, longHemi2]	
+
+   [dist, bearing] = earthDistanceAndBearing[lat1, long1, lat2, long2]
+   println["<DIV CLASS=\"back\"><P><B>Result:</B><BR>"]
+   println["Distance is " + format[dist, distUnits, 5] + "<BR>"]
+   println["Bearing from point 1 to point 2 is " + format[bearing, "degrees", 3]]
+   println["</P></DIV>"]
+%>
+
+    <script src="http://maps.google.com/maps?file=api&v=1&key=ABQIAAAAzPILgAtgPwOVhb3y3TCk1RSYK9YBUQyA-APNOp2PbKIRcrKc6xRUDzeSctK4zWAgiGkyLU7g-mI2Ng" type="text/javascript"></script>
+    <div id="map" style="width: 100%; height: 550px"></div>
+    <script type="text/javascript">
+    var map = new GMap(document.getElementById("map"));
+    map.setMapType(G_HYBRID_TYPE);
+    map.addControl(new GLargeMapControl());
+    map.addControl(new GMapTypeControl());
+    var center = new GPoint(<%= formatPoint[(lat1+lat2)/2, (long1+long2)/2] %>);
+    map.centerAndZoom(center, 4);
+
+    function createMarker(map, point, description)
+    {
+      var marker = new GMarker(point);
+
+      // Show this marker's index in the info window when it is clicked
+      GEvent.addListener(marker, "click", function() {
+         marker.openInfoWindowHtml(description);
+         });
+
+       map.addOverlay(marker);
+       return marker;
+    }
+
+    createMarker(map, new GPoint(<%= formatPoint[lat1, long1] %>), "Point 1");
+    createMarker(map, new GPoint(<%= formatPoint[lat2, long2] %>), "Point 2");
+   </script>
+<%
+}
+
+DMSParse[ds, ms, ss, hemi] :=
+{ 
+   str = "( $ds degrees "
+   if (length[ms] > 0)
+      str = str + "+ $ms arcmin "
+   if (length[ss] > 0)
+      str = str + "+ $ss arcsec "
+   str = str + ") * $hemi"
+   return eval[str]
+}
+
+%>
+    <P>
+     Distances cited are great-circle distances on the earth, with 
+     correction for the fact that the earth is slightly non-spherical.
+    </P>
+
+  <DIV CLASS="back">
+    <A NAME="destination">
+    <H2>Find destination given initial position, bearing, and distance:</H2>
+    </A>
+
+   <FORM ACTION="geocaching.fsp#destination" METHOD="POST">
+   <TABLE BORDER=0>
+     <TR><TH>Latitude<TD><INPUT NAME="latDegStart" TYPE="TEXT" SIZE="12" VALUE="$latDegStart"> degrees
+      <TD><INPUT NAME="latMinStart" TYPE="TEXT" SIZE="8" VALUE="$latMinStart"> minutes<BR>
+      <TD><INPUT NAME="latSecStart" TYPE="TEXT" SIZE="8" VALUE="$latSecStart"> seconds<BR>
+      <TD>
+       <SELECT NAME="latHemiStart">
+        <% makeSelect[latHemis, latHemiStart] %> 
+       </SELECT>
+       
+     <TR><TH>Longitude<TD><INPUT NAME="longDegStart" TYPE="TEXT" SIZE="12" VALUE="$longDegStart"> degrees
+      <TD><INPUT NAME="longMinStart" TYPE="TEXT" SIZE="8" VALUE="$longMinStart"> minutes
+      <TD><INPUT NAME="longSecStart" TYPE="TEXT" SIZE="8" VALUE="$longSecStart"> seconds
+      <TD>
+       <SELECT NAME="longHemiStart">
+        <% makeSelect[longHemis, longHemiStart] %> 
+       </SELECT>
+
+      <TR><TH>Distance:<TD COLSPAN="2"><INPUT NAME="distance" TYPE="TEXT" SIZE="8" VALUE="$distance">
+
+    <SELECT NAME="distanceUnits">
+      <% makeSelect[distOptions, distanceUnits] %>
+    </SELECT>
+
+      <TR><TH>Initial Heading:<TD><INPUT NAME="heading" TYPE="TEXT" SIZE="8" VALUE="$heading"> degrees
+
+    <TR><TD COLSPAN="3">I want to see results in:
+    <SELECT NAME="resultUnits">
+      <% makeSelect[resultOptions, resultUnits] %>
+    </SELECT>
+
+    </TABLE>
+
+    <INPUT TYPE="Submit" VALUE="Calculate">
+   </FORM>
+
+  <%
+     if (latDegStart and longDegStart and heading and distance)
+     {
+	lat = DMSParse[latDegStart, latMinStart, latSecStart, latHemiStart]
+	long = DMSParse[longDegStart, longMinStart, longSecStart, longHemiStart]
+	dist = eval["$distance $distanceUnits"]
+        head = eval["$heading degrees"]
+
+        [rlat, rlong] = resultantLatLong[lat, long, dist, head]
+        println["<P><B>Results:</B><BR>"]
+        println["Latitude: " + (abs[rlat]->resultUnits) + " " + latitudeName[rlat] + "<BR>"]
+        println["Longitude: " +  (abs[rlong]-> resultUnits) + " " + longitudeName[rlong] + "<BR>"]
+
+        println["Map destination in <A TARGET=\"_blank\" HREF=\"http://maps.google.com/maps?q=" + format[rlat, degrees, 5] + 
+                "+" + format[rlong, degrees, 5] + "\">Google Maps</A> or"] 
+
+        println["<A HREF=\"GoogleEarth.fsp?lat=" + format[rlat, degrees, 5] + 
+                "&amp;long=" + format[rlong, degrees, 5] + "&amp;name=destination\">Google Earth</A>"] 
+%>
+
+    <script src="http://maps.google.com/maps?file=api&v=1&key=ABQIAAAAzPILgAtgPwOVhb3y3TCk1RSYK9YBUQyA-APNOp2PbKIRcrKc6xRUDzeSctK4zWAgiGkyLU7g-mI2Ng" type="text/javascript"></script>
+    <div id="map" style="width: 100%; height: 550px"></div>
+    <script type="text/javascript">
+    var map = new GMap(document.getElementById("map"));
+    map.setMapType(G_HYBRID_TYPE);
+    map.addControl(new GLargeMapControl());
+    map.addControl(new GMapTypeControl());
+//    var center = new GPoint(<%= formatPoint[(lat+rlat)/2, (long+rlong)/2] %>);
+    var center = new GPoint(<%= formatPoint[rlat, rlong] %>);
+    map.centerAndZoom(center, 4);
+
+    function createMarker(map, point, description)
+    {
+      var marker = new GMarker(point);
+
+      // Show this marker's index in the info window when it is clicked
+      GEvent.addListener(marker, "click", function() {
+         marker.openInfoWindowHtml(description);
+         });
+
+       map.addOverlay(marker);
+       return marker;
+    }
+
+    createMarker(map, new GPoint(<%= formatPoint[lat, long] %>), "initial");
+    createMarker(map, new GPoint(<%= formatPoint[rlat, rlong] %>), "destination");
+   </script>
+  <%
+     }
+  %>
+
+  </DIV>
+
+  <DIV CLASS="back">
+   <A NAME="LatLongToUTM">
+   <H2>Convert Latitude and Longitude to UTM</H2>
+   </A>
+   <P>
+     Default is currently the WGS84/NAD83 datum.
+     Latitude and longitude can be entered by degrees and minutes in the
+     separate boxes provided, or as decimal degrees by entering a number like
+     "39.999535" in the degrees box and leaving the minutes and seconds boxes
+     empty.)  Minutes or seconds can also contain decimal points.
+   </P>
+    
+   <FORM ACTION="geocaching.fsp#LatLongToUTM" METHOD="POST">
+   <TABLE BORDER=0>
+     <TR><TH>Latitude<TD><INPUT NAME="latUTMdeg" TYPE="TEXT" SIZE="12" VALUE="$latUTMdeg"> degrees
+      <TD><INPUT NAME="latUTMmin" TYPE="TEXT" SIZE="8" VALUE="$latUTMmin"> minutes
+      <TD><INPUT NAME="latUTMsec" TYPE="TEXT" SIZE="8" VALUE="$latUTMsec"> seconds
+       <SELECT NAME="latHemiUTM">
+        <% makeSelect[latHemis, latHemiUTM] %> 
+       </SELECT>
+       
+     <TR><TH>Longitude<TD><INPUT NAME="longUTMdeg" TYPE="TEXT" SIZE="12" VALUE="$longUTMdeg"> degrees
+      <TD><INPUT NAME="longUTMmin" TYPE="TEXT" SIZE="8" VALUE="$longUTMmin"> minutes
+      <TD><INPUT NAME="longUTMsec" TYPE="TEXT" SIZE="8" VALUE="$longUTMsec"> seconds
+       <SELECT NAME="longHemiUTM">
+        <% makeSelect[longHemis, longHemiUTM] %> 
+       </SELECT>
+   </TABLE>
+    <INPUT TYPE="Submit" VALUE="Calculate">
+   </FORM>	
+  </DIV>
+
+<%
+   if (latUTMdeg and longUTMdeg)
+   {
+	latUTM = DMSParse[latUTMdeg, latUTMmin, latUTMsec, latHemiUTM]
+	longUTM = DMSParse[longUTMdeg, longUTMmin, longUTMsec, longHemiUTM]
+        [easting, northing] = LatLongToUTM[latUTM, longUTM, Datum.NAD83]
+	zone = LatLongToUTMZone[latUTM, longUTM]
+	println["<P>Latitude:  " + format[latUTM,degrees,6] + "<BR>"]
+        println["Longitude: " + format[longUTM,degrees,6]  + "</P>"]
+        println["<P>Easting: " + format[easting,1,4] + "<BR>"]
+        println["Northing: " + format[northing,1,4] + "<BR>"]
+        println["Zone: $zone</P>"]
+   }
+%>
+
+  <HR>
+  <P>
+   <A HREF="highlight.fsp?fileName=geocaching.fsp">View Source</A>
+  </P>
+    
+  <P>
+   <I><A HREF="mailto:eliasen@mindspring.com">Alan Eliasen</A></I> was born
+   <%= round[now[] - #1969-08-19 04:54 PM Mountain#, minute] -> ["days", "hours", "minutes"] %> ago.
+  </P>
+
+  <P>
+   Back to <A HREF="/frinkdocs/fspdocs.html">Frink Server Pages
+    documentation.</A>
+  </P>  
+ </BODY>
+</HTML>

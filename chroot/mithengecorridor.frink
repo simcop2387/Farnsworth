@@ -1,0 +1,77 @@
+
+// Data for the Infinite Corridor at MIT
+// for prediction of event known as "MIThenge"
+//
+// More info at also http://web.mit.edu/planning/www/mithenge.html
+// Thanks to Keith Winstein and Ken Olum for various data.
+//
+// This file contains the coordinates of the corridor and is used by
+// the programs mithengesun.frink and mithengemoon.frink
+//
+// For worked predictions, see http://futureboy.us/mithenge/
+//
+// Alan Eliasen, eliasen@mindspring.com
+
+North = +1
+South = -1
+West = +1
+East = -1
+
+// Figures from Keith Winstein, GPS-surveyed for east side of corridor
+// which is the observation point.
+lat = 42.36002 degrees North
+long = 71.09332 degrees West
+
+// Surveyed property line for MIT.  The Infinite Corridor *should*
+// be about parallel to this line, but that may not be exactly right.
+//
+// corridorAzimuth = 245.47391075 degrees
+
+// Azimuth of corridor as surveyed via GPS by Alan Eliasen and
+// Matthias Huerlemann, December 2004.  There is some uncertainty in this
+// measurement, but it's an average of a large number of differential GPS
+// readings (GPS + WAAS) for lines extended from the east and west sides of
+// the corridor, about 446 meters apart.
+// 
+//    This reading also better matches "anomalous" historical observations
+// such as the 2-2-1998 picture by Paul Schechter,
+// http://web.mit.edu/planning/www/mithenge-schechter.jpg
+// corridorAzimuth = 246.243152 degrees
+
+// Corridor azimuth based on average of 2 observations by Ken Olum on
+// 2005-01-31 
+// corridorAzimuth = 245.84 degrees
+
+// Corridor azimuth based on average of 2 observations by Ken Olum and
+// 6 GPS measurements by Lenny Foner
+// corridorAzimuth = 245.693 degrees
+
+// Revised corridor azimuth based on more measurements by Lenny Foner
+// corridorAzimuth = 245.737 degrees
+
+// Value from Jim Leonard's IMG5145, assuming 0-in grate offset
+// See mithengereverse3.frink
+corridorAzimuth = 245.632 degrees
+
+// Conversion to coordinate system used by Meeus
+corridorAzimuthMeeus = (corridorAzimuth - 180 degrees) mod circle
+
+corridorLength = 251 m
+doorHeight = 13 ft
+
+// The doorway near the Massachusetts Avenue (west) end of the Infinite
+// corridor on the 3rd floor is only about 5 feet wide.
+doorWidth = 9 ft
+
+// The following angle may be added to or subtracted from the azimuth of the
+// centerline of the corridor and indicates the extreme azimuth angles that
+// are visible from the back of the corridor and viewing from either the
+// far left or far right side of the corridor.  It's equal to about
+// 0.62 degrees.
+azimuthCorrection = arctan[doorWidth, corridorLength]
+
+// Temperature and pressure for refraction calculations.
+pressure = 996 millibars
+
+temperature = F[60]
+use cambridgetemp.frink

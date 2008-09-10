@@ -1,0 +1,6 @@
+
+for k = 1 to 3000
+   if isPrime[121*10^k+49]
+      println[k]
+
+

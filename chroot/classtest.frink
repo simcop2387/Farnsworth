@@ -1,0 +1,191 @@
+
+// This class demonstrates object-oriented programming in Frink.
+
+// Classes are defined using the "class" keyword followed by the name of
+// the class, and then the variables and methods of the class defined within
+// curly braces.
+class Sphere
+{
+   // Define a class-level variable which is shared by all instances of the
+   // class.
+   //
+   // This is indicated by the keyword "class var" before the variable
+   // definition.
+   //
+   // (This is not really necessary; Frink defines pi as a global unit by
+   //  default; it's merely for illustrative purposes.)
+   //
+   // This provides a safe way to make "global" variables.
+   //
+   // (In C++ and Java, this would be one use of the "static" keyword.)
+   class var pi = 3.14159
+
+   // Define a class-level method, indicated by the "class" modifier before
+   // the method declaration.  Class-level methods can be called without
+   // having an instance of the class.  Otherwise, the definition of methods
+   // in Frink is exactly as the same as defining functions.
+   // (In C++ and Java, this would be another use of the "static" keyword.)
+   class getPi[] := pi
+   
+   // Define an instance variable without constraints; requires "var" keyword
+   // because otherwise it's not clear that this is a variable declaration.
+   // Undefined variables default to the special "undef" value
+   var name
+
+   // Define some instance variables with constraints and default values
+   // The "var" keyword is optional here because the "is" constraint implies
+   // that it's a variable declaration.
+   // The constraint will ensure that any value assigned to this variable
+   // must have dimensions of mass.
+   var m is mass = 1 ton
+
+   // And another definition.  Note that an initial value is required for
+   // this definition and the one above because the constraint ensures that
+   // the value *always* has a value with units of mass.
+   var radius is length = 1 meter
+
+   // Define a constructor, which is indicated by the reserved keyword "new"
+   // as the name of the function.  Note that this usage differs from other
+   // languages, say C++ or Java, which require the name of the constructor
+   // to be the same as the name of the class.  I think that the Java/C++ way
+   // violates the programming principle of "specify each piece of data in one
+   // place only."
+   //
+   // Constructors are automatically class-level methods.
+   // One or more constructors may be defined in a class.
+   // If any constructor is defined, the object must be created with an
+   // argument list that matches the formal argument list specified by one
+   // of the constructors.
+   new[objName] :=
+   {
+      name = objName
+   }
+
+   // Define another constructor without defaults.
+   new[objName is string, mass, rad] :=
+   {
+      name = objName
+      m = mass
+      radius = rad
+   }
+
+   // Define a method that takes one argument.  This method just doubles its
+   // argument.  Methods look just like function definitions.
+   double[y] := y * 2
+
+   // A zero-argument method to calculate the volume of this object.
+   // Also note that referring to the class-level variable pi doesn't require
+   // use of an object name.
+   volume[] := 4/3 pi radius^3
+
+   // Returns the density of this object.
+   // This tests calling another method.  Note that the method call doesn't
+   // require an explicit object since we're referring to this object.
+   density[] := m / volume[]
+
+   // This demonstrates a multi-line method.
+   getName[] :=
+   {
+      if (name)
+         return name
+      else
+         return "This object has no name."
+   }
+
+   // Prints the "this" pointer.
+   printThis[] :=
+   {
+      println[this]
+   }
+
+   // Nested call
+   nested[] :=
+   {
+      println["pi on " + getName[] + " is " + getPi[]]
+   }
+
+   // Nested call
+   nested2[] :=
+   {
+      println["pi on " + name + " is " + pi]
+   }
+
+   // Try to make a unit reference sphere
+   class var unitSphere = new Sphere["unit"]
+   class var doubleUnitSphere = new Sphere["doubleUnit", 2 tons, 2 m]
+}
+
+
+// The class definition is complete.  The following contains uses of the class.
+
+// Test implicit class-level construction first.  Note that we haven't
+// construced an instance of the class, and don't need to to access the
+// class-level methods
+
+// Call a class-level method.  Class-level methods are called using the
+// class name followed by a period and the method call (which looks just like
+// a function call)
+println["The universal value of pi, by the function Sphere.getPi[] is: " + Sphere.getPi[]]
+
+// Get the value of a class-level variable.
+// Class-level variables are accessed using the name of the class, followed
+// by a period, and then the name of the variable.
+println["Sphere.pi is " + Sphere.pi]
+println[]
+
+// Constraint test.  Declare a variable called "a" which is an instance
+// of Sphere and create a new instance.
+// New instances are created using the new keyword, followed by the
+// name of the class.
+a is Sphere = new Sphere["Earth", earthmass, earthradius]
+
+// Access some fields of the a object.
+println[a]
+println["The name of object a is: " + a.getName[]]
+println["Mass is " + a.m]
+println["Radius is " + a.radius]
+
+// Call some methods on the a object.
+println["The name of object a is: " + a.getName[] ]
+println[a.double[1000] + " should be 2000"]
+println["Density is " + (a.density[] -> "g/cm^3") ]
+println["Volume is " + a.volume[]]
+println[]
+
+// Create another object called "b"
+b = new Sphere["Object b"]
+
+// Show that they both share class-level variables.
+println["a.pi is " + a.pi]
+println["b.pi is " + b.pi]
+
+// Frink allows you to dump the value of an object.
+// Try dumping a whole object
+println["\nObject dump of object a: "]
+println[a]
+
+// Frink allows you to dump the value of an object.
+// Try dumping a whole object
+println["\nObject dump of object b: "]
+println[b]
+
+// Dump the Metaclass object.  This is a special object that contains the
+// class-level variables and methods of the class.
+println["Metaclass object dump for Sphere:"]
+println[Sphere]
+
+// Try a Metaclass-style construction (which looks like a call to the special
+// method "new" on the Metaclass object.)
+j = Sphere.new["Jupiter", jupitermass, jupiterradius]
+println[j]
+
+// Try a purely string-based construction.  This takes the name of a class
+// (which can be specified as a string at runtime) and constructs an instance
+// of it.
+m = "Sphere".new["Mars", marsmass, marsradius]
+println[m]
+
+m.printThis[]
+
+m.nested[]
+m.nested2[]

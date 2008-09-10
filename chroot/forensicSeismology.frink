@@ -1,0 +1,111 @@
+// Solution to the "Forensic Seismology" geocache:
+//
+// http://www.geocaching.com/seek/cache_details.aspx?guid=68083e90-f516-46de-a2c9-55709818a7ed
+
+// Import the sun.frink file which contains great circle calculations
+// and definitions for many of the functions below.
+use navigation.frink
+
+// Coordinates of seismic stations
+lata = DMS[39,30.840] North
+longa = DMS[104,44.109] West
+
+latb = DMS[39, 31.710] North
+longb = DMS[104, 47.901] West
+
+latc = DMS[39, 27.302] North
+longc = DMS[104, 46.119] West
+
+
+// Find the distances between seismic stations
+[dab, bab] = earthDistanceAndBearing[lata, longa, latb, longb]
+[dbc, bbc] = earthDistanceAndBearing[latb, longb, latc, longc]
+dca = earthDistance[latc, longc, lata, longa]
+
+println["dab: $dab"]
+println["dbc: $dbc"]
+println["dca: $dca"]
+
+
+// Find bearings between seismic stations.
+println["Bearing from a to b: " + (bab->DM)]
+
+bac = earthBearing[lata, longa, latc, longc]
+println["Bearing from a to c: " + (bac->DM)]
+
+println["Bearing from b to c: " + (bbc->DM)]
+
+
+// Times of arrival
+ta1 = .1673 s
+tb1 = .2890 s
+tc1 = .5507 s
+
+ta2 = .4240 s
+tb2 = .6065 s
+tc2 = .9990 s
+
+// Velocities of waves
+v1 = 6.0 km/s
+v2 = 4.0 km/s
+
+// This function was one I derived for finding the distance between
+// the meteorite and the seismic station, given times of arrival for
+// the P-waves and S-waves and their velocities.
+d[t1, t2, v1=v1, v2=v2] := -((t1-t2) v1 v2)/(v1-v2)
+
+// Find distances to seismic stations from the meteorite.
+// I call the meteorite "point D" 
+dad = d[ta1, ta2]
+dbd = d[tb1, tb2]
+dcd = d[tc1, tc2]
+
+println["dad: $dad"]
+println["dbd: $dbd"]
+println["dcd: $dcd"]
+
+// Cosine rule for triangles... find the angle DAB between the meteor,
+// point A and point B.
+adab = arccos[(dad^2 + dab^2 - dbd^2)/(2 dad dab)]
+
+println["Angle DAB: " + (adab -> DM)]
+
+// You can either add or subtract this angle to the angle bab (the bearing
+// from point a to point b.)  I tried both ways, and only subtracting gave a
+// self-consistent solution when all points were considered.
+bad = bab - adab
+
+println["Bearing from A to D: " + (bad -> DM)]
+
+// Use calculation to find the resultant lat/long of the meteorite given
+// the initial point (that of seismic station a), the distance, and the
+// bearing of the meteorite.
+[latd, longd] = resultantLatLong[lata, longa, dad, bad]
+
+println["D is at lat:  " + (latd->DM)]
+println["D is at long: " + (longd->DM)]
+
+
+// Reverse calculations.  These distances and bearings should match the
+// ones calculated above.
+println["\nVerifying:"]
+[dad, bad] = earthDistanceAndBearing[lata, longa, latd, longd]
+println["Bearing from A to D: " + (bad -> DM)]
+println["Distance from A to D: " + dad]
+
+[dbd, bbd] = earthDistanceAndBearing[latb, longb, latd, longd]
+println["Bearing from B to D: " + (bbd -> DM)]
+println["Distance from B to D: " + dbd]
+
+[dcd, bcd] = earthDistanceAndBearing[latc, longc, latd, longd]
+println["Bearing from C to D: " + (bcd -> DM)]
+println["Distance from C to D: " + dcd]
+
+
+// Karen's solutions (assuming UTM zone 13, easting 519926, northing 4372660)
+latk = DMS[39,30.199999] North
+longk = DMS[104,46.093333] West
+
+[diffDist, diffBearing] = earthDistanceAndBearing[latd, longd, latk, longk]
+println["Difference in solutions is " + (diffDist->"ft")]
+println["Bearing from Alan's solutions to Karen's: " + (diffBearing->DM)]

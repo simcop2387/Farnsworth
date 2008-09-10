@@ -1,0 +1,63 @@
+
+// Regression test for Frink... compare this output with last known good.
+
+for unit = sort[units["length"]]
+   println["$unit " + unit[unit]]
+
+for unit = sort[units["mass"]]
+   println["$unit " + unit[unit]]
+
+for unit = sort[units["charge"]]
+   println["$unit " + unit[unit]]
+
+a = [1, 2, -1 , -2, 10, 1000, 1000000000001, -1000000000001, 1203923809824398,
+     -23019832098432, 1/2, -1/2, 1/3, -1/3, 2/3, -2/3, 1/7, -3/5, 9/1000000000009, 100000000000034/5,
+     -23/10101111101010100101, 1023221329384084044/29, 1.2,
+     1.109230002139802138, -3209432049832409e10, 329032.213908e-8] 
+
+for n = a
+{
+   println["floor[$n] = " + floor[n]]
+   println[" ceil[$n] = " +  ceil[n]]
+   println["round[$n] = " + round[n]]
+   println["  abs[$n] = " +   abs[n]]    
+   println["trunc[$n] = " + trunc[n]]    
+
+   for m = a
+   {
+      // This is reason enough that concatenation operator should be different
+      r = n+m; println["$n + $m = $r"]
+      r = n-m; println["$n - $m = $r"]
+      r = n*m; println["$n * $m = $r"]
+      r = n/m; println["$n / $m = $r"]
+      if (abs[m] <= 1000)
+         r = n^m; println["$n ^ $m = $r"]
+      r = n div m; println["$n div $m = $r"]
+      r = n mod m; println["$n mod $m = $r"]
+   }
+}
+
+f[x] :=
+{
+   println["ln[$x]     " + ln[x]]
+   println["log[$x]    " + log[x]]
+   println["exp[$x]    " + exp[x]]
+   println["sin[$x]    " + sin[x]]
+   println["cos[$x]    " + cos[x]]
+   println["tan[$x]    " + tan[x]]
+   println["sec[$x]    " + sec[x]]
+   println["csc[$x]    " + csc[x]]
+   println["cot[$x]    " + cot[x]]
+   println["arcsin[$x] " + arcsin[x]]
+   println["arccos[$x] " + arccos[x]]
+   println["arctan[$x] " + arctan[x]]
+   println["arcsec[$x] " + arcsec[x]]
+   println["arccsc[$x] " + arccsc[x]]
+   println["arccot[$x] " + arccot[x]]
+   println[]
+}
+
+args = [.5, .5i, .5 + .4i, 2.5 - 1.4i, -10 + 102 i]
+
+for a = args
+   f[a]

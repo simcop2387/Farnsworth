@@ -1,0 +1,23 @@
+
+// Function convert a dollar value to its value in another year and print
+// it out in values for the specified year.
+dollar[amount, year, targetYear=2000] :=
+{
+   targetUnit = eval["dollar_$targetYear"]
+   value = format[eval["$amount dollar_$year"], targetUnit, 2]
+   println["$year\t$amount\t$value"]
+}
+
+// The default is to convert to year 2000 dollars.  If you want some other
+// year, pass it as the third argument to the function, like:
+//  dollar[12344565, 1968, 2006]
+
+dollar[8228012, 1981]
+dollar[7985974, 1982]
+dollar[8361120, 1983]
+dollar[7927070, 1984]
+dollar[8763176, 1985]
+dollar[9738023, 1986]
+dollar[10195740, 1987]
+
+

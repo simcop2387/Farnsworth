@@ -1,0 +1,61 @@
+
+// Calculate the Jacobi Symbol
+//
+// This is used in many prime-testing algorithms.  The Jacobi symbol is a
+// generalization of the Legendre symbol, and this function can be used to
+// calculate the Legendre symbol as well.
+//
+// The Legendre symbol and Jacobi symbol are often written as (n/m) which is
+// horrible notation that's indistinguishable from a parenthesized division.
+//
+// The following implementation is derived from:
+//
+// http://primes.utm.edu/glossary/page.php?sort=JacobiSymbol
+//
+// which is identical to the algorithm given in _Algorithmic Number Theory,
+// Vol. 1_ by Eric Bach and Jeffrey Shallit, p. 113.
+//
+// However, this algorithm is fixed to work with negative values of a as
+// outlined in Algorithm 2.3.5 in _Prime Numbers: A Computational Perspective_
+// by Richard Crandall and Carl Pomerance.
+//
+// This algorithm executes in O(log2[a] log2[n]) time.
+//
+// This is the prototype for the implementation of this function inside
+// Frink, which is faster and does more argument checking.
+//
+// The second argument should be a positive odd integer, but this does
+// not check that condition.
+
+JacobiSymbol[a,n] :=
+{
+   j = 1
+
+   a = a mod n
+   if (a < 0)                   // Fix for the sign convention that this
+      a = a + n                 // algorithm expects (positive moduli)
+   
+   while (a != 0)
+   {
+      while (a mod 2 == 0)        // a is even
+      {
+         a = a / 2
+         res = n mod 8
+         if res == 3 or res == 5
+            j = -j
+      }
+      temp = a
+      a = n
+      n = temp
+
+      if ((a mod 4) ==3) and ((n mod 4) ==3)
+         j = -j
+
+      a = a mod n
+   }
+
+   if (n==1)
+      return j
+   else
+      return 0
+}

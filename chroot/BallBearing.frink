@@ -1,0 +1,79 @@
+
+// Triangulation for "Ball Bearing" geocache
+// http://www.geocaching.com/seek/cache_details.aspx?guid=da74fd7a-9cb3-40bd-aa89-31ef133db610
+
+// Import definitions of distance/bearing functions
+use navigation.frink
+
+// P7 (surveyed by me)
+latP7 = DMS[39, 58.259] North
+longP7 = DMS[105, 15.044] West
+
+// Bearing from P7 to target
+//b7 = new interval[333.5, 334, 334.5] degrees
+b7 = 334 degrees
+
+// P8 (given)
+latP8 = DMS[40, 00.890] North
+longP8 = DMS[105, 13.921] West
+
+// Bearing from P8 to target (P9)
+//b8 = new interval[285.5, 286, 286.5] degrees
+b8 = 286 degrees
+
+// Distance from P7 to P8
+[d78, theta] = earthDistanceAndBearing[latP7, longP7, latP8, longP8]
+println["Distance from P7 to P8 is " + format[d78, "miles", 4]]
+println["theta: " + (theta->degrees)]
+
+// Interior angle of triangle at P8
+theta8 = b8-theta
+
+println["theta8: " + (theta8->degrees)]
+
+// Interior angle of triangle at target (P9)
+thetaT = b8-b7
+
+// Distance from P7 to target (P9)
+distP7T = (d78 sin[theta8])/sin[thetaT]
+
+// Interior angle of triangle at P7
+theta7 = (360 degrees) - b7 - (180 degrees - theta)
+println["theta7: " + (theta7->degrees)]
+
+println["Distance from P7 to P9 is " + format[distP7T, "miles", 4]]
+
+// Distance from P8 to target
+distP8T = (d78 sin[theta7])/sin[thetaT]
+
+println["Distance from P8 to P9 is " + format[distP8T, "miles", 4]]
+
+// Find resultant lat/long
+[lat7T, long7T] = resultantLatLong[latP7, longP7, distP7T, b7]
+
+println["\nFrom point 7,"]
+println["Latitude of target : " + DM[lat7T]]
+println["Longitude of target: " + DM[long7T]]
+
+// Find resultant lat/long
+[lat8T, long8T] = resultantLatLong[latP8, longP8, distP8T, b8]
+
+println["\nFrom point 8,"]
+println["Latitude of target : " + DM[lat8T]]
+println["Longitude of target: " + DM[long8T]]
+
+// Average points
+lat9A = (lat7T + lat8T) / 2
+long9A = (long7T + long8T) / 2
+
+println["\nP9 average:"]
+println["Latitude of target : " + DM[lat9A]]
+println["Longitude of target: " + DM[long9A]]
+
+
+[lat10A, long10A] = resultantLatLong[lat9A, long9A, .103 km, 72 degrees]
+
+println["\nP10 prediction:"]
+println["Latitude of target : " + DM[lat10A]]
+println["Longitude of target: " + DM[long10A]]
+

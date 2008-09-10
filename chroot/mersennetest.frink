@@ -1,0 +1,46 @@
+
+// Program to prove primality of Mersenne primes using the Lucas-Lehmer test.
+// This proves primality.
+// 
+/  Note:  The contrived use of isStrongPseudoprime is now totally obsolete
+// because Frink's isPrime routine now automatically recognizes Mersenne
+// primes and performs a Lucas-Lehmer test on them, proving their primality
+// in approximately the same time as a single round of isStrongPseudoprime[]
+// might run. 
+
+use LucasLehmer.frink
+
+primes = array[select[2 to 100000, {|x| isPrime[x]}]]
+
+// Some sample sieving.
+for i = 44490 to 100000
+{
+   nn = 2^i-1
+   if isPrime[i]
+   {
+      start = now[]
+      print["$i\t"]
+//      for p = primes
+//      {
+//         for k = 1 to 10
+//         {
+//         q = 2 k p + 1
+//         res = q mod 8
+//         if ((res == 1) || (res == 7))
+//            if (nn-1) mod q == 0
+//               println["Eliminated by $q in "+ (now[]-start -> "ms")];
+//         }
+//      }
+         
+      if (! isStrongPseudoprime[nn, 3])
+      {
+         end = now[]
+         println["discarded in " + (end-start -> "ms")];
+      } else
+      if isMersennePrime[i]
+      {
+         end = now[]
+         println[(end-start -> "ms")];
+      }
+   }
+}

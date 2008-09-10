@@ -1,0 +1,35 @@
+
+// Program to test for prime numbers following a pattern
+// mentioned by John Olsen.
+//
+//  This tests n-bit primes of the form:
+//  1101 1111 1111 1111 1111 1111
+//  1111 1111 0111 1111 1111 1111
+//  1111 1111 1101 1111 1111 1111
+//  1111 1111 1111 1011 1111 1111
+//  1111 1111 1111 1111 1101 1111
+//  1111 1111 1111 1111 1110 1111
+//  1111 1111 1111 1111 1111 1101
+
+// where bits are successively zeroed, and counts the number
+// of primes found for each bit-length.
+
+for bits = 3 to 1000
+{
+   numPrimes = 0
+   base = 2^bits - 1
+   for clearBit = 1 to bits-2
+   {
+      num = base - 2^clearBit
+      p = isPrime[num]
+      if p == true
+         numPrimes = numPrimes + 1
+
+     // Comment in the line below to show the actual numbers found.
+     // println[(num -> binary) + "\t$num\t$p"]
+   }
+
+   percent = format[numPrimes/(bits-2), 1., 12]
+   tested = bits-2
+   println["$bits\t$numPrimes\t$percent"]
+}

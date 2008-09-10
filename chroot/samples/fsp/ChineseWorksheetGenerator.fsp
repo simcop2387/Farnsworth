@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<HTML LANG="en">
+ <HEAD>
+  <%
+   fontlist = ["serif", "sans-serif"]
+   fontsizelist = [8,10,12,14,16,18,20,22,24,26,28,30,40,50]
+   collist = [1,2,3,4,5]
+   
+   fontsize = fontsize ? eval[fontsize] : 14
+   font = font ? font : "serif"
+   rows = rows ? eval[rows] : 60
+   cols = cols ? eval[cols] : 2
+
+   if !formal && !casual
+   {
+      formal = "y"
+      casual = "y"
+   }
+   %>
+  <TITLE>Chinese Number Worksheet</TITLE>
+  <STYLE type="text/css">
+   TD {font-size: ${fontsize}pt; font-family: $font; }
+   P.center {text-align: center}
+  </STYLE>
+ </HEAD>
+
+ <BODY>
+  <%
+     use ../ChineseNumbers.frink
+     use ../HTMLUtils.frink
+  
+  //     digits = digits ? eval[digits] : 0
+
+     digitlist = [1,2,3,4,5,6,7,8]
+     numDigits = numDigits ? eval[numDigits] : 3
+  
+     ch = new ChineseNumbers
+  
+     formatStyle[num, style, formatter] :=
+     {
+        if style == "Formal"
+           formatter.formatFormal[num]
+        else
+           formatter.formatCasual[num]
+     }
+  %>
+
+  <FORM METHOD="GET" ACTION="ChineseWorksheetGenerator.fsp" NAME=f1>
+   <P CLASS="center">
+    Digits:
+    <SELECT NAME="numDigits" onchange="document.f1.submit()">
+     <% makeSelect[digitlist, numDigits] %>
+    </SELECT>
+    
+    Font:
+    <SELECT NAME="font" onchange="document.f1.submit()">
+     <% makeSelect[fontlist, font] %>
+    </SELECT>
+
+    Font size:
+    <SELECT NAME="fontsize" onchange="document.f1.submit()">
+     <% makeSelect[fontsizelist, fontsize] %>
+    </SELECT>
+
+    Casual:
+    <INPUT TYPE="CHECKBOX" NAME="casual" VALUE="y" 
+    <%= casual ? "CHECKED" : "" %> onchange="document.f1.submit()">
+
+    Formal:
+    <INPUT TYPE="CHECKBOX" NAME="formal" VALUE="y"
+       <%= formal ? "CHECKED" : "" %> onchange="document.f1.submit()">
+
+    Rows: <INPUT TYPE="text" NAME="rows" SIZE="4" VALUE="$rows"
+                 onchange="document.f1.submit()">
+
+    Cols:
+    <SELECT NAME="cols" onchange="document.f1.submit()">
+     <% makeSelect[collist, cols] %>
+    </SELECT>
+
+    <INPUT TYPE="SUBMIT" VALUE="Regenerate">
+   </P>
+  </FORM>
+
+  <TABLE BORDER=0 CELLPADDING=10
+         WIDTH="100%" RULES="groups" FRAME="vsides">
+   <%
+     subcolcount = 1
+     if casual
+        subcolcount = subcolcount + 1
+     if formal
+        subcolcount = subcolcount + 1
+
+     if (cols > 1)
+        for cc = 1 to cols-1
+           println["<COLGROUP SPAN=\"$subcolcount\">"]
+    
+     for i = 1 to rows
+     {
+        println["    <TR>"]
+
+        for c = 1 to cols
+        {
+           dig = random[1, numDigits]
+
+           num = random[0,10^dig-1]
+
+           if dig<numDigits
+              if random[0,1] == 1
+                 num = num * 10^random[1,numDigits-dig]
+   
+           if casual
+              println["     <TD nowrap>" + ch.formatCasual[num]]
+  
+           if formal
+              println["     <TD nowrap>" + ch.formatFormal[num]]
+
+           println["     <TD ALIGN=\"right\">" + num]
+        }
+     }
+   %>
+   </TABLE>
+ </BODY>
+</HTML>

@@ -1,0 +1,28 @@
+
+use sun.frink
+
+// Indian Astronomy calculations
+// Thanks to Toke Lindegaard Knudsen for the information.
+
+Kalpa := 4_320_000_000 years
+Mahayuga := 1/1000 Kalpa
+
+// A Mahayuga is divided into 4 unequal yugas.
+Krtayga     := 4/10 Mahayuga
+Tretayuga   := 3/10 Mahayuga
+Dvaparayuga := 2/10 Mahayuga
+Kaliyuga    := 1/10 Mahayuga
+
+// At present, we are in a Kaliyuga, which began 4,567*432,000 = 1,972,944,000
+// years after the beginning of the Kalpa.  The time of the beginning of the
+// present Kaliyuga is 6 a.m. on February 18, 3102 BCE in Lanka (this
+// corresponds to local sunrise in Lanka, which is a mythological city said
+// to be located at the intersection of the terrestrial equator and the prime
+// meridian of the Indian tradition, which goes through the city of Ujjain in
+// Madhya Pradesh).
+
+UjjainLongitude = DMS[75, 46] East
+
+IndianMoonRotation := Kalpa / 57_753_300_000
+IndianMoonApogee   := Kalpa / 488_105_858
+IndianMoonNode     := Kalpa / 232_311_168

@@ -1,0 +1,38 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<HTML LANG="en">
+ <HEAD>
+  <TITLE>Frink Server Pages Hello World</TITLE>
+  <META HTTP-EQUIV="Default-Style" CONTENT="APE Airy"> 
+  <LINK REL="StyleSheet" HREF="/frinkdocs/apeairy.css" TYPE="text/css"
+        TITLE="APE Airy"> 
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style.css" TYPE="text/css"
+        TITLE="APE Classic">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style2.css" TYPE="text/css"
+        TITLE="Compact"> 
+  <LINK REL="icon" HREF="/images/futureboyicon.png" TYPE="image/png">
+ </HEAD>
+
+ <BODY>
+  <H1>Frink Server Pages Hello World</H1>
+
+  <P>
+  <P>This is Frink Server Pages.  It's now <B><%= now[] %></B>
+
+  <P>3<SUP>100</SUP> = <B><%= 3^100 %></B>
+   
+  <P>A ton of gold costs <B>$<%= round[ton Gold, .01 dollar] -> dollars %>
+    US</B> at this moment.
+
+  <HR>
+  <P>
+   <I><A HREF="mailto:eliasen@mindspring.com">Alan Eliasen</A></I> was born
+   <%= round[now[] - #1969-08-19 04:54 PM Mountain#, minute] -> ["days", "hours", "minutes"] %> ago.
+  </P>
+
+  <P>
+   Back to <A HREF="/frinkdocs/fspdocs.html">Frink Server Pages
+    documentation.</A>
+  </P>  
+ </BODY>
+</HTML>

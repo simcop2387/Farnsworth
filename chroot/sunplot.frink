@@ -1,0 +1,49 @@
+// Make a big table to plot the position of the sun over a whole year.
+// This also finds the moment of sunrise and sunset for each day.
+// This function illustrates iterating over times and lots of different
+// types of date/time math.
+
+use sun.frink
+
+tz = "Mountain"
+temp = F[55]
+
+start = parseDate["2006-01-01 12:00 $tz"]
+end   = parseDate["2007-01-01 12:00 $tz"]
+
+lat = 39.58560 degrees North
+long = 104.89598 degrees West
+
+tzf = ### MM-dd HH:mm:ss ###
+
+// Step through each day in year
+for date = start to end step day
+{
+   // Output time of sunrise
+   sunrise = sunrise[date, lat, long, temp]
+   sunset = sunset[date, lat, long, temp]
+   [azimuth, altitude] = refractedSunAzimuthAltitude[sunrise, lat, long, temp]
+   printOutput[sunrise, azimuth, altitude, tz, tzf]
+
+   // Find the beginning of the next hour after sunrise.
+   start = JD[(JD[sunrise] div hour) hour + 1 hour]
+
+   // Step through an hour each day.
+   for time = start to sunset step 1 hour
+   {
+      [azimuth, altitude] = refractedSunAzimuthAltitude[time, lat, long, temp]
+      printOutput[time, azimuth, altitude, tz, tzf]
+   }
+
+   // Output time of sunset
+   [azimuth, altitude] = refractedSunAzimuthAltitude[sunset, lat, long, temp] 
+   printOutput[sunset, azimuth, altitude, tz, tzf]
+}
+
+printOutput[date, azimuth, altitude, tz, tzf] :=
+{
+   println[format[JD[date], day, 5] + "\t" + 
+           (date->[tzf, tz]) + "\t" +
+           format[(azimuth + 180 degree) mod circle, degree, 6] + "\t" +
+           format[altitude, degree, 6]]
+}

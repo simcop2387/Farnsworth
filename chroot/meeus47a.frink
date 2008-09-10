@@ -1,0 +1,76 @@
+
+// This program reads coefficients for moon position from meeus47a.txt.
+// It is used to find moon longitude and distance.
+
+sumL = "   sumL = ("
+sumR = "   sumR = ("
+
+for line = lines["file:meeus47a.txt"]
+{
+   [D, M, MP, F, l, r] = split[%r/\t/, line]
+
+   M = eval[M]
+
+   coeffL = ""
+   coeffR = ""
+   arg = fmt[D, "D"]
+
+   arg = arg + fmt[M, "M"]
+   arg = arg + fmt[MP, "MP"]
+   arg = arg + fmt[F, "F"]
+
+   if (M != 0)
+   {
+      if (abs[M] == 1)
+      {
+        if (l != "0")
+           coeffL = "$l E"
+        if (r != "0")
+           coeffR = "$r E"
+      } else
+         if (abs[M] == 2)
+         {
+           if (l != "0")
+              coeffL = "$l E^2"
+           if (r != "0")
+              coeffR = "$r E^2"
+         }
+   } else
+         {
+            if (l != "0")
+               coeffL = l
+            if (r != "0")
+               coeffR = r
+         }
+
+   if (coeffL != "")
+      sumL = sumL + " + ($coeffL) sin[$arg]";
+   if (coeffR != "")
+      sumR = sumR + " + ($coeffR) cos[$arg]";
+}
+
+sumL = sumL + ")"
+sumR = sumR + ")"
+
+println[sumL]
+println[]
+println[sumR]
+
+fmt[x, char] := 
+{
+   x = eval[x]
+
+   if (x == 1)
+      return " + $char"
+
+   if (x == -1)
+      return " - $char"
+
+   if x > 0
+      return " + $x $char"
+
+   if x < 0
+      return " -" + (-x) + " $char"
+
+   return ""
+}

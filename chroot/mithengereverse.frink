@@ -1,0 +1,57 @@
+
+use sun.frink;
+use mithengecorridor.frink;
+
+// Reverse-engineer MIThenge observations by Ken Olum on 2005-01-31:
+// "At 4:52:36 I found that the left limb of the sun lay on a line from my
+// eye at the left edge of the corridor to the left edge of the
+// doorframe.  This part of the sun had set behind the hill by this time,
+// so this was an extrapolation by completing the circle from what I
+// could see."
+//
+// Ken provided better measurements of these points later.  He added:
+// "My observation against the left edge of the corridor was not to the
+// doorway but to the 2'1" narrowing, which blocked my view of the
+// doorway."
+
+// See diagram at http://cosmos.phy.tufts.edu/~kdo/corridor.jpg
+
+date = # 2005-01-31 04:52:36 PM Eastern #
+
+println[date -> Eastern]
+
+// Calculate the sun radius at this time.
+sunRadius = sunRadiusAngle[date]
+
+println["Sun radius is " + (sunRadius -> "degrees")]
+
+// Temperature and pressure figures are as measured in Cambridge for this
+// date and time. 
+[sunAzimuth, sunAltitude] = refractedSunAzimuthAltitude[date, lat, long, F[29], 30.42 inHg]
+
+// Horizontal distance from left edge of 2'1" narrowing
+// (With no offset; Ken said that his eye was even with the wall in a stairwell)
+h = 2 feet + 1 inch
+
+// Distance to narrowing
+d = 279 feet
+
+// The angle added to the centerline of the corridor
+angleOffset = arctan[h,d]
+
+println["Angle offset is " + (angleOffset -> "degrees")]
+
+// Convert Meeus azimuth conventions to normal conventions.
+sunAzimuth = (sunAzimuth + 180 degrees) mod circle
+
+println["Sun center azimuth is " + (sunAzimuth -> "degrees")]
+
+sunLeft = sunAzimuth - sunRadius
+
+println["Sun left azimuth is " + (sunLeft -> "degrees")]
+
+corrAzimuth = sunLeft - angleOffset
+
+println["Corridor azimuth is " + (corrAzimuth -> "degrees")]
+
+

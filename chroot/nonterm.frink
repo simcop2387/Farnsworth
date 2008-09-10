@@ -1,0 +1,5 @@
+
+// Test case to verify the (hopefully-fixed) case where the parser would
+// complain cryptically if the last line didn't have a CR/LF after it.
+
+println["This file is not terminated."]

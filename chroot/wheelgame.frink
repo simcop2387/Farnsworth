@@ -1,0 +1,73 @@
+
+sum = 0
+
+for s = 5 to 100 step 5
+{
+   sum = sum + makeProjections[s]
+}
+
+pe = sum / 20
+println["Projected earnings for player 1 are $pe"]
+
+makeProjections[sum] :=
+{
+   println["$sum"]
+   spin = projSpin[sum]
+   stay = projStay[sum]
+
+   // First spin
+   println["  Spin: " + spin]
+   println["  Stay: " + stay]
+
+   if spin > stay
+      return spin
+   else
+      return stay
+}
+
+
+// Gets projected value from spinning, assuming there are others
+// after you.
+projSpin[num] :=
+{
+   pe = 0
+   
+   for s = 5 to 100 step 5
+      pe = pe + (1-spinToBeat[s+num])
+
+   return pe/20      
+}
+
+// Gets projected value from staying, assuming there are others after you.
+projStay[num] := 1 - spinToBeat[num]
+
+
+// Return probability that you'll beat the value
+// given by beat.
+spinToBeat[beat, val=0, spinNum=1] :=
+{
+   if beat > 100
+      return 1    // Other guy busted, you win
+   
+   if val > beat
+      return 1    // Don't spin... you've won.
+
+   if spinNum > 2  // You have no more spins
+      if val == beat
+         return 1/2  // Tie
+      else
+         return 0    // Lost
+
+   pe = 0
+   
+   for n = 5 to 100 step 5
+      if n + val > 100
+         pe = pe + 0         // Busted
+      else
+         if n + val > beat   
+            pe = pe + 1      // You've beat it
+         else
+            pe = pe + spinToBeat[beat, val+n, spinNum+1] // Spin again
+
+   return pe/20      
+}

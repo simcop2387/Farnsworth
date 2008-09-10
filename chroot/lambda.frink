@@ -1,0 +1,11 @@
+
+// Test of Lambda calculus and closures... which aren't implemented yet.
+
+add = { |x| { |y| x+y }  }
+println["One:   " + add]
+
+add1 = add[1]   // Apply function, should create closure where x -> 1
+println["Two:   " + add1]
+
+println["Three: " + add1[4]]
+

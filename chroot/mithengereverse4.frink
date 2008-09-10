@@ -1,0 +1,54 @@
+// This is reverse-engineering of Ivan's picture of MIThenge #0900
+
+use sun.frink
+use mithengecorridor.frink
+
+// Date from EXIF data
+exifdate = #2007-08-27 03:42:27 Eastern#
+
+// The 0903 image was taken of Lenny's GPS receiver, showing true time.
+// The (bad) time from exif data
+badEXIFdate = #2007-08-27 03:59:00 Eastern#
+
+// The (true) time from GPS
+goodGPSdate = #2007-08-27 04:57:54 Eastern#
+
+// This is the offset that has to be *added* to the EXIF dates to get the
+// true date
+dateOffset = goodGPSdate - badEXIFdate
+
+truedate = exifdate + dateOffset
+
+println["The camera offset is $dateOffset"]
+println["The true date was " + (truedate -> Eastern)]
+
+// We don't care all that much about refraction, so the temp/pressure figures
+// below may not be accurate but shouldn't matter much.
+[moonAzimuth, moonAltitude] = refractedMoonAzimuthAltitude[truedate, lat, long, F[29], 30.42 inHg]
+
+// Convert Meeus azimuth conventions to normal conventions.
+moonAzimuth = (moonAzimuth + 180 degrees) mod circle
+println["True moon azimuth at this time was " + format[moonAzimuth,"degrees",5]]
+println["Approx. altitude at this time was " + format[moonAltitude,"degrees",5]]
+
+latticewidth = 31.5 in
+
+rightOffset = (1.7 cm) * (latticewidth/(7.8 cm))
+dist = 465 ft - (16 ft) - (20.5 in)
+
+// The grating is offset to the right of the centerline of the corridor.
+grateOffset = (1.5 cm / (11 cm)) latticewidth
+println["Grate offset is " + (grateOffset -> "in")]
+
+moonRadius = moonRadiusAngle[truedate]
+println["Moon radius is " + format[moonRadius,"degrees", 5]]
+println["Moon diameter is " + format[2*moonRadius,"degrees", 5]]
+
+println["Right offset is " + (rightOffset -> "in")]
+println["Distance is " + (dist -> ["ft","in"])]
+correctionAngle = arctan[rightOffset+grateOffset, dist] 
+
+println["Correction angle is " + (correctionAngle -> "degrees")]
+
+trueAzimuth = moonAzimuth - correctionAngle
+println["True corridor azimuth is " + format[trueAzimuth,"degrees",3]]

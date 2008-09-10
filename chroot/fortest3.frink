@@ -1,0 +1,68 @@
+
+// Test of the speed of a function with an explicit "return" vs. one
+// with an implicit return as the last statement in the function.
+
+funcNoReturn[a,b] := a + b
+
+funcReturn[a,b] :=
+{
+   return (a+b)
+}
+
+funcMultipleReturn[a,b] :=
+{
+   2+2
+   return a+b
+}
+
+funcNonLastReturn[a,b] :=
+{
+   if 1<2
+      return a+b
+   else
+      return b+a
+}
+
+limit = 10000
+
+s1 = now[]
+for i = 1 to 5
+{
+   start = now[]
+   for a = 1 to limit
+   {
+      funcReturn[1,2]
+   }
+   end = now[]
+
+   println["Return took " + (end-start -> "s")]
+
+   start = now[]
+   for a = 1 to limit
+   {
+      funcNoReturn[1,2]
+   }
+   end = now[]
+
+   println["NoReturn took " + (end-start -> "s")]
+
+   start = now[]
+   for a = 1 to limit
+   {
+      funcMultipleReturn[1,2]
+   }
+   end = now[]
+
+   println["MultipleReturn took " + (end-start -> "s")]
+
+   start = now[]
+   for a = 1 to limit
+   {
+      funcNonLastReturn[1,2]
+   }
+   end = now[]
+
+   println["NonLastReturn took " + (end-start -> "s")]
+}
+e1 = now[]
+println["Total is " + (e1-s1 -> "s")]

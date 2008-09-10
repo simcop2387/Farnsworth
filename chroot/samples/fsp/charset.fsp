@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<HTML LANG="en">
+ <HEAD>
+  <TITLE>Frink Server Pages Charset Test</TITLE>
+  <META HTTP-EQUIV="Default-Style" CONTENT="APE Airy"> 
+  <LINK REL="StyleSheet" HREF="/frinkdocs/apeairy.css" TYPE="text/css"
+        TITLE="APE Airy"> 
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style.css" TYPE="text/css"
+        TITLE="APE Classic">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style2.css" TYPE="text/css"
+        TITLE="Compact"> 
+  <LINK REL="icon" HREF="/images/futureboyicon.png" TYPE="image/png">
+ </HEAD>
+
+ <BODY>
+  <H1>Frink Server Pages Charset Test</H1>
+
+  <P>
+   This page tests how well your browser, my server, the Frink parser, Frink
+   output routines, and Frink Server Pages, support Unicode
+   characters.  Frink Server Pages are, by default, set out with
+   charset=UTF-8, allowing for display of all Unicode characters.  Your font
+   must also have glyphs for all characters, or your browser should know how
+   to fall back gracefully to find an appropriate font containing that glyph.
+  </P>
+
+  <P>
+   All of these pieces must work correctly to display the below characters. I
+   find 100% correct results with <A
+   HREF="http://www.mozilla.org/">Mozilla</A>, Netscape 6+, <A
+   HREF="http://www.opera.com/">Opera</A>, Galeon, Phoenix, and poor results
+   (more than half of the characters displayed incorrectly) with Internet
+   Explorer 6, Netscape 4.x or earlier (which produces better results on
+   Linux), Konqueror, and Lynx (although even the old text-mode Lynx
+   surprisingly gives reasonable fallback results that are better than IE,
+   showing results like "Ang.", "Ohm", "\hbar", "oF" and so on, rather than
+   drawing an empty rectangle.)
+  </P>
+
+  <P>
+   If you're using Mozilla, or Netscape 6+, or another modern browser that
+   allows you to select stylesheets, this page has several stylesheets you can
+   switch between to see how the characters are rendered in different fonts
+   and sizes.  (In Netscape/Mozilla, this option is found on your menubar
+   under <EM>View | Use Style</EM>.)
+  </P>
+
+  <TABLE BORDER=1>
+    <TR>
+     <TH>Name
+     <TH>Symbol
+     <TH>Value   
+    <TR>
+     <TD>Pi
+     <TD>\u03c0
+     <TD>$pi
+    <TR>
+     <TD>Planck's constant
+     <TD>\u210e
+     <TD>${\u210e}
+    <TR>
+     <TD>
+      hbar, or Planck's constant / (2 &pi;)
+     <TD>\u210f
+     <TD>${\u210f}
+    <TR>
+     <TD>microsecond
+     <TD>\u00b5s
+     <TD>${\u00b5s}
+  </TABLE>
+
+  <P>
+   The following table displays all known units that have extended characters.
+  </P>
+
+  <TABLE BORDER=1>
+    <TR>
+     <TH>Symbol
+     <TH>Value   
+  <% uList = reverse[sort[select[units[], { |u| u =~ %r/[^a-zA-Z0-9_]/ } ]]]
+      for [unit] uList
+      {
+        u = unit[unit]
+        if ! (u conforms currency)
+           println["<TR><TD>$unit<TD>$u"]
+      } %>
+  </TABLE>
+  
+  <HR>
+  <P>
+   <I><A HREF="mailto:eliasen@mindspring.com">Alan Eliasen</A></I> was born
+   <%= round[now[] - #1969-08-19 04:54 PM Mountain#, minute] -> ["days", "hours", "minutes"] %> ago.
+  </P>
+
+  <P>
+   Back to <A HREF="/frinkdocs/fspdocs.html">Frink Server Pages
+    documentation.</A>
+  </P>  
+ </BODY>
+</HTML>

@@ -1,0 +1,6 @@
+
+// Dumps all units with dimensions of length in a pseudo-XML format.
+
+for u = sort[units[length], { |a,b| unit[a] <=> unit[b] }]
+   println["<UNIT NAME=\"" + u + "\">" + (unit[u]->m) + "</UNIT>"]
+

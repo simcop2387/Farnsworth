@@ -1,0 +1,351 @@
+
+// Implementation of U.S. Standard Atmosphere, 1976 in Frink.
+//
+//  Alan Eliasen, eliasen@mindspring.com
+//
+// http://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/19770009539_1977009539.pdf
+// See: http://www.atmosculator.com/The%20Standard%20Atmosphere.html
+//
+//   This is the same as the ICAO Standard Atmosphere as far as the ICAO
+// atmosphere is defined, but the U.S. Standard Atmosphere extends much higher.
+//
+// Currently, only the layers from 0 to 86 km are implemented in this file.
+
+// This model defines the atmosphere from 0 to 86 km to be in 8 layers with
+// different (constant) temperature lapse rates in each layer.
+
+// The class contains all class-level methods and variables, so you do *not*
+// need to create an instance of this class.
+
+// You will generally want to start with a call to
+//   [t,p] = StandardAtmosphere.getTemperatureAndPressure[alt]
+// and then call other functions with that temperature and pressure if
+// necessary.
+//
+//  See the class StandardAtmosphereTest.frink for more samples.
+//
+// Section numbers and equations refer to the book
+// _U.S. Standard Atmosphere, 1976_  (available at the first URL above.)
+
+// A fundamental basic of the Standard Atmosphere is that the atmosphere
+// below 86 km is made up of 7 different layers, each of them having a
+// different (constant) temperature lapse rate, that is, the rate at which
+// temperature varies with (geopotential) altitude.
+class AtmosphereLayer
+{
+   var h_base                   // The base geopotential altitude of the layer
+   var lambda                   // The temperature lapse rate in this layer
+
+   new[base, lapse] :=
+   {
+      h_base = base
+      lambda = lapse
+   }
+}
+
+// This is the class that contains the methods of the standard atmosphere
+// model.
+class StandardAtmosphere
+{
+   // An array of AtmosphereLayer objects.
+   class var layers
+   class var layersInitialized = false
+
+   // Standard temperature at sea level.
+   class var standardTemp = Celsius[15]
+
+   // Standard pressure at sea level
+   class var standardPressure = 760 mmHg  // Model says 1.013250e5 N/m^2
+
+   // Mean molecular weight of air, M0
+   class var M0 = 0.0289644 kg/mol
+
+   // The radius of the earth as defined in the Standard Atmosphere 1976
+   class var r0 = 6356766 m
+
+   // The Standard Atmosphere 1976 actually defines a different gas constant
+   // than is currently known to be good.  It is also inconsistent with the
+   // values they use for Boltzmann's constant or Avogadro's number, which
+   // are also inconsistent with current best-known values.  Sigh.  For
+   // verifiability, and adherence to the model, this file uses the Standard
+   // Atmosphere's definition of the constants.  (The best-known gas constant
+   // is called "gasconstant" or "R" in Frink.)
+   class var Rstar = 8.31432e+3 N*m/(kmol*K)
+
+   // This is the mean effective collision diameter sigma of molecules.  This
+   // is no longer valid above 85 km
+   class var meanSigma = 3.65e-10 m
+
+   // This is the definition of Avogadro's number as defined in the Standard
+   // Atmosphere 1976.  Note that it is not quite the same as the current
+   // best-known value for Avogadro's number, called "avogadro" in Frink.
+   class var N_avogadro = 6.022169e23 / mol
+
+   // Initialize the layers.
+   class initializeLayers[] :=
+   {
+      if (layersInitialized)
+         return;
+
+      layers = new array[8]
+      layers@0 = new AtmosphereLayer[ 0 km, -6.5 K/km]
+      layers@1 = new AtmosphereLayer[11 km,  0   K/km]
+      layers@2 = new AtmosphereLayer[20 km, +1.0 K/km]
+      layers@3 = new AtmosphereLayer[32 km, +2.8 K/km]
+      layers@4 = new AtmosphereLayer[47 km,  0   K/km]
+      layers@5 = new AtmosphereLayer[51 km, -2.8 K/km]
+      layers@6 = new AtmosphereLayer[71 km, -2.0 K/km]
+      layers@7 = new AtmosphereLayer[84.8520 km, undef]
+
+      layersInitialized = true
+   }
+
+   // Get the atmospheric conditions for the specified geometric altitude.
+   //
+   //  parameters:
+   //   [geopotentialHeight, temperature, pressure]
+   //  The latter two arguments have defaults at the defaults for the
+   // Standard Atmposphere model.
+   //
+   //  returns:
+   //   [temperature, pressure]
+   class getTemperatureAndPressure[geometricHeight, T0 = StandardAtmosphere.standardTemp, P0 = StandardAtmosphere.standardPressure] :=
+   {
+      if (geometricHeight > 86 km)
+         return getHighAltitudeTemperatureAndPressure[geometricHeight]
+         
+      geopotentialHeight = geometricToGeopotentialHeight[geometricHeight]
+      return getTemperatureAndPressureGeopotential[geopotentialHeight, T0, P0]
+   }
+
+   
+   // Get the atmospheric conditions for the specified *geopotential* altitude.
+   // Note that the geopotential altitude is a somewhat fictitious quantity
+   // and is *not* the true geometrical altitude as would be measured by
+   // a very long tape measure.  Users should generally use the
+   // getTemperatureAndPressure[] function instead.
+   // 
+   //  parameters:
+   //   [geopotentialHeight, temperature, pressure]
+   //  The latter two arguments have defaults at the defaults for the
+   // Standard Atmposphere model.
+   //
+   //  returns:
+   //   [temperature, pressure]
+   class getTemperatureAndPressureGeopotential[geopotentialHeight, T0 = StandardAtmosphere.standardTemp, P0 = StandardAtmosphere.standardPressure] :=
+   {
+      if (! layersInitialized)
+         initializeLayers[]
+
+      if (geopotentialHeight > 84.8520 km)
+         return getHighAltitudeTemperatureAndPressure[geopotentialToGeometricHeight[geopotentialHeight]]
+
+      layerNum = 0
+      lambda = 1
+      theta = 1
+      delta = 1
+      T = T0
+      do
+      {
+         thetaPrev = theta
+         lambdaLayer = layers@layerNum.lambda
+         base = layers@layerNum.h_base
+
+         nextBase = layers@(layerNum+1).h_base
+         if (geopotentialHeight > nextBase) // In next layer?
+            h = nextBase
+         else
+            h = geopotentialHeight
+         
+         theta = theta + (h-base) lambdaLayer/T0
+         
+//         println["Theta: $theta"]
+         T = T0 * theta
+//         println["T: $T"]
+
+         // Isothermic layer?  If so, use a different equation
+         if (lambdaLayer == 0 K/km)
+            delta = delta e^(-(h-base) gravity M0/Rstar/T)
+         else
+            delta = delta (theta/thetaPrev)^(-gravity M0/lambdaLayer/Rstar)
+//         println["Delta: $delta"]
+         layerNum = layerNum + 1
+      } while (geopotentialHeight > nextBase)
+
+      p = P0 * delta
+//      rho = p M0 / (Rstar T)
+      return[T, p]
+   }
+
+
+   // Returns the high altitude temperature and pressure at the specified
+   // geometric height.
+   // Returns:  [temperature, pressure]
+   class getHighAltitudeTemperatureAndPressure[geometricHeight] :=
+   {
+      // Z7=86 km to Z8=91 km
+      if geometricHeight < 91 km
+      {
+         // TODO:  Adjust for different base temperature?
+         temp = 186.8673 K    // Constant (eq. 25)
+
+         // TODO:  Calculate pressure
+         return [temp, undef]
+      }
+
+      if geometricHeight < 110 km
+      {
+         // Eq. 27
+         Tc = 263.1905 K
+         A = -76.3232 K
+         a = -19.9429 km
+         temp = Tc + A * sqrt[1 - ((geometricHeight - 91 km)/a)^2]
+
+         // TODO:  Calculate pressure
+         return [temp, undef]
+      }
+
+      // Layer Z9=110 km to Z10=120 km
+      if geometricHeight < 120 km
+      {
+         // Eq. 29
+         T9 = 240.0 K
+         LK9 = 12.0 K/km
+         temp = T9 + LK9 (geometricHeight - 110 km)
+
+         // TODO:  Calculate pressure
+         return [temp, pressure]
+      }
+
+      // Layer Z10 = 120 km to Z12=1000 km
+      if geometricHeight < 1000 km
+      {
+         // Eq. 31
+         Tinf = 1000 K
+         T10 = 360.0 K
+         lambda = 0.01875 km^-1
+         Z10 = 120 km
+
+         xi = (geometricHeight - Z10) * (r0 + Z10) / (r0 + geometricHeight)
+         temp = Tinf - (Tinf - T10) e^(-lambda xi)
+
+         // TODO:  Calculate pressure
+         return [temp, pressure]
+      }
+
+      println["Error: Standard Atmosphere 1976 is only defined to altitude of 1000 km, requested altitude of " + (geometricHeight -> "km")]
+      return [undef, undef]
+   }
+   
+   // Convert a geometric height to a geopotential height.
+   // The geometric height is the normal height that you'd measure, and
+   // the geopotential height is a somewhat fictitious height which is used
+   // in the Standard Atmosphere.
+   // This is equation 18 in the Standard Atmosphere.
+   class geometricToGeopotentialHeight[Z] := (r0 * Z) / (r0 + Z)
+
+   
+   // Convert a geopotential height to a geometric height.
+   // The geometric height is the normal height that you'd measure, and
+   // the geopotential height is a somewhat fictitious height which is used
+   // in the Standard Atmosphere.
+   // This is equation 19 in the Standard Atmosphere.
+   class geopotentialToGeometricHeight[H] := (r0 * H) / (r0 - H)
+
+   
+   // The model usually assumes a standard temperature of 288.15 K (59 F) at
+   // sea level, but obviously that's not always very applicable.  This
+   // function calculates the new base temperature T0 to feed to the model
+   // given the temperature at a specified *geometric* (true) altitude,
+   // assuming that the lapse rate remains the same.
+   class getBaseTemperature[geometricAltitude, temp] :=
+   {
+      // Temperature in standard model at that altitude
+      [standardT] = getTemperatureAndPressure[geometricAltitude]
+      return standardTemp + temp - standardT 
+   }
+
+   
+   // The model usually assumes a standard temperature of 288.15 K (59 F) at
+   // sea level, but obviously that's not always very applicable.  This
+   // function calculates the conditions at a particular geometric elevation,
+   // specified by the argument targetAlt, given the temperature at another
+   // point, whose geometric altitude and temperature are given by givenAlt
+   // and givenTemp respectively, assuming that the lapse rate remains the
+   // same as in the standard model.
+   //
+   //  returns:
+   //   [temperature, pressure]
+   class getTemperatureAndPressureGiven[targetAlt, givenAlt, givenTemp] :=
+   {
+      baseT = getBaseTemperature[givenAlt, givenTemp]
+      return getTemperatureAndPressure[targetAlt, baseT]
+   }
+
+   
+   // Calculates the mass density from temperature and pressure.
+   // See Section 1.3.4
+   class getDensity[temp, pressure] := pressure * M0 / (Rstar * temp)
+
+   
+   // Calculates the mole volume from temperature and pressure.
+   // See section 1.3.5
+   class getMoleVolume[temp, pressure] := Rstar * temp / pressure
+
+   
+   // Calculates the number density from temperature and pressure.
+   // The number density is the number of neutral atmospheric gas particles
+   // per volume of the atmosphere.
+   // See Section 1.3.3
+   class getNumberDensity[temp, pressure] := N_avogadro * pressure / (Rstar * temp)
+
+   
+   // Calculates the mean air-particle speed from temperature and pressure.
+   // See section 1.3.7
+   class getMeanAirParticleSpeed[temp, pressure] := sqrt[8 Rstar temp / (pi M0)]
+
+   
+   // Calculates the mean free path from temperature and pressure.
+   // See section 1.3.8
+   class getMeanFreePath[temp, pressure] := sqrt[2] Rstar temp / (2 pi N_avogadro meanSigma^2 pressure)
+
+   
+   // Calculate the mean collision frequency from temperature and pressure.
+   // See section 1.3.9
+   class getMeanCollisionFrequency[temp, pressure] := 4 N_avogadro * meanSigma^2 * sqrt[pi * pressure^2 / (Rstar M0 temp)]
+
+   
+   // Calculate the speed of sound from temperature and pressure.
+   // See section 1.3.10
+   class getSpeedOfSound[temp, pressure] := sqrt[1.40 Rstar temp / M0]
+
+
+
+   // Calculate the dynamic viscosity from temperature and pressure.
+   // This should not be used above 86 km.
+   // See section 1.3.11
+   class getDynamicViscosity[temp, pressure] :=
+   {
+      // This is a bit of a kludge because Frink currently can't handle
+      // fractional exponents in units, but the constant beta has the value
+      // of 1.458e-6 kg/(s m K^(1/2)).
+      betaSquared = 2.125764e-12 kg^2/(s^2 m^2 K)
+
+      // The actual equation (51) as given is:
+      // mu = beta * T^(3/2)/ (T+S)
+
+      // Sutherland's constant S
+      S = 110.4 K
+      mu = sqrt[betaSquared temp^3]/(temp + S)
+   }
+
+   // Calculate the kinematic viscosity from temperature and pressure.
+   // This should not be used above 86 km.
+   // See section 1.3.12
+   class getKinematicViscosity[temp, pressure] := 
+   {
+      getDynamicViscosity[temp, pressure] / getDensity[temp, pressure]
+   }
+}
+      
+"StandardAtmosphere.frink included"

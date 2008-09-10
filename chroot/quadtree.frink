@@ -1,0 +1,239 @@
+
+
+class Quadtree
+{
+   var left
+   var right
+   var top
+   var bottom
+
+   var data
+   
+   // An array of children
+   var children
+   
+   // Construct a new Quadtree node.
+   new[l, r, b, t] :=
+   {
+      left = l
+      right = r
+      top = t
+      bottom = b
+
+      children = undef
+      data = undef
+   }
+
+   // Creates a child to go at the specified row and column.  Returns the
+   // new child.
+   createChild[row, column, value] :=
+   {
+      middle = (left + right) / 2
+      if column == 0
+      {
+         l = left
+         r = middle
+      } else
+      {
+         l = middle
+         r = right
+      }
+
+      middle = (top + bottom) / 2
+      if row == 0
+      {
+         t = top
+         b = middle
+      } else
+      {
+         t = middle
+         b = bottom
+      }
+
+      var child = new Quadtree[l,r,b,t]
+      child.data = value
+
+      if children == undef
+         children = new array[]
+      
+      children@(row*2+column) = child    // Attach to tree
+
+      return child
+   }
+
+   // Gets the value of the given child.
+   getChild[index] :=
+   {
+      if children == undef
+         return undef
+
+      if index >= length[children]
+         return undef
+      else
+         return children@index
+   }
+
+   // Gets the value of the given child at the row and column
+   getChild[row, column] :=
+   {
+      getChild[row*2 + column]
+   }
+
+   // Deletes all children of the specified node.  The value is the value
+   // that should be given to this node.
+   deleteChildren[value] :=
+   {
+      children = undef
+      data = value
+   }
+
+   // Deletes a single child of the node.  If the deleted node is the last
+   // child, then this node takes on the value undef.
+   deleteChild[index] :=
+   {
+      if children == undef
+      {
+         data = undef
+         return
+      }
+
+      children@index = undef
+      noValue = true
+      len = length[children]
+      for i = 0 to len-1
+         if children@i != undef
+            noValue = false
+
+      if (noValue == true)   // Clean up the children array
+      {
+         data = undef
+         children = undef
+      }
+   }
+
+   // Returns true if this is a leaf node.
+   isLeaf[] :=
+   {
+      if children == undef
+         return true
+
+      noValue = true
+      len = length[children]
+      for i = 0 to len-1
+         if children@i != undef
+            noValue = false
+
+      return noValue
+   }
+
+   // Gets the data for the given node.
+   getData[] := data
+
+   // Sets the data for the given node.
+   setData[newData] := data = newData
+
+   // Make a Quadtree for the given graph, going to the specified depth.
+   class makeQuadtree[l, r, b, t, equation, depth] :=
+   {
+      var child
+      q = new Quadtree[l,r,b,t]
+      q.setData["X"]
+      q.subdivide[equation, depth]
+      return q
+   }
+
+   subdivide[equation, depth] :=
+   {
+      if (depth > 0 && data)
+      {
+         hMiddle  = (left + right) / 2
+         vMiddle =  (top + bottom) / 2
+         
+         xs = [new interval[left, hMiddle], new interval[hMiddle, right]]
+         ys = [new interval[vMiddle, top], new interval[bottom, vMiddle]]
+         index = 0
+         solutionFound = false
+         for row = 0 to 1
+         {
+            y = ys@row
+            for col = 0 to 1
+            {
+               index = row*2 + col
+               x = xs@col
+//               println["$x, $y"]
+               res = eval[equation]
+               val = "X"
+               if res or res == undef
+               {
+                  if res != true
+                  {
+//                     println[res]
+                     val = "!"
+                  }
+                  v = createChild[row, col, val]
+                     
+                  solutionFound = true
+                  //                  children@index = v
+                  data = undef  // Force to be a non-leaf
+                  v.subdivide[equation, depth-1]
+               }
+            }
+         }
+
+         if ! solutionFound
+            deleteChildren[undef]
+      }
+   }
+
+   // Plot the graph in text.
+   textPlot[rows, cols] :=
+   {
+      vals = new array[]
+      for i = 0 to rows         // One row padding
+      {
+         vals@i = new array[]
+         for j = 0 to cols - 1
+            vals@i@j = "."
+      }
+
+      xscale = cols / (right-left)
+      yscale = rows / (top-bottom)
+      privateTextPlot[vals, xscale, yscale, left, bottom]
+      for i = rows-1 to 0 step -1
+      {
+         println[join["",vals@i]]
+      }
+   }
+
+   // Private text plotter
+   privateTextPlot[vals, xscale, yscale, gLeft, gBottom] :=
+   {
+      for row = 0 to 1
+         for col = 0 to 1
+         {
+            c = getChild[row,col]
+            if (c != undef)
+            {
+               if (c.isLeaf[] and c.data)
+               {
+                  for y = floor[(c.bottom - gBottom) * yscale] to floor[(c.top-gBottom) * yscale]
+                  {
+                     rr = vals@y
+                     for x = floor[(c.left - gLeft) * xscale] to floor[(c.right-gLeft) * xscale]
+                     {
+                        rr@x = c.data
+                     }
+                  }
+               } else
+               {
+                  c.privateTextPlot[vals, xscale, yscale, gLeft, gBottom]
+               }
+            }
+         }
+   }
+}
+
+
+n = Quadtree.makeQuadtree[-5, 5, -5, 5,"y PEQ 5 cos[x^2] sin[x]", 12]
+//println[n]
+n.textPlot[21,76]

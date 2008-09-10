@@ -1,0 +1,72 @@
+<%@ contentType="text/html" pageEncoding="ISO-8859-1" %>
+<HTML LANG="en">
+ <HEAD>
+  <TITLE>Frink</TITLE>
+  <META NAME="PalmComputingPlatform" CONTENT="true">
+ </HEAD>
+  <H1>Frink</H1>
+
+  <FORM ACTION="palm.fsp" METHOD="GET">
+   <TABLE>
+    <TR><TD>From:<TD><INPUT TYPE="TEXT" NAME="fromVal" SIZE=22>
+    <TR><TD>To:<TD><INPUT TYPE="TEXT" NAME="toVal" SIZE=22>
+   </TABLE>
+   <P>
+   <INPUT TYPE="SUBMIT" VALUE="Calculate">
+   <P>
+   Lookup: <INPUT TYPE="TEXT" NAME="lookup" SIZE=20><BR>
+   <INPUT TYPE="CHECKBOX" NAME="exactMatch"> Exact
+    <INPUT TYPE="SUBMIT" VALUE="Lookup">
+  </FORM>
+
+  <BR>
+  <% if fromVal
+     {
+          println["<TABLE BORDER=\"0\">"]
+          println["<TR><TD VALIGN=\"top\"><B>From:</B><TD>" + HTMLEncode[fromVal]]
+          if (toVal)
+          {
+             println["<TR><TD><B>To:</B><TD>" + HTMLEncode[toVal]]
+             result = eval["$fromVal -> $toVal"]
+          } else
+              result = eval[fromVal] 
+
+          result = "$result"  // Coerce to string in all cases.
+          result = HTMLEncode[result]
+          result =~ %s/(\n\r?|\r\n?)/<BR>\n/g
+          println["<TR><TD VALIGN=TOP><B>Result:</B><TD>$result\n<BR>"]
+          println["</TABLE>"]
+      }
+
+      // Look up word
+      if lookup
+      {
+         if (exactMatch)
+            pat = regex["^$lookup\b"]
+         else
+            pat = regex["$lookup","i"]
+
+         for [line] lines["file:///$FSPRoot/../../data/units.txt"]
+         {
+            if (line =~ pat)
+            {
+               line = HTMLEncode[line]
+               line =~ %s/^([^ \/]+)/<B>$1<\/B>/    // Put unit name in bold
+               line =~ %s/\/\/\s*(.*)/ <I>[$1]<\/I>/
+               println["$line<BR>"]
+            }
+        }
+    }
+
+    HTMLEncode[line] :=
+    {
+       line =~ %s/&/&amp;/g;
+       line =~ %s/</&lt;/g;
+       line =~ %s/>/&gt;/g;
+       line =~ %s/"/&quot;/g
+       line =~ %s/\s{2,}/ /g
+       return line
+    }
+  %>
+ </BODY>
+</HTML>

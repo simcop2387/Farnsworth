@@ -1,0 +1,95 @@
+
+// The rabbit monologue, returned to its 
+// This program finds reverse translation of Clint Williams' irreversible
+// numerical encoding of the McGregor tale:
+//
+// http://www.c-c-w.net/mcgregor/
+
+
+// dict is a dictionary of words, keyed by their numeric values, values
+// are an array of words that this number maps to.
+dict = new dict
+
+// Effectively, this is a "set" of the words we've seen.
+// TODO: need to implement efficient sets.
+usedDict = new dict
+
+// Paths to several Moby wordlists (not included)
+files = ["file:///home/eliasen/prog/mobydict/mwords/singlewords.txt",
+         "file:///home/eliasen/prog/mobydict/mwords/compoundwords.txt",
+         "file:///home/eliasen/prog/mobydict/mwords/names.txt",
+         "file:///home/eliasen/prog/mobydict/mwords/places.txt"]
+
+// Load in the wordfiles and convert words to their numeric values
+for file = files
+   numeric[read[file], usedDict, dict]  // Read in wordlists 
+
+usedDict = undef
+
+orig = read["file:///c:/prog/frink/rabbitorig.txt"]
+
+// Now perform dechiffrage
+orig =~ %s/(\d+)/decipher[$1,dict]/gse
+
+println[orig]
+
+// Function to turn a text into its string representations
+// and insert each word mapping into a dictionary.
+// 
+numeric[string, usedDict, dict] :=
+{
+   words = split[%r/\s+/s, string]  // Split into words
+   for word = words
+   {
+      if word =~ %r/[^A-Za-z]/  // Discard non-alphabetic words.
+         next
+
+      if word =~ %r/[A-Z]{2,}/   // Two or more uppercase letters?  Skip 'em.
+         next
+
+      capWord = uppercase[word]  // Make all keys uppercase
+
+      if (usedDict@capWord)      // Already seen it?
+         next
+
+      usedDict@capWord = true    // Mark word as used
+      
+      // Make numeric value.  This could be done more concisely if we
+      // had a map[] function.
+      ret = ""
+      for char = chars[capWord]
+      {
+         char = char - char["A"] + 1
+         ret = ret + "$char"
+      }
+
+      // See if number exists already
+      if (dict@ret != undef)
+      {
+         dict@ret.push[word]  // Already exists
+//       println[dict@ret]    // Comment in to see hash collisions
+      } else
+         dict@ret = [word]    // Doesn't exist, create a one-element array
+   }
+}
+
+
+// Function to do enciphering, for reference.  Note that it's a *whole*
+// lot easier to encipher than decipher.
+encipher[str] := uc[str] =~ %s/([A-Za-z])/char[$1]-char["A"] + 1/ges
+
+
+// Function to decipher a single number to its probable word(s)
+decipher[num, dict] :=
+{
+   rev = dict@num
+
+   if (! rev)
+      return num       // Word not found, print numeric value
+   else
+      if (length[rev] == 1)
+         return rev@0  // Only one word; print without brackets
+      else
+         return rev    // More than one mapping, print array
+}
+

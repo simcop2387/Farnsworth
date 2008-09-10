@@ -1,0 +1,18 @@
+println["\nRunning timing loops..."]
+
+for iter = 1 to 5
+{
+   start = now[]
+
+   // Timing
+   limit = 1 million
+   for i = 1 to limit
+   {
+      a = 2 feet + 3 meters
+   }
+
+   end = now[]
+   println["Iteration $iter:"]
+   println["The loop took " + (end - start -> seconds) + " seconds."]
+   println["This is " + (limit / (end-start) -> s^-1) + " operations/sec."]
+}

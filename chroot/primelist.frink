@@ -1,0 +1,6 @@
+
+// Print a list of primes.
+for i=2 to 50000
+   if isPrime[i]
+      println[i]
+   

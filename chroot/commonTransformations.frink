@@ -1,0 +1,51 @@
+
+// This is a simple program that lets you define transformation rules
+// and mathematical simplification rules and test them easily.
+
+_x + _x       <-> 2 _x
+_x + _b _x    <-> (_b+1) _x
+_a _x + _b _x <-> (_a+_b) _x
+
+_x * _x       <-> _x^2
+_x * _x^_b    <-> _x^(1+_b)
+_x^_a * _x    <-> _x^(1+_a)       // Because a can be negative.
+_x^_a * _x^_b <-> _x^(_a+_b)
+
+tan[_x] <-> sin[_x]/cos[_x]
+
+// Derivatives
+D[_c is unit, _x] <->   0         // Handle constants, sorta.
+D[_x, _x]         <->   1
+
+// The following are shortcuts and aren't strictly needed, but they're closer
+// to what a human would do and make the transformation path simpler.
+// The constraints are necessary to prevent naive evaluation of, say, x^x.
+D[_c is unit _x, _x] <->  _c
+D[_x^_y is unit, _x] <-> _y _x^(_y-1)
+D[_c is unit _x^_y is unit, _x]    <-> (_c _y) _x^(_y-1)
+//D[_a^_x, _x]       <-> _a^_x ln[_a]
+
+D[sin[_x], _x]    <-> cos[_x]
+D[cos[_x], _x]    <-> -sin[_x]
+D[ln[_x], _x]     <-> 1/_x
+
+
+// Chained derivative rules
+D[_a + _b, _x]    <-> D[_a,_x] + D[_b,_x]
+
+// These rules can loop if _u or _v equals _x.
+// Prevent that?  Need excluding match?
+D[_u _v, _x]      <-> _u D[_v, _x] + _v D[_u, _x]
+D[_u^_v, _x]      <-> _v _u^(_v-1) D[_u, _x] + _u^_v ln[_u] D[_v,_x]
+D[_f[_u], _x]     <-> D[_u, _x] D[_f[_u], _u]
+
+symbolicMode[true]
+do
+{
+   thingy = eval[input["Enter expression: "]]
+//   println[thingy]
+   res = eval[transformExpression[thingy]]
+   println[]
+   println[res]
+} while true
+ 

@@ -1,0 +1,24 @@
+class YourThingy
+{
+   // Create a class-level variable called "queue"
+   // This will contain a resizable array.
+   class var queue = new array
+
+   // Function to initialize this array to some values:
+   class init[] :=
+   {
+      queue@0 = 1
+      queue@1 = 2
+      queue@2 = 1.5
+   }
+
+   // Your function to do modInverse
+   class modInverse[x,y] :=
+   {
+      println[queue@2]
+   }
+}
+
+// And now the code to use it
+YourThingy.init[]
+x = YourThingy.modInverse[2,3]

@@ -1,0 +1,29 @@
+
+// Simple function to generate random prime numbers with a specified
+// number of bits.
+
+randomPrime[bits] :=
+{
+   base = 2^(bits-1) + 1
+   while(true)
+   {
+      b = base + randomBits[bits-2] * 2
+      if (isPrime[b])
+         return b
+      else
+         b = b + 2
+   }
+}
+
+b = eval[input["Enter number of bits: "]]
+
+count = 100
+start = now[]
+for a = 1 to count
+{
+   m = randomPrime[b]
+   println[m->binary]
+}
+end = now[]
+
+println["Average generation took " + ((end-start)/count -> ms) + " ms."]

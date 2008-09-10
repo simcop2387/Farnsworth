@@ -1,0 +1,50 @@
+
+// Solver for "The Agency: The Initiation" Geocache (GCK2JZ)
+// http://www.geocaching.com/seek/cache_details.aspx?guid=03148eaa-3f1d-49d4-8447-63c054fc7ad5
+
+use CoordinateConversions.frink
+
+orig = """AQWT HKTUV VCUM KU VQ IQ VQ VJG EQQTFKPCVGU NKUVGF DGNQY CPF HKPF VJG GPEQFGF TKPIU VQ JGNR AQW RKPRQKPV AQWT HKPCN QDLGEVKXG. KH AQW ECP HCVJQO VJKU HGCV KV YKNN DG C IQQF OGVGT QH AQWT KPIGPWKVA CPF FGVGTOKPCVKQP. DG UWTG VQ MGGR VJKPIU KP QTFGT. DWV RWNN CNN VJG UVTKPIU AQW ECP VQ CEEQORNKUJ AQWT IKXGP VCUM. FQ PQV TCO TQF AQWT YCA VJTQWIJ CU AQW OKN CTQWPF VJKU VCUM. VQ YKUJ AQW NWEM YQWNF DG UWRGTHNWQWU CU CNN KU PQV CU KV UGGOU CPF OQUV VJKPIU CTG TGNGXCPV VQ C FGRVJ QH AQWT WPFGTUVCPFKPI. VJKU KU YKNN DG AQWT HKTUV UVGR VQ VJG UOCNN DNCEM YQTNF QH VTCFGUMKNNU. TGEQTF AQWT UWEEGUU CPF OCMG AQWT GITGUU.
+
+68U
+G5949173 P9965772
+G5948401 P9965816
+G5948320 P9965025"""
+
+fullRotate[orig]
+println[]
+
+// Perform a full rotation on the string.
+fullRotate[str] :=
+{
+   for i=24 to 24
+   {
+      println["\n$i"]
+      for c = char[str]
+      {
+         if c >= char["0"] and c <= char["9"] // Numbers are ROT-5
+         {
+            c = c + 5
+            print[char[(c-char["9"] - 1) mod 10 + char["0"]]]
+            next
+         }
+         
+         if c < char["A"] or c > char["Z"]
+         {
+            print[char[c]]
+            next;
+         }
+      
+         c = c + i
+         print[c < char["Z"] ? char[c] : char[(c-char["Z"] - 1) mod 26 + char["A"] ]]
+      }
+   }
+}
+
+// The values below were found by rot-5ing the numbers.
+zone = "13R"
+
+println[UTMToLatLong[0494628, 4410227, zone, Datum.WGS84] -> degrees]
+println[UTMToLatLong[0493956, 4410361, zone, Datum.WGS84] -> degrees]
+println[UTMToLatLong[0493875, 4410570, zone, Datum.WGS84] -> degrees]
+

@@ -1,0 +1,60 @@
+
+// Digest my webserver log and find calculations that were made by Frink.
+// I use this to improve calculations, provide hints, and remove common
+// sources of misunderstandings in calculations.
+
+logfile = "file:///var/log/httpd/access_log"
+
+// Apache logfile date format
+### dd/MMM/yyyy:HH:mm:ss ###
+
+for line = lines[logfile]
+{
+   if [ip, x1, x2, date, req, res, bytes, ref, browser] = line =~ %r/
+     ^
+     (\S+)
+      \s+
+     (\S+)
+      \s+
+     (\S+)
+      \s+
+     \[(.*?)\]
+      \s+
+     "(.*?)"
+      \s+
+     \d+
+      \s+
+     (\d+|-)
+      \s+
+     "(.*?)"
+      \s+
+     "(.*?)"
+             /x
+   {
+      if [method, URL, ver] = req =~ %r/^(\S+)\s+(\S+)\s+(.*)/
+      {
+         [path, query] = URL =~ %r/([^?]*)\??(.*)/
+
+         if ! (path =~ %r/frink.fsp/)
+            next
+
+         if query
+         {
+            argPairs = split[%r/&/, query]
+            for arg = argPairs
+            {
+               [name, value] = arg =~ %r/(.*?)=(.*)/
+               if (value)
+               {
+                  value =~ %s/\+/ /g
+                  value =~ %s/%([0-9a-fA-F]{2})/char[eval[$1 + "\\\\16"]]/ge
+                  println[value]
+               }
+            }
+         }
+      } //else
+//      println["Bad request: $req"]
+      
+   } //else
+//      println["Unmatched: $line"] 
+}

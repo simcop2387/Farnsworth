@@ -1,0 +1,208 @@
+<%@ persistent="true" %>
+<%
+   use ../HTMLUtils.frink
+   use ../hints.frink
+   
+   fromValRestore = ""
+   toValRestore = ""
+   if (hideHelp)
+   {
+      fromValRestore = fromVal
+      toValRestore = toVal
+   } %>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<HTML LANG="en">
+ <HEAD>
+
+  <TITLE>Frink Server Pages</TITLE>
+  <META HTTP-EQUIV="Default-Style" CONTENT="APE Airy"> 
+  <LINK REL="StyleSheet" HREF="/frinkdocs/apeairy.css" TYPE="text/css"
+        TITLE="APE Airy"> 
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/spaceship.css"
+        TYPE="text/css" TITLE="Spaceship">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style.css" TYPE="text/css"
+        TITLE="APE Classic">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style2.css" TYPE="text/css"
+        TITLE="Compact"> 
+  <LINK REL="icon" HREF="/images/futureboyicon.png" TYPE="image/png">
+ </HEAD>
+ <BODY onLoad="document.f1.fromVal.focus()">
+  <H1>Frink Server Pages</H1>
+  <P CLASS="CENTER">
+   <A HREF="/frinkdocs/">Frink&nbsp;Documentation</A> *
+   <A HREF="/frinkdocs/whatsnew.html">What's&nbsp;New</A> *
+   <A HREF="/frinkdocs/faq.html">FAQ</A> *
+   <A HREF="/frinkdocs/index.html#JavaWebStart">Download&nbsp;Frink</A> *
+   <A HREF="/frinkdocs/FrinkApplet.html">Frink&nbsp;Applet</A> *
+   <A
+HREF="/frinkdocs/fspdocs.html">Frink&nbsp;Server&nbsp;Pages&nbsp;Docs</A> *
+   <A HREF="samples.fsp">Sample&nbsp;Programs</A> *
+   <A HREF="mailto:eliasen@mindspring.com">Contact&nbsp;Alan&nbsp;Eliasen</A> *
+   <A HREF="/frinkdocs/donate.html">Donate</A>
+  </P>
+
+  <FORM ACTION="frink.fsp" METHOD="GET" NAME="f1">
+   <TABLE CLASS="back">
+    <TR><TD>
+      <LABEL FOR="fromVal">From:</LABEL>
+        <TD><INPUT TYPE="TEXT" NAME="fromVal" VALUE="$fromValRestore"
+             ID="fromVal" SIZE=70>
+    <TR><TD><LABEL FOR="toVal">To:</LABEL>
+        <TD><INPUT TYPE="TEXT" NAME="toVal" VALUE="$toValRestore" ID="toVal" SIZE=70>
+    <TR><TD COLSPAN="2"><INPUT TYPE="SUBMIT" VALUE="Calculate">
+   </TABLE>
+
+   <P>
+
+   <TABLE CLASS="back">
+   <TR><TD>
+   <LABEL FOR="lookup">Lookup:</LABEL>
+   <INPUT TYPE="TEXT" NAME="lookup" SIZE=20 ID="lookup">
+   <INPUT TYPE="CHECKBOX" NAME="exactMatch" ID="exactMatch"><LABEL FOR="exactMatch">Exact match only</LABEL>
+   <TR><TD>
+    <INPUT TYPE="SUBMIT" VALUE="Lookup">
+   </TABLE>
+  
+   <HR>
+    <%
+       prog = undef
+
+       if fromVal
+       {
+          println["<TABLE BORDER=\"0\">"]
+          println["<TR><TD VALIGN=\"top\"><B>From:</B><TD>" + HTMLEncode[fromVal]]
+
+          if (toVal)
+          {
+             println["<TR><TD><B>To:</B><TD>" + HTMLEncode[toVal]]
+             prog = "$fromVal -> $toVal"
+          } else
+              prog = fromVal
+
+          println["<TR><TD VALIGN=TOP><B>Result:</B><TD>"]
+
+          result = eval[prog]
+
+          result = "$result"  // Coerce to string in all cases.
+          result = HTMLEncode[result]
+          result =~ %s/(\n\r?|\r\n?)/<BR>\n/g
+
+          // Highlight undefined symbols
+          result =~ %s/((\w+)\s*\(undefined symbol\))/<SPAN class="warning">$1<\/SPAN>/ig
+          println["<BR><A NAME=results>$result</A>"]
+          println["</TABLE>"]
+      }
+
+      if prog
+      {
+         toVal = toVal ? toVal : ""
+         fromVal = fromVal ? fromVal : ""
+         result = result ? result : ""
+         println[getHints[prog, fromVal, toVal, result]]
+      }
+
+      // Look up word
+      if lookup
+      {
+         if (lookup =~ %r/\S+\s+\S+/)
+            println["<P CLASS=\"warning\"><B>Please enter only one word (or part of a word) into the lookup field.<BR>\nFor example, if you want to find out what Frink knows about the earth, enter \"earth\" in the lookup box.  To find out what different types of cubits have been used around the world, enter \"cubit\" in the lookup box.</B></P>"]
+
+         if (exactMatch)
+            pat = regex["^$lookup\b"]
+         else
+            pat = regex["$lookup","i"]
+
+         for [line] lines["file:///$FSPRoot/../../data/units.txt"]
+         {
+            if (line =~ pat)
+            {
+               line = HTMLEncode[line]
+               line =~ %s/^([^ \/]+)/<B>$1<\/B>/    // Put unit name in bold
+               line =~ %s/\/\/\s*(.*)/ <I>[$1]<\/I>/
+               println["$line<BR>"]
+            }
+        }
+    }
+  %>
+
+  <HR>
+  <P>
+   <% if showHelp
+        hideOn = false
+
+      if hideHelp || hideOn
+      {
+        hideOn = true
+        %>
+        <INPUT TYPE="Submit" NAME="showHelp" VALUE="Show Help">
+   <% } else
+      { %>
+      <INPUT TYPE="Submit" NAME="hideHelp" VALUE="Hide 'help' information below">
+   <% } %>
+  </P>
+  </FORM>
+  <% if ! hideOn
+     {
+  %>
+  <DIV CLASS="back">
+  <P>
+   If you don't know what this page is for, please look at the <A HREF="/frinkdocs/">Frink documentation</A> and some <A HREF="/frinkdocs/#SampleCalculations">sample calculations</A> first.
+  </P>
+
+  <P>
+   In this web interface, you can enter any arbitrarily complex Frink
+   expression (see the <A HREF="/frinkdocs/">documentation</A>) in the "From:"
+   box and click "Calculate".  If you also enter a value in the "To:" box, it
+   is treated as the right-hand side of a conversion expression (that is, to
+   the right of the conversion operator <CODE>-&gt;</CODE> )
+  </P>
+
+  <P>
+   Thus, to convert 10 meters to feet, you can enter
+   <CODE CLASS="input">10&nbsp;meters</CODE> in the "From" box and
+   <CODE CLASS="input">feet</CODE> in the "To" box, or, equivalently, type
+   <CODE CLASS="input">10&nbsp;meters&nbsp;-&gt;&nbsp;feet</CODE> in the
+   "From" box and leave the "To" box empty.  It does exactly the same thing.
+  </P>
+
+  <P>
+   Didn't find the unit you were looking for?  Got "undefined symbol" or other
+   errors?  Try reading the <A HREF="/frinkdocs/faq.html">FAQ</A> for common
+   issues.  Frink is case-sensitive.  To find the name Frink uses for an
+   obscure unit, type part or all of the word in the "Lookup" box (in upper-
+   <EM>or</EM> lower-case; the lookup is not case-sensitive) and click the
+   "Lookup" button, or, better yet, if you're, say, looking for information
+   about the moon, type <CODE CLASS="input">??moon</CODE> in the "From:" box
+   and click the "Calculate" button.  See the <A
+   HREF="/frinkdocs/index.html#IntegratedHelp">Integrated Help</A> section of
+   the documentation for more ways to look up units.
+  </P>
+
+  <P>
+   <I>Note:</I> You can now set variables in this interface that will last for
+   the duration of your session.
+  <P>
+   
+  <P>
+   This is powered by <A HREF="/frinkdocs/fspdocs.html">Frink Server
+    Pages.</A>  Can your browser handle Java 1.3.1 or later?  Try the  
+   <A HREF="/frinkdocs/FrinkApplet.html">applet-based Frink interface</A> or
+   <A HREF="/frinkdocs/index.html#JavaWebStart">Download&nbsp;Frink</A> onto
+   your own computer.
+  </P>
+
+  <P>
+   Back to <A HREF="/frinkdocs/fspdocs.html">Frink Server Pages
+    documentation.</A>
+  </P>
+  </DIV>
+  <% } // end "if hide %>
+
+  <P>
+   Please report any comments, questions, suggestions, or errors to
+   <A HREF="mailto:eliasen@mindspring.com">Alan Eliasen</A>.
+  </P>
+
+ </BODY>
+</HTML>

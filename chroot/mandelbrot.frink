@@ -1,0 +1,20 @@
+chars = [".", ",", "\"", "-", ":", "/", "(", "*", "|", "$", "#", "@", "%", "~"]
+
+for im = -1.2 to 1.2 step .05
+{
+   for re = -2 to 1 step .04
+   {  
+      C = re + i*im
+      z = 0
+      count = -1
+
+      do
+      {
+         z = z^2 + C
+         count=count+1;
+      } while abs[z] < 4 and count < 14
+
+      print[chars@(count-1)]
+   }
+   println[]
+}

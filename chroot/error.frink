@@ -1,0 +1,8 @@
+// This file has intentional syntax errors and is used for testing error
+// reporting. 
+
+print["this is an error."
+print["This line is an intentional error."
+
+a = a@
+b = c * 10 + * 4;

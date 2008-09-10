@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<HTML LANG="en">
+ <HEAD>
+  <TITLE>Interval Graph</TITLE>
+  <META HTTP-EQUIV="Default-Style" CONTENT="Compact"> 
+  <LINK REL="StyleSheet" HREF="/frinkdocs/style2.css" TYPE="text/css"
+        TITLE="Compact"> 
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/spaceship.css"
+        TYPE="text/css" TITLE="Spaceship">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style.css" TYPE="text/css"
+        TITLE="APE Classic">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/apeairy.css" TYPE="text/css"
+        TITLE="APE Airy"> 
+  <LINK REL="icon" HREF="/images/futureboyicon.png" TYPE="image/png">
+ </HEAD>
+
+ <% if (! func)
+    {  
+       func = "x^2 + y^2 = 81 sin[x]^2"
+       xmin = ymin = -10
+       xmax = ymax = 10
+       xsteps = 121
+       ysteps = 39
+       pscale = 1
+    } else
+    {
+       xmin = eval[xmin]
+       ymin = eval[ymin]
+       xmax = eval[xmax]
+       ymax = eval[ymax]
+       xsteps = eval[xsteps]
+       ysteps = eval[ysteps]
+       pscale = eval[pscale]
+    }
+ %>
+
+ <BODY>
+  <H1>Interval Graph</H1>
+  <P>
+  <FORM ACTION="simplegraph.fsp" METHOD="get">
+   Equation: <INPUT TYPE="text" SIZE=60 NAME="func" VALUE="$func"><BR>
+   x-axis: 
+     min:<INPUT TYPE="text" SIZE=5 VALUE="$xmin" NAME="xmin">
+     max:<INPUT TYPE="text" SIZE=5 VALUE="$xmax" NAME="xmax">
+     steps:<INPUT TYPE="text" SIZE=5 VALUE="$xsteps" NAME="xsteps"><BR>
+   y-axis: 
+     min <INPUT TYPE="text" SIZE=5 VALUE="$ymin" NAME="ymin">
+     max <INPUT TYPE="text" SIZE=5 VALUE="$ymax" NAME="ymax">
+     steps:<INPUT TYPE="text" SIZE=5 VALUE="$ysteps" NAME="ysteps"><BR>
+   pixel subscaling: <INPUT TYPE="text" SIZE="5" VALUE="$pscale" NAME="pscale">
+   <INPUT TYPE="SUBMIT">
+  </FORM>
+  </P>
+  <P>
+   <TT>
+<%
+if func
+{
+   func =~ %s/=/ PEQ /            // Replace = with possibly equals
+
+   xstep = (xmax-xmin) / xsteps
+   ystep = (ymax-ymin) / ysteps
+   xscale = xstep * pscale
+   yscale = ystep * pscale
+
+   for yy=ymax to ymin step -ystep
+   {
+      y = new interval[yy, yy+yscale]
+      for xx=xmin to xmax step xstep
+      {
+         x = new interval[xx, xx+xscale]
+
+         res = eval[func]
+         if res
+            print["X"]
+         else 
+            if res == false
+               print["."]
+            else
+               print["!"]    // Evaluation problem (probably divide by zero)
+      }
+      println["<BR>"]
+   }
+}
+%>
+</TT>
+</P>
+  <HR>
+  <P>
+   <A HREF="highlight.fsp?fileName=simplegraph.fsp">View Source</A>
+  </P>
+  <P>
+   <I><A HREF="mailto:eliasen@mindspring.com">Alan Eliasen</A></I> was born
+   <%= round[now[] - #1969-08-19 04:54 PM Mountain#, minute] -> ["days", "hours", "minutes"] %> ago.
+  </P>
+
+  <P>
+   Back to <A HREF="/frinkdocs/fspdocs.html">Frink Server Pages
+    documentation.</A>
+  </P>  
+ </BODY>
+</HTML>

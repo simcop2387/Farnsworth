@@ -1,0 +1,29 @@
+// A program to disprove the e-mail that says,
+// "February 1865 is the only month in recorded history not to have a full
+// moon."
+
+// For a month to have no full moon, the illuminated fraction has to be
+// decreasing at the beginning of the month and increasing at the end of
+// the month.  This will only work in February because a lunar month is
+// 29.5305555 days.
+
+use sun.frink
+
+timezone = "UTC"
+
+// Start with the first February after the Gregorian calendar was adopted
+// (which was October 15, 1582)
+for year = 1583 to 2020
+{
+   start = parseDate["$year-02-01 00:00 $timezone"]
+   end = parseDate["$year-03-01 00:00 $timezone"]
+
+   if moonIlluminatedFraction[start] > moonIlluminatedFraction[start + 1 s] and moonIlluminatedFraction[end - 1 s] < moonIlluminatedFraction[end]
+      print["$year "]
+}
+
+println[]
+
+// Find the actual date of the full moon in February 1865.
+fullMoon1865 = fullMoon[#February 1, 1865#]
+println["A full moon actually occurred that month on $fullMoon1865"]

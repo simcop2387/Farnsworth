@@ -1,0 +1,20 @@
+
+// Crystal radio design tool
+
+// Allow u prefix for micro
+u :- micro
+
+f1 = "1190 kHz"
+
+f = eval[input["Enter desired frequency: [$f1] ", f1]]
+
+w = 2 pi f
+
+L = eval[input["Enter coil inductance: "]]
+
+C = 1/(L w^2)
+
+formatCapacitance[c] := format[c, c < 1 uF ? "nanofarads" : "microfarads", 5]
+capacitance :-> formatCapacitance
+
+println["Capacitance: $C"]

@@ -1,0 +1,9 @@
+
+// This dumps information about the Java Virtual Machine and the system
+// properties that are set.  It uses the Java Introspection layer of Frink
+// which can call any Java code.
+
+a = callJava["java.lang.System", "getProperties", []]
+
+for [name] a.propertyNames[]
+   println["$name\t" + a.getProperty[name]]

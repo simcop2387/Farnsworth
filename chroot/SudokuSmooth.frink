@@ -1,0 +1,27 @@
+// In the Primenumbers Yahoo group, Paul Leyland asked:
+//
+// A slightly more difficult (but only slightly) pair of questions is:
+// which is/are the smoothest Soduko [sic] number(s) and which is/are the least
+// smooth?   Choose any justifiable measure of smoothness you wish and, of
+// course, justify your choice.
+//
+// Note that this requires the 2006-12-29 release of Frink which has the
+// permute method.
+
+a = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+results = new array[]
+
+for p = a.permute[]
+{
+   n = parseInt[join["", p]]
+   f = factor[n/9]
+   largest = (f@(length[f]-1))@0
+   results.push[[n,largest,f]]
+}
+
+// Sort by largest factor
+sort[results, {|a,b| a@1 <=> b@1}]
+for p = results
+   println[p]
+
+

@@ -1,0 +1,26 @@
+
+// Calculates duration of daylight over the course of a year.
+
+// Requires the sun.frink high-precision astronomical library.
+use sun.frink
+
+lat = 39.58563 degrees North
+long = 104.89581 degrees West
+
+out =  ### yyyy-MM-dd ###
+time = ### hh:mm:ss ###
+
+temp = F[14]
+pressure = 29.90 inHg
+
+for date = #2007-01-01 12:00 Mountain # to #2008-01-31# step 1 day
+{
+   sunrise = sunrise[date, lat, long, temp, pressure]
+   sunset  = sunset[date, lat, long, temp, pressure]
+
+   daylength = sunset - sunrise
+
+//   println[(date -> out) + "\t" + format[daylength, s, 0]]
+   print[(date -> out) + "\t" + (daylength -> [hour, min, sec, 0])]
+   println["\t" + (sunrise -> time) + "\t" + (sunset->time)]
+}

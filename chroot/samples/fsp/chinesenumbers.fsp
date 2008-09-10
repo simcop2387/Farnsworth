@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<HTML LANG="en">
+ <HEAD>
+  <TITLE>Chinese Number Drill</TITLE>
+  <META HTTP-EQUIV="Default-Style" CONTENT="APE Airy"> 
+  <LINK REL="StyleSheet" HREF="/frinkdocs/apeairy.css" TYPE="text/css"
+        TITLE="APE Airy"> 
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/spaceship.css"
+        TYPE="text/css" TITLE="Spaceship">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style.css" TYPE="text/css"
+        TITLE="APE Classic">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style2.css" TYPE="text/css"
+        TITLE="Compact"> 
+  <LINK REL="icon" HREF="/images/futureboyicon.png" TYPE="image/png">
+ </HEAD>
+
+ <BODY onLoad="document.f1.answer.focus()">
+  <H1>Chinese Number Drill</H1>
+  <P>
+   This program tests you on your ability to recognize Chinese numbers.
+   For background, see the articles
+   <A HREF="http://www.mandarintools.com/numbers.html" TARGET="_blank">here</A> and
+   <A HREF="http://en.wikipedia.org/wiki/Chinese_numerals" TARGET="_blank">here</A>.
+  </P>
+
+  <%
+     use ../ChineseNumbers.frink
+     use ../HTMLUtils.frink
+
+     ch = new ChineseNumbers
+  
+     digitlist = [1,2,3,4,5,6,7,8]
+     stylelist = ["Casual", "Formal"]
+     fontlist = ["serif", "sans-serif"]
+  
+     numDigits = numDigits ? eval[numDigits] : 3
+     style = style ? style : "Casual"
+     font = font ? font : "serif"
+
+     num = random[0,10^numDigits-1]
+
+     formatStyle[num, style, formatter] :=
+     {
+        if style == "Formal"
+           formatter.formatFormal[num]
+        else
+           formatter.formatCasual[num]
+     }
+
+     comment = ""
+     if answer
+        if  answer != testNum
+        {
+          num = eval[testNum]
+          answered = ch.formatStyle[eval[answer], style, ch]
+          comment = """<P CLASS="warning">Sorry, the answer you entered,
+                       $answer, is written as:<BR>
+          <SPAN STYLE="font-size:xx-large; font-family:$font">$answered</SPAN><BR>Try again:</P>"""
+        } else
+           comment = "<P>Correct!</P>"
+  
+  %>
+
+  $comment
+  
+  <P>
+   <SPAN STYLE="font-size:xx-large; font-family:$font"><%= ch.formatStyle[num, style, ch] %></SPAN>
+  </P>
+
+  <FORM METHOD="POST" ACTION="chinesenumbers.fsp" NAME="f1">
+  <P>
+    <INPUT TYPE="HIDDEN" NAME="testNum" VALUE="$num">
+    Answer:<BR>
+    <INPUT TYPE="TEXT" NAME="answer">
+    <INPUT TYPE="SUBMIT" VALUE="Test">
+   </P>
+
+   <P>
+    Max digits:
+    <SELECT NAME="numDigits">
+      <% makeSelect[digitlist, numDigits] %>
+    </SELECT>
+
+    Style:
+    <SELECT NAME="style">
+      <% makeSelect[stylelist, style] %>
+    </SELECT>
+
+    Font:
+    <SELECT NAME="font">
+      <% makeSelect[fontlist, font] %>
+    </SELECT>
+
+   </P>
+  </FORM>
+
+  <HR>
+  <P>
+   <I><A HREF="mailto:eliasen@mindspring.com">Alan Eliasen</A></I> was born
+   <% time = round[now[] - #1969-08-19 04:54 PM Mountain#, minute]
+      days = ch.formatStyle[time div day, style, ch]
+      time = time mod day
+      hours = ch.formatStyle[time div hour, style, ch]
+      time = time mod hour
+      minutes = ch.formatStyle[time div minute, style, ch]
+      println["$days days, $hours hours, $minutes minutes ago."]
+   %>
+  </P>
+
+  <P>
+   <A HREF="highlight.fsp?fileName=chinesenumbers.fsp">View Source</A>
+  </P>
+
+  <P>
+   Back to <A HREF="/frinkdocs/fspdocs.html">Frink Server Pages
+    documentation.</A>
+  </P>  
+ </BODY>
+</HTML>

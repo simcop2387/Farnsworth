@@ -1,0 +1,25 @@
+
+// Benchmark of the TAK function:
+// http://shootout.alioth.debian.org/benchmark.php?test=takfp&lang=all&sort=fullcpu
+// This is a very recursive function that tests function calls and
+// floating-point math.  Since Frink (currently) always uses
+// arbitrary-precision floating-point math, this program will certainly be
+// slow.  It's an interesting, and simple benchmark, though.
+
+TAK[x,y,z] :=  y < x ? TAK[TAK[x-1.,y,z],TAK[y-1.,z,x],TAK[z-1.,x,y]] : z
+
+TAK[n] :=
+{
+   start = now[]
+   res = TAK[n*3., n*2., n*1.]
+   end = now[]
+
+   println["TAK[$n]:"];
+   println[" Elapsed time: " + (end-start -> "seconds")]
+   println[" Result: $res"]
+}
+
+for n = 7 to 10
+   TAK[n]
+
+   

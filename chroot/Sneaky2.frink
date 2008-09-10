@@ -1,0 +1,22 @@
+
+// Program to solve "Sneaky #2" geocache (GCC471)
+// http://www.geocaching.com/seek/cache_details.aspx?guid=57a26289-f958-4335-96ac-45a7724307fa
+
+use Maidenhead.frink
+
+m = "DM79OM"
+
+[latS, longW, latN, longE] = MaidenheadToLatLong[m]
+println[MaidenheadToLatLong[m] -> degrees
+
+// The cache is located 0.095 minutes north and 1.038 minutes west of the
+// southeast corner.
+lat = latS + 0.095 arcmin
+long = longE - 1.038 arcmin
+
+println["latS = " + (latS -> "degrees")]
+println["longE = " + (longE -> "degrees")]
+
+println["The cache is at: "]
+println["Latitude: " + format[lat, "degrees", 5]]
+println["Longitude: " + format[long, "degrees", 5]]

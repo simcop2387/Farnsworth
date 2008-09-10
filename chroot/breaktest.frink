@@ -1,0 +1,41 @@
+
+// Test unlabeled break
+for a = 1 to 10
+{
+   break
+   println["Unlabeled break test failed"]
+}
+
+// Test labeled break in single loop
+LOOP1:
+for a = 1 to 10
+{
+   break LOOP1
+   println["Labeled single break test failed"]
+}
+
+
+// Test labeled break in nested loops
+LOOP2:
+for a = 1 to 10
+{
+   for b = 1 to 10
+   {
+      break LOOP2
+      println["Nested loop break fails"]
+   }
+   println["Nested loop break fails 2"]
+}
+      
+// Test labeled break in nested loops
+LOOP3:
+for a = 1 to 10
+{
+   LOOP4:
+   for b = 1 to 10
+   {
+      break LOOP3
+      println["Nested loop 2 break fails"]
+   }
+   println["Nested loop 2 break fails 2"]
+}

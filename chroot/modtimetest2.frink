@@ -1,0 +1,30 @@
+
+// Timing test for modular exponentiation
+
+println["M\tOps/sec"]
+
+// This outer loop is to minimize effects of the Java VM doing bytecode
+// compiling on the first run.
+for loop = 1 to 10
+{
+   for M = 10 bytes to 100 bytes step 10 bytes
+   {
+      modulus = 256^(M/byte)
+
+      limit = 1000
+
+      start = now[]
+      for i = 1 to limit
+      {
+         base = randomBits[M/bit]
+         exponent = randomBits[M/bit]
+         result = modPow[base, exponent, modulus]
+      }
+
+      end = now[]
+
+      println[(M -> bytes) + "\t" + format[limit / (end-start), s^-1, 2]]
+   }
+
+   println[""]
+}

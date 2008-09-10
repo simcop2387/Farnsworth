@@ -1,0 +1,42 @@
+
+// This is an algorithm for doing binary search of a list in Frink.
+//
+// arguments:
+//    list:          an ordered list of items
+//
+//    item:          the item to search for in the list
+//
+//    orderFunction: a two-argument function of the form {|a,b| ... } where
+//                   the function returns -1 if a<b, 0 if a==b, and 1 if a > b
+//                   (such as the <=> operator returns.  This is the default
+//                    comparison if no order function is passed in.)
+//
+// This returns the index of the item to insert *before* (for example,
+// using the method list.insert[pos, item] ) to put the item in the right
+// order.  If the item is found anywhere in the list, this returns the index
+// of the matching item in the list.  If the item is not found in the
+// list, this still returns the index before which it should be inserted.
+
+binarySearch[list, item, orderFunction = {|a,b| a <=> b}] :=
+{
+   start = 0
+   end = length[list] - 1
+   var current
+   var comp
+
+   while (start <= end)
+   {
+      current = floor[(end + start) / 2]
+      comp = orderFunction[item, list@current]
+
+      if comp == 0
+         return current
+
+      if (comp == -1)
+         end = current - 1
+      else
+         start = current + 1
+   }
+
+   return start
+}

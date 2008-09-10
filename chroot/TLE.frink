@@ -1,0 +1,167 @@
+
+// Two-line satellite orbital element calculations.
+//
+// See:
+//   http://celestrak.com/columns/v04n03/index.asp#FAQ01
+// and
+//   http://satobs.org/element.html
+// and
+//   http://www.zeptomoby.com/satellites/
+//   
+//
+// Elements are of the format:
+//
+// SATNAME
+// 1 NNNNNC NNNNNAAA NNNNN.NNNNNNNN +.NNNNNNNN +NNNNN-N +NNNNN-N N NNNNN
+// 2 NNNNN NNN.NNNN NNN.NNNN NNNNNNN NNN.NNNN NNN.NNNN NN.NNNNNNNNNNNNNN
+//
+// A sample for the International Space Station:
+//
+// ISS
+// 1 25544U 98067A   06153.51583746  .00020000  00000-0  20000-3 0  9003
+// 2 25544  51.6326 263.0272 0009318 279.9714  80.0399 15.75882122 30853
+
+class TLE
+{
+   // A human-readable name
+   var name
+   
+   // The NORAD catalog number
+   var catalogNumber
+
+   // Security classification of satellite
+   var securityClassification
+
+   // International COSPAR identification
+   var COSPAR
+
+   // The epoch year
+//   var epochYear
+
+   // The epoch day
+//   var epochDay
+
+   // The time that the satellite crossed the equator in a northerly direction.
+   var epoch
+
+   // First derivative of the mean motion
+   var meanMotion1
+
+   // Second derivative of the mean motion
+   var meanMotion2
+
+   // BStar drag term
+   var bStar
+
+   // Ephemeris type
+   var ephemerisType
+
+   // Element number
+   var elementNumber
+
+   // Inclination angle
+   var inclination
+
+   // Right ascension of ascending node
+   var rightAscension
+
+   // Eccentricity of orbit
+   var eccentricity
+
+   // Argument of perigee
+   var argumentOfPerigee
+
+   // Mean anomaly
+   var meanAnomaly
+
+   // Revolutions per day
+   var revolutionsPerDay
+
+   // Revolution number at epoch
+   var revolutionAtEpoch
+
+   // Constructor, parses a TLE specification from strings
+   new[readableName, line1, line2] :=
+   {
+      name = readableName
+
+      // Parse line 1
+      catalogNumber = trim[substrLen[line1, 2,5]]
+      securityClassification = substrLen[line1, 7,1]
+      COSPAR = trim[substrLen[line1, 9,8]]
+      
+      year = parseInt[substrLen[line1, 18,2]]
+      if (year >= 57)
+         epochYear = year + 1900
+      else
+         epochYear = year + 2000
+
+      epochDay = eval[substrLen[line1, 20,12]]
+
+      epoch = parseDate["$epochYear GMT"] + epochDay days
+
+      meanMotion1 = eval[substrLen[line1, 33,10]]
+      meanMotion2 = eval[substrLen[line1, 44, 1] + "0." + substrLen[line1, 45,5] + "*10^" + substrLen[line1, 50,2]]
+
+      bStar = eval[substrLen[line1, 53, 1] + "0." + substrLen[line1, 54,5] + "*10^" + substrLen[line1, 59,2]]
+
+      ephemerisType = substrLen[line1, 62,1]
+      elementNumber = eval[substrLen[line1, 64,4]]
+
+      // Parse line 2
+      if (catalogNumber != trim[substrLen[line2, 2, 5]])
+         println["Error!  catalog number does not match in lines 1 and 2!"]
+      // TODO:  Throw an exception for the above.
+
+      inclination = eval[substrLen[line2, 8, 8]]
+      rightAscension = eval[substrLen[line2, 17, 8]]
+      eccentricity = eval["0." + substrLen[line2, 26, 7]]
+      argumentOfPerigee = eval[substrLen[line2, 34, 8]]
+      meanAnomaly = eval[substrLen[line2, 43, 8]]
+      revolutionsPerDay = eval[substrLen[line2, 52, 11]]
+      revolutionAtEpoch = eval[substrLen[line2, 63, 5]]
+   }
+
+   // Returns the orbital period
+   getOrbitalPeriod[] := day / revolutionsPerDay
+}
+
+  
+
+line1Pattern = %r/1                 # Line number 1
+                 \s            
+                 (\d{1,5})           # Satellite number
+                 (\w)                # Designation
+                 \s+
+                 (\d{5})             # International designator
+                 (\w{1,3})           # Designator parts
+                 \s+
+                 (\d{2})             # Epoch year (last 2 digits)
+                 (\d{3}\.\d{8})      # Epoch day
+                 \s+
+                 ((?:\+|\-)?\.\d{8}) # First derivative of mean motion
+                 \s+
+                 ((?:\+|\-)?\S+)      # Second derivative of mean motion
+                 \s+
+                 (\S+)               # Bstar drag term
+                 /x
+
+line2Pattern = %r/^2 /
+
+var name
+var line1
+var t
+for line = lines["file:tletest.txt"]
+{
+   if line =~ line1Pattern
+      line1 = line
+   else
+      if line =~ line2Pattern
+      {
+         t = new TLE[name, line1, line]
+         println[t]
+         println[t.epoch -> GMT]
+      } else
+      name = line
+}
+

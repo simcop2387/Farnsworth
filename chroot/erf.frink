@@ -1,0 +1,230 @@
+
+// Implementation of the error function erf[x] and the complementary error
+// function erfc[x] where erfc[x] = 1 - erf[x].
+
+// Error function erf[x]
+// This is a "smart" dispatcher function that attempts to call the right
+// function to calculate for a given range.
+//
+erf[x] := (abs[x] > 5.8) ? 1-erfcAsymptotic[x] : erfTaylor[x]
+
+
+// Complementary error function erfc[x] where erfc[x] = 1 - erf[x]
+// This is a "smart" dispatcher function that attempts to call the right
+// function to calculate for a given range.
+//
+erfc[x] := (abs[x] > 5.8) ? erfcAsymptotic[x] : 1-erfTaylor[x]
+
+
+// Calculate the probabilty that z has a value less than or equal to x,
+// assuming x is normally distributed, with a mean of 0 and a standard
+// deviation of 1.
+// This is fundamental to lots of statistics.  It is essentially the integral
+// of the normal curve from negative infinity to z.
+phi[z] := 1/2 (1 + erf[z/sqrt[2]])
+
+// Inverse phi function
+inversePhi[phi] := sqrt[2] inverseErf[2 phi - 1]
+
+
+// Calculate the probabilty that z has a value less than or equal to x,
+// assuming x is normally distributed, and has the given mean and standard
+// deviation.
+// This is fundamental to lots of statistics.
+phi[x, mean, sd] := phi[(x-mean)/sd]
+
+
+// Functions below this point should probably not be called directly,
+// as they may not behave well for all numerical values.  Use the functions
+// above which automatically select the proper functions to call for different
+// numeric ranges.
+
+
+// Asymptotic series expansion for erfc.
+// See :
+// http://en.wikipedia.org/wiki/Error_function#Asymptotic_expansion
+
+// Unfortunately, the algorithm below diverges for all values of x.
+// It is able to produce more digits for large values of x before it
+// begins to diverge, and is practically useless for smaller x.
+erfcAsymptotic[x, debug = false, stats = false, digits=getPrecision[]] :=
+{
+   c = e^(-x^2)/(x sqrt[pi])
+   if (debug)
+      println["c is $c"]
+
+   sum = 1
+   precision = 10^(-digits)
+
+   if (debug)
+      println["Attempting to get precision less than $precision"]
+
+   var term = 10000000
+   var n = 0
+   var lastterm
+   
+   do
+   {
+      lastterm = term
+      n = n + 1
+      term = (-1)^n * (2n)!/(n! (2x)^(2n))
+      if (debug)
+         println[term]
+      sum = sum + term
+   } while (abs[term/sum] > precision) and (abs[term] < abs[lastterm])
+
+   // Did we terminate because the series started to diverge?
+   if (abs[term] > abs[lastterm])
+   {
+      digits = -log[abs[term]]  // Adjust the number of useful digits
+      if (debug)
+         println["Warning:  started to diverge.  Precision will be no better than " + format[digits, 1, 1] + " digits."]
+      sum = sum - term    // Back out last diverging term.
+   }
+
+   if (debug)
+      println["Took $n iterations."]
+
+   if (stats)
+      return [sum * c, n, format[digits,1,3]]
+   else
+      return sum * c
+}
+
+
+// Taylor series expansion for erf[x].  See:
+//
+// http://en.wikipedia.org/wiki/Error_function
+//
+// This begins to fall apart at x=5.8 or so.
+//
+erfTaylor[x, debug = false, stats = false, digits=getPrecision[]] :=
+{
+   // This special case is necessary because the Taylor series just
+   // sits at 0 for all iterations.
+   if x == 0
+      return 0
+
+   c = 2 / sqrt[pi]
+   sum = 0
+
+   precision = 10^(-digits)
+
+   if (debug)
+      println["Attempting to get precision less than $precision"]
+
+   var term = 10000000
+   n = -1
+
+   var lastterm
+   
+   do
+   {
+      lastterm = term
+      n = n + 1
+      term = (-1)^n * x^(2n+1)/((2n+1) n!)
+      if (debug)
+         println[term]
+      sum = sum + term
+   } while (abs[term/sum] > precision)
+
+   if (debug)
+      println["Took $n iterations."]
+
+   if (stats)
+      return [sum * c, n, format[digits,1,3]]
+   else
+      return sum * c
+}
+
+// Inverse of the Erf function
+// See
+//   http://functions.wolfram.com/GammaBetaErf/InverseErf/06/01/0001/
+// for an explanation of the power series.
+inverseErf[z, debug = false, stats = false, digits=getPrecision[]] :=
+{
+   if (z==0)                    // Special case to avoid divide-by-zero
+      return 0
+   
+   var sum = 0
+   var precision = 10^(-digits)
+
+   var term = 10000000
+   var lastterm
+
+   var c = sqrt[pi]/2
+   var k = 0
+   
+   do
+   {
+      lastterm = term
+      term = InverseErfHelper.getCk[k] (c z)^(2k + 1) / (2k+1)
+      if (debug)
+         println[term]
+      sum = sum + term
+      k = k + 1
+   } while (abs[term/sum] > precision)
+
+   if (stats)
+      return [sum, k, format[digits,1,3]]
+   else
+      return sum
+}
+
+
+// Asymptotic expansion of inverseErf which works for values as z->1.
+// This doesn't seem to work well and probably shouldn't be trusted.
+//inverseErfAsymptotic[z] := (1/sqrt[2]) sqrt[log[2/(pi (z - 1)^2)] - log[log[2/(pi (z - 1)^2)]]]
+
+
+// This class has methods to cache the values of c_k which are used repeatedly
+// in calculating the inverse Erf function.
+class InverseErfHelper
+{
+   class var ck = new array
+
+   class getCk[k] :=
+   {
+      len = length[ck]
+
+      if (len == 0)
+      {
+         ck@0 = 1
+         ck@1 = 1
+         len = len + 2
+      }
+
+      // If cached, return it
+      if len > k
+         return ck@k
+
+      var sum
+      for n = len to k
+      {
+         sum = 0
+         // Calculate for all needed values
+         // Some recalculation is done here.  This could be made more
+         // efficient.
+         for m = 0 to n-1
+            sum = sum + (ck@m ck@(n-1-m))/((m+1)(2m + 1))
+
+         ck@n = sum
+      }
+
+      return ck@k
+   }
+}
+
+// Samples to examine behavior of functions
+//for n=0.01 to .89 step .1
+//{
+//   [val, iterations, digits] = inverseErf[n, false, true, 15]
+//   println["$n\t$val\t$iterations\t$digits"]
+//}
+
+//for n=0.2 to 20 step .2
+//{
+//   [val, iterations, digits] = erfTaylor[n, false, true, 20]
+//   println["$n\t$iterations\t$digits"]
+//}
+

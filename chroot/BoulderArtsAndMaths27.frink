@@ -1,0 +1,35 @@
+
+// Solution to "Boulder Arts & Maths 27" Geocaching puzzle
+// http://www.geocaching.com/seek/cache_details.aspx?guid=33f820d4-8bca-4e71-b4ff-40978968c94f
+
+// Include the important definitions for many of these functions.
+use navigation.frink
+
+// Wind gauge
+lat1  = DMS[39, 59.194] North
+long1 = DMS[105, 11.398] West
+
+// Giant Robot!!
+lat2  = DMS[40, 00.878] North
+long2 = DMS[105, 12.453] West
+
+// DNA
+lat3 = DMS[40, 02.056] North
+long3 = DMS[105, 14.062] West
+
+// Build a polygon of points
+array = [[lat1, long1], [lat2, long2], [lat3, long3]]
+
+perim = earthPerimeter[array]
+
+println["Perimeter is " + (perim -> "statute miles")]
+println["Area is " + (earthArea[array] -> "(statute miles)^2")]
+
+println["Verifying against flat earth: "]
+s = perim/2
+
+// Ye olde (Euclidean) triangle area formula
+area = sqrt[s (s - earthDistance[lat1, long1, lat2, long2]) * (s - earthDistance[lat2, long2, lat3, long3]) * (s - earthDistance[lat3, long3, lat1, long1])]
+
+println["Flat-earth area is " + (area -> "(statute miles)^2")]
+

@@ -1,0 +1,47 @@
+// Routines to calculate Sidereal Time at Greenwich
+// Algorithms based on Chapter 12 of Jean Meeus' _Astronomical Algorithms_
+// and verified against samples in the book.
+
+// GreenwichMeanSiderealAngle takes one argument (a date)
+// and returns an angle indicating the Greenwich hour angle of the mean vernal
+// point (the intersection of the ecliptic of the date with the mean equator 
+// of the date) in the default angular units (most likely radians)
+// This function works at any time of the day.
+GreenwichMeanSiderealAngle[date] :=
+{
+   //println["       Date is: $date"]	
+   //println["Julian Date is: " + (date->JD)]
+
+   // These 2 lines are eq. 12.1
+   jdp = JD[date] - 2451545.0 days  // Epoch J2000.0 = JDE 2451545.0
+   T = jdp / juliancentury  // Dimensionless
+
+   //println["T = $T"]
+
+   // Eq. (12.4)
+   return degree (280.46061837 + 360.98564736629 jdp/day + 0.000387933 T^2 - T^3/38710000)
+}
+
+// GreenwichMeanSiderealTime returns the mean sidereal time at Greenwich
+// specified as a unit with dimensions of time.
+GreenwichMeanSiderealTime[date] :=
+{
+   GreenwichMeanSiderealAngle[date] mod (360 degrees) / (360 degrees / (24 hours))
+}
+
+HMS[x] := x -> [0, "days", "hours", "minutes", "seconds"]
+
+println[GreenwichMeanSiderealTime[##] -> HMS]
+
+// Example 12.a -- Should return 13h 10m 46.3668 s
+result = GreenwichMeanSiderealTime[#1987-04-10 00:00 UTC#] 
+println[ result -> HMS]
+expected = 13 hours + 10 minutes + 46.3668 sec
+println["Discrepancy between Meeus is: " + (abs[result - expected] -> HMS)]
+
+// Example 12.b -- Should return 8h 34m 57.0896 s
+result = GreenwichMeanSiderealTime[#1987-04-10 19:21:00 UTC#] 
+println[ result -> HMS]
+expected = 8 hours + 34 minutes + 57.0896 sec
+println["Discrepancy between Meeus is: " + (abs[result - expected] -> HMS)]
+

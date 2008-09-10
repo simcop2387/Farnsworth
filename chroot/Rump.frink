@@ -1,0 +1,29 @@
+
+// A test of math using an equation due to Rump and refined in "Global
+// Optimization Using Interval Analysis", Hansen and Walster, section
+// 1.4.1
+f[x,y] := (333.75 - x^2) y^6 + x^2 (11x^2 y^2 - 121 y^4 - 2) + 5.5 y^8 + x/(2y)
+
+// This alternate version shows what happens if we don't use floating-point
+// numbers but exact rational numbers.
+f2[x,y] := ((333 + 3/4) - x^2) y^6 + x^2 (11x^2 y^2 - 121 y^4 - 2) + (5 + 1/2) y^8 + x/(2y)
+
+x0=77617
+y0=33096
+
+setPrecision[33]
+println["Correct answer should be:"]
+
+// It appears that this doesn't work if precision is set below 37 digits,
+// then it works perfectly.
+println["Correct answer: " + x0/(2 y0)-2.]
+println["Floating-point: " + f[x0,y0]]
+
+// Rational example:
+println["Rational:       " + f2[x0,y0]*1.]
+
+// Interval example:
+collapseIntervals[false]
+xi = new interval[x0,x0,x0]
+yi = new interval[y0,y0,y0]
+println["Interval:       " + f[xi,yi]]

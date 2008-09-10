@@ -1,0 +1,21 @@
+
+// Rot-13 encoding/decoding.
+
+rot13[str] :=
+{
+   chars = chars[str]
+   ret = new array
+
+   for c = chars
+   {
+      if (c >= char["A"] and c <= char["Z"])
+         c = ((c - char["A"] + 13) mod 26) + char["A"]
+      else
+         if (c >= char["a"] and c <= char["z"])
+            c = ((c - char["a"] + 13) mod 26) + char["a"]
+
+      ret.push[c];
+   }
+
+   return char[ret];
+}

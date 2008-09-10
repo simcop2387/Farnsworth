@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<HTML LANG="en">
+ <HEAD>
+  <TITLE>Model Solar System</TITLE>
+  <META HTTP-EQUIV="Default-Style" CONTENT="Spaceship"> 
+  <LINK REL="StyleSheet" HREF="/frinkdocs/spaceship.css"
+        TYPE="text/css" TITLE="Spaceship">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/apeairy.css"
+        TYPE="text/css" TITLE="APE Airy"> 
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style.css" TYPE="text/css"
+        TITLE="APE Classic">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style2.css" TYPE="text/css"
+        TITLE="Compact"> 
+  <LINK REL="icon" HREF="/images/futureboyicon.png" TYPE="image/png">
+ </HEAD>
+
+ <BODY>
+  <H1>Model Solar System</H1>
+  <%
+  planets = [["Mercury",mercurydist,2 mercuryradius],["Venus",venusdist,2 venusradius],["Earth",earthdist,2 earthradius],["Mars",marsdist,2 marsradius],["Jupiter",jupiterdist,2 jupiterradius],["Saturn",saturndist,2 saturnradius],["Uranus",uranusdist,2 uranusradius],["Neptune",neptunedist,2 neptuneradius],["Pluto",plutodist,2 plutoradius]]
+
+  names = dict[]
+  names@"scaledSundiam" = 2 sunradius
+  for [name, dist, diam] planets
+  {
+     names@"scaled${name}dist" = dist
+     names@"scaled${name}diam" = diam
+  }
+  
+     scale = undef
+     for [name] keys[names]
+     {
+        enteredscale = eval[name]
+
+        if enteredscale
+           scale = eval[enteredscale] / names@name
+     }
+
+     if (scale != undef)
+     {
+        if ! (scale conforms 1)
+       println["<P CLASS=\"warning\">Error: You must enter a length <EM>including</EM> the units of measure, like <CODE CLASS=\"input\">1 foot</CODE>.</P>"]
+        else
+        {
+           println["<H3>Scale Sizes</H3>"]
+           println["<P>Scale is 1:" + round[1/scale,1] + "</P>"]
+  %>
+  
+  <TABLE BORDER=1 CELLPADDING=4>
+    <TR><TH>Name<TH>Distance from Sun<TH>Diameter
+    <TR><TD>Sun<TD>
+     <TD><%= format[2 sunradius scale] %>
+    <%
+      for [name, dist, diam] planets
+      {
+         println["<TR><TD>$name"]
+         println["<TD>"+ format[dist scale]]
+         println["<TD>"+ format[diam scale]]
+      } %>
+    </TABLE>
+
+    <P><B>Scaled speed of light: </B> <%= format[c scale] %></P>
+     <HR>
+<%
+     }
+  }
+
+   format[unit] :=
+   {
+      if (unit conforms foot)
+      {
+         if (unit > 1 mile)
+            return round[unit, 1 foot] -> ["miles", "feet"]
+         if (unit > 1 foot)
+            return round[unit, .1 in] -> ["feet", "in"]
+         if (unit > .1 in)
+            return round[unit, .001 in] -> ["in"]
+         return round[unit, .001 mm] -> "mm"
+      }
+
+      if (unit conforms mph)
+      {
+         if (unit > 0.1 mph)
+            return format[unit, "mph", 3]
+         return format[unit, "feet/hour", 3]
+      }
+   }
+
+  %>
+  
+  <H3>Define Your Scale</H3>
+  <P>
+   This page calculates the sizes of objects in a
+   <A HREF="/frinkdocs/#ModelSolarSystem">model solar system.</A>
+  </P>
+
+  <P>
+   To determine a scale, enter a scaled size in <B>only one</B> of the boxes
+   below.  The size should be entered <EM>both</EM> as the number <EM>and</EM>
+   its units of measurement, for example, if you want Jupiter to be 6 feet 6
+   inches in diameter, enter <B>6.5 feet</B> or, alternately, <B>6 feet + 6
+   in</B> (the plus sign is necessary) in the box for Jupiter's diameter.
+  </P>
+
+  <P>
+   You can use just about any length (usually in lowercase) in singular or
+   plural, such as foot, feet, meter, meters, m, inch, inches, in, miles,
+   yards, cm, mm, millimeters, centimeters, cm, micrometers, nanometers, nm,
+   gigameters, Gm, rods, furlongs, kilometers, km, league, <A
+   HREF="solar.fsp?scaledPlutodist=marathon">marathon</A>, etc.
+  </P>
+
+  <FORM ACTION="solar.fsp" METHOD="POST">
+   <TABLE BORDER=0>
+     <TR><TH>Name<TH>Distance from Sun<TH>Diameter
+     <TR><TD>Sun<TD><TD><INPUT TYPE="TEXT" NAME="scaledSundiam">
+   <% for [name, dist, diam] planets
+         println["<TR><TD>$name<TD><INPUT TYPE=\"TEXT\" NAME=\"scaled${name}dist\"><TD><INPUT TYPE=\"TEXT\" NAME=\"scaled${name}diam\">"]
+    %>
+   </TABLE>
+   <INPUT TYPE="SUBMIT" VALUE="Calculate">
+  </FORM>
+
+  <HR>  
+  <P>
+   <A HREF="highlight.fsp?fileName=solar.fsp">View Source</A>
+  </P>
+  <P>
+   <I><A HREF="mailto:eliasen@mindspring.com">Alan Eliasen</A></I> was born
+   <%= round[now[] - #1969-08-19 04:54 PM Mountain#, minute] -> ["days", "hours", "minutes"] %> ago.
+  </P>
+
+  <P>
+   Back to <A HREF="/frinkdocs/fspdocs.html">Frink Server Pages
+    documentation.</A>
+  </P>  
+ </BODY>
+</HTML>

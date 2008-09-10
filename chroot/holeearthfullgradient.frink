@@ -1,0 +1,85 @@
+
+// Program to find the time spent falling through a hole in the earth assuming
+// a non-uniform earth.  The density of the earth is modeled using several
+// layers which model closely the known density of the earth.
+
+// This program is written in Frink:
+//  http://futureboy.homeip.net/frinkdocs/
+//
+// Alan Eliasen, eliasen@mindspring.com
+
+// The mass of a whole shell with inner radius d0 and outer radius d1
+// and inner density r0 and outer density r1
+wholeShellMass[d0 is length, d1 is length, r0 is mass_density, r1 is mass_density] :=
+{
+   ((d1 - d0) pi (2 d0 d1 (r0 + r1) + d0^2 (3 r0 + r1) + d1^2 (r0 + 3 r1))) / 3
+}
+
+// The mass of the partial shell with inner radius d0 and outer radius d1
+// and inner density r0 and outer density r1 which is below an object
+// at radius d.
+partShellMass[d is length, d0 is length, d1 is length, r0 is mass_density, r1 is mass_density] :=
+{
+   (pi (3 d^4 (r0 - r1) + d^3 (-4 d1 r0 + 4 d0 r1) - 
+    d0^3 (-4 d1 r0 + d0 (3 r0 + r1)))) / (3 (d0 - d1))
+}
+
+// The mass of a whole or partial shell with inner radius d0 and outer radius 
+// d1 and inner density r0 and outer density r1 which is below an object at
+// radius d.
+shellMass[d is length, d0 is length, d1 is length, r0 is mass_density, r1 is mass_density] :=
+{
+   if (d < d0)
+      0 kg                                // inside inner surface of shell
+   else
+      if d > d1
+         wholeShellMass[d0, d1, r0, r1]   // completely outside shell
+      else
+         partShellMass[d, d0, d1, r0, r1] // partway through shell
+}
+
+// The different layers of density in the Earth
+shells = [[   0 km, 1221 km,    13.1 g/cm^3, 12.8 g/cm^3],
+          [1221 km, 3480 km,    12.2 g/cm^3,  9.9 g/cm^3],
+          [3480 km, 5651 km,     5.6 g/cm^3,  4.4 g/cm^3],
+          [5651 km, 6341 km,     4.4 g/cm^3,  3.4 g/cm^3],
+          [6341 km, earthradius, 2.9 g/cm^3,  2.2 g/cm^3]]
+
+// This finds the mass that's still below you at a given distance from the
+// earth's center.
+mass[d is length, shells] := 
+{
+   var m is mass = 0 kg
+   for [d0, d1, r0, r1] shells
+      m = m + shellMass[d, d0, d1, r0, r1]
+
+   // Fudge factor to make integral come out
+   // with the known mass of the earth.
+   return 0.995775976555 m    
+}
+
+// Find the acceleration at a given distance from the core.
+a[dist is length, shells] := G mass[dist, shells]/dist^2
+
+var v is velocity = 0 m/s         // Velocity at end of timestep
+var stepsize is time = 1/100 s
+var d is length = earthradius
+var t is time = 0 s
+var a is acceleration = 0 gravity
+
+while (d > 0 m)
+{
+   t = t + stepsize
+   a = a[d, shells]
+   v = v + a stepsize
+   d = d - v stepsize
+
+   // Print results every second
+   if (t mod sec == 0 s)
+     println[(t -> sec) + "\t" + (d->km) + "\t" + (v->mph) + "\t" + (a->m/s^2)]
+}
+
+// Print final times
+println["Time to core      : " + (1. t -> ["min", "sec"]) + "\t, " + (v->"mph")]
+println["Time through earth: " + (2. t -> ["min", "sec"])]
+

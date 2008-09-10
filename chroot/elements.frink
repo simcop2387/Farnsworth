@@ -1,0 +1,236 @@
+// Simple periodic table of the elements
+//
+// This allows you to access the properties of an element by referring it to
+// it as "Element.Hydrogen" or "Element.H" or "Element.Silicon" or
+// "Element.Si"
+//
+// (Hint: for less typing in a program, you can say "e=Element" and then
+//  type e.H or e.Si.  Note that only works in the current scope and will
+//  not work across function calls.)
+//
+// Each element has the following properties:
+//   symbol
+//   name
+//   number
+//   atomicMass
+//
+//  The individual properties of an element can be looked up as, say:
+//    Element.Hydrogen.atomicMass
+//
+//  This class also has methods to enumerate through all elements (e.g.
+//    Element.listByName[], Element.listBySymbol[], Element.listByNumber[])
+//
+//  The methods Element.getByName[str] and Element.getByNumber[num] allow
+//  you to look up elements by name, symbol, or atomic number.
+//
+//  NOTE:  Because this uses the method array.shallowCopy[], this requires
+//  a version of Frink dated 2006-09-25 or later!
+//
+// Thanks to "overgauss" for research and contributions.
+//
+class Element
+{
+   var symbol
+
+   var name
+
+   var number
+
+   var atomicMass
+
+   // A class-level container for all the elements.
+   class var elements = new array[]
+
+   // Defer this until it's used.  This will be an array sorted by name.
+   class var elementsByName = undef
+
+   // Defer this until it's used.  This will be an array sorted by symbol.
+   class var elementsBySymbol = undef
+
+   // Defer this until it's used.  This will be an array sorted by number.
+   class var elementsByNumber = undef
+   
+   // Constructor, creates a new element
+   // This constructor should be private.  It should only be called by
+   // the add[] factory method.
+   new[eSymbol, eName, eProtons, eMass is mass] :=
+   {
+      symbol = eSymbol
+      name = eName
+      number = eProtons
+      atomicMass = eMass
+   }
+
+   // Factory method to create a new element and add it to the list.
+   class add[eSymbol, eName, eProtons, eMass is mass] :=
+   {
+      x = new Element[eSymbol, eName, eProtons, eMass]
+      elements.push[x]
+      return x
+   }
+
+   // Lists elements sorted by full name.
+   class listByName[] :=
+   {
+      if elementsByName == undef
+         elementsByName = sort[elements.shallowCopy[], {|a,b| a.name <=> b.name}]
+      return elementsByName
+   }
+
+   // Lists elements sorted by symbol.
+   class listBySymbol[] :=
+   {
+      if elementsBySymbol == undef
+         elementsBySymbol = sort[elements.shallowCopy[], {|a,b| a.symbol <=> b.symbol}]
+      return elementsBySymbol
+   }
+
+   // Lists elements sorted by number (number of protons)
+   class listByNumber[] :=
+   {
+      if elementsByNumber == undef
+         elementsByNumber = sort[elements.shallowCopy[], {|a,b| a.number <=> b.number}]
+      return elementsByNumber
+   }
+
+   // Fetches an element by searching for an exact match in the name
+   // or symbol of the element.  If that fails, returns undef.  This is
+   // a case-insensitive match.
+   class getByName[n] :=
+   {
+      lcName = lc[n]
+      for e = elements
+         if (lc[e.name] == lcName) or (lc[e.symbol] == lcName)
+            return e
+
+      return undef       
+   }
+
+   // Returns the element with the specified number.  If that fails, returns
+   // undef.  This could be made smarter by storing the elements in an array
+   // at certain positions, but that approach is made somewhat non-elegant
+   // because elements of arrays in Frink begin with index 0.
+   class getByNumber[n] :=
+   {
+      for e = elements
+         if (e.number == n)
+            return e
+
+      return undef
+   }
+   
+   // TODO:  Eliminate the need to write Element.add and just write "add"
+   class var H = Hydrogen = Element.add["H", "Hydrogen", 1, 1.00794 u] // 7
+   class var He = Helium = Element.add["He", "Helium", 2, 4.002602 u] // 2
+   class var Li = Lithium = Element.add["Li", "Lithium", 3, 6.941 u] // 2
+   class var Be = Beryllium = Element.add["Be", "Beryllium", 4, 9.012182 u] // 3
+   class var B = Boron = Element.add["B", "Boron", 5, 10.811 u] // 7
+   class var C = Carbon = Element.add["C", "Carbon", 6, 12.0107 u] // 8
+   class var N = Nitrogen = Element.add["N", "Nitrogen", 7, 14.0067 u] // 2
+   class var O = Oxygen = Element.add["O", "Oxygen", 8, 15.9994 u] // 3
+   class var F = Fluorine = Element.add["F", "Fluorine", 9, 18.9984032 u] // 5
+   class var Ne = Neon = Element.add["Ne", "Neon", 10, 20.1797 u] // 6
+   class var Na = Sodium = Element.add["Na", "Sodium", 11, 22.98976928 u] // 2
+   class var Mg = Magnesium = Element.add["Mg", "Magnesium", 12, 24.3050 u] // 6
+   class var Al = Aluminium = Element.add["Al", "Aluminium", 13, 26.9815386 u] // 8
+   class var Si = Silicon = Element.add["Si", "Silicon", 14, 28.0855 u] // 3
+   class var P = Phosphorus = Element.add["P", "Phosphorus", 15, 30.973762 u] // 2
+   class var S = Sulfur = Element.add["S", "Sulfur", 16, 32.065 u] // 5
+   class var Cl = Chlorine = Element.add["Cl", "Chlorine", 17, 35.453 u] // 2
+   class var Ar = Argon = Element.add["Ar", "Argon", 18, 39.948 u] // 1
+   class var K = Potassium = Element.add["K", "Potassium", 19, 39.0983 u] // 1
+   class var Ca = Calcium = Element.add["Ca", "Calcium", 20, 40.078 u] // 4
+   class var Sc = Scandium = Element.add["Sc", "Scandium", 21, 44.955912 u] // 6
+   class var Ti = Titanium = Element.add["Ti", "Titanium", 22, 47.867 u] // 1
+   class var V = Vanadium = Element.add["V", "Vanadium", 23, 50.9415 u] // 1
+   class var Cr = Chromium = Element.add["Cr", "Chromium", 24, 51.9961 u] // 6
+   class var Mn = Manganese = Element.add["Mn", "Manganese", 25, 54.938045 u] // 5
+   class var Fe = Iron = Element.add["Fe", "Iron", 26, 55.845 u] // 2
+   class var Co = Cobalt = Element.add["Co", "Cobalt", 27, 58.933195 u] // 5
+   class var Ni = Nickel = Element.add["Ni", "Nickel", 28, 58.6934 u] // 2
+   class var Cu = Copper = Element.add["Cu", "Copper", 29, 63.546 u] // 3
+   class var Zn = Zinc = Element.add["Zn", "Zinc", 30, 65.409 u] // 4
+   class var Ga = Gallium = Element.add["Ga", "Gallium", 31, 69.723 u] // 1
+   class var Ge = Germanium = Element.add["Ge","Germanium", 32, 72.64 u] // 1
+   class var As = Arsenic = Element.add["As", "Arsenic", 33, 74.92160 u] // 2
+   class var Se = Selenium = Element.add["Se", "Selenium", 34, 78.96 u] // 3
+   class var Br = Bromine = Element.add["Br", "Bromine", 35, 79.904 u] // 1
+   class var Kr = Krypton = Element.add["Kr", "Krypton", 36, 83.798 u] // 2
+   class var Rb = Rubidium = Element.add["Rb", "Rubidium", 37, 85.4678 u] // 3
+   class var Sr = Strontium = Element.add["Sr", "Strontium", 38, 87.62 u] // 1
+   class var Y = Yttrium = Element.add["Y", "Yttrium", 39, 88.90585 u] // 2
+   class var Zr = Zirconium = Element.add["Zr", "Zirconium", 40, 91.224 u] // 2
+   class var Nb = Niobium = Element.add["Nb", "Niobium", 41, 92.90638 u] // 2
+   class var Mo = Molybdenum = Element.add["Mo", "Molybdenum", 42, 95.94 u] // 2
+   class var Tc = Technetium = Element.add["Tc", "Technetium", 43, 97.9072 u] // h
+   class var Ru = Ruthenium = Element.add["Ru", "Ruthenium", 44, 101.07 u] // 2
+   class var Rh = Rhodium = Element.add["Rh", "Rhodium", 45, 102.90550 u] // 2
+   class var Pd = Palladium = Element.add["Pd", "Palladium", 46, 106.42 u] // 1
+   class var Ag = Silver = Element.add["Ag", "Silver", 47, 107.8682 u] // 2
+   class var Cd = Cadmium = Element.add["Cd", "Cadmium", 48, 112.411 u] // 8
+   class var In = Indium = Element.add["In", "Indium", 49, 114.818 u] // 3
+   class var Sn = Tin = Element.add["Sn", "Tin", 50, 118.710 u] // 7
+   class var Sb = Antimony = Element.add["Sb", "Antimony", 51, 121.760 u] // 1
+   class var Te = Tellurium = Element.add["Te", "Tellurium", 52, 127.60 u] // 3
+   class var I = Iodine = Element.add["I", "Iodine", 53, 126.90447 u] // 3
+   class var Xe = Xenon = Element.add["Xe", "Xenon", 54, 131.293 u] // 6
+   class var Cs = Caesium = Element.add["Cs", "Caesium", 55, 132.9054519 u] // 2
+   class var Ba = Barium = Element.add["Ba", "Barium", 56, 137.327 u] // 7
+   class var La = Lanthanum = Element.add["La", "Lanthanum", 57, 138.90547 u] // 7
+   class var Ce = Cerium = Element.add["Ce", "Cerium", 58, 140.116 u] // 1
+   class var Pr = Praseodymium = Element.add["Pr", "Praseodymium", 59, 140.90765 u] // 2
+   class var Nd = Neodymium = Element.add["Nd", "Neodymium", 60, 144.242 u] // 3
+   class var Pm = Promethium = Element.add["Pm", "Promethium", 61, 145 u] // h
+   class var Sm = Samarium = Element.add["Sm", "Samarium", 62, 150.36 u] // 2
+   class var Eu = Europium = Element.add["Eu", "Europium", 63, 151.964 u] // 1
+   class var Gd = Gadolinium = Element.add["Gd", "Gadolinium", 64, 157.25 u] // 3
+   class var Tb = Terbium = Element.add["Tb", "Terbium", 65, 158.92535 u] // 2
+   class var Dy = Dysprosium = Element.add["Dy", "Dysprosium", 66, 162.500 u] // 1
+   class var Ho = Holmium = Element.add["Ho", "Holmium", 67, 164.93032 u] // 2
+   class var Er = Erbium = Element.add["Er", "Erbium", 68, 167.259 u] // 3
+   class var Tm = Thulium = Element.add["Tm", "Thulium", 69, 168.93421 u] // 2
+   class var Yb = Ytterbium = Element.add["Yb", "Ytterbium", 70, 173.04 u] // 3
+   class var Lu = Lutetium = Element.add["Lu", "Lutetium", 71, 174.967 u] // 1
+   class var Hf = Hafnium = Element.add["Hf", "Hafnium", 72, 178.49 u] // 2
+   class var Ta = Tantalum = Element.add["Ta", "Tantalum", 73, 180.94788 u] // 2
+   class var W = Tungsten = Element.add["W", "Tungsten", 74, 183.84 u] // 1
+   class var Re = Rhenium = Element.add["Re", "Rhenium", 75, 186.207 u] // 1
+   class var Os = Osmium = Element.add["Os", "Osmium", 76, 190.23 u] // 3
+   class var Ir = Iridium = Element.add["Ir", "Iridium", 77,  192.217 u] // 3
+   class var Pt = Platinum = Element.add["Pt", "Platinum", 78, 195.084 u] // 9
+   class var Au = Gold = Element.add["Au", "Gold", 79, 196.966569 u] // 4
+   class var Hg = Mercury = Element.add["Hg", "Mercury", 80, 200.59 u] // 2
+   class var Tl = Thallium = Element.add["Tl", "Thallium", 81, 204.3833 u] // 2
+   class var Pb = Lead = Element.add["Pb", "Lead", 82, 207.2 u] // 1
+   class var Bi = Bismuth = Element.add["Bi", "Bismuth", 83, 208.98040 u] // 1
+   class var Po = Polonium = Element.add["Po", "Polonium", 84, 208.9824  u] // h
+   class var At = Astatine = Element.add["At", "Astatine", 85, 209.9871 u] // h
+   class var Rn = Radon = Element.add["Rn", "Radon", 86, 222.0176 u] // h
+   class var Fr = Francium = Element.add["Fr", "Francium", 87, 223 u] // h
+   class var Ra = Radium = Element.add["Ra", "Radium", 88, 226 u] // h
+   class var Ac = Actinium = Element.add["Ac", "Actinium", 89, 227 u] // h
+   class var Th = Thorium = Element.add["Th", "Thorium", 90, 232.03806 u] // 2
+   class var Pa = Protactinium = Element.add["Pa", "Protactinium", 91, 231.03588 u] // 2
+   class var U = Uranium = Element.add["U", "Uranium", 92, 238.02891 u] // 3
+   class var Np = Neptunium = Element.add["Np", "Neptunium", 93, 237 u] // h
+   class var Pu = Plutonium = Element.add["Pu", "Plutonium", 94, 244 u] // h
+   class var Am = Americium = Element.add["Am", "Americium", 95, 243 u] // h
+   class var Cm = Curium = Element.add["Cm", "Curium", 96, 247 u] // h
+   class var Bk = Berkelium = Element.add["Bk", "Berkelium", 97, 247 u] // h
+   class var Cf = Californium = Element.add["Cf", "Californium", 98, 251 u] // h
+   class var Es = Einsteinum = Element.add["Es", "Einsteinum", 99, 252 u] // h
+   class var Fm = Fermium = Element.add["Fm", "Fermium", 100, 257 u] // h
+   class var Md = Mendelevium = Element.add["Md", "Mendelevium", 101, 258 u] // h
+   class var No = Nobelium = Element.add["No", "Nobelium", 102, 259 u] // h
+   class var Lr = Lawrencium = Element.add["Lr", "Lawrencium", 103, 262 u] // h
+   class var Rf = Rutherfordium = Element.add["Rf", "Rutherfordium", 104, 261 u] // h
+   class var Db = Dubnium = Element.add["Db", "Dubnium", 105, 262 u] // h
+   class var Sg = Seaborgium = Element.add["Sg", "Seaborgium", 106, 266 u] // h
+   class var Bh = Bohrium = Element.add["Bh", "Bohrium", 107, 264 u] // h
+   class var Hs = Hassium = Element.add["Hs", "Hassium", 108, 277 u] // h
+   class var Mt = Meitnerium = Element.add["Mt", "Meitnerium", 109, 268 u] // h
+   class var Ds = Darmstadtium = Element.add["Ds", "Darmstadtium", 110, 271 u] // h
+   class var Rg = Roentgenium = Element.add["Rg", "Roentgenium", 111, 272 u] // h
+}
+
+"elements.frink included"

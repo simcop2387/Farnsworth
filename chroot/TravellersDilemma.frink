@@ -1,0 +1,42 @@
+
+// Solution for the "traveller's dilemma" problem:
+// http://www.sciam.com/print_version.cfm?articleID=7750A576-E7F2-99DF-3824E0B1C2540D47
+
+// Tweak these to see the effects of different strategies and penalties.
+penalty = 2
+lucymin = 2
+lucymax = 100
+petemin = 2
+petemax = 100
+
+for lucy=lucymin to lucymax
+{
+   lucysum = 0
+   petesum = 0
+   totalsum = 0
+   for pete=petemin to petemax
+   {
+      if pete == lucy           // Both choose same, rewarded same.
+      {
+         lucypayoff = lucy
+         petepayoff = pete
+      } else
+         if pete > lucy         // Pete chose higher
+         {
+            lucypayoff = lucy+penalty       // Lucy gets rewarded
+            petepayoff = lucy-penalty       // Pete gets punished
+         } else
+         {
+            // Lucy chose higher, she gets punished
+            lucypayoff = pete - penalty
+            petepayoff = pete + penalty
+         }
+      lucysum = lucysum + lucypayoff
+      petesum = petesum + petepayoff
+      totalsum = lucysum + petesum
+   }
+
+   lucyave = lucysum / (petemax-petemin+1.)
+   totalave = totalsum / (petemax-petemin+1.)
+   println["$lucy\t$lucyave\t$totalave"]
+}

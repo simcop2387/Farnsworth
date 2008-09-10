@@ -1,0 +1,36 @@
+
+// Tests earth distance calculations according to example 11.c in Jean Meeus
+// _Astronomical Algorithms_
+// Note that this now uses a different ellipsoidal calculation than the
+// Meeus calculations.
+
+use navigation.frink
+
+// Paris
+long1 = (2 degrees + 20 arcmin + 14 arcsec) East
+lat1 = (48 degrees + 50 arcmin + 11 arcsec) North
+
+// Washington
+long2 = (77 degrees + 3 arcmin + 56 arcsec) West
+lat2 =  (38 degrees + 55 arcmin + 17 arcsec) North
+
+println[earthDistance[lat1, long1, lat2, long2]->"km"]
+println[earthBearing[lat1, long1, lat2, long2]->"degrees"]
+
+//MITLatEast =  (42 degrees + 21.6154 arcmin) North
+//MITLongEast = (71 degrees +  5.4036 arcmin) West
+
+//MITLatWest =  (42 degrees + 21.5176 arcmin) North
+//MITLongWest = (71 degrees +  5.7038 arcmin) West
+
+// Best Average from differential GPS 
+MITLatEast =  42.36022484 degrees North
+MITLongEast = 71.09008343 degrees West
+
+MITLatWest =  42.35861113 degrees North
+MITLongWest = 71.09504458 degrees West
+
+println[earthDistance[MITLatEast, MITLongEast, MITLatWest, MITLongWest]->"m"]
+println[earthBearing[MITLatEast, MITLongEast, MITLatWest, MITLongWest]->"degrees"]
+
+//println[earthBearing[MITLatEast, MITLongEast, MITLatEast, MITLongEast + .002 arcmin]->"degrees"]

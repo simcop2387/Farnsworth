@@ -1,0 +1,20 @@
+// Calculates perihelion time.  This may not be quite accurate because
+// I may not be running enough terms in the position of the sun.
+
+use sun.frink
+
+mindist = 2 au
+mintime = now[]
+
+for time = #2007-01-03# to #2007-01-04# step minute
+{
+   dist = sunDistance[time]
+   println[dist]
+   if (dist < mindist)
+   {
+      mindist = dist
+      mintime = time
+   }
+}
+
+println["Minimum distance is " + (mindist -> "km") + ", " + (mindist -> "au") + ", " + (mindist-> "miles") + " at $mintime."]

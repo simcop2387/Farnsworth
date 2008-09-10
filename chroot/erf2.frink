@@ -1,0 +1,126 @@
+
+// Implementation of the error function erf[x] and the complementary error
+// function erfc[x] where erfc[x] = 1 - erf[x].
+
+// This is a "smart" dispatcher function that attempts to call the right
+// function to calculate for a given range.
+//
+erf[x] := (abs[x] > 5.8) ? 1-erfcAsymptotic[x] : erfTaylor2[x]
+
+// This is a "smart" dispatcher function that attempts to call the right
+// function to calculate for a given range.
+//
+erfc[x] := (abs[x] > 5.8) ? erfcAsymptotic[x] : 1-erfTaylor2[x]
+
+//
+// See :
+// http://en.wikipedia.org/wiki/Error_function#Asymptotic_expansion
+
+// Unfortunately, the algorithm below diverges for all values of x.
+// It is able to produce more digits for large values of x before it
+// begins to diverge, and is practically useless for smaller x.
+erfcAsymptotic[x, debug = false, stats = false, digits=getPrecision[]] :=
+{
+   c = e^(-x^2)/(x sqrt[pi])
+   if (debug)
+      println["c is $c"]
+   sum = 1
+   precision = 10^(-digits)
+
+   if (debug)
+      println["Attempting to get precision less than $precision"]
+
+   var term = 10000000
+   n = 0
+
+   var lastterm
+   
+   do
+   {
+      lastterm = term
+      n = n + 1
+      term = (-1)^n * (2n)!/(n! (2x)^(2n))
+      if (debug)
+         println[term]
+      sum = sum + term
+   } while (abs[term/sum] > precision) and (abs[term] < abs[lastterm])
+
+   if (abs[term] > abs[lastterm])
+   {
+      digits = -log[abs[term]]
+      if (debug)
+         println["Warning:  started to diverge.  Precision will be no better than " + format[digits, 1, 1] + " digits."]
+      sum = sum - term    // Back out last diverging term.
+   }
+
+   if (debug)
+      println["Took $n iterations."]
+
+   if (stats)
+      return [sum * c, n, format[digits,1,3]]
+   else
+      return sum * c
+}
+
+
+// Taylor series expansion for erf[x].  See:
+erfTaylor2[x, debug = false, stats = false, digits=getPrecision[]] :=
+{
+   if x == 0
+      return 0
+
+   c = 2 / sqrt[pi]
+   sum = 0
+
+   terms = new array[]
+
+   precision = 10^(-digits)
+
+   if (debug)
+      println["Attempting to get precision less than $precision"]
+
+   var term = 10000000
+   n = -1
+
+   var lastterm
+   
+   do
+   {
+      lastterm = term
+      n = n + 1
+      term = (-1)^n * x^(2n+1)/((2n+1) n!)
+      terms.push[term]
+      
+      if (debug)
+         println[term]
+      sum = sum + term
+   } while (abs[term/sum] > precision)
+
+   if (debug)
+      println["Took $n iterations."]
+
+   sum2 = 0
+   for a=length[terms]-1 to 0 step -1
+      sum2 = sum2 + terms@a
+
+   if (stats)
+      return [sum2 * c, n, format[digits,1,3]]
+   else
+      return sum2 * c
+}
+
+// Calculate the probabilty that z has a value less than or equal to x.
+phi[z] := 1/2 (1 + erf[z/sqrt[2]])
+
+
+//for n=0.2 to 20 step .2
+//{
+//   [val, iterations, digits] = erfcAsymptotic[n, false, true, 15]
+//   println["$n\t$iterations\t$digits"]
+//}
+
+for n=0.2 to 20 step .2
+{
+   [val, iterations, digits] = erfTaylor2[n, false, true, 20]
+   println["$n\t$iterations\t$digits"]
+}

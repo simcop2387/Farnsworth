@@ -1,0 +1,68 @@
+
+// Count the number of syllables in a CMU pronunciation string.
+countSyllables[str] :=
+{
+   length[str =~ %r/([\d])/g]
+}
+
+// Returns true if one word is an anagram of the other.
+isAnagram[word1, word2] :=
+{
+   a2 = chars[word2.word]
+   for c1 = char[word1.word]
+      if (a2.removeValue[c1] == false)
+         return false
+
+   return true
+}
+
+weakHash[word] :=
+{
+   v = 0
+   for c = chars[word]
+      v = v + c
+
+   return v
+}
+
+class Anagram
+{
+   var word
+   var hash
+   var length
+   var syllables
+
+   new[w, p] :=
+   {
+      word = w
+      syllables = countSyllables[p]
+      hash = weakHash[w]
+      length = length[word]
+   }
+}
+
+
+anagramList = []
+for line lines["file:/home/eliasen/prog/mobydict/mpron/cmupronunciation.txt"]
+{
+   if line =~ %r/^#/
+      next;
+   
+   if [word, pron] = line =~ %r/^([\w\-]+)[^\s]*\s+(.*)/
+   {
+      a = new Anagram[word, pron]
+      anagramList.push[a]
+   }
+}
+
+var sd
+for a1 = anagramList
+   for a2 = anagramList
+   {
+      if (a1.word > a2.word)
+         next
+      
+      //sd = abs[a1.syllables-a2.syllables]
+      if (a1.length == a2.length) && (a1.hash == a2.hash) && (a1.word != a2.word) && ((sd = abs[a1.syllables-a2.syllables]) > 2) && isAnagram[a1, a2]
+         println[a1.word + "\t" + a2.word + "\t" + sd]
+   }

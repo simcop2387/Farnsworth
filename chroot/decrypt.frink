@@ -1,0 +1,47 @@
+
+// Attempt to decrypt something that wasn't encrypted in the first place...
+// just a bad configuration of a web server.
+
+a="јвтономна€ ћодель  ...часть системы моделей, обладающа€ некоторой самосто€тельностю, что позвол€ет анализировать ее независимо от других. »звестно, что когда задача сложна,ее можно разделить на несколько частей, решить каждую из них и согласовать результаты, чтобы получить общий результат."
+
+ab="""
+јвтономна€ ћодель  ...ч
+асть системы моделей, обладающа€ некоторой самосто€тельностю, ч
+то позвол€ет анализировать ее независимо от других. »звестно, ч
+то когда задач
+а сложна,ее можно разделить на несколько ч
+астей, решить каждую из них и согласовать результаты, ч
+тобы получ
+ить общий результат."""
+
+// Calculate frequency histogram of string
+histogram[str] :=
+{
+   freq = []
+   for i = 0 to 255
+      freq@i = 0
+
+   for c = char[str]
+      freq@c = freq@c + 1
+
+   return freq
+}
+
+
+// Perform a full rotation on the string.
+fullRotate[str] :=
+{
+   for i=0 to 256
+   {
+      println["\n$i"]
+      for c = char[str]
+         print[c < 128 ? char[c] : char[(c+i) mod 256]]
+   }
+}
+
+i = 0
+for x = histogram[a]
+{
+   println["$i\t$x"]
+   i = i + 1
+}

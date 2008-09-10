@@ -1,0 +1,10 @@
+
+// Program to list Delta-T values in a format suitable for plotting.
+
+#### yyyy ####
+
+for y=1960 to 2040
+{
+   d = eval["#000$y#"]
+   println["$d\t" + (deltaT[d]->s)]
+}

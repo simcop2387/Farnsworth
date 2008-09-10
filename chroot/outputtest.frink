@@ -1,0 +1,9 @@
+
+// This tests output timing.
+
+start = now[]
+for a=1 to 10000
+   println["Line $a"]
+end = now[]
+
+println["Total time: " + (1. (end-start) -> seconds)]

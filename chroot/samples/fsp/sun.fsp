@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<HTML LANG="en">
+ <HEAD>
+  <TITLE>Sun Locator</TITLE>
+  <META HTTP-EQUIV="Default-Style" CONTENT="APE Airy"> 
+  <META HTTP-EQUIV="Default-Style" CONTENT="Spaceship"> 
+  <LINK REL="StyleSheet" HREF="/frinkdocs/spaceship.css"
+        TYPE="text/css" TITLE="Spaceship">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/apeairy.css"
+        TYPE="text/css" TITLE="APE Airy"> 
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style.css" TYPE="text/css"
+        TITLE="APE Classic">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style2.css" TYPE="text/css"
+        TITLE="Compact"> 
+  <LINK REL="icon" HREF="/images/futureboyicon.png" TYPE="image/png">
+ </HEAD>
+
+ <BODY>
+  <H1>Sun Locator</H1>
+
+  <%
+  use ../sun.frink
+  
+  North = +1
+  South = -1
+  West = +1
+  East = -1
+
+  latitude = "$latitude" ? latitude : "39.58560"
+  long = "$long" ? long : "104.89598"
+  latHemi = "$latHemi" ? latHemi : "North"
+  longHemi = "$longHemi" ? longHemi : "West"
+  %>
+
+  <FORM ACTION="sun.fsp" METHOD="GET">
+   <TABLE>
+     <TR>
+      <TD>Latitude:
+      <TD><INPUT TYPE="text" NAME="latitude" VALUE="$latitude">
+      <TD>degrees
+      <TD>
+       <SELECT NAME="latHemi">
+        <OPTION>North
+        <Option>South
+       </SELECT>
+     <TR>
+      <TD>Longitude:
+      <TD><INPUT TYPE="text" NAME="long" VALUE="$long">
+      <TD>degrees
+      <TD>
+       <SELECT NAME="longHemi">
+        <OPTION>West
+        <Option>East
+       </SELECT>
+
+   </TABLE>
+   <INPUT TYPE="SUBMIT">
+  </FORM>
+
+  <%
+    latNum = eval["$latitude * $latHemi"] degree
+    longNum = eval["$long * $longHemi"] degree
+    [azimuth, altitude] = refractedSunAzimuthAltitude[now[], latNum, longNum]
+  %>
+
+  <P>
+   From latitude <%= latNum -> "degrees" %>, 
+   longitude <%= longNum -> "degrees" %>:
+
+  <P>
+   The sun is located <%= format[altitude, degree, 4] %>
+   degrees above the horizon<BR>
+   
+   True compass bearing:
+   <%= format[(azimuth + 180 degrees) mod circle, degree,4 ] %> degrees.
+  </P>
+
+  <P>
+   Time: <%= now[] %> </P>
+
+  <TABLE BORDER="0" SUMMARY="Sunrise/Sunset">
+  <%
+   out = ### hh:mm:ss a z ###
+
+   sunrise = sunrise[now[], latNum, longNum]
+   println["<TR><TD>Sunrise<TD>" + ( sunrise -> out)]
+   sunset = sunset[now[], latNum, longNum]
+   println["<TR><TD>Sunset<TD>" + ( sunset -> out)]
+
+   [azimuth, altitude] = refractedSunAzimuthAltitude[sunrise, latNum, longNum]
+   print["<TR><TD>Sun rises at bearing<TD>"]
+   println[format[(azimuth + 180 degrees) mod circle, degree, 4 ] + " degrees"]
+
+   [azimuth, altitude] = refractedSunAzimuthAltitude[sunset, latNum, longNum]
+   print["<TR><TD>Sun sets at bearing<TD>"]
+   println[format[(azimuth + 180 degrees) mod circle, degree, 4 ] + " degrees"]
+
+   println["<TR><TD>Civil twilight begins<TD>" + (civilTwilightBegin[now[], latNum, longNum] -> out)]
+   println["<TR><TD>Civil twilight ends<TD>" + (civilTwilightEnd[now[], latNum, longNum] -> out)]
+
+   println["<TR><TD>Nautical twilight begins<TD>" + (nauticalTwilightBegin[now[], latNum, longNum] -> out)]
+   println["<TR><TD>Nautical twilight ends<TD>" + (nauticalTwilightEnd[now[], latNum, longNum] -> out)]
+
+   println["<TR><TD>Astronomical twilight begins<TD>" + (astronomicalTwilightBegin[now[], latNum, longNum] -> out)]
+   println["<TR><TD>Astronomical twilight ends<TD>" + (astronomicalTwilightEnd[now[], latNum, longNum] -> out)]
+   %>
+  </TABLE>
+
+  <HR>
+  <P>
+   View source of <A HREF="/fsp/highlight.fsp?fileName=sun.fsp">This FSP
+    page</A> or the <A HREF="/fsp/colorize.fsp?fileName=sun.frink">astronomical library</A>
+   used by this code.
+  </P>
+  
+  <P>
+   <I><A HREF="mailto:eliasen@mindspring.com">Alan Eliasen</A></I> was born
+   <%= round[now[] - #1969-08-19 04:54 PM Mountain#, minute] -> ["days", "hours", "minutes"] %> ago.
+  </P>
+
+  <P>
+   Powered by <A HREF="/frinkdocs/">Frink</A> and <A HREF="/frinkdocs/fspdocs.html">Frink Server Pages</A>.
+  </P>  
+ </BODY>
+</HTML>

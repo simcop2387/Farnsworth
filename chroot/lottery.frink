@@ -1,0 +1,15 @@
+
+// Functions for predicting lottery probabilities.
+
+// Binomial coefficient
+binom[n,m] := n! / ((n-m)! m!)
+
+// balls is the number of total balls to draw from
+// drawn is the number of balls actually drawn from the above pool
+// chosen is the number of balls chosen by the player
+// matches is the number of balls chosen by the player that match drawn balls
+lottery[balls, drawn, chosen, matches] :=
+{
+   binom[balls,drawn] / (binom[chosen, matches] * binom[balls-chosen, drawn-matches])
+}
+

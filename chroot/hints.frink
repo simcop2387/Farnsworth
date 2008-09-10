@@ -1,0 +1,431 @@
+
+// This library gives hints to help you through a calculation.
+// These hints are mostly based on failed calculations that I've seen
+// performed through the web-based interface.
+
+use HTMLUtils.frink
+
+// Str should include the whole input program like "foot -> m"
+getHints[str, fromStr, toStr, results] :=
+{
+   h = ""
+   c = str
+
+   // Using "per" for division which is ambiguous.  For example, when you
+   // say "miles per hour" you want miles/hour, but when you say
+   // "days per week" you want to see 7, which is actually "week/day"
+   // Best not to let this ambiguous English bit slip in.
+   if c =~ %r/\bper\b/i
+   {
+      c =~ %s/\bper\b/\//ig
+      h = h + """<LI>The word <CODE>per</CODE> is currently not allowed as 
+                 a synonym for division (because it's ambiguous in some cases.)
+                 <P>
+                 For example, when you say "miles per hour" you want
+                 miles/hour, but when you say "days per week" you probably
+                 expect to get 7, which is actually "week/day" (the size of a
+                 week divided by the size of a day.)  Since this is ambiguous
+                 in English, I don't try to guess what you mean.
+                 <P>
+                 Please use the <CODE>/</CODE> character to indicate division. 
+                 <P><CODE>""" +  HTMLEncode[c] + "</CODE>\n"
+   }
+
+   // Frink uses square brackets for function calls, not parentheses.
+   // This is to preserve the implicit multiplication in standard mathematical
+   // notation like x(x+1)
+   if c =~ %r/([a-zA-Z][a-zA-Z]*)\((.*?)\)/  // Function calls with parens
+   {
+      c =~ %s/([a-zA-Z][a-zA-Z]*)\((.*?)\)/$1[$2]/g
+      h = h + """<LI>Frink uses square brackets <CODE>[ ]</CODE>
+                  to indicate function calls, and parentheses to indicate 
+                 grouping. 
+                 <A HREF="/frinkdocs/faq.html#WhySquareBrackets">Why?</A>
+                 For example,<P>
+                 <CODE>sin[30 degrees]</CODE><P>
+                 If you intended to call a function, you might try to write it
+                 as something like: <P><CODE>""" + HTMLEncode[c] + "</CODE>\n"
+   }
+
+   
+   // Ounces are mass.  Fluid ounces are volume.
+   if c =~ %r/\b(oz|ounces?|fluid)\b/     // oz / floz confusion
+   {
+      c =~ %s/\b(fluid\s+(ounces?\b|(oz\.|oz\b)))/floz/gi
+      c =~ %s/\b(fl\.?\s+(ounces?\b|(oz\.|oz\b)))/floz/gi
+      c =~ %s/\b((oz\.|oz\b)|ounces?\b|fluid\b)/floz/gi
+      h = h + """<LI>The wonderful English system of measurements uses the word
+                 <CODE>ounce</CODE> to describe two completely different units
+                 of measure. 
+                 One is a unit of mass, the other a unit of volume.
+                 When referring to volume, the term is properly called 
+                 "fluid ounce."  In Frink, please use 
+                 <CODE>fluidounce</CODE> or <CODE>floz</CODE> to indicate the
+                 fluid ounce and  
+                 <CODE>ounce</CODE> or <CODE>oz</CODE> to refer to mass.
+                 If you meant the fluid ounce, your calculation becomes: 
+                 <P><CODE>""" + HTMLEncode[c] + "</CODE>\n"
+   }
+
+   // Warn about the word "of."  Frink doesn't try to parse sentences,
+   // because they're usually ambiguous.
+   if c =~ %r/\bof\b/i
+   {
+      [property, noun] = c =~ %r/(\w+)\s+of\s+(?:(?:a|an|the)\s+)?(\w+)/i
+
+      property = lc[property]
+      noun = lc[noun]
+
+      fallbackName = "$noun$property"
+      fallback = unit[fallbackName]
+      fallbackHelp = ""
+
+      if (fallback != undef)
+      {
+         c =~ %s/(\w+)\s+of\s+(?:(?:a|an|the)\s+)?(\w+)/$2 + $1/egi
+         fallbackHelp = """<P>In fact, Frink has a unit called 
+                           <CODE CLASS="input">$fallbackName</CODE> which is equal to:<P>
+                           $fallbackName = """ + HTMLEncode["$fallback"] + 
+                         """\n<P>If that's what you need, your calculation 
+                           might look something like: <P><CODE>""" + 
+                           HTMLEncode[c] + "</CODE>\n";
+      } else
+         c =~ %s/\s+of\s+(?:(?:a|an|the)\s+)?/ /gi
+  
+      h = h + """<LI>Frink currently doesn't use the word "of" as a modifier.
+                 All Frink symbols are a single word.  If you're looking for
+                 something like <CODE>$property of $noun</CODE>, it might
+                 be called something like: <CODE>$noun$property</CODE> or
+                 <CODE>${noun}_$property</CODE>.
+                 $fallbackHelp
+                 <P>
+                 If you want to see all of the units that contain "$noun", 
+                  you should type part or all of "$noun" into the "Lookup" 
+                 field or, better yet, enter 
+                 <CODE>??$noun</CODE> into the From: box and see what you get.
+                 <A HREF="/frinkdocs/index.html#IntegratedHelp">More about 
+                 integrated help.</A>\n"""
+   }
+
+   // "the" is not used.  Sentences are ambiguous.
+   if [useless] = c =~ %r/\bthe\b/i
+   {
+      c =~ %s/\bthe\b//ig
+      h = h + """<LI>The word "the" has no meaning in Frink.  Please eliminate
+                     it. Your calculation might become:<P><CODE>""" +
+              HTMLEncode[c] + "</CODE>\n"
+   }
+
+
+   // I sometimes see "kilo/kilos/k" used by itself.  A thousand what?
+   if [let] = c =~ %r/\b(kilos?|k)\b/   
+   {
+      h = h + """<LI>If you're using "k" or "kilo" or 
+                    "kilos" to mean 1000 of something, you need to specify 
+                    what you're specifying 1000 of, or it's ambiguous.  
+                    Did you mean "kilograms" or "kg" or maybe "kilometers" 
+                    or "km"?"""
+
+      if (let == "k")
+          h = h + """<P>If you meant the temperature scale kelvin, that's 
+                    either written "kelvin" (with a small k) or simply "K" 
+                    with a capital K."""
+   }
+
+
+   // Temperature conversions.  Fahrenheit and Celsius, apart from being
+   // almost always misspelled, cannot be treated as normal multiplicative
+   // units because they don't have a reasonable zero-point at absolute
+   // zero.  Point the user to the different meanings of the units.
+   if c =~ %r/\b(deg|degC|degF|F|C|[cC]el[sc]ius|[fF]ah?renheit|rankine|Rankine|Kelvin)\b/
+   {
+      h = h + """<LI>Are you doing a temperature calculation?  
+                 Keep in mind that
+                 if you're using the Celsius or Fahrenheit system, the zero
+                 point is not at absolute zero, so these units can't be
+                 written as normal multiplicative units.  You also need to be
+                 clear whether you're specifying an absolute temperature
+                 or the <EM>size</EM> of a degree in the Fahrenheit or
+                 Celsius system.  (You use the <EM>size</EM> only when you're
+                 indicating the <EM>difference</EM> between two temperatures.)
+                 <P> Frink can do it all, but you need to be unambiguous as
+                 to which you mean, so you don't get a wrong answer.  For more
+                 information, please see the
+                 <A HREF="/frinkdocs/index.html#TemperatureScales">Temperature
+                 Scales</A> section of the documentation."""
+
+      if c =~ %r/\b[cC]elcius\b/
+         h = h + """<P>By the way, you spelled "Celsius" wrong.
+                   I see that a lot.</P>"""
+
+      if c =~ %r/\b[fF]arenheit\b/
+         h = h + """<P>By the way, you spelled "Fahrenheit" wrong.
+                   I see that a lot.</P>"""
+   }
+
+   
+   // Look for attempted date calculations without surrounding pound
+   // signs.
+   if c =~ %r/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)/
+      if ! (c =~ %r/#/)
+      {
+         h = h + """<LI>Are you trying to do a date calculation?  To be
+                    unambiguous, you need to surround dates with pound signs
+                    something like <P>
+                    <CODE>#&nbsp;August&nbsp;19,&nbsp;1969&nbsp;#</CODE>
+                    <P>Frink recognizes 
+                    <A HREF="/frinkdata/dateformats.txt">lots of date/time 
+                    formats</A>, and can do a lot of calculations and
+                    conversions with dates.  Please see the 
+                    <A HREF="/frinkdocs/index.html#DateTimeHandling">Date/Time
+                    Handling</A> section of the documentation 
+                    for more information."""
+      }
+
+   // Provide suggestions for possible unparsed dates.
+   if results =~ %r/#/
+   {
+       h = h + """<LI>Are you trying to do a date calculation?  To be
+                 unambiguous, you need to surround dates with pound signs
+                 something like <P>
+                 <CODE>#&nbsp;August&nbsp;19,&nbsp;1969&nbsp;#</CODE>.
+                 If the date you're entering is not 
+                 being parsed, please use one of the formats listed 
+                 <A HREF="/frinkdata/dateformats.txt">in the official 
+                 formats</A>.  I know you've learned from the Y2K fiasco that
+                 you must enter 4-digit years.  (Most-significant digits 
+                 first are recommended.)  See the
+                 <A HREF="/frinkdocs/index.html#DateTimeHandling">Date/Time
+                 Handling</A> section of the documentation 
+                 for more information."""
+   }
+
+   // Warn about standard mathematical precedence in things like
+   // 30 miles / 2 hours where the calculation may actually want to be:
+   // 30 miles / (2 hours)
+   if [quot] = c =~ %r/\/\s*(\d+(?:\.\d+)?\s*[[:alpha:]]\w*)/
+   {
+       c =~ %s/\/\s*(\d+(?:\.\d+)?\s*\w+)/\/ ($1) /g
+       h = h + """<LI>There is an implicit multiplication in "$quot".  Frink
+                 follows normal mathematical rules of precedence 
+                 (multiplication and division are at the same precedence, and
+                 performed left to right,) so you <EM>may</EM> need to put
+                 parentheses around the right-hand-side of the equation:
+                 <P><CODE>""" + HTMLEncode[c] + """</CODE>
+                 <P>See <A HREF="/frinkdocs/faq.html#ParenthesesAroundRight">this
+                 section of the FAQ</A> for more information."""
+   }
+
+
+   // People use the date calculations from the manual and miss the
+   // obvious and necessary brackets after the now[] function.
+   if c =~ %r/\bnow\b\s*[^[]/
+   {
+       c =~ %s/\bnow\b/now[]/g
+       h = h + """<LI>Did you mean the <EM>function</EM>
+                 <CODE CLASS="input">now[]</CODE> ?
+                 That's a function, so you need the square brackets after it.
+                 Your calculation might become:
+                 <P><CODE>""" + HTMLEncode[c] + "</CODE>"
+   }
+
+   
+   // Check for capitalization
+   for [word] results =~ %r/(\w+)\s*\(undefined symbol\)/ig
+   {
+      printed = false
+      if (word =~ %r/^(of|the|per|a|an)$/i) or (length[word] <= 1)
+         next
+
+      array = array[select[units[], regex["^$word$", "i"]]]
+      len = length[array]
+      for cap = array
+      {
+         if ((cap == word) and (len == 1))
+            next
+
+         if (not printed)
+         {
+            h = h + "<LI>Frink is case-sensitive.  Did you mean one of the following capitalizations for <CODE CLASS=\"input\"><SPAN CLASS=\"warning\">$word</SPAN></CODE>?\n<UL>"
+            printed = true
+         }
+         
+         h = h + "<LI><CODE CLASS=\"input\">$cap</CODE> = " + unit[cap] + "\n"
+
+         if len == 1
+         {
+            rep = subst["\\b$word\\b", cap, "g"]
+            c =~ rep
+            h = h + """<P>If so, your calculation becomes:</P>
+                       <P><CODE>""" + HTMLEncode[c] + "</CODE></P>"
+         }
+      }
+
+      if printed
+         h = h + "</UL>"
+      else
+      {
+         // If an exact capitalization match isn't found,
+         // see if the word occurs as a substring in a unit name.
+         altstr = ""
+         // Skip certain words.
+         if (word =~ %r/^(of|the|per|a|an)$/i) or (length[word] <= 1)
+            next
+
+         // Remove plural ending if the word is >= 4 characters long
+         if ((word =~ %r/s$/i) and (length[word] >= 4))
+            singular = substrLen[word, 0, length[word]-1]
+         else
+            singular = word
+
+         // If word is 3 chars or shorter, just look for it at the
+         // beginning or the end.
+         if (length[singular] <= 3)
+            pat = regex["((^$singular)|($singular$))", "i"]
+         else
+            pat = regex["$singular", "i"]
+         
+         x = sort[array[select[units[], pat]]]
+
+         y = new array
+
+         // Look for fuzzy spelling
+         len = length[word]
+         lowerword = lowercase[word]
+         for poss = units[]
+         {
+            lposs = length[poss]
+            maxlen = max[len, lposs]
+            if (abs[lposs - len] / maxlen <= 1/3)
+            {
+               closeness = editDistance[lowerword, lowercase[poss]]
+               if (closeness/maxlen <= 1/3)
+                  y.push[ [poss, closeness] ]
+            }
+         }
+
+         // Sort by closeness
+         sort[y, {|a,b| a@1 <=> b@1}]
+
+         for [poss, closeness] y
+            x.push[poss]
+         
+         for option = x
+         {
+            if word == option     // Avoid exact matches.
+               next
+            
+            if (altstr == "")
+               altstr = """<LI>The symbol
+                <CODE><SPAN CLASS="warning">$word</SPAN></CODE> was not found.
+            Perhaps you meant one of the following units:\n<UL>"""
+
+            unit = unit[option]
+            if unit conforms currency  // Don't fetch currencies
+               altstr = altstr + "<LI><CODE CLASS=\"input\">$option</CODE> (currency)\n"
+            else
+               altstr = altstr + "<LI><CODE CLASS=\"input\">$option</CODE> = $unit\n"
+            }
+
+            if (altstr != "")
+            {
+               h = h + altstr + "\n</UL>"
+               altstr = ""
+            }
+         }
+      }
+
+   // Note about bad capitalizations of SI prefix names like "kilo"
+   if [word] = results =~ %r/(\w+)\s*\(undefined symbol\)/i
+   {
+      if [prefix, rest] = word =~ %r/^(yotta|zetta|exa|peta|tera|giga|mega|kilo|hecto|deka|deci|centi|milli|micro|nano|pico|femto|atto|zepto|yocto)(.*)/i
+      {
+         if (prefix =~ %r/[A-Z]/)   // And it contains a capital letter
+         {
+            pRight = lc[prefix]
+
+            sub = subst[word, "$pRight$rest"]
+            c =~ sub
+            h = h + """<LI>You appear to be miscapitalizing the SI prefix
+            "<CODE CLASS="input">$pRight</CODE>".  Under the rules of the
+            International System of Units, these names must <EM>not</EM> be
+            capitalized.  See the
+            <A HREF="http://physics.nist.gov/cuu/Units/prefixes.html">official
+            list of SI prefixes</A> for more details. Your calculation might
+            become:<P><CODE>""" + HTMLEncode[c] + """</CODE>
+            <P>
+            (You may also want to verify the
+            <A HREF="http://physics.nist.gov/cuu/Units/units.html">correct 
+            capitalization of SI units</A> for
+            "<CODE CLASS="input">$rest</CODE>" if you continue to have
+            problems.)"""
+         }
+      } else  // Try fixing bad "K" prefix
+          if [prefix, rest] = word =~ %r/^(K)(.+)/
+          {
+            pRight = lc[prefix]
+            sub = subst[word, "$pRight$rest"]
+            c =~ sub
+            h = h + """<LI>You may be miscapitalizing the SI prefix
+            "<CODE CLASS="input">$pRight</CODE>".  Under the rules of the
+            International System of Units, all prefix symbols have only one
+             correct capitalization.  See the
+            <A HREF="http://physics.nist.gov/cuu/Units/prefixes.html">official
+            list of SI prefixes</A> for more details. Your calculation might
+            become:<P><CODE>""" + HTMLEncode[c] + """</CODE>
+            <P>
+            (You may also want to verify the
+            <A HREF="http://physics.nist.gov/cuu/Units/units.html">correct 
+            capitalization of SI units</A> for
+            "<CODE CLASS="input">$rest</CODE>" if you continue to have
+            problems.)"""
+         }
+   }
+      
+   // Note about undefined symbol
+   if [word] = results =~ %r/(\w+)\s*\(undefined symbol\)/i
+   {
+      // Remove plural ending if the word is >= 4 characters long
+      if ((word =~ %r/s$/i) and (length[word] >= 4))
+         word = substrLen[word, 0, length[word]-1]
+
+      h = h + """<LI>Your calculation contained one or more names that Frink
+                 does not know about.  Generally, if you don't know the name
+                 and/or capitalization that Frink uses for a particular unit,
+                 type one or two
+                 question marks and then all or part of the singular form of
+                 the name you're looking
+                 for.  (Two question marks gives more information.
+                 Typing just <EM>part</EM> of the name may help.)  For example:
+                 <P>
+                  <CODE CLASS="input">??$word</CODE>
+                 </P>
+
+                 <P>
+                   For more information on looking up units, read the
+                   <A HREF="/frinkdocs/index.html#IntegratedHelp">Integrated
+                   Help</A> section of the documentation.
+                 </P>"""
+   }
+
+   // Frink currently uses h for Planck's constant, not hours.  This may change
+   // as hours are more common and h, while not officially defined as an SI
+   // symbol, is commonly used.
+   if str =~ %r/\bh\b/
+   {
+      c =~ %s/\bh\b/hr/g
+      h = h + """<LI>Frink uses the letter <CODE>h</CODE> to stand for 
+                 Planck's constant. If you mean <CODE>hour</CODE>, please use
+                 <CODE>hour</CODE> or <CODE>hr</CODE>:<P><CODE>""" + 
+              HTMLEncode[c] + "</CODE>\n"
+   }
+
+
+   if h == ""
+      return h
+   else
+      return """<HR><P><B>If you didn't get the answer you expected:</B></P>
+                   <UL>
+                    $h
+                   </UL>"""
+}

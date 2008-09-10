@@ -1,0 +1,11 @@
+use hints.frink
+
+while (s = input["> "])
+{
+   results = eval[s]
+   results = "$results"  // Coerce to string
+   println[results]
+   hints = getHints[s, s, "", results]
+   println[hints]
+   println[]
+}

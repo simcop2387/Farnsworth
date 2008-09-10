@@ -1,0 +1,24 @@
+
+// Calculate Moore's law
+
+d=18 months
+
+t[r, d] := (d/ln[2]) ln[r ln[2]/d]
+
+r = eval[input["Enter time to solve problem: "]]
+
+t = t[r,d]
+factor = 2^(t/d)
+tt = r/factor
+
+println["Time to complete: " + (r->"months")]
+println["You should begin solving the problem in " + (t->"months") + "."]
+if t<0 days
+   println["Since this is negative, you should begin now."]
+else
+{
+   println["Computers will be " + factor + " times faster then."]
+   println["The problem will then take " + (tt->"months") + " to solve."]
+   println["The problem will be completed " + (t+tt->"months") + " from now."]
+   println["This is a savings of " + (r-(t+tt)->"months") + "."]
+}

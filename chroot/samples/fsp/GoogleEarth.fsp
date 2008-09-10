@@ -1,0 +1,6 @@
+<%@ contentType="application/vnd.google-earth.kml+xml" %>
+<%
+   use ../GoogleEarth.frink
+   p = new GooglePoint[name, eval[lat] degrees, eval[long] degrees]
+   print[p.renderFullKML[]]
+%>

@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<HTML LANG="en">
+ <HEAD>
+  <TITLE>Frink Server Pages Unicode Torture Test</TITLE>
+  <META HTTP-EQUIV="Default-Style" CONTENT="APE Airy"> 
+  <LINK REL="StyleSheet" HREF="/frinkdocs/apeairy.css" TYPE="text/css"
+        TITLE="APE Airy"> 
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style.css" TYPE="text/css"
+        TITLE="APE Classic">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style2.css" TYPE="text/css"
+        TITLE="Compact"> 
+  <LINK REL="icon" HREF="/images/futureboyicon.png" TYPE="image/png">
+ </HEAD>
+
+ <BODY>
+  <H1>Frink Server Pages Unicode Torture Test</H1>
+
+  <P>
+   This page tests how well your browser, my server, the Frink parser, Frink
+   output routines, and Frink Server Pages, support Unicode
+   characters.  Frink Server Pages are, by default, sent out with
+   charset=UTF-8, allowing for display of all Unicode characters.  Your font
+   must also have glyphs for all characters, or your browser should know how
+   to fall back gracefully to find an appropriate font containing that glyph.
+  </P>
+
+  <P>
+   This page displays <EM>all</EM> 65,356 Unicode characters.  Some are
+   undefined and don't have glyphs.
+  </P>
+
+  <P>
+   <EM>Warning:</EM> This page is <EM>very</EM> slow in Internet Explorer.
+   Changing text size or initially loading the page takes several minutes.
+   Scrolling is painful.  You'll also notice that Internet Explorer gives
+   results that are vastly inferior to Mozilla/Netscape 6+, displaying about
+   half the glyphs that Mozilla does.
+  </P>
+
+  <P>
+   If you're using Mozilla, or Netscape 6+, or another modern browser that
+   allows you to select stylesheets, this page has several stylesheets you can
+   switch between to see how the characters are rendered in different fonts
+   and sizes.  (In Netscape/Mozilla, this option is found on your menubar
+   under <EM>View | Use Style</EM>.)
+  </P>
+
+  <% for [c] 0 to FFFF\\16
+  {
+     if (c mod 256 == 0)
+     {
+        println["<H2>" + uc[base16[c]] + " - " uc[base16[c+255]] + "</H2>"]
+        println["<TABLE WIDTH=\"100%\" BORDER=0>"]
+        println["<TR><TD><TD>0<TD>1<TD>2<TD>3<TD>4<TD>5<TD>6<TD>7<TD>8<TD>9<TD>A<TD>B<TD>C<TD>D<TD>E<TD>F"]
+     }
+
+     if (c mod 16 == 0)
+        print[" <TR><TH>" + uc[base16[c div 16]] + "x" ]
+
+     print["<TD>"+char[c]]
+
+     if (c mod 256 == 255)
+        println["</TABLE>"]
+   } %>
+  <HR>
+  <P>
+   <I><A HREF="mailto:eliasen@mindspring.com">Alan Eliasen</A></I> was born
+   <%= round[now[] - #1969-08-19 04:54 PM Mountain#, minute] -> ["days", "hours", "minutes"] %> ago.
+  </P>
+
+  <P>
+   Back to <A HREF="/frinkdocs/fspdocs.html">Frink Server Pages
+    documentation.</A>
+  </P>  
+ </BODY>
+</HTML>

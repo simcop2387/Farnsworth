@@ -1,0 +1,50 @@
+// Baseball calculations
+//
+// Alan Eliasen, eliasen@mindspring.com
+//
+// The rules of Major League Baseball, section 1.09 states:
+// "The ball shall be a sphere formed by yarn wound around a small core of
+// cork, rubber or similar material, covered with two stripes of white
+// horsehide or cowhide, tightly stitched together. It shall weigh not less
+// than five nor more than 5 1/4 ounces avoirdupois and measure not less than
+// nine nor more than 9 1/4 inches in circumference."
+//
+// http://mlb.mlb.com/NASApp/mlb/mlb/baseball_basics/mlb_basics_objectives.jsp
+
+mincirc = 9 inches
+maxcirc = (9 + 1/4) inches
+
+minweight = 5 ounces
+maxweight = (5 + 1/4) ounces
+
+radius[circ] := circ/(2 pi)
+volume[radius] := 4/3 pi radius^3
+
+density[weight, volume] := weight / volume
+
+minvolume = volume[radius[mincirc]]
+maxvolume = volume[radius[maxcirc]]
+
+mindensity = density[minweight, maxvolume]
+maxdensity = density[maxweight, minvolume]
+
+// Equations of flight (no drag) for a batted ball
+
+// Times that the ball is the height of the wall
+tw[v0, alpha, h0 = 1 meter, hw = 10 feet, g=gravity] := 
+{
+   vy0 = v0 sin[alpha]
+   radical = (2 g (h0 - hw) + vy0^2)
+
+   if (radical < 0 mph^2)
+      return["No solution"]
+
+   radical = radical^(1/2)
+
+   return [(vy0 - radical)/g, (vy0 + radical)/g]
+}
+
+x[v0, alpha, h0 = 1 meter, hw = 10 feet, g=gravity] := 
+{
+   v0 cos[alpha] tw[v0, alpha, h0, hw, g]@1
+}

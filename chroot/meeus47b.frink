@@ -1,0 +1,63 @@
+
+// This program reads coefficients for moon position from meeus47b.txt.
+// It is used to find moon longitude and distance.
+
+sumB = "   sumB = ("
+
+for line = lines["file:meeus47b.txt"]
+{
+   [D, M, MP, F, b] = split[%r/\t/, line]
+
+   M = eval[M]
+
+   coeffB = ""
+   arg = fmt[D, "D"]
+
+   arg = arg + fmt[M, "M"]
+   arg = arg + fmt[MP, "MP"]
+   arg = arg + fmt[F, "F"]
+
+   if (M != 0)
+   {
+      if (abs[M] == 1)
+      {
+        if (b != "0")
+           coeffB = "$b E"
+      } else
+         if (abs[M] == 2)
+         {
+           if (b != "0")
+              coeffB = "$b E^2"
+         }
+   } else
+         {
+            if (b != "0")
+               coeffB = b
+         }
+
+   if (coeffB != "")
+      sumB = sumB + " + ($coeffB) sin[$arg]";
+}
+
+sumB = sumB + ")"
+
+println[sumB]
+
+fmt[x, char] := 
+{
+   x = eval[x]
+
+   if (x == 1)
+      return " + $char"
+
+   if (x == -1)
+      return " - $char"
+
+   if x > 0
+      return " + $x $char"
+
+   if x < 0
+      return " -" + (-x) + " $char"
+
+   return ""
+}

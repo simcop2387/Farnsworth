@@ -1,0 +1,69 @@
+
+// Program to find earth's temperature if it did and didn't have greenhouse
+// gases, atmosphere, etc.
+
+// Tweakable parameters:
+
+// Assume albedo = 0 (perfectly black)?
+// Actual earth average albedo is about 0.3.
+albedo = 0
+
+// Where earthEta is the emissivity of the earth.  For a blackbody this is 1,
+// for most materials, around 0.95, but for clouds it's about 0.5.
+// The actual effective emissivity of the earth (because of clouds,) is
+// measured to be about 0.612.
+// Setting the effective emissivity and the albedo to their measured values
+// gives a temperature very close to their actual values (average surface
+// temperature of the earth is usually given at 59 F) and takes into account
+// greenhouse gases and atmospheric effects.
+earthEta = 1
+
+// Total power absorbed by the earth is equal to the fraction of the sun's
+// radiated power that strikes a circle with the earth's radius:
+earthReceivingArea = pi earthradius^2
+
+// At the distance that the earth is from the sun, the sun's whole power is
+// spread over a sphere:
+sunSphere = 4 pi earthdist^2
+
+// So the earth receives only:
+earthPower = sunpower * (earthReceivingArea/sunSphere) * (1-albedo)
+
+println["With an albedo of $albedo"]
+println["And an emissivity of $earthEta"]
+println["Earth receives " + (earthPower->"watts")]
+
+// The earth's surface area:
+earthArea = 4 pi earthradius^2
+
+//   I'll assume that the earth is a blackbody and radiates its energy into
+// another blackbody with a temperature of 2.725 K (the latest figure for the
+// cosmic background radiation; the effective temperature of our surrounding
+// neighborhood might be somewhat higher due to dust clouds, planets, distant
+// stars, that radiate back at us a little, but probably not *too* much.)
+
+Tu = 2.725 K
+
+//  A body radiates an amount of power equal to:
+
+//   sigma eta T^4 area
+
+// Where sigma is the Stefan-Boltzmann constant (Frink knows this) and eta is
+// the emissivity (which is 1 for a blackbody).  T is, of course, the
+// temperature.  We'll call the temperature of the earth Te and the temperature
+// of the universe Tu.
+
+// The area that we radiate over is the total surface area of the earth:
+earthArea =  4 pi earthradius^2
+
+//  Thus, we reach equilibrium when the power radiated (out) by the earth is
+// equal to (the power radiated (in) by the universe plus the power radiated
+// (in) by the sun:)
+
+//   sigma earthEta Te^4 earthArea = sigma Tu^4 earthArea + earthPower
+
+// Rearranging to solve for Te,
+
+Te = ((earthPower + sigma earthArea Tu^4)/(sigma earthEta earthArea))^(1/4)
+
+println["Earth's temperature is " + F[Te] + " F"]

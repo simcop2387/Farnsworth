@@ -1,0 +1,41 @@
+//
+// Test of the functions defined in Fourier.frink
+//
+
+use Fourier.frink
+
+// Testing.  Create a regular sinewave
+f = new array
+for i=0 to 127
+  f@i = cos[4 i/(2 pi)]
+
+// Test and time DFT case.
+start = now[]
+b = DFT[f]
+println[b]
+end = now[]
+
+println["Time in DFT is " + (end-start -> "ms")]
+
+//scr = padAndScramble[f]
+//println["Scrambled: $scr"]
+
+//println[f]
+start = now[]
+bb = FFT[f]
+end = now[]
+
+println["Time in FFT is " + (end-start -> "ms")]
+
+println[bb]
+
+for [e] bb
+   println[abs[e]]
+
+for n = 0 to 127
+   println[bb@n/b@n]
+
+inverse = InverseFFT[bb]
+
+println[inverse]
+

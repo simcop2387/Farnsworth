@@ -1,0 +1,37 @@
+
+// Program to find palindromic numbers by the "reverse and add" method.
+//
+// This starts with a given number    (e.g. "25"),
+// and adds the reverse of the digits (e.g. "52")
+// until a palindrome is found.  In this case, it only takes one step.
+// 
+// Some numbers take a long time to find a palindrome.  I remember starting
+// with "89" and running the numbers by hand (they quickly became too big
+// to add in a standard 8-digit calculator, or even on a TRS-80)
+// in 5th grade.  I gave up eventually.  I think Tay Naish persevered and
+// got the right answer, which has 13 digits and takes 25 iterations.
+//
+// The number 196 is the smallest number that doesn't seem to lead to a
+// palindrome.  It's been tested quite exhaustively by dedicated applications.
+// See:
+//   http://home.cfl.rr.com/p196/
+
+num = eval[input["Enter a number: "]]
+
+while (! isPalindrome[num])
+{
+   num = num + reverseDigits[num]
+   println[num]
+}
+
+
+// Reverse the digits in a number and return them as a string.
+reverseDigits[num] := parseInt[reverse["$num"]]
+
+// Returns true if the given number is a palindrome, false otherwise.
+isPalindrome[num] :=
+{
+   str = "$num"                 // Coerce to string
+   return reverse[str] == str
+}
+      

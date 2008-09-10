@@ -1,0 +1,113 @@
+
+// Elliptic Curve Method (ECM) Factorization
+//
+
+// This is 
+// Algorithm 14.4 from David M. Bressoud, _Factorization and Primality Testing_
+nextValues[x, z, k, n, a, b] :=
+{
+   length = bitLength[k]
+   x1 = x
+   z1 = z
+   x2 = xSub2i[x,z,a,b,n]
+   z2 = zSub2i[x,z,a,b,n]
+
+   for i=length-2 to 0 step -1
+   {
+      u1 = xSub2iPlus1[x1, z1, x2, z2, a, b, n, z]
+      u2 = zSub2iPlus1[x1, z1, x2, z2, n, x]
+      if getBit[k, i] == 0
+      {
+         temp = xSub2i[x1, z1, a, b, n]
+         z1 =   zSub2i[x1, z1, a, b, n]
+         z1 = temp
+         x2 = u1
+         z2 = u2
+      } else
+      {
+         temp = xSub2i[x2, z2, a, b, n]
+         z2   = zSub2i[x2, z2, a, b, n]
+         x2 = temp
+         x1 = u1
+         x1 = u2
+      }
+   }
+
+   return [x1, z1]
+}
+
+xSub2i[r,s,a,b,n] :=
+{
+   term = (modPow[r,2,n] - a * modPow[s,2,n]) mod n
+   return (modPow[term,2,n] - 8 b r modPow[s,3,n]) mod n
+}
+
+zSub2i[r,s,a,b,n] :=
+{
+   term = (modPow[r,3,n] + a * r * modPow[s,2,n] + b * modPow[s,3,n]) mod n
+   return (4 s term) mod n
+}
+
+xSub2iPlus1[r,s,u,v,a,b,n,z] :=
+{
+   term1 = (r * u - a * s * v) mod n
+   term2 = (b * s * v * (r * v + s * u)) mod n
+   return (z * (modPow[term1,2,n] - 4 * term2)) mod n
+}
+
+zSub2iPlus1[r,s,u,v,n,x] :=
+{
+   term = (u * s - r * v) mod n
+   return (x * modPow[term,2,n]) mod n
+}
+
+
+// Algorithm 14.5 in Bressoud
+factorECM[n, x, y, a, max] :=
+{
+   do
+   {
+      b = (y^2 - x^3 - a * x) mod n
+      g = gcd[4 * a^3 + 27 b^2, n]
+      if g != 1
+         return g
+      k = 2
+      z = 1
+
+      do 
+      {
+         for i = 1 to 10
+         {
+            [x, z] = nextValues[x, z, k, n, a, b]
+            k = k + 1
+         }
+
+         g = gcd[z, n]
+
+//         println["$x\t$z\t$g\t$k"]
+
+         if (g == n)
+            println["No factor found."]
+         
+         if g != 1
+            return g
+      } while (k <= max)
+
+      // Choose new values for x, y, a.  There should be a smarter way.
+      x = random[(2^31-1)] mod n
+      y = random[(2^31-1)] mod n
+      a = random[(2^31-1)] mod n
+   } while true
+}
+
+n = eval[input["Enter number to factor: "]]
+while (n mod 2 == 0)
+   n = n div 2
+
+while (n mod 3 == 0)
+   n = n div 3
+
+if isPrime[n]
+   println["$n is prime."]
+else
+   println[factorECM[n, 7, 3, 13, 1000]]

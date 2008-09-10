@@ -1,0 +1,21 @@
+
+// Simple wrapper program to convert Lat/Long coordinates to UTM.
+use CoordinateConversions.frink
+
+while (true)
+{
+   lat = eval[input["Enter latitude in degrees: "]] degrees 
+   long = eval[input["Enter longitude in degrees (west is negative): "]] degrees
+
+   if (lat conforms degree and long conforms degree)
+   {
+      println["Latitude:  " + (lat->degrees)]
+      println["Longitude: " + (long->degrees)]
+      [easting, northing] = LatLongToUTM[lat, long, Datum.NAD83]
+      println["Easting:  " + format[easting,1,3]]
+      println["Northing: " + format[northing,1,3]]
+      println[]
+   }
+}
+
+

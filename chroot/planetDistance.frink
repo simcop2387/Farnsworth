@@ -1,0 +1,21 @@
+
+// Calculates the distances between the earth and other planets.
+
+use planets.frink
+
+
+//for planet = Planet.planets
+planet = Planet.Neptune
+//{
+   date = #2007-01-01#
+
+   if (planet.name == "Earth")
+      next
+
+   println["# " + planet.name]
+   while (date < #2010-01-01#)
+   {
+      println[(date -> ### yyyy-MM-dd ###) + "\t" + format[trueDistance[date, Planet.Earth, planet], au, 9]]
+      date = date + 2 days
+   }
+//}

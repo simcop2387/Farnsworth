@@ -1,0 +1,67 @@
+
+// Sample implementation of the Pollard p-1 algorithm for factoring numbers.
+// This was the prototype implementation for the way that the factoring is
+// actually implemented in Frink (the final product is written in Java and
+// integrated with other factoring tests.)
+//
+// The algorithm was described wonderfully as Algorithm 5.3 in the book
+// David M. Bressoud, _Factorization and Primality Testing_
+//
+// Thanks to Clint Williams for patronage and gift of this book.
+//
+factorPollardPMinus1[n, maxIter=1000000, startC=2, startI=0, startM=2 ] :=
+{
+   if isPrime[n]
+      return n
+   
+   c = startC
+   m = startM
+   iterations = 0
+   i = startI
+
+   while (iterations < maxIter)
+   {
+      i = i + 1
+      iterations = iterations + 1
+
+      m = modPow[m, i, n]
+      if i mod 10 == 0
+      {
+         g = gcd[m-1, n]
+         if g > 1
+         {
+            // If we get here, g is either a proper divisor,
+            // or it's equal to n.
+            if g == n
+            {
+               // If it's equal to n, then
+               // the algorithm won't work for this value of c.
+               // In that case, we have to increment c to the next
+               // prime and start over.
+
+               do
+                  c = c + 1
+               while !isPrime[c]
+
+               println["Incrementing, i=$i, c=$c"]
+
+               m = c
+               i = 0
+            } else
+               return [factorPollardPMinus1[g, maxIter-iterations, c, i, m], factorPollardPMinus1[n/g, maxIter-iterations, c, i, m]]
+         }
+      }
+   }
+
+   println["No factor found."]
+}
+
+// Test run to factor the Mersenne primes.
+for b = 1 to 128
+{
+   println["\n$b:"]
+   start = now[]
+   print[factorPollardPMinus1[2^b-1]]
+   end = now[]
+   println["\t" + (end-start -> "ms")]
+}

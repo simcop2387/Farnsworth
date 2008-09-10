@@ -1,0 +1,21 @@
+
+// Program to test efficiency of various base conversions.
+
+limit = 10
+
+for j=1 to 2
+{
+   for b=2 to 6 step .5
+   {  
+      bits = floor[10^b]
+      start = now[]
+      for i=1 to limit
+      {
+         n = randomBits[bits]
+         //a = "$n"  // toString[n]  // Coerce to string
+         a = newToString[n]  // Coerce to string
+      }
+      end = now[]
+      println[ bits + "\t" + format[limit/(end-start), s^-1, 4]]
+   }
+}

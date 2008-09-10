@@ -1,0 +1,42 @@
+
+orig = "Kevin Langdon"
+crypt = "Mwrep Txieojm"
+
+//orig="Alan"
+//crypt="Bocz"
+
+oc = chars[uc[orig]]
+cc = chars[uc[crypt]]
+
+len = length[oc]
+
+for n = 0 to len-1
+{
+   print[oc@n - char["A"] + 1 + " "]
+}
+
+println[]
+
+for n = 0 to len-1
+{
+   print[oc@n - cc@n + " "]
+}
+
+println[]
+
+for n = 0 to len-1
+{
+   print[(oc@n - cc@n) mod 26 + " "]
+}
+
+println[]
+for n = 0 to len-1
+{
+   print[(oc@n - cc@n - (oc@n - char["A"])) mod 26 + " "]
+}
+
+println[]
+for n = 0 to len-1
+{
+   print[(oc@n - cc@n + (oc@n - char["A"])) mod 26 + " "]
+}

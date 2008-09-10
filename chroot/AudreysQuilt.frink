@@ -1,0 +1,58 @@
+// "Audrey's Quilt" geocahe (GC12K4Z)
+// http://www.geocaching.com/seek/cache_details.aspx?guid=014b0c60-d753-42c3-b697-6992e79805fb
+
+colors = [11,13,17]
+c = new dict
+c@11 = "R"
+c@13 = "G"
+c@17 = "B"
+
+for r1=colors
+   for r2 = colors
+   {
+      if (r1 == r2)
+         next
+      for r3 = colors
+      {
+         if (r2 == r3)
+            next
+         for r4 = colors
+         {
+            if (r3 == r4)
+               next
+            for r5 = colors
+            {
+               if (r4 == r5)
+                  next
+               for r6 = colors
+               {
+                  if (r5 == r6)
+                     next
+                  for r7 = colors
+                  {
+                     if (r6 == r7)
+                        next
+                     for r8 = colors
+                     {
+                        if (r7 == r8)
+                           next
+                        for r9 = colors
+                        {
+                           if (r8 == r9)
+                              next
+                           sum = r1+r2+r3+r4+r5+r6+r7+r8+r9
+                           if (sum == 11*3 + 13*3 + 17*3)
+                           {
+                              s = " $r1 $r2 $r3 $r4 $r5 $r6 $r7 $r8 $r9"
+                              s =~ %s/(\d{2})/c@parseInt[$1]/eg
+                              println[s]
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+}
+

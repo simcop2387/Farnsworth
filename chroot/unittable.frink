@@ -1,0 +1,49 @@
+
+// This reads a file with units defined in a special line that begins
+// with #!
+//
+// A delimiter may be passed in as either a string or a regular expression.
+// By default, this splits on whitespace.
+//
+// This function returns a two-dimensional array, with each row being
+// one line from the file, with units multiplied in.
+//
+// This may be used with a text file like:
+//  http://futureboy.us/frinkdocs/unittable.txt
+//
+parseFileWithUnits[filename, delimiter = %r/\s+/] :=
+{
+   result = new array
+   unitArray = undef
+
+   LINE:
+   for line = lines["file:$filename"]
+   {
+      // Lines beginning with #! contain units
+      if [units] = line =~ %r/^\s*#!\s*(.*)/
+      {
+         unitArray = eval[split[delimiter, units]]
+         next
+      }
+
+      // Other ines beginning with # are comments
+      if (line =~ %r/^\s*#/)
+         next
+      
+      nums = eval[split[delimiter, line]]
+      if (unitArray != undef)
+         nums = multiplyVector[unitArray, nums]
+      result.push[nums];
+   }
+   return result
+}
+
+// Multiply two vectors and return the result.
+multiplyVector[a1, a2] :=
+{
+   u = min[length[a1], length[a2]]
+   res = new array
+   for c = 0 to u-1
+      res@c = a1@c * a2@c
+   return res
+}

@@ -1,0 +1,11 @@
+
+// Calculate the effect of the Coriolis effect on a projectile.
+
+offset[distance, velocity, latitude=40 degrees] :=
+{
+   t = distance / velocity
+   a = 2 velocity (360 degrees/day) sin[latitude]
+   offset = 1/2 a t^2
+   return offset
+}
+

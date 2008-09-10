@@ -1,0 +1,59 @@
+
+// This tests the parsing of interfaces.
+
+interface zero
+{
+}
+
+interface one
+{
+  f[x]
+}
+
+interface twonospace
+{
+   g[y]
+
+   h[z]
+}
+
+interface two
+{
+   // Comment
+   g[y]
+
+   // And here.
+   h[z]
+}
+
+interface three
+{
+   g[y]
+   h[z]
+   j[x,y]
+}
+
+interface space
+{
+ 
+   // First, do something
+   g[y]
+
+   // Then something else
+   h[z]
+
+   // Then do really wacky stuff.
+   j[x,y]
+}
+
+
+// Now, the test.  This verifies that a class implements the interfaces.
+class TestClass implements one, two
+{
+   f[x] := x^2
+   g[x] := x^3
+   h[x] := x^4
+}
+
+var c is two = new TestClass   // This should succeed.
+var d is three = new TestClass // This should fail.

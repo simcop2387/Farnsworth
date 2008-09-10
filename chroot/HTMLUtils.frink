@@ -1,0 +1,35 @@
+
+// Utilities for HTML manipulation.
+
+HTMLEncode[line] :=
+{
+   line =~ %s/&/&amp;/g;
+   line =~ %s/</&lt;/g;
+   line =~ %s/>/&gt;/g;
+   return line
+}
+
+
+// Decodes the hex-encoded parts of an argument.
+URLDecode[arg] :=
+{
+   return arg =~ %s/%([0-9a-fA-F]{2})/char[eval[$1 + "\\16"]]/ge
+}
+
+// Make the <OPTIONS> tags for an HTML <SELECT> list, with the specified
+// item selected.
+// makeselect[list, selected]
+makeSelect[list, selected] :=
+{
+   for [name, val] list
+   {
+      if (val != undef)         // Has value
+      {
+         vs = "$val"               // Coerce to string
+         valStr = (val != undef) ? " VALUE=\"" + HTMLEncode[vs] + "\"" : ""
+         sel = (vs == selected ? " SELECTED" : "")
+      } else
+         sel = (name == selected ? " SELECTED" : "")
+      println["    <OPTION$valStr$sel>" + HTMLEncode["$name"]]
+   }
+}

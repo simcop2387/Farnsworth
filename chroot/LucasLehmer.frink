@@ -1,0 +1,25 @@
+
+// Implements the Lucas-Lehmer test for Mersenne primes.
+// This test is sufficient to prove primality.
+//
+// To be a Mersenne prime, n must be prime.  This function does not first
+// test that, as it is assumed that some sort of preliminary sieving has
+// occurred.
+
+// NOTE:
+// As of the 2005-11-12 release of Frink, the isPrime[x] routine automatically
+// detects if a number is of the form 2^n-1 and uses this more efficient
+// Lucas-Lehmer test, rather than the usual Rabin-Miller tests.
+
+// Returns true if 2^n - 1 is prime, false otherwise.
+isMersennePrime[n] :=
+{
+   m = 2^n-1
+   s = 4
+
+   for i = 2 to n-1
+      s = (modPow[s,2,m] - 2) mod m   // modPow[base,exp,m] is base^exp mod m
+
+   // Return true (prime) if s is equal to zero, false otherwise.
+   return s==0
+}

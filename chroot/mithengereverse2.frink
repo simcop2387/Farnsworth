@@ -1,0 +1,52 @@
+
+use sun.frink;
+use mithengecorridor.frink;
+
+// Program to reverse-engineer MIThenge observation by Ken Olum on 2005-01-31:
+// "At 4:51:00 I observed that the right limb of the sun lay on a line
+// from my eye at roughly 38 inches (sorry for the barbaric units) inward
+// from the left wall of the corridor to the right edge of the doorframe.
+// I think the corridor is 13 feet wide at that point and the doorway is
+// centered and 5 feet wide."
+//
+// Ken provided better measurements of these points later.  See:
+// See diagram at http://cosmos.phy.tufts.edu/~kdo/corridor.jpg
+
+date = # 2005-01-31 04:51:00 PM Eastern #
+
+println[date -> Eastern]
+
+// Calculate the sun radius at this time.
+sunRadius = sunRadiusAngle[date]
+
+println["Sun radius is " + (sunRadius -> "degrees")]
+
+// Temperature and pressure figures are as measured in Cambridge for this
+// date and time. 
+[sunAzimuth, sunAltitude] = refractedSunAzimuthAltitude[date, lat, long, F[29], 30.42 inHg]
+
+// Convert Meeus azimuth conventions to normal conventions.
+sunAzimuth = (sunAzimuth + 180 degrees) mod circle
+
+println["Sun center azimuth is " + (sunAzimuth -> "degrees")]
+
+// Horizontal distance from right edge of doorframe
+h = (9 feet + 11 inches) - (38 inches) - (2 feet + 11 inches)
+
+// Distance from doorway in corridor on 3rd floor
+d = 279 feet + 89 feet
+
+// The angle added to the centerline of the corridor
+angleOffset = arctan[h,d]
+
+println["Angle offset is " + (angleOffset -> "degrees")]
+
+// Azimuth of the right-hand-limb of the sun
+sunRight = sunAzimuth + sunRadius
+
+println["Right limb of sun is " + (sunRight -> "degrees")]
+
+// Correct angle of the corridor
+corrAzimuth = sunRight - angleOffset
+
+println["Corridor azimuth is " + (corrAzimuth -> "degrees")]

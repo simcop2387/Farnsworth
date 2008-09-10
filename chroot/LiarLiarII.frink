@@ -1,0 +1,62 @@
+
+// ASCII Stereogram decoder for Liar Liar II puzzle:
+// http://www.geocaching.com/seek/cache_details.aspx?guid=1b834c87-50fa-4e7f-ae6e-28b9bedfda63
+
+// Info on reverse stereograms:
+//
+// http://www.wellesley.edu/CS/LiDPC/OnParallaxis/Braunl.paper20.html
+
+p = """
+qGlacTvqGlacTvqGlacTvqGlacTvqGlacTvqGlacTvqGlacTvqGlacTvqGlacTvqGlacTvqGlacTvqGlacTvqGlacTvqGlacT
+nOyxHsQnOyxHsQnOyxHsQnOyxHsQnOyxHsQnOyxHsQnOyxHsQnOyxHsQnOyxHsQnOyxHsQnOyxHsQnOyxHsQnOyxHsQnOyxHs
+ghDkYJWghDkYJWghDkYJWghDkYJWghDkYJWghDkYJWgDkYJJWgDkYJWgDkYJWgDkYYJWgDkYJWgDkYJWgDkkYJWgDkkYJWgDk
+CERVuezCERVuezCERVuezCERuezzCERezzzCERezzzCRezzzzCRezzzCRezzzCRezzzzCRzzzzCRzzzzCRzzzzzCRzzzzzCRz
+rLPptfwrLPptfwrLPptfwrLPtfwrrLPfwwrrLPfwwrrPfwwwrrPfwwrrrPfwwrrrfwwwrrfwwwwrrfwwwrrffwwwrrffwwwrr
+oFAjUdXoFAjUdXoFAjUdXoFAUdXooFAdXXooFAdXXooAdXXXooAdXXoooAdXXooodXXXoodXXXXoodXXXooddXXXooddXXXoo
+bmKNZBibmKNZBibmKNZBibmKZBBbmmKBBBbmmKBBBbmKBBBBbmKBBBbbmKBBBbbmBBBBbbBBBBBbbBBBBbbBBBBBbbBBBBBbb
+IMSqGlaIMSqGlaIMSqGlaIMSGllaMSSlllaMSSlllaMSllllaMSlllaMSlllaMSllllaMSllllaMSllllMSlllllMSlllllMS
+cTvnOyxcTvnOyxcTvnOyxcTvOyyxTvvyyyxTvvyyyxTvyyyyxTvyyyxTvyyyxTvyyyyxTvyyyyxTvyyyyTvyyyyyTvyyyyyTv
+HsQghDkHsQghDkHsQghDkHsQhDDksQQDDDksQQDDDksQDDDDksQDDDkksQDDDkksDDDDkkDDDDDkkDDDDkkDDDDDkkDDDDDkk
+YJWCERVYJWCERVYJWCERVYJWERRVYWERRRVYWERRRVYERRRRVYERRRVVYERRRVVYRRRRVVRRRRRVVRRRRVVRRRRRVVRRRRRVV
+uezrLPpuezrLPpuezrLPpuezLPPpuzLPPPpuzLPPPpuLPPPPpuLPPPppuLPPPppuPPPPppPPPPPppPPPPppPPPPPppPPPPPpp
+tfwoFAjtfwoFAjtfwoFAjtfwFAAjtfwAAAjtwAAAAjwAAAAjjwAAAjjwAAAjjwAAAjjjwAAjjjwAAjjjwAAjjjjwAAjjjjwAA
+UdXbmKNUdXbmKNUdXbmKNUdXbmKNUdXbmKNUXbmmKNXbmmKNNXbmmKNXbmmKNXbmmmKNXbmmKNXbmmKNXbbmmKNXbbmmKNXbb
+ZBiIMSqZBiIMSqZBiIMSqZBiIMSqZBiIMSqZBiIMSqZBiIMSqZBiIMSqZBiIMSqZBiIMSqZBiIMSqZBiIMSqZBiIMSqZBiIMS
+GlacTvnGlacTvnGlacTvnGlacTvnGlacTvnGlacTvnGlacTvnGlacTvnGlacTvnGlacTvnGlacTvnGlacTvnGlacTvnGlacTv
+OyxHsQgOyxHsQgOyxHsQgOyxHsQgOyxHsQgOyxHsQgOxHsQQgOxHsQggOxHsQggxHHsQggxHsQggxHsQggxxHsQggxxHsQggx
+hDkYJWChDkYJWChDkYJWChDkJWChDkJWCChDkJWCChDJWCCChDJWCChhDJWCChhJWWCChhWWCChhWWCChhWWWCChhWWWCChhW
+ERVuezrERVuezrERVuezrERVezrERVezrrERVezrrERezrrrERezrrEERezrrEEezzrrEEezzrrEEezzrEEeezzrEEeezzrEE
+LPptfwoLPptfwoLPptfwoLPpfwwoLPpfwwoLPpfwwoLpfwwwoLpfwwooLpfwwoopffwwoopffwwoopffwooppffwooppffwoo
+FAjUdXbFAjUdXbFAjUdXbFAjdXXbFAjdXXbFAjdXXbFjdXXXbFjdXXbbFjdXXbbjddXXbbjddXXbbjddXbbbjddXbbbjddXbb
+mKNZBiImKNZBiImKNZBiImKNBiImKNBBiImKNBBiImKBBiIImKBBiImKBBiImKBBiImmKBBiImmKBBimmKKBBimmKKBBimmKK
+MSqGlacMSqGlacMSqGlacMSqlacMSqllacMSqllacMSllaccMSllacMSllacMSllacMMSllacMMSllcMMMSllcMMMSllcMMMS
+TvnOyxHTvnOyxHTvnOyxHTvnyxxHTvnyxxHTvnyxxHTnyxxxHTnyxxxHTnyxxxTnyyxxxTnyyxxTnyyyxxTnyyyxxTnyyyxxT
+sQghDkYsQghDkYsQghDkYsQgDkkYsQgDkkYsQgDkkYsgDkkkYsgDkkkYsgDkkksgDDkkksgDDkksggDDkksggDDkksggDDkks
+JWCERVuJWCERVuJWCERVuJWCRVuJWCRVuuJWCRVuuJWRVuuuJWRVuuuJWRVuuuWRVVuuuWVVuuuuWVVuuuuWVVuuuuWVVuuuu
+ezrLPptezrLPptezrLPptezrPptezrPptterPppttePpptteePpptteePppttePpppttepppttepppttepppptteppppttepp
+fwoFAjUfwoFAjUfwoFAjUfwoFAjUfwoFAjUwoFFAjUoFFAjUUoFFAjUUoFFAjUoFFFAjUFFFAjUFFFAjUFFFFAjUFFFFAjUFF
+dXbmKNZdXbmKNZdXbmKNZdXbmKNZdXbmKNZdXbmKNZdXbmKNZdXbmKNZdXbmKNZdXbmKNZdXbmKNZdXbmKNZdXbmKNZdXbmKN
+BiIMSqGBiIMSqGBiIMSqGBiIMSqGBiIMSqGBiIMSqGBiIMSqGBiIMSqGBiIMSqGBiIMSqGBiIMSqGBiIMSqGBiIMSqGBiIMSq"""
+
+for offset = 1 to 21
+{
+   println["\nOffset: $offset"]
+   for line = split[%r/\n/m, p]
+   {
+      len = length[line]
+      for x = 0 to len-1
+      {
+         xo = x+offset
+         if xo < 0 or xo>=len
+            next;
+         cLeft = substrLen[line,x,1]
+         cRight = substrLen[line, x+offset, 1]
+         if (cLeft == cRight)
+            print["#"]
+         else
+            print["."]
+      }
+      println[]
+   }
+   println[]
+}

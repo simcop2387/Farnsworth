@@ -1,0 +1,27 @@
+
+// Test program to determine the mass of a chemical compound.
+
+use elements.frink
+
+// Returns the mass of an atom of a chemical compound like "H2SO4" or "NaCl"
+// To get the molar mass, multiply the results by "avogadro".
+mass[compound] :=
+{
+   mass = 0 amu
+   // The regular expression below breaks into pairs of element names
+   // and their count.
+   for [elem,count] = compound =~ %r/([A-Z][a-z]{0,2})(\d*)/g
+   {
+      if (! count)
+         count = 1
+      else
+         count = eval[count]
+      e = Element.getByName[elem]
+
+      if (e == undef)
+         return "Error:  Unknown element $elem.  Note that case is important!"
+      else
+         mass = mass + e.atomicMass * count
+   }
+   return mass
+}

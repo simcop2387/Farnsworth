@@ -1,0 +1,87 @@
+// This file contains utilities for rendering files for use with Google Earth
+// and Google Maps.
+
+
+// This class represents a point with a given latitude and longitude.
+class GooglePoint
+{
+   var latitude
+   var longitude
+   var altitude
+   var name
+   var description
+   
+   new[name1, lat, long, alt = 0 m] :=
+   {
+      name = name1
+      latitude = lat
+      longitude = long
+      altitude = alt
+   }
+
+   setDescription[desc] :=
+   {
+      description = desc
+   }
+
+   // Render a full KML file for this point as a string and return it.
+   renderFullKML[] :=
+   {
+      renderKMLHeader[] + renderKMLPlacemark[] + renderKMLFooter[]
+   }
+
+   // Render a KML header
+   renderKMLHeader[] :=
+   {
+"""<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.0">
+"""      
+   }
+
+   // Render a KML footer
+   renderKMLFooter[] :=
+   {
+      "\n</kml>"      
+   }
+
+   
+   // Render a KML Placemark for this point.  This is not a complete KML file,
+   // but only the placemark part.
+   renderKMLPlacemark[] :=
+   {
+      retval = " <Placemark>\n"
+
+      if description
+         retval = retval + "  " + renderCDATA["description", description]
+
+      retval = retval + "  " + renderCDATA["name", name]
+
+      retval = retval + """
+  <Point>
+   <coordinates>"""
+
+      retval = retval + format[longitude, degrees, 6] + "," +
+                        format[latitude, degrees, 6] + "," +
+                        format[altitude, m, 4]
+      retval = retval + """</coordinates>
+  </Point>
+ </Placemark>
+"""
+
+      return retval
+   }
+}
+
+// Helper function to render character data.
+renderCDATA[tagname, data] :=
+{
+   "<$tagname><![CDATA[$data]]></$tagname>"
+}
+
+
+// Helper function to format Lat/Long into a format suitable for Google API
+formatPoint[lat, long] :=
+{
+   // GPoint wants long, lat for whatever reason.
+   return format[long, degrees, 6] + ", " + format[lat, degrees, 6]
+}

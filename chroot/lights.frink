@@ -1,0 +1,15 @@
+
+a = new array
+for n = 1 to 1000
+   a@n = false
+
+for n = 1 to 1000
+   for s = n to 1000 step n
+      a@s = ! (a@s)
+
+for n = 1 to 1000
+   if (a@n == true)
+      print["$n\t"]
+   
+
+   

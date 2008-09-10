@@ -1,0 +1,37 @@
+
+use sieve.frink
+
+// Test to check isPrime.
+// This version uses a precalculated sieve.
+
+// TODO: Profile this puppy and make it faster.
+
+highest = 2^31 - 1;
+
+sieve = array[sieve[floor[sqrt[highest]]]]
+
+//println[sieve]
+
+for n = 2 to highest
+{
+   if n % 10000 == 0
+      print["$n\t"]
+   
+   if isPrimeByDivision[n, sieve] != isPrime[n]
+      println["Error!  $n"];
+}
+
+isPrimeByDivision[n, sieve] :=
+{
+   for i = sieve
+   {
+      if (i >= n)
+         return true;
+      
+      if (n mod i == 0)
+         return false
+   }
+
+   return true
+}
+      

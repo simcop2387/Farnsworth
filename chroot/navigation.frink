@@ -1,0 +1,307 @@
+
+// This file contains high-accuracy navigation calculations for the earth.
+
+// Sign conventions 
+// It is *highly* recommended that you use these constants instead of
+// assuming a sign convention.
+North := +1
+South := -1
+West := -1
+East := +1
+
+// Turn a latitude measurement into the appropriate letter or word.  (e.g.
+// "N" or "S"
+// Pass in the latitude and an optional flag to produce the letter
+// or word.  Default is letter only.
+latitudeName[lat, short=true] :=
+{
+   if lat >= 0 degrees
+      short ? "N" : "North"
+   else
+      short ? "S" : "South"
+}
+
+// Turn a longitude measurement into the appropriate letter or word.  (e.g.
+// "N" or "S"
+// Pass in the longitude and an optional flag to produce the letter
+// or word.  Default is letter only.
+longitudeName[long, short=true] :=
+{
+   if long <= 0 degrees
+      short ? "W" : "West"
+   else
+      short ? "E" : "East"
+}
+
+// Calculates the initial bearing for getting from point 1
+// to point 2.  This corrects for the ellipsoidal shape of the earth to very
+// high accuracy.
+// This is based on a paper by T. Vincenty:
+// "Direct and Inverse Solutions of Geodesics on the Ellipsoid with Application
+// of Nested Equations", Survey Review XXII, 176, April 1975.
+// http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf
+// This implements the "inverse formula."
+// Returns:
+//   [distance, initialBearing, finalBearing]
+//
+// TODO:  Allow this to pass in a datum.
+earthDistanceAndBearing[lat1, long1, lat2, long2] :=
+{
+   L = long2 - long1
+   lambda = L
+   if L < -180 degrees
+      L = L + 360 degrees
+   if L > 180 degrees
+      L = L - 360 degrees
+
+   if (lat1 == lat2) and (long1 == long2)
+      return [0 m, 0 degrees, 0 degrees]            // Points are identical.
+
+   a = earthradius_equatorial
+   b = earthradius_polar
+   f = earth_flattening
+
+   // Calculate "reduced" latitudes
+   U1 = arctan[(1-f) tan[lat1]]
+   U2 = arctan[(1-f) tan[lat2]]
+   cU1 = cos[U1]
+   cU2 = cos[U2]
+   sU1 = sin[U1]
+   sU2 = sin[U2]
+   var slambda
+   var clambda
+   var oldlambda
+   var calpha2
+   var cos2sigmam
+   var sinSigma
+   var sinalpha
+   
+   do
+   {
+      oldlambda = lambda
+      slambda = sin[lambda]
+      clambda = cos[lambda]
+      sinSigma = sqrt[(cU2 slambda)^2 + (cU1 sU2 - sU1 cU2 clambda)^2] // Eq.14
+      cossigma = sU1 sU2 + cU1 cU2 clambda                            // Eq. 15
+      tansigma = sinSigma / cossigma                                  // Eq. 16
+      sinalpha = cU1 cU2 slambda / sinSigma                           // Eq. 17
+      calpha2 = 1 - sinalpha^2
+      if (calpha2 == 0)         // Equatorial points
+         cos2sigmam = 0
+      else
+         cos2sigmam = cossigma - 2 sU1 sU2 / calpha2                  // Eq. 18
+      C = f/16 calpha2 (4 + f (4-3 calpha2))                          // Eq. 10
+      sigma = arctan[sinSigma, cossigma]
+      lambda = L + (1-C) f sinalpha (sigma +                          
+                C sinSigma ( cos2sigmam + C cossigma (-1 + 2 cos2sigmam^2)))
+                                // Eq. 11
+   } while (abs[oldlambda - lambda] > 1e-6 arcsec and abs[lambda] < pi radians)
+
+   // TODO:  Calculate distance (eq. 19)
+
+   slambda = sin[lambda]
+   clambda = cos[lambda]
+   alpha1 = arctan[cU2 slambda, cU1 sU2 - sU1 cU2 clambda]
+   alpha2 = arctan[cU1 slambda, -sU1 cU2 + cU1 sU2 clambda]
+
+   u2 = calpha2 (a^2-b^2)/b^2
+   A = 1 + u2/16384 (4096 + u2 (-768 + u2 (320 - 175 u2)))         // Eq. 3
+   B = u2/1024 (256 + u2 ( -128 + u2 (74 - 47 u2)))                // Eq. 4
+   deltaSigma = B sinSigma ( cos2sigmam +
+                  1/4 B (cos[sigma](-1 + 2 cos2sigmam) -
+                   1/6 B cos2sigmam (-3 + 4 sinSigma^2)(-3+4 cos2sigmam)))
+                                                                   // Eq. 6
+   dist = b A (sigma - deltaSigma)
+   
+   return [dist, alpha1 mod circle, alpha2 mod circle]
+}
+
+
+// Convenience method to just return the distance.
+earthDistance[lat1, long1, lat2, long2] := earthDistanceAndBearing[lat1,long1,lat2,long2]@0
+
+
+// Convenience method to just return the distance.
+earthBearing[lat1, long1, lat2, long2] := earthDistanceAndBearing[lat1,long1,lat2,long2]@1
+
+
+// Given the lat/long of starting point, and traveling a specified distance,
+// at an initial bearing, calculates the lat/long of the resulting location.
+// This corrects for the ellipsoidal shape of the earth to very high accuracy.
+// This is based on a paper by T. Vincenty:
+// "Direct and Inverse Solutions of Geodesics on the Ellipsoid with Application
+// of Nested Equations", Survey Review XXII, 176, April 1975.
+// http://www.ngs.noaa.gov/PUBS_LIB/inverse.pdf
+// This implements the "direct formula."
+//
+// Returns:
+//  [lat, long]
+resultantLatLong[lat1, lon1, dist, bearing] :=
+{
+   f = earth_flattening
+   // Calculate "reduced" latitude
+   U1 = arctan[(1-f) tan[lat1]]
+   cU1 = cos[U1]
+   sU1 = sin[U1]
+   a = earthradius_equatorial
+   b = earthradius_polar
+
+   cosalpha1 = cos[bearing]
+   sinalpha1 = sin[bearing]
+
+   sigma1 = arctan[tan[U1],cosalpha1]                              // Eq. 1
+   sinalpha = cU1 sinalpha1                                        // Eq. 2
+   calpha2 = 1 - sinalpha^2
+   u2 = calpha2 (a^2-b^2)/b^2
+
+   A = 1 + u2/16384 (4096 + u2 (-768 + u2 (320 - 175 u2)))         // Eq. 3
+   B = u2/1024 (256 + u2 ( -128 + u2 (74 - 47 u2)))                // Eq. 4
+   baseS = dist/(b A)
+   sigma = baseS
+   do
+   {
+      lastsigma = sigma
+      twoSigmam = 2 sigma1 + sigma                                 // Eq. 5
+      cos2sigmam = cos[twoSigmam]
+      sinSigma = sin[sigma]
+      deltaSigma = B sinSigma ( cos2sigmam +
+                   1/4 B (cos[sigma](-1 + 2 cos2sigmam) -
+                   1/6 B cos2sigmam (-3 + 4 sinSigma^2)(-3+4 cos2sigmam)))
+                                                                   // Eq. 6
+      sigma = baseS + deltaSigma                                   // Eq. 7
+   } while (abs[lastsigma - sigma] > 1e-6 arcsec)
+
+   sinSigma = sin[sigma]
+   cosSigma = cos[sigma]
+   twoSigmam = 2 sigma1 + sigma                                 // Eq. 5
+   cos2sigmam = cos[twoSigmam]
+   lat2 = arctan[sU1 cosSigma + cU1 sinSigma cosalpha1,
+             (1-f)sqrt[sinalpha^2 + (sU1 sinSigma - cU1 cosSigma cosalpha1)^2]]
+                                                                  // Eq. 8
+   lambda = arctan[sinSigma sinalpha1, cU1 cosSigma - sU1 sinSigma cosalpha1]
+                                                                  //Eq.9
+   C = f/16 calpha2 (4 + f (4-3 calpha2))                         // Eq. 10
+   L = lambda - (1-C) f sinalpha (sigma +
+                C sinSigma ( cos2sigmam + C cosSigma (-1 + 2 cos2sigmam^2)))
+
+   // TODO:  Calculate final azimuth? (eq. 12)
+
+   return [lat2, lon1+L]
+}
+
+
+// Calculates the perimeter of a polygon on the earth.  This uses great
+// circle distances.  The input value is an array containing
+// 3 or more pairs of [lat, long] values.
+earthPerimeter[polygon] :=
+{
+   perimeter = 0 m
+   size = length[polygon]
+   for i = 0 to size-1
+   {
+      [lat1, long1] = polygon@i
+      [lat2, long2] = polygon@((i+1) mod size)
+      perimeter = perimeter + earthDistance[lat1, long1, lat2, long2]
+   }
+
+   return perimeter
+}
+
+
+// Calculates the area of a polygon on the earth.  This uses great
+// circle distances.  The input value is an array containing
+// 3 or more pairs of [lat, long] values.
+earthArea[polygon, radius=earthradius] :=
+{
+   anglesum = 0 radians
+   size = length[polygon]
+   for i = 0 to size-1
+   {
+      [lat1, long1] = polygon@i
+      [lat2, long2] = polygon@((i+1) mod size)
+      [lat3, long3] = polygon@((i+2) mod size)
+      angle = abs[earthBearing[lat2, long2, lat3, long3] -
+                  earthBearing[lat2, long2, lat1, long1]]
+
+      if (angle > 180 degrees)
+         angle = (360 degrees) - angle
+
+      anglesum = anglesum + angle
+   }
+
+   return (anglesum/radians - (size-2) pi) radius^2
+}
+
+
+// Distance between two points on the earth. This is from the high-accuracy
+// system of equations in Meeus, chapter 11.  These equations are not numbered,
+// but begin *after* equation 11.2.
+// These correct for the non-sphericity of the earth.
+// This function is deprecated and uses the wrong sign convention.
+lowAccuracyEarthDistance[lat1, long1, lat2, long2] :=
+{
+   F = (lat1 + lat2) / 2
+   //println["F: " + (F -> degrees)]
+   
+   G = (lat1 - lat2) / 2
+   //println["G: " + (G -> degrees)]
+   
+   lambda = (long1-long2) / 2
+   //println["lambda: " + (lambda -> degrees)]
+
+   S = sin[G]^2 cos[lambda]^2 + cos[F]^2 sin[lambda]^2
+   C = cos[G]^2 cos[lambda]^2 + sin[F]^2 sin[lambda]^2
+
+   //println["S: $S"]
+   //println["C: $C"]
+
+   omega = arctan[sqrt[S/C]]
+   //println["omega: " + (omega -> degrees)]
+
+   R = sqrt[S*C] / omega
+   //println["R: $R"]
+
+   D = 2 omega earthradius_equatorial
+   //println["D: $D"]
+
+   H1 = (3 R - 1)/(2 C)
+   H2 = (3 R + 1)/(2 S)
+
+   //earth_flattening = 1/298.257222
+   
+   s = D (1 + earth_flattening (H1 sin[F]^2 cos[G]^2 -
+                                H2 cos[F]^2 sin[G]^2))
+
+   return s
+}
+
+
+// Calculates the initial great circle bearing for getting from point 1
+// to point 2.  This does *not* correct for the fact that the earth is
+// not quite a perfect sphere.
+// This function is deprecated.
+lowAccuracyEarthBearing[lat1, long1, lat2, long2] :=
+{
+   arctan[sin[long1-long2]*cos[lat2],
+          cos[lat1]*sin[lat2]-sin[lat1]*cos[lat2]*cos[long1-long2]] mod circle
+}
+
+// Given the lat/long of starting point, and traveling a specified distance,
+// at an initial bearing, calculates the lat/long of the resulting location.
+// Equation taken from:
+// http://williams.best.vwh.net/avform.htm#LL
+// This does *not* correct for the fact that the earth is not quite a
+// perfect sphere.
+// This method is deprecated.
+lowAccuracyResultantLatLong[lat1, lon1, dist, bearing, radius=earthradius] :=
+{
+   d = dist/radius    // Convert distance to radians
+   lat =arcsin[sin[lat1]*cos[d]+cos[lat1]*sin[d]*cos[bearing]]
+   dlon=arctan[sin[bearing]*sin[d]*cos[lat1], cos[d]-sin[lat1]*sin[lat]]
+   lon= ((lon1-dlon + pi) mod (2*pi))-pi
+
+   return [lat, lon]
+}
+
+
+"Ok"

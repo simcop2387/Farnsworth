@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<HTML LANG="en">
+ <HEAD>
+  <TITLE>Frink Server Pages Hello World</TITLE>
+  <META HTTP-EQUIV="Default-Style" CONTENT="APE Airy"> 
+  <LINK REL="StyleSheet" HREF="/frinkdocs/apeairy.css" TYPE="text/css"
+        TITLE="APE Airy"> 
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style.css" TYPE="text/css"
+        TITLE="APE Classic">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style2.css" TYPE="text/css"
+        TITLE="Compact"> 
+  <LINK REL="icon" HREF="/images/futureboyicon.png" TYPE="image/png">
+ </HEAD>
+
+ <BODY>
+    <H1>Google Maps Test</H1>
+
+    <script src="http://maps.google.com/maps?file=api&v=1&key=ABQIAAAAzPILgAtgPwOVhb3y3TCk1RSYK9YBUQyA-APNOp2PbKIRcrKc6xRUDzeSctK4zWAgiGkyLU7g-mI2Ng" type="text/javascript"></script>
+    <div id="map" style="width: 500px; height: 400px"></div>
+    <script type="text/javascript">
+    //<![CDATA[
+    
+    var map = new GMap(document.getElementById("map"));
+    map.addControl(new GSmallMapControl());
+    var center = new GPoint(-105.2311277, 39.992247);
+    map.centerAndZoom(center, 4);
+    map.addControl(new GMapTypeControl());
+    var marker = new GMarker(center);
+    map.addOverlay(marker);
+    
+    //]]>
+    </script>
+
+  <HR>	
+
+  <P>
+   <I><A HREF="mailto:eliasen@mindspring.com">Alan Eliasen</A></I> was born
+   <%= round[now[] - #1969-08-19 04:54 PM Mountain#, minute] -> ["days", "hours", "minutes"] %> ago.
+  </P>
+
+  <P>
+   Back to <A HREF="/frinkdocs/fspdocs.html">Frink Server Pages
+    documentation.</A>
+  </P>  
+  </body>
+</html>

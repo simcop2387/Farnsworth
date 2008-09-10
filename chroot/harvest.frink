@@ -1,0 +1,20 @@
+// Prints out anything that looks like an e-mail address from a URL
+
+default = "http://futureboy.homeip.net/"
+url = input["Enter a URL [$default]: ", default]
+
+iter = 100
+start = now[]
+
+for i = 1 to iter
+{
+   for line = lines[url]
+      for [address] = line =~ %r/(\w+@(?:\w|\.)+\.\w+)/g 
+	 if (address != "eliasen@mindspring.com")
+	    println[address]
+}
+
+end = now[]
+duration = end-start
+println[ iter + " tries in " + (duration -> "seconds") ]
+println[ (iter/duration -> s^-1) + " iterations per second"]

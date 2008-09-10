@@ -1,0 +1,59 @@
+
+// This program reads coefficients for nutation from the file IAU1980.txt
+// and converts them to a Frink expression for use in the sun.frink library
+// for astronomical code.
+// This produces high-accuracy figures for the nutation of the earth.
+
+psi =     "   deltapsi = 0.0001 arcsec ("
+epsilon = "   deltaepsilon = 0.0001 arcsec ("
+
+for line = lines["file:IAU1980.txt"]
+{
+   [D, M, MP, F, Omega, deltapsi, deltapsiT, deltaepsilon, deltaepsilonT] = split[%r/\t/, line]
+
+   coeffPsi = fmtCoeff[deltapsi, deltapsiT]
+   coeffEpsilon = fmtCoeff[deltaepsilon, deltaepsilonT]
+   arg = fmt[D, "D"]
+   arg = arg + fmt[M, "M"]
+   arg = arg + fmt[MP, "MP"]
+   arg = arg + fmt[F, "F"]
+   arg = arg + fmt[Omega, "Omega"]
+   if (coeffPsi != "")
+      psi = psi + " + ($coeffPsi) sin[$arg]";
+   if (coeffEpsilon != "")
+      epsilon = epsilon + " + ($coeffEpsilon) cos[$arg]";
+}
+
+psi = psi + ")"
+epsilon = epsilon + ")"
+
+println[psi]
+println[epsilon]
+
+fmt[x, char] := 
+{
+   x = eval[x]
+
+   if (x == 1)
+      return " + $char"
+
+   if x > 0
+      return " + $x $char"
+
+   if x < 0
+      return " -" + (-x) + " $char"
+
+   return ""
+}
+
+fmtCoeff[t0, t1] := 
+{
+   str = ""
+   t0 = eval[t0]
+   t1 = eval[t1]
+   if (t0 != 0)
+      str = "$t0"
+   if (t1 != 0)
+      str = str + " + $t1 T"
+   return str
+}

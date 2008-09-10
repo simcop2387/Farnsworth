@@ -1,0 +1,36 @@
+
+// Program to find homophones, that is words that sound alike but are
+// spelled differently.
+
+// Use the Carnegie-Mellon Pronunctiation Dictionary
+file = "file:///home/eliasen/prog/mobydict/mpron/cmupronunciation.txt"
+
+words = dict[]
+
+// Read in approved words (to filter out most proper names)
+approved = dict[]
+approvedWords = "file:///home/eliasen/prog/mobydict/mwords/commondictionary.txt"
+for line = lines[approvedWords]
+   approved@(uc[line]) = true
+
+for line = lines[file]
+{
+   // Regex matches just the word (minus number like (2) in parens and
+   // pronunciation.
+   if [word, pron] = line =~ %r/^([A-Z']+)(?:\(\d+\))?\s+(.*)/
+   {
+      if (approved@word == true)
+         if words@pron == undef
+            words@pron = [word]
+         else
+            words@pron.push[word]
+   }    
+}
+
+// Print any entries with duplicate pronunciations.
+for [pron, wordlist] words
+{
+   if length[wordlist] > 1
+      println["$wordlist\t$pron"]
+}
+

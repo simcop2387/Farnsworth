@@ -1,0 +1,40 @@
+
+// Finds most common n-letter patterns in words.
+
+default = "http://www.mindspring.com/~eliasen/twain/innocents/innocents.html"
+url = input["Enter URL [Innocents Abroad HTML]: ", default]
+
+len = eval[input["Enter character length: "]]
+
+file = read[url]
+
+file =~ %s/<[^>]*>//gs    // Strip HTML
+file =~ %s/[^a-z\s]//gsi    // Remove non-letter characters.
+file =~ %s/[\r\n]/ /gs   // Remove linefeeds
+file =~ %s/\s+/ /gs      // Turn multiple spaces into single space.
+file = lc[file]
+
+print[join["\n",getGrams[file, len]]]
+
+getGrams[str, len] :=
+{
+   fileLen = length[str]
+   grams = dict[]
+
+   sum = 0
+
+   for i = 0 to (fileLen - len)
+   {
+      sub = substrLen[str, i, len];
+      if (sub =~ %r/\s/)
+         next
+
+      sum = sum + 1
+      if ((count = grams@sub) != undef)
+         grams@sub = count + 1
+      else
+         grams@sub = 1
+   }
+
+   return sort[array[grams], { |a,b| a@1 <=> b@1 } ]
+}

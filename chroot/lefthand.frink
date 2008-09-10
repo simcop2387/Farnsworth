@@ -1,0 +1,17 @@
+// Find words that can be typed using only the left hand on a QWERTY keyboard.
+
+infile = "file://///clemens/apex/mobydict/mwords/singlewords.txt"
+
+// Pattern which matches words containing only the
+// characters under the left hand on a QWERTY keyboard
+leftPattern = { |w| w =~ %r/^[qwertasdfgzxcvb]+$/i }
+
+// Pick out words that match the pattern
+matches = select[lines[infile], leftPattern]
+
+// Length sort
+sort[matches, { |a,b| length[a] <=> length[b] }]
+
+for line = matches
+   println[length[line] + ": $line"]
+

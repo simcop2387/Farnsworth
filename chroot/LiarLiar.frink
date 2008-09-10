@@ -1,0 +1,19 @@
+
+// Helper application for "Liar Liar" geocache,
+
+// The coordinates are presumed to be UTM values in zone 13E.
+// Convert these to WGS84.  The GPS unit might just do it, but
+// what fun is that?
+use CoordinateConversions.frink
+use Datum.frink
+
+easting = eval[input["Enter easting number above: "]]
+northing = eval[input["Enter northing number above: "]]
+zone = input["Enter zone [13E]: ", "13E"]
+
+println["Zone $zone meridian longitudes: "]
+println[UTMZoneToLong[zone] -> "degrees"]
+
+println["\nResults: "]
+println[UTMToLatLong[easting, northing, zone, Datum.WGS84] -> "degrees"]
+println[UTMToLatLong[easting, northing, zone, Datum.WGS84] -> DMS]

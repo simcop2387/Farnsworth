@@ -1,0 +1,17 @@
+
+n=0
+found=array[0 to 36]
+numFound = 0
+
+while(true)
+{
+   x=random[0,36]
+   if (found@x != true)
+   {
+      found@x = true
+      numFound = numFound + 1
+   }
+   n = n + 1
+   if (n mod 100 == 0)
+      println["$n:\t$numFound"]
+}

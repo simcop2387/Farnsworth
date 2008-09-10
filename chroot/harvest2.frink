@@ -1,0 +1,29 @@
+// Prints out anything that looks like an e-mail address from a URL
+
+default = "http://futureboy.homeip.net/"
+url = input["Enter a URL [$default]: ", default]
+
+re = %r/(\w+@(?:\w|\.)+\.\w+)/g
+
+// Enumerating context
+println["Enumerating context 1:"]
+list1 = read[url] =~ re
+println[join["\n", list1 ]]
+println["Again:"]
+println[join["\n", list1 ]]
+
+println["Enumerating context 2:"]
+println[join["\n", read[url] =~ re ]]
+println["Again:"]
+println[join["\n", read[url] =~ re ]]
+
+// Normal context
+println["Normal context:"]
+list = read[url] =~ re
+println[list]
+println[list]
+
+// Flatten it
+println["Flattened:"]
+println[flatten[list]]
+println[flatten[list]]

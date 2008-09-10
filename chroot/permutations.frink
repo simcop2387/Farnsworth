@@ -1,0 +1,56 @@
+
+// Lists all the partitions of an integer.
+// The algorithm is Algorithm P from Knuth's 7.2.1.4
+partitionInteger[n] :=
+{
+   a = new array[]              // Array of size n+1
+   a@0 = 0
+   m = 1
+   count = 0
+
+   // Step P2
+   a@m = n
+   q = m - (n==1 ? 1 : 0)
+
+   do
+   {
+      // Step P3... dump the partition.
+      // This would be a good place for a "yield" statement.
+      for i = 1 to m
+         print[a@i + " "]
+      count = count + 1
+      println[]
+
+      if a@q == 2
+      {
+         // Step P4
+         a@q = 1
+         q = q - 1
+         m = m + 1
+         a@m = 1
+      } else
+      {
+         // Step P5
+         if q == 0
+         {
+            println["Count is $count"]
+            return
+         }
+         x = a@q - 1
+         a@q = x
+         n = m-q+1
+         m = q + 1
+
+         while (n > x)
+         {
+            a@m = x
+            m = m + 1
+            n = n - x
+         }
+
+         // Simulate Step P2
+         a@m = n
+         q = m - (n==1 ? 1 : 0)
+      }
+   } while (true)
+}

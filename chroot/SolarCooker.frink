@@ -1,0 +1,87 @@
+
+// Solar cooker design program
+
+f = eval[input["Enter focal length [4 feet]: ", "4 feet"]]
+
+length = eval[input["Enter length of reflective material, long axis [100 in]: ", "100 in"]]
+width = eval[input["Enter width of reflective material, short axis [36 in]: ", "36 in"]]
+
+longspars = eval[input["Enter number of long spars [3]: ", 3]]
+shortspars = eval[input["Enter number of short spars [7]: ", 7]]
+
+inset = eval[input["Enter inset [2 in]: ", "2 in"]]
+
+longdiff = (width - (2*inset)) / (longspars - 1)
+shortdiff = (length - (2*inset)) / (shortspars - 1)
+
+
+println[]
+println["$longspars long spars will be " + (longdiff -> "in") + " apart."]
+println["$shortspars short spars will be " + (shortdiff -> "in") + " apart."]
+
+b = 100 in
+println["Arc length is " + format[arclen[b,f], "in", 2]]
+
+a = 36 in
+println["Arc length is " + format[arclen[a,f], "in", 2]]
+
+// Max height
+maxHeight = parabolaHeight[length/2, width/2, f]
+println["Maximum height is " + format[maxHeight, "in", 2]]
+
+maxHeight = parabolaHeight[length/2, 0 in, f]
+println["Centerline height is " + format[maxHeight, "in", 2]]
+
+println["long\tshort\theight"]
+wmin = shortspars mod 2 == 1 ? 0 in : longdiff
+lmin = longspars mod 2 == 1 ? 0 in : shortdiff
+
+println["\nCutting short spars:"]
+for w = wmin to b/2 step shortdiff
+{
+   if w == 0 in
+      print["x 1"]
+   else
+      print["x 2"]
+
+   println[" (length " + format[a, "in", 2] + "), " + format[w, "in", 1] + " from center"]
+   for l = lmin to a/2 step longdiff
+   {
+      print[format[l, "in", 1] + "\t"]
+      print[format[parabolaHeight[l,w,f], "in", 1]]
+      println[]
+   }
+   println[]
+}
+
+println["\nCutting long spars:"]
+for l = lmin to a/2 step longdiff
+{
+   if l == 0 in
+      print["x 1"]
+   else
+      print["x 2"]
+
+   println[" (length " + format[b, "in", 2] + "), " + format[l, "in", 1] + " from center"]
+   for w = wmin to b/2 step shortdiff
+   {
+      print[format[w, "in", 1] + "\t"]
+      print[format[parabolaHeight[l,w,f], "in", 1]]
+      println[]
+   }
+   println[]
+}
+
+// Find arclength of the curve over a box length b:
+// (b sqrt[16 + (b/f)^2])/8 + 2 f arccsch[4 f/b]
+arclen[b, f] := (b sqrt[16 + (b/f)^2])/8 + 2 f arccsch[4 f/b]
+
+// Parabola height
+// Equation for a parabola with focal length f is z = d^2/(4 f)
+// where d is the distance from the center and z is the height.
+parabolaHeight[x, y, f] :=
+{
+   d = sqrt[x^2 + y^2]
+   return d^2/(4 f)
+}
+

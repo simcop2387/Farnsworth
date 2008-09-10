@@ -1,0 +1,42 @@
+
+// Optimize a musical scale to find the optimal number of notes in an octave.
+
+// Key frequency ratios to evaluate at
+//points = [3/2, 4/3, 5/4, 5/3, 6/5, 7/2, 7/3, 7/4, 7/5, 7/6, 8/3, 8/5, 8/7]
+points = [3/2, 5/4, 7/2, 7/4, 7/6, 9/2, 9/4, 9/8] //, 11/2, 11/4, 11/6, 11/8, 11/10]
+
+bestError = 1000
+
+for root = 2 to 400
+{
+   print["$root\t"]
+   ratio = 2^(1/root)
+
+   sum = 0
+   for point = points
+   {
+      // Find optimal number of steps
+      optSteps = log[point]/log[ratio]
+
+      // Error between steps and closest note in this scale
+      error = abs[(optSteps-round[optSteps])/optSteps]
+
+      // We're going to take RMS error
+      sum = sum + error^2
+
+//      println["$point\t$error"]
+   }
+
+   e = sqrt[sum] * root
+   
+   print[format[e,1,6]]
+
+   // Best so far?
+   if (e < bestError)
+   {
+      print["\t*"]
+      bestError = e
+   }
+   
+   println[]
+}

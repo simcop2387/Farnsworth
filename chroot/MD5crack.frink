@@ -1,0 +1,61 @@
+
+// Program to try and hack the fake MD5 hash in the Heroes website:
+// http://www.primatechpaper.com/career.shtml
+
+// The fake value from function checkThisl(form).  The designers of this site
+// are bloody clever.  It's odd that they chose a hash that was so close
+// to the real hash, though.  It's the only reason I succeeded in my earlier
+// break.
+primac = "f90ad64d3e6fc85b784c2b11595c1sa0"
+
+// The *real* value from function checkThis1(form)  hidden cleverly
+// in _common.js.  The weird thing is that the fake value gives such a close
+// hash code that let me break in in the first place.
+// Bloody clever by the designers.  They could have made it harder on me by
+// choosing a fake hash that's really far away.
+primac = "133946763392c2f3896f7fd6c4e00747";
+
+files = ["file://///home/eliasen/prog/mobydict/mwords/singlewords.txt",
+"file://///home/eliasen/prog/mobydict/mwords/compoundwords.txt",
+"file://///home/eliasen/prog/mobydict/mwords/names.txt",
+"file://///home/eliasen/prog/mobydict/mwords/places.txt",
+"file://///home/eliasen/prog/mobydict/mlang/french.txt",
+"file://///home/eliasen/prog/mobydict/mlang/german.txt",
+"file://///home/eliasen/prog/mobydict/mlang/italian.txt",
+"file://///home/eliasen/prog/mobydict/mlang/japanese.txt",
+"file://///home/eliasen/prog/mobydict/mlang/spanish.txt"]
+
+suffixes = ["", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "s", "es"]
+
+println["Processing numbers"]
+for n = 1 to 1000000
+{
+   line = "$n"
+   h = messageDigest[messageDigest[line, "MD5"], "MD5"]
+   left = substrLen[h, 0, 10]
+   e = editDistance[h, primac]
+   if e < 20
+      println["$line\t$h\t$e"]
+}
+
+for suffix1 = suffixes
+   for suffix2 = suffixes
+   {
+      suffix = "$suffix1$suffix2"
+      println["Trying suffix $suffix"]
+
+      // Load in the wordfiles
+      for file = files
+      {
+//         println["Processing $file"]
+         for line = lines[file]
+         {
+            // The real crack runs MD5 twice.  Damn ass clever!
+            h = messageDigest[messageDigest["$line$suffix", "MD5"], "MD5"]
+            e = editDistance[h, primac]
+            if e < 19
+               println["$line$suffix\t$h\t$e"]
+
+         }
+      }
+   }

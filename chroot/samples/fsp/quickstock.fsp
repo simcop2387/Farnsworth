@@ -1,0 +1,26 @@
+<%@ contentType="text/plain" %>
+
+<%   
+// Fetches stock prices from a remote site.  Expects a parameter called
+// "symbol" to be passed in.
+   
+if (! symbol)
+   println["\"No symbol passed in.\""]
+else
+{
+   price = stock[symbol]
+   if price conforms currency
+      println[price -> "USD"]
+   else
+      println["\"Stock not found.\""]
+}
+
+stock[symbol] :=
+{
+   url = "http://www.quicken.com/investments/quotes/?symbol=" + symbol
+   file = read[url]
+
+   if [price] = ( file =~ %r/Last Trade.*?<b>(\d+\.\d+)<\/b>/si )
+       return eval[price + " USD"]
+}
+%> 

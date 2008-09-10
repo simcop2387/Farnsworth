@@ -1,0 +1,17 @@
+
+use navigation.frink
+
+startLat = 39.849883 degrees North
+startLong = 105.11115 degrees West
+
+[lat1,long1] = resultantLatLong[startLat, startLong, 26 romanpaces, 270 deg]
+[lat2,long2] = resultantLatLong[lat1, long1, 178 romanpaces, 0 deg]
+
+println["Resultant location is: "]
+println["Lat:  " + format[lat2,degrees,5]]
+println["Long: " + format[long2, degrees, 5]]
+
+[distance, initbearing] = earthDistanceAndBearing[startLat, startLong, lat2, long2]
+
+println["Distance is " + format[distance, "m", 1]]
+println["Bearing is " + format[initbearing, deg, 2]]

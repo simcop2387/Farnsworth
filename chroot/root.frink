@@ -1,0 +1,66 @@
+// Function for taking roots of a number using Newton's method.
+//
+// NOTE: sqrt can be optimized by iterating x = 1/2 (x + n/x)
+root[n, p, err = 1e-14] :=
+{
+   if p==2
+      x = sqrt[n, err]
+   else
+   {
+      // Initial guess (really really dumb)
+      x = 2.^(approxLog2[n]/p)
+
+      do
+      {
+         //println[x]
+         errterm = (x^p - n)/ (p x^(p-1));
+         x = x - errterm;
+      } while (abs[errterm/n] > err)
+   }
+
+   r = round[x]
+   if (abs[r-x] < err)
+   {
+      if (r^p == n)
+         return r
+   }
+
+   return x
+}
+
+// Optimization for 2
+sqrt[n, err] :=
+{
+   // Initial guess (really really dumb)
+   x = 2.^(approxLog2[n]/2)
+
+   //println["First guess: x"]
+
+   while (abs[(x*x - n)/n] > err)
+   {
+      //println[x]
+      println[abs[(x*x-n)/n]]
+      x = (x + n/x) / 2
+   }
+
+   return x
+}
+
+// Integer square root--returns the greatest integer less than or equal to the 
+// to the square root of n.
+// This is Exercise 5.7 in Bressoud with my own modifications for better
+// initial guess.
+introot[n] :=
+{
+   a = 2^((bitLength[n]+1) div 2)
+   b = a - 1
+
+   while b<a
+   {
+//      println["$a $b"]
+      a = b
+      b = (a*a + n) div (2*a)
+   }
+
+   return a
+}

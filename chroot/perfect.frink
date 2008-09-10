@@ -1,0 +1,11 @@
+
+for n = 100 to 9999999999
+{
+   a = n^(1/2)
+   if (a == round[a])
+   {
+      a = n^(1/3)
+      if (round[a]^3 == n)
+         println[n]
+   }
+}

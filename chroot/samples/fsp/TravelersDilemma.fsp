@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<HTML LANG="en">
+ <HEAD>
+  <TITLE>Traveler's Dilemma</TITLE>
+  <META HTTP-EQUIV="Default-Style" CONTENT="APE Airy"> 
+  <LINK REL="StyleSheet" HREF="/frinkdocs/apeairy.css" TYPE="text/css"
+        TITLE="APE Airy"> 
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/spaceship.css"
+        TYPE="text/css" TITLE="Spaceship">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style.css" TYPE="text/css"
+        TITLE="APE Classic">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style2.css" TYPE="text/css"
+        TITLE="Compact"> 
+  <LINK REL="icon" HREF="/images/futureboyicon.png" TYPE="image/png">
+ </HEAD>
+
+ <% penalty = penalty ? eval[penalty] : 2
+    lucymin = lucymin ? eval[lucymin] : 2
+    lucymax = lucymax ? eval[lucymax] : 100
+    petemin = petemin ? eval[petemin] : 2
+    petemax = petemax ? eval[petemax] : 100
+    %>
+ <BODY>
+  <H1>Traveler's Dilemma</H1>
+  <P>
+   See the <A HREF="http://www.sciam.com/print_version.cfm?articleID=7750A576-E7F2-99DF-3824E0B1C2540D47">description of the Traveler's Dilemma problem</A>.
+  <FORM METHOD="GET" ACTION="TravelersDilemma.fsp">
+   Penalty: <INPUT TYPE="TEXT" NAME="penalty" VALUE="$penalty" SIZE=4><BR>
+   Lucy min: <INPUT TYPE="TEXT" NAME="lucymin" VALUE="$lucymin" SIZE=4><BR>
+   Lucy max: <INPUT TYPE="TEXT" NAME="lucymax" VALUE="$lucymax" SIZE=4><BR>
+   Pete min: <INPUT TYPE="TEXT" NAME="petemin" VALUE="$petemin" SIZE=4><BR>
+   Pete max: <INPUT TYPE="TEXT" NAME="petemax" VALUE="$petemax" SIZE=4><BR>
+   <INPUT TYPE="SUBMIT">
+  </FORM>	
+
+   <P>
+    The table below shows the projected earnings for Lucy, assuming Pete
+    randomly plays a number within his range.
+   </P>	
+
+   <TABLE CELLPADDING=2 BORDER=1>
+   <TR><TH>Num<TH>Projected Earnings<TH>Projected Total Payout
+<%
+for lucy=lucymin to lucymax
+{
+   lucysum = 0
+   petesum = 0
+   totalsum = 0
+   for pete=petemin to petemax
+   {
+      if pete == lucy           // Both choose same, rewarded same.
+      {
+         lucypayoff = lucy
+         petepayoff = pete
+      } else
+         if pete > lucy         // Pete chose higher
+         {
+            lucypayoff = lucy+penalty       // Lucy gets rewarded
+            petepayoff = lucy-penalty       // Pete gets punished
+         } else
+         {
+            // Lucy chose higher, she gets punished
+            lucypayoff = pete - penalty
+            petepayoff = pete + penalty
+         }
+      lucysum = lucysum + lucypayoff
+      petesum = petesum + petepayoff
+      totalsum = lucysum + petesum
+   }
+
+   lucyave = lucysum / (petemax-petemin+1.)
+   totalave = totalsum / (petemax-petemin+1.)
+   println["<TR><TD>$lucy<TD>" + format[lucyave,1,6] + "<TD>" + format[totalave,1,6]]
+}
+%>
+
+  </TABLE>
+
+  <HR>
+   <P>	
+  <A HREF="/fsp/highlight.fsp?fileName=TravelersDilemma.fsp">View source</A>
+  <P>
+   <I><A HREF="mailto:eliasen@mindspring.com">Alan Eliasen</A></I> was born
+   <%= round[now[] - #1969-08-19 04:54 PM Mountain#, minute] -> ["days", "hours", "minutes"] %> ago.
+  </P>
+
+  <P>
+   Back to <A HREF="/frinkdocs/fspdocs.html">Frink Server Pages
+    documentation.</A>
+  </P>  
+ </BODY>
+</HTML>

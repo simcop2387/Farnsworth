@@ -1,0 +1,29 @@
+
+// Timing test for modular exponentiation
+
+while (true)
+{
+   numbits = eval[input["Enter number of bits or bytes: "]]
+   if (numbits conforms 1)
+   {
+      println["Bits or bytes not specified, assuming bytes."]
+      numbits = 8 numbits
+   }
+
+   modulus = 256^(numbits/byte)
+
+   limit = 1000
+
+   start = now[]
+   for i = 1 to limit
+   {
+      base = randomBits[numbits/bit]
+      exponent = randomBits[numbits/bit]
+      result = modPow[base, exponent, modulus]
+   }
+
+   end = now[]
+
+   println["The loop took " + (end - start -> seconds) + " seconds."]
+   println["This is " + format[limit / (end-start), s^-1, 2] + " operations/sec."]
+}

@@ -1,0 +1,27 @@
+
+setPrecision[40]
+
+// Sort units by size
+
+ulist = sort[units[time], { |a,b| unit[a] <=> unit[b] }]
+
+last=unit[ulist@0]
+index = 1
+size = length[ulist]
+mag = 1
+
+while(index < size)
+{
+   current = unit[ulist@index]
+   factor = current/last
+   println[factor->1.]
+   mag = mag * factor
+   last = current
+   index = index + 1
+}
+
+md = last / unit[ulist@0]
+println["Magnitude difference is " + md]
+println["Mag is:                 " + mag]
+println["Error: " + abs[md-mag]/md]
+

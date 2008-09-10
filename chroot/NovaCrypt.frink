@@ -1,0 +1,22 @@
+
+// Program to attempt decode of NOVA scienceNOW code
+
+orig  = lc["WNLWfeyyjpbPHG"]
+
+guess = lc["NOVAscienceNOW"]
+
+len = length[orig]
+diff = 0
+
+for i = 0 to len-1
+{
+   lastdiff = diff
+   ochar = char[substrLen[orig,i,1]]
+   gchar = char[substrLen[guess,i,1]]
+   diff = (ochar-gchar)
+   ddiff = (diff-lastdiff) mod 26
+   char = char[(diff mod 26) + char["A"] - 1] 
+
+   println["$ochar\t$gchar\t$diff\t$ddiff\t$char"]
+}
+

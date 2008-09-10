@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<HTML LANG="en">
+ <% fileName = fileName ? fileName : "highlight.fsp" %>
+ <HEAD>
+  <TITLE>Frink Colorizer - $fileName</TITLE>
+  <META HTTP-EQUIV="Default-Style" CONTENT="APE Airy"> 
+  <LINK REL="StyleSheet" HREF="/frinkdocs/apeairy.css" TYPE="text/css"
+        TITLE="APE Airy"> 
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style.css" TYPE="text/css"
+        TITLE="APE Classic">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style2.css" TYPE="text/css"
+        TITLE="Compact"> 
+  <LINK REL="icon" HREF="/images/futureboyicon.png" TYPE="image/png">
+ </HEAD>
+
+ <BODY>
+  <H1>$fileName</H1>
+  
+  <% 
+  baseFile = "file:///$FSPRoot/../"
+
+  if ((fileName =~ %r/\.\./) or (! (fileName =~ %r/\.frink$/)))
+     println["<P CLASS=\"CENTER\"><B>Nice try.</B></P>"]
+  else
+  {
+     file = "$baseFile$fileName"
+     print["<P><CODE>" + highlightFile[file] + "</CODE></P>"]
+  }
+
+  highlightFile[filename] :=
+  {
+     text = read[filename]
+     text =~ %s/&/&amp;/g
+     text =~ %s/</&lt;/g
+     text =~ %s/>/&gt;/g
+     text =~ %s/ /&nbsp;/g
+
+     // Highlight URLs
+     text =~ %s/((?:http|ftp|https):\/\/(?:.*?))(\s|&nbsp;|"|&gt;)/<A HREF="$1">$1<\/A>$2/igm
+     text =~ %s/^((?:&nbsp;)*use(?:&nbsp;)+)(\S+)/$1<A HREF="colorize.fsp?fileName=$2">$2<\/A>/gm
+
+     // Comments that begin a line
+     text =~ %s/^(\/\/[^\r\n]*)/<CODE CLASS="comment">$1<\/CODE>/gm
+
+     // Comments later in a line (That don't appear to be part of a URL)
+     // The exclusion of > is a bit of a kludge because otherwise this
+     // double-comments when combined with the pattern above.
+     text =~ %s/[^:>](\/\/.*)/<CODE CLASS="comment">$1<\/CODE>/gm
+
+     // Find $varname
+//     text =~ %s/(\$[[:alpha:]]([[:alpha:]]|[[:digit:]]|_)*)/<CODE CLASS="fsp">$1<\/CODE>/g
+//     // Find ${varname} including possible Unicode escape sequences
+//     text =~ %s/(\${(?:\\u|[[:alpha:]])(\\u|[[:alpha:]]|[[:digit:]]|_)*})/<CODE CLASS="fsp">$1<\/CODE>/g
+     // Highlight remaining Unicode escape sequences
+//     text =~ %s/([^${])(\\u[0-9a-fA-F]{4})/$1<CODE CLASS="fsp">$2<\/CODE>/g
+//     text =~ %s/(&lt;%=?)(.*?)%&gt;/<CODE CLASS="fsp">$1$2%&gt;<\/CODE>/gs
+     text =~ %s/(\r\n|\n\r?)/<BR>\n/g
+     return text
+  }
+  %>
+
+  <HR>
+  <P CLASS="CENTER">
+   <A HREF="/frinksamp/$fileName">View or download $fileName in plain text format</A>
+  </P>
+  
+  <HR>
+
+  <P CLASS="CENTER">
+   This is a program written in the programming language <A
+    HREF="/frinkdocs/">Frink</A>.<BR>
+   For more information, view the <A HREF="/frinkdocs/">Frink
+    Documentation</A> or see <A HREF="/fsp/samples.fsp">More Sample Frink Programs</A>.
+  </P>
+  
+  <P CLASS="CENTER">
+   <I><A HREF="mailto:eliasen@mindspring.com">Alan Eliasen</A></I> was born
+   <%= round[now[] - #1969-08-19 04:54 PM Mountain#, minute] -> ["days", "hours", "minutes"] %> ago.
+  </P>
+ </BODY>
+</HTML>

@@ -1,0 +1,23 @@
+
+// Program to factor smaller Mersenne primes and time the process.
+
+fullStart = now[]
+
+for b = 1 to 256
+{
+   start = now[]
+   num = 2^b-1
+   factors = factor[2^b-1]
+   check = 1
+   for [factor, pow] factors
+      check = check * factor^pow
+
+   if (num != check)
+      println["Error in check!"]
+   
+   end = now[]
+   time = (end-start) -> ms
+   println["$b\t$time\t$factors"]
+}
+
+println["Total time: " + ((now[] - fullStart) -> "s")]

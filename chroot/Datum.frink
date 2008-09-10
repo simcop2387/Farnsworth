@@ -1,0 +1,70 @@
+
+// References:
+// http://www.uwgb.edu/dutchs/UsefulData/UTMFormulas.HTM
+
+// This represents the shape of the spheroid in a geographic datum.
+// It also calculates features of each datum so they can be addressed
+// as member variables.
+//
+// NOTE:  Please ensure that you have the 2006-05-16 or later release of Frink
+// as previous versions do not handle cyclical class definitions properly.
+class Datum
+{
+   // The name of the datum/projection
+   var name
+
+   // Equatorial radius (generally called "a" in calculations so this
+   // makes it easier to write.
+   var a
+
+   // Polar radius (generally called "a" in calculations so this
+   // makes it easier to write.
+   var b
+
+   // Eccentricity
+   var e
+
+   // eprime is another eccentricity value.  It is only used as squares,
+   // fourth powers, sixth, etc., but it is stored here as the first power.
+   var eprime
+
+   // The "flattening" of the sphere
+   var flattening
+
+   var n
+
+   // Constructor
+   new[dName is string, equatorialRadius is length, polarRadius is length] :=
+   {
+      name = dName
+      a = equatorialRadius
+      b = polarRadius
+
+      // Calculate other values
+      e = sqrt[1-b^2/a^2]
+
+      eprime = e a / b
+
+      n = (a-b)/(a+b)
+
+      flattening = (a-b)/a
+   }
+
+   // Make common datums.
+   class var WGS84 = new Datum["WGS84", 6378137 m, 6356752.3142 m]
+   class var NAD83 = new Datum["NAD83", 6378137 m, 6356752.3142 m]
+   class var GRS80 = new Datum["GRS 80",6378137 m, 6356752.3141 m]
+   class var WGS72 = new Datum["WGS72", 6378135 m, 6356750.5 m] 
+   class var Australian1965 = new Datum["Australian 1965",
+                                        6378160 m, 6356774.7 m]
+   class var Krasovsky1940 = new Datum["Krasovsky 1940",
+                                       6378245 m, 6356863.0 m]
+   class var Hayford1909 = new Datum["Hayford 1909", 6378388 m, 6356911.9 m]
+   class var Clake1880 = new Datum["Clake 1880",     6378249.1 m, 6356514.9 m]
+   class var Clarke1866 = new Datum["Clarke 1866",   6378206.4 m, 6356583.8 m]
+   class var Airy1830 = new Datum["Airy 1830",       6377563.4 m, 6356256.9 m]
+   class var Bessel1841 = new Datum["Bessel 1841",   6377397.2 m, 6356079.0 m]
+   class var Everest1830 = new Datum["Everest 1830", 6377276.3 m, 6356075.4 m]
+}
+
+"Datum.frink included"

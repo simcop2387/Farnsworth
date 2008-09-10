@@ -1,0 +1,89 @@
+
+// Compares against Mathematica benchmarks:
+//http://www.wolfram.com/products/mathematica/newin5/performance/bignumber.html
+
+use root.frink
+
+setPrecision[1000]
+
+randomFloat[bits] :=
+{
+   n = randomBits[bits]
+   d = 2^random[bits]
+   return 1. n/d
+}
+
+println["\nRunning timing loops..."]
+
+for iter = 1 to 5
+{
+   println["Iteration $iter:"]
+
+   // Multiplying 2 1000-digit reals
+   limit = 10000
+   n1 = randomFloat[ceil[log[10]/log[2] * 1000]]
+   n2 = randomFloat[ceil[log[10]/log[2] * 1000]]
+//   println[n1]
+//   println[n2]
+
+   start = now[]
+   for i = 1 to limit
+   {
+//      c = n1 * n1
+//      println[c]
+   }
+
+   end = now[]
+   println["r*r: "]
+   println["The loop took " + (end - start -> seconds) + " seconds."]
+   println["This is " + (limit / (end-start) -> s^-1) + " operations/sec."]
+   println["     or " + ((end-start) / limit -> s) + " sec/operation.\n"]
+
+
+   // Multiplying 2 1000-digit integers 10000 times
+   limit = 10000
+
+   bits = ceil[log[10]/log[2] * 1000]
+   r1 = randomBits[bits]
+   r2 = randomBits[bits]
+
+   start = now[]
+   for i = 1 to limit
+      c = r1 * r2
+
+   end = now[]
+   println["Multiplying integers: "]
+   println["The loop took " + (end - start -> seconds) + " seconds."]
+   println["This is " + (limit / (end-start) -> s^-1) + " operations/sec.\n"]
+
+   n = randomBits[ceil[log[10]/log[2] * 100000]]
+   d = randomBits[ceil[log[10]/log[2] * 100]]
+
+   start = now[]
+
+   limit = 100
+   for i = 1 to limit
+      c = n/d
+
+   end = now[]
+   println["gcd: "]
+   println["The loop took " + (end - start -> seconds) + " seconds."]
+   println["This is " + (limit / (end-start) -> s^-1) + " operations/sec."]
+   println["     or " + ((end-start) / limit -> s) + " sec/operation.\n"]
+
+   start = now[]
+
+   limit = 10
+   n = randomFloat[ceil[log[10]/log[2] * 1000]]
+
+   println[n]
+
+   for i = 1 to limit
+      c = root[n, 2, 1e-500]
+
+   end = now[]
+   println["sqrt: "]
+   println["The loop took " + (end - start -> seconds) + " seconds."]
+   println["This is " + (limit / (end-start) -> s^-1) + " operations/sec."]
+   println["     or " + ((end-start) / limit -> s) + " sec/operation.\n"]
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<HTML LANG="en">
+ <HEAD>
+
+  <TITLE>Frink Sidebar</TITLE>
+  <STYLE TYPE="text/css">
+  <!--
+      BODY {font-family:Arial,Helvetica; background: #FFFFFF; font-size: xx-small; margin: 3px}
+      H1   {color: #0000C0; text-align:center}
+      TD.head   {color: #404040}
+      TD.res {font-size: small}
+   -->
+  </STYLE>
+ </HEAD>
+
+<%
+   encFrom = ""
+   encTo = ""
+   if (fromVal)
+      encFrom = HTMLEncode[fromVal]
+   if (toVal) 
+      encTo =   HTMLEncode[toVal]
+%>
+
+ <BODY>
+  <FORM ACTION="sidebar.fsp" METHOD="GET">
+  <P>
+    From:<BR>
+  <INPUT TYPE="TEXT" NAME="fromVal" VALUE="$encFrom" SIZE=$width>
+
+  <P>
+    To:<BR>
+       <INPUT TYPE="TEXT" NAME="toVal" VALUE="$encTo" SIZE=$width>
+   <BR>
+   <INPUT TYPE="SUBMIT" VALUE="Calculate">
+   <INPUT TYPE="HIDDEN" NAME="sidebar" VALUE=1><P>
+    <A HREF="/frinkdocs/" TARGET="_content">About Frink</A> *
+    <A HREF="/frink/" TARGET="_content">Full Interface</A><P>
+
+    <% if fromVal
+       {
+          println["<TABLE BORDER=\"0\">"]
+          println["<TR><TD VALIGN=\"top\" CLASS=\"head\">From:<TD CLASS=\"res\">" + HTMLEncode[fromVal]]
+          if (toVal)
+          {
+             println["<TR><TD CLASS=\"head\">To:<TD CLASS=\"res\">" + HTMLEncode[toVal]]
+             result = eval["$fromVal -> $toVal"]
+          } else
+              result = eval[fromVal] 
+
+          result = "$result"  // Coerce to string in all cases.
+          result = HTMLEncode[result]
+          result =~ %s/(\n\r?|\r\n?)/<BR>\n/g
+          println["<TR><TD VALIGN=TOP CLASS=\"head\">Result:<TD CLASS=\"res\">$result\n<BR>"]
+          println["</TABLE>"]
+      }
+
+   HTMLEncode[line] :=
+   {
+      line =~ %s/&/&amp;/g
+      line =~ %s/</&lt;/g
+      line =~ %s/>/&gt;/g
+      line =~ %s/"/&quot;/g
+      line =~ %s/\s{2,}/ /g
+      return line
+   }
+  %>
+ </BODY>
+</HTML>
+
+

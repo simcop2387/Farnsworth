@@ -1,0 +1,5 @@
+
+for a = 2 to 1 billion
+   if isPrime[a]
+      println[a]
+   

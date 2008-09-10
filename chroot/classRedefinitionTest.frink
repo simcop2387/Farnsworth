@@ -1,0 +1,9 @@
+// Test to see if Frink allows redefinition of a class.
+
+class Test
+{
+}
+
+class Test
+{
+}

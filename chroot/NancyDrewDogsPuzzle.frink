@@ -1,0 +1,30 @@
+// Solves the "Waldo" tombstone puzzle in Nancy Drew
+// Ghost Dogs of Moon Lake
+
+n = 1
+
+target = input["Enter target number: "]
+
+for a1 = 0 to n
+  for a2 = 0 to n
+    for a3 = 0 to n
+      for a4 = 0 to n
+        for a5 = 0 to n
+           for a6 = 0 to n
+              for a7 = 0 to n
+                 for a8 = 0 to n
+                 {
+                    c1 = (2 + a1 + a2) mod 6
+                    c2 = (3 + a1 + a2) mod 6
+                    c3 = (2 + a1 + a2 + a3 + a5 + a8) mod 6
+                    c4 = (4 + a1 + a3 + a4 + a5 + a7) mod 6
+                    c5 = (1 + a1 + a2 + a3 + a4 + a5 + a7 + a8) mod 6
+                    c6 = (4 + a3 + a4 + a5 + a6 + a7) mod 6
+                    c7 = (5 + a3 + a4 + a7 + a8) mod 6
+                    c8 = (4 + a2 + a8) mod 6
+
+                    res = "$c1$c2$c3$c4$c5$c6$c7$c8"
+                    println["$a1$a2$a3$a4$a5$a6$a7$a8 $res"]
+                    if target == res
+                       println["$a1$a2$a3$a4$a5$a6$a7$a8"]
+                 }

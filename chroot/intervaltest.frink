@@ -1,0 +1,54 @@
+
+// This is an external test to validate Frink's internal interval arithmetic.
+// Ordinarily, multiplication of intervals make take 8 multiplications (or 16,
+// if you're doing it rigorously.)  You can break this down into 9 different
+// cases and perform 8 of those with 2 multiplications, and 4 for the remaining
+// case.  Of course, the probability of introducing error in any of those
+// cases increases.  This program tests the naive method against Frink's
+// internal methods.
+
+for xl = -5 to 5 step 1/2
+   for xh = xl to 6 step 1/2
+      for yl = -5 to 5 step 1/2
+         for yh = yl to 6 step 1/2
+         {
+            naiveMultiply[[xl,xh],[yl,yh]]
+            naivePower[[xl,xh],[yl,yh]]
+         }
+
+// Multiply two arrays naively.
+naiveMultiply[x,y] :=
+{
+   [xl, xh] = x
+   [yl, yh] = y
+
+   array = [xl*yl, xl*yh, xh*yl, xh*yh]
+   lo = min[array]
+   hi = max[array]
+
+   if lo==hi
+      println[lo]
+   else
+      println[[lo,hi]]
+   println[new interval[xl, xh] * new interval[yl, yh]]
+}
+
+// Exponentiate two arrays naively.
+naivePower[x,y] :=
+{
+   [xl, xh] = x
+   if ((xl>0) and (xh > 0))
+   {
+      [yl, yh] = y
+
+      array = [xl^yl, xl^yh, xh^yl, xh^yh]
+      lo = min[array]
+      hi = max[array]
+
+      if lo==hi
+         println["$x^$y $lo"]
+      else
+         println["$x^$y [$lo, $hi]"]
+      println["$x^$y " + new interval[xl, xh] ^ new interval[yl, yh]]
+   }
+}

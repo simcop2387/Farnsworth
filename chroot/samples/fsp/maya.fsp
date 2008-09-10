@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<HTML LANG="en">
+ <HEAD>
+  <TITLE>The End of the World</TITLE>
+  <META HTTP-EQUIV="Default-Style" CONTENT="APE Airy"> 
+  <LINK REL="StyleSheet" HREF="/frinkdocs/apeairy.css" TYPE="text/css"
+        TITLE="APE Airy"> 
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/spaceship.css"
+        TYPE="text/css" TITLE="Spaceship">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style.css" TYPE="text/css"
+        TITLE="APE Classic">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style2.css" TYPE="text/css"
+        TITLE="Compact"> 
+  <LINK REL="icon" HREF="/images/futureboyicon.png" TYPE="image/png">
+ </HEAD>
+
+ <BODY>
+  <H1>The End of the World</H1>
+  <P>
+   According to the Mayan calendar, the world ends on the Winter Solstice in
+   2012.  That's 2012-12-21 at 11:11 UTC according to <A
+    HREF="http://aa.usno.navy.mil/data/docs/EarthSeasons.html">the U.S. Naval
+    Observatory</A>.  (No idea which second, though.)
+  </P>
+
+  <P>
+  So, you have:
+  </P>
+
+  <P>
+   <B>
+    <%  end = # 2012-12-21 11:11 UTC #
+    println[end - now[] -> ["days", "hours", "minutes", 0]]
+    %>
+   </B>	
+  </P>
+
+  <P>
+   until it's all over.  You have no chance to survive make your time.
+  </P>
+
+  <P>
+   <I>Thanks to Hilary Friedman for the cheery news.</I>
+  </P>
+
+  <HR>
+  <P>
+   <I><A HREF="mailto:eliasen@mindspring.com">Alan Eliasen</A></I> was born
+   <%= round[now[] - #1969-08-19 04:54 PM Mountain#, minute] -> ["days",
+   "hours", "minutes"] %> ago, but he doesn't have any longer than you do left.
+  </P>
+
+  <P>
+   View source of <A HREF="/fsp/highlight.fsp?fileName=maya.fsp">this FSP
+    page</A>.
+</P>	
+
+  <P>
+   Back to <A HREF="/frinkdocs/fspdocs.html">Frink Server Pages
+    documentation.</A>
+  </P>  
+ </BODY>
+</HTML>

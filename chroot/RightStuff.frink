@@ -1,0 +1,58 @@
+
+// Solver for "The Right Stuff" Geocache (GCQM2B)
+// http://www.geocaching.com/seek/cache_details.aspx?guid=6e255836-5540-481a-ae54-4ccc59d92719
+
+Bean = 12
+Cernan = 10 // (10 or 17)
+Chaffee = 1
+Collins = 11
+Lovell = 8 //(8 or 13)
+Roosa = 14
+Schirra = 7
+Schweickart = 9
+Swigert = 13
+Worden = 15
+
+
+// W00t, you can copy and paste all of the equations directly into Frink!
+// just make sure that N is all on one line, and replace square brackets
+// with parens.
+A = Cernan * Chaffee
+F = ( Cernan / ( Swigert + Schirra))
+G = Collins * Cernan * (Swigert + Schirra) * ( Worden - Cernan )
+H = Roosa + Lovell + Bean + Swigert + Cernan
+I = (Bean + Lovell + Cernan ) * Cernan + Collins
+R = (Schweickart + Chaffee)^(Schweickart - Schirra) * Cernan
+L = (Schweickart - Schirra) * (Schweickart + Chaffee)^(Schweickart - Schirra) * Cernan
+U = (Worden * (Schweickart - Schirra) * Cernan + (Schweickart - Schirra) * Bean)
+N = (Schirra * (Schweickart + Chaffee)^(Schweickart - Schirra) + Schweickart ^(Schweickart - Schirra) + Bean) * (Schweickart - Schirra)
+
+println["A=$A"]
+println["F=$F"]
+println["G=$G"]
+println["H=$H"]
+println["I=$I"]
+println["R=$R"]
+println["L=$L"]
+println["U=$U"]
+println["N=$N"]
+
+Longitude = (G+H+(I/R))^F
+Latitude  = (N+(L+U)/(R*A))^F
+
+println[]
+println["Latitude checksum:  " + checksum[Latitude] + " (should be 37)"]
+println["Longitude checksum: " + checksum[Longitude] + " (should be 27)"]
+
+checksum[val] :=
+{
+   str = format[val, 1, 5]      // Format to 5 decimal places
+   println[str]
+   str =~ %s/\.//g              // Remove decimal points
+   sum = 0
+   for char = char[str]
+      sum = sum + (char - char["0"])
+
+   return sum
+}
+

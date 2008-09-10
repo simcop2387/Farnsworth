@@ -1,0 +1,21 @@
+
+// Functions for converting frequencies to notes.
+
+// The size of each note.
+
+note[f] :=
+{
+   notesize = 2^(1/12)
+   noteNames = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
+   
+   A4 = 440 Hz
+   C4 = A4 / (notesize^9)
+   C0 = C4 / 2^4
+   ratio = f/C0
+   notes = ln[ratio]/ln[notesize]
+   roundnotes = round[notes]
+   octaves = floor[roundnotes/12]
+   scale = roundnotes - (octaves * 12)
+   return noteNames@scale + octaves
+}
+

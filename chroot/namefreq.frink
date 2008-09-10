@@ -1,0 +1,84 @@
+
+// Program to calculate the probability of a given first and last name.
+
+firstName = input["Enter first name(s): "]
+lastName = input["Enter last name: "]
+
+pop = input["Enter population [260 million]: "]
+if pop == ""
+   pop = 260 million
+else
+   pop = eval[pop]
+
+println["\nProbability of name \"" + firstName + " " + lastName + "\": "]
+
+firstFreq = frequency[firstName]
+println["Frequency of " + firstName + " (in either sex) is: " + (firstFreq -> "percent")]
+
+lastFreq = frequency[lastName, false]
+println["Frequency of " + lastName + " is: " + (lastFreq -> "percent")]
+
+if lastFreq == 0
+   println["Probability of last name is too low for prediction."]
+else
+{
+   together = firstFreq * lastFreq
+
+   //println[together -> "percent"]
+
+   println["\nThis name is held by 1 in " + ceil[1/together] + " people."]
+
+   println["This name will occur with probability " + (probTogether[firstFreq, lastFreq, pop] -> "percent") + " in " + pop + " people."]
+
+   println["This name will tend to occur at least once in every " + predictTogether[firstFreq, lastFreq] + " people."]
+
+   println["There are probably " + 10 * round[together * pop, .1] + " people with this name in " + pop + " people."]
+
+   // Functions used by above program
+
+   // Probability of a single name with frequency freq being in a movie with
+   // chars characters...
+   probAlone[freq, chars] := 1 - (1-freq)^chars
+
+   // Probability those two names appear together in n people
+   probTogether[probA, probB, pop] := 1 - (1 - probA * probB)^pop
+
+   // Predict the number of movies to get a 50% probability
+   predictTogether[probA, probB] := ceil[- ln[2] / ln[1 - probA * probB]]
+}
+
+// Contact www.placesnamed.com and fetch probabilities.
+frequency[names, first=true] :=
+{
+   nameList = split[%r/[\s,\/]+/, names]
+   freq = 0
+   for [name] nameList
+   {
+      if (name == "") then next          // Ignore leading/trailing space
+      [let1, let2] = name =~ %r/(.)(.)/  // Get first 2 letters
+      url = "http://www.placesnamed.com/"+ let1 + "/" + let2 + "/" + name + ".asp"
+
+      if (first)
+      {
+         pattern = regex[name + ".* popular ((?:fe)?male).*frequency is (.*?)%","i"]
+         for [line] lines[url]
+            if [sex, p] = line =~ pattern
+            {
+               println[name + " (" + sex + "): " + p + "%"]
+               freq = freq + eval[p] percent
+            }
+      } else   // Last name
+      {
+         pattern = regex[name + ".* popular .*last.*frequency is (.*?)%","i"]
+
+         for [line] lines[url]
+            if [p] = line =~ pattern
+               freq = freq + eval[p] percent
+      }
+   }
+
+   if (first)
+      return freq/2
+   else
+      return freq
+}

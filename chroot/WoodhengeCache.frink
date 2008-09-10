@@ -1,0 +1,165 @@
+
+// Solution for the "Woodhenge" geocache (GCGAMR)
+
+// http://www.geocaching.com/seek/cache_details.aspx?guid=0ac71228-1a29-4388-a646-ace256bec933
+
+// WAYPOINT #1
+
+// There is a mountain peak in our neighboring State to the North that is named
+// after an ancient Celtic people believed to be associated with the title of
+// this cache.
+
+// Location of the summit of the mountain
+// http://www.topozone.com/states/Wyoming.asp?county=Park
+summitLat = 44.9044 degrees North
+summitLong = 110.178 degrees West
+summitHeight = 9583 feet
+
+// If you stood on the summit of this peak at the Summer Solstice for 2003, at
+// exactly 12:00 Noon MST, you would observe the Sun at an Altitude of______
+// degs and an Azimuth (E of N) of_______degs.
+
+// Grab in my sun/moon prediction library
+use sun.frink
+
+solsticeDate = summerSolstice[2003]
+
+println["Solstice time is " + (solsticeDate -> Mountain)]
+adjustedSolstice = #2003 Mountain# + ((solsticeDate - #2003 Mountain#) div day) days + 12 hours
+println["Adjusted solstice time is " + (adjustedSolstice -> Mountain)]
+
+// Calculate refracted, parallax-corrected apparent position of sun.
+[azimuth, altitude] = refractedSunAzimuthAltitude[adjustedSolstice, summitLat, summitLong]
+
+// Convert Meeus' odd coordinate system to normal coordinates
+azimuth = (azimuth + 180 degrees) mod circle
+
+println["Altitude is: " + format[altitude, "degrees", 5]]
+println["Azimuth is: "  + format[azimuth,  "degrees", 5]]
+
+// Meta-Calculation:
+// It's hard to guess what temperature and atmospheric pressure they assumed
+// for the day, so use my defaults.  The calculations show that the sun
+// would be at an altitude of about 59 degrees (with refraction) so refraction
+// error should hopefully be sort of low.  Let's calculate it here.
+println["\nMeta-Calculation of possible refraction discrepancy:"]
+[airlessAz, airlessAlt] = airlessSunAzimuthAltitude[adjustedSolstice, summitLat, summitLong]
+
+// Convert from Meeus odd coordinate system
+airlessAz = (airlessAz + 180 degrees) mod circle
+println["Airless Altitude is: " + format[airlessAlt, "degrees", 5]]
+println["Airless Azimuth is: "  + format[airlessAz,  "degrees", 5]]
+
+// Calculate refraction angle using my defaults.
+refractionAngle = refractionAngle[airlessAlt]
+
+println[]
+println["Refraction angle is: " + format[refractionAngle, "degrees", 5]]
+println["If they didn't correct for refraction, error is " + format[refractionAngle earthradius, "feet", 1] + "."]
+
+// Running this shows that the refraction angle is small (about 0.01 degrees)
+// so it shouldn't be a problem if we round to the nearest degree, but it is
+// possibly a problem if we round to the nearest 0.1 degree, and certainly
+// if we round to the nearest 0.01 degree.
+
+// The problem solution doesn't state if/how they rounded the value.  This is
+// potentially a show-stopper.
+
+// After more research, the USNO page seems to show one decimal place
+// after the decimal point for altitude and azimuth.  Can we assume that's
+// what they were using?  It's too big of an assumption to make carelessly;
+// .1 degree on the earth's surface is (in Frink notation:)
+
+//       .1 degree earthradius -> miles
+//
+// that's still almost 7 miles!  Far too large an area for me to hike.
+
+// In addition, it's hard to know if they really corrected for the parallax
+// of the summit, as opposed to just using the reference geoid.  The problem
+// statement says "from the summit," so let's assume so.  Unfortunately,
+// my parallax model only currently calculates from the reference geoid,
+// so let's see how bad that might throw us off.
+
+// Based on the link they gave to the USNO, http://aa.usno.navy.mil/ ,
+// which doesn't have inputs for altitude, I might guess that they didn't
+// correct parallax for the actual altitude of the summit, but rather just
+// used the reference geoid or even something simpler.  The USNO's notes
+// don't say anything about parallax or refraction, but my previous encounters
+// with USNO predictions show that they do have some refraction model close
+// to my defaults (but theirs do a crazy step-function to zero as soon as the
+// centerline of the sun or moon crosses the horizon.)  Hmmm...  let's
+// calculate the magnitude of possible error due to parallax.
+
+
+println["\nMeta-Calculation of possible parallax discrepancy:"]
+// The maximum magnitude of the parallax error would occur if the sun were
+// at the horizon, but since it's high, parallax is reduced.
+parallax = parallaxAngleAlt[sundist, airlessAlt]
+println["Total parallax angle is: " + format[parallax, "degrees", 5]]
+
+// Running this, the nominal parallax angle is about 0.00126 degrees, which
+// is small (but nonzero).  The error due to not adjusting for geodetic
+// elevation would be:
+parallaxErrorFactor = summitHeight / earthradius
+println["Parallax error factor is: " + format[parallaxErrorFactor, 1, 5]]
+println["If they didn't correct for parallax at all, error is " + format[parallax earthradius, "feet", 1] + "."]
+println["If they corrected for parallax for the geoid, but not for the mountain summit, error is " + format[parallax earthradius parallaxErrorFactor, "feet", 1] + "."]
+
+// Latitude (N) of Waypoint #1 is the Sun's Altitude minus 28.46726 degs
+// Longitude (W) of Waypoint #1 is the Sun's Azimuth minus 61.20740 degs
+
+roundAlt = round[altitude, 0.1 degrees]
+roundAz  = round[azimuth, 0.1 degrees]
+println["Rounded altitude is: " + format[roundAlt, "degrees", 5]]
+println["Rounded azimuth is : "  + format[roundAz,  "degrees", 5]]
+
+W1lat  = roundAlt - 28.46726 degrees
+W1long = roundAz - 61.20740 degs
+println[]
+println["Waypoint 1 latitude is:   " + format[W1lat, "degrees", 5]]
+println["Waypoint 1 longitude is: "  + format[W1long,  "degrees", 5]]
+
+
+// At Waypoint #1 you will notice a "magical" arrangement of boulders. The
+// cache is a black 35mm film canister containing "unadjusted" UTM coordinates
+// for  Waypoint #2 and a "magical" number. These UTM values for Waypoint #2
+// must be adjusted as follows:
+
+// A. Summit elevation, in feet, of the peak mentioned above multiplied by the magical number ________
+// B. Subtract 666 from answer A ________
+// C. ADD the value of answer B to the "unadjusted" Northing UTM value ________
+// D. The answer to C is the Northing value of Waypoint #2
+
+// E. 8.732891741 to the third power ________
+// F. Answer to E minus the magical number ________
+// G. To answer F ADD the square of 0.263611111________
+// H. Subtract 666 from answer G ________
+// I. SUBTRACT the value in answer H from the "unadjusted" Easting value ________
+// J. Answer to I is the Easting value of Waypoint #2
+
+// So again, multiplying this is small, at least for the sun.  (It would be
+// significant for the moon, which is 389 times closer!)
+// We're still stuck by not knowing how much they rounded the alt/azimuth
+// figures.  Without knowing this, we might be off by as much as a degree
+// (about 70 miles) in lat or long!
+//
+// Clarification has been requested.  We'll see what they say.
+
+
+
+// "WAYPOINT #2
+// "At Waypoint #1 you will find a Rx pill bottle containing "adjusted" UTM
+// coordinates for WP #2 and a specific factor ________________used in
+// calculating the coordinates of Waypoint 2._______________ N and
+// _____________________ E"
+
+// Hmmm... by "unadjusted" do they mean what that usually means for UTM
+// coordinates, that the easting is shifted by 500000 meters and is relative
+// to the bounding meridians and not to the central meridian?  Or do they
+// mean that they're "normal" UTM coordinates and the "unadjusted" means that
+// they just haven't added the numbers below?  Must ask.
+
+println[]
+println["Waypoint 2"]
+println["a. The mountain peak elevation, in feet, " + (summitHeight->feet) + ", multiplied by the magic number"]
+

@@ -1,0 +1,13 @@
+
+bitwiseXOR[a,b] :=
+{
+   c = 0
+   len = max[bitLength[a], bitLength[b]]
+   for digit = len-1 to 0 step -1
+   {
+      abit = getBit[a, digit] == 0 ? false : true
+      bbit = getBit[b, digit] == 0 ? false : true
+      c = c*2 + (abit XOR bbit ? 1 : 0)
+   }
+   return c
+}

@@ -1,0 +1,27 @@
+// Sign conventions (to coincide with Meeus)
+// North = +1
+// South = -1
+// West = +1
+// East = -1
+
+// This function returns [latitude, longitude] based on zip code (passed in
+// as a string)
+zipToLatLong[zip, FSPRoot=""] :=
+{
+   if FSPRoot
+      fileroot = "///$FSPRoot"
+   else
+      fileroot = "fsp"
+
+   for [line] lines["file:$fileroot/neighbors/zipnov99.txt"]
+      if [zipLine, lat, long] = line =~ %r/^(\d{5})\t([^\t]+)\t([^\t]+)/
+         if zipLine == zip
+             return eval["[$lat degree, -($long) degree]"] // W is neg in file
+}
+
+// [lat, long] = zipToLatLong["80303"]
+// println["Latitude:  " + (lat -> degrees)]
+// println["Longitude: " + (long -> degrees)]
+
+"ziplocator.frink included Ok"
+

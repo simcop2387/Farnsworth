@@ -1,0 +1,13 @@
+// Program to compare against USNO moon position tables.
+use sun.frink
+
+lat = DMS[42,22] North
+long = DMS[71, 7] West
+
+starttime = #2006-11-26 10:43 Eastern#
+endtime =  #2006-11-26 22:43 Eastern#
+for time = starttime to endtime step 1 minute
+{
+   [az, alt] = refractedMoonAzimuthAltitude[time, lat, long]
+   println[(time->Eastern) + "\t" + format[alt,degree,1] + "\t" + format[(az + 180 degrees) mod circle,degree,1]]
+}

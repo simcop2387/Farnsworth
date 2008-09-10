@@ -1,0 +1,26 @@
+
+// Program to calculate the log integral, often called Li[x]
+//
+// This is useful in number theory, such as estimating the number of primes
+// below a certain number.
+//
+// See:  http://functions.wolfram.com/GammaBetaErf/LogIntegral/06/01/01/0002/
+
+LogIntegral[z] :=
+{
+   lnz = ln[z]
+   sum = (1/2) (ln[lnz] - ln[1/lnz]) + EulerMascheroniConstant
+
+   k = 0
+   
+   do
+   {
+      k = k+1
+      oldsum = sum
+      term = lnz^k / (k k!)
+      sum = sum + term
+//      println["$k\t$term\t$sum"]
+   } while (oldsum != sum)
+
+   return sum
+}

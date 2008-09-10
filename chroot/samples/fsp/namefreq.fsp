@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+            "http://www.w3.org/TR/html4/strict.dtd">
+<HTML LANG="en">
+ <HEAD>
+  <TITLE>Name Frequency</TITLE>
+  <META HTTP-EQUIV="Default-Style" CONTENT="APE Airy"> 
+  <LINK REL="StyleSheet" HREF="/frinkdocs/apeairy.css" TYPE="text/css"
+        TITLE="APE Airy"> 
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style.css" TYPE="text/css"
+        TITLE="APE Classic">
+  <LINK REL="Alternate StyleSheet" HREF="/frinkdocs/style2.css" TYPE="text/css"
+        TITLE="Compact"> 
+  <LINK REL="icon" HREF="/images/futureboyicon.png" TYPE="image/png">
+ </HEAD>
+
+ <BODY>
+  <H1>Name Frequency</H1>
+
+  <P>
+   This program predicts the number of people having your name, based on
+   U.S. Census data.<BR>
+   For the first or last name, you can enter multiple
+   variations of the name separated by spaces, such as "Bob Robert Bobby Rob".
+  </P>
+  
+  <P>
+   Enter a name:
+  </P>
+  
+  <% pop = pop ? pop : "260 million"
+     firstName = firstName ? firstName : ""
+     lastName = lastName ? lastName : ""  
+  %>
+
+  <FORM ACTION="namefreq.fsp" METHOD="GET">
+   First: <INPUT TYPE="TEXT" NAME="firstName" VALUE="$firstName"><BR>
+   Last: <INPUT TYPE="TEXT" NAME="lastName" VALUE="$lastName"><BR>
+   Population: <INPUT TYPE="TEXT" NAME="pop" VALUE="$pop"><BR>
+   <INPUT TYPE="SUBMIT" VALUE="Submit">
+  </FORM>
+  
+  <%
+   if (pop && firstName && lastName)
+   {
+      pop = eval[pop]
+
+      println["<P>Fetching data...</P>"]
+
+      println["\nProbability of name \"$firstName $lastName\": <BR>"]
+
+      firstFreq = frequency[firstName, true]
+      println["Frequency of $firstName (in either sex) is: " + (firstFreq -> "percent") + "<BR>"]
+
+      lastFreq = frequency[lastName, false]
+      if (lastFreq != 0)
+      {
+         ratio = floor[1/lastFreq]
+  println["Frequency of $lastName is: " + (lastFreq -> "percent") + " (about 1 in $ratio)<BR>"]
+      }
+
+      if lastFreq == 0
+        println["<B>Probability of last name is too low for prediction.</B><BR>"]
+       if firstFreq ==0
+          println["<B>Probability of first name is too low for prediction.</B><BR>"]
+  
+     if ((firstFreq != 0) && (lastFreq != 0))
+     {
+         together = firstFreq * lastFreq
+
+         //println[together -> "percent"]
+
+         println["\nThis name is probably held by 1 in " + ceil[1/together] + " people.<BR>"]
+
+         println["This name will occur with probability " + (probTogether[firstFreq, lastFreq, pop] -> "percent") + " in $pop people.<BR>"]
+
+         println["This name will occur with probability 50% in every " + predictTogether[firstFreq, lastFreq] + " people.<BR>"]
+
+         println["There are probably " + round[together * pop, .1] + " people with this name in $pop people.<BR>"]
+
+         // Functions used by above program
+
+         // Probability of a single name with frequency freq being in a movie with
+         // chars characters...
+         probAlone[freq, chars] := 1 - (1-freq)^chars
+
+         // Probability those two names appear together in n people
+         probTogether[probA, probB, pop] := 1 - (1 - probA * probB)^pop
+
+         // Predict the number of movies to get a 50% probability
+         predictTogether[probA, probB] := ceil[- ln[2] / ln[1 - probA * probB]]
+      }
+   }
+
+   // Contact www.placesnamed.com and fetch probabilities.
+   frequency[names, first=true] :=
+   {
+      nameList = split[%r/[\s,\/]+/, names]
+      freq = 0
+      for [name] nameList
+      {
+         if (name == "") then next          // Ignore leading/trailing space
+         [let1, let2] = name =~ %r/(.)(.)/  // Get first 2 letters
+         url = "http://www.placesnamed.com/$let1/$let2/$name.asp"
+
+         if (first)
+         {
+            pattern = regex["$name.* popular ((?:fe)?male).*frequency is (.*?)%","i"]
+            for [line] lines[url]
+               if [sex, p] = line =~ pattern
+               {
+                  pp = eval[p] percent
+                  if (pp != 0)
+                  {
+                     ratio = floor[1/pp]
+                     println["$name ($sex): $p% (about 1 in $ratio)<BR>"]
+                     freq = freq + pp
+                  }
+               }
+         } else   // Last name
+         {
+            pattern = regex["$name.* popular .*last.*frequency is (.*?)%","i"]
+
+            for [line] lines[url]
+               if [p] = line =~ pattern
+                  freq = freq + eval[p] percent
+         }
+      }
+
+      if (first)
+         return freq/2
+      else
+         return freq
+   }
+  %>
+  
+  <HR>
+  <P>
+   <I><A HREF="mailto:eliasen@mindspring.com">Alan Eliasen</A></I> was born
+   <%= round[now[] - #1969-08-19 04:54 PM Mountain#, minute] -> ["days", "hours", "minutes"] %> ago.
+  </P>
+
+  <P>
+   Back to <A HREF="/frinkdocs/fspdocs.html">Frink Server Pages
+    documentation.</A>
+  </P>  
+ </BODY>
+</HTML>

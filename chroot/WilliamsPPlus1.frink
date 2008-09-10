@@ -1,0 +1,89 @@
+
+// Factorization using the Williams p+1 method.
+// This follows the algorithm outlined by David M. Bressoud
+// in the book _Factorization and Primality Testing_, algorithm 12.16
+//
+// Thanks to Clint Williams (no relation) for generous patronage and gift
+// of the aforementioned text.
+//
+// This program is a prototype for adding this variety of factorization
+// to Frink.  This method is usually rather expensive compared to the Pollard
+// p-1 and Pollard rho methods, so it may not be implemented.
+//
+factorWilliamsPPlus1[m, max=100000] :=
+{
+   if isPrime[m]
+      return m
+   
+   for n = 1 to 5
+   {
+      P = n+3
+      
+      count = 1
+      v = P
+
+      while (count <= max)
+      {
+         //      println["$count\t$v"]
+         if (f = gcd[v-2, m]) != 1
+         {
+            //println[count]
+            return f
+         }
+         
+         for i = 1 to 10
+         {
+            v = nextV[1, P, count, m]
+            P = v
+            count = count + 1
+         }
+      }
+   }
+}
+
+// Algorithm 8.3 to compute v_j mod p.
+nextV[n, h, j, p] :=
+{
+   m = n
+   v = h
+   w = (h*h - 2*m) mod p  // TODO:  Make this more efficient?
+
+   t = bitLength[j]
+   for k = 0 to t-1
+   {
+      x = (v*w - h*m) mod p
+
+      tt = 2*m
+      // v = (v*v - tt) mod p
+      v = (modPow[v,2,p] - tt) mod p
+      // w = (w*w - tt*n) mod p
+      w = (modPow[w,2,p] - tt*n) mod p
+      m = modPow[m, 2, p]
+      if getBit[j, k] == 0
+         w = x
+      else
+      {
+         v = x
+         m = (n * m) mod p
+      }
+   }
+   
+   return v
+}
+
+n = eval[input["Enter number to factor: "]]
+if !isPrime[n]
+   println[factorWilliamsPPlus1[n]]
+else
+   println["$n is prime."]
+
+
+//for b = 20 to 128
+//{
+//   start = now[]
+//   n = 2^b - 1
+//   println[factorWilliamsPPlus1[n]]
+//   end = now[]
+//   time = (end-start) -> ms
+//   println["$b\t$time\t$factors"]
+//}

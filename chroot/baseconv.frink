@@ -1,0 +1,49 @@
+
+// Base conversion routine due to Schoenhage
+// This is a recursive divide-and-conquer algorithm which divides the number
+// into approximately equal-sized halves and concatenates the parts together.
+// See Knuth, Vol. 2, Answers to Exercises (4.4) Question 14.
+
+// This was the prototype for speeding up base conversions in Frink for
+// platforms that have only ridiculously slow base conversion routines for
+// large numbers (like any of Sun's JVMs.)  The internal implementation in
+// Frink detects the JVM being used, and if it's Sun's, uses this algorithm
+// instead of their native algorithm for large numbers.
+
+// JVMs like Kaffe, which use the horribly fast GMP libraries, don't need this.
+// This algorithm must be close to GMP's, because it doesn't slow down their
+// base conversion *too* much.
+
+// This sample omits two important points which are needed to make it work:
+// 1.) The lower half of the number needs to be zero-padded when concatenating.
+//
+// 2.) You don't want to recurse all the way down into single digits.  The
+//     final implementation should choose a lower size for numbers
+//     (say, the size of an int or long) and use the system's built-in base
+//     conversion algorithms on numbers smaller than that.
+
+baseconv[U] :=
+{
+   b = bitLength[U]   // Find length of number in binary digits
+   n = bitLength[b]   // Find length *of length* in binary digits
+                      // (this is like taking approx log2, but fast)
+
+   V = 10^2^(n-3)     // Find a value of V that splits this in approx. half.
+                      // such that V is a power of 10^(2^k) and k is a
+                      // well-chosen integer that splits the number in about
+                      // half.
+                      // 
+                      // The method for finding k here was found to work
+                      // empirically well and only requires knowing the bit
+                      // lengths of a number (which is easy given that we
+                      // store in base 2) 
+   
+   U0 = U mod V       // Divide the number into 2 approximately equal-sized
+                      // halves (this is lower half)
+   
+   U1 = U div V       // Truncating divide, leaves upper half of number
+   
+   println[baseconv[U0] + baseconv[U1]]  // Concatenate halves recursively
+                                         // (leading zero padding is needed in
+                                         // practice.)
+}

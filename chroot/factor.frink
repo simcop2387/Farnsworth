@@ -1,0 +1,8 @@
+
+n = eval[input["Enter number to factor: "]]
+
+m = int[sqrt[n]]
+
+for i = 2 to m
+   if (n mod i) == 0
+      println["$i, " + n/i]

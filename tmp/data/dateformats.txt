@@ -1,0 +1,177 @@
+// This file contains date formats that Frink will parse.
+// See documentation for SimpleDateParser or docs/index.html for more details.
+//
+// Now that regular expressions are possible in Frink, I'd like to replace this
+// whole mess with a regexp-based solution, which would be more flexible and
+// more powerful.
+//
+// Alan Eliasen
+//
+// Symbol       Meaning         Presentation    Example
+//
+// G            era designator  Text            AD
+// y            year            Number          1996
+// M            month in year   Text & Number   July & 07
+// d            day in month    Number          10
+// h            hour in am/pm   Number          12
+//                  (1-12)
+// H            hour in day     Number          0
+//                  (0-23)      
+// m            minute in hour  Number          30
+// s            second in min.  Number          55
+// S            millisecond     Number          978
+// E            day in week     Text            Tuesday
+// D            day in year     Number          189
+// F            day of week     Number          2 (2nd Wed in July)
+//                in month    
+// w            week in year    Number          27
+// W            week in month   Number          2
+// a            am/pm marker    Text            PM
+// k            hour in day     Number          24
+//               (1-24)
+// K            hour in am/pm   Number          0
+//               (0-11)
+// '            escape for text Delimiter
+// ''           single quote    Literal         '
+
+// Most significant digits are first, as it should be.  These are the
+// preferred formats.  This also matches ISO-8601 date conventions, so if 
+// you're trying to be international, always use yyyy-MM-dd.
+
+###  yyyy-MM-dd HH:mm:ss.SSS    ### // Full 24-hour format with milliseconds
+###  yyyy/MM/dd HH:mm:ss.SSS    ### // Full 24-hour format with milliseconds
+###  yyyy-MM-dd h:mm:ss.SSS a   ### // 12-hour format with milliseconds
+###  yyyy/MM/dd h:mm:ss.SSS a   ### // 12-hour format with milliseconds
+
+###  yyyy-MM-dd HH:mm:ss      ###   // Full 24-hour format
+###  yyyy/MM/dd HH:mm:ss      ###   // Full 24-hour format
+###  yyyy-MM-dd h:mm:ss a     ###   // Full 12-hour format
+###  yyyy/MM/dd h:mm:ss a     ###   // Full 12-hour format
+
+###  yyyy-MM-dd HH:mm         ###   // 24-hour format, no seconds
+###  yyyy/MM/dd HH:mm         ###   // 24-hour format, no seconds
+###  yyyy-MM-dd h:mm a        ###   // 12-hour format, no seconds
+###  yyyy/MM/dd h:mm a        ###   // 12-hour format, no seconds
+
+###  yyyy-MM-dd HH            ###   // 24-hour format, hour only
+###  yyyy/MM/dd HH            ###   // 24-hour format, hour only
+###  yyyy-MM-dd h a           ###   // 12-hour format, hour only
+###  yyyy/MM/dd h a           ###   // 12-hour format, hour only
+
+###  yyyy-MM-dd               ###   // Date only
+###  yyyy/MM/dd               ###   // Date only
+
+// All the same as above with AD or BC preceding:
+
+###  G yyyy-MM-dd HH:mm:ss.SSS    ### // Full 24-hour format with milliseconds
+###  G yyyy/MM/dd HH:mm:ss.SSS    ### // Full 24-hour format with milliseconds
+###  G yyyy-MM-dd h:mm:ss.SSS a   ### // 12-hour format with milliseconds
+###  G yyyy/MM/dd h:mm:ss.SSS a   ### // 12-hour format with milliseconds
+
+###  G yyyy-MM-dd HH:mm:ss      ###   // Full 24-hour format
+###  G yyyy/MM/dd HH:mm:ss      ###   // Full 24-hour format
+###  G yyyy-MM-dd h:mm:ss a     ###   // Full 12-hour format
+###  G yyyy/MM/dd h:mm:ss a     ###   // Full 12-hour format
+
+###  G yyyy-MM-dd HH:mm         ###   // 24-hour format, no seconds
+###  G yyyy/MM/dd HH:mm         ###   // 24-hour format, no seconds
+###  G yyyy-MM-dd h:mm a        ###   // 12-hour format, no seconds
+###  G yyyy/MM/dd h:mm a        ###   // 12-hour format, no seconds
+
+###  G yyyy-MM-dd HH            ###   // 24-hour format, hour only
+###  G yyyy/MM/dd HH            ###   // 24-hour format, hour only
+###  G yyyy-MM-dd h a           ###   // 12-hour format, hour only
+###  G yyyy/MM/dd h a           ###   // 12-hour format, hour only
+
+###  G yyyy-MM-dd               ###   // Date only
+###  G yyyy/MM/dd               ###   // Date only
+
+// Dates in the form "August 19, 1969"
+### MMM dd, yyyy                 ###  // Date only
+### MMM dd, yyyy HH:mm           ###  // Date and time, 24-hour format
+### MMM dd, yyyy HH:mm:ss        ###  // Date and time, 24-hour format
+### MMM dd, yyyy HH:mm:ss.SSS    ###  // Date and time, 24-hour format
+### MMM dd, yyyy h:mm a          ###  // 12-hour format, no seconds
+### MMM dd, yyyy h:mm:ss a       ###  // 12-hour format with seconds
+### MMM dd, yyyy h:mm:ss.SSS a   ###  // 12-hour format, seconds & millisec
+
+// Same as above but with BC/AD indicator after the year
+### MMM dd, yyyy G                 ###  // Date only
+### MMM dd, yyyy G HH:mm           ###  // Date and time, 24-hour format
+### MMM dd, yyyy G HH:mm:ss        ###  // Date and time, 24-hour format
+### MMM dd, yyyy G HH:mm:ss.SSS    ###  // Date and time, 24-hour format
+### MMM dd, yyyy G h:mm a          ###  // 12-hour format, no seconds
+### MMM dd, yyyy G h:mm:ss a       ###  // 12-hour format with seconds
+### MMM dd, yyyy G h:mm:ss.SSS a   ###  // 12-hour format, seconds & millisec
+
+// Same as above without a space after the comma.  Ugh.  We need regular
+// expressions for date parsing.
+### MMM dd,yyyy                 ###  // Date only
+### MMM dd,yyyy HH:mm           ###  // Date and time, 24-hour format
+### MMM dd,yyyy HH:mm:ss        ###  // Date and time, 24-hour format
+### MMM dd,yyyy HH:mm:ss.SSS    ###  // Date and time, 24-hour format
+### MMM dd,yyyy h:mm a          ###  // 12-hour format, no seconds
+### MMM dd,yyyy h:mm:ss a       ###  // 12-hour format with seconds
+### MMM dd,yyyy h:mm:ss.SSS a   ###  // 12-hour format, seconds & millisec
+
+// Dates in the astronomical format 1969 August 10 
+### yyyy MMM dd                 ###  // Date only
+### yyyy MMM dd HH:mm           ###  // Date and time, 24-hour format
+### yyyy MMM dd HH:mm:ss        ###  // Date and time, 24-hour format w/sec
+### yyyy MMM dd HH:mm:ss.SSS    ###  // Date and time, 24-hour format w/ms
+### yyyy MMM dd h:mm            ###  // Date and time, 12-hour format
+### yyyy MMM dd h:mm:ss         ###  // Date and time, 12-hour format
+### yyyy MMM dd h:mm:ss.SSS     ###  // Date and time, 12-hour format
+
+// Reversed format 10 August 1969
+### dd MMM yyyy                 ###  // Date only
+### dd MMM yyyy HH:mm           ###  // Date and time, 24-hour format
+### dd MMM yyyy HH:mm:ss        ###  // Date and time, 24-hour format w/sec
+### dd MMM yyyy HH:mm:ss.SSS    ###  // Date and time, 24-hour format w/ms
+### dd MMM yyyy h:mm            ###  // Date and time, 12-hour format
+### dd MMM yyyy h:mm:ss         ###  // Date and time, 12-hour format
+### dd MMM yyyy h:mm:ss.SSS     ###  // Date and time, 12-hour format
+
+// Same as above but with AD/BC indicator
+### dd MMM yyyy G                 ###  // Date only
+### dd MMM yyyy G HH:mm           ###  // Date and time, 24-hour format
+### dd MMM yyyy G HH:mm:ss        ###  // Date and time, 24-hour format w/sec
+### dd MMM yyyy G HH:mm:ss.SSS    ###  // Date and time, 24-hour format w/ms
+### dd MMM yyyy G h:mm            ###  // Date and time, 12-hour format
+### dd MMM yyyy G h:mm:ss         ###  // Date and time, 12-hour format
+### dd MMM yyyy G h:mm:ss.SSS     ###  // Date and time, 12-hour format
+
+// Are the following useful?
+###  yyyy-MM                  ###   // Year and month
+###  yyyy/MM                  ###   // Year and month
+###  G yyyy-MM                  ###   // Year and month
+###  G yyyy/MM                  ###   // Year and month
+
+
+// This will of course conflict if we ever want to define simply a time
+// in 2400 format.  And damn SimpleDateFormat lets ANY damn thing match this.
+###  yyyy                     ###   // Year only
+###  yyyy G                   ###   // Year and AD/BC
+
+
+// The following are time formats with unknown dates.
+// These will parse generally to "today," but that's really sloppy and
+// unreliable so include the date if you want to be safe.
+
+###  HH:mm:ss.SSS    ###  // Full time format with milliseconds (24-hr)
+###  h:mm:ss.SSS a   ###  // Full time format with milliseconds (12-hr)
+###  HH:mm:ss      ###     // Full time format                  (24-hr)
+###  h:mm:ss a     ###     // Full time format                  (12-hr)
+###  HH:mm         ###     // Hour and minute                   (24-hr)
+###  h:mm a        ###     // Hour and minute                   (12-hr)
+
+
+// You can also define the default output format with 4 pound signs.
+// Without any definition, you get the Java default (which should theoretically
+// get it from your system's settings,) but the following gives lots of
+// information: 
+
+#### G yyyy-MM-dd hh:mm:ss.SSS a (E) zzzz ####
+
+// Make it so we can parse the default output format.
+### G yyyy-MM-dd hh:mm:ss.SSS a (E) zzzz ###
