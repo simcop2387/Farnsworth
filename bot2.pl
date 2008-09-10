@@ -15,7 +15,7 @@ use Math::BigFloat;
 
            server => "andromeda128",
            port   => "6668",
-           channels => ["#yapb", "#buubot", "#perl"],
+           channels => ["#yapb", "#buubot", "#perl", "#codeyard"],
 
            nick      => "frinkbot",
            alt_nicks => [map {"frinkbot".$_} 2..100],
