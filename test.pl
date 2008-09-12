@@ -5,14 +5,12 @@ use strict;
 use warnings;
 use Data::Dumper;
 
-   use Inline (
-      Java => 'STUDY',
-      STUDY => ['frink.parser.Frink'],
-      CLASSPATH => './frink.jar',
-   ) ;
+use frink;
 
+my $parser = new frink();
 
-my $frink = new frink::parser::Frink();
-my $result = $frink->parseString("2+2");
+my $result = $parser->parse("foo[a,b,c] := (-b + sqrt[b^2 +4 a c])/2a");
 
 print Dumper($result);
+
+print $parser->YYNberr();
