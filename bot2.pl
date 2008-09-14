@@ -93,6 +93,10 @@ sub submitform
   my $self = shift;
   my $eq = shift;
   my $ad = shift;
+
+  #set the escape for \cpn to be newline
+  $eq =~ s/(\cp|\\cp)n/\n/g;
+
   $eq = uri_escape_utf8($eq);
 
   my $url="http://localhost:8080/$eq";

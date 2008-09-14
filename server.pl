@@ -48,7 +48,7 @@ sub runfrink
   my $output;
   eval {$output = ($frink->parseString($string))};
 
-  $output = "".$@ if $@;
+  $output = $@->toString() if $@;
 
 #  if (Inline::Java::caught("java.lang.Exception"))
 #  {
