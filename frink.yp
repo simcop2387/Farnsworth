@@ -71,7 +71,7 @@ sub yylex
 	#i THINK this isn't what i want, since whitespace is significant in a few areas
 	#i'm going to instead shrink all whitespace down to no more than one space
 	$s =~ s/\G\s{2,}/ /c; #don't need global?
-	
+		
 	#1 while $s =~ /\G\s+/cg; #remove extra whitespace?
 
     #i want a complete number regex
@@ -89,7 +89,8 @@ sub yylex
 	
 	$s =~ /\G\s*(:=|==|!=|>=|<=|->|:->)\s*/cg and return $1;
 	$s =~ /\G\s*(\+|\*|-|\/|\%|\^)\s*/cg and return $1;
-	$s =~ /\G(\w[\w\d]+)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating
+	$s =~ /\G(\w[\w\d]+)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here
+	$s =~ /\G\/\/.*/cg and return ''; #return nothing for C style comments
 	$s =~ /\G(.)/cgs and return $1;
 	return '';
 	}
