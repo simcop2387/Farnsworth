@@ -9,7 +9,7 @@ use frink;
 
 my $parser = new frink();
 
-my $result = $parser->parse("foo[a,b,c] := (-b + sqrt[b^2 +4 a c])/2a ");
+my $result = $parser->parse("((-b + sqrt[b^2 +4 a c])/2a)");
 
 print Dumper($result);
 

@@ -45,6 +45,9 @@ expr
 	|	NAME			{ bless [ $_[1] ],   'Fetch' }
 	|	DATE			{ bless [ $_[1] ], 'Date' }
 	|	STRING			{ bless [ $_[1] ], 'String' } #this will have to be reparsed later, just before evaluating
+	|	'-' NAME        { bless [ (bless [ $_[2] ], 'Fetch') , '-1'], 'Mul' }
+	|	NAME '=' expr	{ bless [ @_[1,3] ], 'Store' }
+	|	NUMBER NAME     { bless [ $_[1], (bless [ $_[2] ], 'Fetch' )], 'Mul' }
 	|   expr '->' expr  { bless [ @_[1,3] ], 'Trans' }
 	|	expr '+' expr	{ bless [ @_[1,3] ], 'Add' }
 	|	expr '-' expr	{ bless [ @_[1,3] ], 'Sub' }
@@ -61,8 +64,6 @@ expr
 	|	expr '==' expr	{ bless [ @_[1,3] ], 'Eq' }
 	|	expr '<=>' expr { bless [ @_[1,3] ], 'Compare' }
 	|	expr '!=' expr	{ bless [ @_[1,3] ], 'Ne' }
-	|	'-' NAME        { bless [ (bless [ $_[2] ], 'Fetch') , '-1'], 'Mul' }
-	|	NAME '=' expr	{ bless [ @_[1,3] ], 'Store' }
 	|   NAME '[' array ']'         { bless [ @_[1,3] ], 'FuncCall' }
 	|   '[' array ']'              { $_[2] }
 	|	'(' expr ')'		       { $_[2] }
@@ -97,10 +98,7 @@ sub yylex
 	$s =~ /\G(\w[\w\d]*)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here
 	$s =~ /\G\/\/.*/cg and return ''; #return nothing for C style comments
 	$s =~ /\G(.)/cgs and return $1;
-	my $rv = ' ';
-	$rv = "" if $lasttype;
-	$lasttype = 1;
-	return $rv;
+    return '';
 	}
 
 
