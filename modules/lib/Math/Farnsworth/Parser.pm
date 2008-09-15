@@ -7,7 +7,7 @@
 #             ANY CHANGE MADE HERE WILL BE LOST !
 #
 ####################################################################
-package Math::Farnsworth;
+package Math::Farnsworth::Parser;
 use vars qw ( @ISA );
 use strict;
 
