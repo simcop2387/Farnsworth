@@ -5,9 +5,9 @@ use strict;
 use warnings;
 use Data::Dumper;
 
-use frink;
+use Farnsworth;
 
-my $parser = new frink();
+my $parser = new Math::Farnsworth();
 
 my $result = $parser->parse("((-b + sqrt[b^2 +4 a c])/2a) b");
 
