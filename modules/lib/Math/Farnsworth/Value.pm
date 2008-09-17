@@ -107,9 +107,23 @@ sub div
 
   #check for $two being a simple value
   my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
-  my $td = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{dimen}->invert() : {};
+  my $td = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{dimen} : {};
 
-  my $nd = $one->{dimen}->merge($td); #merge the dimensions! don't cross the streams though
+  #these are a little screwy SO i'll probably comment them more later
+  #probably after i find out that they're wrong
+  my $qd = $rev ? $td : $one->{dimen};
+  my $dd = $rev ? $one->{dimen}->invert() : (ref($td) eq "HASH" ? $td : $td->invert());
+
+  my $nd;
+  
+  if (ref($qd) ne "HASH")
+  {
+	  $nd = $qd->merge($dd); #merge the dimensions! don't cross the streams though
+  }
+  else
+  {
+	  $nd = $dd->merge($qd); #merge them the other way, because $qd is a "HASH" and not an object
+  }
 
   #moving this down so that i don't do any math i don't have to
   my $new;
@@ -123,5 +137,4 @@ sub div
   }
 
   return $new;
-
 }

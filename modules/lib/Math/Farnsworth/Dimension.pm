@@ -84,7 +84,7 @@ sub merge
 	my $partner = shift;
 	my $pd = {};
 
-	if ($partner->isa("Math::Farnsworth::Dimen"))
+	if ($partner->isa("Math::Farnsworth::Dimension"))
 	{
 		$pd = $partner->{dimen};
 	}
@@ -93,6 +93,8 @@ sub merge
 	{
 		$atom->{dimen}{$_} += $partner->{dimen}{$_};
 	}
+
+	return $atom;
 }
 
 sub prune

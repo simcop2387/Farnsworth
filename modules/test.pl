@@ -20,7 +20,7 @@ my $val1 = Math::Farnsworth::Value->new(2**10);
 
 for (1..1000)
 {
-	$val1 = $val1 - 1;
+	$val1 = $val1 * 2;
 }
 
 print $val1->toperl();
