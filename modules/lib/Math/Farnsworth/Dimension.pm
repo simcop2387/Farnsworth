@@ -34,7 +34,12 @@ sub compare
   my $self = shift;
   my $target = shift;
 
-  if (keys %{$target->{dimen}} == keys %{$target->{dimen}}) #check lengths of keys
+  if ((!ref($target)) && keys %{$self->{dimen}} == 0)
+  {
+	  return 1;
+  }
+
+  if (keys %{$target->{dimen}} == keys %{$self->{dimen}}) #check lengths of keys
   {
      my $z = 1;
      my $v = 1;
