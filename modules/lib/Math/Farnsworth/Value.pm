@@ -88,10 +88,42 @@ sub subtract
 
 sub mult
 {
-	die "Not implemented";
+  my ($one, $two, $rev) = @_;
+
+  #check for $two being a simple value
+  my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
+  my $td = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{dimen} : {};
+  
+  my $nd = $one->{dimen}->merge($td); #merge the dimensions! don't cross the streams though
+
+  #moving this down so that i don't do any math i don't have to
+  my $new = new Math::Farnsworth::Value($one->{pari} * $tv, $nd);
+  return $new;
 }
 
 sub div
 {
-	die "Not implemented";
+  my ($one, $two, $rev) = @_;
+
+  #check for $two being a simple value
+  my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
+  my $td = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{dimen} : {};
+  
+  $td = $one->{dimen}->invert($td); #NOTE: THIS DOES NOT ALTER $ONE AT ALL! this is just called that way for convienice
+
+  my $nd = $one->{dimen}->merge($td); #merge the dimensions! don't cross the streams though
+
+  #moving this down so that i don't do any math i don't have to
+  my $new;
+  if (!$rev)
+  {
+	  $new = new Math::Farnsworth::Value($one->{pari} / $tv, $nd); #if !$rev they are in order
+  }
+  else
+  {
+      $new = new Math::Farnsworth::Value($tv / $one->{pari}, $nd); #if !$rev they are in order
+  }
+
+  return $new;
+
 }
