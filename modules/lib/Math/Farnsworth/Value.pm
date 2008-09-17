@@ -6,6 +6,7 @@ use strict;
 use warnings;
 
 use Math::Pari;
+use Math::Farnsworth::Dimension;
 
 our $VERSION = 0.5;
 
@@ -26,33 +27,17 @@ sub new
   bless $self, $class;
 
   $self->{pari} = PARI $value;
-  $self->{dimen} = $dimen;
-
-  return $self;
-}
-
-sub comparedimen
-{
-  my $self = shift;
-  my $target = shift;
-
-  if (keys %{$target->{dimen}} == keys %{$target->{dimen}}) #check lengths of keys
+  
+  if (ref($dimen) && $dimen->ISA("Math::Farnsworth::Dimension"))
   {
-     my $z = 1;
-     my $v = 1;
-     for my $k (keys %{$self->{dimen}})
-     {
-       $z = 0 if (!exists($target->{dimen}{$k});
-       $v = 0 if ($self->{targe}{$k} != $target->{dimen}{$k});
-     }
-
-     if ($z && $v)
-     {
-        return 1;
-     }
+    $self->{dimen} = $dimen;
+  }
+  else
+  {
+	  $self->{dimen} = new Math::Farnsworth::Dimension();
   }
 
-  return 0;
+  return $self;
 }
 
 sub toperl
@@ -64,21 +49,49 @@ sub toperl
 sub add
 {
   my ($one, $two, $rev) = @_;
-  my $new = new Math::Farnsworth::Value($one->{pari} + $two->{pari});
+
+  #check for $two being a simple value
+  my $tv = ref($two) && $two->ISA("Math::Farnsworth::Value") ? $two->{pari} : $two;
 
   #i also need to check the units, but that will come later
+  #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
+  die "Unable to process different units in addition" unless $one->{dimen}->compare($two); #always call this on one, since $two COULD be some other object 
 
+  #moving this down so that i don't do any math i don't have to
+  my $new = new Math::Farnsworth::Value($one->{pari} + $tv, $one->{dimen});
   return $new;
 }
 
 sub subtract
 {
+  my ($one, $two, $rev) = @_;
+
+  #check for $two being a simple value
+  my $tv = ref($two) && $two->ISA("Math::Farnsworth::Value") ? $two->{pari} : $two;
+
+  #i also need to check the units, but that will come later
+  #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
+  die "Unable to process different units in addition" unless $one->{dimen}->compare($two); #always call this on one, since $two COULD be some other object 
+
+  #moving this down so that i don't do any math i don't have to
+  my $new;
+  if (!$rev)
+  {
+	  $new = new Math::Farnsworth::Value($one->{pari} - $tv, $one->{dimen}); #if !$rev they are in order
+  }
+  else
+  {
+      $new = new Math::Farnsworth::Value($tv - $one->{pari}, $one->{dimen}); #if !$rev they are in order
+  }
+  return $new;
 }
 
 sub mult
 {
+	die "Not implemented";
 }
 
 sub div
 {
+	die "Not implemented";
 }
