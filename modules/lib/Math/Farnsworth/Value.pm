@@ -107,9 +107,7 @@ sub div
 
   #check for $two being a simple value
   my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
-  my $td = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{dimen} : {};
-  
-  $td = $one->{dimen}->invert($td); #NOTE: THIS DOES NOT ALTER $ONE AT ALL! this is just called that way for convienice
+  my $td = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{dimen}->invert() : {};
 
   my $nd = $one->{dimen}->merge($td); #merge the dimensions! don't cross the streams though
 

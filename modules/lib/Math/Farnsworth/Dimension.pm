@@ -5,6 +5,8 @@ use warnings;
 
 use Data::Dumper;
 
+use List::MoreUtils qw(uniq);
+
 sub new
 {
 	my $class = shift;
@@ -56,6 +58,46 @@ sub compare
   }
 
   return 0;
+}
+
+sub invert
+{
+	my $self = shift;
+	#i CAN'T modify myself in this!
+	my $atom = $self->new($self->{dimen});
+
+	for (keys %{$atom->{dimen}})
+	{
+		#turn all positives to negatives and vice versa
+		$atom->{dimen}{$_} = -$atom->{dimen}{$_};
+	}
+
+	return $atom;
+}
+
+sub merge
+{
+	my $self = shift;
+	#i CAN'T modify myself in this!
+	my $atom = $self->new($self->{dimen});
+	
+	my $partner = shift;
+	my $pd = {};
+
+	if ($partner->isa("Math::Farnsworth::Dimen"))
+	{
+		$pd = $partner->{dimen};
+	}
+
+    for (uniq (keys %{$atom->{dimen}}, keys %{$pd}))
+	{
+		$atom->{dimen}{$_} += $partner->{dimen}{$_};
+	}
+}
+
+sub prune
+{
+	my $self = shift;
 }
 
 1;
