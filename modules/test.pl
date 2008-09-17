@@ -16,11 +16,12 @@ my $result = $parser->parse("quad[a,b,c]:=((-b + sqrt[b^2 +4 a c])/2a) b");
 
 print Dumper($result);
 
-my $val1 = Math::Farnsworth::Value->new(2**10);
+my $val1 = Math::Farnsworth::Value->new(2**30, {meters=>1});
 
-for (1..1000)
+for (1..10)
 {
-	$val1 = $val1 * 2;
+	$val1 = $val1*2;
 }
 
 print $val1->toperl();
+print Dumper($val1);

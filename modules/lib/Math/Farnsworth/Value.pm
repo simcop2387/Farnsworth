@@ -28,13 +28,13 @@ sub new
 
   $self->{pari} = PARI $value;
   
-  if (ref($dimen) && $dimen->isa("Math::Farnsworth::Dimension"))
+  if (ref($dimen) eq "Math::Farnsworth::Dimension")
   {
     $self->{dimen} = $dimen;
   }
   else
   {
-	  $self->{dimen} = new Math::Farnsworth::Dimension();
+	  $self->{dimen} = new Math::Farnsworth::Dimension($dimen);
   }
 
   return $self;

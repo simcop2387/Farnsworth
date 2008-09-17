@@ -28,7 +28,9 @@ sub new
 		}
 	}
 
-	bless $dims, $class;
+	my $self = {dimen =>$dims}; #so i don't have to rewrite a lot of code... NTS: this should probably go away later
+
+	bless $self, $class;
 }
 
 sub compare
@@ -79,18 +81,19 @@ sub merge
 {
 	my $self = shift;
 	#i CAN'T modify myself in this!
-	my $atom = $self->new($self->{dimen});
+	my $atom = Math::Farnsworth::Dimension->new($self->{dimen});
 	
 	my $partner = shift;
 	my $pd = {};
 
-	if ($partner->isa("Math::Farnsworth::Dimension"))
+	if (ref($partner) eq "Math::Farnsworth::Dimension")
 	{
 		$pd = $partner->{dimen};
 	}
 
     for (uniq (keys %{$atom->{dimen}}, keys %{$pd}))
 	{
+		no warnings 'uninitialized';
 		$atom->{dimen}{$_} += $partner->{dimen}{$_};
 	}
 
