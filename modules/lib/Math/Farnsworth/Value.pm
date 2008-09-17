@@ -19,14 +19,40 @@ sub new
 {
   my $class = shift;
   my $value = shift;
+  my $dimen = shift; #should only really be used internally?
 
   my $self = {};
 
   bless $self, $class;
 
   $self->{pari} = PARI $value;
+  $self->{dimen} = $dimen;
 
   return $self;
+}
+
+sub comparedimen
+{
+  my $self = shift;
+  my $target = shift;
+
+  if (keys %{$target->{dimen}} == keys %{$target->{dimen}}) #check lengths of keys
+  {
+     my $z = 1;
+     my $v = 1;
+     for my $k (keys %{$self->{dimen}})
+     {
+       $z = 0 if (!exists($target->{dimen}{$k});
+       $v = 0 if ($self->{targe}{$k} != $target->{dimen}{$k});
+     }
+
+     if ($z && $v)
+     {
+        return 1;
+     }
+  }
+
+  return 0;
 }
 
 sub toperl
