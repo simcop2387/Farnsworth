@@ -29,7 +29,7 @@ sub new
 	bless $dims, $class;
 }
 
-sub comparedimen
+sub compare
 {
   my $self = shift;
   my $target = shift;

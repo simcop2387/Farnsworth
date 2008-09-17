@@ -28,7 +28,7 @@ sub new
 
   $self->{pari} = PARI $value;
   
-  if (ref($dimen) && $dimen->ISA("Math::Farnsworth::Dimension"))
+  if (ref($dimen) && $dimen->isa("Math::Farnsworth::Dimension"))
   {
     $self->{dimen} = $dimen;
   }
@@ -51,7 +51,7 @@ sub add
   my ($one, $two, $rev) = @_;
 
   #check for $two being a simple value
-  my $tv = ref($two) && $two->ISA("Math::Farnsworth::Value") ? $two->{pari} : $two;
+  my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
@@ -67,7 +67,7 @@ sub subtract
   my ($one, $two, $rev) = @_;
 
   #check for $two being a simple value
-  my $tv = ref($two) && $two->ISA("Math::Farnsworth::Value") ? $two->{pari} : $two;
+  my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
