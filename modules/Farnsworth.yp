@@ -23,7 +23,7 @@ my $lasttype;
 
 stmt
 	:	expr						 { $_[1] }
-	|	NAME '[' array ']' ':=' expr { bless [@_[1,3,6]], 'FuncDef' }
+	|	NAME '[' arglist ']' ':=' expr { bless [@_[1,3,6]], 'FuncDef' }
 	|	NAME ':=' expr				 { bless [@_[1,3]], 'UnitDef' }
 	|	expr ':->' expr				 { bless [ @_[1,3] ], 'SetDisplay' }
 	;
@@ -42,14 +42,10 @@ array : expr ',' array  { bless [ $_[1], ref($_[3]) eq 'Array' ? @{$_[3]} : $_[3
 	  | expr
 	  ;
 
-isa : 'is' ' ' 'a'
-	| 'isa'
-	;
-
-argelement : NAME {bless [ $_[1] ], 'Argele'}
-		   | NAME isa NAME {bless [ $_[1], undef, $_[3] ], 'Argele'} #constraint
+argelement : NAME 'isa' NAME '=' expr {bless [$_[1], $_[5], $_[3]], 'Argele'} #default value AND constraint 
+		   | NAME 'isa' NAME {bless [ $_[1], undef, $_[3] ], 'Argele'} #constraint
 		   | NAME '=' expr {bless [$_[1], $_[3]], 'Argele'} #default value
-		   | NAME isa NAME '=' expr {bless [$_[1], $_[5], $_[3]], 'Argele'} #default value AND constraint
+		   | NAME {bless [ $_[1] ], 'Argele'}
 		   ;
 
 arglist : argelement ',' arglist { bless [ $_[1], ref($_[3]) eq 'Arglist' ? @{$_[3]} : $_[3] ], 'Arglist' }
@@ -84,7 +80,7 @@ expr
 	|	expr '<=>' expr { bless [ @_[1,3] ], 'Compare' }
 	|	expr '!=' expr	{ bless [ @_[1,3] ], 'Ne' }
 	|   NAME '[' array ']'         { bless [ @_[1,3] ], 'FuncCall' }
-	|   '[' arglist ']'              { $_[2] }
+	|   '[' array ']'              { $_[2] }
 	|	'(' expr ')'		       { bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything
 	|	'{' '|' arglist '|' expr '}' {bless [ @_[2,4] ], 'Lambda'}
 	|	' '  {undef}
