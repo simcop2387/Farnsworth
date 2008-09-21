@@ -15,11 +15,11 @@ my $lasttype;
 
 %%
 
-#stma 
-#    : {undef}
-#	|   stmt						 { bless [ $_[1] ], 'Stmt' }
-#	|   stmt ';' stma				 { bless [ $_[1], ref($_[3]) eq "Stmt" ? @{$_[3]} : $_[3]], 'Stmt' }
-#	;
+stma 
+    : {undef}
+	|   stmt						 { bless [ $_[1] ], 'Stmt' }
+	|   stmt ';' stma				 { bless [ $_[1], ref($_[3]) eq "Stmt" ? @{$_[3]} : $_[3]], 'Stmt' }
+	;
 
 stmt
 	:	expr						 { $_[1] }
@@ -60,7 +60,7 @@ expr
 	|	'-' NAME        { bless [ (bless [ $_[2] ], 'Fetch') , '-1', '-name'], 'Mul' }
 	|	NAME '=' expr	{ bless [ @_[1,3] ], 'Store' }
 	|	NUMBER NAME     { bless [ $_[1], (bless [ $_[2] ], 'Fetch' )], 'Mul' }
-	|   expr '->' expr  { bless [ @_[1,3] ], 'Trans' }
+	|   expr '->' expr  { bless [ @_[1,3]], 'Trans' }
 	|	expr '+' expr	{ bless [ @_[1,3]], 'Add' }
 	|	expr '-' expr	{ bless [ @_[1,3]], 'Sub' }
 	|	expr ' ' expr   { bless [ @_[1,3], ' '], 'Mul' }
