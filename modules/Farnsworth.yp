@@ -3,7 +3,8 @@
 %nonassoc '<' '>' '==' '!=' '>=' '<=' '<=>'
 %left '<<' '>>'
 %left '+' '-'
-%left '*' '/' '%' 'per'
+%left 'per'
+%left '*' '/' '%'
 %left ' '
 %left '^' '**'
 

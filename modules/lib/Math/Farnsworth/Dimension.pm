@@ -30,7 +30,7 @@ sub new
 
 	my $self = {dimen =>$dims}; #so i don't have to rewrite a lot of code... NTS: this should probably go away later
 
-	bless $self, $class;
+	bless $self;
 }
 
 sub compare
@@ -53,7 +53,7 @@ sub compare
        $v = 0 if ($self->{dimen}{$k} != $target->{dimen}{$k});
      }
 
-     if ($z && $v)
+     if ($z && $v) #also check if there are no dimensions
      {
         return 1;
      }

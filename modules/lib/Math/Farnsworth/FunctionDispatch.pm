@@ -31,6 +31,12 @@ sub getfunc
 #should i really have this here? or should i have it in evaluate.pm?
 sub evalfunc
 {
+	my $self = shift;
+	my $eval = shift;
+	my $name = shift;
+	my $args = shift;
+
+	return $eval->eval($self->{$name}{$value});
 }
 
 #this should check for correctness of types and such, todo later

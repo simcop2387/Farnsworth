@@ -1620,7 +1620,7 @@ sub parse
 	my $self = shift;
 	$s = join ' ', @_;
 	my $code = eval
-		{ $self->new(yylex => \&yylex, yyerror => \&yyerror, yydebug => 0x1F)->YYParse };
+		{ $self->new(yylex => \&yylex, yyerror => \&yyerror)->YYParse };
 	die $@ if $@;
 	$code
 	}

@@ -9,7 +9,7 @@ use Data::Dumper;
 
 use Math::Farnsworth::FunctionDispatch;
 use Math::Farnsworth::Variables;
-use Math::Farnsworth::Units;
+#use Math::Farnsworth::Units;
 use Math::Farnsworth::Parser;
 use Math::Farnsworth::Value;
 
@@ -20,8 +20,9 @@ sub new
 
 	$self->{funcs} = new Math::Farnsworth::FunctionDispatch();
 	$self->{vars} = new Math::Farnsworth::Variables();
-	$self->{units} = new Math::Farnsworth::Units(); #this should do prefixes also
+	#$self->{units} = new Math::Farnsworth::Units(); #this should do prefixes also
 	$self->{parser} = new Math::Farnsworth::Parser();
+    return $self;
 }
 
 sub eval
@@ -56,6 +57,39 @@ sub evalbranch
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a - $b;
 	}
+	elsif ($type eq "Mul")
+	{
+		my $a = $self->makevalue($branch->[0]);
+		my $b = $self->makevalue($branch->[1]);
+		$return = $a * $b;
+	}
+	elsif ($type eq "Div")
+	{
+		my $a = $self->makevalue($branch->[0]);
+		my $b = $self->makevalue($branch->[1]);
+		$return = $a / $b;
+	}
+	elsif ($type eq "Mod")
+	{
+		my $a = $self->makevalue($branch->[0]);
+		my $b = $self->makevalue($branch->[1]);
+		$return = $a % $b;
+	}
+	elsif ($type eq "Store")
+	{
+		my $name = $branch->[0];
+		my $value = $self->makevalue($branch->[1]);
+		$return = $value; #make stores evaluate to the value on the right
+		$self->{vars}->setvar($name, $value);
+	}
+	elsif ($type eq "Stmt")
+	{
+		$return = $self->evalbranch($branch->[0]); #should be good
+	}
+	elsif ($type eq "Paren")
+	{
+		$return = $self->evalbranch($branch->[0]);
+	}
 
 	return $return;
 }
@@ -65,12 +99,19 @@ sub makevalue
 	my $self = shift;
 	my $input = shift;
 
-	if (ref($input))
+	if (ref($input) eq "Num")
 	{
-		return $self->evalbranch($input);
+		#need to make a value here with Math::Farnsworth::Value!
+		my $val = new Math::Farnsworth::Value($input->[0]);
+		return $val;
+	}
+	elsif (ref($input) eq "Fetch")
+	{
+		my $val = $self->{vars}->getvar($input->[0]);
+		return $val;
 	}
 
-	#need to make a value here with Math::Farnsworth::Value!
-	my $val = new Math::Farnsworth::Value($input);
-	return $val;
+	return $self->evalbranch($input);
 }
+
+1;
