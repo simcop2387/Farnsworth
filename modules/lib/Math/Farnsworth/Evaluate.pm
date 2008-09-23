@@ -123,10 +123,15 @@ sub evalbranch
 		my $args = $branch->[1];
 		my $value = $branch->[2]; #not really a value, but in fact the tree to run for the function
 
+		$self->{funcs}->addfunc($name, $args, $value);
+		$return = undef; #cause an error should someone manage to make it parse other than the way i think it should be
 	}
 	elsif ($type eq "Stmt")
 	{
-		$return = $self->evalbranch($branch->[0]); #should be good
+		for my $bs (@$branch) #iterate over all the statements
+		{
+			$return = $self->evalbranch($bs);
+		}
 	}
 	elsif ($type eq "Paren")
 	{

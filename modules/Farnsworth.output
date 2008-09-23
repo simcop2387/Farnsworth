@@ -217,16 +217,16 @@ Conflict in state 66 between rule 29 and token '-' resolved as reduce.
 Conflict in state 66 between rule 29 and token '<' resolved as reduce.
 Conflict in state 66 between rule 29 and token '+' resolved as reduce.
 Conflict in state 66 between rule 29 and token '**' resolved as shift.
-Conflict in state 66 between rule 29 and token '%' resolved as reduce.
+Conflict in state 66 between rule 29 and token '%' resolved as shift.
 Conflict in state 66 between rule 29 and token '==' resolved as reduce.
 Conflict in state 66 between rule 29 and token '>=' resolved as reduce.
 Conflict in state 66 between rule 29 and token '^' resolved as shift.
 Conflict in state 66 between rule 29 and token ' ' resolved as shift.
-Conflict in state 66 between rule 29 and token '*' resolved as reduce.
+Conflict in state 66 between rule 29 and token '*' resolved as shift.
 Conflict in state 66 between rule 29 and token 'per' resolved as reduce.
 Conflict in state 66 between rule 29 and token '>>' resolved as reduce.
 Conflict in state 66 between rule 29 and token '!=' resolved as reduce.
-Conflict in state 66 between rule 29 and token '/' resolved as reduce.
+Conflict in state 66 between rule 29 and token '/' resolved as shift.
 Conflict in state 66 between rule 29 and token '->' resolved as reduce.
 Conflict in state 66 between rule 29 and token '<<' resolved as reduce.
 Conflict in state 66 between rule 29 and token '<=' resolved as reduce.
@@ -1692,7 +1692,10 @@ State 66:
 	expr -> expr . '!=' expr	(Rule 41)
 
 	' '	shift, and go to state 30
+	'%'	shift, and go to state 26
+	'*'	shift, and go to state 31
 	'**'	shift, and go to state 24
+	'/'	shift, and go to state 37
 	'^'	shift, and go to state 29
 
 	$default	reduce using rule 29 (expr)
