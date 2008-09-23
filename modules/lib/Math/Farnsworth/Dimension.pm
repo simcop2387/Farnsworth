@@ -100,6 +100,24 @@ sub merge
 	return $atom;
 }
 
+sub mult
+{
+	my $self = shift;
+	#i CAN'T modify myself in this!
+	my $atom = Math::Farnsworth::Dimension->new($self->{dimen});
+	
+	my $value = shift;
+
+	for (keys %{$atom->{dimen}})
+	{
+		no warnings 'uninitialized';
+		$atom->{dimen}{$_} *= $value; #this might turn them into Math::PARI objects? does it matter?
+	}
+
+	return $atom;
+}
+
+
 sub prune
 {
 	my $self = shift;

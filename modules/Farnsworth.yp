@@ -1,7 +1,8 @@
 %right '=' ':='
 %left '->' ':->'
-%nonassoc '<' '>' '==' '!=' '>=' '<=' '<=>'
-%left '<<' '>>'
+%nonassoc ':'
+%left '?'
+%nonassoc '<' '>' '==' '!=' '>=' '<=' '<=>' 
 %left '+' '-'
 %left 'per'
 %left '*' '/' '%'
@@ -25,6 +26,7 @@ stma
 stmt
 	:	expr						 { $_[1] }
 	|	NAME '[' arglist ']' ':=' expr { bless [@_[1,3,6]], 'FuncDef' }
+	|   NAME '[' arglist ']' ':=' '{' stma '}' { bless [@_[1,3,7]], 'FuncDef' } #i really want scoping here, should i do it?
 	|	NAME ':=' expr				 { bless [@_[1,3]], 'UnitDef' }
 	|	expr ':->' expr				 { bless [ @_[1,3] ], 'SetDisplay' }
 	;
@@ -58,7 +60,7 @@ expr
 	|	NAME			{ bless [ $_[1] ],   'Fetch' }
 	|	DATE			{ bless [ $_[1] ], 'Date' }
 	|	STRING			{ bless [ $_[1] ], 'String' } #this will have to be reparsed later, just before evaluating
-	|	'-' NAME        { bless [ (bless [ $_[2] ], 'Fetch') , '-1', '-name'], 'Mul' }
+	|	'-' expr        { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' }
 	|	NAME '=' expr	{ bless [ @_[1,3] ], 'Store' }
 	|	NUMBER NAME     { bless [ $_[1], (bless [ $_[2] ], 'Fetch' )], 'Mul' }
 	|   expr '->' expr  { bless [ @_[1,3]], 'Trans' }
@@ -71,8 +73,6 @@ expr
 	|	expr '%' expr	{ bless [ @_[1,3] ], 'Mod' }
 	|	expr '^' expr	{ bless [ @_[1,3] ], 'Pow' }
 	|	expr '**' expr	{ bless [ @_[1,3] ], 'Pow' }
-	|   expr '>>' expr  { bless [ @_[1,3] ], 'Bitreduce' }
-	|   expr '<<' expr  { bless [ @_[1,3] ], 'Bitexpand' }
 	|	expr '<' expr	{ bless [ @_[1,3] ], 'Lt' }
 	|	expr '>' expr	{ bless [ @_[1,3] ], 'Gt' }
 	|	expr '<=' expr	{ bless [ @_[1,3] ], 'Le' }
@@ -80,6 +80,7 @@ expr
 	|	expr '==' expr	{ bless [ @_[1,3] ], 'Eq' }
 	|	expr '<=>' expr { bless [ @_[1,3] ], 'Compare' }
 	|	expr '!=' expr	{ bless [ @_[1,3] ], 'Ne' }
+	|   expr '?' expr ':' expr { bless [@_[1,3,5]], 'Ternary' }
 	|   NAME '[' array ']'         { bless [ @_[1,3] ], 'FuncCall' }
 	|   '[' array ']'              { $_[2] }
 	|	'(' expr ')'		       { bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything
@@ -97,7 +98,7 @@ sub yylex
 	#1 while $s =~ /\G\s+/cg; #remove extra whitespace?
 
     #i want a complete number regex
-	$s =~ /\G([+-]?(\d+(\.\d*)?|\.\d+)([Ee][-+]?\d+)?)/gc 
+	$s =~ /\G(\+?(\d+(\.\d*)?|\.\d+)([Ee][-+]?\d+)?)/gc 
 	      and return 'NUMBER', $1;
     $s =~ /\G(0[xX][0-9A-Fa-f])/gc and return $1;
 
@@ -110,7 +111,7 @@ sub yylex
 	#$s =~ /\G(do|for|elsif|else|if|print|while)\b/cg and return $1;
 	
 	$s =~ /\G\s*(:=|==|!=|>=|<=|->|:->|\*\*|per|isa)\s*/icg and return lc $1;
-	$s =~ /\G\s*(\+|\*|-|\/|\%|\^|=|;)\s*/cg and return $1;
+	$s =~ /\G\s*(\+|\*|-|\/|\%|\^|=|;|\{|\}|\>|\<|\?|\:)\s*/cg and return $1;
 	$s =~ /\G\s*(\))/cg and return $1; #freaking quirky lexers!
 	$s =~ /\G(\()\s*/cg and return $1;
 	$s =~ /\G(\w[\w\d]*)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here

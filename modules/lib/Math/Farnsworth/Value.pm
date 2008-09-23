@@ -15,7 +15,11 @@ use overload
     '-' => \&subtract,
     '*' => \&mult,
     '/' => \&div,
-	'%' => \&mod;
+	'%' => \&mod,
+	'**' => \&pow,
+	'<=>' => \&compare,
+	'bool' => \&bool,
+	'""' => \&toperl;
 
 sub new
 {
@@ -73,7 +77,7 @@ sub subtract
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
-  die "Unable to process different units in addition" unless $one->{dimen}->compare($two->{dimen}); #always call this on one, since $two COULD be some other object 
+  die "Unable to process different units in subtraction" unless $one->{dimen}->compare($two->{dimen}); #always call this on one, since $two COULD be some other object 
 
   #moving this down so that i don't do any math i don't have to
   my $new;
@@ -164,3 +168,63 @@ sub div
 
   return $new;
 }
+
+sub bool
+{
+	my $self = shift;
+
+	#seems good enough of an idea to me
+	return $self->{pari}?0:1;
+}
+
+sub pow
+{
+  my ($one, $two, $rev) = @_;
+
+  #check for $two being a simple value
+  my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
+  
+  #moving this down so that i don't do any math i don't have to
+  my $new;
+  if (!$rev)
+  {
+	  $new = new Math::Farnsworth::Value($one->{pari} ** $tv, $one->{dimen}->mult($tv)); #if !$rev they are in order
+  }
+  else
+  {
+      $new = new Math::Farnsworth::Value($tv ** $one->{pari}, $one->{dimen}->mult($tv)); #if !$rev they are in order
+  }
+
+  return $new;
+}
+
+sub compare
+{
+  my ($one, $two, $rev) = @_;
+
+  #check for $two being a simple value
+  my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
+
+  #i also need to check the units, but that will come later
+  #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
+  die "Unable to process different units in compare" unless $one->{dimen}->compare($two->{dimen}); #always call this on one, since $two COULD be some other object 
+
+  #moving this down so that i don't do any math i don't have to
+  my $new;
+  
+  if ($one->{pari} == $tv)
+  {
+	  $new = 0;
+  }
+  elsif ($one->{pari} < $tv)
+  {
+	  $new = -1;
+  }
+  elsif ($one->{pari} > $tv)
+  {
+	  $new = 1;
+  }
+
+  return $new;
+}
+

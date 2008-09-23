@@ -112,6 +112,64 @@ sub evalbranch
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a % $b;
 	}
+	elsif ($type eq "Pow")
+	{
+		my $a = $self->makevalue($branch->[0]);
+		my $b = $self->makevalue($branch->[1]);
+		$return = $a ** $b;
+	}
+	elsif ($type eq "Gt")
+	{
+		my $a = $self->makevalue($branch->[0]);
+		my $b = $self->makevalue($branch->[1]);
+		$return = $a > $b;
+	}
+	elsif ($type eq "Lt")
+	{
+		my $a = $self->makevalue($branch->[0]);
+		my $b = $self->makevalue($branch->[1]);
+		$return = $a < $b;
+	}
+	elsif ($type eq "Ge")
+	{
+		my $a = $self->makevalue($branch->[0]);
+		my $b = $self->makevalue($branch->[1]);
+		$return = $a >= $b;
+	}
+	elsif ($type eq "Le")
+	{
+		my $a = $self->makevalue($branch->[0]);
+		my $b = $self->makevalue($branch->[1]);
+		$return = $a <= $b;
+	}
+	elsif ($type eq "Compare")
+	{
+		my $a = $self->makevalue($branch->[0]);
+		my $b = $self->makevalue($branch->[1]);
+		$return = $a <=> $b;
+	}
+	elsif ($type eq "Eq")
+	{
+		my $a = $self->makevalue($branch->[0]);
+		my $b = $self->makevalue($branch->[1]);
+		$return = $a == $b;
+	}
+	elsif ($type eq "Ne")
+	{
+		my $a = $self->makevalue($branch->[0]);
+		my $b = $self->makevalue($branch->[1]);
+		$return = $a != $b;
+	}
+	elsif ($type eq "Ternary")
+	{
+		#turing completeness FTW
+		#wtf? for some reason i have to do this...
+		print "\n\n\n";
+		print Dumper($branch);
+		print "\n\n";
+		print Dumper($self->makevalue($branch->[0])); #REMOVE THIS! IT COULD CHANGE THE SYSTEM!
+		$return = $self->makevalue($branch->[0]) ? $self->makevalue($branch->[1]) : $self->makevalue($branch->[2]);
+	}
 	elsif ($type eq "Store")
 	{
 		my $name = $branch->[0];
@@ -147,8 +205,8 @@ sub evalbranch
 	elsif ($type eq "Stmt")
 	{
 		for my $bs (@$branch) #iterate over all the statements
-		{
-			$return = $self->makevalue($bs);
+		{   my $r = $self->makevalue($bs);
+			$return = $r if defined $r; #this has interesting semantics!
 		}
 	}
 	elsif ($type eq "Paren")
@@ -174,6 +232,8 @@ sub makevalue
 	{
 		#this needs to decide between variable and unit, but that'll come later
 		#esp since i also have to have this overridable for functions!
+
+		my $name = $input->[0];
 		my $val = $self->{vars}->getvar($input->[0]);
 		return $val;
 	}
