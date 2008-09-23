@@ -15,8 +15,9 @@ use Math::Farnsworth::Value;
 
 sub new
 {
+    my $class = shift;
 	my $self = {};
-	bless $self, (shift);
+	bless $self;
 
 	my %opts = (@_);
 
@@ -116,6 +117,13 @@ sub evalbranch
 		$return = $value; #make stores evaluate to the value on the right
 		$self->{vars}->setvar($name, $value);
 	}
+	elsif ($type eq "FuncDef")
+	{
+		my $name = $branch->[0];
+		my $args = $branch->[1];
+		my $value = $branch->[2]; #not really a value, but in fact the tree to run for the function
+
+	}
 	elsif ($type eq "Stmt")
 	{
 		$return = $self->evalbranch($branch->[0]); #should be good
@@ -141,6 +149,8 @@ sub makevalue
 	}
 	elsif (ref($input) eq "Fetch")
 	{
+		#this needs to decide between variable and unit, but that'll come later
+		#esp since i also have to have this overridable for functions!
 		my $val = $self->{vars}->getvar($input->[0]);
 		return $val;
 	}

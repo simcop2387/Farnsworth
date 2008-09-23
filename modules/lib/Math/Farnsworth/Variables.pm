@@ -11,7 +11,10 @@ use Data::Dumper;
 
 sub new
 {
+	my $class = shift;
+	my $state = shift;
 	my $self = {};
+	$self = {%$state} if (ref($state) eq "Math::Farnsworth::Variables");
 	bless $self;
 }
 

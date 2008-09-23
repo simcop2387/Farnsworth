@@ -36,7 +36,11 @@ sub evalfunc
 	my $name = shift;
 	my $args = shift;
 
-	return $eval->eval($self->{$name}{$value});
+	my $nvars = new Math::Farnsworth::Variables($eval->{vars});
+	my %nopts = (vars => $nvars, funcs => $self, units => $eval->{units}, parser => $eval->{parser});
+    my $neval = $eval->new(%nopts);
+
+	return $neval->eval($self->{$name}{value});
 }
 
 #this should check for correctness of types and such, todo later
