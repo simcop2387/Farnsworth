@@ -133,7 +133,7 @@ m :-  milli
    // Should we adopt the questionable Electrical Engineer policy of using
    // "u" to indicate micro?  I've added "uF" for microfarad later on to
    // tackle the most common case.
-\u00b5 :- micro   // Unicode "MICRO SIGN"
+//\u00b5 :- micro   // Unicode "MICRO SIGN" //unicode like this doesn't work! in fact all unicode might not...
 n :-  nano
 p :-  pico
 f :-  femto
@@ -292,7 +292,7 @@ candela := cd   // Official definition:
 
 // Define the default symbol for the imaginary unit, that is, the square
 // root of negative one.
-i := <<IMAGINARY_UNIT>>
+i := (-1) ^ 0.5 //this is intrinsic to Math::PARI, i don't need to do anything special for it
  
 // Define unit combinations
 1   ||| dimensionless
@@ -486,8 +486,8 @@ V / m   ||| electric_field_strength
 A / m   ||| magnetic_field_strength
 
 ohm :=                 V/A         // electrical resistance
-\u2126 :=              ohm  // Official Unicode codepoint OHM SIGN
-\u03a9 :=              ohm  // "Preferred" Unicode codepoint for ohm
+//\u2126 :=              ohm  // Official Unicode codepoint OHM SIGN
+//\u03a9 :=              ohm  // "Preferred" Unicode codepoint for ohm
                             // GREEK CAPITAL LETTER OMEGA
 ohm ||| electric_resistance
 
@@ -582,9 +582,9 @@ mho :=                 siemens   // Inverse of ohm, hence ohm spelled backward
 galvat :=              ampere    // Named after Luigi Galvani
 
 angstrom :=            1ee-10 m   // Convenient for describing molecular sizes
-\u212b :=              angstrom   // Official Unicode codepoint for
+//\u212b :=              angstrom   // Official Unicode codepoint for
                                   // Angstrom symbol: ANGSTROM SIGN
-\u00c5 :=              angstrom   // "Preferred" Unicode codepoint for
+//\u00c5 :=              angstrom   // "Preferred" Unicode codepoint for
                                   // Angstrom symbol:
                                   // LATIN CAPITAL LETTER A WITH RING ABOVE
 
@@ -638,7 +638,7 @@ Jy :=                  jansky    // from outer space in 1931.
 // Basic constants
 
 pi :=                  3.141592653589793238
-\u03c0 :=              pi              // Unicode character for pi
+//\u03c0 :=              pi              // Unicode character for pi
                                        // as a mathematical constant
                                        // GREEK SMALL LETTER PI
 
@@ -699,9 +699,9 @@ sigma_t := ThomsonCrossSection
                               
 
 plancksconstant :=     h
-\u210e :=              h          // Official Unicode char for Planck's const.
+//\u210e :=              h          // Official Unicode char for Planck's const.
 hbar :=                h / (2 pi)
-\u210f :=              hbar       // Official Unicode char for Planck/2 pi
+//\u210f :=              hbar       // Official Unicode char for Planck/2 pi
 
 G :=             6.6742e-11 N m^2 / kg^2  // Newtonian gravity constant
         // From 2002 CODATA figures.  There is a standard uncertainty in the
@@ -863,7 +863,7 @@ degF :=        degfahrenheit // WARNING: These should only be used when
                              // to body heat (for reasons unknown).
 
 
-\u2109 :=              degfahrenheit  // Single Unicode codepoint for 
+//\u2109 :=              degfahrenheit  // Single Unicode codepoint for 
                                       // DEGREE FAHRENHEIT
 
 degreesRankine :=      5/9 K
@@ -885,27 +885,27 @@ degreaumur :=          10/8 degC // The Reaumur scale was used in Europe and
 // This is a less legible version of the revised function below
 //Fahrenheit[x] := (x conforms K) ? ((x - zerocelsius) / K) * 9/5 + 32 : ((x conforms 1) ? ((x-32) * 5/9) K + zerocelsius : "Error")
 
-Fahrenheit[x] := 
-{ 
-   if (x conforms K)  // If x is already a temperature, convert to F
-      return ((x - zerocelsius) / K) * 9/5 + 32 
-   else
-      if (x conforms 1) // If x is a pure number, treat as Fahrenheit degrees
-         return ((x-32) * 5/9) K + zerocelsius
-      else
-         return "Error"
-}
+//Fahrenheit[x] := 
+//{ 
+//   if (x conforms K)  // If x is already a temperature, convert to F
+//      return ((x - zerocelsius) / K) * 9/5 + 32 
+//   else
+//      if (x conforms 1) // If x is a pure number, treat as Fahrenheit degrees
+//         return ((x-32) * 5/9) K + zerocelsius
+//      else
+//         return "Error"
+//}
 
 // TODO: Change the implementation of the following idiom so that it aliases 
 // the function instead of chaining function calls. 
-F[x] := Fahrenheit[x]
+//F[x] := Fahrenheit[x]
 
 // Function for converting Celsius to/from standard units
-Celsius[x] := (x conforms K) ? (x-zerocelsius) / K : ((x conforms 1) ? (x K + zerocelsius) : "Error")
+//Celsius[x] := (x conforms K) ? (x-zerocelsius) / K : ((x conforms 1) ? (x K + zerocelsius) : "Error")
 
-C[x] := Celsius[x]
+//C[x] := Celsius[x]
 
-Reaumur[x] := (x conforms K) ? (8/10 (x-zerocelsius)) / K : ((x conforms 1) ? (10/8 * x * K + zerocelsius) : "Error")
+//Reaumur[x] := (x conforms K) ? (8/10 (x-zerocelsius)) / K : ((x conforms 1) ? (10/8 * x * K + zerocelsius) : "Error")
 
 //   Physical constants
 //
