@@ -1,4 +1,4 @@
-%right '=' ':=' '=!=' '::-' ':-'
+%right '=' ':=' '=!=' '::-' ':-' '|||'
 %left '->' ':->'
 %nonassoc ':'
 %left '?'
@@ -29,9 +29,8 @@ stmt
 	|   NAME '[' arglist ']' ':=' '{' stma '}' { bless [@_[1,3,7]], 'FuncDef' } #i really want scoping here, should i do it?
 	|	NAME ':=' expr				 { bless [@_[1,3]], 'UnitDef' }
 	|	expr ':->' expr				 { bless [ @_[1,3] ], 'SetDisplay' }
-	|	NAME '::-' expr				 { bless [ @_[1,3] ], 'SetPrefix' }
-	|   NAME ':-' NAME				 { bless [ @_[1,3] ], 'SetPrefixAbrv' }
 	|   NAME '=!=' NAME              { bless [ @_[1,3] ], 'DefineDimen' }
+	|   expr '|||' NAME				 { bless [ @_[3,1] ], 'DefineCombo' }
 	;
 
 #nosemi :	while |	for ;
@@ -65,7 +64,7 @@ expr
 	|	STRING			{ bless [ $_[1] ], 'String' } #this will have to be reparsed later, just before evaluating
 	|	'-' expr        { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' } #unary -
 	|	NAME '=' expr	{ bless [ @_[1,3] ], 'Store' }
-	|	NUMBER NAME     { bless [ $_[1], (bless [ $_[2] ], 'Fetch' )], 'Mul' }
+#	|	NUMBER NAME     { bless [ $_[1], (bless [ $_[2] ], 'Fetch' )], 'Mul' } #this is causing me headaches
 	|   expr '->' expr  { bless [ @_[1,3]], 'Trans' }
 	|	expr '+' expr	{ bless [ @_[1,3]], 'Add' }
 	|	expr '-' expr	{ bless [ @_[1,3]], 'Sub' }
@@ -83,9 +82,11 @@ expr
 	|	expr '==' expr	{ bless [ @_[1,3] ], 'Eq' }
 	|	expr '<=>' expr { bless [ @_[1,3] ], 'Compare' }
 	|	expr '!=' expr	{ bless [ @_[1,3] ], 'Ne' }
+	|	NAME '::-'  expr			 { bless [ @_[1,3] ], 'SetPrefix' }
+	|   NAME ':-' expr				 { bless [ @_[1,3] ], 'SetPrefixAbrv' }
 	|   expr '?' expr ':' expr { bless [@_[1,3,5]], 'Ternary' }
 	|   NAME '[' array ']'         { bless [ @_[1,3] ], 'FuncCall' }
-	|   '[' array ']'              { $_[2] } #these really aren't supported yet
+#	|   '[' array ']'              { $_[2] } #these really aren't supported yet
 	|	'(' expr ')'		       { bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything
 	|	'{' '|' arglist '|' expr '}' {bless [ @_[2,4] ], 'Lambda'} #i'm not sure how or when i'll implement these
 	|	' '  {undef}
@@ -101,6 +102,8 @@ sub yylex
 	#1 while $s =~ /\G\s+/cg; #remove extra whitespace?
 
     #i want a complete number regex
+	$s =~ /\G(\+?(\d+(\.\d*)?|\.\d+)([Ee][Ee]?[-+]?\d+))/gc 
+	      and return 'NUMBER', $1;
 	$s =~ /\G(\+?(\d+(\.\d*)?|\.\d+)([Ee][-+]?\d+)?)/gc 
 	      and return 'NUMBER', $1;
     $s =~ /\G(0[xX][0-9A-Fa-f])/gc and return $1;
@@ -113,7 +116,7 @@ sub yylex
     #i'll probably ressurect this later too
 	#$s =~ /\G(do|for|elsif|else|if|print|while)\b/cg and return $1;
 	
-	$s =~ /\G\s*(:=|==|!=|>=|<=|->|:->|\*\*|per|isa)\s*/icg and return lc $1;
+	$s =~ /\G\s*(:=|==|!=|>=|<=|->|:->|\*\*|per|isa|\:?\:\-|\=\!\=)\s*/icg and return lc $1;
 	$s =~ /\G\s*(\+|\*|-|\/|\%|\^|=|;|\{|\}|\>|\<|\?|\:)\s*/cg and return $1;
 	$s =~ /\G\s*(\))/cg and return $1; #freaking quirky lexers!
 	$s =~ /\G(\()\s*/cg and return $1;
@@ -123,6 +126,13 @@ sub yylex
     return '';
 	}
 
+
+sub yylexwatch
+{
+   my @r = &yylex;
+   print Dumper(\@r,[pos $s]);
+   return @r;
+}
 
 sub yyerror
 	{
@@ -138,7 +148,7 @@ sub parse
 	my $self = shift;
 	$s = join ' ', @_;
 	my $code = eval
-		{ $self->new(yylex => \&yylex, yyerror => \&yyerror, yydebug => 0x1F)->YYParse };
+		{ $self->new(yylex => \&yylexwatch, yyerror => \&yyerror, yydebug => 0x1F)->YYParse };
 	die $@ if $@;
 	$code
 	}
