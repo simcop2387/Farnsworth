@@ -18,10 +18,44 @@ sub new
 	my $self = {};
 	bless $self, (shift);
 
-	$self->{funcs} = new Math::Farnsworth::FunctionDispatch();
-	$self->{vars} = new Math::Farnsworth::Variables();
-	#$self->{units} = new Math::Farnsworth::Units(); #this should do prefixes also
-	$self->{parser} = new Math::Farnsworth::Parser();
+	my %opts = (@_);
+
+	if (ref($opts{funcs}) eq "Math::Farnsworth::FunctionDispatch")
+	{
+		$self->{funcs} = $opts{funcs};
+	}
+	else
+	{
+		$self->{funcs} = new Math::Farnsworth::FunctionDispatch();
+	}
+
+	if (ref($opts{vars}) eq "Math::Farnsworth::Variables")
+	{
+		$self->{vars} = $opts{vars};
+	}
+	else
+	{
+		$self->{vars} = new Math::Farnsworth::Variables();
+	}
+
+#	if (ref($opts{units}) eq "Math::Farnsworth::Units")
+#	{
+#		$self->{units} = $opts{units};
+#	}
+#	else
+#	{
+#		$self->{units} = new Math::Farnsworth::Units();
+#	}
+
+	if (ref($opts{parser}) eq "Math::Farnsworth::Parser")
+	{
+		$self->{parser} = $opts{parser};
+	}
+	else
+	{
+		$self->{parser} = new Math::Farnsworth::Parser();
+	}
+
     return $self;
 }
 
