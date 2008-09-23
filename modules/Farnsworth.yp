@@ -12,7 +12,8 @@
 %{
 use Data::Dumper; #boobs
 my $s;		# warning - not re-entrant
-my $lasttype;
+my $fullstring;
+my $charcount;
 %}
 
 %%
@@ -131,22 +132,23 @@ sub yylexwatch
 {
    my @r = &yylex;
    print Dumper(\@r,[pos $s]);
+   $s = substr($s, pos $s);
    return @r;
 }
 
 sub yyerror
 	{
 	my $pos = pos $s;
-	substr($s,$pos,0) = '<###YYLEX###>';
-	$s =~ s/^/### /mg;
-	die "### Syntax Error \@ $pos of\n$s\n";
+	substr($fullstring,$pos,0) = '<###YYLEX###>';
+	$fullstring =~ s/^/### /mg;
+	die "### Syntax Error \@ $pos of\n$fullstring\n";
 	}
 
 sub parse
 	{
-	$lasttype=0;
 	my $self = shift;
 	$s = join ' ', @_;
+	$fullstring = $s; #preserve it for errors
 	my $code = eval
 		{ $self->new(yylex => \&yylexwatch, yyerror => \&yyerror, yydebug => 0x1F)->YYParse };
 	die $@ if $@;
