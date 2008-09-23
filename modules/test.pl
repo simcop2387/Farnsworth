@@ -9,7 +9,7 @@ use lib './lib';
 
 use Math::Farnsworth::Evaluate;
 
-my $code = "a = 42; a * a";
+my $code = "a = 42; f[x,y] := x * y; f[6,7]";
 
 my $scope = new Math::Farnsworth::Evaluate();
 

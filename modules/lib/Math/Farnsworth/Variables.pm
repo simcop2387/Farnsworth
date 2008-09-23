@@ -24,8 +24,6 @@ sub setvar
 	my $name = shift;
 	my $value = shift;
 
-	print "Storing [$name] as :".Dumper($value);
-
 	$self->{$name} = $value;
 }
 
@@ -34,8 +32,6 @@ sub getvar
 	my $self = shift;
 	my $name = shift;
 	my $val = $self->{$name};
-
-	print "Getting [$name] as :".Dumper($val);
 
 	return $val;
 }

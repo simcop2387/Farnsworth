@@ -67,6 +67,8 @@ sub eval
 
 	my $tree = $self->{parser}->parse($code); #should i catch the exceptions here? dunno
 
+	print Dumper($tree);
+
     $self->evalbranch($tree);
 }
 
@@ -119,6 +121,7 @@ sub evalbranch
 	}
 	elsif ($type eq "FuncDef")
 	{
+		print Dumper($branch);
 		my $name = $branch->[0];
 		my $args = $branch->[1];
 		my $value = $branch->[2]; #not really a value, but in fact the tree to run for the function
@@ -126,16 +129,31 @@ sub evalbranch
 		$self->{funcs}->addfunc($name, $args, $value);
 		$return = undef; #cause an error should someone manage to make it parse other than the way i think it should be
 	}
+	elsif ($type eq "FuncCall")
+	{
+		my $name = $branch->[0];
+		my $args = $self->makevalue($branch->[1]); #this is an array, need to evaluate it
+
+		$return = $self->{funcs}->callfunc($self, $name, $args);
+
+	}
+	elsif ($type eq "Array")
+	{
+		for my $bs (@$branch) #iterate over all the elements
+		{
+			push @$return, $self->makevalue($bs); #we return an array ref! i need more error checking around for this later
+		}
+	}
 	elsif ($type eq "Stmt")
 	{
 		for my $bs (@$branch) #iterate over all the statements
 		{
-			$return = $self->evalbranch($bs);
+			$return = $self->makevalue($bs);
 		}
 	}
 	elsif ($type eq "Paren")
 	{
-		$return = $self->evalbranch($branch->[0]);
+		$return = $self->makevalue($branch->[0]);
 	}
 
 	return $return;

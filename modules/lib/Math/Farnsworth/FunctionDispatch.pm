@@ -3,6 +3,10 @@ package Math::Farnsworth::FunctionDispatch;
 use strict;
 use warnings;
 
+use Data::Dumper;
+
+use Math::Farnsworth::Variables;
+
 sub new
 {
 	my $self = {};
@@ -12,10 +16,9 @@ sub new
 sub addfunc
 {
 	my $self = shift;
-    my $fundef = shift; #this should be a parse tree one
-	my $name = $fundef->[0];
-	my $args = $fundef->[1];
-	my $value = $fundef->[2];
+	my $name = shift;
+	my $args = shift;
+	my $value = shift;
 
 	#i should really have some error checking here
 	$self->{funcs}{$name} = {name=>$name, args=>$args, value=>$value};
@@ -29,18 +32,33 @@ sub getfunc
 }
 
 #should i really have this here? or should i have it in evaluate.pm?
-sub evalfunc
+sub callfunc
 {
 	my $self = shift;
 	my $eval = shift;
 	my $name = shift;
 	my $args = shift;
 
+	my $argtypes = $self->{funcs}{$name}{args};
+
+	die "Arguments not correct" unless $self->checkparams($name, $args); #this should check....
+
+	print Dumper($args);
+
 	my $nvars = new Math::Farnsworth::Variables($eval->{vars});
+	for my $argc (0..$#$argtypes)
+	{
+		my $n = $argtypes->[$argc][0]; #the rest are defaults and types
+		my $v = $args->[$argc];
+
+		$nvars->setvar($n, $v);
+	}
 	my %nopts = (vars => $nvars, funcs => $self, units => $eval->{units}, parser => $eval->{parser});
     my $neval = $eval->new(%nopts);
 
-	return $neval->eval($self->{$name}{value});
+	print Dumper($self->{funcs}{$name}{value});
+
+	return $neval->evalbranch($self->{funcs}{$name}{value});
 }
 
 #this should check for correctness of types and such, todo later

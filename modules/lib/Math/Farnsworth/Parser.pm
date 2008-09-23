@@ -1348,7 +1348,10 @@ sub
 { bless [ $_[1], ref($_[3]) eq 'Array' ? @{$_[3]} : $_[3] ], 'Array' }
 	],
 	[#Rule 9
-		 'array', 1, undef
+		 'array', 1,
+sub
+#line 43 "Farnsworth.yp"
+{ bless [ $_[1]], 'Array'}
 	],
 	[#Rule 10
 		 'argelement', 5,
@@ -1381,7 +1384,10 @@ sub
 { bless [ $_[1], ref($_[3]) eq 'Arglist' ? @{$_[3]} : $_[3] ], 'Arglist' }
 	],
 	[#Rule 15
-		 'arglist', 1, undef
+		 'arglist', 1,
+sub
+#line 53 "Farnsworth.yp"
+{bless [ $_[1] ], 'Arglist'}
 	],
 	[#Rule 16
 		 'expr', 1,
