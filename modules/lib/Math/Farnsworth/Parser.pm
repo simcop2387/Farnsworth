@@ -1599,7 +1599,7 @@ sub yylex
 	#$s =~ /\G(do|for|elsif|else|if|print|while)\b/cg and return $1;
 	
 	$s =~ /\G\s*(:=|==|!=|>=|<=|->|:->|\*\*|per|isa)\s*/icg and return lc $1;
-	$s =~ /\G\s*(\+|\*|-|\/|\%|\^|=)\s*/cg and return $1;
+	$s =~ /\G\s*(\+|\*|-|\/|\%|\^|=|;)\s*/cg and return $1;
 	$s =~ /\G\s*(\))/cg and return $1; #freaking quirky lexers!
 	$s =~ /\G(\()\s*/cg and return $1;
 	$s =~ /\G(\w[\w\d]*)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here
