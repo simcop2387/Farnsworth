@@ -1721,13 +1721,14 @@ sub yylexwatch
 {
    my @r = &yylex;
    print Dumper(\@r,[pos $s]);
+   $charcount+=pos $s;
    $s = substr($s, pos $s);
    return @r;
 }
 
 sub yyerror
 	{
-	my $pos = pos $s;
+	my $pos = $charcount;
 	substr($fullstring,$pos,0) = '<###YYLEX###>';
 	$fullstring =~ s/^/### /mg;
 	die "### Syntax Error \@ $pos of\n$fullstring\n";
@@ -1735,6 +1736,7 @@ sub yyerror
 
 sub parse
 	{
+	$charcount=0;
 	my $self = shift;
 	$s = join ' ', @_;
 	$fullstring = $s; #preserve it for errors
