@@ -47,7 +47,7 @@ sub new
   {
 	#here it comes in with quotes, so lets remove them
 	$value =~ s/^"(.*)"$/$1/;
-	$value =~ s/\\"/"/g;
+	#$value =~ s/\\"/"/g;
 	$self->{pari} = $value;
   }
   else

@@ -165,7 +165,7 @@ sub getdisplay
 	{
 		my $val = $value->{pari};
 		#$val =~ s/\\/\\/g;
-		$val =~ s/"/\\"/g;
+		#$val =~ s/"/\\"/g;
 		return '"'.$val.'"';
 	}
 	else
