@@ -1754,22 +1754,22 @@ sub yylex
 	{
 	#i THINK this isn't what i want, since whitespace is significant in a few areas
 	#i'm going to instead shrink all whitespace down to no more than one space
-	$s =~ s/^\s{2,}/ /cg; #don't need global?
+	$s =~ s/\G\s{2,}/ /c; #don't need global?
 		
 	#1 while $s =~ /\G\s+/cg; #remove extra whitespace?
 
-	$s =~ s|\A\s*//.*||g;
-	$s =~ s|\A\s*/\*.*?\*/||g;
+	$s =~ s|\G//.*||g;
+	$s =~ s|\G/\*.*?\*/||g;
 
     #i want a complete number regex
-	$s =~ /^\s*((\d+(\.\d*)?|\.\d+)([Ee][Ee]?[-+]?\d+))/cg
+	$s =~ /\G((\d+(\.\d*)?|\.\d+)([Ee][Ee]?[-+]?\d+))/gc 
 	      and return 'NUMBER', $1;
-	$s =~ /^\s*((\d+(\.\d*)?|\.\d+))/cg
+	$s =~ /\G((\d+(\.\d*)?|\.\d+))/gc 
 	      and return 'NUMBER', $1;
-    #$s =~ /^\s*(0[xX][0-9A-Fa-f])/cg and return $1;
+    $s =~ /\G(0[xX][0-9A-Fa-f])/gc and return $1;
 
     #token out the date
-    $s =~ /^\s*(#[^#]*#)\s*/cg and return 'DATE', $1;
+    $s =~ /\G\s*(#[^#]*#)\s*/gc and return 'DATE', $1;
 
     if ($s =~ /^\s*"/) #"
 	{
@@ -1786,13 +1786,13 @@ sub yylex
 	#$s =~ /\G(do|for|elsif|else|if|print|while)\b/cg and return $1;
 	
 	#seperated this to shorten the lines, and hopefully to make parts of it more readable
-	$s =~ /^\s*(:=|==|!=|>=|<=|->|:->|\*\*)\s*/igc and return lc $1;
-	$s =~ /^\s*(\bper\b|\bisa\b|\:?\:\-|\=\!\=|\|\|\|)\s*/icg and return lc $1;
-	$s =~ /^\s*(\+|\*|-|\/|\%|\^|=|;|\{|\}|\>|\<|\?|\:|\,)\s*/cg and return $1;
-	$s =~ /^\s*(\))/cg and return $1; #freaking quirky lexers!
-	$s =~ /^(\()\s*/cg and return $1;
-	$s =~ /^\s*(\w[\w\d]*)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here
-	$s =~ /^(.)/scg and return $1;
+	$s =~ /\G\s*(:=|==|!=|>=|<=|->|:->|\*\*)\s*/icg and return lc $1;
+	$s =~ /\G\s*(\bper\b|\bisa\b|\:?\:\-|\=\!\=|\|\|\|)\s*/icg and return lc $1;
+	$s =~ /\G\s*(\+|\*|-|\/|\%|\^|=|;|\{|\}|\>|\<|\?|\:|\,)\s*/cg and return $1;
+	$s =~ /\G\s*(\))/cg and return $1; #freaking quirky lexers!
+	$s =~ /\G(\()\s*/cg and return $1;
+	$s =~ /\G(\w[\w\d]*)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here
+	$s =~ /\G(.)/cgs and return $1;
     return '';
 	}
 
@@ -1800,7 +1800,7 @@ sub yylex
 sub yylexwatch
 {
    my @r = &yylex;
-   print Dumper(\@r,[pos $s]);
+#   print Dumper(\@r,[pos $s]);
    $charcount+=pos $s;
    $s = substr($s, pos $s);
    return @r;
