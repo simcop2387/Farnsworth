@@ -92,6 +92,7 @@ expr
 	|	expr '(' expr ')'		       { bless [$_[1],(bless [$_[3]], 'Paren')], 'Mul' } #do this so i can tell where parens were later, so i can rebuild everything
 	|	'{' '|' arglist '|' expr '}' {bless [ @_[2,4] ], 'Lambda'} #i'm not sure how or when i'll implement these
 	|	' '  {undef}
+	|   COMMENT {undef}
 	;
 %%
 
@@ -134,7 +135,8 @@ sub yylex
 	$s =~ /\G\s*(\))/cg and return $1; #freaking quirky lexers!
 	$s =~ /\G(\()\s*/cg and return $1;
 	$s =~ /\G(\w[\w\d]*)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here
-	$s =~ /\G\/\/.*/cg and return ''; #return nothing for C style comments
+	$s =~ /\G\/\/.*/cg and return 'COMMENT', ''; #return nothing for C style comments
+	$s =~ /\G\/\*.*?\*\//cg and return 'COMMENT', ''; #return nothing for C style comments
 	$s =~ /\G(.)/cgs and return $1;
     return '';
 	}
