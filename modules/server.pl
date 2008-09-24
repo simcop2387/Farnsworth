@@ -17,7 +17,23 @@ use Math::Farnsworth::Evaluate;
 
 my $frink = new Math::Farnsworth::Evaluate;
 
-do "loadunits.pl";
+print "Loading units!\n";
+
+open (my $fh, "<","units.frns");
+
+print "Opened file!\n";
+
+while(<$fh>)
+{
+	chomp;
+	s|//.*$||;
+	s|\s*$||;
+	$frink->eval($_) if ($_ !~ /^\s*$/);
+}
+
+close ($fh);
+
+print "Done Loading!\n";
 
 my $aliases = POE::Component::Server::HTTP->new(
   Port => 8080,
@@ -49,9 +65,11 @@ sub runfrink
 #  $string = 'eval["'.$string.'"]';
   print "INPUT: $string\n\n\n\n";
   my $output;
-  eval {$output = ($frink->eval($string))->toperl();};
+  print "Running\n";
+  eval {$output = ($frink->eval($string))->toperl($frink->{units});};
+  print "Done Running : $output\n";
 
-  $output = $@;#->toString() if $@;
+  $output = $@ if $@;
 
 #  if (Inline::Java::caught("java.lang.Exception"))
 #  {

@@ -1,13 +1,19 @@
 #!/usr/bin/perl
 
-open (my $fh, "<units.frns");
+print "Loading units!\n";
 
-for (<$fh>)
+open (my $fh, "<","units.frns");
+
+print "Opened file!\n";
+
+while(<$fh>)
 {
 	chomp;
 	s|//.*$||;
 	s|\s*$||;
-	$scope->eval($_) if ($_ !~ /^\s*$/);
+	(print "$_\n"),$frink->eval($_) if ($_ !~ /^\s*$/);
 }
 
 close ($fh);
+
+print "Done Loading!\n";
