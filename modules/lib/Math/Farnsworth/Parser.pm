@@ -1768,7 +1768,7 @@ sub yylex
     #token out the date
     $s =~ /\G\s*(#[^#]*#)\s*/gc and return 'DATE', $1;
 
-    if ($s =~ /\s*") #"
+    if ($s =~ /\s*"/) #"
 	{
 	   my ($e, $r) =  extract_delimited($text, '"');
 	   print Dumper([$e, $r]);
