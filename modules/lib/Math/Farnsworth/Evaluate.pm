@@ -233,8 +233,7 @@ sub evalbranch
 	{
 		my $left = $self->makevalue($branch->[0]);
 		my $right = $self->makevalue($branch->[1]);
-		print Dumper($left, $right);
-		$return = $left / $right;
+		$return = ($left / $right);
 	}
 
 	return $return;

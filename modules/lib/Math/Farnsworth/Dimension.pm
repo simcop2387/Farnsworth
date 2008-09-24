@@ -74,7 +74,7 @@ sub invert
 		$atom->{dimen}{$_} = -$atom->{dimen}{$_};
 	}
 
-	return $atom;
+	return $atom->prune();
 }
 
 sub merge
@@ -97,7 +97,7 @@ sub merge
 		$atom->{dimen}{$_} += $partner->{dimen}{$_};
 	}
 
-	return $atom;
+	return $atom->prune();
 }
 
 sub mult
@@ -114,13 +114,23 @@ sub mult
 		$atom->{dimen}{$_} *= $value; #this might turn them into Math::PARI objects? does it matter?
 	}
 
-	return $atom;
+	return $atom->prune();
 }
 
 
 sub prune
 {
 	my $self = shift;
+	
+	for (keys %{$self->{dimen}})
+	{
+		if (!$self->{dimen}{$_})
+		{
+			delete $self->{dimen}{$_};
+		}
+	}
+
+	return $self;
 }
 
 1;
