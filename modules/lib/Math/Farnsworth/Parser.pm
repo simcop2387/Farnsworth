@@ -1762,14 +1762,14 @@ sub yylex
 	$s =~ s|\A\s*/\*.*?\*/||g;
 
     #i want a complete number regex
-	$s =~ /\A((\d+(\.\d*)?|\.\d+)([Ee][Ee]?[-+]?\d+))/
+	$s =~ /^\s*((\d+(\.\d*)?|\.\d+)([Ee][Ee]?[-+]?\d+))/
 	      and return 'NUMBER', $1;
-	$s =~ /\A((\d+(\.\d*)?|\.\d+))/
+	$s =~ /^\s*((\d+(\.\d*)?|\.\d+))/
 	      and return 'NUMBER', $1;
-    $s =~ /\A(0[xX][0-9A-Fa-f])/ and return $1;
+    #$s =~ /^\s*(0[xX][0-9A-Fa-f])/ and return $1;
 
     #token out the date
-    $s =~ /\A\s*(#[^#]*#)\s*/ and return 'DATE', $1;
+    $s =~ /^\s*(#[^#]*#)\s*/ and return 'DATE', $1;
 
     if ($s =~ /^\s*"/) #"
 	{
@@ -1786,13 +1786,13 @@ sub yylex
 	#$s =~ /\G(do|for|elsif|else|if|print|while)\b/cg and return $1;
 	
 	#seperated this to shorten the lines, and hopefully to make parts of it more readable
-	$s =~ /\A\s*(:=|==|!=|>=|<=|->|:->|\*\*)\s*/i and return lc $1;
-	$s =~ /\A\s*(\bper\b|\bisa\b|\:?\:\-|\=\!\=|\|\|\|)\s*/i and return lc $1;
-	$s =~ /\A\s*(\+|\*|-|\/|\%|\^|=|;|\{|\}|\>|\<|\?|\:|\,)\s*/ and return $1;
-	$s =~ /\A\s*(\))/ and return $1; #freaking quirky lexers!
-	$s =~ /\A(\()\s*/ and return $1;
-	$s =~ /\A(\w[\w\d]*)/ and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here
-	$s =~ /\A(.)/s and return $1;
+	$s =~ /^\s*(:=|==|!=|>=|<=|->|:->|\*\*)\s*/i and return lc $1;
+	$s =~ /^\s*(\bper\b|\bisa\b|\:?\:\-|\=\!\=|\|\|\|)\s*/i and return lc $1;
+	$s =~ /^\s*(\+|\*|-|\/|\%|\^|=|;|\{|\}|\>|\<|\?|\:|\,)\s*/ and return $1;
+	$s =~ /^\s*(\))/ and return $1; #freaking quirky lexers!
+	$s =~ /^(\()\s*/ and return $1;
+	$s =~ /^\s*(\w[\w\d]*)/ and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here
+	$s =~ /^(.)/s and return $1;
     return '';
 	}
 
