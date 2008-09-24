@@ -175,7 +175,7 @@ sub evalbranch
 		#wtf? for some reason i have to do this...
 		#odd bug here, + 0 fixes?
 		my $left = $self->makevalue($branch->[0]);
-		$left = $left != $self->makevalue(bless [0], 'Num') unless (defined $left->{dimen}{dimen}{bool});
+		$left = $left != new Math::Farnsworth::Value(0, $left->{dimen});
 		$return = $left ? $self->makevalue($branch->[1]) : $self->makevalue($branch->[2]);
 	}
 	elsif ($type eq "Store")
