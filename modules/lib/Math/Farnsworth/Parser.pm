@@ -1805,6 +1805,9 @@ sub yylex
 		
 	#1 while $s =~ /\G\s+/cg; #remove extra whitespace?
 
+	$s =~ /\G\/\/.*/cg and return 'COMMENT', ''; #return nothing for C style comments
+	$s =~ /\G\/\*.*?\*\//cg and return 'COMMENT', ''; #return nothing for C style comments
+
     #i want a complete number regex
 	$s =~ /\G((\d+(\.\d*)?|\.\d+)([Ee][Ee]?[-+]?\d+))/gc 
 	      and return 'NUMBER', $1;
@@ -1836,8 +1839,6 @@ sub yylex
 	$s =~ /\G\s*(\))/cg and return $1; #freaking quirky lexers!
 	$s =~ /\G(\()\s*/cg and return $1;
 	$s =~ /\G(\w[\w\d]*)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here
-	$s =~ /\G\/\/.*/cg and return 'COMMENT', ''; #return nothing for C style comments
-	$s =~ /\G\/\*.*?\*\//cg and return 'COMMENT', ''; #return nothing for C style comments
 	$s =~ /\G(.)/cgs and return $1;
     return '';
 	}
