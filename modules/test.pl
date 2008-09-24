@@ -24,10 +24,10 @@ for (<DATA>)
 	chomp;
 	s|//.*$||;
 	s|\s*$||;
-	$scope->eval($_) if ($_ !~ /^\s*$/);
+#	$scope->eval($_) if ($_ !~ /^\s*$/);
 }
 
-my $return = $scope->eval("-(5 m)(10 m) -> m^2");
+my $return = $scope->eval("1 > 0 ? 2 : 3");
 print $return->toperl($scope->{units});
 
 __DATA__

@@ -115,54 +115,64 @@ sub evalbranch
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a ** $b;
+		$return = $self->makevalue(bless [$return], 'Num'); #make sure its the right type
 	}
 	elsif ($type eq "Gt")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a > $b;
+		$return = $self->makevalue(bless [$return], 'Num'); #make sure its the right type
 	}
 	elsif ($type eq "Lt")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a < $b;
+		$return = $self->makevalue(bless [$return], 'Num'); #make sure its the right type
 	}
 	elsif ($type eq "Ge")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a >= $b;
+		$return = $self->makevalue(bless [$return], 'Num'); #make sure its the right type
 	}
 	elsif ($type eq "Le")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a <= $b;
+		$return = $self->makevalue(bless [$return], 'Num'); #make sure its the right type
 	}
 	elsif ($type eq "Compare")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a <=> $b;
+		$return = $self->makevalue(bless [$return], 'Num'); #make sure its the right type
 	}
 	elsif ($type eq "Eq")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a == $b;
+		$return = $self->makevalue(bless [$return], 'Num'); #make sure its the right type
 	}
 	elsif ($type eq "Ne")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a != $b;
+		$return = $self->makevalue(bless [$return], 'Num'); #make sure its the right type
 	}
 	elsif ($type eq "Ternary")
 	{
 		#turing completeness FTW
 		#wtf? for some reason i have to do this...
-		$return = $self->makevalue($branch->[0]) ? $self->makevalue($branch->[1]) : $self->makevalue($branch->[2]);
+		#odd bug here, + 0 fixes?
+		my $left = $self->makevalue($branch->[0]) != $self->makevalue(bless [0], 'Num');
+		$return = $left ? $self->makevalue($branch->[1]) : $self->makevalue($branch->[2]);
 	}
 	elsif ($type eq "Store")
 	{
