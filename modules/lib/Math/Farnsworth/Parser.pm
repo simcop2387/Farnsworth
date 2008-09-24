@@ -1758,8 +1758,8 @@ sub yylex
 		
 	#1 while $s =~ /\G\s+/cg; #remove extra whitespace?
 
-	$s =~ s|\G//.*||g;
-	$s =~ s|\G/\*.*?\*/||g;
+	$s =~ s|\G\s*//.*||g;
+	$s =~ s|\G\s*/\*.*?\*/||g;
 
     #i want a complete number regex
 	$s =~ /\G((\d+(\.\d*)?|\.\d+)([Ee][Ee]?[-+]?\d+))/gc 
