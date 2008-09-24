@@ -27,7 +27,7 @@ for (<DATA>)
 	$scope->eval($_) if ($_ !~ /^\s*$/);
 }
 
-my $return = $scope->eval("5.0 km / 2 hour -> mph");
+my $return = $scope->eval("5.0 km / (2 hour) -> mph");
 print $return->toperl($scope->{units});
 
 __DATA__

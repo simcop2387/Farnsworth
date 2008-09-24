@@ -156,7 +156,7 @@ Conflict in state 64 between rule 33 and token '%' resolved as reduce.
 Conflict in state 64 between rule 33 and token '==' resolved as reduce.
 Conflict in state 64 between rule 33 and token '>=' resolved as reduce.
 Conflict in state 64 between rule 33 and token '^' resolved as shift.
-Conflict in state 64 between rule 33 and token ' ' resolved as shift.
+Conflict in state 64 between rule 33 and token ' ' resolved as reduce.
 Conflict in state 64 between rule 33 and token '*' resolved as reduce.
 Conflict in state 64 between rule 33 and token 'per' resolved as reduce.
 Conflict in state 64 between rule 33 and token '!=' resolved as reduce.
@@ -246,7 +246,7 @@ Conflict in state 69 between rule 30 and token '%' resolved as reduce.
 Conflict in state 69 between rule 30 and token '==' resolved as reduce.
 Conflict in state 69 between rule 30 and token '>=' resolved as reduce.
 Conflict in state 69 between rule 30 and token '^' resolved as shift.
-Conflict in state 69 between rule 30 and token ' ' resolved as shift.
+Conflict in state 69 between rule 30 and token ' ' resolved as reduce.
 Conflict in state 69 between rule 30 and token '*' resolved as reduce.
 Conflict in state 69 between rule 30 and token 'per' resolved as reduce.
 Conflict in state 69 between rule 30 and token '!=' resolved as reduce.
@@ -318,7 +318,7 @@ Conflict in state 76 between rule 31 and token '%' resolved as reduce.
 Conflict in state 76 between rule 31 and token '==' resolved as reduce.
 Conflict in state 76 between rule 31 and token '>=' resolved as reduce.
 Conflict in state 76 between rule 31 and token '^' resolved as shift.
-Conflict in state 76 between rule 31 and token ' ' resolved as shift.
+Conflict in state 76 between rule 31 and token ' ' resolved as reduce.
 Conflict in state 76 between rule 31 and token '*' resolved as reduce.
 Conflict in state 76 between rule 31 and token 'per' resolved as reduce.
 Conflict in state 76 between rule 31 and token '!=' resolved as reduce.
@@ -1614,7 +1614,6 @@ State 64:
 	expr -> expr . '!=' expr	(Rule 42)
 	expr -> expr . '?' expr ':' expr	(Rule 45)
 
-	' '	shift, and go to state 32
 	'**'	shift, and go to state 26
 	'^'	shift, and go to state 31
 
@@ -1777,7 +1776,6 @@ State 69:
 	expr -> expr . '!=' expr	(Rule 42)
 	expr -> expr . '?' expr ':' expr	(Rule 45)
 
-	' '	shift, and go to state 32
 	'**'	shift, and go to state 26
 	'^'	shift, and go to state 31
 
@@ -2011,7 +2009,6 @@ State 76:
 	expr -> expr . '!=' expr	(Rule 42)
 	expr -> expr . '?' expr ':' expr	(Rule 45)
 
-	' '	shift, and go to state 32
 	'**'	shift, and go to state 26
 	'^'	shift, and go to state 31
 
