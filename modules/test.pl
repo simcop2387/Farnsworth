@@ -24,8 +24,11 @@ for (<DATA>)
 	chomp;
 	s|//.*$||;
 	s|\s*$||;
-	(print Dumper($_)),$scope->eval($_) if ($_ !~ /^\s*$/);
+	$scope->eval($_) if ($_ !~ /^\s*$/);
 }
+
+my $return = $scope->eval("5.0 km / 2 s");
+print "$return";
 
 __DATA__
 // 
@@ -169,6 +172,7 @@ mass      =!=  kg // Mass of the international prototype, whatever that is.
 
 kilogram  := kg
 gram      := 1/1000 kg
+grams	  := gram
 
 current =!= A    // The current which produces a force of 2e-7 N/m between two
 ampere := A    //   infinitely long wires that are 1 meter apart
@@ -263,6 +267,7 @@ information =!= bit// Basic unit of information (entropy).  The entropy in bits
                 //    do with the bit itself?  I'm also considering changing 
                 //    bits to be dimensionless units--it makes problems in
                 //    information theory come out more reasonably.
+bits := bit
 
 luminous_intensity =!= cd
 candela := cd   // Official definition:
@@ -464,23 +469,29 @@ brdecilliard :=        decilliard
 //
 
 newton :=              kg m / s^2  // force
+newtons := newton
 N :=                   newton
 pascal :=              N/m^2       // pressure or stress
+pascals := pascal
 Pa :=                  pascal
 joule :=               N m         // energy
+joules := joule
 J :=                   joule
 watt :=                J/s         // power
+watts := watt
 W :=                   watt
 
 J m^-2  ||| surface_tension
 
 coulomb :=             A s         // charge
+coulombs := coulomb
 coulomb ||| charge
 coulomb m^-2 ||| surface_charge_density
 coulomb m^-3 ||| electric_charge_density
 C :=                   coulomb
 
 volt :=                W/A         // potential difference
+volts := volt
 V :=                   volt
 volt ||| electric_potential
 V / m   ||| electric_field_strength
@@ -490,6 +501,7 @@ ohm :=                 V/A         // electrical resistance
 //\u2126 :=              ohm  // Official Unicode codepoint OHM SIGN
 //\u03a9 :=              ohm  // "Preferred" Unicode codepoint for ohm
                             // GREEK CAPITAL LETTER OMEGA
+ohms := ohm
 ohm ||| electric_resistance
 
 siemens :=             A/V         // electrical conductance
@@ -497,6 +509,7 @@ S :=                   siemens
 siemens ||| electric_conductance
 
 farad :=               C/V         // capacitance
+farads := farad
 farad ||| capacitance
 
 F :=                   farad
@@ -529,16 +542,22 @@ J kg^-1 K^-1 ||| specific_heat_capacity
 
 sec :=                 s
 minute :=              60 s
+minutes := minute
 min :=                 minute
+mins := min
 hour :=                60 min
+hours := hour
 hr :=                  hour
 day :=                 24 hr
+days :=	day
 d :=                   day
 da :=                  day
 week :=                7 day
+weeks := week
 wk :=                  week
 sennight :=            7 day
 fortnight :=           14 day
+fortnights := fortnight
 blink :=               1ee-5 day  // Actual human blink takes 1/3 second      
 ce :=                  1ee-2 day
 
@@ -1177,6 +1196,7 @@ mu_d :=                   deuteronmagneticmoment
 // geodetic surveys within the US would continue to use the old definition.
 
 inch :=                254/100 cm    
+inches := inch
 foot :=                12 inch
 feet :=                foot
 ft :=                  foot
@@ -1189,8 +1209,10 @@ int :-                3937/1200 ft/m   // Convert US Survey measures to
 inches :=              inch   // Wacky plural
 in :=                  inch
 yard :=                3 ft
+yards := yard
 yd :=                  yard
 mile :=                5280 ft
+miles := mile
 
 line :=                1/12 inch // Also defined as '.1 in' or as '1e-8 Wb'
 rod :=                 11/2 surveyyard
@@ -1522,6 +1544,7 @@ lunour :=              1/24 lune          //   moves around the sun, the moon
                                           //   configuration.
 year :=                tropicalyear
 yr :=                  year
+years :=	year
 
 month :=              1/12 year    // This is obviously an average for the 
                                    // limiting case... so is accurate in the
@@ -1801,6 +1824,7 @@ ramsdenslink :=        engineerslink
 fathom :=              6 surveyft  // Originally defined as the distance from
                                    //   fingertip to fingertip with arms fully
                                    //   extended.
+fathoms := fathom
 nauticalmile :=        1852 m  // Supposed to be one minute of latitude at
                                // the equator.  That value is about 1855 m.
                                // Early estimates of the earth's circumference
@@ -1839,8 +1863,10 @@ datamile :=            6000 feet  // Defined by U.S. Department of Defense
 // of the SI.
 
 pound :=               45359237/100000000 kg  // Defined exactly
+pounds := pound
 
 lb :=                  pound          // From the latin libra
+lbs := pound
 grain :=               1/7000 pound   // The grain is the same in all three
                                       // weight systems.  It was originally
                                       // defined as the weight of a barley
@@ -1850,6 +1876,7 @@ gr := grain
 ounce :=               1/16 pound
 oz :=                  ounce
 dram :=                1/16 ounce
+drams := dram
 dr :=                  dram
 hundredweight :=       100 pounds     // This is the USA hundredweight
 cwt :=                 hundredweight
@@ -1891,15 +1918,21 @@ scruple :=             1/3 apdram
 // Liquid measure
 
 gallon :=              231 in^3
+gallons := gallon
 gal :=                 gallon
 quart :=               1/4 gallon
+quarts := quart
 qt :=                  quart
 pint :=                1/2 qt
+pints := pint
 pt :=                  pint
 gill :=                1/4 pint
+gills := gill
 fluidounce :=          1/16 pint
+fluidounces := fluidounce
 floz :=                fluidounce
 fluiddram :=           1/8 floz
+fluiddrams := fluiddram
 fldr :=                fluiddram
 minim :=               1/60 fldr
 liquidbarrel :=        31.5 gallon
@@ -1916,8 +1949,10 @@ firkin :=              9 gallon
 
 drybarrel :=           7056 in^3
 bushel :=              2150.42 in^3 // Volume of 8 inch cylinder with 18.5
+bushels := bushel
 bu :=                  bushel       // inch diameter (rounded)
 peck :=                1/4 bushel
+pecks := peck
 pk :=                  peck
 drygallon :=           1/2 peck
 dryquart :=            1/4 drygallon
@@ -2159,7 +2194,9 @@ palmlength :=          8 in  //    or the length of the hand
 // US measures
 
 cup :=                 8 floz
+cups := cup
 tablespoon :=          1/16 cup
+tablespoons := tablespoon
 tbl :=                 tablespoon
 tbsp :=                tablespoon
 Tbsp :=                tablespoon
@@ -2309,7 +2346,7 @@ tonf :=                ton force
 lbm :=                 lb
 kip :=                 1000 lbf    // from kilopound
 mil :=                 1/1000 inch
-thou :=                1/1000inch
+thou :=                1/1000 inch
 circularinch :=        1/4 pi in^2 // area of a one-inch diameter circle
 circularmil :=         1/4 pi mil^2// area of one-mil diameter circle
 cmil :=                circularmil
@@ -2437,7 +2474,7 @@ frigorie :=            1000 cal_fifteen// Used in refrigeration engineering.
 
 // Energy in combustible fuels
 
-TNT :=                 4_184_000_000 J/ton   // So you can write tons TNT, this
+TNT :=                 4184000000 J/ton   // So you can write tons TNT, this
                                        // is a defined, not measured, value
 PETN :=                6.01e6 J/kg     // An explosive compound,
                                        // Pentaerythrite tetranitrate
@@ -2491,9 +2528,10 @@ shortquire :=          24
 quire :=               25
 shortream :=           480
 ream :=                500     
+reams := ream
 perfectream :=         516
 bundle :=              2 reams
-bale :=                5 bundles
+bale :=                5 bundle
 
 //
 // Paper measures
@@ -3776,6 +3814,7 @@ romandigit := 1/16 romanfoot // same names as the subdivisions of the pound,
 romanpalm :=1/4 romanfoot    // but we can't have the names for different
 romancubit :=    18 romaninch   //   units.
 romanpace :=5 romanfeet    // Roman double pace (basic military unit)
+romanpaces := romanpace
 passus :=   romanpace
 romanperch :=    10 romanfeet
 stade :=    125 romanpaces
@@ -3906,6 +3945,7 @@ stadion :=             100 orguia
 akaina :=              10 greekfeet
 plethron :=            10 akaina
 greekfinger :=         1/16 greekfoot
+greekfingers := greekfinger
 homericcubit :=        20 greekfingers // Elbow to end of knuckles.
 shortgreekcubit :=     18 greekfingers // Elbow to start of fingers.
 
@@ -3944,12 +3984,14 @@ medimnos :=            6 hekteos
 // on the Beqa shekel and an Athens (attic) standard.
 
 aeginastater :=        192 grain       // Varies up to 199 grain
+aeginastaters := aeginastater
 aeginadrachmae :=      1/2 aeginastater
 aeginaobol :=          1/6 aeginadrachmae
 aeginamina :=          50 aeginastaters
 aeginatalent :=        60 aeginamina
 
 atticstater :=         135 grain       // Varies 134-138 grain
+atticstaters := atticstater
 atticdrachmae :=       1/2 atticstater
 atticobol :=           1/6 atticdrachmae
 atticmina :=           50 atticstaters

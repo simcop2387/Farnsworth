@@ -67,8 +67,6 @@ sub eval
 
 	my $tree = $self->{parser}->parse($code); #should i catch the exceptions here? dunno
 
-	print Dumper($tree);
-
     $self->evalbranch($tree);
 }
 
@@ -164,10 +162,6 @@ sub evalbranch
 	{
 		#turing completeness FTW
 		#wtf? for some reason i have to do this...
-		print "\n\n\n";
-		print Dumper($branch);
-		print "\n\n";
-		print Dumper($self->makevalue($branch->[0])); #REMOVE THIS! IT COULD CHANGE THE SYSTEM!
 		$return = $self->makevalue($branch->[0]) ? $self->makevalue($branch->[1]) : $self->makevalue($branch->[2]);
 	}
 	elsif ($type eq "Store")
@@ -228,16 +222,11 @@ sub evalbranch
 		my $dimen = $branch->[0];
 		$self->{units}->adddimen($dimen, $unit);
 	}
-	elsif ($type eq "SetPrefix")
+	elsif (($type eq "SetPrefix") || ($type eq "SetPrefixAbrv"))
 	{
 		my $name = $branch->[0];
 		my $value = $self->makevalue($branch->[1]);
-		$self->{units}->setprefix($name, $value);
-	}
-	elsif ($type eq "SetPrefixAbrv")
-	{
-		my $name = $branch->[0];
-		my $value = $self->makevalue($branch->[1]);
+		print "SETTING PREFIX0: $name : $value : ".Dumper($branch->[1]) if ($name eq "m");
 		$self->{units}->setprefix($name, $value);
 	}
 
@@ -267,6 +256,7 @@ sub makevalue
 		}
 		elsif ($self->{units}->isunit($name))
 		{
+			print "FETCH: $name\n" if ($name eq "milli");
 			return $self->{units}->getunit($name);
 		}
 		

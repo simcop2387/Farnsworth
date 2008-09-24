@@ -1720,7 +1720,7 @@ sub yylex
 sub yylexwatch
 {
    my @r = &yylex;
-   print Dumper(\@r,[pos $s]);
+#   print Dumper(\@r,[pos $s]);
    $charcount+=pos $s;
    $s = substr($s, pos $s);
    return @r;

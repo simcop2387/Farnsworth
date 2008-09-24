@@ -196,8 +196,8 @@ sub pow
   }
   else
   {
-	  print Dumper(\@_);
-	  print "$tv :: $two :: $one\n";
+#	  print Dumper(\@_);
+	  print "POW: $tv :: $two :: $one\n";
       $new = new Math::Farnsworth::Value($tv ** $one->{pari}, $one->{dimen}->mult($tv)); #if !$rev they are in order
   }
 

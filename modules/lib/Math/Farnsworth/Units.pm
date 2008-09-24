@@ -9,7 +9,7 @@ use Math::Farnsworth::Value;
 sub new
 {
 	#i should make a constructor that copies, but that'll come later
-	my $self = {};
+	my $self = {units=>{1=>1}}; #hack to make things work right
 	bless $self;
 }
 
@@ -18,6 +18,8 @@ sub addunit
 	my $self = shift;
 	my $name = shift;
 	my $value = shift;
+
+	print "ADDING UNIT: ".Dumper([$name, $value]) if (($name eq "mg") || ($name eq "l"));
 	$self->{units}{$name} = $value;
 }
 
@@ -35,11 +37,11 @@ sub getunit
 	elsif ($self->hasprefix($name))
 	{
 		my ($preval, undef, $realname) = $self->getprefix($name);
-		print Dumper($preval, $realname);
+		print "GETTING PREFIXES: $name :: $preval :: $realname ::".Dumper($preval, $realname) if (($name eq "mg") || ($name eq "l") || $name eq "milli");
 		$return = $preval * $self->{units}{$realname};
 	}
 
-	print "GETTING UNIT: $name : $return : ".Dumper($return);
+	print "GETTING UNIT: $name : $return : ".Dumper($return) if (($name eq "mg") || ($name eq "l") || $name eq "milli");
 	return $return;
 }
 
@@ -50,7 +52,7 @@ sub hasprefix
 
 	#sort them by length, solves issues with longer ones not being found first
 	my @keys = keys %{$self->{prefix}};
-	for my $pre (sort {length($a) <=> length($b)} @keys)
+	for my $pre (sort {length($b) <=> length($a)} @keys)
 	{
 		if ($name =~ /^\Q$pre\E(.*)$/)
 		{
@@ -66,11 +68,14 @@ sub getprefix
 	my $name = shift;
 
 	#sort them by length, solves issues with longer ones not being found first
-	for my $pre (sort {length($a) <=> length($b)} keys %{$self->{prefix}})
+	for my $pre (sort {length($b) <=> length($a)} keys %{$self->{prefix}})
 	{
+	    print "CHECKING PREFIX: $pre\n" if ($name eq "mg");
 		if ($name =~ /^\Q$pre\E(.*)$/)
 		{
 			my $u = $1;
+			print "FOUND: $name == $pre * $u\n";
+			print Dumper($self->{prefix}{$pre}) if ($name eq "mg");
 			$u = 1 unless length($1); #to make certain things work right
 			return ($self->{prefix}{$pre},$pre,$u) if ($self->_isunit($1) || !length($1));
 		}
@@ -150,6 +155,7 @@ sub setprefix
 	my $name = shift;
 	my $value = shift;
 
+	print "SETTING PREFIX: $name : $value\n" if ($name eq "m");
 	$self->{prefix}{$name} = $value;
 }
 
