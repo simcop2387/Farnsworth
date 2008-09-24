@@ -1759,9 +1759,9 @@ sub yylex
 	#1 while $s =~ /\G\s+/cg; #remove extra whitespace?
 
     #i want a complete number regex
-	$s =~ /\G(\+?(\d+(\.\d*)?|\.\d+)([Ee][Ee]?[-+]?\d+))/gc 
+	$s =~ /\G((\d+(\.\d*)?|\.\d+)([Ee][Ee]?[-+]?\d+))/gc 
 	      and return 'NUMBER', $1;
-	$s =~ /\G(\+?(\d+(\.\d*)?|\.\d+)([Ee][-+]?\d+)?)/gc 
+	$s =~ /\G((\d+(\.\d*)?|\.\d+))/gc 
 	      and return 'NUMBER', $1;
     $s =~ /\G(0[xX][0-9A-Fa-f])/gc and return $1;
 
