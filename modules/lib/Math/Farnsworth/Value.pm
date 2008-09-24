@@ -43,6 +43,8 @@ sub new
 	  $self->{dimen} = new Math::Farnsworth::Dimension($dimen);
   }
 
+  print "Setting VAR: ".Dumper($value);
+
   if (exists($self->{dimen}{dimen}{string}))
   {
 	#here it comes in with quotes, so lets remove them
