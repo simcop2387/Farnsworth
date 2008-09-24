@@ -247,7 +247,14 @@ sub evalbranch
 		my $right = eval {$self->makevalue($branch->[1])};
 		if (!$@)
 		{
-			$return = ($left / $right);
+			if ($left->{dimen}->compare($right->{dimen})) #only do this if they are the same
+			{
+				$return = ($left / $right);
+			}
+			else
+			{
+				$return = $self->{funcs}->callfunc($self, $branch->[1][0], (ref($left) eq "ARRAY" ? $left : [$left]));
+			}
 		}
 		else
 		{
