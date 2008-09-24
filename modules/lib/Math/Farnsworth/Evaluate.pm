@@ -235,6 +235,10 @@ sub evalbranch
 		my $right = $self->makevalue($branch->[1]);
 		$return = ($left / $right);
 	}
+	elsif ($type eq "String")
+	{
+		$return = $branch->[0];
+	}
 
 	return $return;
 }
@@ -268,6 +272,9 @@ sub makevalue
 		
 		die "Undefined symbol '$name'";
 	}
+#	elsif (ref($input) eq "String") #we've got a string that should be a value!
+#	{
+#	}
 
 	return $self->evalbranch($input);
 }
