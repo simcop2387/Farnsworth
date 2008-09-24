@@ -252,7 +252,7 @@ sub evalbranch
 		else
 		{
 			#$right doesn't evaluate... so we check for a function?
-			$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
+			$return = $self->{funcs}->callfunc($self, $branch->[1][0], ref($left) eq "Array" ? $left : [$left]);
 		}
 	}
 #	elsif ($type eq "String")
