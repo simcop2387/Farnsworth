@@ -284,7 +284,7 @@ sub makevalue
 	}
 	elsif (ref($input) eq "String") #we've got a string that should be a value!
 	{
-		my $val = new Math::Farnsworth::Value($input->[0]);
+		my $val = new Math::Farnsworth::Value($input->[0], {string => 1});
 		return $val;
 	}
 

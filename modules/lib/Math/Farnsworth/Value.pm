@@ -77,7 +77,17 @@ sub add
   die "Unable to process different units in addition" unless $one->{dimen}->compare($two->{dimen}); #always call this on one, since $two COULD be some other object 
 
   #moving this down so that i don't do any math i don't have to
-  my $new = new Math::Farnsworth::Value($one->{pari} + $tv, $one->{dimen});
+
+  my $new;
+  if ($one->{dimen}{dimen}{string})
+  {
+  	$new = new Math::Farnsworth::Value($one->{pari} . $tv, $one->{dimen});
+  }
+  else
+  {
+	$new = new Math::Farnsworth::Value($one->{pari} + $tv, $one->{dimen});
+  }
+
   return $new;
 }
 
@@ -187,7 +197,7 @@ sub bool
 	my $self = shift;
 
 	#seems good enough of an idea to me
-	return $self->{pari}?Math::Farnsworth::Value->new(0):Math::Farnsworth::Value->new(1);
+	return $self->{pari}?Math::Farnsworth::Value->new(0, {bool => 1}):Math::Farnsworth::Value->new(1, {bool => 1});
 }
 
 sub pow

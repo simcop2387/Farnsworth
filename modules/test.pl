@@ -27,7 +27,7 @@ for (<DATA>)
 #	$scope->eval($_) if ($_ !~ /^\s*$/);
 }
 
-my $return = $scope->eval("1 > 0 ? 2 : 3");
+my $return = $scope->eval('source="foo"; bar="baz"; source+bar');
 print $return->toperl($scope->{units});
 
 __DATA__

@@ -9,7 +9,7 @@ use Math::Farnsworth::Value;
 sub new
 {
 	#i should make a constructor that copies, but that'll come later
-	my $self = {units=>{1=>1}}; #hack to make things work right
+	my $self = {units=>{1=>1}, dimens=>{bool=>"Boolean", string=>"String"}}; #hack to make things work right
 	bless $self;
 }
 
@@ -155,9 +155,23 @@ sub getdisplay
 
     my @returns;
 
-	for my $d (keys %{$dimen->{dimen}})
+	if (exists($dimen->{dimen}{"bool"}))
 	{
-		push @returns, $self->getdimen($d)."^".$dimen->{dimen}{$d};
+		#these should do something!
+	}
+	elsif (exists($dimen->{dimen}{"string"}))
+	{
+	}
+	else
+	{
+		for my $d (keys %{$dimen->{dimen}})
+		{
+			my $exp = "";
+			print Dumper($dimen->{dimen}, $exp);
+			$exp = "^".$dimen->{dimen}{$d} unless ($dimen->{dimen}{$d} == 1);
+			print Dumper($exp);
+			push @returns, $self->getdimen($d).$exp;
+		}
 	}
 
 	return join " ", @returns;
