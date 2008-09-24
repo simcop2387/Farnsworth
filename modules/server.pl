@@ -61,20 +61,29 @@ sub runfrink
   $response->code(RC_OK);
   my $string = "".(uri_unescape $request->uri);
   $string =~ s|^http://[^/]+/||;
-#  $string =~ s/"/\\"/g;
-#  $string = 'eval["'.$string.'"]';
+
   print "INPUT: $string\n\n\n\n";
   my $output;
   print "Running\n";
-  eval {$output = ($frink->eval($string))->toperl($frink->{units});};
+  eval 
+	{
+    my $out = ($frink->eval($string));
+    if (ref($out) eq "Math::Farnsworth::Value")
+    {
+      $output = $out->toperl($frink->{units});
+    }
+    elsif (!defined($out))
+    {
+      $out = "Undefined || OK";
+    }
+    elsif (ref($out) eq "")
+    {
+      $output = $out;
+    }
+	};
   print "Done Running : $output\n";
 
   $output = $@ if $@;
-
-#  if (Inline::Java::caught("java.lang.Exception"))
-#  {
-#    $output = $@->getMessage();
-#  }
 
   $response->content($output);
   return RC_OK;
