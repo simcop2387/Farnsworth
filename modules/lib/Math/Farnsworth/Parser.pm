@@ -1767,7 +1767,7 @@ sub yylex
     #token out the date
     $s =~ /\G\s*(#[^#]*#)\s*/gc and return 'DATE', $1;
 
-    $s =~ /\G\s*("(\\\\|\\"|[^"])*")\s*/gc and return 'STRING', $1;
+	$s =~ /\G\s*("(\\.|[^"])*")\s*/gc and return 'STRING', $1;
 
     #i'll probably ressurect this later too
 	#$s =~ /\G(do|for|elsif|else|if|print|while)\b/cg and return $1;
