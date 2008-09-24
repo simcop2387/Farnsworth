@@ -1770,7 +1770,7 @@ sub yylex
 
     if ($s =~ /\s*"/) #"
 	{
-	   my ($e, $r) =  extract_delimited($text, '"');
+	   my ($e, $r) =  extract_delimited($s, '"');
 	   print Dumper([$e, $r]);
 	}
 
