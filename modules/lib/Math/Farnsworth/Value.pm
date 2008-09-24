@@ -65,6 +65,8 @@ sub toperl
   my $self = shift;
   my $units = shift;
 
+  print "To PERL\n";
+
   if (ref($units) eq "Math::Farnsworth::Units")
   {
 	  return $units->getdisplay($self->{dimen}, $self);

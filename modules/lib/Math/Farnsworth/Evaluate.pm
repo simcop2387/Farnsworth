@@ -122,50 +122,52 @@ sub evalbranch
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
-		$return = $a > $b;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		$return = ($a > $b) ? 1 : 0;
+		print Dumper($return);
+		$return = Math::Farnsworth::Value->new($return, {bool=>1+$return}); #make sure its the right type
+		print Dumper($return);
 	}
 	elsif ($type eq "Lt")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
-		$return = $a < $b;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		$return = $a < $b ? 1 : 0;
+		$return = Math::Farnsworth::Value->new($return, {bool=>1+$return}); #make sure its the right type
 	}
 	elsif ($type eq "Ge")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
-		$return = $a >= $b;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		$return = $a >= $b ? 1 : 0;
+		$return = Math::Farnsworth::Value->new($return, {bool=>1+$return}); #make sure its the right type
 	}
 	elsif ($type eq "Le")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
-		$return = $a <= $b;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		$return = $a <= $b ? 1 : 0;
+		$return = Math::Farnsworth::Value->new($return, {bool=>1+$return}); #make sure its the right type
 	}
 	elsif ($type eq "Compare")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a <=> $b;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		#$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
 	}
 	elsif ($type eq "Eq")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
-		$return = $a == $b;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		$return = $a == $b ? 1 : 0;
+		$return = Math::Farnsworth::Value->new($return, {bool=>1+$return}); #make sure its the right type
 	}
 	elsif ($type eq "Ne")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
-		$return = $a != $b;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		$return = $a != $b ? 1 : 0;
+		$return = Math::Farnsworth::Value->new($return, {bool=>1+$return}); #make sure its the right type
 	}
 	elsif ($type eq "Ternary")
 	{

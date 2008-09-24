@@ -158,7 +158,7 @@ sub getdisplay
 
 	if (exists($dimen->{dimen}{"bool"}))
 	{
-		return $value?"True" : "False"
+		return $dimen->{dimen}{"bool"}-1?"True" : "False"
 		#these should do something!
 	}
 	elsif (exists($dimen->{dimen}{"string"}))
