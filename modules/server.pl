@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 #!/home/ryan/userperl/perl5.8/bin/perl
 
+use lib './lib';
+
 use strict;
 use warnings;
 use Data::Dumper;
