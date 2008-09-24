@@ -229,6 +229,13 @@ sub evalbranch
 		print "SETTING PREFIX0: $name : $value : ".Dumper($branch->[1]) if ($name eq "m");
 		$self->{units}->setprefix($name, $value);
 	}
+	elsif ($type eq "Trans")
+	{
+		my $left = $self->makevalue($branch->[0]);
+		my $right = $self->makevalue($branch->[1]);
+		print Dumper($left, $right);
+		$return = $left / $right;
+	}
 
 	return $return;
 }

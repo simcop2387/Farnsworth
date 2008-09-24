@@ -108,9 +108,13 @@ sub adddimen
 	$self->addunit($default, $val);
 }
 
-#is this useful?
+#is this useful? yes, need it for display
 sub getdimen
 {
+	my $self = shift;
+	my $name = shift;
+
+	return $self->{dimens}{$name};
 }
 
 #these primarily are used for display purposes
@@ -149,7 +153,14 @@ sub getdisplay
 	my $self = shift; #i'll implement this later too
 	my $dimen = shift; #i take a Math::Farnsworth::Dimension object!
 
-	return Dumper($dimen->{dimen}); #something for now
+    my @returns;
+
+	for my $d (keys %{$dimen->{dimen}})
+	{
+		push @returns, $self->getdimen($d)."^".$dimen->{dimen}{$d};
+	}
+
+	return join " ", @returns;
 }
 
 sub setprefix
