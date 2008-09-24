@@ -1856,8 +1856,8 @@ sub yylex
 	$s =~ /\G\s*(:=|==|!=|<=>|>=|<=|->|:->|\*\*)\s*/icg and return lc $1;
 	$s =~ /\G\s*(\bper\b|\bisa\b|\:?\:\-|\=\!\=|\|\|\|)\s*/icg and return lc $1;
 	$s =~ /\G\s*(\+|\*|-|\/|\%|\^|=|;|\{|\}|\>|\<|\?|\:|\,)\s*/cg and return $1;
-	$s =~ /\G\s*(\))/cg and return $1; #freaking quirky lexers!
-	$s =~ /\G(\()\s*/cg and return $1;
+	$s =~ /\G\s*(\)|\])/cg and return $1; #freaking quirky lexers!
+	$s =~ /\G(\(|\[)\s*/cg and return $1;
 	$s =~ /\G(\w[\w\d]*)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here
 	$s =~ /\G(.)/cgs and return $1;
     return '';
