@@ -118,9 +118,7 @@ sub yylex
 
     if ($s =~ /^\s*"/) #"
 	{
-	   print "TEXT::BALANCED\n";
 	   my ($e, $r) =  extract_delimited($s, '"');
-	   print Dumper([$e, $r]);
 	   $s = $r;
 	   return 'STRING', $e
 	}
