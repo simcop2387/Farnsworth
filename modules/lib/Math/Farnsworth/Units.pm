@@ -147,6 +147,9 @@ sub setdisplay
 sub getdisplay
 {
 	my $self = shift; #i'll implement this later too
+	my $dimen = shift; #i take a Math::Farnsworth::Dimension object!
+
+	return Dumper($dimen->{dimen}); #something for now
 }
 
 sub setprefix

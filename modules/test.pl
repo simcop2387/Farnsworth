@@ -28,7 +28,7 @@ for (<DATA>)
 }
 
 my $return = $scope->eval("5.0 km / 2 s");
-print "$return";
+print $return->toperl($scope->{units});
 
 __DATA__
 // 

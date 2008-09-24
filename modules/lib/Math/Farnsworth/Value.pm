@@ -53,7 +53,16 @@ sub new
 sub toperl
 {
   my $self = shift;
-  return "".($self->{pari}); #stringifiying it seems to work
+  my $units = shift;
+
+  my $us = "";
+  
+  if (ref($units) eq "Math::Farnsworth::Units")
+  {
+	  $us = $units->getdisplay($self->{dimen});
+  }
+
+  return "".($self->{pari})." ".$us; #stringifiying it seems to work
 }
 
 sub add
