@@ -33,10 +33,6 @@ sub new
 
   bless $self, $class;
 
-  $value =~ s/ee/e/i; #fixes double ee's
-
-  $self->{pari} = PARI $value;
-  
   if (ref($dimen) eq "Math::Farnsworth::Dimension")
   {
     $self->{dimen} = $dimen;
@@ -46,6 +42,17 @@ sub new
 	  $dimen = {} if !defined($dimen);
 	  $self->{dimen} = new Math::Farnsworth::Dimension($dimen);
   }
+
+  if (exists($self->{dimen}{string}))
+  {
+	$self->{pari} = $value;
+  }
+  else
+  {
+	$value =~ s/ee/e/i; #fixes double ee's
+	$self->{pari} = PARI $value;
+  }
+
 
   return $self;
 }
