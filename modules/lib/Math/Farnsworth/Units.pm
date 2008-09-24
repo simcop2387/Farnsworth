@@ -28,17 +28,19 @@ sub getunit
 
 	my $return;
 
-	if ($self->hasprefix($name))
-	{
-		my ($preval, undef, $realname) = $self->getprefix($name);
-		$return = $preval * $self->{units}{$realname};
-	}
-	elsif ($self->_isunit($name))
+	if ($self->_isunit($name))
 	{
 		$return = $self->{units}{$name};
 	}
+	elsif ($self->hasprefix($name))
+	{
+		my ($preval, undef, $realname) = $self->getprefix($name);
+		print Dumper($preval, $realname);
+		$return = $preval * $self->{units}{$realname};
+	}
 
-	return $self->{units}{$name};
+	print "GETTING UNIT: $name : $return : ".Dumper($return);
+	return $return;
 }
 
 sub hasprefix
@@ -47,11 +49,12 @@ sub hasprefix
 	my $name = shift;
 
 	#sort them by length, solves issues with longer ones not being found first
-	for my $pre (sort {length($a) <=> length($b)}, keys %{$self->{prefix}})
+	my @keys = keys %{$self->{prefix}};
+	for my $pre (sort {length($a) <=> length($b)} @keys)
 	{
 		if ($name =~ /^\Q$pre\E(.*)$/)
 		{
-			return 1 if ($self->_isunit($1));
+			return 1 if ($self->_isunit($1) || !length($1));
 		}
 	}
 	return 0; #no prefix!
@@ -63,11 +66,13 @@ sub getprefix
 	my $name = shift;
 
 	#sort them by length, solves issues with longer ones not being found first
-	for my $pre (sort {length($a) <=> length($b)}, keys %{$self->{prefix}})
+	for my $pre (sort {length($a) <=> length($b)} keys %{$self->{prefix}})
 	{
 		if ($name =~ /^\Q$pre\E(.*)$/)
 		{
-			return ($self->{prefix}{$pre},$pre,$1) if ($self->_isunit($1));
+			my $u = $1;
+			$u = 1 unless length($1); #to make certain things work right
+			return ($self->{prefix}{$pre},$pre,$u) if ($self->_isunit($1) || !length($1));
 		}
 	}
 	return undef; #to cause errors when not there

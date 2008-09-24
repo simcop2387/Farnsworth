@@ -5,6 +5,8 @@ package Math::Farnsworth::Value;
 use strict;
 use warnings;
 
+use Data::Dumper;
+
 use Math::Pari;
 use Math::Farnsworth::Dimension;
 
@@ -194,6 +196,8 @@ sub pow
   }
   else
   {
+	  print Dumper(\@_);
+	  print "$tv :: $two :: $one\n";
       $new = new Math::Farnsworth::Value($tv ** $one->{pari}, $one->{dimen}->mult($tv)); #if !$rev they are in order
   }
 

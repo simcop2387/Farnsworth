@@ -228,7 +228,13 @@ sub evalbranch
 		my $dimen = $branch->[0];
 		$self->{units}->adddimen($dimen, $unit);
 	}
-	elsif (($type eq "SetPrefix") || ($type eq "SetPrefixAbrv"))
+	elsif ($type eq "SetPrefix")
+	{
+		my $name = $branch->[0];
+		my $value = $self->makevalue($branch->[1]);
+		$self->{units}->setprefix($name, $value);
+	}
+	elsif ($type eq "SetPrefixAbrv")
 	{
 		my $name = $branch->[0];
 		my $value = $self->makevalue($branch->[1]);

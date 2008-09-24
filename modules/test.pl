@@ -228,7 +228,8 @@ mole :=  mol    //   elementary entities as there are atoms in 0.012 kg of
                 //   insufficient by itself.  It has to be a mole OF
                 //   something.  How do you represent that?
 
-radian := 1     // The angle subtended at the center of a circle by an arc
+angle =!= radian
+radians := radian // The angle subtended at the center of a circle by an arc
                 //   equal in length to the radius of the circle.
                 // A circle thus subtends an angle of 2 pi radians.
                 //
@@ -641,6 +642,10 @@ pi :=                  3.141592653589793238
 //\u03c0 :=              pi              // Unicode character for pi
                                        // as a mathematical constant
                                        // GREEK SMALL LETTER PI
+
+degree := pi/180 radian
+degrees := degree
+
 
 e :=         2.71828182845904523536    // Base of natural logarithm
                                        // 'e' was previously used to be

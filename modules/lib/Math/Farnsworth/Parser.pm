@@ -1741,7 +1741,7 @@ sub parse
 	$s = join ' ', @_;
 	$fullstring = $s; #preserve it for errors
 	my $code = eval
-		{ $self->new(yylex => \&yylexwatch, yyerror => \&yyerror, yydebug => 0x1F)->YYParse };
+		{ $self->new(yylex => \&yylexwatch, yyerror => \&yyerror)->YYParse };
 	die $@ if $@;
 	$code
 	}
