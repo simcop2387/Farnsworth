@@ -1,36 +1,3 @@
-#!/usr/bin/perl
-#!/home/ryan/userperl/perl5.8/bin/perl
-
-use strict;
-use warnings;
-use Data::Dumper;
-
-use lib './lib';
-
-use Math::Farnsworth::Evaluate;
-
-my $code = "1ee24";
-
-my $scope = new Math::Farnsworth::Evaluate();
-
-print "eval----\n";
-#my $return = $scope->eval($code);
-print "tostring----\n";
-
-#print "$return\n";
-
-for (<DATA>)
-{
-	chomp;
-	s|//.*$||;
-	s|\s*$||;
-	$scope->eval($_) if ($_ !~ /^\s*$/);
-}
-
-my $return = $scope->eval("5.0 km / (2 hour) -> mph");
-print $return->toperl($scope->{units});
-
-__DATA__
 // 
 // Frink data file for non-changing units.
 // 
