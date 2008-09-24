@@ -187,7 +187,7 @@ sub bool
 	my $self = shift;
 
 	#seems good enough of an idea to me
-	return $self->{pari}?Math::Farnsworth::Value->new(0, {}):Math::Farnsworth::Value->new(1, {});
+	return $self->{pari}?Math::Farnsworth::Value->new(0):Math::Farnsworth::Value->new(1);
 }
 
 sub pow
@@ -229,15 +229,15 @@ sub compare
   
   if ($one->{pari} == $tv)
   {
-	  $new = Math::Farnsworth::Value->new(0, {});
+	  $new = Math::Farnsworth::Value->new(0);
   }
   elsif ($one->{pari} < $tv)
   {
-	  $new = Math::Farnsworth::Value->new(-1, {});
+	  $new = Math::Farnsworth::Value->new(-1);
   }
   elsif ($one->{pari} > $tv)
   {
-	  $new = Math::Farnsworth::Value->new(1, {});
+	  $new = Math::Farnsworth::Value->new(1);
   }
 
   return $new;
