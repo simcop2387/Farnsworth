@@ -43,8 +43,11 @@ sub new
 	  $self->{dimen} = new Math::Farnsworth::Dimension($dimen);
   }
 
-  if (exists($self->{dimen}{string}))
+  if (exists($self->{dimen}{dimen}{string}))
   {
+	#here it comes in with quotes, so lets remove them
+	$value =~ s/^"(.*)"$/$1/;
+	$value =~ s/\\"/"/g;
 	$self->{pari} = $value;
   }
   else
@@ -62,14 +65,12 @@ sub toperl
   my $self = shift;
   my $units = shift;
 
-  my $us = "";
-  
   if (ref($units) eq "Math::Farnsworth::Units")
   {
-	  $us = $units->getdisplay($self->{dimen});
+	  return $units->getdisplay($self->{dimen}, $self);
   }
 
-  return "".($self->{pari})." ".$us; #stringifiying it seems to work
+  return "".($self->{pari}); #stringifiying it seems to work
 }
 
 sub add
@@ -88,6 +89,7 @@ sub add
   my $new;
   if ($one->{dimen}{dimen}{string})
   {
+	print Dumper($one, $two);
   	$new = new Math::Farnsworth::Value($one->{pari} . $tv, $one->{dimen});
   }
   else

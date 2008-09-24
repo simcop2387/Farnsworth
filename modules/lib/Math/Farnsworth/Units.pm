@@ -152,15 +152,20 @@ sub getdisplay
 {
 	my $self = shift; #i'll implement this later too
 	my $dimen = shift; #i take a Math::Farnsworth::Dimension object!
+    my $value = shift; #the value so we can stringify it
 
     my @returns;
 
 	if (exists($dimen->{dimen}{"bool"}))
 	{
+		return $value?"True" : "False"
 		#these should do something!
 	}
 	elsif (exists($dimen->{dimen}{"string"}))
 	{
+		my $val = $value->{pari};
+		$val =~ s/"/\\"/g;
+		return '"'.$val.'"';
 	}
 	else
 	{
@@ -172,9 +177,8 @@ sub getdisplay
 			print Dumper($exp);
 			push @returns, $self->getdimen($d).$exp;
 		}
+		return "".($value->{pari})." ".join " ", @returns;
 	}
-
-	return join " ", @returns;
 }
 
 sub setprefix
