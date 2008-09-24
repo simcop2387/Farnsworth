@@ -27,7 +27,7 @@ for (<DATA>)
 	$scope->eval($_) if ($_ !~ /^\s*$/);
 }
 
-my $return = $scope->eval("(5 m)(10 m) -> m^2");
+my $return = $scope->eval("-(5 m)(10 m) -> m^2");
 print $return->toperl($scope->{units});
 
 __DATA__
