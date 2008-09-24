@@ -244,8 +244,16 @@ sub evalbranch
 	elsif ($type eq "Trans")
 	{
 		my $left = $self->makevalue($branch->[0]);
-		my $right = $self->makevalue($branch->[1]);
-		$return = ($left / $right);
+		my $right = eval {$self->makevalue($branch->[1])};
+		if (!$@)
+		{
+			$return = ($left / $right);
+		}
+		else
+		{
+			#$right doesn't evaluate... so we check for a function?
+			$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
+		}
 	}
 #	elsif ($type eq "String")
 #	{
