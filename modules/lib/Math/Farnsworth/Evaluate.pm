@@ -9,7 +9,7 @@ use Data::Dumper;
 
 use Math::Farnsworth::FunctionDispatch;
 use Math::Farnsworth::Variables;
-#use Math::Farnsworth::Units;
+use Math::Farnsworth::Units;
 use Math::Farnsworth::Parser;
 use Math::Farnsworth::Value;
 
@@ -39,14 +39,14 @@ sub new
 		$self->{vars} = new Math::Farnsworth::Variables();
 	}
 
-#	if (ref($opts{units}) eq "Math::Farnsworth::Units")
-#	{
-#		$self->{units} = $opts{units};
-#	}
-#	else
-#	{
-#		$self->{units} = new Math::Farnsworth::Units();
-#	}
+	if (ref($opts{units}) eq "Math::Farnsworth::Units")
+	{
+		$self->{units} = $opts{units};
+	}
+	else
+	{
+		$self->{units} = new Math::Farnsworth::Units();
+	}
 
 	if (ref($opts{parser}) eq "Math::Farnsworth::Parser")
 	{
@@ -213,6 +213,27 @@ sub evalbranch
 	{
 		$return = $self->makevalue($branch->[0]);
 	}
+	elsif ($type eq "SetDisplay")
+	{
+	}
+	elsif ($type eq "UnitDef")
+	{
+		my $unitsize = $self->makevalue($branch->[1]);
+		my $name = $branch->[0];
+		$self->{units}->addunit($name, $unitsize);
+	}
+	elsif ($type eq "DefineDimen")
+	{
+		my $unit = $branch->[1];
+		my $dimen = $branch->[0];
+		$self->{units}->adddimen($dimen, $unit);
+	}
+	elsif (($type eq "SetPrefix") || ($type eq "SetPrefixAbrv"))
+	{
+		my $name = $branch->[0];
+		my $value = $self->makevalue($branch->[1]);
+		$self->{units}->setprefix($name, $value);
+	}
 
 	return $return;
 }
@@ -234,8 +255,16 @@ sub makevalue
 		#esp since i also have to have this overridable for functions!
 
 		my $name = $input->[0];
-		my $val = $self->{vars}->getvar($input->[0]);
-		return $val;
+		if ($self->{vars}->isvar($name))
+		{
+			return $self->{vars}->getvar($input->[0]);
+		}
+		elsif ($self->{units}->isunit($name))
+		{
+			return $self->{units}->getunit($name);
+		}
+		
+		die "Undefined symbol '$name'";
 	}
 
 	return $self->evalbranch($input);

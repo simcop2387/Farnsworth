@@ -36,4 +36,11 @@ sub getvar
 	return $val;
 }
 
+sub isvar
+{
+	my $self = shift;
+	my $name = shift;
+
+	return exists($self->{$name});
+}
 1;
