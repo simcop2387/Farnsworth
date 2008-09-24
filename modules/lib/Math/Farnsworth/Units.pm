@@ -164,7 +164,7 @@ sub getdisplay
 	elsif (exists($dimen->{dimen}{"string"}))
 	{
 		my $val = $value->{pari};
-		$val =~ s/\\/\\\\/g;
+		#$val =~ s/\\/\\/g;
 		$val =~ s/"/\\"/g;
 		return '"'.$val.'"';
 	}
