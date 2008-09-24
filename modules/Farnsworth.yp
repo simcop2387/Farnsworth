@@ -99,22 +99,22 @@ sub yylex
 	{
 	#i THINK this isn't what i want, since whitespace is significant in a few areas
 	#i'm going to instead shrink all whitespace down to no more than one space
-	$s =~ s/\G\s{2,}/ /c; #don't need global?
+	$s =~ s/\A\s{2,}/ /; #don't need global?
 		
 	#1 while $s =~ /\G\s+/cg; #remove extra whitespace?
 
-	$s =~ s|\G\s*//.*||g;
-	$s =~ s|\G\s*/\*.*?\*/||g;
+	$s =~ s|\A\s*//.*||g;
+	$s =~ s|\A\s*/\*.*?\*/||g;
 
     #i want a complete number regex
-	$s =~ /\G((\d+(\.\d*)?|\.\d+)([Ee][Ee]?[-+]?\d+))/gc 
+	$s =~ /\A((\d+(\.\d*)?|\.\d+)([Ee][Ee]?[-+]?\d+))/
 	      and return 'NUMBER', $1;
-	$s =~ /\G((\d+(\.\d*)?|\.\d+))/gc 
+	$s =~ /\A((\d+(\.\d*)?|\.\d+))/
 	      and return 'NUMBER', $1;
-    $s =~ /\G(0[xX][0-9A-Fa-f])/gc and return $1;
+    $s =~ /\A(0[xX][0-9A-Fa-f])/ and return $1;
 
     #token out the date
-    $s =~ /\G\s*(#[^#]*#)\s*/gc and return 'DATE', $1;
+    $s =~ /\A\s*(#[^#]*#)\s*/ and return 'DATE', $1;
 
     if ($s =~ /^\s*"/) #"
 	{
@@ -131,13 +131,13 @@ sub yylex
 	#$s =~ /\G(do|for|elsif|else|if|print|while)\b/cg and return $1;
 	
 	#seperated this to shorten the lines, and hopefully to make parts of it more readable
-	$s =~ /\G\s*(:=|==|!=|>=|<=|->|:->|\*\*)\s*/icg and return lc $1;
-	$s =~ /\G\s*(\bper\b|\bisa\b|\:?\:\-|\=\!\=|\|\|\|)\s*/icg and return lc $1;
-	$s =~ /\G\s*(\+|\*|-|\/|\%|\^|=|;|\{|\}|\>|\<|\?|\:|\,)\s*/cg and return $1;
-	$s =~ /\G\s*(\))/cg and return $1; #freaking quirky lexers!
-	$s =~ /\G(\()\s*/cg and return $1;
-	$s =~ /\G(\w[\w\d]*)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here
-	$s =~ /\G(.)/cgs and return $1;
+	$s =~ /\A\s*(:=|==|!=|>=|<=|->|:->|\*\*)\s*/i and return lc $1;
+	$s =~ /\A\s*(\bper\b|\bisa\b|\:?\:\-|\=\!\=|\|\|\|)\s*/i and return lc $1;
+	$s =~ /\A\s*(\+|\*|-|\/|\%|\^|=|;|\{|\}|\>|\<|\?|\:|\,)\s*/ and return $1;
+	$s =~ /\A\s*(\))/ and return $1; #freaking quirky lexers!
+	$s =~ /\A(\()\s*/ and return $1;
+	$s =~ /\A(\w[\w\d]*)/ and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here
+	$s =~ /\A(.)/s and return $1;
     return '';
 	}
 
