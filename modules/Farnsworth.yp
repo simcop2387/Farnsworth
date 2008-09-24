@@ -129,7 +129,7 @@ sub yylex
 	#$s =~ /\G(do|for|elsif|else|if|print|while)\b/cg and return $1;
 	
 	#seperated this to shorten the lines, and hopefully to make parts of it more readable
-	$s =~ /\G\s*(:=|==|!=|>=|<=|->|:->|\*\*|<=>)\s*/icg and return lc $1;
+	$s =~ /\G\s*(:=|==|!=|<=>|>=|<=|->|:->|\*\*)\s*/icg and return lc $1;
 	$s =~ /\G\s*(\bper\b|\bisa\b|\:?\:\-|\=\!\=|\|\|\|)\s*/icg and return lc $1;
 	$s =~ /\G\s*(\+|\*|-|\/|\%|\^|=|;|\{|\}|\>|\<|\?|\:|\,)\s*/cg and return $1;
 	$s =~ /\G\s*(\))/cg and return $1; #freaking quirky lexers!
