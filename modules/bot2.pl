@@ -17,12 +17,12 @@ use Math::BigFloat;
            port   => "6668",
            channels => ["#yapb", "#buubot", "#perl", "#codeyard"],
 
-           nick      => "frinkbot",
-           alt_nicks => [map {"frinkbot".$_} 2..100],
-           username  => "frinkbot",
-           name      => "Mathbot",
+           nick      => "farnsworth",
+           alt_nicks => [map {"farnsworth".$_} 2..100],
+           username  => "farnsworth",
+           name      => "Hubert J. Farnsworth",
 
-           ignore_list => [qw(dipsy dadadodo laotse)],
+           ignore_list => [qw(buubot perlbot frogbot)],
 
            charset => "utf-8", # charset the bot assumes the channel is using
 

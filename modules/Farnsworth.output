@@ -1,23 +1,27 @@
+Warnings:
+---------
+3 shift/reduce conflicts
+
 Conflicts:
 ----------
-Conflict in state 14 between rule 22 and token '-' resolved as reduce.
-Conflict in state 14 between rule 22 and token '<' resolved as reduce.
-Conflict in state 14 between rule 22 and token '+' resolved as reduce.
-Conflict in state 14 between rule 22 and token '**' resolved as shift.
-Conflict in state 14 between rule 22 and token '%' resolved as shift.
-Conflict in state 14 between rule 22 and token '==' resolved as reduce.
-Conflict in state 14 between rule 22 and token '>=' resolved as reduce.
-Conflict in state 14 between rule 22 and token '^' resolved as shift.
-Conflict in state 14 between rule 22 and token ' ' resolved as shift.
-Conflict in state 14 between rule 22 and token '*' resolved as shift.
-Conflict in state 14 between rule 22 and token 'per' resolved as shift.
-Conflict in state 14 between rule 22 and token '!=' resolved as reduce.
-Conflict in state 14 between rule 22 and token '?' resolved as reduce.
-Conflict in state 14 between rule 22 and token '->' resolved as reduce.
-Conflict in state 14 between rule 22 and token '/' resolved as shift.
-Conflict in state 14 between rule 22 and token '<=' resolved as reduce.
-Conflict in state 14 between rule 22 and token '<=>' resolved as reduce.
-Conflict in state 14 between rule 22 and token '>' resolved as reduce.
+Conflict in state 14 between rule 23 and token '-' resolved as reduce.
+Conflict in state 14 between rule 23 and token '<' resolved as reduce.
+Conflict in state 14 between rule 23 and token '+' resolved as reduce.
+Conflict in state 14 between rule 23 and token '**' resolved as shift.
+Conflict in state 14 between rule 23 and token '%' resolved as shift.
+Conflict in state 14 between rule 23 and token '==' resolved as reduce.
+Conflict in state 14 between rule 23 and token '>=' resolved as reduce.
+Conflict in state 14 between rule 23 and token '^' resolved as shift.
+Conflict in state 14 between rule 23 and token ' ' resolved as shift.
+Conflict in state 14 between rule 23 and token '*' resolved as shift.
+Conflict in state 14 between rule 23 and token 'per' resolved as shift.
+Conflict in state 14 between rule 23 and token '!=' resolved as reduce.
+Conflict in state 14 between rule 23 and token '?' resolved as reduce.
+Conflict in state 14 between rule 23 and token '->' resolved as reduce.
+Conflict in state 14 between rule 23 and token '/' resolved as shift.
+Conflict in state 14 between rule 23 and token '<=' resolved as reduce.
+Conflict in state 14 between rule 23 and token '<=>' resolved as reduce.
+Conflict in state 14 between rule 23 and token '>' resolved as reduce.
 Conflict in state 55 between rule 41 and token '-' resolved as shift.
 Conflict in state 55 between rule 41 and token '<' resolved as shift.
 Conflict in state 55 between rule 41 and token '+' resolved as shift.
@@ -396,6 +400,7 @@ Conflict in state 99 between rule 43 and token '/' resolved as shift.
 Conflict in state 99 between rule 43 and token '<=' resolved as shift.
 Conflict in state 99 between rule 43 and token '<=>' resolved as shift.
 Conflict in state 99 between rule 43 and token '>' resolved as shift.
+State 24 contains 3 shift/reduce conflicts
 
 Rules:
 ------
@@ -420,9 +425,9 @@ Rules:
 18:	exprval -> NUMBER
 19:	exprval -> NAME
 20:	exprval -> '(' expr ')'
-21:	expr -> exprval
-22:	expr -> '-' expr
-23:	expr -> exprval exprval
+21:	exprval -> exprval exprval
+22:	expr -> exprval
+23:	expr -> '-' expr
 24:	expr -> expr ' ' expr
 25:	expr -> expr '+' expr
 26:	expr -> expr '-' expr
@@ -475,7 +480,7 @@ State 0:
 
 State 1:
 
-	expr -> '-' . expr	(Rule 22)
+	expr -> '-' . expr	(Rule 23)
 
 	'('	shift, and go to state 9
 	'-'	shift, and go to state 1
@@ -525,14 +530,14 @@ State 4:
 
 State 5:
 
-	expr -> exprval .	(Rule 21)
-	expr -> exprval . exprval	(Rule 23)
+	exprval -> exprval . exprval	(Rule 21)
+	expr -> exprval .	(Rule 22)
 
 	'('	shift, and go to state 9
 	NAME	shift, and go to state 23
 	NUMBER	shift, and go to state 12
 
-	$default	reduce using rule 21 (expr)
+	$default	reduce using rule 22 (expr)
 
 	exprval	go to state 24
 
@@ -661,7 +666,7 @@ State 13:
 
 State 14:
 
-	expr -> '-' expr .	(Rule 22)
+	expr -> '-' expr .	(Rule 23)
 	expr -> expr . ' ' expr	(Rule 24)
 	expr -> expr . '+' expr	(Rule 25)
 	expr -> expr . '-' expr	(Rule 26)
@@ -689,7 +694,7 @@ State 14:
 	'^'	shift, and go to state 35
 	'per'	shift, and go to state 38
 
-	$default	reduce using rule 22 (expr)
+	$default	reduce using rule 23 (expr)
 
 State 15:
 
@@ -802,9 +807,19 @@ State 23:
 
 State 24:
 
-	expr -> exprval exprval .	(Rule 23)
+	exprval -> exprval . exprval	(Rule 21)
+	exprval -> exprval exprval .	(Rule 21)
 
-	$default	reduce using rule 23 (expr)
+	'('	shift, and go to state 9
+	NAME	shift, and go to state 23
+	NUMBER	shift, and go to state 12
+
+	'('	[reduce using rule 21 (exprval)]
+	NAME	[reduce using rule 21 (exprval)]
+	NUMBER	[reduce using rule 21 (exprval)]
+	$default	reduce using rule 21 (exprval)
+
+	exprval	go to state 24
 
 State 25:
 
@@ -2557,6 +2572,6 @@ State 104:
 Summary:
 --------
 Number of rules         : 51
-Number of terminals     : 41
+Number of terminals     : 42
 Number of non-terminals : 8
 Number of states        : 105

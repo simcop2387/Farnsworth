@@ -5,7 +5,7 @@
 %nonassoc '<' '>' '==' '!=' '>=' '<=' '<=>' 
 %left '+' '-'
 %left 'per'
-%left '*' '/' '%' ' '
+%left '*' '/' '%' ' ' IMPLICIT
 %left '^' '**'
 
 %{
@@ -57,14 +57,14 @@ arglist : argelement ',' arglist { bless [ $_[1], ref($_[3]) eq 'Arglist' ? @{$_
 
 exprval : 	NUMBER			{ bless [ $_[1] ], 'Num' }
 		|	NAME			{ bless [ $_[1] ], 'Fetch' }
-		|	'(' expr ')'		       { bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything
+		|	'(' expr ')'	{ bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything
+		|   exprval exprval  %prec IMPLICIT { bless [ @_[1,2], 'imp'], 'Mul' }
 		;
 
 
 expr
 	:   exprval { $_[1] }
 	|	'-' expr     { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' } #unary -
-	|   exprval exprval { bless [ @_[1,2], ''], 'Mul' }
 	|   expr ' ' expr { bless [ @_[1,3], ''], 'Mul' }
 	|	expr '+' expr	{ bless [ @_[1,3]], 'Add' }
 	|	expr '-' expr	{ bless [ @_[1,3]], 'Sub' }

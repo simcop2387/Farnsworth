@@ -92,7 +92,7 @@ sub new {
 			'NUMBER' => 12,
 			'NAME' => 23
 		},
-		DEFAULT => -21,
+		DEFAULT => -22,
 		GOTOS => {
 			'exprval' => 24
 		}
@@ -191,7 +191,7 @@ sub new {
 			"per" => 38,
 			"/" => 44
 		},
-		DEFAULT => -22
+		DEFAULT => -23
 	},
 	{#State 15
 		ACTIONS => {
@@ -295,7 +295,15 @@ sub new {
 		DEFAULT => -19
 	},
 	{#State 24
-		DEFAULT => -23
+		ACTIONS => {
+			"(" => 9,
+			'NUMBER' => 12,
+			'NAME' => 23
+		},
+		DEFAULT => -21,
+		GOTOS => {
+			'exprval' => 24
+		}
 	},
 	{#State 25
 		ACTIONS => {
@@ -1508,22 +1516,22 @@ sub
 { bless [$_[2]], 'Paren' }
 	],
 	[#Rule 21
-		 'expr', 1,
+		 'exprval', 2,
 sub
-#line 65 "Farnsworth.yp"
-{ $_[1] }
+#line 61 "Farnsworth.yp"
+{ bless [ @_[1,2], 'imp'], 'Mul' }
 	],
 	[#Rule 22
-		 'expr', 2,
+		 'expr', 1,
 sub
 #line 66 "Farnsworth.yp"
-{ bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' }
+{ $_[1] }
 	],
 	[#Rule 23
 		 'expr', 2,
 sub
 #line 67 "Farnsworth.yp"
-{ bless [ @_[1,2], ''], 'Mul' }
+{ bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' }
 	],
 	[#Rule 24
 		 'expr', 3,
