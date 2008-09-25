@@ -318,14 +318,17 @@ sub new {
 	{#State 26
 		ACTIONS => {
 			"-" => 1,
-			"(" => 9,
-			'NAME' => 13,
+			'NAME' => 24,
 			'DATE' => 5,
-			'NUMBER' => 12,
-			'STRING' => 6
+			'STRING' => 6,
+			" " => 8,
+			"(" => 9,
+			"[" => 11,
+			'NUMBER' => 12
 		},
 		GOTOS => {
-			'exprval' => 59
+			'expr' => 59,
+			'exprval' => 4
 		}
 	},
 	{#State 27
@@ -347,40 +350,49 @@ sub new {
 	{#State 28
 		ACTIONS => {
 			"-" => 1,
-			"(" => 9,
-			'NAME' => 13,
+			'NAME' => 24,
 			'DATE' => 5,
-			'NUMBER' => 12,
-			'STRING' => 6
+			'STRING' => 6,
+			" " => 8,
+			"(" => 9,
+			"[" => 11,
+			'NUMBER' => 12
 		},
 		GOTOS => {
-			'exprval' => 61
+			'expr' => 61,
+			'exprval' => 4
 		}
 	},
 	{#State 29
 		ACTIONS => {
 			"-" => 1,
-			"(" => 9,
-			'NAME' => 13,
+			'NAME' => 24,
 			'DATE' => 5,
-			'NUMBER' => 12,
-			'STRING' => 6
+			'STRING' => 6,
+			" " => 8,
+			"(" => 9,
+			"[" => 11,
+			'NUMBER' => 12
 		},
 		GOTOS => {
-			'exprval' => 62
+			'expr' => 62,
+			'exprval' => 4
 		}
 	},
 	{#State 30
 		ACTIONS => {
 			"-" => 1,
-			"(" => 9,
-			'NAME' => 13,
+			'NAME' => 24,
 			'DATE' => 5,
-			'NUMBER' => 12,
-			'STRING' => 6
+			'STRING' => 6,
+			" " => 8,
+			"(" => 9,
+			"[" => 11,
+			'NUMBER' => 12
 		},
 		GOTOS => {
-			'exprval' => 63
+			'expr' => 63,
+			'exprval' => 4
 		}
 	},
 	{#State 31
@@ -418,53 +430,65 @@ sub new {
 	{#State 33
 		ACTIONS => {
 			"-" => 1,
-			"(" => 9,
-			'NAME' => 13,
+			'NAME' => 24,
 			'DATE' => 5,
-			'NUMBER' => 12,
-			'STRING' => 6
+			'STRING' => 6,
+			" " => 8,
+			"(" => 9,
+			"[" => 11,
+			'NUMBER' => 12
 		},
 		GOTOS => {
-			'exprval' => 66
+			'expr' => 66,
+			'exprval' => 4
 		}
 	},
 	{#State 34
 		ACTIONS => {
 			"-" => 1,
-			"(" => 9,
-			'NAME' => 13,
+			'NAME' => 24,
 			'DATE' => 5,
-			'NUMBER' => 12,
-			'STRING' => 6
+			'STRING' => 6,
+			" " => 8,
+			"(" => 9,
+			"[" => 11,
+			'NUMBER' => 12
 		},
 		GOTOS => {
-			'exprval' => 67
+			'expr' => 67,
+			'exprval' => 4
 		}
 	},
 	{#State 35
 		ACTIONS => {
 			"-" => 1,
-			"(" => 9,
-			'NAME' => 13,
+			'NAME' => 24,
 			'DATE' => 5,
-			'NUMBER' => 12,
-			'STRING' => 6
+			'STRING' => 6,
+			" " => 8,
+			"(" => 9,
+			"[" => 11,
+			'NUMBER' => 12
 		},
 		GOTOS => {
-			'exprval' => 68
+			'expr' => 68,
+			'exprval' => 4
 		}
 	},
 	{#State 36
 		ACTIONS => {
 			"-" => 1,
-			"(" => 9,
-			'NAME' => 13,
+			'NAME' => 24,
 			'DATE' => 5,
-			'NUMBER' => 12,
-			'STRING' => 6
+			'STRING' => 6,
+			" " => 8,
+			"(" => 9,
+			"[" => 11,
+			'NUMBER' => 12
 		},
 		GOTOS => {
-			'exprval' => 69
+			'expr' => 69,
+			'exprval' => 4
 		}
 	},
 	{#State 37
@@ -539,14 +563,17 @@ sub new {
 	{#State 42
 		ACTIONS => {
 			"-" => 1,
-			"(" => 9,
-			'NAME' => 13,
+			'NAME' => 24,
 			'DATE' => 5,
-			'NUMBER' => 12,
-			'STRING' => 6
+			'STRING' => 6,
+			" " => 8,
+			"(" => 9,
+			"[" => 11,
+			'NUMBER' => 12
 		},
 		GOTOS => {
-			'exprval' => 75
+			'expr' => 75,
+			'exprval' => 4
 		}
 	},
 	{#State 43
@@ -751,6 +778,15 @@ sub new {
 		DEFAULT => -22
 	},
 	{#State 59
+		ACTIONS => {
+			"**" => 28,
+			"%" => 30,
+			"^" => 33,
+			" " => 34,
+			"*" => 35,
+			"per" => 36,
+			"/" => 42
+		},
 		DEFAULT => -26
 	},
 	{#State 60
@@ -778,9 +814,22 @@ sub new {
 		DEFAULT => -33
 	},
 	{#State 62
+		ACTIONS => {
+			"**" => 28,
+			"%" => 30,
+			"^" => 33,
+			" " => 34,
+			"*" => 35,
+			"per" => 36,
+			"/" => 42
+		},
 		DEFAULT => -25
 	},
 	{#State 63
+		ACTIONS => {
+			"**" => 28,
+			"^" => 33
+		},
 		DEFAULT => -31
 	},
 	{#State 64
@@ -829,12 +878,28 @@ sub new {
 		DEFAULT => -32
 	},
 	{#State 67
+		ACTIONS => {
+			"**" => 28,
+			"^" => 33
+		},
 		DEFAULT => -27
 	},
 	{#State 68
+		ACTIONS => {
+			"**" => 28,
+			"^" => 33
+		},
 		DEFAULT => -28
 	},
 	{#State 69
+		ACTIONS => {
+			"**" => 28,
+			"%" => 30,
+			"^" => 33,
+			" " => 34,
+			"*" => 35,
+			"/" => 42
+		},
 		DEFAULT => -30
 	},
 	{#State 70
@@ -930,6 +995,10 @@ sub new {
 		DEFAULT => -48
 	},
 	{#State 75
+		ACTIONS => {
+			"**" => 28,
+			"^" => 33
+		},
 		DEFAULT => -29
 	},
 	{#State 76
