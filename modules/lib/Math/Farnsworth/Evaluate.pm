@@ -272,7 +272,7 @@ sub evalbranch
 	if (!defined($outdim))
 	{
 		#if we don't know any better copy the results
-		$outdim = $return->{dimen}->tostring();
+		#$outdim = $return->{dimen}->tostring();
 	}
 	return $return;
 }
