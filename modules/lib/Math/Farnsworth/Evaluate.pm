@@ -79,6 +79,7 @@ sub evalbranch
 	my $type = ref($branch); #this'll grab what kind from the bless on the tree
 
 	my $return; #to make things simpler later on
+	my $outdim; #this'll change names probably, but will go along with $return to provide some nicer info for printing
 
 	if ($type eq "Add")
 	{
