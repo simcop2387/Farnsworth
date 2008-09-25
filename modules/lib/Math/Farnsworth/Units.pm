@@ -164,9 +164,19 @@ sub getdisplay
 	elsif (exists($dimen->{dimen}{"string"}))
 	{
 		my $val = $value->{pari};
-		#$val =~ s/\\/\\/g;
-		#$val =~ s/"/\\"/g;
+		$val =~ s/\\/\\\\/g;
+		$val =~ s/"/\\"/g;
 		return '"'.$val.'"';
+	}
+	elsif (exists($dimen->{dimen}{"array"}))
+	{
+		my @array; #this will be used to build the output
+		for my $v (@{$value->{pari}})
+		{
+			push @array, $v->toperl($self);
+		}
+
+		return '['.(join ' , ', @array).']';
 	}
 	else
 	{

@@ -67,7 +67,7 @@ sub eval
 
 	my $tree = $self->{parser}->parse($code); #should i catch the exceptions here? dunno
 
-	print Dumper($tree);
+	#print Dumper($tree);
 
     $self->evalbranch($tree);
 }
@@ -206,10 +206,12 @@ sub evalbranch
 	}
 	elsif ($type eq "Array")
 	{
+		my $array;
 		for my $bs (@$branch) #iterate over all the elements
 		{
-			push @$return, $self->makevalue($bs); #we return an array ref! i need more error checking around for this later
+			push @$array, $self->makevalue($bs); #we return an array ref! i need more error checking around for this later
 		}
+		$return = new Math::Farnsworth::Value($array, {array => 1});
 	}
 	elsif ($type eq "Stmt")
 	{

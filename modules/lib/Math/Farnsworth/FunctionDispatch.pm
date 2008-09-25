@@ -49,7 +49,7 @@ sub callfunc
 	for my $argc (0..$#$argtypes)
 	{
 		my $n = $argtypes->[$argc][0]; #the rest are defaults and types
-		my $v = $args->[$argc];
+		my $v = $args->{pari}->[$argc];
 
 		$nvars->setvar($n, $v);
 	}
@@ -65,7 +65,8 @@ sub callfunc
 #also should check for number of params
 sub checkparams 
 {
-	return 1;
+	return 1 unless (ref($_[1]) eq "Math::Farnsworth::Value") && (ref($_[1]->{pari}) eq "ARRAY");
+	return 0;
 }
 
 1;

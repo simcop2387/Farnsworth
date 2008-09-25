@@ -28,13 +28,13 @@ sub new
   my $class = shift;
   my $value = shift;
   my $dimen = shift; #should only really be used internally?
-  my $scope = shift; #i'm still not sure on this one
+  my $outmagic = shift; #i'm still not sure on this one
 
   my $self = {};
 
   bless $self, $class;
 
-  $self->{scope} = $scope;
+  $self->{outmagic} = $outmagic;
 
   if (ref($dimen) eq "Math::Farnsworth::Dimension")
   {
@@ -43,7 +43,7 @@ sub new
   else
   {
 	  $dimen = {} if !defined($dimen);
-	  $self->{dimen} = new Math::Farnsworth::Dimension($dimen, $scope);
+	  $self->{dimen} = new Math::Farnsworth::Dimension($dimen);
   }
 
   print "Setting VAR: ".Dumper($value);
@@ -52,7 +52,13 @@ sub new
   {
 	#here it comes in with quotes, so lets remove them
 	$value =~ s/^"(.*)"$/$1/;
-	#$value =~ s/\\"/"/g;
+	$value =~ s/\\"/"/g;
+	$value =~ s/\\\\/\\/g;
+	$self->{pari} = $value;
+  }
+  elsif (exists($self->{dimen}{dimen}{array}))
+  {
+	#we've got an array here
 	$self->{pari} = $value;
   }
   else
