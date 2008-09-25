@@ -68,7 +68,7 @@ expr
 	|	'-' exprval     { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' } #unary -
 #	|	NUMBER NAME     { bless [ $_[1], (bless [ $_[2] ], 'Fetch' )], 'Mul' } #this is causing me headaches
 	|   exprval exprval { bless [ @_[1,2], ''], 'Mul' }
-	|   exprval ' ' expr { bless [ @_[1,3], ''], 'Mul' }
+	|   expr ' ' expr { bless [ @_[1,3], ''], 'Mul' }
 	|	expr '+' expr	{ bless [ @_[1,3]], 'Add' }
 	|	expr '-' expr	{ bless [ @_[1,3]], 'Sub' }
 #	|	expr ' ' expr	{ bless [ @_[1,3], ' '], 'Mul' }
