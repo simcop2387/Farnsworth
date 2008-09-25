@@ -1624,7 +1624,7 @@ sub yylex
 		
 	#1 while $s =~ /\G\s+/cg; #remove extra whitespace?
 
-	1 while $s =~ m|\G/\*.*?\*/|gc; #skip C comments
+	$s =~ m|\G/\*.*?\*/|gcs and redo; #skip C comments
 #	$s =~ s|\G//.*||g;
 #	$s =~ s|\G/\*.*?\*/||g;
 
