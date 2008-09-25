@@ -228,12 +228,14 @@ sub evalbranch
 		my $unitsize = $self->makevalue($branch->[1]);
 		my $name = $branch->[0];
 		$self->{units}->addunit($name, $unitsize);
+		$outdim = $branch; #have this display back what we saw
 	}
 	elsif ($type eq "DefineDimen")
 	{
 		my $unit = $branch->[1];
 		my $dimen = $branch->[0];
 		$self->{units}->adddimen($dimen, $unit);
+		$outdim = $branch;
 	}
 	elsif (($type eq "SetPrefix") || ($type eq "SetPrefixAbrv"))
 	{
@@ -251,7 +253,7 @@ sub evalbranch
 			if ($left->{dimen}->compare($right->{dimen})) #only do this if they are the same
 			{
 				$return = ($left / $right);
-				$outdim = $right->{dimen};
+				$outdim = $branch->[1];
 			}
 			else
 			{
@@ -264,17 +266,13 @@ sub evalbranch
 			$return = $self->{funcs}->callfunc($self, $branch->[1][0], (ref($left) eq "ARRAY" ? $left : [$left]));
 		}
 	}
-#	elsif ($type eq "String")
-#	{
-#		$return = $branch->[0];
-#	}
 
 	if (!defined($outdim))
 	{
 		#if we don't know any better copy the results
-		#$outdim = $return->{dimen}->tostring();
+		$outdim = $return->{dimen}; #this will be magic!
 	}
-	return $return;
+	return ($return, $outdim);
 }
 
 sub makevalue
