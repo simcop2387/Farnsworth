@@ -27,6 +27,7 @@ stma
 stmt
 	:	expr						 { $_[1] }
 	|	NAME ':=' expr				 { bless [@_[1,3]], 'UnitDef' }
+	|	NAME '=' expr	{ bless [ @_[1,3] ], 'Store' }
 	|	expr ':->' expr				 { bless [ @_[1,3] ], 'SetDisplay' }
 	|   NAME '=!=' NAME              { bless [ @_[1,3] ], 'DefineDimen' }
 	|   expr '|||' NAME				 { bless [ @_[3,1] ], 'DefineCombo' }
@@ -58,18 +59,16 @@ arglist : argelement ',' arglist { bless [ $_[1], ref($_[3]) eq 'Arglist' ? @{$_
 
 exprval : 	NUMBER			{ bless [ $_[1] ], 'Num' }
 		|	NAME			{ bless [ $_[1] ], 'Fetch' }
-		|	DATE			{ bless [ $_[1] ], 'Date' }
-		|	STRING			{ bless [ $_[1] ], 'String' } #this will have to be reparsed later, just before evaluating
 		|	'(' expr ')'		       { bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything
 		;
 
 
 expr
 	:   exprval { $_[1] }
-	|   exprval exprval { bless [ @_[1,2], ''], 'Mul' }
-	|	'-' expr     { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' } #unary -
-	|	NAME '=' expr	{ bless [ @_[1,3] ], 'Store' }
+	|	'-' exprval     { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' } #unary -
 #	|	NUMBER NAME     { bless [ $_[1], (bless [ $_[2] ], 'Fetch' )], 'Mul' } #this is causing me headaches
+	|   exprval exprval { bless [ @_[1,2], ''], 'Mul' }
+	|   exprval ' ' expr { bless [ @_[1,3], ''], 'Mul' }
 	|	expr '+' expr	{ bless [ @_[1,3]], 'Add' }
 	|	expr '-' expr	{ bless [ @_[1,3]], 'Sub' }
 #	|	expr ' ' expr	{ bless [ @_[1,3], ' '], 'Mul' }
@@ -96,7 +95,9 @@ expr
 #	|	expr expr 		       { bless [$_[1,3], ''], 'Mul' } 
 #	|	'{' '|' arglist '|' expr '}' {bless [ @_[2,4] ], 'Lambda'} #i'm not sure how or when i'll implement these
 	|   expr '->' expr  { bless [ @_[1,3]], 'Trans' }
-	|	' '  {undef}
+#	|	' '  {undef}
+	|	DATE			{ bless [ $_[1] ], 'Date' }
+	|	STRING			{ bless [ $_[1] ], 'String' } #this will have to be reparsed later, just before evaluating
 #	| {undef}
 	;
 %%
@@ -106,11 +107,11 @@ sub yylex
 	#i THINK this isn't what i want, since whitespace is significant in a few areas
 	#i'm going to instead shrink all whitespace down to no more than one space
 	#$s =~ s/\G\s{2,}/ /c; #don't need global?
-	$s =~ /\G\s*/gc;
+	$s =~ /\G\s*(?=\s)/gc;
 		
 	#1 while $s =~ /\G\s+/cg; #remove extra whitespace?
 
-	$s =~ m|\G/\*.*?\*/|gcs and redo; #skip C comments
+#	$s =~ m|\G\s*/\*.*?\*/|gcs and redo; #skip C comments
 #	$s =~ s|\G//.*||g;
 #	$s =~ s|\G/\*.*?\*/||g;
 
