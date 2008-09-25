@@ -63,7 +63,7 @@ expr
 	|	STRING			{ bless [ $_[1] ], 'String' } #this will have to be reparsed later, just before evaluating
 	|	'-' expr        { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' } #unary -
 	|	NAME '=' expr	{ bless [ @_[1,3] ], 'Store' }
-#	|	NUMBER NAME     { bless [ $_[1], (bless [ $_[2] ], 'Fetch' )], 'Mul' } #this is causing me headaches
+	|	NUMBER NAME     { bless [ $_[1], (bless [ $_[2] ], 'Fetch' )], 'Mul' } #this is causing me headaches
 	|	expr '+' expr	{ bless [ @_[1,3]], 'Add' }
 	|	expr '-' expr	{ bless [ @_[1,3]], 'Sub' }
 	|	expr ' ' expr   { bless [ @_[1,3], ' '], 'Mul' }
@@ -88,7 +88,7 @@ expr
 	|   NAME '[' array ']'         { bless [ @_[1,3] ], 'FuncCall' }
 	|   '[' array ']'              { $_[2] } 
 	|	'(' expr ')'		       { bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything
-#	|	expr expr 		       { bless [$_[1,2], ''], 'Mul' } 
+#	|	expr expr 		       { bless [$_[1,3], ''], 'Mul' } 
 #	|	'{' '|' arglist '|' expr '}' {bless [ @_[2,4] ], 'Lambda'} #i'm not sure how or when i'll implement these
 	|   expr '->' expr  { bless [ @_[1,3]], 'Trans' }
 	|	' '  {undef}
