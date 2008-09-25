@@ -272,7 +272,7 @@ sub evalbranch
 	if (!defined($outdim))
 	{
 		#if we don't know any better copy the results
-		$outdim = $return->{dimen}; #this will be magic!
+		#$outdim = $return->{dimen}; #this will be magic!
 	}
 	return ($return, $outdim);
 }
