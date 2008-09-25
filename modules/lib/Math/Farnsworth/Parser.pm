@@ -1597,17 +1597,8 @@ sub yylex
     #token out the date
     $s =~ /\G\s*(#[^#]*#)\s*/gc and return 'DATE', $1;
 
-    $s =~ /\G\s*("(\\.|[^"])*")/gc #"
+    $s =~ /\G\s*("(\\.|[^"])*")/gc #" bad syntax highlighters are annoying
 		and return "STRING", $1;
-
-#    if ($s =~ /^\s*"/) #"
-#	{
-#	   my ($e, $r) =  extract_delimited($s, '"');
-#	   $s = $r;
-#	   return 'STRING', $e
-#	}
-
-#	$s =~ /\s*("([^\\"]*(?:\\.[^\\"]*)*)")\s*/gc and return 'STRING', $1;
 
     #i'll probably ressurect this later too
 	#$s =~ /\G(do|for|elsif|else|if|print|while)\b/cg and return $1;
@@ -1635,7 +1626,7 @@ sub yylexwatch
 
 sub yyerror
 	{
-	my $pos = $charcount;
+	my $pos = pos $s;
 	substr($fullstring,$pos,0) = '<###YYLEX###>';
 	$fullstring =~ s/^/### /mg;
 	die "### Syntax Error \@ $pos of\n$fullstring\n";
