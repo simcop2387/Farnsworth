@@ -10,6 +10,8 @@ use List::MoreUtils qw(uniq);
 sub new
 {
 	my $class = shift;
+	my $scope = shift;
+
 	my $dims;
 	if (@_ > 1) #if we've got more than one, they didn't use a hashref
 	{
@@ -28,7 +30,7 @@ sub new
 		}
 	}
 
-	my $self = {dimen =>$dims}; #so i don't have to rewrite a lot of code... NTS: this should probably go away later
+	my $self = {dimen =>$dims, scope => $scope}; #so i don't have to rewrite a lot of code... NTS: this should probably go away later
 
 	bless $self;
 }

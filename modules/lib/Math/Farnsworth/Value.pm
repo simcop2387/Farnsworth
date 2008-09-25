@@ -28,10 +28,13 @@ sub new
   my $class = shift;
   my $value = shift;
   my $dimen = shift; #should only really be used internally?
+  my $scope = shift; #i'm still not sure on this one
 
   my $self = {};
 
   bless $self, $class;
+
+  $self->{scope} = $scope;
 
   if (ref($dimen) eq "Math::Farnsworth::Dimension")
   {
@@ -40,7 +43,7 @@ sub new
   else
   {
 	  $dimen = {} if !defined($dimen);
-	  $self->{dimen} = new Math::Farnsworth::Dimension($dimen);
+	  $self->{dimen} = new Math::Farnsworth::Dimension($dimen, $scope);
   }
 
   print "Setting VAR: ".Dumper($value);
