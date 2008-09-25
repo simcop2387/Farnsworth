@@ -10,18 +10,14 @@ use List::MoreUtils qw(uniq);
 sub new
 {
 	my $class = shift;
+    my $dimers = shift;
 	my $scope = shift;
 
 	my $dims;
-	if (@_ > 1) #if we've got more than one, they didn't use a hashref
 	{
-		$dims = +{@_}; #throw it into a hashref
-	}
-	else
-	{
-		if (@_)
+		if (defined($dimers))
 		{
-			$dims = +{%{$_[0]}}; #make a shallow copy, i don't feel like debugging this later if somehow i ended up with two objects blessing the same hashref
+			$dims = +{%{$dimers}}; #make a shallow copy, i don't feel like debugging this later if somehow i ended up with two objects blessing the same hashref
 		}
 		else
 		{
