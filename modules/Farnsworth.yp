@@ -93,7 +93,7 @@ expr
 	|   NAME '[' array ']'         { bless [ @_[1,3] ], 'FuncCall' }
 	|   '[' array ']'              { $_[2] } 
 #	|	expr expr 		       { bless [$_[1,3], ''], 'Mul' } 
-#	|	'{' '|' arglist '|' expr '}' {bless [ @_[2,4] ], 'Lambda'} #i'm not sure how or when i'll implement these
+	|	'{' '|' arglist '|' expr '}' {bless [ @_[2,4] ], 'Lambda'} #i'm not sure how or when i'll implement these
 	|   expr '->' expr  { bless [ @_[1,3]], 'Trans' }
 #	|	' '  {undef}
 	|	DATE			{ bless [ $_[1] ], 'Date' }
