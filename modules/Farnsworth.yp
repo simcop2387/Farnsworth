@@ -60,18 +60,19 @@ exprval : 	NUMBER			{ bless [ $_[1] ], 'Num' }
 		|	NAME			{ bless [ $_[1] ], 'Fetch' }
 		|	DATE			{ bless [ $_[1] ], 'Date' }
 		|	STRING			{ bless [ $_[1] ], 'String' } #this will have to be reparsed later, just before evaluating
-		|	'-' exprval     { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' } #unary -
 		|	'(' expr ')'		       { bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything
 		;
 
 
 expr
 	:   exprval { $_[1] }
+	|   exprval exprval { bless [ @_[1,2], ''], 'Mul' }
+	|	'-' expr     { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' } #unary -
 	|	NAME '=' expr	{ bless [ @_[1,3] ], 'Store' }
 #	|	NUMBER NAME     { bless [ $_[1], (bless [ $_[2] ], 'Fetch' )], 'Mul' } #this is causing me headaches
 	|	expr '+' expr	{ bless [ @_[1,3]], 'Add' }
 	|	expr '-' expr	{ bless [ @_[1,3]], 'Sub' }
-	|	expr ' ' expr	{ bless [ @_[1,3], ' '], 'Mul' }
+#	|	expr ' ' expr	{ bless [ @_[1,3], ' '], 'Mul' }
 	|	expr '*' expr	{ bless [ @_[1,3], '*'], 'Mul' }
 	|	expr '/' expr	{ bless [ @_[1,3], '/'], 'Div' }
 	|	expr 'per' expr	{ bless [ @_[1,3], 'per' ], 'Div' }
@@ -105,7 +106,7 @@ sub yylex
 	#i THINK this isn't what i want, since whitespace is significant in a few areas
 	#i'm going to instead shrink all whitespace down to no more than one space
 	#$s =~ s/\G\s{2,}/ /c; #don't need global?
-	$s =~ /\G\s*(?=\s)/gc;
+	$s =~ /\G\s*/gc;
 		
 	#1 while $s =~ /\G\s+/cg; #remove extra whitespace?
 
