@@ -14,10 +14,11 @@ use Math::BigFloat;
          my $bot = FrinkBot->new(
 
            server => "andromeda128",
-           port   => "6668",
+           port   => "9000",
+	   password => $ARGV[0],
            channels => ["#yapb", "#buubot", "#perl", "#codeyard", "#perlcafe"],
 
-           nick      => "frinkbot",
+           nick      => "farnsworth",
            alt_nicks => [map {"frinkbot".$_} 2..100],
            username  => "frinkbot",
            name      => "Mathbot",
