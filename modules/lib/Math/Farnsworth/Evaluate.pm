@@ -274,7 +274,7 @@ sub evalbranch
 		#if we don't know any better copy the results
 		#$outdim = $return->{dimen}; #this will be magic!
 	}
-	return ($return, $outdim);
+	return $return;
 }
 
 sub makevalue
