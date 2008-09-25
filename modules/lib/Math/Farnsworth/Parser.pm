@@ -52,12 +52,18 @@ sub new {
 	},
 	{#State 1
 		ACTIONS => {
+			"-" => 1,
 			"(" => 9,
 			'NAME' => 13,
-			'NUMBER' => 12
+			'DATE' => 4,
+			"{" => 6,
+			"[" => 11,
+			'NUMBER' => 12,
+			'STRING' => 7
 		},
 		GOTOS => {
-			'exprval' => 14
+			'expr' => 14,
+			'exprval' => 5
 		}
 	},
 	{#State 2
@@ -84,16 +90,16 @@ sub new {
 		ACTIONS => {
 			"(" => 9,
 			'NUMBER' => 12,
-			'NAME' => 13
+			'NAME' => 23
 		},
 		DEFAULT => -21,
 		GOTOS => {
-			'exprval' => 23
+			'exprval' => 24
 		}
 	},
 	{#State 6
 		ACTIONS => {
-			"|" => 24
+			"|" => 25
 		}
 	},
 	{#State 7
@@ -101,7 +107,7 @@ sub new {
 	},
 	{#State 8
 		ACTIONS => {
-			";" => 25
+			";" => 26
 		},
 		DEFAULT => -2
 	},
@@ -109,7 +115,7 @@ sub new {
 		ACTIONS => {
 			"-" => 1,
 			"(" => 9,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			"[" => 11,
@@ -149,7 +155,7 @@ sub new {
 	{#State 11
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -167,15 +173,30 @@ sub new {
 		DEFAULT => -18
 	},
 	{#State 13
+		ACTIONS => {
+			"[" => 21,
+			"::-" => 18,
+			"{" => 16,
+			":-" => 20
+		},
 		DEFAULT => -19
 	},
 	{#State 14
+		ACTIONS => {
+			"**" => 30,
+			"%" => 32,
+			"^" => 35,
+			" " => 36,
+			"*" => 37,
+			"per" => 38,
+			"/" => 44
+		},
 		DEFAULT => -22
 	},
 	{#State 15
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -205,7 +226,7 @@ sub new {
 	{#State 18
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -221,7 +242,7 @@ sub new {
 	{#State 19
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -237,7 +258,7 @@ sub new {
 	{#State 20
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -253,7 +274,7 @@ sub new {
 	{#State 21
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -271,9 +292,12 @@ sub new {
 		DEFAULT => 0
 	},
 	{#State 23
-		DEFAULT => -23
+		DEFAULT => -19
 	},
 	{#State 24
+		DEFAULT => -23
+	},
+	{#State 25
 		ACTIONS => {
 			'NAME' => 52
 		},
@@ -282,7 +306,7 @@ sub new {
 			'argelement' => 51
 		}
 	},
-	{#State 25
+	{#State 26
 		ACTIONS => {
 			"-" => 1,
 			'NAME' => 2,
@@ -300,15 +324,6 @@ sub new {
 			'expr' => 10,
 			'exprval' => 5
 		}
-	},
-	{#State 26
-		ACTIONS => {
-			"[" => 21,
-			"::-" => 18,
-			"{" => 16,
-			":-" => 20
-		},
-		DEFAULT => -19
 	},
 	{#State 27
 		ACTIONS => {
@@ -336,7 +351,7 @@ sub new {
 	{#State 28
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -352,7 +367,7 @@ sub new {
 	{#State 29
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -368,7 +383,7 @@ sub new {
 	{#State 30
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -384,7 +399,7 @@ sub new {
 	{#State 31
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -400,7 +415,7 @@ sub new {
 	{#State 32
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -416,7 +431,7 @@ sub new {
 	{#State 33
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -432,7 +447,7 @@ sub new {
 	{#State 34
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -448,7 +463,7 @@ sub new {
 	{#State 35
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -464,7 +479,7 @@ sub new {
 	{#State 36
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -480,7 +495,7 @@ sub new {
 	{#State 37
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -496,7 +511,7 @@ sub new {
 	{#State 38
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -512,7 +527,7 @@ sub new {
 	{#State 39
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -528,7 +543,7 @@ sub new {
 	{#State 40
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -549,7 +564,7 @@ sub new {
 	{#State 42
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -565,7 +580,7 @@ sub new {
 	{#State 43
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -581,7 +596,7 @@ sub new {
 	{#State 44
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -597,7 +612,7 @@ sub new {
 	{#State 45
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -613,7 +628,7 @@ sub new {
 	{#State 46
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -629,7 +644,7 @@ sub new {
 	{#State 47
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -1093,7 +1108,7 @@ sub new {
 	{#State 83
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -1119,7 +1134,7 @@ sub new {
 	{#State 85
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -1148,7 +1163,7 @@ sub new {
 	{#State 89
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -1164,7 +1179,7 @@ sub new {
 	{#State 90
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -1215,7 +1230,7 @@ sub new {
 	{#State 95
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 100,
 			'STRING' => 7,
@@ -1276,7 +1291,7 @@ sub new {
 	{#State 98
 		ACTIONS => {
 			"-" => 1,
-			'NAME' => 26,
+			'NAME' => 13,
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
@@ -1319,7 +1334,7 @@ sub new {
 			'DATE' => 4,
 			"{" => 6,
 			'STRING' => 7,
-			"|" => 24,
+			"|" => 25,
 			"(" => 9,
 			"[" => 11,
 			'NUMBER' => 12
@@ -1429,247 +1444,247 @@ sub
 	[#Rule 10
 		 'array', 3,
 sub
-#line 46 "Farnsworth.yp"
+#line 44 "Farnsworth.yp"
 { bless [ $_[1], ref($_[3]) eq 'Array' ? @{$_[3]} : $_[3] ], 'Array' }
 	],
 	[#Rule 11
 		 'array', 1,
 sub
-#line 47 "Farnsworth.yp"
+#line 45 "Farnsworth.yp"
 { bless [ $_[1]], 'Array'}
 	],
 	[#Rule 12
 		 'argelement', 5,
 sub
-#line 50 "Farnsworth.yp"
+#line 48 "Farnsworth.yp"
 {bless [$_[1], $_[5], $_[3]], 'Argele'}
 	],
 	[#Rule 13
 		 'argelement', 3,
 sub
-#line 51 "Farnsworth.yp"
+#line 49 "Farnsworth.yp"
 {bless [ $_[1], undef, $_[3] ], 'Argele'}
 	],
 	[#Rule 14
 		 'argelement', 3,
 sub
-#line 52 "Farnsworth.yp"
+#line 50 "Farnsworth.yp"
 {bless [$_[1], $_[3]], 'Argele'}
 	],
 	[#Rule 15
 		 'argelement', 1,
 sub
-#line 53 "Farnsworth.yp"
+#line 51 "Farnsworth.yp"
 {bless [ $_[1] ], 'Argele'}
 	],
 	[#Rule 16
 		 'arglist', 3,
 sub
-#line 56 "Farnsworth.yp"
+#line 54 "Farnsworth.yp"
 { bless [ $_[1], ref($_[3]) eq 'Arglist' ? @{$_[3]} : $_[3] ], 'Arglist' }
 	],
 	[#Rule 17
 		 'arglist', 1,
 sub
-#line 57 "Farnsworth.yp"
+#line 55 "Farnsworth.yp"
 {bless [ $_[1] ], 'Arglist'}
 	],
 	[#Rule 18
 		 'exprval', 1,
 sub
-#line 60 "Farnsworth.yp"
+#line 58 "Farnsworth.yp"
 { bless [ $_[1] ], 'Num' }
 	],
 	[#Rule 19
 		 'exprval', 1,
 sub
-#line 61 "Farnsworth.yp"
+#line 59 "Farnsworth.yp"
 { bless [ $_[1] ], 'Fetch' }
 	],
 	[#Rule 20
 		 'exprval', 3,
 sub
-#line 62 "Farnsworth.yp"
+#line 60 "Farnsworth.yp"
 { bless [$_[2]], 'Paren' }
 	],
 	[#Rule 21
 		 'expr', 1,
 sub
-#line 67 "Farnsworth.yp"
+#line 65 "Farnsworth.yp"
 { $_[1] }
 	],
 	[#Rule 22
 		 'expr', 2,
 sub
-#line 68 "Farnsworth.yp"
+#line 66 "Farnsworth.yp"
 { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' }
 	],
 	[#Rule 23
 		 'expr', 2,
 sub
-#line 70 "Farnsworth.yp"
+#line 67 "Farnsworth.yp"
 { bless [ @_[1,2], ''], 'Mul' }
 	],
 	[#Rule 24
 		 'expr', 3,
 sub
-#line 71 "Farnsworth.yp"
+#line 68 "Farnsworth.yp"
 { bless [ @_[1,3], ''], 'Mul' }
 	],
 	[#Rule 25
 		 'expr', 3,
 sub
-#line 72 "Farnsworth.yp"
+#line 69 "Farnsworth.yp"
 { bless [ @_[1,3]], 'Add' }
 	],
 	[#Rule 26
 		 'expr', 3,
 sub
-#line 73 "Farnsworth.yp"
+#line 70 "Farnsworth.yp"
 { bless [ @_[1,3]], 'Sub' }
 	],
 	[#Rule 27
 		 'expr', 3,
 sub
-#line 75 "Farnsworth.yp"
+#line 71 "Farnsworth.yp"
 { bless [ @_[1,3], '*'], 'Mul' }
 	],
 	[#Rule 28
 		 'expr', 3,
 sub
-#line 76 "Farnsworth.yp"
+#line 72 "Farnsworth.yp"
 { bless [ @_[1,3], '/'], 'Div' }
 	],
 	[#Rule 29
 		 'expr', 3,
 sub
-#line 77 "Farnsworth.yp"
+#line 73 "Farnsworth.yp"
 { bless [ @_[1,3], 'per' ], 'Div' }
 	],
 	[#Rule 30
 		 'expr', 3,
 sub
-#line 78 "Farnsworth.yp"
+#line 74 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Mod' }
 	],
 	[#Rule 31
 		 'expr', 3,
 sub
-#line 79 "Farnsworth.yp"
+#line 75 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Pow' }
 	],
 	[#Rule 32
 		 'expr', 3,
 sub
-#line 80 "Farnsworth.yp"
+#line 76 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Pow' }
 	],
 	[#Rule 33
 		 'expr', 5,
 sub
-#line 81 "Farnsworth.yp"
+#line 77 "Farnsworth.yp"
 { bless [@_[1,3,5]], 'Ternary' }
 	],
 	[#Rule 34
 		 'expr', 3,
 sub
-#line 82 "Farnsworth.yp"
+#line 78 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Lt' }
 	],
 	[#Rule 35
 		 'expr', 3,
 sub
-#line 83 "Farnsworth.yp"
+#line 79 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Gt' }
 	],
 	[#Rule 36
 		 'expr', 3,
 sub
-#line 84 "Farnsworth.yp"
+#line 80 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Le' }
 	],
 	[#Rule 37
 		 'expr', 3,
 sub
-#line 85 "Farnsworth.yp"
+#line 81 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Ge' }
 	],
 	[#Rule 38
 		 'expr', 3,
 sub
-#line 86 "Farnsworth.yp"
+#line 82 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Eq' }
 	],
 	[#Rule 39
 		 'expr', 3,
 sub
-#line 87 "Farnsworth.yp"
+#line 83 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Compare' }
 	],
 	[#Rule 40
 		 'expr', 3,
 sub
-#line 88 "Farnsworth.yp"
+#line 84 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Ne' }
 	],
 	[#Rule 41
 		 'expr', 3,
 sub
-#line 89 "Farnsworth.yp"
+#line 85 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'SetPrefix' }
 	],
 	[#Rule 42
 		 'expr', 3,
 sub
-#line 90 "Farnsworth.yp"
+#line 86 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'SetPrefixAbrv' }
 	],
 	[#Rule 43
 		 'expr', 6,
 sub
-#line 91 "Farnsworth.yp"
+#line 87 "Farnsworth.yp"
 { bless [@_[1,3,6]], 'FuncDef' }
 	],
 	[#Rule 44
 		 'expr', 8,
 sub
-#line 92 "Farnsworth.yp"
+#line 88 "Farnsworth.yp"
 { bless [@_[1,3,7]], 'FuncDef' }
 	],
 	[#Rule 45
 		 'expr', 4,
 sub
-#line 93 "Farnsworth.yp"
+#line 89 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'FuncCall' }
 	],
 	[#Rule 46
 		 'expr', 3,
 sub
-#line 94 "Farnsworth.yp"
+#line 90 "Farnsworth.yp"
 { $_[2] }
 	],
 	[#Rule 47
 		 'expr', 6,
 sub
-#line 96 "Farnsworth.yp"
+#line 91 "Farnsworth.yp"
 {bless [ @_[2,4] ], 'Lambda'}
 	],
 	[#Rule 48
 		 'expr', 3,
 sub
-#line 97 "Farnsworth.yp"
+#line 92 "Farnsworth.yp"
 { bless [ @_[1,3]], 'Trans' }
 	],
 	[#Rule 49
 		 'expr', 1,
 sub
-#line 99 "Farnsworth.yp"
+#line 93 "Farnsworth.yp"
 { bless [ $_[1] ], 'Date' }
 	],
 	[#Rule 50
 		 'expr', 1,
 sub
-#line 100 "Farnsworth.yp"
+#line 94 "Farnsworth.yp"
 { bless [ $_[1] ], 'String' }
 	]
 ],
@@ -1677,7 +1692,7 @@ sub
     bless($self,$class);
 }
 
-#line 103 "Farnsworth.yp"
+#line 96 "Farnsworth.yp"
 
 
 sub yylex
@@ -1712,7 +1727,7 @@ sub yylex
 	#seperated this to shorten the lines, and hopefully to make parts of it more readable
 	$s =~ /\G\s*(:=|==|!=|<=>|>=|<=|->|:->|\*\*)\s*/icg and return lc $1;
 	$s =~ /\G\s*(\bper\b|\bisa\b|\:?\:\-|\=\!\=|\|\|\|)\s*/icg and return lc $1;
-	$s =~ /\G\s*(\+|\*|-|\/|\%|\^|=|;|\{|\}|\>|\<|\?|\:|\,)\s*/cg and return $1;
+	$s =~ /\G\s*(\+|\*|-|\/|\%|\^|=|;|\{|\}|\>|\<|\?|\:|\,|\|)\s*/cg and return $1;
 	$s =~ /\G\s*(\)|\])/cg and return $1; #freaking quirky lexers!
 	$s =~ /\G(\(|\[)\s*/cg and return $1;
 	$s =~ /\G(\w[\w\d]*)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here

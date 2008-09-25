@@ -1,5 +1,23 @@
 Conflicts:
 ----------
+Conflict in state 14 between rule 22 and token '-' resolved as reduce.
+Conflict in state 14 between rule 22 and token '<' resolved as reduce.
+Conflict in state 14 between rule 22 and token '+' resolved as reduce.
+Conflict in state 14 between rule 22 and token '**' resolved as shift.
+Conflict in state 14 between rule 22 and token '%' resolved as shift.
+Conflict in state 14 between rule 22 and token '==' resolved as reduce.
+Conflict in state 14 between rule 22 and token '>=' resolved as reduce.
+Conflict in state 14 between rule 22 and token '^' resolved as shift.
+Conflict in state 14 between rule 22 and token ' ' resolved as shift.
+Conflict in state 14 between rule 22 and token '*' resolved as shift.
+Conflict in state 14 between rule 22 and token 'per' resolved as shift.
+Conflict in state 14 between rule 22 and token '!=' resolved as reduce.
+Conflict in state 14 between rule 22 and token '?' resolved as reduce.
+Conflict in state 14 between rule 22 and token '->' resolved as reduce.
+Conflict in state 14 between rule 22 and token '/' resolved as shift.
+Conflict in state 14 between rule 22 and token '<=' resolved as reduce.
+Conflict in state 14 between rule 22 and token '<=>' resolved as reduce.
+Conflict in state 14 between rule 22 and token '>' resolved as reduce.
 Conflict in state 55 between rule 41 and token '-' resolved as shift.
 Conflict in state 55 between rule 41 and token '<' resolved as shift.
 Conflict in state 55 between rule 41 and token '+' resolved as shift.
@@ -403,7 +421,7 @@ Rules:
 19:	exprval -> NAME
 20:	exprval -> '(' expr ')'
 21:	expr -> exprval
-22:	expr -> '-' exprval
+22:	expr -> '-' expr
 23:	expr -> exprval exprval
 24:	expr -> expr ' ' expr
 25:	expr -> expr '+' expr
@@ -457,13 +475,19 @@ State 0:
 
 State 1:
 
-	expr -> '-' . exprval	(Rule 22)
+	expr -> '-' . expr	(Rule 22)
 
 	'('	shift, and go to state 9
+	'-'	shift, and go to state 1
+	'['	shift, and go to state 11
+	'{'	shift, and go to state 6
+	DATE	shift, and go to state 4
 	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
+	STRING	shift, and go to state 7
 
-	exprval	go to state 14
+	expr	go to state 14
+	exprval	go to state 5
 
 State 2:
 
@@ -505,18 +529,18 @@ State 5:
 	expr -> exprval . exprval	(Rule 23)
 
 	'('	shift, and go to state 9
-	NAME	shift, and go to state 13
+	NAME	shift, and go to state 23
 	NUMBER	shift, and go to state 12
 
 	$default	reduce using rule 21 (expr)
 
-	exprval	go to state 23
+	exprval	go to state 24
 
 State 6:
 
 	expr -> '{' . '|' arglist '|' expr '}'	(Rule 47)
 
-	'|'	shift, and go to state 24
+	'|'	shift, and go to state 25
 
 State 7:
 
@@ -529,7 +553,7 @@ State 8:
 	stma -> stmt .	(Rule 2)
 	stma -> stmt . ';' stma	(Rule 3)
 
-	';'	shift, and go to state 25
+	';'	shift, and go to state 26
 
 	$default	reduce using rule 2 (stma)
 
@@ -542,7 +566,7 @@ State 9:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -605,7 +629,7 @@ State 11:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -622,12 +646,48 @@ State 12:
 State 13:
 
 	exprval -> NAME .	(Rule 19)
+	expr -> NAME . '::-' expr	(Rule 41)
+	expr -> NAME . ':-' expr	(Rule 42)
+	expr -> NAME . '{' arglist '}' ':=' expr	(Rule 43)
+	expr -> NAME . '{' arglist '}' ':=' '{' stma '}'	(Rule 44)
+	expr -> NAME . '[' array ']'	(Rule 45)
+
+	':-'	shift, and go to state 20
+	'::-'	shift, and go to state 18
+	'['	shift, and go to state 21
+	'{'	shift, and go to state 16
 
 	$default	reduce using rule 19 (exprval)
 
 State 14:
 
-	expr -> '-' exprval .	(Rule 22)
+	expr -> '-' expr .	(Rule 22)
+	expr -> expr . ' ' expr	(Rule 24)
+	expr -> expr . '+' expr	(Rule 25)
+	expr -> expr . '-' expr	(Rule 26)
+	expr -> expr . '*' expr	(Rule 27)
+	expr -> expr . '/' expr	(Rule 28)
+	expr -> expr . 'per' expr	(Rule 29)
+	expr -> expr . '%' expr	(Rule 30)
+	expr -> expr . '^' expr	(Rule 31)
+	expr -> expr . '**' expr	(Rule 32)
+	expr -> expr . '?' expr ':' expr	(Rule 33)
+	expr -> expr . '<' expr	(Rule 34)
+	expr -> expr . '>' expr	(Rule 35)
+	expr -> expr . '<=' expr	(Rule 36)
+	expr -> expr . '>=' expr	(Rule 37)
+	expr -> expr . '==' expr	(Rule 38)
+	expr -> expr . '<=>' expr	(Rule 39)
+	expr -> expr . '!=' expr	(Rule 40)
+	expr -> expr . '->' expr	(Rule 48)
+
+	' '	shift, and go to state 36
+	'%'	shift, and go to state 32
+	'*'	shift, and go to state 37
+	'**'	shift, and go to state 30
+	'/'	shift, and go to state 44
+	'^'	shift, and go to state 35
+	'per'	shift, and go to state 38
 
 	$default	reduce using rule 22 (expr)
 
@@ -640,7 +700,7 @@ State 15:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -672,7 +732,7 @@ State 18:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -688,7 +748,7 @@ State 19:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -704,7 +764,7 @@ State 20:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -720,7 +780,7 @@ State 21:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -736,11 +796,17 @@ State 22:
 
 State 23:
 
+	exprval -> NAME .	(Rule 19)
+
+	$default	reduce using rule 19 (exprval)
+
+State 24:
+
 	expr -> exprval exprval .	(Rule 23)
 
 	$default	reduce using rule 23 (expr)
 
-State 24:
+State 25:
 
 	expr -> '{' '|' . arglist '|' expr '}'	(Rule 47)
 
@@ -749,7 +815,7 @@ State 24:
 	arglist	go to state 59
 	argelement	go to state 51
 
-State 25:
+State 26:
 
 	stma -> stmt ';' . stma	(Rule 3)
 
@@ -768,22 +834,6 @@ State 25:
 	stma	go to state 60
 	expr	go to state 10
 	exprval	go to state 5
-
-State 26:
-
-	exprval -> NAME .	(Rule 19)
-	expr -> NAME . '::-' expr	(Rule 41)
-	expr -> NAME . ':-' expr	(Rule 42)
-	expr -> NAME . '{' arglist '}' ':=' expr	(Rule 43)
-	expr -> NAME . '{' arglist '}' ':=' '{' stma '}'	(Rule 44)
-	expr -> NAME . '[' array ']'	(Rule 45)
-
-	':-'	shift, and go to state 20
-	'::-'	shift, and go to state 18
-	'['	shift, and go to state 21
-	'{'	shift, and go to state 16
-
-	$default	reduce using rule 19 (exprval)
 
 State 27:
 
@@ -836,7 +886,7 @@ State 28:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -852,7 +902,7 @@ State 29:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -868,7 +918,7 @@ State 30:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -884,7 +934,7 @@ State 31:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -900,7 +950,7 @@ State 32:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -916,7 +966,7 @@ State 33:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -932,7 +982,7 @@ State 34:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -948,7 +998,7 @@ State 35:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -964,7 +1014,7 @@ State 36:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -980,7 +1030,7 @@ State 37:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -996,7 +1046,7 @@ State 38:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -1012,7 +1062,7 @@ State 39:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -1028,7 +1078,7 @@ State 40:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -1050,7 +1100,7 @@ State 42:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -1066,7 +1116,7 @@ State 43:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -1082,7 +1132,7 @@ State 44:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -1098,7 +1148,7 @@ State 45:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -1114,7 +1164,7 @@ State 46:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -1130,7 +1180,7 @@ State 47:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -2111,7 +2161,7 @@ State 83:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -2137,7 +2187,7 @@ State 85:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -2173,7 +2223,7 @@ State 89:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -2189,7 +2239,7 @@ State 90:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -2270,7 +2320,7 @@ State 95:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 100
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -2370,7 +2420,7 @@ State 98:
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
 	DATE	shift, and go to state 4
-	NAME	shift, and go to state 26
+	NAME	shift, and go to state 13
 	NUMBER	shift, and go to state 12
 	STRING	shift, and go to state 7
 
@@ -2429,7 +2479,7 @@ State 100:
 	'-'	shift, and go to state 1
 	'['	shift, and go to state 11
 	'{'	shift, and go to state 6
-	'|'	shift, and go to state 24
+	'|'	shift, and go to state 25
 	DATE	shift, and go to state 4
 	NAME	shift, and go to state 2
 	NUMBER	shift, and go to state 12
