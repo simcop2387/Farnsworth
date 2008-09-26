@@ -209,6 +209,35 @@ sub evalbranch
 		my $array;
 		for my $bs (@$branch) #iterate over all the elements
 		{
+			my $type = ref($bs); #find out what kind of thing we are
+			my $value = $self->makevalue($bs)
+
+			if ($type eq "SubArray")
+			{
+				#we DON'T attempt to dereference it before putting it up
+				push @$array, $value; #we return an array ref! i need more error checking around for this later
+			}
+			else
+			{
+				if (exists($value->{dimen}{array}))
+				{
+					#since we have an array, but its not in a SUBarray, we dereference it before the push
+					push @$array, @{$value->{pari}};
+				}
+				else
+				{
+					#its not an array or anything so we push it on
+					push @$array, $value; #we return an array ref! i need more error checking around for this later
+				}
+			}
+		}
+		$return = new Math::Farnsworth::Value($array, {array => 1});
+	}
+	elsif ($type eq "SubArray")
+	{
+		my $array;
+		for my $bs (@$branch) #iterate over all the elements
+		{
 			push @$array, $self->makevalue($bs); #we return an array ref! i need more error checking around for this later
 		}
 		$return = new Math::Farnsworth::Value($array, {array => 1});
@@ -245,6 +274,7 @@ sub evalbranch
 	{
 		my $var = $self->makevalue($branch->[0]); #need to check if this is an array, and die if not
 		my $listval = $self->makevalue($branch->[1]);
+		my $rval = $self->makevalue($branch->[2]);
 		my @rval;
 
 		print Dumper($branch, $var, $listval);
