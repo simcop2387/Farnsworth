@@ -241,6 +241,34 @@ sub evalbranch
 			$return = $rval[0];
 		}
 	}
+	elsif ($type eq "ArrayStore")
+	{
+		my $var = $self->makevalue($branch->[0]); #need to check if this is an array, and die if not
+		my $listval = $self->makevalue($branch->[1]);
+		my @rval;
+
+		print Dumper($branch, $var, $listval);
+
+		for (@{$listval->{pari}})
+		{
+			my $input = $var->{pari}->[$_];
+			die "Array out of bounds" unless defined $input;
+			push @rval, $input;
+		}
+
+		print Dumper(\@rval);
+
+		if (@rval > 1)
+		{
+			my $pr = $self->makevalue(bless [bless ['0.1234'], 'Num'], 'Array'); #we return an array
+			$pr->{pari} = [@rval]; #make a shallow copy, why not
+			$return = $pr;
+		}
+		else
+		{
+			$return = $rval[0];
+		}
+	}
 	elsif ($type eq "Stmt")
 	{
 		for my $bs (@$branch) #iterate over all the statements
