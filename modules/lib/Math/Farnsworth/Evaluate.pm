@@ -204,41 +204,27 @@ sub evalbranch
 		$return = $self->{funcs}->callfunc($self, $name, $args);
 
 	}
-	elsif ($type eq "Array")
+	elsif (($type eq "Array") || ($type eq "SubArray"))
 	{
 		my $array;
 		for my $bs (@$branch) #iterate over all the elements
 		{
 			my $type = ref($bs); #find out what kind of thing we are
-			my $value = $self->makevalue($bs)
+			my $value = $self->makevalue($bs);
 
-			if ($type eq "SubArray")
+			if (exists($value->{dimen}{dimen}{array}))
 			{
-				#we DON'T attempt to dereference it before putting it up
-				push @$array, $value; #we return an array ref! i need more error checking around for this later
+				print "ARRAY\n";
+				print Dumper($type, $value);
+				#since we have an array, but its not in a SUBarray, we dereference it before the push
+				push @$array, @{$value->{pari}} unless ($type eq "SubArray");
+				push @$array, $value if ($type eq "SubArray");
 			}
 			else
 			{
-				if (exists($value->{dimen}{array}))
-				{
-					#since we have an array, but its not in a SUBarray, we dereference it before the push
-					push @$array, @{$value->{pari}};
-				}
-				else
-				{
-					#its not an array or anything so we push it on
-					push @$array, $value; #we return an array ref! i need more error checking around for this later
-				}
+				#its not an array or anything so we push it on
+				push @$array, $value; #we return an array ref! i need more error checking around for this later
 			}
-		}
-		$return = new Math::Farnsworth::Value($array, {array => 1});
-	}
-	elsif ($type eq "SubArray")
-	{
-		my $array;
-		for my $bs (@$branch) #iterate over all the elements
-		{
-			push @$array, $self->makevalue($bs); #we return an array ref! i need more error checking around for this later
 		}
 		$return = new Math::Farnsworth::Value($array, {array => 1});
 	}

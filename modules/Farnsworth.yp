@@ -46,8 +46,8 @@ stmt
 #// i hate bad syntax highlighting
 #// ( ref($_[1]) eq 'Array' ? ( bless [@$_[1]], 'SubArray' ) : $_[1] )
 
-array : expr ',' array  { bless [ ( ref($_[1]) eq 'Array' ? ( bless [@$_[1]], 'SubArray' ) : $_[1] ), ref($_[3]) eq 'Array' ? @{$_[3]} : $_[3] ], 'Array' }
-	  | expr { bless [ ( ref($_[1]) eq 'Array' ? ( bless [@$_[1]], 'SubArray' ) : $_[1] ) ], 'Array'}
+array : expr ',' array  {print "Array PARSE 1\n"; print Dumper([@{$_[1]}]); bless [ ( ref($_[1]) eq 'Array' ? ( bless [@{$_[1]}], 'SubArray' ) : $_[1] ), ref($_[3]) eq 'Array' ? @{$_[3]} : $_[3] ], 'Array' }
+	  | expr {print "Array PARSE 2\n"; print Dumper([@{$_[1]}]); bless [ ( ref($_[1]) eq 'Array' ? ( bless [@{$_[1]}], 'SubArray' ) : $_[1] ) ], 'Array'}
 	  ;
 
 argelement : NAME 'isa' NAME '=' expr {bless [$_[1], $_[5], $_[3]], 'Argele'} #default value AND constraint 

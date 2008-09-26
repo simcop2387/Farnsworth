@@ -1541,13 +1541,13 @@ sub
 		 'array', 3,
 sub
 #line 49 "Farnsworth.yp"
-{ bless [ ( ref($_[1]) eq 'Array' ? ( bless [@$_[1]], 'SubArray' ) : $_[1] ), ref($_[3]) eq 'Array' ? @{$_[3]} : $_[3] ], 'Array' }
+{print "Array PARSE 1\n"; print Dumper([@{$_[1]}]); bless [ ( ref($_[1]) eq 'Array' ? ( bless [$_[1]], 'Array' ) : $_[1] ), ref($_[3]) eq 'Array' ? @{$_[3]} : $_[3] ], 'Array' }
 	],
 	[#Rule 10
 		 'array', 1,
 sub
 #line 50 "Farnsworth.yp"
-{ bless [ ( ref($_[1]) eq 'Array' ? ( bless [@$_[1]], 'SubArray' ) : $_[1] ) ], 'Array'}
+{print "Array PARSE 2\n"; print Dumper([@{$_[1]}]); bless [ ( ref($_[1]) eq 'Array' ? ( bless [$_[1]], 'Array' ) : $_[1] ) ], 'Array'}
 	],
 	[#Rule 11
 		 'argelement', 5,
