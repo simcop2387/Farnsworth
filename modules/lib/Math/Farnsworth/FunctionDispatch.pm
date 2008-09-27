@@ -38,6 +38,7 @@ sub callfunc
 	my $eval = shift;
 	my $name = shift;
 	my $args = shift;
+	my $branches = shift;
 
 	my $argtypes = $self->{funcs}{$name}{args};
 
@@ -45,20 +46,31 @@ sub callfunc
 
 	print Dumper($args);
 
-	my $nvars = new Math::Farnsworth::Variables($eval->{vars});
-	for my $argc (0..$#$argtypes)
+	my $fval = $self->{funcs}{$name}{value};
+
+	if (ref($fval) ne "CODE")
 	{
-		my $n = $argtypes->[$argc][0]; #the rest are defaults and types
-		my $v = $args->{pari}->[$argc];
+		my $nvars = new Math::Farnsworth::Variables($eval->{vars});
+		for my $argc (0..$#$argtypes)
+		{
+			my $n = $argtypes->[$argc][0]; #the rest are defaults and constraints
+			my $v = $args->{pari}->[$argc];
 
-		$nvars->setvar($n, $v);
+			$nvars->declare($n, $v);
+			#$nvars->setvar($n, $v);
+		}
+		my %nopts = (vars => $nvars, funcs => $self, units => $eval->{units}, parser => $eval->{parser});
+	    my $neval = $eval->new(%nopts);
+
+		print Dumper($fval);
+
+		return $neval->evalbranch($fval);
 	}
-	my %nopts = (vars => $nvars, funcs => $self, units => $eval->{units}, parser => $eval->{parser});
-    my $neval = $eval->new(%nopts);
-
-	print Dumper($self->{funcs}{$name}{value});
-
-	return $neval->evalbranch($self->{funcs}{$name}{value});
+	else
+	{
+		#we have a code ref, so we need to call it
+		return $fval->($args, $eval, $branches);
+	}
 }
 
 #this should check for correctness of types and such, todo later

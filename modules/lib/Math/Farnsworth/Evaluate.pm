@@ -186,6 +186,23 @@ sub evalbranch
 		$return = $value; #make stores evaluate to the value on the right
 		$self->{vars}->setvar($name, $value);
 	}
+	elsif ($type eq "DeclareVar")
+	{
+		my $name = $branch->[0];
+		my $value;
+
+		if (defined($branch->[1]))
+		{
+			$value = $self->makevalue($branch->[1]);
+		}
+		else
+		{
+			$value = $self->makevalue(bless [0], 'Num');
+		}
+
+		$return = $value; #make stores evaluate to the value on the right
+		$self->{vars}->declare($name, $value);
+	}
 	elsif ($type eq "FuncDef")
 	{
 		print Dumper($branch);
@@ -201,7 +218,7 @@ sub evalbranch
 		my $name = $branch->[0];
 		my $args = $self->makevalue($branch->[1]); #this is an array, need to evaluate it
 
-		$return = $self->{funcs}->callfunc($self, $name, $args);
+		$return = $self->{funcs}->callfunc($self, $name, $args, $branch);
 
 	}
 	elsif (($type eq "Array") || ($type eq "SubArray"))
@@ -214,8 +231,6 @@ sub evalbranch
 
 			if (exists($value->{dimen}{dimen}{array}))
 			{
-				print "ARRAY\n";
-				print Dumper($type, $value);
 				#since we have an array, but its not in a SUBarray, we dereference it before the push
 				push @$array, @{$value->{pari}} unless ($type eq "SubArray");
 				push @$array, $value if ($type eq "SubArray");
@@ -225,6 +240,19 @@ sub evalbranch
 				#its not an array or anything so we push it on
 				push @$array, $value; #we return an array ref! i need more error checking around for this later
 			}
+		}
+		$return = new Math::Farnsworth::Value($array, {array => 1});
+	}
+	elsif ($type eq "ArgArray")
+	{
+		my $array;
+		for my $bs (@$branch) #iterate over all the elements
+		{
+			my $type = ref($bs); #find out what kind of thing we are
+			my $value = $self->makevalue($bs);
+
+			#even if it is an array we don't want to deref it here, because thats the wrong behavior, this will make things like push[a, 1,2,3] work properly
+			push @$array, $value; #we return an array ref! i need more error checking around for this later
 		}
 		$return = new Math::Farnsworth::Value($array, {array => 1});
 	}
