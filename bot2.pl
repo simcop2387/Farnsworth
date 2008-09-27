@@ -14,9 +14,8 @@ use Math::BigFloat;
          my $bot = FrinkBot->new(
 
            server => "andromeda128",
-           port   => "9000",
-	   password => $ARGV[0],
-           channels => ["#yapb", "#buubot", "#perl", "#codeyard", "#perlcafe"],
+           port   => "6669",
+           channels => ["#yapb", "#buubot", "#codeyard"],
 
            nick      => "farnsworth",
            alt_nicks => [map {"frinkbot".$_} 2..100],
@@ -100,7 +99,7 @@ sub submitform
 
   $eq = uri_escape_utf8($eq);
 
-  my $url="http://localhost:8080/$eq";
+  my $url="http://localhost:8084/$eq";
 
   print "URL: $url\n";
 

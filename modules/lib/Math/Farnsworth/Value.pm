@@ -9,6 +9,7 @@ use Data::Dumper;
 
 use Math::Pari;
 use Math::Farnsworth::Dimension;
+use utf8;
 
 our $VERSION = 0.5;
 
@@ -77,6 +78,7 @@ sub toperl
   my $units = shift;
 
   print "To PERL\n";
+  #print Dumper($self, $units);
 
   if (ref($units) eq "Math::Farnsworth::Units")
   {

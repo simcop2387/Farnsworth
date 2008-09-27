@@ -13,32 +13,14 @@ use POE::Component::Server::TCP;
 use HTTP::Status;
 use POE;
 
-use Math::Farnsworth::Evaluate;
+use Math::Farnsworth;
 
-my $frink = new Math::Farnsworth::Evaluate;
-
-print "Loading units!\n";
-
-open (my $fh, "<","units.frns");
-
-print "Opened file!\n";
-
-while(<$fh>)
-{
-	chomp;
-	s|//.*$||;
-	s|\s*$||;
-	$frink->eval($_) if ($_ !~ /^\s*$/);
-}
-
-close ($fh);
-
-print "Done Loading!\n";
+my $farnsworth = new Math::Farnsworth;
 
 my $aliases = POE::Component::Server::HTTP->new(
   Port => 8080,
-  ContentHandler => {"/", \&runfrink},
-  Headers => { Server => "Frink Server 1.0" },
+  ContentHandler => {"/", \&runfarnsworth},
+	Headers => { Server => "Farnsworth Server 1.2" },
   );
 
 my $tcpserv = POE::Component::Server::TCP->new(
@@ -51,11 +33,7 @@ sub {
 ClientInput => sub {print "Dummy\n";}
 );
 
-#my $frink = new frink::parser::Frink();
-#$frink->parseFilename("startup.frink");
-#$frink->setRestrictiveSecurity(1); #true?
-
-sub runfrink
+sub runfarnsworth
 {
   my ($request, $response) = @_;
   $response->code(RC_OK);
@@ -67,10 +45,10 @@ sub runfrink
   print "Running\n";
   eval 
 	{
-    my $out = ($frink->eval($string));
+    my $out = ($farnsworth->runString($string));
     if (ref($out) eq "Math::Farnsworth::Value")
     {
-      $output = $out->toperl($frink->{units});
+      $output = $out->toperl($farnsworth->{eval}{units});
     }
     elsif (!defined($out))
     {

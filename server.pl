@@ -12,13 +12,13 @@ use HTTP::Status;
 use POE;
 
 my $aliases = POE::Component::Server::HTTP->new(
-  Port => 8080,
+  Port => 8084,
   ContentHandler => {"/", \&runfrink},
   Headers => { Server => "Frink Server 1.0" },
   );
 
 my $tcpserv = POE::Component::Server::TCP->new(
-Port => 8081, 
+Port => 8085, 
 ClientConnected =>
 sub {
   print "HEARTBEAT\n";

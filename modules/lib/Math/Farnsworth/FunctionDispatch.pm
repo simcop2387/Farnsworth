@@ -53,6 +53,8 @@ sub callfunc
 		my $nvars = new Math::Farnsworth::Variables($eval->{vars});
 		for my $argc (0..$#$argtypes)
 		{
+			print "-----FUNCCALL\n";
+			print Dumper($args);
 			my $n = $argtypes->[$argc][0]; #the rest are defaults and constraints
 			my $v = $args->{pari}->[$argc];
 
