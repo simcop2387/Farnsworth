@@ -67,7 +67,7 @@ sub eval
 
 	my $tree = $self->{parser}->parse($code); #should i catch the exceptions here? dunno
 
-	#print Dumper($tree);
+	print Dumper($tree);
 
     $self->evalbranch($tree);
 }
