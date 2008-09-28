@@ -286,32 +286,48 @@ sub evalbranch
 	}
 	elsif ($type eq "ArrayStore")
 	{
-		my $var = $self->makevalue($branch->[0]); #need to check if this is an array, and die if not
+		my $var = $self->makevalue(bless [$branch->[0]], 'Fetch'); #need to check if this is an array, and die if not
 		my $listval = $self->makevalue($branch->[1]);
 		my $rval = $self->makevalue($branch->[2]);
-		my @rval;
 
 		print Dumper($branch, $var, $listval);
 
-		for (@{$listval->{pari}})
+		if (@{$listval->{pari}} > 1)
 		{
-			my $input = $var->{pari}->[$_];
-			die "Array out of bounds" unless defined $input;
-			push @rval, $input;
+			die "Assigning to slices not implemented yet";
 		}
 
-		print Dumper(\@rval);
+		$var->{pari}->[${$listval->{pari}}[0]] = $rval;
 
-		if (@rval > 1)
+		for my $value (@{$var->{pari}})
 		{
-			my $pr = $self->makevalue(bless [bless ['0.1234'], 'Num'], 'Array'); #we return an array
-			$pr->{pari} = [@rval]; #make a shallow copy, why not
-			$return = $pr;
+			$value = $self->makevalue(bless [0], 'Num') if !defined($value);
 		}
-		else
+
+		$return = $rval;
+	}
+	elsif ($type eq "While")
+	{
+		my $cond = $branch->[0]; #what to check each time
+		my $stmts = $branch->[1]; #what to run each time
+
+		my $loopcount = 3000; #this is TEMPORARY! once i implement a proper timeout system, this will disappear
+
+		my $condval = $self->makevalue($cond);
+		while ($condval && $loopcount--)
 		{
-			$return = $rval[0];
+#			print "LOOPING--- $loopcount\n";
+#			print Dumper($condval, "".$condval->{pari});
+			$self->makevalue($stmts);
+			$condval = $self->makevalue($cond);
 		}
+
+		if ($loopcount <= 0)
+		{
+			die "TOO MANY LOOPS!";
+		}
+
+		$return = undef; #cause errors
 	}
 	elsif ($type eq "Stmt")
 	{
@@ -383,6 +399,9 @@ sub makevalue
 {
 	my $self = shift;
 	my $input = shift;
+
+#	print "MAKEVALUE---------\n";
+#	print Dumper($input);
 
 	if (ref($input) eq "Num")
 	{

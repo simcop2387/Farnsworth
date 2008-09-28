@@ -6,6 +6,10 @@ use warnings;
 use Math::Farnsworth::Value;
 use utf8;
 
+use Data::Dumper;
+
+use Math::Pari;
+
 sub init
 {
    my $env = shift;
@@ -13,6 +17,7 @@ sub init
    $env->{funcs}->addfunc("push", [],\&push);
    $env->{funcs}->addfunc("pop", [],\&pop);
    $env->{funcs}->addfunc("length", [],\&length);
+   $env->{funcs}->addfunc("sin", [],\&sin);
    #commented out for testing
 #   $env->{funcs}->addfunc("substr", [],\&substr);
 #   $env->{funcs}->addfunc("substrLen", [],\&substrlen);
@@ -96,6 +101,42 @@ sub length
 		{
 			#until i decide how this should work on regular numbers, just do this
 			CORE::push @rets, Math::Farnsworth::Value->new(0, {});
+		}
+	}
+
+	if (@rets > 1)
+	{
+		return Math::Farnsworth::Value->new(\@rets, {array=>1});
+	}
+	else
+	{
+		return $rets[0];
+	}
+}
+
+sub sin
+{
+	#with an array we give the number of elements, with a string we give the length of the string
+	my ($args, $eval, $branches)= @_;
+	my @argsarry = @{$args->{pari}};
+
+	my @rets;
+
+	for my $arg (@argsarry)
+	{
+		if ($arg->{dimen}{dimen}{array})
+		{
+			die "I don't know what to do with an array in sin yet!\n";
+		}
+		elsif ($arg->{dimen}{dimen}{string})
+		{
+			die "The sin of a string is the md5sum of the reverse of the idiot who wanted it";
+		}
+		else
+		{
+			#until i decide how this should work on regular numbers, just do this
+			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::sin($arg->{pari}), {});
+			print Dumper(\@rets);
 		}
 	}
 

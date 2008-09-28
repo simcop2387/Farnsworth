@@ -21,7 +21,7 @@ use overload
 	'%' => \&mod,
 	'**' => \&pow,
 	'<=>' => \&compare,
-	'bool' => \&bool,
+#	'bool' => \&bool,
 	'""' => \&toperl;
 
 sub new
@@ -36,6 +36,7 @@ sub new
   bless $self, $class;
 
   $self->{outmagic} = $outmagic;
+  $self->{valueinput} = $value;
 
   if (ref($dimen) eq "Math::Farnsworth::Dimension")
   {
@@ -46,8 +47,6 @@ sub new
 	  $dimen = {} if !defined($dimen);
 	  $self->{dimen} = new Math::Farnsworth::Dimension($dimen);
   }
-
-  print "Setting VAR: ".Dumper($value);
 
   if (exists($self->{dimen}{dimen}{string}))
   {
@@ -221,7 +220,11 @@ sub bool
 	my $self = shift;
 
 	#seems good enough of an idea to me
-	return $self->{pari}?Math::Farnsworth::Value->new(0, {bool => 1}):Math::Farnsworth::Value->new(1, {bool => 1});
+	#i have a bug HERE
+	print "BOOLCONV\n";
+	print Dumper($self);
+	print "ENDBOOLCONV\n";
+	return $self->{pari}?0:1;
 }
 
 sub pow
