@@ -5,6 +5,7 @@ use warnings;
 
 use Data::Dumper;
 use Math::Farnsworth::Value;
+use Math::Pari;
 
 sub new
 {
@@ -188,7 +189,11 @@ sub getdisplay
 			print Dumper($exp);
 			push @returns, $self->getdimen($d).$exp;
 		}
-		return "".($value->{pari})." ".join " ", @returns;
+		my $prec = Math::Pari::setprecision();
+		Math::Pari::setprecision(15); #set it to 15?
+		my $pv = "".(Math::Pari::pari_print($value->{pari}));
+		Math::Pari::setprecision($prec); #restore it before calcs
+		return $pv." ".join " ", @returns;
 	}
 }
 

@@ -17,13 +17,15 @@ sub init
    $env->{funcs}->addfunc("push", [],\&push);
    $env->{funcs}->addfunc("pop", [],\&pop);
    $env->{funcs}->addfunc("length", [],\&length);
-   $env->{funcs}->addfunc("sin", [],\&sin);
    #commented out for testing
+   $env->{funcs}->addfunc("substrLen", [],\&substrlen); #this one works like perls
+   $env->eval("substr{str,left,right}:={substrLen[str,left,right-left]}");
+   $env->eval("left{str,pos}:={substrLen[str,0,pos]}");
+   $env->eval("right{str,pos}:={substrLen[str,pos,length[str]-pos]}");
 #   $env->{funcs}->addfunc("substr", [],\&substr);
-#   $env->{funcs}->addfunc("substrLen", [],\&substrlen);
 #   $env->{funcs}->addfunc("left", [],\&left);
 #   $env->{funcs}->addfunc("right", [],\&right);
-#   $env->{funcs}->addfunc("reverse", [],\&reverse);
+   $env->{funcs}->addfunc("reverse", [],\&reverse);
 }
 
 sub push
@@ -114,7 +116,7 @@ sub length
 	}
 }
 
-sub sin
+sub reverse
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
@@ -122,21 +124,19 @@ sub sin
 
 	my @rets;
 
-	for my $arg (@argsarry)
+	for my $arg (reverse @argsarry) #this will make reverse[1,2,3,4] return [4,3,2,1]
 	{
 		if ($arg->{dimen}{dimen}{array})
 		{
-			die "I don't know what to do with an array in sin yet!\n";
+			CORE::push @rets, Math::Farnsworth::Value->new(reverse @{$arg->{pari}}, {});
 		}
 		elsif ($arg->{dimen}{dimen}{string})
 		{
-			die "The sin of a string is the md5sum of the reverse of the idiot who wanted it";
+			CORE::push @rets, Math::Farnsworth::Value->new(reverse $arg->{pari}, {});
 		}
 		else
 		{
-			#until i decide how this should work on regular numbers, just do this
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::sin($arg->{pari}), {});
-			print Dumper(\@rets);
+			CORE::push @rets, $arg; #should i make it print the reverse of all its arguments? yes, lets fix that
 		}
 	}
 
@@ -147,6 +147,31 @@ sub sin
 	else
 	{
 		return $rets[0];
+	}
+}
+
+sub substrlen
+{
+	#with an array we give the number of elements, with a string we give the length of the string
+	my ($args, $eval, $branches)= @_;
+	my @arg = @{$args->{pari}};
+
+	print "SUBSTR----!";
+
+	if ($arg[0]{dimen}{dimen}{array})
+	{
+		die "substr and friends only works on strings";
+	}
+	elsif ($arg[0]{dimen}{dimen}{string})
+	{
+		#do i need to do something to convert these to work? (the 1,2 anyway?)
+		my $ns = substr($arg->[0]{pari}, "".$arg->[1]{pari}, "".$arg->[2]{pari});
+		print "SUBSTR :: $ns\n";
+		return Math::Farnsworth::Value->new("i suck buubot's dong", {string=>1});
+	}
+	else
+	{
+		die "substr and friends only works on strings";
 	}
 }
 
