@@ -120,6 +120,7 @@ sub add
   elsif (($one->{dimen}{dimen}{date}) && ($two->{dimen}->compare({dimen=>{time => 1}}))) #check if we are adding time to a date
   {
 		  my $seconds = $two->toperl(); #calling WITHOUT the units SHOULD give me a string containing just the number
+		  $seconds =~ s/\..*$//; #filter off fractional parts of a second as Date::Manip hates them
 		  my $sign = $seconds > 0 ? "+" : "-"; #should work fine, even with loss of precision
 		  my $delta = DateCalc($one->{pari}, "$sign $seconds seconds"); #order is switched, to make it work the way I think it should
 
@@ -159,6 +160,7 @@ sub subtract
 	  elsif (($one->{dimen}{dimen}{date}) && ($two->{dimen}->compare({dimen => {time => 1}})))
 	  {
 		  my $seconds = $two->toperl(); #calling WITHOUT the units SHOULD give me a string containing just the number
+		  $seconds =~ s/\..*$//; #filter off fractional parts of a second as Date::Manip hates them
 		  my $sign = $seconds > 0 ? "-" : "+"; #should work fine, even with loss of precision
 		  my $delta = DateCalc($one->{pari}, "$sign $seconds seconds"); #order is switched, to make it work the way I think it should
 
