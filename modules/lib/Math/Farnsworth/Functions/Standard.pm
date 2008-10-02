@@ -26,6 +26,8 @@ sub init
 #   $env->{funcs}->addfunc("left", [],\&left);
 #   $env->{funcs}->addfunc("right", [],\&right);
    $env->{funcs}->addfunc("reverse", [],\&reverse);
+
+   $env->eval("now{} := {#today#}");
 }
 
 sub push
