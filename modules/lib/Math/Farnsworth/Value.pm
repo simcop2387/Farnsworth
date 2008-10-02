@@ -9,6 +9,9 @@ use Data::Dumper;
 
 use Math::Pari;
 use Math::Farnsworth::Dimension;
+use Date::Manip;
+use List::Util qw(sum);
+
 use utf8;
 
 our $VERSION = 0.5;
@@ -56,9 +59,9 @@ sub new
 	$value =~ s/\\\\/\\/g;
 	$self->{pari} = $value;
   }
-  elsif (exists($self->{dimen}{dimen}{array}))
+  elsif (exists($self->{dimen}{dimen}{array}) || exists($self->{dimen}{dimen}{date}))
   {
-	#we've got an array here
+	#we've got an array or date here
 	$self->{pari} = $value;
   }
   else
@@ -96,7 +99,7 @@ sub add
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
-  die "Unable to process different units in addition" unless $one->{dimen}->compare($two->{dimen}); #always call this on one, since $two COULD be some other object 
+  die "Unable to process different units in addition" unless ($one->{dimen}->compare($two->{dimen}) || $one->{dimen}{dimen}{date}); #always call this on one, since $two COULD be some other object 
 
   #moving this down so that i don't do any math i don't have to
 
@@ -105,6 +108,22 @@ sub add
   {
 	print Dumper($one, $two);
   	$new = new Math::Farnsworth::Value($one->{pari} . $tv, $one->{dimen});
+  }
+  elsif ($one->{dimen}{dimen}{array})
+  {
+	  die "Adding arrays is undefined behavoir!";
+  }
+  elsif (($one->{dimen}{dimen}{date}) && ($two->{dimen}{dimen}{date}))
+  {
+	  die "Adding of two dates is unsupported";
+  }
+  elsif (($one->{dimen}{dimen}{date}) && ($two->{dimen}->compare({dimen=>{time => 1}}))) #check if we are adding time to a date
+  {
+		  my $seconds = $two->toperl(); #calling WITHOUT the units SHOULD give me a string containing just the number
+		  my $sign = $seconds > 0 ? "+" : "-"; #should work fine, even with loss of precision
+		  my $delta = DateCalc($one->{pari}, "$sign $seconds seconds"); #order is switched, to make it work the way I think it should
+
+		  $new = new Math::Farnsworth::Value($delta, {date=>1});
   }
   else
   {
@@ -123,17 +142,42 @@ sub subtract
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
-  die "Unable to process different units in subtraction" unless $one->{dimen}->compare($two->{dimen}); #always call this on one, since $two COULD be some other object 
+  die "Unable to process different units in addition" unless ($one->{dimen}->compare($two->{dimen}) || $one->{dimen}{dimen}{date}); #always call this on one, sinc
 
   #moving this down so that i don't do any math i don't have to
   my $new;
   if (!$rev)
   {
-	  $new = new Math::Farnsworth::Value($one->{pari} - $tv, $one->{dimen}); #if !$rev they are in order
+	  if (($one->{dimen}{dimen}{date}) && ($two->{dimen}{dimen}{date}))
+	  {
+		  my $delta = DateCalc($two->{pari}, $one->{pari}); #order is switched, to make it work the way I think it should
+		  die "something went screwy with calculating deltas, $delta" unless $delta =~ /^[+-](\d+:){6}(\d+)$/;
+
+		  my $seconds = new Math::Farnsworth::Value(Delta_Format($delta,1,"%st"), {time => 1});
+		  $new = $seconds; #create that
+	  }
+	  elsif (($one->{dimen}{dimen}{date}) && ($two->{dimen}->compare({dimen => {time => 1}})))
+	  {
+		  my $seconds = $two->toperl(); #calling WITHOUT the units SHOULD give me a string containing just the number
+		  my $sign = $seconds > 0 ? "-" : "+"; #should work fine, even with loss of precision
+		  my $delta = DateCalc($one->{pari}, "$sign $seconds seconds"); #order is switched, to make it work the way I think it should
+
+		  $new = new Math::Farnsworth::Value($delta, {date=>1});
+	  }
+	  elsif ($one->{dimen}{dimen}{date})
+	  {
+		  #we reached here with some other subtraction with a Date, do not do it
+		  die "Dates can only have dates and time subtracted, nothing else";
+	  }
+	  else
+	  {
+		  $new = new Math::Farnsworth::Value($one->{pari} - $tv, $one->{dimen}); #if !$rev they are in order
+	  }
   }
   else
   {
-      $new = new Math::Farnsworth::Value($tv - $one->{pari}, $one->{dimen}); #if !$rev they are in order
+	  die "some mistake happened here in subtraction\n"; #to test later on
+#      $new = new Math::Farnsworth::Value($tv - $one->{pari}, $one->{dimen}); #if !$rev they are in order
   }
   return $new;
 }
@@ -264,17 +308,43 @@ sub compare
   #moving this down so that i don't do any math i don't have to
   my $new;
   
-  if ($one->{pari} == $tv)
+  if ($one->{dimen}{dimen}{string})
   {
-	  $new = Math::Farnsworth::Value->new(0);
+	  if ($one->{pari} eq $tv)
+	  {
+		  $new = Math::Farnsworth::Value->new(0);
+	  }
+	  elsif ($one->{pari} lt $tv)
+	  {
+		  $new = Math::Farnsworth::Value->new(-1);
+	  }
+	  elsif ($one->{pari} gt $tv)
+	  {
+		$new = Math::Farnsworth::Value->new(1);
+	  }
   }
-  elsif ($one->{pari} < $tv)
+  elsif ($one->{dimen}{dimen}{array})
   {
-	  $new = Math::Farnsworth::Value->new(-1);
+	  die "Comparing arrays has not been implemented";
   }
-  elsif ($one->{pari} > $tv)
+  elsif ($one->{dimen}{dimen}{date})
   {
-	  $new = Math::Farnsworth::Value->new(1);
+	  return Date_Cmp($one->{pari}, $two->{pari}); #does it for me!
+  }
+  else
+  {
+	  if ($one->{pari} == $tv)
+	  {
+		  $new = Math::Farnsworth::Value->new(0);
+	  }
+	  elsif ($one->{pari} < $tv)
+	  {
+		  $new = Math::Farnsworth::Value->new(-1);
+	  }
+	  elsif ($one->{pari} > $tv)
+	  {
+		$new = Math::Farnsworth::Value->new(1);
+	  }
   }
 
   return $new;

@@ -21,7 +21,7 @@ sub init
    $env->{funcs}->addfunc("substrLen", [],\&substrlen); #this one works like perls
    $env->eval("substr{str,left,right}:={substrLen[str,left,right-left]}");
    $env->eval("left{str,pos}:={substrLen[str,0,pos]}");
-   $env->eval("right{str,pos}:={substrLen[str,pos,length[str]-pos]}");
+   $env->eval("right{str,pos}:={substrLen[str,length[str]-pos,pos]}");
 #   $env->{funcs}->addfunc("substr", [],\&substr);
 #   $env->{funcs}->addfunc("left", [],\&left);
 #   $env->{funcs}->addfunc("right", [],\&right);
@@ -126,13 +126,15 @@ sub reverse
 
 	for my $arg (reverse @argsarry) #this will make reverse[1,2,3,4] return [4,3,2,1]
 	{
+		print "\tITER!\n";
+		print Dumper($arg);
 		if ($arg->{dimen}{dimen}{array})
 		{
-			CORE::push @rets, Math::Farnsworth::Value->new(reverse @{$arg->{pari}}, {});
+			CORE::push @rets, Math::Farnsworth::Value->new(reverse @{$arg->{pari}}, {array => 1});
 		}
 		elsif ($arg->{dimen}{dimen}{string})
 		{
-			CORE::push @rets, Math::Farnsworth::Value->new(reverse $arg->{pari}, {});
+			CORE::push @rets, Math::Farnsworth::Value->new("".reverse($arg->{pari}), {string=>1});
 		}
 		else
 		{
@@ -156,7 +158,6 @@ sub substrlen
 	my ($args, $eval, $branches)= @_;
 	my @arg = @{$args->{pari}};
 
-	print "SUBSTR----!";
 
 	if ($arg[0]{dimen}{dimen}{array})
 	{
@@ -165,9 +166,9 @@ sub substrlen
 	elsif ($arg[0]{dimen}{dimen}{string})
 	{
 		#do i need to do something to convert these to work? (the 1,2 anyway?)
-		my $ns = substr($arg->[0]{pari}, "".$arg->[1]{pari}, "".$arg->[2]{pari});
+		my $ns = substr($arg[0]{pari}, "".$arg[1]{pari}, "".$arg[2]{pari});
 		print "SUBSTR :: $ns\n";
-		return Math::Farnsworth::Value->new("i suck buubot's dong", {string=>1});
+		return Math::Farnsworth::Value->new($ns, {string=>1});
 	}
 	else
 	{

@@ -2,6 +2,7 @@
 %left '->' ':->'
 %nonassoc ':'
 %left '?'
+%left 'conforms'
 %nonassoc '<' '>' '==' '!=' '>=' '<=' '<=>' 
 %left '+' '-'
 %left 'per'
@@ -59,17 +60,18 @@ array : expr ',' array  {bless [ ( ref($_[1]) eq 'Array' ? ( bless [@{$_[1]}], '
 
 argarray : expr ',' argarray  {bless [ ( ref($_[1]) eq 'ArgArray' ? ( bless [@{$_[1]}], 'SubArray' ) : $_[1] ), ref($_[3]) eq 'ArgArray' ? @{$_[3]} : $_[3] ], 'ArgArray' }
 		 | expr {bless [ ( ref($_[1]) eq 'ArgArray' ? ( bless [@{$_[1]}], 'SubArray' ) : $_[1] ) ], 'ArgArray'}
+		 |
 		 ;
 
 argelement : NAME 'isa' NAME '=' expr {bless [$_[1], $_[5], $_[3]], 'Argele'} #default value AND constraint 
 		   | NAME 'isa' NAME {bless [ $_[1], undef, $_[3] ], 'Argele'} #constraint
 		   | NAME '=' expr {bless [$_[1], $_[3]], 'Argele'} #default value
 		   | NAME {bless [ $_[1] ], 'Argele'}
+		   |
 		   ;
 
 arglist : argelement ',' arglist { bless [ $_[1], ref($_[3]) eq 'Arglist' ? @{$_[3]} : $_[3] ], 'Arglist' }
 		| argelement {bless [ $_[1] ], 'Arglist'}
-		|
 		;
 
 exprval : 	NUMBER			{ bless [ $_[1] ], 'Num' }
@@ -99,6 +101,7 @@ expr
 	|	expr '%' expr	{ bless [ @_[1,3] ], 'Mod' }
 	|	expr '^' expr	{ bless [ @_[1,3] ], 'Pow' }
 	|	expr '**' expr	{ bless [ @_[1,3] ], 'Pow' }
+	|	expr 'conforms' expr	{ bless [ @_[1,3] ], 'Conforms' }
 	|   expr '?' expr ':' expr { bless [@_[1,3,5]], 'Ternary' }
 	|	expr '<' expr	{ bless [ @_[1,3] ], 'Lt' }
 	|	expr '>' expr	{ bless [ @_[1,3] ], 'Gt' }
@@ -142,7 +145,7 @@ sub yylex
     $s =~ /\G(0[xX][0-9A-Fa-f])/gc and return $1;
 
     #token out the date
-    $s =~ /\G\s*(#[^#]*#)\s*/gc and return 'DATE', $1;
+    $s =~ /\G\s*#([^#]*)#\s*/gc and return 'DATE', $1;
 
     $s =~ /\G\s*("(\\.|[^"\\])*")/gc #" bad syntax highlighters are annoying
 		and return "STRING", $1;
@@ -150,7 +153,7 @@ sub yylex
     #i'll probably ressurect this later too
 	#$s =~ /\G(do|for|elsif|else|if|print|while)\b/cg and return $1;
 	
-	$s =~ /\G\s*(while)\b\s*/cg and return $1;
+	$s =~ /\G\s*(while|conforms)\b\s*/cg and return $1;
 
 	#seperated this to shorten the lines, and hopefully to make parts of it more readable
 	$s =~ /\G\s*(:=|==|!=|<=>|>=|<=|->|:->|\*\*)\s*/icg and return lc $1;

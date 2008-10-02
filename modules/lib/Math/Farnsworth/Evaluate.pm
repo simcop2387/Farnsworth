@@ -13,6 +13,8 @@ use Math::Farnsworth::Units;
 use Math::Farnsworth::Parser;
 use Math::Farnsworth::Value;
 
+use Date::Manip;
+
 sub new
 {
     my $class = shift;
@@ -124,30 +126,28 @@ sub evalbranch
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = ($a > $b) ? 1 : 0;
-		print Dumper($return);
-		$return = Math::Farnsworth::Value->new($return, {bool=>1+$return}); #make sure its the right type
-		print Dumper($return);
+		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
 	}
 	elsif ($type eq "Lt")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a < $b ? 1 : 0;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1+$return}); #make sure its the right type
+		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
 	}
 	elsif ($type eq "Ge")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a >= $b ? 1 : 0;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1+$return}); #make sure its the right type
+		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
 	}
 	elsif ($type eq "Le")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a <= $b ? 1 : 0;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1+$return}); #make sure its the right type
+		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
 	}
 	elsif ($type eq "Compare")
 	{
@@ -161,14 +161,14 @@ sub evalbranch
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a == $b ? 1 : 0;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1+$return}); #make sure its the right type
+		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
 	}
 	elsif ($type eq "Ne")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a != $b ? 1 : 0;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1+$return}); #make sure its the right type
+		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
 	}
 	elsif ($type eq "Ternary")
 	{
@@ -219,6 +219,8 @@ sub evalbranch
 		my $args = $self->makevalue($branch->[1]); #this is an array, need to evaluate it
 
 		$return = $self->{funcs}->callfunc($self, $name, $args, $branch);
+		print "FUNCCALL RETURNED\n";
+		print Dumper($return);
 
 	}
 	elsif (($type eq "Array") || ($type eq "SubArray"))
@@ -430,6 +432,13 @@ sub makevalue
 	elsif (ref($input) eq "String") #we've got a string that should be a value!
 	{
 		my $val = new Math::Farnsworth::Value($input->[0], {string => 1});
+		return $val;
+	}
+	elsif (ref($input) eq "Date")
+	{
+		print "\n\n\nMaking DATE!\n\n\n";
+		my $val = new Math::Farnsworth::Value(ParseDate($input->[0]), {date => 1});
+		print Dumper($val);
 		return $val;
 	}
 

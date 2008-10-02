@@ -42,11 +42,16 @@ sub callfunc
 
 	my $argtypes = $self->{funcs}{$name}{args};
 
+	my $fval = $self->{funcs}{$name}{value};
+
+	print "-------------ATTEMPTING TO CALL FUNCTION!-------------\n";
+	print "FUNCTION NAME : $name\n";
+	print "Dumper of func: ".Dumper($fval);
+	print "--------------------THAT IS ALL\n";
+
 	die "Arguments not correct" unless $self->checkparams($name, $args); #this should check....
 
 	print Dumper($args);
-
-	my $fval = $self->{funcs}{$name}{value};
 
 	if (ref($fval) ne "CODE")
 	{

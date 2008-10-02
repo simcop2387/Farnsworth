@@ -6,6 +6,7 @@ use warnings;
 use Data::Dumper;
 use Math::Farnsworth::Value;
 use Math::Pari;
+use Date::Manip;
 
 sub new
 {
@@ -159,7 +160,7 @@ sub getdisplay
 
 	if (exists($dimen->{dimen}{"bool"}))
 	{
-		return $dimen->{dimen}{"bool"}-1?"True" : "False"
+		return $value ? "True" : "False"
 		#these should do something!
 	}
 	elsif (exists($dimen->{dimen}{"string"}))
@@ -178,6 +179,10 @@ sub getdisplay
 		}
 
 		return '['.(join ' , ', @array).']';
+	}
+	elsif (exists($dimen->{dimen}{"date"}))
+	{
+		return UnixDate($value->{pari}, "%O"); #output in ISO format for now
 	}
 	else
 	{
