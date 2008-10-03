@@ -21,8 +21,8 @@ sub addunit
 	my $name = shift;
 	my $value = shift;
 
-	print "ADDING UNIT: ".Dumper([$name, $value]) if (($name eq "mg") || ($name eq "l"));
 	$self->{units}{$name} = $value;
+	$self->{units}{$name."s"} = $value; #HACK!
 }
 
 sub getunit
@@ -183,6 +183,10 @@ sub getdisplay
 	elsif (exists($dimen->{dimen}{"date"}))
 	{
 		return UnixDate($value->{pari}, "%O"); #output in ISO format for now
+	}
+	elsif (exists($dimen->{dimen}{"lambda"}))
+	{
+		return "No magic for lambdas yet, functions shall get this too";
 	}
 	else
 	{

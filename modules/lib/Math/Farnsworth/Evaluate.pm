@@ -179,6 +179,23 @@ sub evalbranch
 		$left = $left != new Math::Farnsworth::Value(0, $left->{dimen});
 		$return = $left ? $self->makevalue($branch->[1]) : $self->makevalue($branch->[2]);
 	}
+	elsif ($type eq "If")
+	{
+		#turing completeness FTW
+		#wtf? for some reason i have to do this...
+		#odd bug here, + 0 fixes?
+		my $left = $self->makevalue($branch->[0]);
+		$left = $left != new Math::Farnsworth::Value(0, $left->{dimen});
+		
+		if ($left)
+		{
+			$return = $self->makevalue($branch->[1]);
+		}
+		else
+		{
+			$return = $self->makevalue($branch->[2]);
+		}
+	}
 	elsif ($type eq "Store")
 	{
 		my $name = $branch->[0];
@@ -222,6 +239,46 @@ sub evalbranch
 		print "FUNCCALL RETURNED\n";
 		print Dumper($return);
 
+	}
+	elsif ($type eq "Lambda")
+	{
+		my $args = $branch->[0];
+		my $code = $branch->[1];
+
+		my $nvars = new Math::Farnsworth::Variables($self->{vars}); #lamdbas get their own vars
+		my %nopts = (vars => $nvars, funcs => $self->{funcs}, units => $self->{units}, parser => $self->{parser});
+		my $scope = $self->new(%nopts);
+
+		my $lambda = {code => $code, args => $args, 
+			          scope => $scope};
+
+		$return = new Math::Farnsworth::Value($lambda, {lambda => 1});
+	}
+	elsif ($type eq "LambdaCall")
+	{		
+		my $left = $self->makevalue($branch->[0]);
+		my $right = $self->makevalue($branch->[1]);
+
+		die "Right side of lamdbda call must evaluate to a Lambda" unless $right->{dimen}{dimen}{lambda};
+
+		#theres a lot of duplicate code here from function calls, maybe merging them somehow sooner or later is a good idea
+		my $scope = $right->{pari}{scope};
+		my $code = $right->{pari}{code};
+		my $argtypes = $right->{pari}{args};
+		#need $args to LOOK like an array just to make things easier
+		my $args = $left->{dimen}{dimen}{array} ? $left :  {pari => [$left]}; 
+
+		for my $argc (0..$#$argtypes)
+		{
+			my $n = $argtypes->[$argc][0]; #the rest are defaults and constraints
+			my $v = $args->{pari}->[$argc];
+			
+			print "Declaring $n to be " . $v->toperl($self->{units}) . "\n";
+
+			$scope->{vars}->declare($n, $v);
+		}
+
+		$return = $scope->evalbranch($code);
 	}
 	elsif (($type eq "Array") || ($type eq "SubArray"))
 	{

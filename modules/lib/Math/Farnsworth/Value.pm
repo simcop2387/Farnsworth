@@ -59,9 +59,9 @@ sub new
 	$value =~ s/\\\\/\\/g;
 	$self->{pari} = $value;
   }
-  elsif (exists($self->{dimen}{dimen}{array}) || exists($self->{dimen}{dimen}{date}))
+  elsif (exists($self->{dimen}{dimen}{array}) || exists($self->{dimen}{dimen}{date}) || exists($self->{dimen}{dimen}{lambda}))
   {
-	#we've got an array or date here
+	#we've got an array or date or lambda here
 	$self->{pari} = $value;
   }
   else

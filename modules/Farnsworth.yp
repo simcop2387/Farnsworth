@@ -1,5 +1,5 @@
 %right '=' ':=' '=!=' '::-' ':-' '|||'
-%left '->' ':->'
+%left '->' ':->' '=>'
 %nonassoc ':'
 %left '?'
 %left 'conforms'
@@ -42,8 +42,8 @@ stmt
 	|   while
 	;
 
-if : 'if' '(' expr ')' '{' stma '}'
-   | 'if' '(' expr ')' '{' stma '}' 'else' '{' stma '}'
+if : 'if' '(' expr ')' '{' stma '}' {bless [@_[3,6], undef], 'If'}
+   | 'if' '(' expr ')' '{' stma '}' 'else' '{' stma '}' {bless [@_[3,6,10]], 'If'}
    ;
 
 #for :	'for' '(' expr ';' expr ';' expr ')' '{' stmt '}'
@@ -120,7 +120,8 @@ expr
 	|	NAME '{' arglist '}' ':=' expr { bless [@_[1,3,6]], 'FuncDef' }
 	|   NAME '{' arglist '}' ':=' '{' stma '}' { bless [@_[1,3,7]], 'FuncDef' } #i really want scoping here, should i do it?
 	|   '[' array ']'              { $_[2] } 
-	|	'{' '|' arglist '|' expr '}' {bless [ @_[2,4] ], 'Lambda'} #i'm not sure how or when i'll implement these
+	|	'{' '|' arglist '|' stma '}' {bless [ @_[3,5] ], 'Lambda'} #i'm not sure how or when i'll implement these
+	|   expr '=>' expr {bless [@_[1,3]], 'LambdaCall'}
 	|   arrayfetchexpr '=' expr { bless [($_[1]->[0][0]), ($_[1]->[1]), $_[3]], 'ArrayStore' }
 	|   expr '->' expr  { bless [ @_[1,3]], 'Trans' }
 	|	DATE			{ bless [ $_[1] ], 'Date' }
@@ -158,10 +159,10 @@ sub yylex
     #i'll probably ressurect this later too
 	#$s =~ /\G(do|for|elsif|else|if|print|while)\b/cg and return $1;
 	
-	$s =~ /\G\s*(while|conforms)\b\s*/cg and return $1;
+	$s =~ /\G\s*(while|conforms|else|if)\b\s*/cg and return $1;
 
 	#seperated this to shorten the lines, and hopefully to make parts of it more readable
-	$s =~ /\G\s*(:=|==|!=|<=>|>=|<=|->|:->|\*\*)\s*/icg and return lc $1;
+	$s =~ /\G\s*(:=|==|!=|<=>|>=|<=|=>|->|:->|\*\*)\s*/icg and return lc $1;
 	$s =~ /\G\s*(var\b|per\b|isa\b|\:?\:\-|\=\!\=|\|\|\|)\s*/icg and return lc $1;
 	$s =~ /\G\s*(\+|\*|-|\/|\%|\^|=|;|\{|\}|\>|\<|\?|\:|\,|\|)\s*/cg and return $1;
 	$s =~ /\G\s*(\)|\])/cg and return $1; #freaking quirky lexers!
