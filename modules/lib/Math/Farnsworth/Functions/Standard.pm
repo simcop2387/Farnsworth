@@ -16,6 +16,7 @@ sub init
 
    $env->{funcs}->addfunc("push", [],\&push);
    $env->{funcs}->addfunc("pop", [],\&pop);
+   $env->{funcs}->addfunc("sort", [],\&sort);
    $env->{funcs}->addfunc("length", [],\&length);
    #commented out for testing
    $env->{funcs}->addfunc("substrLen", [],\&substrlen); #this one works like perls
@@ -28,6 +29,44 @@ sub init
    $env->{funcs}->addfunc("reverse", [],\&reverse);
 
    $env->eval("now{} := {#today#}");
+}
+
+sub sort
+{
+	#args is... a Math::Farnsworth::Value array
+	my ($args, $eval, $branches)= @_;
+
+	my $argcount = @{$args->{pari}};
+
+	my $sortlambda;
+
+	if ($args->{pari}->[0]->{dimen}{dimen}{lambda})
+	{
+		$sortlambda = shift(@{$args->{pari}});
+	}
+	else
+	{
+		#i should really do this outside the sub ONCE, but i'm lazy for now
+		$sortlambda = $eval->eval("{|a,b| a <=> b");
+	}
+
+	my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
+
+	if (!exists($arrayvar->{dimen}{dimen}{array}))
+	{
+		die "First argument to push must be an array";
+	}
+
+	#ok type checking is done, do the push!
+	
+	my @input = @{$args->{pari}};
+	shift @input; #remove the original array value
+
+	#i should probably flatten arrays here so that; a=[1,2,3]; push[a,a]; will result in a = [1,2,3,1,2,3]; instead of a = [1,2,3,[1,2,3]];
+
+	CORE::push @{$arrayvar->{pari}}, @input;
+
+	return undef; #push doesn't return anything? probably should, but i'll do that later
 }
 
 sub push
