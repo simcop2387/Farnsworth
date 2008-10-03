@@ -17,18 +17,36 @@ sub init
    $env->{funcs}->addfunc("push", [],\&push);
    $env->{funcs}->addfunc("pop", [],\&pop);
    $env->{funcs}->addfunc("sort", [],\&sort);
+
    $env->{funcs}->addfunc("length", [],\&length);
-   #commented out for testing
+
    $env->{funcs}->addfunc("substrLen", [],\&substrlen); #this one works like perls
    $env->eval("substr{str,left,right}:={substrLen[str,left,right-left]}");
    $env->eval("left{str,pos}:={substrLen[str,0,pos]}");
    $env->eval("right{str,pos}:={substrLen[str,length[str]-pos,pos]}");
-#   $env->{funcs}->addfunc("substr", [],\&substr);
-#   $env->{funcs}->addfunc("left", [],\&left);
-#   $env->{funcs}->addfunc("right", [],\&right);
+
    $env->{funcs}->addfunc("reverse", [],\&reverse);
 
    $env->eval("now{} := {#today#}");
+
+   $env->{funcs}->addfunc("unit", [], \&unit);
+}
+
+sub unit
+{
+	#args is... a Math::Farnsworth::Value array
+	my ($args, $eval, $branches)= @_;
+	
+	print Dumper($branches);
+
+	if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{units}->isunit($branches->[1][0][0])))
+	{
+		die "First argument to unit[] must be a unit name";
+	}
+
+	my $unitvar = $eval->{units}->getunit($branches->[1][0][0]);
+
+	return $unitvar; #if its undef, its undef! i should really make some kind of error checking here
 }
 
 sub sort
@@ -47,21 +65,40 @@ sub sort
 	else
 	{
 		#i should really do this outside the sub ONCE, but i'm lazy for now
-		$sortlambda = $eval->eval("{|a,b| a <=> b");
+		$sortlambda = $eval->eval("{|a,b| a <=> b}");
 	}
 
 	my $sortsub = sub
 	{
 		my $val = $eval->evalbranch(bless [(bless [$a, $b], 'Array'), $sortlambda], 'LambdaCall');
 		
-		$val <=> 0; #return this, just to make sure the value is right
+		0+$val->toperl(); #return this, just to make sure the value is right
 	};
 
 	my @sorts;
 
-	my @rets = sort $sortsub @sorts;
+	if (@{$args->{pari}} > 1)
+	{
+		#we've been given a bunch of things, assume we need to sort them like that
+		push @sorts, @{$args->{pari}};
+	}
+	elsif ((@{$args->{pari}} == 1) && ($args->{pari}[0]->{dimen}{dimen}{array}))
+	{
+		#given an array as a second value, dereference it since its the only thing we've got
+		push @sorts, @{$args->{pari}[0]{pari}};
+	}
+	else
+	{
+		#ok you want me to sort ONE thing? i'll sort that one thing, in O(1) time!
+		return $args->{pari}[0];
+	}
 
-	return ;
+	my @rets = CORE::sort $sortsub @sorts;
+
+	print "SORT RETURNING!\n";
+	print Dumper(\@rets);
+
+	return new Math::Farnsworth::Value([@rets], {array => 1});
 }
 
 sub push
@@ -162,8 +199,6 @@ sub reverse
 
 	for my $arg (reverse @argsarry) #this will make reverse[1,2,3,4] return [4,3,2,1]
 	{
-		print "\tITER!\n";
-		print Dumper($arg);
 		if ($arg->{dimen}{dimen}{array})
 		{
 			CORE::push @rets, Math::Farnsworth::Value->new(reverse @{$arg->{pari}}, {array => 1});

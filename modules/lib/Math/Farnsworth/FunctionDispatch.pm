@@ -59,15 +59,13 @@ sub callfunc
 
 	die "Arguments not correct" unless $self->checkparams($name, $args); #this should check....
 
-	print Dumper($args);
+#	print Dumper($args);
 
 	if (ref($fval) ne "CODE")
 	{
 		my $nvars = new Math::Farnsworth::Variables($eval->{vars});
 		for my $argc (0..$#$argtypes)
 		{
-			print "-----FUNCCALL\n";
-			print Dumper($args);
 			my $n = $argtypes->[$argc][0]; #the rest are defaults and constraints
 			my $v = $args->{pari}->[$argc];
 

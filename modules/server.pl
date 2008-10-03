@@ -16,6 +16,7 @@ use POE;
 use Math::Farnsworth;
 
 my $farnsworth = new Math::Farnsworth;
+$farnsworth->runFile("startups/startup.frns");
 
 my $aliases = POE::Component::Server::HTTP->new(
   Port => 8080,

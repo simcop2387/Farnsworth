@@ -76,8 +76,8 @@ sub getprefix
 		if ($name =~ /^\Q$pre\E(.*)$/)
 		{
 			my $u = $1;
-			print "FOUND: $name == $pre * $u\n";
-			print Dumper($self->{prefix}{$pre}) if ($name eq "mg");
+			#print "FOUND: $name == $pre * $u\n";
+			#print Dumper($self->{prefix}{$pre}) if ($name eq "mg");
 			$u = 1 unless length($1); #to make certain things work right
 			return ($self->{prefix}{$pre},$pre,$u) if ($self->_isunit($1) || !length($1));
 		}

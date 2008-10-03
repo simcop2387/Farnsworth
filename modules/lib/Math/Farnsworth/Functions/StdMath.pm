@@ -28,6 +28,12 @@ sub init
    $env->{funcs}->addfunc("arcsinh", [],\&arcsinh);
    $env->{funcs}->addfunc("arccosh", [],\&arccosh);
    $env->{funcs}->addfunc("arctanh", [],\&arctanh);
+   $env->{funcs}->addfunc("asin", [],\&arcsin);
+   $env->{funcs}->addfunc("acos", [],\&arccos);
+   $env->{funcs}->addfunc("atan", [],\&arctan);
+   $env->{funcs}->addfunc("asinh", [],\&arcsinh);
+   $env->{funcs}->addfunc("acosh", [],\&arccosh);
+   $env->{funcs}->addfunc("atanh", [],\&arctanh);
    $env->{funcs}->addfunc("abs", [],\&abs);
    $env->{funcs}->addfunc("floor", [],\&floor);
    $env->{funcs}->addfunc("ceil", [],\&ceil);

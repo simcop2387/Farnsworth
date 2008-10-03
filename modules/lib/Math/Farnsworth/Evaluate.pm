@@ -69,7 +69,7 @@ sub eval
 
 	my $tree = $self->{parser}->parse($code); #should i catch the exceptions here? dunno
 
-	print Dumper($tree);
+	#print Dumper($tree);
 
     $self->evalbranch($tree);
 }
@@ -228,7 +228,7 @@ sub evalbranch
 	}
 	elsif ($type eq "FuncDef")
 	{
-		print Dumper($branch);
+		#print Dumper($branch);
 		my $name = $branch->[0];
 		my $args = $branch->[1];
 		my $value = $branch->[2]; #not really a value, but in fact the tree to run for the function
@@ -242,8 +242,8 @@ sub evalbranch
 		my $args = $self->makevalue($branch->[1]); #this is an array, need to evaluate it
 
 		$return = $self->{funcs}->callfunc($self, $name, $args, $branch);
-		print "FUNCCALL RETURNED\n";
-		print Dumper($return);
+		#print "FUNCCALL RETURNED\n";
+		#print Dumper($return);
 
 	}
 	elsif ($type eq "Lambda")
@@ -264,6 +264,8 @@ sub evalbranch
 	{		
 		my $left = $self->makevalue($branch->[0]);
 		my $right = $self->makevalue($branch->[1]);
+
+		#print Dumper($right);
 
 		die "Right side of lamdbda call must evaluate to a Lambda" unless $right->{dimen}{dimen}{lambda};
 
@@ -327,7 +329,7 @@ sub evalbranch
 		my $listval = $self->makevalue($branch->[1]);
 		my @rval;
 
-		print Dumper($branch, $var, $listval);
+		#print Dumper($branch, $var, $listval);
 
 		for (@{$listval->{pari}})
 		{
@@ -336,7 +338,7 @@ sub evalbranch
 			push @rval, $input;
 		}
 
-		print Dumper(\@rval);
+		#print Dumper(\@rval);
 
 		if (@rval > 1)
 		{
@@ -355,7 +357,7 @@ sub evalbranch
 		my $listval = $self->makevalue($branch->[1]);
 		my $rval = $self->makevalue($branch->[2]);
 
-		print Dumper($branch, $var, $listval);
+		#print Dumper($branch, $var, $listval);
 
 		if (@{$listval->{pari}} > 1)
 		{
@@ -426,7 +428,7 @@ sub evalbranch
 	{
 		my $name = $branch->[0];
 		my $value = $self->makevalue($branch->[1]);
-		print "SETTING PREFIX0: $name : $value : ".Dumper($branch->[1]) if ($name eq "m");
+		#print "SETTING PREFIX0: $name : $value : ".Dumper($branch->[1]) if ($name eq "m");
 		$self->{units}->setprefix($name, $value);
 	}
 	elsif ($type eq "Trans")
@@ -491,7 +493,7 @@ sub makevalue
 		}
 		elsif ($self->{units}->isunit($name))
 		{
-			print "FETCH: $name\n" if ($name eq "milli");
+			#print "FETCH: $name\n" if ($name eq "milli");
 			return $self->{units}->getunit($name);
 		}
 		
@@ -504,10 +506,15 @@ sub makevalue
 	}
 	elsif (ref($input) eq "Date")
 	{
-		print "\n\n\nMaking DATE!\n\n\n";
+		#print "\n\n\nMaking DATE!\n\n\n";
 		my $val = new Math::Farnsworth::Value(ParseDate($input->[0]), {date => 1});
-		print Dumper($val);
+#		print Dumper($val);
 		return $val;
+	}
+	elsif (ref($input) eq "Math::Farnsworth::Value")
+	{
+		warn "Got a Math::Farnsworth::Value, i PROBABLY shouldn't be getting these, i'm just going to let it fall through";
+		return $input;
 	}
 
 	return $self->evalbranch($input);

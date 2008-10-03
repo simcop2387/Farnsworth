@@ -180,7 +180,7 @@ sub new {
 			'NUMBER' => 10,
 			'NAME' => 60
 		},
-		DEFAULT => -37,
+		DEFAULT => -36,
 		GOTOS => {
 			'exprval' => 61,
 			'arrayfetchexpr' => 59
@@ -228,7 +228,7 @@ sub new {
 			"**" => 27,
 			"^" => 32
 		},
-		DEFAULT => -38
+		DEFAULT => -37
 	},
 	{#State 21
 		ACTIONS => {
@@ -841,16 +841,7 @@ sub new {
 		DEFAULT => -30
 	},
 	{#State 61
-		ACTIONS => {
-			"(" => 19,
-			'NUMBER' => 10,
-			'NAME' => 60
-		},
-		DEFAULT => -34,
-		GOTOS => {
-			'exprval' => 61,
-			'arrayfetchexpr' => 59
-		}
+		DEFAULT => -42
 	},
 	{#State 62
 		ACTIONS => {
@@ -991,7 +982,7 @@ sub new {
 			"per" => 35,
 			"/" => 41
 		},
-		DEFAULT => -41
+		DEFAULT => -40
 	},
 	{#State 69
 		ACTIONS => {
@@ -1048,7 +1039,7 @@ sub new {
 			"per" => 35,
 			"/" => 41
 		},
-		DEFAULT => -40
+		DEFAULT => -39
 	},
 	{#State 73
 		ACTIONS => {
@@ -1107,14 +1098,14 @@ sub new {
 			"**" => 27,
 			"^" => 32
 		},
-		DEFAULT => -39
+		DEFAULT => -38
 	},
 	{#State 78
 		ACTIONS => {
 			"**" => 27,
 			"^" => 32
 		},
-		DEFAULT => -42
+		DEFAULT => -41
 	},
 	{#State 79
 		ACTIONS => {
@@ -1465,7 +1456,7 @@ sub new {
 			"<=>" => 43,
 			">" => 45
 		},
-		DEFAULT => -35
+		DEFAULT => -34
 	},
 	{#State 101
 		ACTIONS => {
@@ -1621,7 +1612,7 @@ sub new {
 		}
 	},
 	{#State 116
-		DEFAULT => -36
+		DEFAULT => -35
 	},
 	{#State 117
 		ACTIONS => {
@@ -2056,7 +2047,10 @@ sub
 {bless [ ( ref($_[1]) eq 'Array' ? ( bless [@{$_[1]}], 'SubArray' ) : $_[1] ) ], 'Array'}
 	],
 	[#Rule 18
-		 'array', 0, undef
+		 'array', 0,
+sub
+#line 63 "Farnsworth.yp"
+{bless [], 'Array'}
 	],
 	[#Rule 19
 		 'argarray', 3,
@@ -2071,7 +2065,10 @@ sub
 {bless [ ( ref($_[1]) eq 'ArgArray' ? ( bless [@{$_[1]}], 'SubArray' ) : $_[1] ) ], 'ArgArray'}
 	],
 	[#Rule 21
-		 'argarray', 0, undef
+		 'argarray', 0,
+sub
+#line 68 "Farnsworth.yp"
+{bless [], 'ArgArray'}
 	],
 	[#Rule 22
 		 'argelement', 5,
@@ -2140,58 +2137,58 @@ sub
 		 'exprval', 1, undef
 	],
 	[#Rule 34
-		 'exprval', 2,
-sub
-#line 88 "Farnsworth.yp"
-{ bless [ @_[1,2], 'imp'], 'Mul' }
-	],
-	[#Rule 35
 		 'assignexpr', 3,
 sub
-#line 91 "Farnsworth.yp"
+#line 90 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Store' }
 	],
-	[#Rule 36
+	[#Rule 35
 		 'arrayfetchexpr', 4,
 sub
-#line 94 "Farnsworth.yp"
+#line 93 "Farnsworth.yp"
 { bless [ (bless [$_[1]], 'Fetch'),$_[3] ], 'ArrayFetch' }
 	],
-	[#Rule 37
+	[#Rule 36
 		 'expr', 1,
 sub
-#line 98 "Farnsworth.yp"
+#line 97 "Farnsworth.yp"
 { $_[1] }
 	],
-	[#Rule 38
+	[#Rule 37
 		 'expr', 2,
 sub
-#line 99 "Farnsworth.yp"
+#line 98 "Farnsworth.yp"
 { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' }
+	],
+	[#Rule 38
+		 'expr', 3,
+sub
+#line 99 "Farnsworth.yp"
+{ bless [ @_[1,3], ''], 'Mul' }
 	],
 	[#Rule 39
 		 'expr', 3,
 sub
 #line 100 "Farnsworth.yp"
-{ bless [ @_[1,3], ''], 'Mul' }
+{ bless [ @_[1,3]], 'Add' }
 	],
 	[#Rule 40
 		 'expr', 3,
 sub
 #line 101 "Farnsworth.yp"
-{ bless [ @_[1,3]], 'Add' }
+{ bless [ @_[1,3]], 'Sub' }
 	],
 	[#Rule 41
 		 'expr', 3,
 sub
 #line 102 "Farnsworth.yp"
-{ bless [ @_[1,3]], 'Sub' }
+{ bless [ @_[1,3], '*'], 'Mul' }
 	],
 	[#Rule 42
-		 'expr', 3,
+		 'expr', 2,
 sub
 #line 103 "Farnsworth.yp"
-{ bless [ @_[1,3], '*'], 'Mul' }
+{ bless [ @_[1,2], 'imp'], 'Mul' }
 	],
 	[#Rule 43
 		 'expr', 3,
@@ -2363,8 +2360,8 @@ sub yylex
 		
 	#1 while $s =~ /\G\s+/cg; #remove extra whitespace?
 
-	#$s =~ m|\G/\*.*?\*/|gcs and redo; #skip C comments
-	#$s =~ s|\G//.*||g;
+	$s =~ m|\G\s*/\*.*?\*/\s*|gcs and redo; #skip C comments
+	$s =~ m|\G\s*//.*|gc and redo;
 #	$s =~ s|\G/\*.*?\*/||g;
 
     #i want a complete number regex
@@ -2400,7 +2397,7 @@ sub yylex
 sub yylexwatch
 {
    my @r = &yylex;
-   print Dumper(\@r,[pos $s]);
+   #print Dumper(\@r,[pos $s]);
    #$charcount+=pos $s;
    #$s = substr($s, pos $s);
    return @r;
@@ -2421,7 +2418,7 @@ sub parse
 	$s = join ' ', @_;
 	$fullstring = $s; #preserve it for errors
 	my $code = eval
-		{ $self->new(yylex => \&yylexwatch, yyerror => \&yyerror, yydebug=>0x1F)->YYParse };
+		{ $self->new(yylex => \&yylexwatch, yyerror => \&yyerror)->YYParse };
 	die $@ if $@;
 	$code
 	}
