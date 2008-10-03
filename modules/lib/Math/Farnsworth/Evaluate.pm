@@ -109,6 +109,12 @@ sub evalbranch
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a / $b;
 	}
+	elsif ($type eq "Conforms")
+	{
+		my $a = $self->makevalue($branch->[0]);
+		my $b = $self->makevalue($branch->[1]);
+		$return = new Math::Farnsworth::Value($a->{dimen}->compare($b->{dimen}), {bool => 1});
+	}
 	elsif ($type eq "Mod")
 	{
 		my $a = $self->makevalue($branch->[0]);
@@ -434,9 +440,14 @@ sub evalbranch
 				$return = ($left / $right);
 				$outdim = $branch->[1];
 			}
+			elsif ($self->{funcs}->isfunc($branch->[1][0]))
+			{
+				$left = $left->{dimen}{dimen}{array} ? $left : new Math::Farnsworth::Value([$left], {array=>1});
+				$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
+			}
 			else
 			{
-				$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
+				die "Conformance error, left side has different units than right side";
 			}
 		}
 		else

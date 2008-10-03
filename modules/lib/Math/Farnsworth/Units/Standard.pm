@@ -11,6 +11,8 @@ sub init
 		s|\s*$||;
 		$env->eval($_) if ($_ !~ /^\s*$/);
 	}
+
+	close(DATA);
 }
 
 1;
@@ -156,7 +158,7 @@ mass      =!=  kg // Mass of the international prototype, whatever that is.
                 // ten and make ten a little louder?
 
 kilogram  := kg
-gram      := 1/1000 kg
+gram      := (1/1000) kg
 grams	  := gram
 
 current =!= A    // The current which produces a force of 2e-7 N/m between two
@@ -283,7 +285,7 @@ candela := cd   // Official definition:
 
 // Define the default symbol for the imaginary unit, that is, the square
 // root of negative one.
-i := (-1) ^ 0.5 //this is intrinsic to Math::PARI, i don't need to do anything special for it
+i := (-1) ^ 0.5 //this is intrinsic to Math::PARI, i don't need to do anything special for it // if you include Functions::StdMath this gets redefined with the more accurate sqrt[]
  
 // Define unit combinations
 1   ||| dimensionless
@@ -745,36 +747,36 @@ astronomicalunit :=    au
 //
 
 circle :=              2 pi radian
-degree :=              1/360 circle
+degree :=              (1/360) circle
 arcdegree :=           degree
 deg    :=              degree
 arcdeg :=              arcdegree
-arcminute :=           1/60 degree
+arcminute :=           (1/60) degree
 arcmin :=              arcminute
-arcsecond :=           1/60 arcmin
+arcsecond :=           (1/60) arcmin
 arcsec :=              arcsecond
 mas :=                 milliarcsecond
 rightangle :=          90 degrees
-quadrant :=            1/4 circle
-quintant :=            1/5 circle
-sextant :=             1/6 circle
+quadrant :=            (1/4) circle
+quintant :=            (1/5) circle
+sextant :=             (1/6) circle
 
-sign :=                1/12 circle// Angular extent of one sign of the zodiac
+sign :=                (1/12) circle// Angular extent of one sign of the zodiac
 turn :=                circle
 revolution :=          turn
 rev :=                 turn
 pulsatance :=          radian / sec
-gon :=                 1/100 rightangle // measure of grade
+gon :=                 (1/100) rightangle // measure of grade
 grade :=               gon
-centesimalminute :=    1/100 grade
-centesimalsecond :=    1/100 centesimalminute
-milangle :=            1/6400 circle    // Official NIST definition.
+centesimalminute :=    (1/100) grade
+centesimalsecond :=    (1/100) centesimalminute
+milangle :=            (1/6400) circle    // Official NIST definition.
                                          // Another choice is 1ee-3 radian.
-pointangle :=          1/32 circle
-centrad :=             1/100 radian // Used for angular deviation of light
+pointangle :=          (1/32) circle
+centrad :=             (1/100) radian // Used for angular deviation of light
                                     // through a prism.
 
-brad := 1/256 circle  // Binary radian--used to fit angular measurements into
+brad := (1/256) circle  // Binary radian--used to fit angular measurements into
                       // a byte.  Questionable but what the hell.
 
 //
@@ -782,13 +784,13 @@ brad := 1/256 circle  // Binary radian--used to fit angular measurements into
 //
 
 sphere :=              4 pi sr
-squaredegree :=        1/180^2 pi^2 sr
-squareminute :=        1/60^2 squaredegree
-squaresecond :=        1/60^2 squareminute
+squaredegree :=        (1/180^2) pi^2 sr
+squareminute :=        (1/60^2) squaredegree
+squaresecond :=        (1/60^2) squareminute
 squarearcmin :=        squareminute
 squarearcsec :=        squaresecond
-sphericalrightangle := 1/2 pi sr
-octant :=              1/2 pi sr
+sphericalrightangle := (1/2) pi sr
+octant :=              (1/2) pi sr
 
 //
 // Concentration measures
@@ -808,7 +810,7 @@ karat :=               1/24     // measure of gold purity
 fine :=                1/1000   // Measure of gold purity
 caratgold :=           karat
 gammil :=              mg/l
-basispoint :=          1/100 percent// Used in finance 
+basispoint :=          (1/100) percent// Used in finance 
 
 //
 // Temperature difference
@@ -857,7 +859,7 @@ zerocelsius := 273.15 K      // Defined by the 10th CGPM, 1954, Resolution 3;
                              // set to .01 Kelvin below the triple point.
                         
 
-degfahrenheit :=  5/9 degC   // The *size* of a degree in the Fahrenheit scale.
+degfahrenheit :=  (5/9) degC   // The *size* of a degree in the Fahrenheit scale.
 degreeFahrenheit := degfahrenheit // The *size* of a degree in the Fahrenheit scale.
 degF :=        degfahrenheit // WARNING: These should only be used when 
                              // you're indicating the *difference* between
@@ -878,14 +880,14 @@ degF :=        degfahrenheit // WARNING: These should only be used when
 //\u2109 :=              degfahrenheit  // Single Unicode codepoint for 
                                       // DEGREE FAHRENHEIT
 
-degreesRankine :=      5/9 K
+degreesRankine :=      (5/9) K
 degreesrankine :=      degreesRankine   // The Rankine scale has the 
 degrankine :=          degreesRankine   // Fahrenheit degree, but its zero
 degreerankine :=       degrankine       // is at absolute zero.
 degR :=                degrankine
 Rankine :=             degreesrankine
 
-degreaumur :=          10/8 degC // The Reaumur scale was used in Europe and
+degreaumur :=          (10/8) degC // The Reaumur scale was used in Europe and
                                  // particularly in France.  It is defined
                                  // to be 0 at the freezing point of water
                                  // and 80 at the boiling point.  Reaumur
@@ -895,7 +897,7 @@ degreaumur :=          10/8 degC // The Reaumur scale was used in Europe and
 // Function for converting Fahrenheit to/from standard units
 
 // This is a less legible version of the revised function below
-//Fahrenheit[x] := (x conforms K) ? ((x - zerocelsius) / K) * 9/5 + 32 : ((x conforms 1) ? ((x-32) * 5/9) K + zerocelsius : "Error")
+Fahrenheit{x} := (x conforms K) ? ((x - zerocelsius) / K) * 9/5 + 32 : ((x conforms 1) ? ((x-32) * 5/9) K + zerocelsius : "Error")
 
 //Fahrenheit[x] := 
 //{ 
@@ -910,19 +912,19 @@ degreaumur :=          10/8 degC // The Reaumur scale was used in Europe and
 
 // TODO: Change the implementation of the following idiom so that it aliases 
 // the function instead of chaining function calls. 
-//F[x] := Fahrenheit[x]
+F{x} := Fahrenheit[x]
 
 // Function for converting Celsius to/from standard units
-//Celsius[x] := (x conforms K) ? (x-zerocelsius) / K : ((x conforms 1) ? (x K + zerocelsius) : "Error")
+Celsius{x} := (x conforms K) ? (x-zerocelsius) / K : ((x conforms 1) ? (x K + zerocelsius) : "Error")
 
-//C[x] := Celsius[x]
+C{x} := Celsius[x]
 
-//Reaumur[x] := (x conforms K) ? (8/10 (x-zerocelsius)) / K : ((x conforms 1) ? (10/8 * x * K + zerocelsius) : "Error")
+Reaumur{x} := (x conforms K) ? (8/10 (x-zerocelsius)) / K : ((x conforms 1) ? (10/8 * x * K + zerocelsius) : "Error")
 
 //   Physical constants
 //
 
-gravity :=             980665/100000 m/s^2  // std acceleration of gravity 
+gravity :=             (980665/100000) m/s^2  // std acceleration of gravity 
                                             // (exact)
 g_n :=                 gravity
 gee :=                 gravity

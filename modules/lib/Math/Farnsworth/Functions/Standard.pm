@@ -50,23 +50,18 @@ sub sort
 		$sortlambda = $eval->eval("{|a,b| a <=> b");
 	}
 
-	my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
-
-	if (!exists($arrayvar->{dimen}{dimen}{array}))
+	my $sortsub = sub
 	{
-		die "First argument to push must be an array";
-	}
+		my $val = $eval->evalbranch(bless [(bless [$a, $b], 'Array'), $sortlambda], 'LambdaCall');
+		
+		$val <=> 0; #return this, just to make sure the value is right
+	};
 
-	#ok type checking is done, do the push!
-	
-	my @input = @{$args->{pari}};
-	shift @input; #remove the original array value
+	my @sorts;
 
-	#i should probably flatten arrays here so that; a=[1,2,3]; push[a,a]; will result in a = [1,2,3,1,2,3]; instead of a = [1,2,3,[1,2,3]];
+	my @rets = sort $sortsub @sorts;
 
-	CORE::push @{$arrayvar->{pari}}, @input;
-
-	return undef; #push doesn't return anything? probably should, but i'll do that later
+	return ;
 }
 
 sub push

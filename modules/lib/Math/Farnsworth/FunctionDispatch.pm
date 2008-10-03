@@ -31,6 +31,14 @@ sub getfunc
 	return $self->{funcs}{$name};
 }
 
+sub isfunc
+{
+	my $self = shift;
+	my $name = shift;
+
+	return exists($self->{funcs}{$name});
+}
+
 #should i really have this here? or should i have it in evaluate.pm?
 sub callfunc
 {
