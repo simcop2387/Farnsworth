@@ -72,7 +72,7 @@ sub getprefix
 	#sort them by length, solves issues with longer ones not being found first
 	for my $pre (sort {length($b) <=> length($a)} keys %{$self->{prefix}})
 	{
-	    print "CHECKING PREFIX: $pre\n" if ($name eq "mg");
+		#print "CHECKING PREFIX: $pre\n" if ($name eq "mg");
 		if ($name =~ /^\Q$pre\E(.*)$/)
 		{
 			my $u = $1;

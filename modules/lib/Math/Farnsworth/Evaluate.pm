@@ -444,6 +444,9 @@ sub evalbranch
 			}
 			elsif ($self->{funcs}->isfunc($branch->[1][0]))
 			{
+				print "TRANSCALL!\n";
+				print Dumper($branch);
+				print Dumper($left);
 				$left = $left->{dimen}{dimen}{array} ? $left : new Math::Farnsworth::Value([$left], {array=>1});
 				$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
 			}

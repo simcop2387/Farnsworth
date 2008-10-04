@@ -15,6 +15,8 @@ use POE;
 
 use Math::Farnsworth;
 
+use utf8;
+
 my $farnsworth = new Math::Farnsworth;
 $farnsworth->runFile("startups/startup.frns");
 
@@ -64,7 +66,7 @@ sub runfarnsworth
 
   $output = $@ if $@;
 
-  $response->content($output);
+  $response->add_content_utf8($output);
   return RC_OK;
 }
 

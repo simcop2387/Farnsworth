@@ -9,6 +9,8 @@ use base 'Bot::BasicBot';
 use WWW::Mechanize;
 use URI::Escape;
 use Math::BigFloat;
+use Encode;
+
 
          # with all known options
          my $bot = FrinkBot->new(
@@ -110,6 +112,7 @@ sub submitform
   if ($resp->is_success)
   {
     my $q = $ua->content();
+    $q = decode("UTF-8", $q);
 
     $q =~ s/\n/ /g; #filter a few annoying things
     $q =~ s/\s{2,}/ /g;

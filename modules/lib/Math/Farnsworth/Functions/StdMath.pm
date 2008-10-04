@@ -656,7 +656,8 @@ sub int
 		else
 		{
 			#until i decide how this should work on regular numbers, just do this
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::truncate($arg->{pari}), $arg->{dimen});
+			my $error = PARI '0';
+			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::truncate($arg->{pari}, $error), $arg->{dimen});
 			print Dumper(\@rets);
 		}
 	}
