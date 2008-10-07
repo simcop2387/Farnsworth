@@ -46,12 +46,29 @@ sub runfarnsworth
   print "INPUT: $string\n\n\n\n";
   my $output;
   print "Running\n";
-  eval 
+
+	  my $oa = $SIG{ALRM};
+    my $oat = alarm(0);
+    $SIG{ALRM} = sub {die "Timeout!"};
+    alarm(10);
+
+  my $out = eval 
 	{
-    my $out = ($farnsworth->runString($string));
-    if (ref($out) eq "Math::Farnsworth::Value")
+		my $ret=($farnsworth->runString($string));
+    $ret;
+  };
+
+    alarm(0);
+    $SIG{ALRM} = $oa;
+    alarm($oat);
+
+		if ($@)
     {
-      $output = $out->toperl($farnsworth->{eval}{units});
+	  	$output = $@;
+    }
+    elsif (ref($out) eq "Math::Farnsworth::Value")
+    {
+      $output = eval{$out->toperl($farnsworth->{eval}{units})};
     }
     elsif (!defined($out))
     {
@@ -61,12 +78,13 @@ sub runfarnsworth
     {
       $output = $out;
     }
-	};
+    else
+    {
+      $output = "BUG!";
+    }
   print "Done Running : $output\n";
 
-  $output = $@ if $@;
-
-  $response->add_content_utf8($output);
+  $response->add_content_utf8(" ".$output);
   return RC_OK;
 }
 

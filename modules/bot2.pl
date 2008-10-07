@@ -52,15 +52,8 @@ print Dumper($args);
 
  if ($args->{address}) 
  {
-   if ($args->{body} !~ /(read|lines|staticjava|newjava|calljava)/i)
-   {
-     my $response = $self->submitform($args->{body}, $args->{address});
-     return $response;
-   }
-   else
-   {
-     return "The function you are attempting to use is restricted"
-   }
+   my $response = $self->submitform($args->{body}, $args->{address});
+   return $response;
  }
 
  return undef;

@@ -80,7 +80,10 @@ sub sqrt
 		}
 		else
 		{
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::sqrt($arg->{pari}), {});
+			#HAD BUG HERE, sqrt used to not carry units
+			my $units = $arg->{dimen};
+			$units->mult(0.5); #half them all!
+			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::sqrt($arg->{pari}), $units);
 			print Dumper(\@rets);
 		}
 	}
