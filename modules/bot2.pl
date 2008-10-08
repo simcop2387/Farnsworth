@@ -1,91 +1,105 @@
 #!/usr/bin/perl
 
-package FrinkBot;
-
 use strict;
 use warnings;
 use Data::Dumper;
-use base 'Bot::BasicBot';
+#use base 'Bot::BasicBot';
+use POE qw(Component::IRC);
 use WWW::Mechanize;
 use URI::Escape;
 use Math::BigFloat;
 use Encode;
 
-
-         # with all known options
-         my $bot = FrinkBot->new(
+# with all known options
+my $bot = POE::Component::IRC->spawn(
 
            server => "andromeda128",
            port   => "6668",
-           channels => ["#yapb", "#buubot", "#perl", "#codeyard"],
-
            nick      => "farnsworth",
-           alt_nicks => [map {"farnsworth".$_} 2..100],
            username  => "farnsworth",
            name      => "Hubert J. Farnsworth",
-
-           ignore_list => [qw(buubot perlbot frogbot)],
 
            charset => "utf-8", # charset the bot assumes the channel is using
 
          );
-         $bot->run();
 
-sub help
-{
-  my $help = q{
-I know math-fu.  Have a look at  http://futureboy.homeip.net/frinkdocs/#HowFrinkIsDifferent to understand how to use me!
-If you have a question or function you would like preserved across crashes/restarts send a pm to simcop2387.};
-  $help =~ s/\n//g;
-  $help =~ s/\s{2,}/ /g;
-  
-  return $help;
+#channels => ["#yapb", "#buubot", "#perl", "#codeyard"],
+#           alt_nicks => [map {"farnsworth".$_} 2..100],
+
+POE::Session->create(
+  package_states => 
+    [
+      main => [ qw(_start irc_001 irc_public irc_msg) ],
+	],
+    heap => { irc => $bot },);
+
+POE::Kernel->run();
+
+sub _start {
+            my $heap = $_[HEAP];
+
+            # retrieve our component's object from the heap where we stashed it
+            my $irc = $heap->{irc};
+
+            $irc->yield( register => 'all' );
+            $irc->yield( connect => { } );
+            return;
 }
 
+sub irc_001 {
+            my $sender = $_[SENDER];
 
-sub said
-{
- my $self = shift;
- my $args = shift;
+            # Since this is an irc_* event, we can get the component's object by
+            # accessing the heap of the sender. Then we register and connect to the
+            # specified server.
+            my $irc = $sender->get_heap();
 
-print Dumper($args);
+            print "Connected to ", $irc->server_name(), "\n";
 
- if ($args->{address}) 
- {
-   my $response = $self->submitform($args->{body}, $args->{address});
-   return $response;
- }
-
- return undef;
+            # we join our channels
+            $irc->yield( join => $_ ) for (qw(\#yapb \#buubot \#perl \#codeyard));
+            return;
 }
 
-sub simplify
+sub irc_public
 {
-  my $self = shift;
-  my $in = shift;
+  my ($sender, $who, $where, $what, $heap) = @_[SENDER, ARG0 .. ARG2, HEAP];
+  my $nick = ( split /!/, $who )[0];
+  my $channel = $where->[0];
 
-  $in =~ m|([\d.-]+/[\d.]+)|;
-  my $num = $1;
-
-
-  if (defined $num)
+  if (my ($equation) = $what =~ /^farnsworth[[:punct:]]\s*(.*)$/i)
   {
-    print "NUM: $num\n";
-    my ($q, $d) = split "/", $num;
-
-    print "QD: $q :: $d\n";
-    my $out = $q/$d;
-
-    $in =~ s/$num/$out/;
-
+    my $response = submitform($equation, "chan");	
+	$heap->{irc}->yield( privmsg => $channel => "$nick: $response" );
   }
-  return $in
-  
 }
+
+sub irc_msg
+{
+  my ($sender, $who, $where, $what, $heap) = @_[SENDER, ARG0 .. ARG2, HEAP];
+  my $nick = ( split /!/, $who )[0];
+  my $channel = $where->[0];
+
+  if (my $equation = $what)
+  {
+    my $response = submitform($equation, "msg");	
+	$heap->{irc}->yield( privmsg => $nick => "$response" );
+  }
+}
+
+#sub help
+#{
+#  my $help = q{
+#I know math-fu.  Have a look at  http://futureboy.homeip.net/frinkdocs/#HowFrinkIsDifferent to understand how to use me!
+#If you have a question or function you would like preserved across crashes/restarts send a pm to simcop2387.};
+#  $help =~ s/\n//g;
+#  $help =~ s/\s{2,}/ /g;
+#  
+#  return $help;
+#}
 
 sub submitform
 {
-  my $self = shift;
   my $eq = shift;
   my $ad = shift;
 
@@ -110,9 +124,9 @@ sub submitform
     $q =~ s/\n/ /g; #filter a few annoying things
     $q =~ s/\s{2,}/ /g;
 
-    if ((length $q > 220) && $ad ne "msg")
+    if ((length $q > 320) && $ad ne "msg")
     {
-      $q = "SHORTENED [SEEALL USING /MSG]: ".(substr $q, 0, 220);
+      $q = "".(substr $q, 0, 320) . ".... tl;dr, use /msg";
     }
 
     return $q;
