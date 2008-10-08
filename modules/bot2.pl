@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Data::Dumper;
 #use base 'Bot::BasicBot';
-use POE qw(Component::IRC);
+use POE qw(Component::IRC Queue::Array);
 use WWW::Mechanize;
 use URI::Escape;
 use Math::BigFloat;
@@ -26,12 +26,14 @@ my $bot = POE::Component::IRC->spawn(
 #channels => ["#yapb", "#buubot", "#perl", "#codeyard"],
 #           alt_nicks => [map {"farnsworth".$_} 2..100],
 
+my $queue = POE::Queue::Array->new();
+
 POE::Session->create(
   package_states => 
     [
       main => [ qw(_start irc_001 irc_public irc_msg) ],
 	],
-    heap => { irc => $bot },);
+    heap => { irc => $bot, queue => $queue, },);
 
 POE::Kernel->run();
 
@@ -48,6 +50,7 @@ sub _start {
 
 sub irc_001 {
             my $sender = $_[SENDER];
+			my $kernel = $_[KERNEL];
 
             # Since this is an irc_* event, we can get the component's object by
             # accessing the heap of the sender. Then we register and connect to the
@@ -58,7 +61,8 @@ sub irc_001 {
 
             # we join our channels
             $irc->yield( join => $_ ) for (qw(\#yapb \#buubot \#perl \#codeyard));
-            return;
+			$kernel->delay_add(tock=>0.5);
+			return;
 }
 
 sub irc_public
@@ -70,7 +74,9 @@ sub irc_public
   if (my ($equation) = $what =~ /^farnsworth[[:punct:]]\s*(.*)$/i)
   {
     my $response = submitform($equation, "chan");	
-	$heap->{irc}->yield( privmsg => $channel => "$nick: $response" );
+	my @lines = messagebreak($response); #this should really never be needed, but is here so that its consistent
+	$heap->{queue}->enqueue($p, [$channel, "$nick: $lines[$p]") for my $p (0..$#lines);
+	#$heap->{irc}->yield( privmsg => $channel => "$nick: $response" );
   }
 }
 
@@ -83,9 +89,83 @@ sub irc_msg
   if (my $equation = $what)
   {
     my $response = submitform($equation, "msg");	
-	$heap->{irc}->yield( privmsg => $nick => "$response" );
+	my @lines = messagebreak($response);
+	$heap->{queue}->enqueue($p, [$channel, $p == $#lines?"$lines[$p]":"$lines[$p] ..") for my $p (0..$#lines);
+#	$heap->{irc}->yield( privmsg => $nick => "$response" );
   }
 }
+
+sub tock
+{
+  my ($sender, $kernel, $heap) = @_[SENDER, KERNEL, HEAP];
+
+  my ($priority, $queue_id, $payload) = $heap->{queue}->dequeue_next();
+  
+
+  if (defined($priority))
+  {
+	$heap->{irc}->yield( privmsg => $payload->[0] => $payload->[1] );
+  }
+
+  $kernel->delay_add(tock=>0.5);
+}
+
+sub messagebreak
+{
+  use Text::Wrap;
+
+  my ($message, $size) = @_;
+                $size  = 320 unless $size;
+
+  $Text::Wrap::columns = $size;
+
+  my @pieces;
+
+  if (length($message) > $size)
+  { my $partial = "";
+    my @lines = split(/\n/, $message);
+    print "Message was too big, splitting\n";
+
+    foreach my $line (@lines)
+    {
+      if (length($line) > $size)
+      {
+        #line too big, wrap her
+        print "\tLine was too big wrapping\n";
+
+        my @wrapped = split(/\n/, wrap("","",$line));
+        push(@pieces, $partial) if (length($partial) > 0);
+        $partial = pop(@wrapped);
+
+        for my $wrap (@wrapped)
+        {
+          push(@pieces, $wrap);
+        }
+      }
+      else
+      {
+        if (length($line) + length($partial) > $size)
+        {
+          push(@pieces, $partial);
+          $partial = $line;
+        }
+        else
+        {
+          $partial = "$partial\n$line";
+        }
+      }
+    }
+
+    push(@pieces, $partial) if ($partial ne "")
+  }
+  else
+  {
+    push(@pieces, $message);
+  }
+
+  return (@pieces);
+}
+
 
 #sub help
 #{
@@ -121,6 +201,7 @@ sub submitform
     my $q = $ua->content();
     $q = decode("UTF-8", $q);
 
+    #these MAY dissappear!
     $q =~ s/\n/ /g; #filter a few annoying things
     $q =~ s/\s{2,}/ /g;
 
