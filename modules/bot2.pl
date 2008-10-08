@@ -31,9 +31,9 @@ my $queue = POE::Queue::Array->new();
 POE::Session->create(
   package_states => 
     [
-      main => [ qw(_start irc_001 irc_public irc_msg) ],
+      main => [ qw(_start irc_001 irc_public irc_msg tock) ],
 	],
-    heap => { irc => $bot, queue => $queue, },);
+    heap => { irc => $bot, queue => $queue, lastsend=>time()},);
 
 POE::Kernel->run();
 
@@ -75,7 +75,13 @@ sub irc_public
   {
     my $response = submitform($equation, "chan");	
 	my @lines = messagebreak($response); #this should really never be needed, but is here so that its consistent
-	$heap->{queue}->enqueue($p, [$channel, "$nick: $lines[$p]") for my $p (0..$#lines);
+	
+	my $pd = getpristart($heap->{queue}, $channel);
+
+	for my $p (0..$#lines)
+	{
+		$heap->{queue}->enqueue($p+$pd, [$channel, "$nick: $lines[$p]"]);
+	}
 	#$heap->{irc}->yield( privmsg => $channel => "$nick: $response" );
   }
 }
@@ -90,7 +96,14 @@ sub irc_msg
   {
     my $response = submitform($equation, "msg");	
 	my @lines = messagebreak($response);
-	$heap->{queue}->enqueue($p, [$channel, $p == $#lines?"$lines[$p]":"$lines[$p] ..") for my $p (0..$#lines);
+
+    my $pd = getpristart($heap->{queue}, $nick);
+
+	for my $p (0..$#lines)
+	{
+	    print "LINE: $lines[$p]\n";
+		$heap->{queue}->enqueue($p+$pd, [$nick, $p == $#lines?"$lines[$p]":"$lines[$p] .."]);
+	}
 #	$heap->{irc}->yield( privmsg => $nick => "$response" );
   }
 }
@@ -99,12 +112,14 @@ sub tock
 {
   my ($sender, $kernel, $heap) = @_[SENDER, KERNEL, HEAP];
 
-  my ($priority, $queue_id, $payload) = $heap->{queue}->dequeue_next();
-  
-
-  if (defined($priority))
+  my $np = $heap->{queue}->get_next_priority();
+ 
+  if ((defined($np)) && (time() - $heap->{lastsend} > 3))
   {
+	my ($priority, $queue_id, $payload) = $heap->{queue}->dequeue_next();
+	print "TOCK: $priority, $queue_id\n";
 	$heap->{irc}->yield( privmsg => $payload->[0] => $payload->[1] );
+	$heap->{lastsend} = time();
   }
 
   $kernel->delay_add(tock=>0.5);
@@ -163,7 +178,24 @@ sub messagebreak
     push(@pieces, $message);
   }
 
+  shift @pieces if ($pieces[0] =~ /^\s*$/);
+
   return (@pieces);
+}
+
+sub getpristart
+{
+   my $queue = shift;
+   my $who = shift;
+
+   my @items = $queue->peek_items(sub{ my $payload = shift; $payload->[0] eq $who});
+
+   my $max = $items[0][0];
+   shift @items;
+   for my $item (@items) {if ($item->[0] > $max) {$max = $item->[0];}};
+
+   $max ||= 0; #make sure its a numba!
+   return $max+1; 
 }
 
 
@@ -205,9 +237,9 @@ sub submitform
     $q =~ s/\n/ /g; #filter a few annoying things
     $q =~ s/\s{2,}/ /g;
 
-    if ((length $q > 320) && $ad ne "msg")
+    if ((length $q > 300) && $ad ne "msg")
     {
-      $q = "".(substr $q, 0, 320) . ".... tl;dr, use /msg";
+      $q = "".(substr $q, 0, 300) . ".... tl;dr, use /msg";
     }
 
     return $q;
