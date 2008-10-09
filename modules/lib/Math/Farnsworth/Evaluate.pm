@@ -378,20 +378,11 @@ sub evalbranch
 		my $cond = $branch->[0]; #what to check each time
 		my $stmts = $branch->[1]; #what to run each time
 
-		my $loopcount = 3000; #this is TEMPORARY! once i implement a proper timeout system, this will disappear
-
 		my $condval = $self->makevalue($cond);
-		while ($condval && $loopcount--)
+		while ($condval)
 		{
-#			print "LOOPING--- $loopcount\n";
-#			print Dumper($condval, "".$condval->{pari});
 			$self->makevalue($stmts);
 			$condval = $self->makevalue($cond);
-		}
-
-		if ($loopcount <= 0)
-		{
-			die "TOO MANY LOOPS!";
 		}
 
 		$return = undef; #cause errors
@@ -448,6 +439,7 @@ sub evalbranch
 				print Dumper($branch);
 				print Dumper($left);
 				$left = $left->{dimen}{dimen}{array} ? $left : new Math::Farnsworth::Value([$left], {array=>1});
+				print Dumper($left);
 				$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
 			}
 			else
@@ -458,6 +450,7 @@ sub evalbranch
 		else
 		{
 			#$right doesn't evaluate... so we check for a function?
+			$left = $left->{dimen}{dimen}{array} ? $left : new Math::Farnsworth::Value([$left], {array=>1});
 			$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
 		}
 	}

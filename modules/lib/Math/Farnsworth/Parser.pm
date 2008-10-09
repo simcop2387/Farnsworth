@@ -2290,7 +2290,7 @@ sub
 		 'expr', 6,
 sub
 #line 120 "Farnsworth.yp"
-{ bless [@_[1,3,6]], 'FuncDef' }
+{ bless [@_[1,3], (bless [$_[6]], 'Stmt')], 'FuncDef' }
 	],
 	[#Rule 60
 		 'expr', 8,

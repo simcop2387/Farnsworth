@@ -18,10 +18,13 @@ my $bot = POE::Component::IRC->spawn(
            nick      => "farnsworth",
            username  => "farnsworth",
            name      => "Hubert J. Farnsworth",
+           password  => "farnsworth",
 
            charset => "utf-8", # charset the bot assumes the channel is using
 
          );
+
+my @ignore = qw(ChanServ GumbyBRAIN perlbot buubot frogbot NickServ);
 
 #channels => ["#yapb", "#buubot", "#perl", "#codeyard"],
 #           alt_nicks => [map {"farnsworth".$_} 2..100],
@@ -60,9 +63,15 @@ sub irc_001 {
             print "Connected to ", $irc->server_name(), "\n";
 
             # we join our channels
-            $irc->yield( join => $_ ) for (qw(\#yapb \#buubot \#perl \#codeyard));
+            $irc->yield( join => $_ ) for ("#yapb", "#buubot", "#perl", "#codeyard");
 			$kernel->delay_add(tock=>0.5);
 			return;
+}
+
+sub _ignore
+{
+  my $who = shift;
+  return grep {lc($_) eq lc($who)} @ignore ? 1 : 0
 }
 
 sub irc_public
@@ -70,6 +79,8 @@ sub irc_public
   my ($sender, $who, $where, $what, $heap) = @_[SENDER, ARG0 .. ARG2, HEAP];
   my $nick = ( split /!/, $who )[0];
   my $channel = $where->[0];
+
+  return if _ignore($nick);
 
   if (my ($equation) = $what =~ /^farnsworth[[:punct:]]\s*(.*)$/i)
   {
@@ -91,6 +102,10 @@ sub irc_msg
   my ($sender, $who, $where, $what, $heap) = @_[SENDER, ARG0 .. ARG2, HEAP];
   my $nick = ( split /!/, $who )[0];
   my $channel = $where->[0];
+
+  print "PRIVMSG $nick: $what\n";
+
+  return if _ignore($nick);
 
   if (my $equation = $what)
   {
@@ -197,18 +212,6 @@ sub getpristart
    $max ||= 0; #make sure its a numba!
    return $max+1; 
 }
-
-
-#sub help
-#{
-#  my $help = q{
-#I know math-fu.  Have a look at  http://futureboy.homeip.net/frinkdocs/#HowFrinkIsDifferent to understand how to use me!
-#If you have a question or function you would like preserved across crashes/restarts send a pm to simcop2387.};
-#  $help =~ s/\n//g;
-#  $help =~ s/\s{2,}/ /g;
-#  
-#  return $help;
-#}
 
 sub submitform
 {
