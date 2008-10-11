@@ -24,7 +24,7 @@ my $bot = POE::Component::IRC->spawn(
 
          );
 
-my @ignore = qw(ChanServ GumbyBRAIN perlbot buubot frogbot NickServ);
+my @ignore = qw(ChanServ GumbyBRAIN perlbot buubot frogbot NickServ *status);
 
 #channels => ["#yapb", "#buubot", "#perl", "#codeyard"],
 #           alt_nicks => [map {"farnsworth".$_} 2..100],
@@ -106,6 +106,7 @@ sub irc_msg
   print "PRIVMSG $nick: $what\n";
 
   return if _ignore($nick);
+  return if ($what =~ /nknown command \[\] try 'Help'/);
 
   if (my $equation = $what)
   {
@@ -221,7 +222,7 @@ sub submitform
   #set the escape for \cpn to be newline
   $eq =~ s/(\cp|\\cp)n/\n/g;
 
-  $eq = uri_escape_utf8($eq);
+  $eq = uri_escape($eq);
 
   my $url="http://localhost:8080/$eq";
 

@@ -12,6 +12,7 @@ use POE::Component::Server::HTTP;
 use POE::Component::Server::TCP;
 use HTTP::Status;
 use POE;
+use Encode;
 
 use Math::Farnsworth;
 
@@ -42,6 +43,7 @@ sub runfarnsworth
   $response->code(RC_OK);
   my $string = "".(uri_unescape $request->uri);
   $string =~ s|^http://[^/]+/||;
+  $string = decode("UTF-8", $string);
 
   print "INPUT: $string\n\n\n\n";
   my $output;

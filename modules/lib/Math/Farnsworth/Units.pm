@@ -39,11 +39,11 @@ sub getunit
 	elsif ($self->hasprefix($name))
 	{
 		my ($preval, undef, $realname) = $self->getprefix($name);
-		print "GETTING PREFIXES: $name :: $preval :: $realname ::".Dumper($preval, $realname) if (($name eq "mg") || ($name eq "l") || $name eq "milli");
+#		print "GETTING PREFIXES: $name :: $preval :: $realname ::".Dumper($preval, $realname) if (($name eq "mg") || ($name eq "l") || $name eq "milli");
 		$return = $preval * $self->{units}{$realname};
 	}
 
-	print "GETTING UNIT: $name : $return : ".Dumper($return) if (($name eq "mg") || ($name eq "l") || $name eq "milli");
+#	print "GETTING UNIT: $name : $return : ".Dumper($return) if (($name eq "mg") || ($name eq "l") || $name eq "milli");
 	return $return;
 }
 

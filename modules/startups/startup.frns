@@ -1,0 +1,30 @@
+source = "You can see my insides at https://vdiddy.sexypenguins.com/subversion/frinkbot/modules BUT do not try to run me, as i have no documentation and i can probably cause your computer to neuter the cats in your neighborhood";
+help = "No help for you, you son of a bitch";
+//frozen := C[0];
+//microwavetime[mass, end , start = frozen, watts = 1000W, sh = 1 calorie/gram/degC] := (mass sh)(end - start)/watts -> seconds
+phi := (1 + sqrt[5])/2
+mangle{x} := x -> Dutch -> DutchToJapanese -> JapaneseToArabic -> ArabicToGerman -> GermanToChinese -> ChineseToFrench -> FrenchToHindi -> FromHindi
+
+tracemangle{x} := {var z=[]; var d = x -> Dutch; push[z,[d,d->FromDutch]]; d = d -> DutchToJapanese; push[z,[d, d->FromJapanese]]; d=d -> JapaneseToArabic; push[z,[d,d->FromArabic]]; d=d -> ArabicToGerman; push[z,[d,d->FromGerman]]; d=d -> GermanToChinese; push[z,[d,d->FromChinese]]; d=d -> ChineseToFrench; push[z,[d, d->FromFrench]]; d=d -> FrenchToHindi; push[z,[d, d->FromHindi]]; d=d -> FromHindi; push[z,d]; z}
+
+dutchmangle{x} :=[x -> DutchToEnglish] -> mangle -> EnglishToDutch
+
+b := bit
+B := byte
+yobi ::- 1024^8
+zebi ::- 1024^7
+exbi ::- 1024^6
+pebi ::- 1024^5
+tebi ::- 1024^4
+gibi ::- 1024^3
+mebi ::- 1024^2
+kibi ::- 1024^1
+
+Ki :- kibi
+Mi :- mebi
+Gi :- gibi
+Ti :- tebi
+Pi :- pebi
+Ei :- exbi
+Zi :- zebi
+Yi :- yobi

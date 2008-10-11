@@ -8,10 +8,14 @@ use Data::Dumper;
 use Math::Farnsworth::Value;
 
 use REST::Google::Translate;
+use HTML::Entities;
 
 use Encode;
 
 #note that this is fairly C<en> centric!
+
+my $defaultcode = "en";
+
 sub init
 {
 	my $env = shift;
@@ -51,9 +55,17 @@ sub init
 		my $name = $langs{$x};
 
 		#closures in perl will give me this! closures FTW!
-		$env->{funcs}->addfunc($name, [], sub {translate("en",$x,@_)});
-		$env->{funcs}->addfunc("To".$name, [], sub {translate("en",$x,@_)});
-		$env->{funcs}->addfunc("From".$name, [], sub {translate($x, "en",@_)});
+		if ($x ne $defaultcode)
+		{
+			$env->{funcs}->addfunc($name, [], sub {translate("",$x,@_)});
+			$env->{funcs}->addfunc("To".$name, [], sub {translate("",$x,@_)});
+			$env->{funcs}->addfunc("From".$name, [], sub {translate($x, $defaultcode,@_)});
+		}
+		else
+		{
+			$env->{funcs}->addfunc($name, [], sub {translate("",$defaultcode,@_)});
+			$env->{funcs}->addfunc("To".$name, [], sub {translate("",$defaultcode,@_)});
+		}
 	}
 }
 
@@ -62,31 +74,29 @@ sub translate
   my ($langa, $langb) = (shift(), shift()); #get the two targets
   my ($args, $eval, $branches)= @_;
 	
-  #i THINK I HAVE A BUG HERE!
-  print Dumper($args);
-  if (!$args->{dimen}{dimen}{string})
+  if (!$args->{pari}[0]{dimen}{dimen}{string})
   {
 	  die "First argument to translations must be a string";
   }
   
-  #WTF BUG!
-  my $totranslate = $args->{pari};
+  my $totranslate = $args->{pari}[0]{pari};
   
   my $res = REST::Google::Translate->new(
               q => $totranslate,
                 langpair => "$langa|$langb",
        );
 
-  die "response status failure when translating, ".$res->responseStatus if $res->responseStatus != 200;
+  print Dumper($res);
+
+  die "response status failure when translating, ".$res->responseStatus, "details follow, ".$res->responseDetails if $res->responseStatus != 200;
 
   my $translated = $res->responseData->translatedText;
 
   print "TRANSLATED: $langa|$langb '$translated'\n";
-  print Dumper($res);
 
   #$translated = decode("UTF-8", $translated); #make sure its interpreted as utf8?
 
-  $translated = new Math::Farnsworth::Value($translated, {string=>1});
+  $translated = new Math::Farnsworth::Value(decode_entities($translated), {string=>1});
 
   return $translated; #if its undef, its undef! i should really make some kind of error checking here
 }

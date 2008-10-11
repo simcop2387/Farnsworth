@@ -425,21 +425,34 @@ sub evalbranch
 	elsif ($type eq "Trans")
 	{
 		my $left = $self->makevalue($branch->[0]);
-		my $right = eval {$self->makevalue($branch->[1])};
+		my $rights = eval {$self->makevalue($branch->[1])};
+		my $right = $rights;
+
+		if ($rights->{dimen}{dimen}{string}) #if its a string we do some fun stuff
+		{
+			$right = $self->eval($rights->{pari}); #we need to set $right to the evaluation $rights
+		}
+
 		if (!$@)
 		{
 			if ($left->{dimen}->compare($right->{dimen})) #only do this if they are the same
 			{
-				$return = ($left / $right);
-				$outdim = $branch->[1];
+				my $dispval = ($left / $right);
+				$return = $left;
+				
+				if ($rights->{dimen}{dimen}{string})
+				{
+					#right side was a string, use it
+					$return->{outmagic} = $rights;
+				}
+				else
+				{
+					$return->{outmagic} = $dispval;
+				}
 			}
 			elsif ($self->{funcs}->isfunc($branch->[1][0]))
 			{
-				print "TRANSCALL!\n";
-				print Dumper($branch);
-				print Dumper($left);
 				$left = $left->{dimen}{dimen}{array} ? $left : new Math::Farnsworth::Value([$left], {array=>1});
-				print Dumper($left);
 				$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
 			}
 			else
