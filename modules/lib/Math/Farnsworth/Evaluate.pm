@@ -466,11 +466,11 @@ sub evalbranch
 				if ($rights->{dimen}{dimen}{string})
 				{
 					#right side was a string, use it
-					$return->{outmagic} = $rights;
+					$return->{outmagic} = [$dispval, $rights];
 				}
 				else
 				{
-					$return->{outmagic} = $dispval;
+					$return->{outmagic} = [$dispval];
 				}
 			}
 			elsif ($self->{funcs}->isfunc($branch->[1][0]))

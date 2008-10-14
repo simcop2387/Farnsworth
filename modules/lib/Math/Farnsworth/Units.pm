@@ -158,7 +158,27 @@ sub getdisplay
 
     my @returns;
 
-	if (exists($dimen->{dimen}{"bool"}))
+	if (defined($value->{outmagic}))
+	{
+		if (exists($value->{outmagic}[1]{dimen}{dimen}{string}))
+		{
+			#ok we were given a string!
+			my $number = $value->{outmagic}[0];
+			my $string = $value->{outmagic}[1];
+			return $self->getdisplay($number->{dimen}, $number) . " ". $self->getdisplay($string->{}, $string);
+		}
+		elsif (exists($value->{outmagic}[0]) && (!exists($value->{outmagic}[0]{dimen}{dimen}{array})))
+		{
+			#ok we were given a value without the string
+			my $number = $value->{outmagic}[0];
+			return $self->getdisplay($number->{dimen}, $number);
+		}
+		else
+		{
+			die "Unhandled output magic, this IS A BUG!";
+		}
+	}
+	elsif (exists($dimen->{dimen}{"bool"}))
 	{
 		return $value ? "True" : "False"
 		#these should do something!
