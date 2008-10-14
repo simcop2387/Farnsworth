@@ -1,7 +1,7 @@
 source = "You can see my insides at https://vdiddy.sexypenguins.com/subversion/frinkbot/modules BUT do not try to run me, as i have no documentation and i can probably cause your computer to neuter the cats in your neighborhood";
 help = "No help for you, you son of a bitch";
-//frozen := C[0];
-//microwavetime[mass, end , start = frozen, watts = 1000W, sh = 1 calorie/gram/degC] := (mass sh)(end - start)/watts -> seconds
+frozen := C[0];
+microwavetime{mass isa kg, end isa K, start = frozen isa K, watts = 1000W isa watt, sh = 1 calorie/gram/degC isa calorie/gram/degC} := (mass sh)(end - start)/watts -> seconds
 phi := (1 + sqrt[5])/2
 mangle{x} := {var s = x -> Dutch -> Japanese -> Arabic -> German -> Chinese -> French -> Hindi; var lang = x -> DetectLanguage; eval["\""+s+"\" -> HindiTo" + lang] }
 
