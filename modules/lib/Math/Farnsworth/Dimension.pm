@@ -48,7 +48,7 @@ sub compare
      for my $k (keys %{$self->{dimen}})
      {
        $z = 0 if (!exists($target->{dimen}{$k}));
-       $v = 0 if ($self->{dimen}{$k} != $target->{dimen}{$k});
+       $v = 0 if (($self->{dimen}{$k} != $target->{dimen}{$k}) && ($k ne "string"));
      }
 
      if ($z && $v) #also check if there are no dimensions

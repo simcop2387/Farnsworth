@@ -233,7 +233,30 @@ sub evalbranch
 		my $args = $branch->[1];
 		my $value = $branch->[2]; #not really a value, but in fact the tree to run for the function
 
-		$self->{funcs}->addfunc($name, $args, $value);
+		my $vargs;
+
+		for my $arg (@$args)
+		{
+			my $constraint = $arg->[2];
+			my $default = $arg->[1];
+			my $name = $arg->[0]; #name
+
+			if (defined($default))
+			{
+				$default = $self->makevalue($default); #should be right
+			}
+
+			if (defined($constraint))
+			{
+				print Dumper($constraint);
+				$constraint = $self->makevalue($constraint); #should be right
+				print Dumper($constraint);
+			}
+
+			push @$vargs, [$name, $default, $constraint];
+		}
+
+		$self->{funcs}->addfunc($name, $vargs, $value);
 		$return = undef; #cause an error should someone manage to make it parse other than the way i think it should be
 	}
 	elsif ($type eq "FuncCall")

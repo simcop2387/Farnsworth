@@ -16,12 +16,6 @@ use Encode;
 
 my $defaultcode = "en";
 
-sub init
-{
-	my $env = shift;
-
-    REST::Google::Translate->http_referer('http://www.google.com/'); #for now, i need a real website for this!
-
 	my %langs = (ar=>"Arabic", bg=>"Bulgarian", ca=>"Catalan", cs=>"Czech",
 				 da=>"Danish", de=>"German", el=>"Greek", en=>"English", 
 				 es=>"Spanish", fi=>"Finnish", fr=>"French", hi=>"Hindi",
@@ -33,6 +27,12 @@ sub init
 				 vi=>"Vietnamese", "zh-CN"=>"Chinese_Simplified", "zh-CN"=>"Chinese",  #bug here! two chineses!
 				 "zh-TW"=>"Chinese_Traditional");
 	
+sub init
+{
+	my $env = shift;
+
+    REST::Google::Translate->http_referer('http://www.google.com/'); #for now, i need a real website for this!
+
 	#generate lang to lang
 	for my $x (keys %langs)
 	{
@@ -58,18 +58,22 @@ sub init
 		if ($x ne $defaultcode)
 		{
 			$env->{funcs}->addfunc($name, [], sub {translate("",$x,@_)});
+			$env->{funcs}->addfunc("Is".$name, [], sub {islang($x, @_)});
 			$env->{funcs}->addfunc("To".$name, [], sub {translate("",$x,@_)});
 			$env->{funcs}->addfunc("From".$name, [], sub {translate($x, $defaultcode,@_)});
 		}
 		else
 		{
+			$env->{funcs}->addfunc("Is".$name, [], sub {islang($x, @_)});
 			$env->{funcs}->addfunc($name, [], sub {translate("",$defaultcode,@_)});
 			$env->{funcs}->addfunc("To".$name, [], sub {translate("",$defaultcode,@_)});
 		}
 	}
+
+	$env->{funcs}->addfunc("DetectLanguage", [], \&detectlang);
 }
 
-sub translate
+sub callgoogle
 {
   my ($langa, $langb) = (shift(), shift()); #get the two targets
   my ($args, $eval, $branches)= @_;
@@ -90,15 +94,81 @@ sub translate
 
   die "response status failure when translating, ".$res->responseStatus, "details follow, ".$res->responseDetails if $res->responseStatus != 200;
 
-  my $translated = $res->responseData->translatedText;
+  return $res; #if its undef, its undef! i should really make some kind of error checking here
+}
+
+sub translate
+{
+  my ($langa, $langb) = (shift(), shift()); #get the two targets
+  my ($args, $eval, $branches)= @_;
+
+  if (!$args->{pari}[0]{dimen}{dimen}{string})
+  {
+    die "First argument to translations must be a string";
+  }
+
+  if ($langa eq "")
+  {
+    if ($args->{pari}[0]{dimen}{dimen}{string} ne "1") #if it is set to something other than "1"
+    {
+      $langa = $args->{pari}[0]{dimen}{dimen}{string};
+    }
+  }
+
+  my $response = callgoogle($langa, $langb, $args, $eval, $branches);
+  my $translated = $response->responseData->translatedText;
 
   print "TRANSLATED: $langa|$langb '$translated'\n";
 
-  #$translated = decode("UTF-8", $translated); #make sure its interpreted as utf8?
+  $translated = new Math::Farnsworth::Value(decode_entities($translated), {string=>$langb});
 
-  $translated = new Math::Farnsworth::Value(decode_entities($translated), {string=>1});
+  return $translated;
+}
 
-  return $translated; #if its undef, its undef! i should really make some kind of error checking here
+sub detectlang
+{
+  my ($args, $eval, $branches)= @_;
+
+  if (!$args->{pari}[0]{dimen}{dimen}{string})
+  {
+    die "First argument to DetectLanguage must be a string";
+  }
+
+  if ($args->{pari}[0]{dimen}{dimen}{string} ne "1") #if it is set to something other than "1"
+  {
+    my $lang = $args->{pari}[0]{dimen}{dimen}{string};
+    my $txt = $langs{$lang};
+    return new Math::Farnsworth::Value($txt, {string=>"en"});
+  }
+
+  my $response = callgoogle("", "en", $args, $eval, $branches);
+  my $translated = $response->{responseData}{detectedSourceLanguage};
+
+  print "DETECTED: '$translated'\n";
+
+  $translated = $langs{$translated} || $translated; #either its got a name, or we return the code
+
+  $translated = new Math::Farnsworth::Value($translated, {string=>"en"});
+
+  return $translated;
+}
+
+sub islang
+{
+  my ($lang) = shift();
+  my ($args, $eval, $branches)= @_;
+
+  if (!$args->{pari}[0]{dimen}{dimen}{string})
+  {
+    die "First argument to IsLanguage must be a string";
+  }
+
+  print "ISLANG: $lang\n";
+  print Dumper($args);
+
+  my $text = $args->{pari}[0]{pari};
+
+  return new Math::Farnsworth::Value($text, {string => $lang});
 }
 
 1;

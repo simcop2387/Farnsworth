@@ -69,6 +69,28 @@ sub callfunc
 			my $n = $argtypes->[$argc][0]; #the rest are defaults and constraints
 			my $v = $args->{pari}->[$argc];
 
+			if (!defined($v))
+			{
+				#i need a default value!
+				if (!defined($argtypes->[$argc][1]))
+				{
+					die "Required argument $argc to function $name\[\] missing";
+				}
+
+				$v = $argtypes->[$argc][1];
+			}
+
+			my $const = $argtypes->[$argc][2];
+			print Dumper($const);
+			if (defined($const))
+			{
+				#we have a constraint
+				if (!$v->{dimen}->compare($const->{dimen}))
+				{
+					die "Constraint not met on argument to $name\[\] in argument $argc";
+				}
+			}
+
 			$nvars->declare($n, $v);
 			#$nvars->setvar($n, $v);
 		}
@@ -86,8 +108,7 @@ sub callfunc
 	}
 }
 
-#this should check for correctness of types and such, todo later
-#also should check for number of params
+#this was supposed to be the checks for types and such, but now its something else entirely
 sub checkparams 
 {
 	return 1 unless (ref($_[1]) eq "Math::Farnsworth::Value") && (ref($_[1]->{pari}) eq "ARRAY");

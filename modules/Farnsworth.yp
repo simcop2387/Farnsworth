@@ -61,6 +61,7 @@ while : 'while' '(' expr ')' '{' stma '}'
 array : expr ',' array  {bless [ ( ref($_[1]) eq 'Array' ? ( bless [@{$_[1]}], 'SubArray' ) : $_[1] ), ref($_[3]) eq 'Array' ? @{$_[3]} : $_[3] ], 'Array' }
 	  | expr {bless [ ( ref($_[1]) eq 'Array' ? ( bless [@{$_[1]}], 'SubArray' ) : $_[1] ) ], 'Array'}
 	  | {bless [], 'Array'} #//need to do this for empty arrays
+	  | ',' array  {bless [ undef, ref($_[2]) eq 'Array' ? @{$_[2]} : $_[2] ], 'Array' }
 	  ;
 
 argarray : expr ',' argarray  {bless [ ( ref($_[1]) eq 'ArgArray' ? ( bless [@{$_[1]}], 'SubArray' ) : $_[1] ), ref($_[3]) eq 'ArgArray' ? @{$_[3]} : $_[3] ], 'ArgArray' }
@@ -68,8 +69,8 @@ argarray : expr ',' argarray  {bless [ ( ref($_[1]) eq 'ArgArray' ? ( bless [@{$
 		 | {bless [], 'ArgArray'} #//need to do this for empty arrays
 		 ;
 
-argelement : NAME 'isa' NAME '=' expr {bless [$_[1], $_[5], $_[3]], 'Argele'} #default value AND constraint 
-		   | NAME 'isa' NAME {bless [ $_[1], undef, $_[3] ], 'Argele'} #constraint
+argelement : NAME '=' expr 'isa' expr {bless [$_[1], $_[3], $_[5]], 'Argele'} #default value AND constraint 
+		   | NAME 'isa' expr {bless [ $_[1], undef, $_[3] ], 'Argele'} #constraint
 		   | NAME '=' expr {bless [$_[1], $_[3]], 'Argele'} #default value
 		   | NAME {bless [ $_[1] ], 'Argele'}
 		   |

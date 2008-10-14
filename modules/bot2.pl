@@ -71,7 +71,7 @@ sub irc_001 {
 sub _ignore
 {
   my $who = shift;
-  return grep {lc($_) eq lc($who)} @ignore ? 1 : 0
+  return (grep {$who =~ /\Q$_/i} @ignore) ? 1 : 0
 }
 
 sub irc_public
@@ -80,6 +80,7 @@ sub irc_public
   my $nick = ( split /!/, $who )[0];
   my $channel = $where->[0];
 
+  print Dumper($who);
   return if _ignore($nick);
 
   if (my ($equation) = $what =~ /^farnsworth[[:punct:]]\s*(.*)$/i)

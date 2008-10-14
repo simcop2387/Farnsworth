@@ -20,6 +20,10 @@ sub init
 
    $env->{funcs}->addfunc("length", [],\&length);
 
+   $env->{funcs}->addfunc("ord", [],\&ord);
+   $env->{funcs}->addfunc("chr", [],\&chr);
+   $env->{funcs}->addfunc("eval", [],\&eval);
+
    $env->{funcs}->addfunc("substrLen", [],\&substrlen); #this one works like perls
    $env->eval("substr{str,left,right}:={substrLen[str,left,right-left]}");
    $env->eval("left{str,pos}:={substrLen[str,0,pos]}");
@@ -244,6 +248,64 @@ sub substrlen
 	else
 	{
 		die "substr and friends only works on strings";
+	}
+}
+
+sub ord
+{
+	#with an array we give the number of elements, with a string we give the length of the string
+	my ($args, $eval, $branches)= @_;
+	my @arg = @{$args->{pari}};
+
+	if ($arg[0]{dimen}{dimen}{string})
+	{
+		#do i need to do something to convert these to work? (the 1,2 anyway?)
+		my $ns = ord($arg[0]{pari}); #substr($arg[0]{pari}, "".$arg[1]{pari}, "".$arg[2]{pari});
+		print "ord :: $ns\n";
+		return Math::Farnsworth::Value->new($ns);
+	}
+	else
+	{
+		die "ord[] only works on strings";
+	}
+}
+
+sub chr
+{
+	#with an array we give the number of elements, with a string we give the length of the string
+	my ($args, $eval, $branches)= @_;
+	my @arg = @{$args->{pari}};
+
+	if ($arg[0]{dimen}->compare({dimen=>{}}))
+	{
+		#do i need to do something to convert these to work? (the 1,2 anyway?)
+		my $ns = chr($arg[0]{pari}); #substr($arg[0]{pari}, "".$arg[1]{pari}, "".$arg[2]{pari});
+		print "chr :: $ns\n";
+		return Math::Farnsworth::Value->new($ns, {string => 1}); #give string flag of 1, since we don't know what language is intended
+	}
+	else
+	{
+		die "chr[] only works on plain numbers";
+	}
+}
+
+sub eval
+{
+	#with an array we give the number of elements, with a string we give the length of the string
+	my ($args, $eval, $branches)= @_;
+	my @arg = @{$args->{pari}};
+
+	if ($arg[0]{dimen}{dimen}{string})
+	{
+		my $nvars = new Math::Farnsworth::Variables($eval->{vars});
+		my %nopts = (vars => $nvars, funcs => $eval->{funcs}, units => $eval->{units}, parser => $eval->{parser});
+	    my $neval = $eval->new(%nopts);
+
+		return $neval->eval($arg[0]{pari});
+	}
+	else
+	{
+		die "eval[] only works on strings";
 	}
 }
 
