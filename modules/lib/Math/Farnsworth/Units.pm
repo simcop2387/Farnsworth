@@ -165,7 +165,7 @@ sub getdisplay
 			#ok we were given a string!
 			my $number = $value->{outmagic}[0];
 			my $string = $value->{outmagic}[1];
-			return $self->getdisplay($number->{dimen}, $number) . " ". $self->getdisplay($string->{}, $string);
+			return $self->getdisplay($number->{dimen}, $number) . " ".$string->{pari};
 		}
 		elsif (exists($value->{outmagic}[0]) && (!exists($value->{outmagic}[0]{dimen}{dimen}{array})))
 		{

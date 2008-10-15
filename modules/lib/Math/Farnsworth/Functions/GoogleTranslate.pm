@@ -22,7 +22,7 @@ my $defaultcode = "en";
 				 hr=>"Croatian", id=>"Indonesian", it=>"Italian", iw=>"Hebrew", 
 				 ja=>"Japanese", ko=>"Korean", lt=>"Lithuanian", lv=>"Latvian",
 				 nl=>"Dutch", no=>"Norwegian", pl=>"Polish", pt=>"Portuguese",
-				 ro=>"Romanian", ru=>"Russian", sk=>"Slovak", sl=>"Slovenian", 
+				 "pt-PT" => "Portuguese", ro=>"Romanian", ru=>"Russian", sk=>"Slovak", sl=>"Slovenian", 
 				 sr=>"Serbian", sv=>"Swedish", tl=>"Filipino", uk=>"Ukrainian",
 				 vi=>"Vietnamese", "zh-CN"=>"Chinese_Simplified", "zh-CN"=>"Chinese",  #bug here! two chineses!
 				 "zh-TW"=>"Chinese_Traditional");
