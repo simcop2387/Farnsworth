@@ -124,7 +124,7 @@ m :-  milli
    // "u" to indicate micro?  I've added "uF" for microfarad later on to
    // tackle the most common case.
 //\u00b5 :- micro   // Unicode "MICRO SIGN" //unicode like this doesn't work! in fact all unicode might not...
-µ :- micro
+//µ :- micro
 u :- micro
 n :-  nano
 p :-  pico
