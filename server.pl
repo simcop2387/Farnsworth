@@ -55,7 +55,7 @@ sub runfrink
 #    $output = $@->getMessage();
 #  }
 
-  $response->content($output);
+  $response->add_content_utf8($output);
   return RC_OK;
 }
 
