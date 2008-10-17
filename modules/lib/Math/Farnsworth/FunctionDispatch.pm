@@ -72,7 +72,7 @@ sub callfunc
 			if (!defined($v))
 			{
 				#i need a default value!
-				if (!defined($argtypes->[$argc][1]))
+				if (!defined($argtypes->[$argc][1]) && defined($argtypes->[$argc][0]))
 				{
 					die "Required argument $argc to function $name\[\] missing";
 				}
