@@ -8,10 +8,9 @@
 %left '+' '-'
 %left 'per'
 %left '*' '/' '%' ' ' IMPLICIT
-%left UMINUS
-%left NAME
+%left UMINUS IFNONL
+%left NAME IFNL
 %left '|'
-%left ARRAYFETCH
 %left '^' '**'
 %right DECLAREVAR
 
@@ -49,16 +48,16 @@ ifstartcond :'if' '(' expr ')' {$_[3]}
 ifstmts : '{' stma '}' {$_[2]}
 		;
 
-if : ifstartcond ifstmts {bless [@_[1,2], undef], 'If'}
+if : ifstartcond ifstmts %prec IFNONL {bless [@_[1,2], undef], 'If'}
    | ifstartcond ifstmts 'else' ifstmts {bless [@_[1,2,4]], 'If'}
-   | ifstartcond '\n' ifstmts {bless [@_[1,3], undef], 'If'}
+   | ifstartcond '\n' ifstmts %prec IFNONL {bless [@_[1,3], undef], 'If'}
    | ifstartcond '\n' ifstmts 'else' ifstmts {bless [@_[1,3,5]], 'If'}
-   | ifstartcond '\n' ifstmts '\n' 'else' ifstmts {bless [@_[1,3,6]], 'If'}
+   | ifstartcond '\n' ifstmts '\n' 'else' ifstmts %prec IFNL {bless [@_[1,3,6]], 'If'}
    | ifstartcond '\n' ifstmts 'else' '\n' ifstmts {bless [@_[1,3,6]], 'If'}
-   | ifstartcond '\n' ifstmts '\n' 'else' '\n' ifstmts {bless [@_[1,3,7]], 'If'}
-   | ifstartcond ifstmts '\n' 'else' ifstmts {bless [@_[1,2,5]], 'If'}
+   | ifstartcond '\n' ifstmts '\n' 'else' '\n' ifstmts %prec IFNL {bless [@_[1,3,7]], 'If'}
+   | ifstartcond ifstmts '\n' 'else' ifstmts %prec IFNL {bless [@_[1,2,5]], 'If'}
    | ifstartcond ifstmts 'else' '\n' ifstmts {bless [@_[1,2,5]], 'If'}
-   | ifstartcond ifstmts '\n' 'else' '\n' ifstmts {bless [@_[1,2,6]], 'If'}
+   | ifstartcond ifstmts '\n' 'else' '\n' ifstmts %prec IFNL {bless [@_[1,2,6]], 'If'}
    ;
 
 #for :	'for' '(' expr ';' expr ';' expr ')' '{' stmt '}'
@@ -163,6 +162,7 @@ sub yylex
 #	$s =~ s|\G/\*.*?\*/||g;
 
     #i want a complete number regex
+	$s =~ /\G(0x[[:xdigit:]]+)/gc and return 'NUMBER', $1;
 	$s =~ /\G((\d+(\.\d*)?|\.\d+)([Ee][Ee]?[-+]?\d+))/gc 
 	      and return 'NUMBER', $1;
 	$s =~ /\G((\d+(\.\d*)?|\.\d+))/gc 

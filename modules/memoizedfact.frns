@@ -1,0 +1,10 @@
+[]=>{|| 
+	var memory = []; 
+	
+	memoize={|x| 
+		if (length[memory] >= x) 
+			{memory|(x)|} 
+		else 
+			{memory|(x)| = x*(x-1 => memoize)}
+	}
+}

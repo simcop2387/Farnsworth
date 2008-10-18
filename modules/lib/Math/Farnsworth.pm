@@ -62,21 +62,30 @@ sub runFile
 	my $self = shift;
 	my $filename = shift;
 
-	my @results; #i should really probably only store them all IF they are needed
+	#my @results; #i should really probably only store them all IF they are needed
 
 	open(my $fh, "<", $filename) or die "couldn't open: $!";
-	
-	while(<$fh>)
-	{
-		chomp;
+	my $lines;
+	{local $/;
+		$lines = <$fh>; #slurp the file! we need it!
+	}
+    close($fh);
+
+	#as much as i would like this to work WITHOUT this i need to filter blank lines out
+	$lines =~ s/\s*\n\s*\n\s*/\n/;
+		
+	return $self->{eval}->eval($lines);
+
+#	while(<$fh>)
+#	{
+#		chomp;
 		#s|//.*$||;
 		#s|\s*$||;
-		push @results, $self->{eval}->eval($_) if ($_ !~ /^\s*$/);
-	}
+#	}
 
-	close($fh);
+#	close($fh);
 
-	return wantarray ? @results : $results[-1]; #return all of them in array context, only the last in scalar context
+		#return wantarray ? @results : $results[-1]; #return all of them in array context, only the last in scalar context
 }
 
 #this will wrap around a lot of the funky code for creating a nice looking output
