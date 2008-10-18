@@ -24,7 +24,7 @@ use overload
 	'%' => \&mod,
 	'**' => \&pow,
 	'<=>' => \&compare,
-#	'bool' => \&bool,
+	'bool' => \&bool,
 	'""' => \&toperl;
 
 sub new
@@ -270,7 +270,7 @@ sub bool
 	print "BOOLCONV\n";
 	print Dumper($self);
 	print "ENDBOOLCONV\n";
-	return $self->{pari}?0:1;
+	return $self->{pari}?1:0;
 }
 
 sub pow

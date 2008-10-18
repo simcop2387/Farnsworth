@@ -4092,3 +4092,5 @@ kat   := katal         // SI symbol for katal
 
 smoot := 5 feet + 7 inches  // Height of Oliver R. Smoot Jr. see:
            // http://spectrum.lbl.gov/www/personnel/smoot/smoot-measure.html
+True := (1 > 0)
+False := (0 > 1)

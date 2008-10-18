@@ -15,6 +15,8 @@ use Math::Farnsworth::Value;
 
 use Date::Manip;
 
+use Math::Pari ':hex'; #why not?
+
 sub new
 {
     my $class = shift;
@@ -126,6 +128,33 @@ sub evalbranch
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a ** $b;
+	}
+	elsif ($type eq "And")
+	{
+		my $a = $self->makevalue($branch->[0]);
+		my $b = $self->makevalue($branch->[1]);
+		$return = $a && $b ? 1 : 0;
+		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+	}
+	elsif ($type eq "Or")
+	{
+		my $a = $self->makevalue($branch->[0]);
+		my $b = $self->makevalue($branch->[1]);
+		$return = $a || $b ? 1 : 0;
+		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+	}
+	elsif ($type eq "Xor")
+	{
+		my $a = $self->makevalue($branch->[0]);
+		my $b = $self->makevalue($branch->[1]);
+		$return = $a->bool() ^ $b->bool() ? 1 : 0;
+		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+	}
+	elsif ($type eq "Not")
+	{
+		my $a = $self->makevalue($branch->[0]);
+		$return = $a->bool() ? 0 : 1;
+		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
 	}
 	elsif ($type eq "Gt")
 	{
@@ -511,6 +540,14 @@ sub makevalue
 	{
 		#need to make a value here with Math::Farnsworth::Value!
 		my $val = new Math::Farnsworth::Value($input->[0]);
+		return $val;
+	}
+	if (ref($input) eq "HexNum")
+	{
+		#need to make a value here with Math::Farnsworth::Value!
+		print "HEX VALUE: ".$input->[0]."\n";
+		my $value = eval $input->[0]; #this SHOULD work, shouldn't be a security risk since its validated through the lexer and parser.
+		my $val = new Math::Farnsworth::Value($value);
 		return $val;
 	}
 	elsif (ref($input) eq "Fetch")

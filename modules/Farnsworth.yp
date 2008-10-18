@@ -1,10 +1,11 @@
+%left '\n' ';'
 %right '=' ':=' '=!=' '::-' ':-' '|||'
 %left '->' ':->' '=>'
 %nonassoc ':'
 %left '?'
+%left '&&' '||' '!' '^^'
 %left 'conforms'
 %nonassoc '<' '>' '==' '!=' '>=' '<=' '<=>' 
-%left '&&' '||' '!'
 %left '+' '-'
 %left 'per'
 %left '*' '/' '%' ' ' IMPLICIT
@@ -95,6 +96,7 @@ arglist : argelement ',' arglist { bless [ $_[1], ref($_[3]) eq 'Arglist' ? @{$_
 		;
 
 exprval : 	NUMBER			{ bless [ $_[1] ], 'Num' }
+		| 	HEXNUMBER		{ bless [ $_[1] ], 'HexNum' }
 		|	NAME			%prec NAME { bless [ $_[1] ], 'Fetch' }
 		|	'(' expr ')'	{ bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything
 		|   NAME '[' argarray ']'	{ bless [ @_[1,3] ], 'FuncCall' }
@@ -123,9 +125,10 @@ expr
 	|	expr '**' expr	{ bless [ @_[1,3] ], 'Pow' }
 	|	expr 'conforms' expr	{ bless [ @_[1,3] ], 'Conforms' }
 	|   expr '?' expr ':' expr { bless [@_[1,3,5]], 'Ternary' }
-	|	exprval '&&' exprval	{ bless [ @_[1,3] ], 'And' }
-	|	exprval '||' exprval	{ bless [ @_[1,3] ], 'Or' }
-	|	'!' exprval		{ bless [ @_[1,3] ], 'Not' }
+	|	expr '&&' expr	{ bless [ @_[1,3] ], 'And' }
+	|	expr '||' expr	{ bless [ @_[1,3] ], 'Or' }
+	|	expr '^^' expr	{ bless [ @_[1,3] ], 'Xor' }
+	|	'!' exprval		{ bless [ @_[2] ], 'Not' }
 	|	expr '<' expr	{ bless [ @_[1,3] ], 'Lt' }
 	|	expr '>' expr	{ bless [ @_[1,3] ], 'Gt' }
 	|	expr '<=' expr	{ bless [ @_[1,3] ], 'Le' }
@@ -162,7 +165,9 @@ sub yylex
 #	$s =~ s|\G/\*.*?\*/||g;
 
     #i want a complete number regex
-	$s =~ /\G(0x[[:xdigit:]]+)/gc and return 'NUMBER', $1;
+	$s =~ /\G(0x[[:xdigit:]]+)/igc and return 'HEXNUMBER', $1;
+	$s =~ /\G(0b[01]+)/igc and return 'HEXNUMBER', $1; #binary
+	$s =~ /\G(0[0-7]+)/igc and return 'HEXNUMBER', $1; #octal
 	$s =~ /\G((\d+(\.\d*)?|\.\d+)([Ee][Ee]?[-+]?\d+))/gc 
 	      and return 'NUMBER', $1;
 	$s =~ /\G((\d+(\.\d*)?|\.\d+))/gc 
@@ -183,7 +188,7 @@ sub yylex
 	#seperated this to shorten the lines, and hopefully to make parts of it more readable
 	$s =~ /\G\s*(:=|==|!=|<=>|>=|<=|=>|->|:->|\*\*)\s*/icg and return lc $1;
 	$s =~ /\G\s*(var\b|per\b|isa\b|\:?\:\-|\=\!\=|\|\|\|)\s*/icg and return lc $1;
-	$s =~ /\G\s*(\+|\*|-|\/|\%|\^|=|;|\n|\{|\}|\>|\<|\?|\:|\,|\||\&\&|\|\||\!)\s*/cg and return $1;
+	$s =~ /\G\s*(\+|\*|-|\/|\%|\^\^?|=|;|\n|\{|\}|\>|\<|\?|\:|\,|\&\&|\|\||\!|\|)\s*/cg and return $1;
 	$s =~ /\G\s*(\)|\])/cg and return $1; #freaking quirky lexers!
 	$s =~ /\G(\(|\[)\s*/cg and return $1;
 	$s =~ /\G(\w[\w\d]*)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here
