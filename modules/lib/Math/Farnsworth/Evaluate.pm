@@ -104,6 +104,18 @@ sub evalbranch
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a * $b;
+
+		
+		#NTS REMOVE THIS FROM THE CODE BEFORE RELEASE!!!!!
+		eval 
+		{
+			my $six = new Math::Farnsworth::Value(6);
+			my $nine = new Math::Farnsworth::Value(9);
+			if (($a == $six) && ($b == $nine)) #should work i think
+			{
+				$return->{outmagic} = [new Math::Farnsworth::Value(42)];
+			}
+		}
 	}
 	elsif ($type eq "Div")
 	{
@@ -132,16 +144,32 @@ sub evalbranch
 	elsif ($type eq "And")
 	{
 		my $a = $self->makevalue($branch->[0]);
-		my $b = $self->makevalue($branch->[1]);
-		$return = $a && $b ? 1 : 0;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+
+		if ($a->bool())
+		{
+			my $b = $self->makevalue($branch->[1]);
+			$return = $a && $b ? 1 : 0;
+			$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		}
+		else
+		{
+			$return = Math::Farnsworth::Value->new(0, {bool=>1}); #make sure its the right type
+		}
 	}
 	elsif ($type eq "Or")
 	{
 		my $a = $self->makevalue($branch->[0]);
-		my $b = $self->makevalue($branch->[1]);
-		$return = $a || $b ? 1 : 0;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+
+		if ($a->bool())
+		{
+			$return = Math::Farnsworth::Value->new(1, {bool=>1}); #make sure its the right type
+		}
+		else
+		{
+			my $b = $self->makevalue($branch->[1]);
+			$return = $a || $b ? 1 : 0;
+			$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		}
 	}
 	elsif ($type eq "Xor")
 	{

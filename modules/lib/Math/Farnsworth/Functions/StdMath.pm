@@ -49,7 +49,7 @@ sub init
    $env->eval("max{x} := {var z=[x]; var m = pop[z]; var n = length[z]; var q; while((n=n-1)>=0){q=pop[z]; q>m?m=q:0}; m}"); 
    $env->eval("min{x} := {var z=[x]; var m = pop[z]; var n = length[z]; var q; while((n=n-1)>=0){q=pop[z]; q<m?m=q:0}; m}"); 
    #$env->{funcs}->addfunc("min", [],\&min);
-   $env->{funcs}->addfunc("max", [],\&max);
+   #$env->{funcs}->addfunc("max", [],\&max);
    #these functions are simple enough to implement in farnsworth itself, so why not
    $env->{funcs}->addfunc("sqrt", [],\&sqrt); #putting in like this to see if it brings better luck
    $env->eval("i := sqrt[-1]"); #since we have a better sqrt, use it to make a better i
@@ -57,6 +57,8 @@ sub init
    $env->eval("exp{x} := {e ^ x}");
    $env->eval("inv{x} := {1/x}"); 
    $env->eval("recip{x} := {1/x}"); 
+
+   $env->eval("_tohex{x isa 1} := { if(x < 16) { substrLen[\"0123456789abcdef\", x, 1] } else { _tohex[floor[x/16]] + _tohex[x%16] } }; tohex{x isa 1} := {\"0x\"+_tohex[x]}");
 
 }
 
@@ -650,11 +652,11 @@ sub int
 	{
 		if ($arg->{dimen}{dimen}{array})
 		{
-			die "I don't know what to do with an array in tan yet!\n";
+			die "I don't know what to do with an array in int yet!\n";
 		}
 		elsif ($arg->{dimen}{dimen}{string})
 		{
-			die "The tan of a string is the md5sum of the reverse of the idiot who wanted it";
+			die "The int of a string is the md5sum of the reverse of the idiot who wanted it";
 		}
 		else
 		{
