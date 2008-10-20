@@ -598,7 +598,14 @@ sub makevalue
 	}
 	elsif (ref($input) eq "String") #we've got a string that should be a value!
 	{
-		my $val = new Math::Farnsworth::Value($input->[0], {string => 1});
+		my $value = $input->[0];
+		#here it comes in with quotes, so lets remove them
+		$value =~ s/^"(.*)"$/$1/;
+		$value =~ s/\\"/"/g;
+		$value =~ s/\\\\/\\/g;
+		my $ss = sub{my $var =shift; $var =~ s/[\${}]//g; $self->{vars}->getvar($var)->toperl($self->{units})}
+		$value =~ s/[^\\](\$\w+|\${\w+})/$ss->($1)/eg;
+		my $val = new Math::Farnsworth::Value($value, {string => 1});
 		return $val;
 	}
 	elsif (ref($input) eq "Date")

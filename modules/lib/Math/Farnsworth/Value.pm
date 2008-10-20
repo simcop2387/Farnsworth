@@ -53,10 +53,6 @@ sub new
 
   if (exists($self->{dimen}{dimen}{string}))
   {
-	#here it comes in with quotes, so lets remove them
-	$value =~ s/^"(.*)"$/$1/;
-	$value =~ s/\\"/"/g;
-	$value =~ s/\\\\/\\/g;
 	$self->{pari} = $value;
   }
   elsif (exists($self->{dimen}{dimen}{array}) || exists($self->{dimen}{dimen}{date}) || exists($self->{dimen}{dimen}{lambda}))
