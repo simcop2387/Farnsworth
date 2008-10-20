@@ -603,7 +603,7 @@ sub makevalue
 		$value =~ s/^"(.*)"$/$1/;
 		$value =~ s/\\"/"/g;
 		$value =~ s/\\\\/\\/g;
-		my $ss = sub{my $var =shift; $var =~ s/[\${}]//g; $self->{vars}->getvar($var)->toperl($self->{units})}
+		my $ss = sub{my $var =shift; $var =~ s/[\${}]//g; $self->{vars}->getvar($var)->toperl($self->{units})};
 		$value =~ s/[^\\](\$\w+|\${\w+})/$ss->($1)/eg;
 		my $val = new Math::Farnsworth::Value($value, {string => 1});
 		return $val;
