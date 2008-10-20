@@ -219,7 +219,7 @@ sub getdisplay
 			push @returns, $self->getdimen($d).$exp;
 		}
 		my $prec = Math::Pari::setprecision();
-		Math::Pari::setprecision(15); #set it to 15?
+		Math::Pari::setprecision(30); #set it to 15?
 		my $pv = "".(Math::Pari::pari_print($value->{pari}));
 		Math::Pari::setprecision($prec); #restore it before calcs
 		return $pv." ".join " ", @returns;

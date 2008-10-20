@@ -30,3 +30,54 @@ Pi :- pebi
 Ei :- exbi
 Zi :- zebi
 Yi :- yobi;
+
+
+tobase{x isa 1, b = 16 isa 1} := { var getchr = {|x| substrLen["0123456789abcdefghijklmnopqrstuvwxyz", x, 1]};
+if ((b < 2)||(b > 36)) {"" + [] /*raise an exception*/}; 
+
+var output = "";
+
+if (floor[x] < x)
+{var foo; var bar;
+ var rounds;
+ foo = 1 + floor[log[10**30]/log[b]];
+ bar = x > 0 ? 1 + floor[log[x]/log[b]] : 0;
+ rounds = bar >= foo ? 0 : foo - bar;
+
+ var i = 0;
+
+ while ((i < rounds) && (floor[x] < x))
+ {
+   i = i + 1;
+
+   x = x * b;
+ };
+ i = i + 1;
+
+ x = floor[x];
+ while (i = i - 1)
+ {
+	var c;
+			c = x % b;
+			x = floor[x / b];
+			if (c >= 0) { /*i don't think i need this check, was in original algorithm*/
+				output = output + (c => getchr);
+			};
+ };
+
+ output = output + ".";
+};
+
+ if (x <= 0) {output = output + "0";};
+
+ while (x > 0)
+ {
+	var c;
+			c = x % b;
+			x = floor[x / b];
+			if (c >= 0) { /*i don't think i need this check, was in original algorithm*/
+				output = output + (c => getchr);
+			};
+ };
+ reverse[output];
+};
