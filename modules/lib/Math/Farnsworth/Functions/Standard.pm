@@ -22,7 +22,9 @@ sub init
 
    $env->{funcs}->addfunc("ord", [],\&ord);
    $env->{funcs}->addfunc("chr", [],\&chr);
+   $env->{funcs}->addfunc("index", [],\&index);
    $env->{funcs}->addfunc("eval", [],\&eval);
+
 
    $env->{funcs}->addfunc("substrLen", [],\&substrlen); #this one works like perls
    $env->eval("substr{str,left,right}:={substrLen[str,left,right-left]}");
@@ -286,6 +288,31 @@ sub chr
 	else
 	{
 		die "chr[] only works on plain numbers";
+	}
+}
+
+sub index
+{
+	#with an array we give the number of elements, with a string we give the length of the string
+	my ($args, $eval, $branches)= @_;
+	my @arg = @{$args->{pari}};
+
+	if ($arg[0]{dimen}->compare({dimen=>{string=>1}}) && $arg[1]{dimen}->compare({dimen=>{string => 1}}))
+	{
+		my $pos = 0;
+		if (defined($arg[2]) && $arg[2]{dimen}->compare({dimen=>{}}))
+		{
+			$pos = $arg[2]->{pari};
+		}
+		my $string = $arg[0]->{pari};
+		my $substr = $arg[1]->{pari};
+		#do i need to do something to convert these to work? (the 1,2 anyway?)
+		my $ns = index $string, $substr, $pos; #substr($arg[0]{pari}, "".$arg[1]{pari}, "".$arg[2]{pari});
+		return Math::Farnsworth::Value->new($ns); #give string flag of 1, since we don't know what language is intended
+	}
+	else
+	{
+		die "arguments to index[] are of the incorrect type";
 	}
 }
 
