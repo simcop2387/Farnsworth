@@ -24,7 +24,7 @@ my $defaultcode = "en";
 				 nl=>"Dutch", no=>"Norwegian", pl=>"Polish", pt=>"Portuguese",
 				 "pt-PT" => "Portuguese", ro=>"Romanian", ru=>"Russian", sk=>"Slovak", sl=>"Slovenian", 
 				 sr=>"Serbian", sv=>"Swedish", tl=>"Filipino", uk=>"Ukrainian",
-				 vi=>"Vietnamese", "zh-CN"=>"Chinese_Simplified", "zh-CN"=>"Chinese",  #bug here! two chineses!
+				 vi=>"Vietnamese", "zh-CN"=>"Chinese_Simplified", "zh-CN"=>"Chinese",  #bug here! two chineses! i should really allow array refs here so that i can have all kinds of names for things!
 				 "zh-TW"=>"Chinese_Traditional");
 	
 sub init

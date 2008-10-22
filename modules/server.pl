@@ -64,7 +64,7 @@ sub runfarnsworth
     $SIG{ALRM} = $oa;
     alarm($oat);
 
-		if ($@)
+	if ($@)
     {
 	  	$output = $@;
     }
@@ -74,7 +74,7 @@ sub runfarnsworth
     }
     elsif (!defined($out))
     {
-      $out = "Undefined || OK";
+      $output = "Undefined || OK";
     }
     elsif (ref($out) eq "")
     {
@@ -84,6 +84,11 @@ sub runfarnsworth
     {
       $output = "BUG!";
     }
+
+	if (!defined($output) || $output eq "")
+	{
+		$output = "undefined return value\n";
+	}
   print "Done Running : $output\n";
 
   $response->add_content_utf8(" ".$output);

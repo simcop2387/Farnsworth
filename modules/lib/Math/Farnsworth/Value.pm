@@ -11,6 +11,7 @@ use Math::Pari;
 use Math::Farnsworth::Dimension;
 use Date::Manip;
 use List::Util qw(sum);
+use Storable qw(dclone);
 
 use utf8;
 
@@ -51,14 +52,24 @@ sub new
 	  $self->{dimen} = new Math::Farnsworth::Dimension($dimen);
   }
 
-  if (exists($self->{dimen}{dimen}{string}))
+  if (exists($self->{dimen}{dimen}{string}) || exists($self->{dimen}{dimen}{date}) || exists($self->{dimen}{dimen}{lambda}))
   {
 	$self->{pari} = $value;
   }
-  elsif (exists($self->{dimen}{dimen}{array}) || exists($self->{dimen}{dimen}{date}) || exists($self->{dimen}{dimen}{lambda}))
+  elsif (exists($self->{dimen}{dimen}{array}))
   {
 	#we've got an array or date or lambda here
-	$self->{pari} = $value;
+	#use dclone() from Storable to make complete copies of everything!
+	print "CALLER: ".join("::", caller())."\n";
+	print Dumper($value);
+
+    if (!defined($value))
+	{
+		warn "OMG \$VALUE IS UNDEFINED!!!!";
+		$value = [];
+	}
+
+	$self->{pari} = [@{$value}]; #this should never not be an array reference
   }
   else
   {
@@ -74,16 +85,19 @@ sub toperl
 {
   my $self = shift;
   my $units = shift;
+  my $quotes = shift; #used to tell if strings should be quoted
 
   print "To PERL\n";
-  #print Dumper($self, $units);
+
+#  print Dumper($self, $target);
+#  print Dumper($self);
 
   if (ref($units) eq "Math::Farnsworth::Units")
   {
-	  return $units->getdisplay($self->{dimen}, $self);
+	  return $units->getdisplay($self->{dimen}, $self, $quotes);
   }
 
-  return "".($self->{pari}); #stringifiying it seems to work
+  return "".($self->{pari}); #stringifiying it seems to work, though i need cases for arrays!
 }
 
 sub add
@@ -108,6 +122,10 @@ sub add
   elsif ($one->{dimen}{dimen}{array})
   {
 	  die "Adding arrays is undefined behavoir!";
+  }
+  elsif ($one->{dimen}{dimen}{bool})
+  {
+	  die "Adding Booleans is undefined behavoir!";
   }
   elsif (($one->{dimen}{dimen}{date}) && ($two->{dimen}{dimen}{date}))
   {
@@ -139,7 +157,7 @@ sub subtract
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
-  die "Unable to process different units in addition" unless ($one->{dimen}->compare($two->{dimen}) || $one->{dimen}{dimen}{date}); #always call this on one, sinc
+  die "Unable to process different units in subtraction" unless ($one->{dimen}->compare($two->{dimen}) || $one->{dimen}{dimen}{date}); #always call this on one, sinc
 
   #moving this down so that i don't do any math i don't have to
   my $new;
@@ -167,6 +185,21 @@ sub subtract
 		  #we reached here with some other subtraction with a Date, do not do it
 		  die "Dates can only have dates and time subtracted, nothing else";
 	  }
+  	  elsif ($one->{dimen}{dimen}{array} || $two->{dimen}{dimen}{array})
+	  {
+		  #we reached here with some other subtraction with a Date, do not do it
+		  die "subtracting arrays is undefined behavior";
+	  }
+  	  elsif ($one->{dimen}{dimen}{string} || $two->{dimen}{dimen}{string})
+	  {
+		  #we reached here with some other subtraction with a Date, do not do it
+		  die "Subtracting strings is undefined behavior";
+	  }
+	  elsif ($one->{dimen}{dimen}{bool} || $two->{dimen}{dimen}{bool})
+	  {
+		  #we reached here with some other subtraction with a Date, do not do it
+		  die "Subtracting Booleans is undefined behavior";
+	  }
 	  else
 	  {
 		  $new = new Math::Farnsworth::Value($one->{pari} - $tv, $one->{dimen}); #if !$rev they are in order
@@ -191,6 +224,14 @@ sub mod
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
   die "Unable to process different units in modulous" unless $one->{dimen}->compare($two->{dimen}); #always call this on one, since $two COULD be some other object 
 
+  if ($one->{dimen}->compare({dimen => {string => 1}}) ||$one->{dimen}->compare({dimen => {array =>1}}) ||
+	  $two->{dimen}->compare({dimen => {string => 1}}) ||$two->{dimen}->compare({dimen => {array =>1}}) ||
+	  $two->{dimen}->compare({dimen => {bool => 1}})   ||$one->{dimen}->compare({dimen => {bool =>1}})  ||
+	  $two->{dimen}->compare({dimen => {date => 1}})   ||$one->{dimen}->compare({dimen => {date =>1}}))
+  {
+	  die "Can't divide arrays or strings or booleans or dates, it doesn't make sense";
+  }
+
   #moving this down so that i don't do any math i don't have to
   my $new;
   if (!$rev)
@@ -210,8 +251,15 @@ sub mult
 
   #check for $two being a simple value
   my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
-  my $td = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{dimen} : {};
+  my $td = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{dimen} : new Math::Farnsworth::Dimension();
   
+  if ($one->{dimen}->compare({dimen => {string => 1}}) ||$one->{dimen}->compare({dimen => {array =>1}}) ||
+	  $td->compare({dimen => {string => 1}}) ||$td->compare({dimen => {array =>1}}) ||
+	  $td->compare({dimen => {bool => 1}})   ||$one->{dimen}->compare({dimen => {bool =>1}})  ||
+	  $td->compare({dimen => {date => 1}})   ||$one->{dimen}->compare({dimen => {date =>1}}))  {
+	  die "Can't multiple arrays or strings, it doesn't make sense";
+  }
+
   my $nd = $one->{dimen}->merge($td); #merge the dimensions! don't cross the streams though
 
   #moving this down so that i don't do any math i don't have to
@@ -225,7 +273,15 @@ sub div
 
   #check for $two being a simple value
   my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
-  my $td = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{dimen} : {};
+  my $td = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{dimen} : new Math::Farnsworth::Dimension();
+
+  if ($one->{dimen}->compare({dimen => {string => 1}}) ||$one->{dimen}->compare({dimen => {array =>1}}) ||
+	  $td->compare({dimen => {string => 1}}) ||$td->compare({dimen => {array =>1}}) ||
+	  $td->compare({dimen => {bool => 1}})   ||$one->{dimen}->compare({dimen => {bool =>1}})  ||
+	  $td->compare({dimen => {date => 1}})   ||$one->{dimen}->compare({dimen => {date =>1}})) 
+  {
+	  die "Can't divide arrays or strings, it doesn't make sense";
+  }
 
   #these are a little screwy SO i'll probably comment them more later
   #probably after i find out that they're wrong
@@ -272,6 +328,14 @@ sub bool
 sub pow
 {
   my ($one, $two, $rev) = @_;
+
+  if ($one->{dimen}->compare({dimen => {string => 1}}) ||$one->{dimen}->compare({dimen => {array =>1}}) ||
+	  $two->{dimen}->compare({dimen => {string => 1}}) ||$two->{dimen}->compare({dimen => {array =>1}}) ||
+	  $two->{dimen}->compare({dimen => {bool => 1}})   ||$one->{dimen}->compare({dimen => {bool =>1}})  ||
+	  $two->{dimen}->compare({dimen => {date => 1}})   ||$one->{dimen}->compare({dimen => {date =>1}})) 
+  {
+	  die "Can't exponentiate arrays or strings or dates or bools, it doesn't make sense";
+  }
 
   #check for $two being a simple value
   my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;

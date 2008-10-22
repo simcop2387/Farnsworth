@@ -214,7 +214,7 @@ sub getdisplay
 		{
 			my $exp = "";
 			print Dumper($dimen->{dimen}, $exp);
-			$exp = "^".$dimen->{dimen}{$d} unless ($dimen->{dimen}{$d} == 1);
+			$exp = "^".($dimen->{dimen}{$d} =~ /^[\d\.]+$/? $dimen->{dimen}{$d} :"(".$dimen->{dimen}{$d}.")") unless ($dimen->{dimen}{$d} == 1);
 			print Dumper($exp);
 			push @returns, $self->getdimen($d).$exp;
 		}

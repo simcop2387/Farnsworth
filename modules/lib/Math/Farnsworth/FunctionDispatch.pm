@@ -39,6 +39,46 @@ sub isfunc
 	return exists($self->{funcs}{$name});
 }
 
+sub setupargs
+{
+	my $self = shift;
+	my $eval = shift;
+	my $args = shift;
+	my $argtypes = shift;
+	my $name = shift; #name to display
+
+	my $vars = $eval->{vars}; #get the scope we need
+
+	for my $argc (0..$#$argtypes)
+	{
+		my $n = $argtypes->[$argc][0]; #the rest are defaults and constraints
+		my $v = $args->{pari}->[$argc];
+
+		if (!defined($v))
+		{
+			#i need a default value!
+			if (!defined($argtypes->[$argc][1]) && defined($argtypes->[$argc][0]))
+			{
+				die "Required argument $argc to function $name\[\] missing\n";
+			}
+
+			$v = $argtypes->[$argc][1];
+		}
+
+		my $const = $argtypes->[$argc][2];
+		if (defined($const))
+		{
+			#we have a constraint
+			if (!$v->{dimen}->compare($const->{dimen}))
+			{
+				die "Constraint not met on argument $argc to $name\[\]\n";
+			}
+		}
+
+		$nars->declare($n, $v);
+	}
+}
+
 #should i really have this here? or should i have it in evaluate.pm?
 sub callfunc
 {

@@ -10,14 +10,15 @@ sub init
 {
    my $env = shift;
 
-   $env->{funcs}->addfunc("ln", [],\&log);
+   $env->{funcs}->addfunc("_ln", [],\&log);
    $env->{funcs}->addfunc("sin", [],\&sin);
    $env->{funcs}->addfunc("cos", [],\&cos);
    $env->{funcs}->addfunc("tan", [],\&tan);
    $env->eval("csc{x} := {1/sin[x]}"); 
    $env->eval("sec{x} := {1/cos[x]}"); 
    $env->eval("cot{x} := {1/tan[x]}"); 
-   $env->eval("log{x} := {ln[x]/ln[10]}"); 
+   $env->eval("log{x isa 1} := {_ln[x]/_ln[10]}"); 
+   $env->eval("ln{x isa 1} := {_ln[x]}"); 
    $env->eval("atan2{x,y} := {var s=x^2+y^2; var r=y+x i; -i * ln[r / sqrt[s]]}");
    $env->{funcs}->addfunc("sinh", [],\&sinh);
    $env->{funcs}->addfunc("cosh", [],\&cosh);
@@ -54,7 +55,7 @@ sub init
    $env->{funcs}->addfunc("sqrt", [],\&sqrt); #putting in like this to see if it brings better luck
    $env->eval("i := sqrt[-1]"); #since we have a better sqrt, use it to make a better i
 #   $env->eval("sqrt{x} := {x ^ 0.5}"); 
-   $env->eval("exp{x} := {e ^ x}");
+   $env->eval("exp{x isa 1} := {e ^ x}");
    $env->eval("inv{x} := {1/x}"); 
    $env->eval("recip{x} := {1/x}"); 
 
@@ -84,7 +85,7 @@ sub sqrt
 		{
 			#HAD BUG HERE, sqrt used to not carry units
 			my $units = $arg->{dimen};
-			$units->mult(0.5); #half them all!
+			$units = $units->mult(PARI '1/2'); #half them all!
 			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::sqrt($arg->{pari}), $units);
 			print Dumper(\@rets);
 		}

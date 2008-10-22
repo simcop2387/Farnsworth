@@ -36,6 +36,9 @@ sub compare
   my $self = shift;
   my $target = shift;
 
+#  print "DIMENWARN: ".join("::", caller())."\n";
+#  print Dumper($self, $target);
+
   if ((!ref($target)) && keys %{$self->{dimen}} == 0)
   {
 	  return 1;
@@ -43,15 +46,14 @@ sub compare
 
   if (keys %{$target->{dimen}} == keys %{$self->{dimen}}) #check lengths of keys
   {
-     my $z = 1;
      my $v = 1;
      for my $k (keys %{$self->{dimen}})
      {
-       $z = 0 if (!exists($target->{dimen}{$k}));
+       return 0 if (!exists($target->{dimen}{$k})); #optimization fixes bug!
        $v = 0 if (($self->{dimen}{$k} != $target->{dimen}{$k}) && ($k ne "string"));
      }
 
-     if ($z && $v) #also check if there are no dimensions
+     if ($v) #also check if there are no dimensions
      {
         return 1;
      }

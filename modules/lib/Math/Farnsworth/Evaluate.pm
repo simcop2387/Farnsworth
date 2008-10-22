@@ -104,18 +104,6 @@ sub evalbranch
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a * $b;
-
-		
-		#NTS REMOVE THIS FROM THE CODE BEFORE RELEASE!!!!!
-		eval 
-		{
-			my $six = new Math::Farnsworth::Value(6);
-			my $nine = new Math::Farnsworth::Value(9);
-			if (($a == $six) && ($b == $nine)) #should work i think
-			{
-				$return->{outmagic} = [new Math::Farnsworth::Value(42)];
-			}
-		}
 	}
 	elsif ($type eq "Div")
 	{
@@ -322,6 +310,7 @@ sub evalbranch
 		my $args = $self->makevalue($branch->[1]); #this is an array, need to evaluate it
 
 		$return = $self->{funcs}->callfunc($self, $name, $args, $branch);
+
 		#print "FUNCCALL RETURNED\n";
 		#print Dumper($return);
 
@@ -370,7 +359,7 @@ sub evalbranch
 	}
 	elsif (($type eq "Array") || ($type eq "SubArray"))
 	{
-		my $array;
+		my $array = []; #fixes bug with empty arrays
 		for my $bs (@$branch) #iterate over all the elements
 		{
 			my $type = ref($bs); #find out what kind of thing we are
@@ -461,7 +450,7 @@ sub evalbranch
 		my $condval = $self->makevalue($cond);
 		while ($condval)
 		{
-			$self->makevalue($stmts);
+			my $v = $self->makevalue($stmts);
 			$condval = $self->makevalue($cond);
 		}
 
