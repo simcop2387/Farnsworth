@@ -14,28 +14,35 @@ sub init
 {
    my $env = shift;
 
-   $env->{funcs}->addfunc("push", [],\&push);
-   $env->{funcs}->addfunc("pop", [],\&pop);
-   $env->{funcs}->addfunc("sort", [],\&sort);
+   #i should really make some stuff to make this easier
+   #maybe some subs in Math::Farnsworth::Value that get exported
+   my $array = new Math::Farnsworth::Value([], {array => 1});
+   my $string = new Math::Farnsworth::Value("", {string => 1});
+   my $lambda = new Math::Farnsworth::Value("", {lambda => 1});
+   my $number = new Math::Farnsworth::Value(0);
 
-   $env->{funcs}->addfunc("length", [],\&length);
+   $env->{funcs}->addfunc("push", [["arr", undef, $array], ["in", undef, "VarArg"]],\&push); #actually i might rewrite this in farnsworth now that it can do it
+   $env->{funcs}->addfunc("pop", [["arr", undef, $string]],\&pop); #eventually this maybe too
+   $env->{funcs}->addfunc("sort", [["sortsub", undef, $lambda],["arr", undef, $array]],\&sort);
 
-   $env->{funcs}->addfunc("ord", [],\&ord);
-   $env->{funcs}->addfunc("chr", [],\&chr);
-   $env->{funcs}->addfunc("index", [],\&index);
-   $env->{funcs}->addfunc("eval", [],\&eval);
+   $env->{funcs}->addfunc("length", [["in", undef, undef]],\&length);
+
+   $env->{funcs}->addfunc("ord", [["in", undef, $string]],\&ord);
+   $env->{funcs}->addfunc("chr", [["in", undef, $number]],\&chr);
+   $env->{funcs}->addfunc("index", [["str", undef, $string],["substr", undef, $string],["pos", $number, $number]],\&index);
+   $env->{funcs}->addfunc("eval", [["str", undef, $string]],\&eval);
 
 
-   $env->{funcs}->addfunc("substrLen", [],\&substrlen); #this one works like perls
+   $env->{funcs}->addfunc("substrLen", [["str", undef, $string],["left", undef, $number],["right", undef, $number]],\&substrlen); #this one works like perls
    $env->eval("substr{str,left,right}:={substrLen[str,left,right-left]}");
    $env->eval("left{str,pos}:={substrLen[str,0,pos]}");
    $env->eval("right{str,pos}:={substrLen[str,length[str]-pos,pos]}");
 
-   $env->{funcs}->addfunc("reverse", [],\&reverse);
+   $env->{funcs}->addfunc("reverse", [["in", undef, undef]],\&reverse);
 
    $env->eval("now{} := {#today#}");
 
-   $env->{funcs}->addfunc("unit", [], \&unit);
+   $env->{funcs}->addfunc("unit", [["in", undef, undef]], \&unit);
 }
 
 sub unit

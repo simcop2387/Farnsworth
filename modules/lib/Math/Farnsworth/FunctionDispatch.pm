@@ -107,7 +107,7 @@ sub callfunc
 	print "Dumper of func: ".Dumper($fval);
 	print "--------------------THAT IS ALL\n";
 
-	die "Number of arguments not correct" unless $self->checkparams($name, $args, $argtypes); #this should check....
+	die "Number of arguments not correct to $name\[\]" unless $self->checkparams($name, $args, $argtypes); #this should check....
 
 #	print Dumper($args);
 
@@ -142,7 +142,7 @@ sub checkparams
 
 	my $vararg = 0;
 
-	$vararg = 1 if (grep {$_->[2] eq "VarArg"} @{$argtypes}); #find out if there is a vararg arg
+	$vararg = 1 if (grep {defined($_->[2]) && ($_->[2] eq "VarArg")} @{$argtypes}); #find out if there is a vararg arg
 
     return 1 if ($vararg || (@{$args->{pari}} == @{$argtypes}));
 
