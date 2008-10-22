@@ -761,7 +761,7 @@ Rules:
 81:	expr -> NAME '{' arglist '}' ':=' expr
 82:	expr -> NAME '{' arglist '}' ':=' '{' stma '}'
 83:	expr -> '[' array ']'
-84:	expr -> '{' '|' arglist '|' stma '}'
+84:	expr -> '{' '`' arglist '`' stma '}'
 85:	expr -> expr '=>' expr
 86:	expr -> arrayfetchexpr '=' expr
 87:	expr -> expr '->' expr
@@ -1039,9 +1039,9 @@ State 17:
 
 State 18:
 
-	expr -> '{' . '|' arglist '|' stma '}'	(Rule 84)
+	expr -> '{' . '`' arglist '`' stma '}'	(Rule 84)
 
-	'|'	shift, and go to state 72
+	'`'	shift, and go to state 72
 
 State 19:
 
@@ -2035,7 +2035,7 @@ State 71:
 
 State 72:
 
-	expr -> '{' '|' . arglist '|' stma '}'	(Rule 84)
+	expr -> '{' '`' . arglist '`' stma '}'	(Rule 84)
 
 	NAME	shift, and go to state 116
 
@@ -3747,9 +3747,9 @@ State 121:
 
 State 122:
 
-	expr -> '{' '|' arglist . '|' stma '}'	(Rule 84)
+	expr -> '{' '`' arglist . '`' stma '}'	(Rule 84)
 
-	'|'	shift, and go to state 142
+	'`'	shift, and go to state 142
 
 State 123:
 
@@ -4001,7 +4001,7 @@ State 141:
 
 State 142:
 
-	expr -> '{' '|' arglist '|' . stma '}'	(Rule 84)
+	expr -> '{' '`' arglist '`' . stma '}'	(Rule 84)
 
 	'!'	shift, and go to state 10
 	'('	shift, and go to state 24
@@ -4292,7 +4292,7 @@ State 157:
 
 State 158:
 
-	expr -> '{' '|' arglist '|' stma . '}'	(Rule 84)
+	expr -> '{' '`' arglist '`' stma . '}'	(Rule 84)
 
 	'}'	shift, and go to state 169
 
@@ -4452,17 +4452,17 @@ State 167:
 State 168:
 
 	expr -> NAME '{' arglist '}' ':=' '{' . stma '}'	(Rule 82)
-	expr -> '{' . '|' arglist '|' stma '}'	(Rule 84)
+	expr -> '{' . '`' arglist '`' stma '}'	(Rule 84)
 
 	'!'	shift, and go to state 10
 	'('	shift, and go to state 24
 	'-'	shift, and go to state 1
 	'['	shift, and go to state 12
+	'`'	shift, and go to state 72
 	'if'	shift, and go to state 9
 	'var'	shift, and go to state 17
 	'while'	shift, and go to state 20
 	'{'	shift, and go to state 18
-	'|'	shift, and go to state 72
 	DATE	shift, and go to state 3
 	HEXNUMBER	shift, and go to state 23
 	NAME	shift, and go to state 14
@@ -4485,7 +4485,7 @@ State 168:
 
 State 169:
 
-	expr -> '{' '|' arglist '|' stma '}' .	(Rule 84)
+	expr -> '{' '`' arglist '`' stma '}' .	(Rule 84)
 
 	$default	reduce using rule 84 (expr)
 
@@ -4555,6 +4555,6 @@ State 179:
 Summary:
 --------
 Number of rules         : 91
-Number of terminals     : 59
+Number of terminals     : 60
 Number of non-terminals : 18
 Number of states        : 180

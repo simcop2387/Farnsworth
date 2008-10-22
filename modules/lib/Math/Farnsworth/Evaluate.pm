@@ -320,11 +320,38 @@ sub evalbranch
 		my $args = $branch->[0];
 		my $code = $branch->[1];
 
+		print "==========LAMBDA==========\n";
+		print Data::Dumper->Dump([$args,$code], ["args", "code"]);
+
 		my $nvars = new Math::Farnsworth::Variables($self->{vars}); #lamdbas get their own vars
 		my %nopts = (vars => $nvars, funcs => $self->{funcs}, units => $self->{units}, parser => $self->{parser});
 		my $scope = $self->new(%nopts);
 
-		my $lambda = {code => $code, args => $args, 
+		#this should probably get a function in Math::Farnsworth::FunctionDispatch
+		my $vargs;
+
+		for my $arg (@$args)
+		{
+			my $constraint = $arg->[2];
+			my $default = $arg->[1];
+			my $name = $arg->[0]; #name
+
+			if (defined($default))
+			{
+				$default = $self->makevalue($default); #should be right
+			}
+
+			if (defined($constraint))
+			{
+				print Dumper($constraint);
+				$constraint = $self->makevalue($constraint); #should be right
+				print Dumper($constraint);
+			}
+
+			push @$vargs, [$name, $default, $constraint];
+		}
+
+		my $lambda = {code => $code, args => $vargs, 
 			          scope => $scope};
 
 		$return = new Math::Farnsworth::Value($lambda, {lambda => 1});
@@ -336,26 +363,27 @@ sub evalbranch
 
 		#print Dumper($right);
 
-		die "Right side of lamdbda call must evaluate to a Lambda" unless $right->{dimen}{dimen}{lambda};
+		die "Right side of lamdbda call must evaluate to a Lambda\n" unless $right->{dimen}{dimen}{lambda};
 
 		#theres a lot of duplicate code here from function calls, maybe merging them somehow sooner or later is a good idea
-		my $scope = $right->{pari}{scope};
-		my $code = $right->{pari}{code};
-		my $argtypes = $right->{pari}{args};
+		#my $scope = $right->{pari}{scope};
+		#my $code = $right->{pari}{code};
+		#my $argtypes = $right->{pari}{args};
+		
 		#need $args to LOOK like an array just to make things easier
 		my $args = $left->{dimen}{dimen}{array} ? $left :  {pari => [$left]}; 
 
-		for my $argc (0..$#$argtypes)
-		{
-			my $n = $argtypes->[$argc][0]; #the rest are defaults and constraints
-			my $v = $args->{pari}->[$argc];
-			
-			print "Declaring $n to be " . $v->toperl($self->{units}) . "\n";
+		#for my $argc (0..$#$argtypes)
+		#{
+		#		my $n = $argtypes->[$argc][0]; #the rest are defaults and constraints
+		#	my $v = $args->{pari}->[$argc];
+		#
+		#	print "Declaring $n to be " . $v->toperl($self->{units}) . "\n";
 
-			$scope->{vars}->declare($n, $v);
-		}
+		#	$scope->{vars}->declare($n, $v);
+		#}
 
-		$return = $scope->evalbranch($code);
+		$return = $self->{funcs}->calllambda($right, $args);
 	}
 	elsif (($type eq "Array") || ($type eq "SubArray"))
 	{
@@ -403,7 +431,7 @@ sub evalbranch
 		for (@{$listval->{pari}})
 		{
 			my $input = $var->{pari}->[$_];
-			die "Array out of bounds" unless defined $input;
+			die "Array out of bounds\n" unless defined $input; #NTS: would be useful to look if i have a name and use it
 			push @rval, $input;
 		}
 
@@ -430,7 +458,7 @@ sub evalbranch
 
 		if (@{$listval->{pari}} > 1)
 		{
-			die "Assigning to slices not implemented yet";
+			die "Assigning to slices not implemented yet\n";
 		}
 
 		$var->{pari}->[${$listval->{pari}}[0]] = $rval;
@@ -526,7 +554,7 @@ sub evalbranch
 			}
 			else
 			{
-				die "Conformance error, left side has different units than right side";
+				die "Conformance error, left side has different units than right side\n";
 			}
 		}
 		else
@@ -583,7 +611,7 @@ sub makevalue
 			return $self->{units}->getunit($name);
 		}
 		
-		die "Undefined symbol '$name'";
+		die "Undefined symbol '$name'\n";
 	}
 	elsif (ref($input) eq "String") #we've got a string that should be a value!
 	{

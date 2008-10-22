@@ -107,7 +107,7 @@ sub callfunc
 	print "Dumper of func: ".Dumper($fval);
 	print "--------------------THAT IS ALL\n";
 
-	die "Number of arguments not correct to $name\[\]" unless $self->checkparams($name, $args, $argtypes); #this should check....
+	die "Number of arguments not correct to $name\[\]\n" unless $self->checkparams($args, $argtypes); #this should check....
 
 #	print Dumper($args);
 
@@ -121,7 +121,7 @@ sub callfunc
 	if (ref($fval) ne "CODE")
 	{
 
-		return $neval->evalbranch($fval);
+		return $self->callbranch($neval, $fval);
 	}
 	else
 	{
@@ -130,11 +130,38 @@ sub callfunc
 	}
 }
 
+sub calllambda
+{
+	my $self = shift;
+	my $lambda = shift;
+	my $args = shift;
+
+	my $argtypes = $lambda->{pari}{args};
+	my $fval = $lambda->{pari}{code};
+    my $eval = $lambda->{pari}{scope};
+
+	print "LAMBDA---------------\n";
+	print Dumper($argtypes);
+
+	die "Number of arguments not correct to lambda\n" unless $self->checkparams($args, $argtypes); #this shoul
+
+	$self->setupargs($eval, $args, $argtypes, "lambda");
+	return $self->callbranch($eval, $fval);
+}
+
+sub callbranch
+{
+	my $self = shift;
+	my $eval = shift;
+	my $branches = shift;
+
+	return $eval->evalbranch($branches);
+}
+
 #this was supposed to be the checks for types and such, but now its something else entirely
 sub checkparams 
 {
 	my $self = shift;
-    my $name = shift;
 	my $args = shift;
 	my $argtypes = shift;
 

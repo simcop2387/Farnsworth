@@ -230,7 +230,7 @@ sub new {
 	},
 	{#State 18
 		ACTIONS => {
-			"|" => 72
+			"`" => 72
 		}
 	},
 	{#State 19
@@ -1982,7 +1982,7 @@ sub new {
 	},
 	{#State 122
 		ACTIONS => {
-			"|" => 142
+			"`" => 142
 		}
 	},
 	{#State 123
@@ -2489,6 +2489,7 @@ sub new {
 			'STRING' => 6,
 			"if" => 9,
 			"!" => 10,
+			"`" => 72,
 			"[" => 12,
 			'NUMBER' => 13,
 			'NAME' => 14,
@@ -2496,8 +2497,7 @@ sub new {
 			"{" => 18,
 			"while" => 20,
 			"(" => 24,
-			'HEXNUMBER' => 23,
-			"|" => 72
+			'HEXNUMBER' => 23
 		},
 		DEFAULT => -1,
 		GOTOS => {
