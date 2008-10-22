@@ -361,27 +361,10 @@ sub evalbranch
 		my $left = $self->makevalue($branch->[0]);
 		my $right = $self->makevalue($branch->[1]);
 
-		#print Dumper($right);
-
 		die "Right side of lamdbda call must evaluate to a Lambda\n" unless $right->{dimen}{dimen}{lambda};
 
-		#theres a lot of duplicate code here from function calls, maybe merging them somehow sooner or later is a good idea
-		#my $scope = $right->{pari}{scope};
-		#my $code = $right->{pari}{code};
-		#my $argtypes = $right->{pari}{args};
-		
-		#need $args to LOOK like an array just to make things easier
+		#need $args to be an array
 		my $args = $left->{dimen}{dimen}{array} ? $left :  new Math::Farnsworth::Value([$left], {array => 1}); 
-
-		#for my $argc (0..$#$argtypes)
-		#{
-		#		my $n = $argtypes->[$argc][0]; #the rest are defaults and constraints
-		#	my $v = $args->{pari}->[$argc];
-		#
-		#	print "Declaring $n to be " . $v->toperl($self->{units}) . "\n";
-
-		#	$scope->{vars}->declare($n, $v);
-		#}
 
 		$return = $self->{funcs}->calllambda($right, $args);
 	}

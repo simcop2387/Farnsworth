@@ -109,7 +109,7 @@ sub add
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
-  die "Unable to process different units in addition" unless ($one->{dimen}->compare($two->{dimen}) || $one->{dimen}{dimen}{date}); #always call this on one, since $two COULD be some other object 
+  die "Unable to process different units in addition\n" unless ($one->{dimen}->compare($two->{dimen}) || $one->{dimen}{dimen}{date}); #always call this on one, since $two COULD be some other object 
 
   #moving this down so that i don't do any math i don't have to
 
@@ -121,15 +121,15 @@ sub add
   }
   elsif ($one->{dimen}{dimen}{array})
   {
-	  die "Adding arrays is undefined behavoir!";
+	  die "Adding arrays is undefined behavoir!\n";
   }
   elsif ($one->{dimen}{dimen}{bool})
   {
-	  die "Adding Booleans is undefined behavoir!";
+	  die "Adding Booleans is undefined behavoir!\n";
   }
   elsif (($one->{dimen}{dimen}{date}) && ($two->{dimen}{dimen}{date}))
   {
-	  die "Adding of two dates is unsupported";
+	  die "Adding of two dates is unsupported\n";
   }
   elsif (($one->{dimen}{dimen}{date}) && ($two->{dimen}->compare({dimen=>{time => 1}}))) #check if we are adding time to a date
   {
@@ -157,7 +157,7 @@ sub subtract
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
-  die "Unable to process different units in subtraction" unless ($one->{dimen}->compare($two->{dimen}) || $one->{dimen}{dimen}{date}); #always call this on one, sinc
+  die "Unable to process different units in subtraction\n" unless ($one->{dimen}->compare($two->{dimen}) || $one->{dimen}{dimen}{date}); #always call this on one, sinc
 
   #moving this down so that i don't do any math i don't have to
   my $new;
@@ -166,7 +166,7 @@ sub subtract
 	  if (($one->{dimen}{dimen}{date}) && ($two->{dimen}{dimen}{date}))
 	  {
 		  my $delta = DateCalc($two->{pari}, $one->{pari}); #order is switched, to make it work the way I think it should
-		  die "something went screwy with calculating deltas, $delta" unless $delta =~ /^[+-](\d+:){6}(\d+)$/;
+		  die "something went screwy with calculating deltas, $delta\n" unless $delta =~ /^[+-](\d+:){6}(\d+)$/;
 
 		  my $seconds = new Math::Farnsworth::Value(Delta_Format($delta,1,"%st"), {time => 1});
 		  $new = $seconds; #create that
@@ -183,22 +183,22 @@ sub subtract
 	  elsif ($one->{dimen}{dimen}{date})
 	  {
 		  #we reached here with some other subtraction with a Date, do not do it
-		  die "Dates can only have dates and time subtracted, nothing else";
+		  die "Dates can only have dates and time subtracted, nothing else\n";
 	  }
   	  elsif ($one->{dimen}{dimen}{array} || $two->{dimen}{dimen}{array})
 	  {
 		  #we reached here with some other subtraction with a Date, do not do it
-		  die "subtracting arrays is undefined behavior";
+		  die "subtracting arrays is undefined behavior\n";
 	  }
   	  elsif ($one->{dimen}{dimen}{string} || $two->{dimen}{dimen}{string})
 	  {
 		  #we reached here with some other subtraction with a Date, do not do it
-		  die "Subtracting strings is undefined behavior";
+		  die "Subtracting strings is undefined behavior\n";
 	  }
 	  elsif ($one->{dimen}{dimen}{bool} || $two->{dimen}{dimen}{bool})
 	  {
 		  #we reached here with some other subtraction with a Date, do not do it
-		  die "Subtracting Booleans is undefined behavior";
+		  die "Subtracting Booleans is undefined behavior\n";
 	  }
 	  else
 	  {
@@ -222,14 +222,14 @@ sub mod
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
-  die "Unable to process different units in modulous" unless $one->{dimen}->compare($two->{dimen}); #always call this on one, since $two COULD be some other object 
+  die "Unable to process different units in modulous\n" unless $one->{dimen}->compare($two->{dimen}); #always call this on one, since $two COULD be some other object 
 
   if ($one->{dimen}->compare({dimen => {string => 1}}) ||$one->{dimen}->compare({dimen => {array =>1}}) ||
 	  $two->{dimen}->compare({dimen => {string => 1}}) ||$two->{dimen}->compare({dimen => {array =>1}}) ||
 	  $two->{dimen}->compare({dimen => {bool => 1}})   ||$one->{dimen}->compare({dimen => {bool =>1}})  ||
 	  $two->{dimen}->compare({dimen => {date => 1}})   ||$one->{dimen}->compare({dimen => {date =>1}}))
   {
-	  die "Can't divide arrays or strings or booleans or dates, it doesn't make sense";
+	  die "Can't divide arrays or strings or booleans or dates, it doesn't make sense\n";
   }
 
   #moving this down so that i don't do any math i don't have to
@@ -257,7 +257,7 @@ sub mult
 	  $td->compare({dimen => {string => 1}}) ||$td->compare({dimen => {array =>1}}) ||
 	  $td->compare({dimen => {bool => 1}})   ||$one->{dimen}->compare({dimen => {bool =>1}})  ||
 	  $td->compare({dimen => {date => 1}})   ||$one->{dimen}->compare({dimen => {date =>1}}))  {
-	  die "Can't multiple arrays or strings, it doesn't make sense";
+	  die "Can't multiply arrays or strings, it doesn't make sense\n";
   }
 
   my $nd = $one->{dimen}->merge($td); #merge the dimensions! don't cross the streams though
@@ -280,7 +280,7 @@ sub div
 	  $td->compare({dimen => {bool => 1}})   ||$one->{dimen}->compare({dimen => {bool =>1}})  ||
 	  $td->compare({dimen => {date => 1}})   ||$one->{dimen}->compare({dimen => {date =>1}})) 
   {
-	  die "Can't divide arrays or strings, it doesn't make sense";
+	  die "Can't divide arrays or strings, it doesn't make sense\n";
   }
 
   #these are a little screwy SO i'll probably comment them more later
@@ -334,7 +334,7 @@ sub pow
 	  $two->{dimen}->compare({dimen => {bool => 1}})   ||$one->{dimen}->compare({dimen => {bool =>1}})  ||
 	  $two->{dimen}->compare({dimen => {date => 1}})   ||$one->{dimen}->compare({dimen => {date =>1}})) 
   {
-	  die "Can't exponentiate arrays or strings or dates or bools, it doesn't make sense";
+	  die "Can't exponentiate arrays or strings or dates or bools, it doesn't make sense\n";
   }
 
   #check for $two being a simple value
@@ -365,7 +365,7 @@ sub compare
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
-  die "Unable to process different units in compare" unless $one->{dimen}->compare($two->{dimen}); #always call this on one, since $two COULD be some other object 
+  die "Unable to process different units in compare\n" unless $one->{dimen}->compare($two->{dimen}); #always call this on one, since $two COULD be some other object 
 
   #moving this down so that i don't do any math i don't have to
   my $new;
@@ -387,7 +387,7 @@ sub compare
   }
   elsif ($one->{dimen}{dimen}{array})
   {
-	  die "Comparing arrays has not been implemented";
+	  die "Comparing arrays has not been implemented\n";
   }
   elsif ($one->{dimen}{dimen}{date})
   {

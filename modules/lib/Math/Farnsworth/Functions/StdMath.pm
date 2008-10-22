@@ -47,6 +47,11 @@ sub init
    $env->{funcs}->addfunc("trunc", [["in", undef, undef]],\&int);
    $env->{funcs}->addfunc("numerator", [["in", undef, $number]],\&numerator);
    $env->{funcs}->addfunc("denominator", [["in", undef, $number]],\&denominator);
+   $env->{funcs}->addfunc("real", [["in", undef, $number]],\&real);
+   $env->{funcs}->addfunc("imag", [["in", undef, $number]],\&imag);
+   $env->{funcs}->addfunc("conj", [["in", undef, $number]],\&conj);
+   $env->{funcs}->addfunc("norm", [["in", undef, $number]],\&norm);
+   $env->eval("imaginary{x isa 1} := imag[x]");
 #   $env->{funcs}->addfunc("random", [],\&random);
 #   $env->{funcs}->addfunc("randomFloat", [],\&randomFloat);
 #   $env->{funcs}->addfunc("randomGaussian", [],\&randomGaussian);
@@ -754,23 +759,45 @@ sub denomenator
 	}
 }
 
+sub real
+{
+	#with an array we give the number of elements, with a string we give the length of the string
+	my ($args, $eval, $branches)= @_;
 
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
+	
+	return  Math::Farnsworth::Value->new(Math::Pari::real($input->{pari}), $input->{dimen});
+}
 
+sub imag
+{
+	#with an array we give the number of elements, with a string we give the length of the string
+	my ($args, $eval, $branches)= @_;
 
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
+	
+	return  Math::Farnsworth::Value->new(Math::Pari::imag($input->{pari}), $input->{dimen});
+}
 
+sub conj
+{
+	#with an array we give the number of elements, with a string we give the length of the string
+	my ($args, $eval, $branches)= @_;
 
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
+	
+	return  Math::Farnsworth::Value->new(Math::Pari::conj($input->{pari}), $input->{dimen});
+}
 
+sub norm
+{
+	#with an array we give the number of elements, with a string we give the length of the string
+	my ($args, $eval, $branches)= @_;
 
-
-
-
-
-
-
-
-
-
-
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
+	
+	return  Math::Farnsworth::Value->new(Math::Pari::norm($input->{pari}), $input->{dimen});
+}
 
 sub log
 {
