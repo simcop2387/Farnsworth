@@ -107,7 +107,7 @@ sub callfunc
 	print "Dumper of func: ".Dumper($fval);
 	print "--------------------THAT IS ALL\n";
 
-	die "Number of arguments not correct to $name\[\]\n" unless $self->checkparams($args, $argtypes); #this should check....
+#	die "Number of arguments not correct to $name\[\]\n" unless $self->checkparams($args, $argtypes); #this should check....
 
 #	print Dumper($args);
 
@@ -141,7 +141,7 @@ sub calllambda
     my $eval = $lambda->{pari}{scope};
 
 	print "LAMBDA---------------\n";
-	print Dumper($argtypes);
+	print Dumper($argtypes, $args, $fval);
 
 	die "Number of arguments not correct to lambda\n" unless $self->checkparams($args, $argtypes); #this shoul
 
@@ -171,7 +171,7 @@ sub checkparams
 
 	$vararg = 1 if (grep {defined($_->[2]) && ref($_->[2]) ne "Math::Farnsworth::Value" && ($_->[2] eq "VarArg")} @{$argtypes}); #find out if there is a vararg arg
 
-    return 1 if ($vararg || (@{$args->{pari}} == @{$argtypes}));
+    return 1 if ($vararg || (@{$args->{pari}} <= @{$argtypes}));
 
 	return 0;
 }

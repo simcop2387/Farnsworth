@@ -371,7 +371,7 @@ sub evalbranch
 		#my $argtypes = $right->{pari}{args};
 		
 		#need $args to LOOK like an array just to make things easier
-		my $args = $left->{dimen}{dimen}{array} ? $left :  {pari => [$left]}; 
+		my $args = $left->{dimen}{dimen}{array} ? $left :  new Math::Farnsworth::Value([$left], {array => 1}); 
 
 		#for my $argc (0..$#$argtypes)
 		#{
