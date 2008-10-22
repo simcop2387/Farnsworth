@@ -10,39 +10,43 @@ sub init
 {
    my $env = shift;
 
-   $env->{funcs}->addfunc("_ln", [],\&log);
-   $env->{funcs}->addfunc("sin", [],\&sin);
-   $env->{funcs}->addfunc("cos", [],\&cos);
-   $env->{funcs}->addfunc("tan", [],\&tan);
-   $env->eval("csc{x} := {1/sin[x]}"); 
-   $env->eval("sec{x} := {1/cos[x]}"); 
-   $env->eval("cot{x} := {1/tan[x]}"); 
-   $env->eval("log{x isa 1} := {_ln[x]/_ln[10]}"); 
-   $env->eval("ln{x isa 1} := {_ln[x]}"); 
-   $env->eval("atan2{x,y} := {var s=x^2+y^2; var r=y+x i; -i * ln[r / sqrt[s]]}");
-   $env->{funcs}->addfunc("sinh", [],\&sinh);
-   $env->{funcs}->addfunc("cosh", [],\&cosh);
-   $env->{funcs}->addfunc("tanh", [],\&tanh);
-   $env->{funcs}->addfunc("arcsin", [],\&arcsin);
-   $env->{funcs}->addfunc("arccos", [],\&arccos);
-   $env->{funcs}->addfunc("arctan", [],\&arctan);
-   $env->{funcs}->addfunc("arcsinh", [],\&arcsinh);
-   $env->{funcs}->addfunc("arccosh", [],\&arccosh);
-   $env->{funcs}->addfunc("arctanh", [],\&arctanh);
-   $env->{funcs}->addfunc("asin", [],\&arcsin);
-   $env->{funcs}->addfunc("acos", [],\&arccos);
-   $env->{funcs}->addfunc("atan", [],\&arctan);
-   $env->{funcs}->addfunc("asinh", [],\&arcsinh);
-   $env->{funcs}->addfunc("acosh", [],\&arccosh);
-   $env->{funcs}->addfunc("atanh", [],\&arctanh);
-   $env->{funcs}->addfunc("abs", [],\&abs);
-   $env->{funcs}->addfunc("floor", [],\&floor);
-   $env->{funcs}->addfunc("ceil", [],\&ceil);
+   my $array = new Math::Farnsworth::Value([], {array => 1});
+   my $string = new Math::Farnsworth::Value("", {string => 1});
+   my $lambda = new Math::Farnsworth::Value("", {lambda => 1});
+   my $number = new Math::Farnsworth::Value(0);
+
+   $env->{funcs}->addfunc("ln",  [["in", undef, $number]],\&log);
+   $env->{funcs}->addfunc("sin", [["in", undef, $number]],\&sin);
+   $env->{funcs}->addfunc("cos", [["in", undef, $number]],\&cos);
+   $env->{funcs}->addfunc("tan", [["in", undef, $number]],\&tan);
+   $env->eval("csc{x isa 1} := {1/sin[x]}"); 
+   $env->eval("sec{x isa 1} := {1/cos[x]}"); 
+   $env->eval("cot{x isa 1} := {1/tan[x]}"); 
+   $env->eval("log{x isa 1} := {ln[x]/ln[10]}"); 
+   $env->eval("atan2{x isa 1,y isa 1} := {var s=x^2+y^2; var r=y+x i; -i * ln[r / sqrt[s]]}");
+   $env->{funcs}->addfunc("sinh", [["in", undef, $number]],\&sinh);
+   $env->{funcs}->addfunc("cosh", [["in", undef, $number]],\&cosh);
+   $env->{funcs}->addfunc("tanh", [["in", undef, $number]],\&tanh);
+   $env->{funcs}->addfunc("arcsin", [["in", undef, $number]],\&arcsin);
+   $env->{funcs}->addfunc("arccos", [["in", undef, $number]],\&arccos);
+   $env->{funcs}->addfunc("arctan", [["in", undef, $number]],\&arctan);
+   $env->{funcs}->addfunc("arcsinh", [["in", undef, $number]],\&arcsinh);
+   $env->{funcs}->addfunc("arccosh", [["in", undef, $number]],\&arccosh);
+   $env->{funcs}->addfunc("arctanh", [["in", undef, $number]],\&arctanh);
+   $env->{funcs}->addfunc("asin", [["in", undef, $number]],\&arcsin);
+   $env->{funcs}->addfunc("acos", [["in", undef, $number]],\&arccos);
+   $env->{funcs}->addfunc("atan", [["in", undef, $number]],\&arctan);
+   $env->{funcs}->addfunc("asinh", [["in", undef, $number]],\&arcsinh);
+   $env->{funcs}->addfunc("acosh", [["in", undef, $number]],\&arccosh);
+   $env->{funcs}->addfunc("atanh", [["in", undef, $number]],\&arctanh);
+   $env->{funcs}->addfunc("abs", [["in", undef, undef]],\&abs);
+   $env->{funcs}->addfunc("floor", [["in", undef, undef]],\&floor);
+   $env->{funcs}->addfunc("ceil", [["in", undef, undef]],\&ceil);
 #   $env->{funcs}->addfunc("round", [],\&round); #this will require some more playing to implement properly
-   $env->{funcs}->addfunc("int", [],\&int);
-   $env->{funcs}->addfunc("trunc", [],\&int);
-   $env->{funcs}->addfunc("numerator", [],\&numerator);
-   $env->{funcs}->addfunc("denominator", [],\&denominator);
+   $env->{funcs}->addfunc("int", [["in", undef, undef]],\&int);
+   $env->{funcs}->addfunc("trunc", [["in", undef, undef]],\&int);
+   $env->{funcs}->addfunc("numerator", [["in", undef, $number]],\&numerator);
+   $env->{funcs}->addfunc("denominator", [["in", undef, $number]],\&denominator);
 #   $env->{funcs}->addfunc("random", [],\&random);
 #   $env->{funcs}->addfunc("randomFloat", [],\&randomFloat);
 #   $env->{funcs}->addfunc("randomGaussian", [],\&randomGaussian);
@@ -52,7 +56,7 @@ sub init
    #$env->{funcs}->addfunc("min", [],\&min);
    #$env->{funcs}->addfunc("max", [],\&max);
    #these functions are simple enough to implement in farnsworth itself, so why not
-   $env->{funcs}->addfunc("sqrt", [],\&sqrt); #putting in like this to see if it brings better luck
+   $env->{funcs}->addfunc("sqrt", [["in", undef, undef]],\&sqrt); #putting in like this to see if it brings better luck
 #   $env->eval("i := sqrt[-1]"); #since we have a better sqrt, use it to make a better i
 #   $env->eval("sqrt{x} := {x ^ 0.5}"); 
    $env->eval("exp{x isa 1} := {e ^ x}");

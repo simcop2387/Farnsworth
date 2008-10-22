@@ -221,7 +221,7 @@ mole :=  mol    //   elementary entities as there are atoms in 0.012 kg of
                 //   insufficient by itself.  It has to be a mole OF
                 //   something.  How do you represent that?
 
-angle =!= radian
+radian := 1
 radians := radian // The angle subtended at the center of a circle by an arc
                 //   equal in length to the radius of the circle.
                 // A circle thus subtends an angle of 2 pi radians.
@@ -287,7 +287,7 @@ candela := cd   // Official definition:
 
 // Define the default symbol for the imaginary unit, that is, the square
 // root of negative one.
-i := (-1) ^ 0.5 //this is intrinsic to Math::PARI, i don't need to do anything special for it // if you include Functions::StdMath this gets redefined with the more accurate sqrt[]
+i := (-1) ^ (1/2) //this is intrinsic to Math::PARI, i don't need to do anything special for it // if you include Functions::StdMath this gets redefined with the more accurate sqrt[]
  
 // Define unit combinations
 1   ||| dimensionless
