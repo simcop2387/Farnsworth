@@ -4,7 +4,7 @@ bug := "think you found a bug? file it at http://farnsworth.sexypenguins.com/ OR
 
 frozen := C[0];
 microwavetime{mass isa kg, end isa K, start = frozen isa K, watts = 1000W isa watt, sh = 1 calorie/gram/degC isa calorie/gram/degC} := (mass sh)(end - start)/watts -> "seconds"
-phi := (1 + sqrt[5])/2
+//phi := (1 + sqrt[5])/2
 mangle{x} := {var s = x -> Dutch -> Japanese -> Arabic -> German -> Chinese -> French -> Hindi; var lang = x -> DetectLanguage; eval["$s -> HindiTo" + lang] };
 
 tracemangle{x} := {var z=[]; var d = x -> Dutch; push[z,[d,d->FromDutch]]; d = d -> DutchToJapanese; push[z,[d, d->FromJapanese]]; d=d -> JapaneseToArabic; push[z,[d,d->FromArabic]]; d=d -> ArabicToGerman; push[z,[d,d->FromGerman]]; d=d -> GermanToChinese; push[z,[d,d->FromChinese]]; d=d -> ChineseToFrench; push[z,[d, d->FromFrench]]; d=d -> FrenchToHindi; push[z,[d, d->FromHindi]]; d=d -> FromHindi; push[z,d]; z};

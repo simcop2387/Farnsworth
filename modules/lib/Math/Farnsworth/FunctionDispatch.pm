@@ -6,6 +6,7 @@ use warnings;
 use Data::Dumper;
 
 use Math::Farnsworth::Variables;
+use Math::Farnsworth::Value;
 
 sub new
 {
@@ -49,15 +50,16 @@ sub setupargs
 
 	my $vars = $eval->{vars}; #get the scope we need
 
-	for my $argc (0..$#$argtypes)
+ARG:for my $argc (0..$#$argtypes)
 	{
 		my $n = $argtypes->[$argc][0]; #the rest are defaults and constraints
 		my $v = $args->{pari}->[$argc];
 
+		my $const = $argtypes->[$argc][2];
 		if (!defined($v))
 		{
 			#i need a default value!
-			if (!defined($argtypes->[$argc][1]) && defined($argtypes->[$argc][0]))
+			if (!defined($argtypes->[$argc][1]) && defined($argtypes->[$argc][0])  && (defined($const) && $const ne "VarArg"))
 			{
 				die "Required argument $argc to function $name\[\] missing\n";
 			}
@@ -65,8 +67,7 @@ sub setupargs
 			$v = $argtypes->[$argc][1];
 		}
 
-		my $const = $argtypes->[$argc][2];
-		if (defined($const))
+		if (defined($const) && $const ne "VarArg")
 		{
 			#we have a constraint
 			if (!$v->{dimen}->compare($const->{dimen}))
@@ -74,8 +75,17 @@ sub setupargs
 				die "Constraint not met on argument $argc to $name\[\]\n";
 			}
 		}
+		elsif (defined($const) && $const eq "VarArg")
+		{
+			#we've got a variable argument, it needs to slurp all the rest of the arguments into an array!
+			my $last = $#{$args->{pari}};
+			my @vargs = @{$args->{pari}}[$argc..$last];
+			my $v = new Math::Farnsworth::Value(\@vargs, {array => 1});
+			$vars->declare($n, $v); #set the variable
+			last ARG; #don't parse ANY more arguments
+		}
 
-		$nars->declare($n, $v);
+		$vars->declare($n, $v);
 	}
 }
 
@@ -97,34 +107,45 @@ sub callfunc
 	print "Dumper of func: ".Dumper($fval);
 	print "--------------------THAT IS ALL\n";
 
-	die "Arguments not correct" unless $self->checkparams($name, $args); #this should check....
+	die "Number of arguments not correct" unless $self->checkparams($name, $args, $argtypes); #this should check....
 
 #	print Dumper($args);
 
+	my $nvars = new Math::Farnsworth::Variables($eval->{vars});
+
+	my %nopts = (vars => $nvars, funcs => $self, units => $eval->{units}, parser => $eval->{parser});
+	my $neval = $eval->new(%nopts);
+
+	$self->setupargs($neval, $args, $argtypes, $name); #setup the arguments
+
 	if (ref($fval) ne "CODE")
 	{
-		my $nvars = new Math::Farnsworth::Variables($eval->{vars});
-
-		my %nopts = (vars => $nvars, funcs => $self, units => $eval->{units}, parser => $eval->{parser});
-	    my $neval = $eval->new(%nopts);
-
-		$self->setupargs($neval, $args, $argtypes, $name); #setup the arguments
-
-		print Dumper($fval);
 
 		return $neval->evalbranch($fval);
 	}
 	else
 	{
 		#we have a code ref, so we need to call it
-		return $fval->($args, $eval, $branches);
+		return $fval->($args, $neval, $branches);
 	}
 }
 
 #this was supposed to be the checks for types and such, but now its something else entirely
 sub checkparams 
 {
-	return 1 unless (ref($_[1]) eq "Math::Farnsworth::Value") && (ref($_[1]->{pari}) eq "ARRAY");
+	my $self = shift;
+    my $name = shift;
+	my $args = shift;
+	my $argtypes = shift;
+
+	return 0 unless (ref($args) eq "Math::Farnsworth::Value") && ($args->{dimen}->compare({dimen=>{array=>1}}));
+
+	my $vararg = 0;
+
+	$vararg = 1 if (grep {$_->[2] eq "VarArg"} @{$argtypes}); #find out if there is a vararg arg
+
+    return 1 if ($vararg || (@{$args->{pari}} == @{$argtypes}));
+
 	return 0;
 }
 

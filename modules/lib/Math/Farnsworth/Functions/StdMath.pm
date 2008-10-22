@@ -53,7 +53,7 @@ sub init
    #$env->{funcs}->addfunc("max", [],\&max);
    #these functions are simple enough to implement in farnsworth itself, so why not
    $env->{funcs}->addfunc("sqrt", [],\&sqrt); #putting in like this to see if it brings better luck
-   $env->eval("i := sqrt[-1]"); #since we have a better sqrt, use it to make a better i
+#   $env->eval("i := sqrt[-1]"); #since we have a better sqrt, use it to make a better i
 #   $env->eval("sqrt{x} := {x ^ 0.5}"); 
    $env->eval("exp{x isa 1} := {e ^ x}");
    $env->eval("inv{x} := {1/x}"); 

@@ -81,12 +81,17 @@ array : expr ',' array  {bless [ ( ref($_[1]) eq 'Array' ? ( bless [@{$_[1]}], '
 	  ;
 
 argarray : expr ',' argarray  {bless [ ( ref($_[1]) eq 'ArgArray' ? ( bless [@{$_[1]}], 'SubArray' ) : $_[1] ), ref($_[3]) eq 'ArgArray' ? @{$_[3]} : $_[3] ], 'ArgArray' }
+		 | ',' argarray  {bless [ undef, ref($_[2]) eq 'ArgArray' ? @{$_[2]} : $_[2] ], 'ArgArray' }
 		 | expr {bless [ ( ref($_[1]) eq 'ArgArray' ? ( bless [@{$_[1]}], 'SubArray' ) : $_[1] ) ], 'ArgArray'}
 		 | {bless [], 'ArgArray'} #//need to do this for empty arrays
 		 ;
 
-argelement : NAME '=' expr 'isa' expr {bless [$_[1], $_[3], $_[5]], 'Argele'} #default value AND constraint 
-		   | NAME 'isa' expr {bless [ $_[1], undef, $_[3] ], 'Argele'} #constraint
+constraint: expr #// this MIGHT have to change slightly, mostly to make it allow things like, flow, volume
+		  | '...' {bless [], 'VarArg'} #// for having variable arguments
+		  ;
+
+argelement : NAME '=' expr 'isa' constraint {bless [$_[1], $_[3], $_[5]], 'Argele'} #default value AND constraint 
+		   | NAME 'isa' constraint {bless [ $_[1], undef, $_[3] ], 'Argele'} #constraint
 		   | NAME '=' expr {bless [$_[1], $_[3]], 'Argele'} #default value
 		   | NAME {bless [ $_[1] ], 'Argele'}
 		   |
@@ -196,7 +201,7 @@ sub yylex
 	#seperated this to shorten the lines, and hopefully to make parts of it more readable
 	$s =~ /\G\s*(:=|==|!=|<=>|>=|<=|=>|->|:->|\*\*)\s*/icg and return lc $1;
 	$s =~ /\G\s*(var\b|per\b|isa\b|\:?\:\-|\=\!\=|\|\|\|)\s*/icg and return lc $1;
-	$s =~ /\G\s*(\+|\*|-|\/|\%|\^\^?|=|;|\n|\{|\}|\>|\<|\?|\:|\,|\&\&|\|\||\!|\|)\s*/cg and return $1;
+	$s =~ /\G\s*(\+|\*|-|\/|\%|\^\^?|=|;|\n|\{|\}|\>|\<|\?|\:|\,|\&\&|\|\||\!|\||\.\.\.)\s*/cg and return $1;
 	$s =~ /\G\s*(\)|\])/cg and return $1; #freaking quirky lexers!
 	$s =~ /\G(\(|\[)\s*/cg and return $1;
 	$s =~ /\G(\w[\w\d]*)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here

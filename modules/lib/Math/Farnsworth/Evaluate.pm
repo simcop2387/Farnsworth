@@ -604,6 +604,11 @@ sub makevalue
 #		print Dumper($val);
 		return $val;
 	}
+	elsif (ref($input) eq "VarArg")
+	{
+		warn "Got a VarArg, code untested, want to mark when i get them\n"; #just so i can track down the inevitable crash
+		return "VarArg";
+	}
 	elsif (ref($input) eq "Math::Farnsworth::Value")
 	{
 		warn "Got a Math::Farnsworth::Value, i PROBABLY shouldn't be getting these, i'm just going to let it fall through";
