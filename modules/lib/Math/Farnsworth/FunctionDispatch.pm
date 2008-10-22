@@ -67,7 +67,7 @@ ARG:for my $argc (0..$#$argtypes)
 			$v = $argtypes->[$argc][1];
 		}
 
-		if (defined($const) && $const ne "VarArg")
+		if (defined($const) && ref($const) eq "Math::Farnsworth::Value")
 		{
 			#we have a constraint
 			if (!$v->{dimen}->compare($const->{dimen}))
@@ -142,7 +142,7 @@ sub checkparams
 
 	my $vararg = 0;
 
-	$vararg = 1 if (grep {defined($_->[2]) && ($_->[2] eq "VarArg")} @{$argtypes}); #find out if there is a vararg arg
+	$vararg = 1 if (grep {defined($_->[2]) && ref($_->[2]) ne "Math::Farnsworth::Value" && ($_->[2] eq "VarArg")} @{$argtypes}); #find out if there is a vararg arg
 
     return 1 if ($vararg || (@{$args->{pari}} == @{$argtypes}));
 
