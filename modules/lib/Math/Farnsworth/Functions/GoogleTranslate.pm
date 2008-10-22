@@ -31,7 +31,9 @@ sub init
 {
 	my $env = shift;
 
-    REST::Google::Translate->http_referer('http://www.google.com/'); #for now, i need a real website for this!
+    REST::Google::Translate->http_referer('http://farnsworth.sexypenguins.com/'); #for now, i need a real website for this!
+
+	my $string = new Math::Farnsworth::Value("", {string => 1});
 
 	#generate lang to lang
 	for my $x (keys %langs)
@@ -44,7 +46,7 @@ sub init
 				my $name = $langs{$x}."To".$langs{$y};
 
 				#closures in perl will give me this! closures FTW!
-				$env->{funcs}->addfunc($name, [], sub {translate($x,$y,@_)});
+				$env->{funcs}->addfunc($name, [["in", undef, $string]], sub {translate($x,$y,@_)});
 			}
 		}
 	}
@@ -57,20 +59,20 @@ sub init
 		#closures in perl will give me this! closures FTW!
 		if ($x ne $defaultcode)
 		{
-			$env->{funcs}->addfunc($name, [], sub {translate("",$x,@_)});
-			$env->{funcs}->addfunc("Is".$name, [], sub {islang($x, @_)});
-			$env->{funcs}->addfunc("To".$name, [], sub {translate("",$x,@_)});
-			$env->{funcs}->addfunc("From".$name, [], sub {translate($x, $defaultcode,@_)});
+			$env->{funcs}->addfunc($name, [["in", undef, $string]], sub {translate("",$x,@_)});
+			$env->{funcs}->addfunc("Is".$name, [["in", undef, $string]], sub {islang($x, @_)});
+			$env->{funcs}->addfunc("To".$name, [["in", undef, $string]], sub {translate("",$x,@_)});
+			$env->{funcs}->addfunc("From".$name, [["in", undef, $string]], sub {translate($x, $defaultcode,@_)});
 		}
 		else
 		{
-			$env->{funcs}->addfunc("Is".$name, [], sub {islang($x, @_)});
-			$env->{funcs}->addfunc($name, [], sub {translate("",$defaultcode,@_)});
-			$env->{funcs}->addfunc("To".$name, [], sub {translate("",$defaultcode,@_)});
+			$env->{funcs}->addfunc("Is".$name, [["in", undef, $string]], sub {islang($x, @_)});
+			$env->{funcs}->addfunc($name, [["in", undef, $string]], sub {translate("",$defaultcode,@_)});
+			$env->{funcs}->addfunc("To".$name, [["in", undef, $string]], sub {translate("",$defaultcode,@_)});
 		}
 	}
 
-	$env->{funcs}->addfunc("DetectLanguage", [], \&detectlang);
+	$env->{funcs}->addfunc("DetectLanguage", [["in", undef, $string]], \&detectlang);
 }
 
 sub callgoogle
