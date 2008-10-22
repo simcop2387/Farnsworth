@@ -104,38 +104,11 @@ sub callfunc
 	if (ref($fval) ne "CODE")
 	{
 		my $nvars = new Math::Farnsworth::Variables($eval->{vars});
-		for my $argc (0..$#$argtypes)
-		{
-			my $n = $argtypes->[$argc][0]; #the rest are defaults and constraints
-			my $v = $args->{pari}->[$argc];
 
-			if (!defined($v))
-			{
-				#i need a default value!
-				if (!defined($argtypes->[$argc][1]) && defined($argtypes->[$argc][0]))
-				{
-					die "Required argument $argc to function $name\[\] missing";
-				}
-
-				$v = $argtypes->[$argc][1];
-			}
-
-			my $const = $argtypes->[$argc][2];
-			print Dumper($const);
-			if (defined($const))
-			{
-				#we have a constraint
-				if (!$v->{dimen}->compare($const->{dimen}))
-				{
-					die "Constraint not met on argument to $name\[\] in argument $argc";
-				}
-			}
-
-			$nvars->declare($n, $v);
-			#$nvars->setvar($n, $v);
-		}
 		my %nopts = (vars => $nvars, funcs => $self, units => $eval->{units}, parser => $eval->{parser});
 	    my $neval = $eval->new(%nopts);
+
+		$self->setupargs($neval, $args, $argtypes, $name); #setup the arguments
 
 		print Dumper($fval);
 
