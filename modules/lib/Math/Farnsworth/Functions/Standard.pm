@@ -22,7 +22,7 @@ sub init
    my $number = new Math::Farnsworth::Value(0);
 
    $env->{funcs}->addfunc("push", [["arr", undef, $array], ["in", undef, "VarArg"]],\&push); #actually i might rewrite this in farnsworth now that it can do it
-   $env->{funcs}->addfunc("pop", [["arr", undef, $string]],\&pop); #eventually this maybe too
+   $env->{funcs}->addfunc("pop", [["arr", undef, $array]],\&pop); #eventually this maybe too
    $env->{funcs}->addfunc("sort", [["sortsub", undef, $lambda],["arr", undef, $array]],\&sort);
 
    $env->{funcs}->addfunc("length", [["in", undef, undef]],\&length);
@@ -33,7 +33,7 @@ sub init
    $env->{funcs}->addfunc("eval", [["str", undef, $string]],\&eval);
 
 
-   $env->{funcs}->addfunc("substrLen", [["str", undef, $string],["left", undef, $number],["right", undef, $number]],\&substrlen); #this one works like perls
+   $env->{funcs}->addfunc("substrLen", [["str", undef, $string],["left", undef, $number],["length", undef, $number]],\&substrlen); #this one works like perls
    $env->eval("substr{str,left,right}:={substrLen[str,left,right-left]}");
    $env->eval("left{str,pos}:={substrLen[str,0,pos]}");
    $env->eval("right{str,pos}:={substrLen[str,length[str]-pos,pos]}");

@@ -59,7 +59,7 @@ ARG:for my $argc (0..$#$argtypes)
 		if (!defined($v))
 		{
 			#i need a default value!
-			if (!defined($argtypes->[$argc][1]) && defined($argtypes->[$argc][0])  && (defined($const) && $const ne "VarArg"))
+			if (!defined($argtypes->[$argc][1]) && defined($argtypes->[$argc][0])  && (defined($const) && ref($const) ne "Math::Farnsworth::Value" && $const ne "VarArg"))
 			{
 				die "Required argument $argc to function $name\[\] missing\n";
 			}
@@ -107,7 +107,7 @@ sub callfunc
 	print "Dumper of func: ".Dumper($fval);
 	print "--------------------THAT IS ALL\n";
 
-#	die "Number of arguments not correct to $name\[\]\n" unless $self->checkparams($args, $argtypes); #this should check....
+	die "Number of arguments not correct to $name\[\]\n" unless $self->checkparams($args, $argtypes); #this should check....
 
 #	print Dumper($args);
 
@@ -165,13 +165,23 @@ sub checkparams
 	my $args = shift;
 	my $argtypes = shift;
 
-	return 0 unless (ref($args) eq "Math::Farnsworth::Value") && ($args->{dimen}->compare({dimen=>{array=>1}}));
-
 	my $vararg = 0;
+
+	my $neededargs = 0;
+
+	for my $argt (@$argtypes)
+	{
+		$neededargs++ unless ($argt->[1]);
+	}
 
 	$vararg = 1 if (grep {defined($_->[2]) && ref($_->[2]) ne "Math::Farnsworth::Value" && ($_->[2] eq "VarArg")} @{$argtypes}); #find out if there is a vararg arg
 
-    return 1 if ($vararg || (@{$args->{pari}} <= @{$argtypes}));
+	print "NEEDED: $neededargs\n";
+	print Data::Dumper->Dump([$argtypes, $args->{pari}], [qw(argtypes args)]);
+
+    return 1 if ($vararg || (@{$args->{pari}} <= @{$argtypes} && @{$args->{pari}} >= $neededargs));
+
+	#return 0 unless (ref($args) eq "Math::Farnsworth::Value") && ($args->{dimen}->compare({dimen=>{array=>1}}));
 
 	return 0;
 }

@@ -13,6 +13,7 @@ use Math::Farnsworth::Dimension;
 use Math::Farnsworth::Units;
 use Math::Farnsworth::FunctionDispatch;
 use Math::Farnsworth::Variables;
+use Math::Pari;
 
 use Carp qw(croak);
 
@@ -25,6 +26,8 @@ sub new
 	my $self = {};
     my @modules = @_; #i get passed a list of modules to use for standard stuff;
 
+	Math::Pari::setprecision(1000);
+
 	if (@modules < 1)
 	{
 		@modules = ("Units::Standard", "Functions::Standard", "Functions::StdMath", "Functions::GoogleTranslate"); #standard modules to include
@@ -34,10 +37,10 @@ sub new
 
 	$self->{eval} = Math::Farnsworth::Evaluate->new();
 
-	for (@modules)
+	for my $a (@modules)
 	{
-		eval 'use Math::Farnsworth::'.$_.'; Math::Farnsworth::'.$_.'::init($self->{eval});';
-		print "-------FAILED? $_\n";
+		eval 'use Math::Farnsworth::'.$a.'; Math::Farnsworth::'.$a.'::init($self->{eval});';
+		print "-------FAILED? $a\n";
 		print $@;
 		print "\n";
 	}

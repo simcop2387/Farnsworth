@@ -1,7 +1,8 @@
 %left '\n' ';'
 %right '=' ':=' '=!=' '::-' ':-' '|||'
 %left '->' ':->' '=>'
-%left '|'
+%left ARRAYFETCH
+#//%left '|'
 %nonassoc ':'
 %left '?'
 %left '&&' '||' '!' '^^'
@@ -12,7 +13,6 @@
 %left '*' '/' '%' ' ' IMPLICIT
 %left UMINUS IFNONL
 %left NAME IFNL
-
 %left '^' '**'
 %right DECLAREVAR
 
@@ -108,9 +108,8 @@ exprval1 : 	NUMBER			{ bless [ $_[1] ], 'Num' }
 
 exprval2 :	NAME			%prec NAME { bless [ $_[1] ], 'Fetch' }
 		|	'(' expr ')'	{ bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything
-		|   NAME '[' argarray ']'	{ bless [ @_[1,3] ], 'FuncCall' }
+		|   NAME '[' argarray ']' { bless [ @_[1,3] ], 'FuncCall' }
 		;
-
 
 exprval : exprval1
 		| exprval2
@@ -120,7 +119,7 @@ exprval : exprval1
 assignexpr : 	NAME '=' expr	{ bless [ @_[1,3] ], 'Store' }
 		   ;
 
-arrayfetchexpr : exprval2 '|' array '|' { bless [ @_[1,3] ], 'ArrayFetch' }
+arrayfetchexpr : exprval '@' array '$' %prec ARRAYFETCH { bless [ @_[1,3] ], 'ArrayFetch' }
 			   ;
 
 expr

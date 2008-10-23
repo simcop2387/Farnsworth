@@ -60,8 +60,8 @@ sub new
   {
 	#we've got an array or date or lambda here
 	#use dclone() from Storable to make complete copies of everything!
-	print "CALLER: ".join("::", caller())."\n";
-	print Dumper($value);
+#	print "CALLER: ".join("::", caller())."\n";
+#	print Dumper($value);
 
     if (!defined($value))
 	{
