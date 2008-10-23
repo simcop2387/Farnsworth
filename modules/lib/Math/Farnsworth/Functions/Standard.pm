@@ -23,6 +23,8 @@ sub init
 
    $env->{funcs}->addfunc("push", [["arr", undef, $array], ["in", undef, "VarArg"]],\&push); #actually i might rewrite this in farnsworth now that it can do it
    $env->{funcs}->addfunc("pop", [["arr", undef, $array]],\&pop); #eventually this maybe too
+   $env->{funcs}->addfunc("shift", [["arr", undef, $array]], \&shift);
+   $env->{funcs}->addfunc("unshift", [["arr", undef, $array], ["in", undef, "VarArg"]], \&unshift);
    $env->{funcs}->addfunc("sort", [["sortsub", undef, $lambda],["arr", undef, $array]],\&sort);
 
    $env->{funcs}->addfunc("length", [["in", undef, undef]],\&length);
@@ -32,6 +34,7 @@ sub init
    $env->{funcs}->addfunc("index", [["str", undef, $string],["substr", undef, $string],["pos", $number, $number]],\&index);
    $env->{funcs}->addfunc("eval", [["str", undef, $string]],\&eval);
 
+   $env->eval('map{sub isa {`x`}, x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var e; var out=[]; while(e = shift[z]) {push[out,e => sub]}; out}');
 
    $env->{funcs}->addfunc("substrLen", [["str", undef, $string],["left", undef, $number],["length", undef, $number]],\&substrlen); #this one works like perls
    $env->eval("substr{str,left,right}:={substrLen[str,left,right-left]}");
@@ -143,6 +146,35 @@ sub push
 	return undef; #push doesn't return anything? probably should, but i'll do that later
 }
 
+sub unshift
+{
+	#args is... a Math::Farnsworth::Value array
+	my ($args, $eval, $branches)= @_;
+	
+	if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{vars}->isvar($branches->[1][0][0])))
+	{
+		die "First argument to push must be a variable";
+	}
+
+	my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
+
+	if (!exists($arrayvar->{dimen}{dimen}{array}))
+	{
+		die "First argument to push must be an array";
+	}
+
+	#ok type checking is done, do the push!
+	
+	my @input = @{$args->{pari}};
+	shift @input; #remove the original array value
+
+	#i should probably flatten arrays here so that; a=[1,2,3]; push[a,a]; will result in a = [1,2,3,1,2,3]; instead of a = [1,2,3,[1,2,3]];
+
+	CORE::unshift @{$arrayvar->{pari}}, @input;
+
+	return undef; #push doesn't return anything? probably should, but i'll do that later
+}
+
 sub pop
 {
 	#args is... a Math::Farnsworth::Value array
@@ -163,6 +195,30 @@ sub pop
 	#ok type checking is done, do the pop
 	
 	my $retval = CORE::pop @{$arrayvar->{pari}};
+
+	return $retval; #pop returns the value of the element removed
+}
+
+sub shift
+{
+	#args is... a Math::Farnsworth::Value array
+	my ($args, $eval, $branches)= @_;
+	
+	if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{vars}->isvar($branches->[1][0][0])))
+	{
+		die "Argument to pop must be a variable";
+	}
+
+	my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
+
+	if (!exists($arrayvar->{dimen}{dimen}{array}))
+	{
+		die "Argument to pop must be an array";
+	}
+
+	#ok type checking is done, do the pop
+	
+	my $retval = CORE::shift @{$arrayvar->{pari}};
 
 	return $retval; #pop returns the value of the element removed
 }

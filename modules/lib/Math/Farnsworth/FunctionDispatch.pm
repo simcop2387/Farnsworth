@@ -171,7 +171,7 @@ sub checkparams
 
 	for my $argt (@$argtypes)
 	{
-		$neededargs++ unless ($argt->[1]);
+		$neededargs++ unless (defined($argt->[1]) || !defined($argt->[0]));
 	}
 
 	$vararg = 1 if (grep {defined($_->[2]) && ref($_->[2]) ne "Math::Farnsworth::Value" && ($_->[2] eq "VarArg")} @{$argtypes}); #find out if there is a vararg arg

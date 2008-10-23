@@ -89,689 +89,194 @@ sub sqrt
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in sin yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The sin of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			#HAD BUG HERE, sqrt used to not carry units
-			my $units = $arg->{dimen};
-			$units = $units->mult(PARI '1/2'); #half them all!
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::sqrt($arg->{pari}), $units);
-			print Dumper(\@rets);
-		}
-	}
+	my $units = $input->{dimen};
+	$units = $units->mult(PARI '1/2'); #half them all!
 
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return  Math::Farnsworth::Value->new(Math::Pari::sqrt($input->{pari}), $units);
 }
 
 sub sin
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in sin yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The sin of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::sin($arg->{pari}), {});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return  Math::Farnsworth::Value->new(Math::Pari::sin($input->{pari}));
 }
 
 sub cos
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in cos yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The cos of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			#until i decide how this should work on regular numbers, just do this
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::cos($arg->{pari}), {});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return  Math::Farnsworth::Value->new(Math::Pari::cos($input->{pari}));
 }
 
 sub tan
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in tan yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The tan of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			#until i decide how this should work on regular numbers, just do this
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::tan($arg->{pari}), {});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return  Math::Farnsworth::Value->new(Math::Pari::tan($input->{pari}));
 }
 
 sub arcsin
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in sin yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The sin of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::asin($arg->{pari}), {angle=>1});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return  Math::Farnsworth::Value->new(Math::Pari::asin($input->{pari}));
 }
 
 sub arccos
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in cos yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The cos of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			#until i decide how this should work on regular numbers, just do this
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::acos($arg->{pari}), {angle => 1});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return  Math::Farnsworth::Value->new(Math::Pari::acos($input->{pari}));
 }
 
 sub arctan
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in tan yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The tan of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			#until i decide how this should work on regular numbers, just do this
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::atan($arg->{pari}), {angle => 1});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return  Math::Farnsworth::Value->new(Math::Pari::atan($input->{pari}));
 }
 
 sub sinh
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in sin yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The sin of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::sinh($arg->{pari}), {});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return Math::Farnsworth::Value->new(Math::Pari::sinh($input->{pari}));
 }
 
 sub cosh
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in cos yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The cos of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			#until i decide how this should work on regular numbers, just do this
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::cosh($arg->{pari}), {});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return Math::Farnsworth::Value->new(Math::Pari::cosh($input->{pari}));
 }
 
 sub tanh
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in tan yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The tan of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			#until i decide how this should work on regular numbers, just do this
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::tanh($arg->{pari}), {});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return Math::Farnsworth::Value->new(Math::Pari::tanh($input->{pari}));
 }
 
 sub arcsinh
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in sin yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The sin of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::asinh($arg->{pari}), {angle=>1});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return Math::Farnsworth::Value->new(Math::Pari::asinh($input->{pari}));
 }
 
 sub arccosh
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in cos yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The cos of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			#until i decide how this should work on regular numbers, just do this
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::acosh($arg->{pari}), {angle => 1});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return Math::Farnsworth::Value->new(Math::Pari::acosh($input->{pari}));
 }
 
 sub arctanh
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in tan yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The tan of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			#until i decide how this should work on regular numbers, just do this
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::atanh($arg->{pari}), {angle => 1});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return Math::Farnsworth::Value->new(Math::Pari::atanh($input->{pari}));
 }
-
-
-
-
 
 sub abs
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in abs yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The abs of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			#until i decide how this should work on regular numbers, just do this
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::abs($arg->{pari}), $arg->{dimen});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return Math::Farnsworth::Value->new(Math::Pari::abs($input->{pari}));
 }
 
 sub floor
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in tan yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The tan of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			#until i decide how this should work on regular numbers, just do this
-
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::floor($arg->{pari}), $arg->{dimen});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return Math::Farnsworth::Value->new(Math::Pari::floor($input->{pari}));
 }
 
 sub ceil
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in tan yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The tan of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			#until i decide how this should work on regular numbers, just do this
-
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::ceil($arg->{pari}), $arg->{dimen});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return Math::Farnsworth::Value->new(Math::Pari::ceil($input->{pari}));
 }
 
 sub int
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in int yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The int of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			#until i decide how this should work on regular numbers, just do this
-			my $error = PARI '0';
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::truncate($arg->{pari}, $error), $arg->{dimen});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	my $e = PARI '0';
+	return Math::Farnsworth::Value->new(Math::Pari::int($input->{pari}), $e);
 }
 
 sub numerator
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in tan yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The tan of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			#until i decide how this should work on regular numbers, just do this
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::numerator($arg->{pari}), $arg->{dimen});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return Math::Farnsworth::Value->new(Math::Pari::numerator($input->{pari}));
 }
 
 sub denomenator
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in tan yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The tan of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			#until i decide how this should work on regular numbers, just do this
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::denomenator($arg->{pari}), $arg->{dimen});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return Math::Farnsworth::Value->new(Math::Pari::denomenator($input->{pari}));
 }
 
 sub real
@@ -933,36 +438,10 @@ sub log
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
 
-	my @rets;
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	for my $arg (@argsarry)
-	{
-		if ($arg->{dimen}{dimen}{array})
-		{
-			die "I don't know what to do with an array in tan yet!\n";
-		}
-		elsif ($arg->{dimen}{dimen}{string})
-		{
-			die "The tan of a string is the md5sum of the reverse of the idiot who wanted it";
-		}
-		else
-		{
-			#until i decide how this should work on regular numbers, just do this
-			CORE::push @rets, Math::Farnsworth::Value->new(Math::Pari::log($arg->{pari}), {});
-			print Dumper(\@rets);
-		}
-	}
-
-	if (@rets > 1)
-	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
-	}
-	else
-	{
-		return $rets[0];
-	}
+	return Math::Farnsworth::Value->new(Math::Pari::log($input->{pari}));
 }
 
 1;
