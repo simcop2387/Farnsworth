@@ -65,6 +65,8 @@ sub init
    $env->{funcs}->addfunc("getrseed", [[]],\&getrseed);
    $env->{funcs}->addfunc("setrseed", [[]],\&setrseed);
    $env->eval("random{} := randmax[10**30]/10.0**30");
+   $env->eval("quad{a isa 1, b isa 1, c isa 1} := [(-b + sqrt[b^2 - 4 a c]) / 2a, (-b - sqrt[b^2 - 4 a c]) / 2a]");
+   $env->eval("quadratic{a, b, c} := quad[a,b,c]");
 
    $env->{funcs}->addfunc("gcd", [["left", undef, $number],["right", undef, $number]],\&gcd);
    $env->{funcs}->addfunc("lcm", [["left", undef, $number],["right", undef, $number]],\&lcm);

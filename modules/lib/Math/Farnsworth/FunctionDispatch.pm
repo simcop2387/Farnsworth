@@ -158,7 +158,7 @@ sub callbranch
 	return $eval->evalbranch($branches);
 }
 
-#this was supposed to be the checks for types and such, but now its something else entirely
+#this was supposed to be the checks for types and such, but now its something else entirely, mostly
 sub checkparams 
 {
 	my $self = shift;
@@ -168,10 +168,12 @@ sub checkparams
 	my $vararg = 0;
 
 	my $neededargs = 0;
+	my $badargs = 0;
 
 	for my $argt (@$argtypes)
 	{
 		$neededargs++ unless (defined($argt->[1]) || !defined($argt->[0]));
+		$badargs++ if (!defined($argt->[0]));
 	}
 
 	$vararg = 1 if (grep {defined($_->[2]) && ref($_->[2]) ne "Math::Farnsworth::Value" && ($_->[2] eq "VarArg")} @{$argtypes}); #find out if there is a vararg arg
@@ -179,7 +181,7 @@ sub checkparams
 	print "NEEDED: $neededargs\n";
 	print Data::Dumper->Dump([$argtypes, $args->{pari}], [qw(argtypes args)]);
 
-    return 1 if ($vararg || (@{$args->{pari}} <= @{$argtypes} && @{$args->{pari}} >= $neededargs));
+    return 1 if ($vararg || (@{$args->{pari}} <= (@{$argtypes}-$badargs) && @{$args->{pari}} >= $neededargs));
 
 	#return 0 unless (ref($args) eq "Math::Farnsworth::Value") && ($args->{dimen}->compare({dimen=>{array=>1}}));
 
