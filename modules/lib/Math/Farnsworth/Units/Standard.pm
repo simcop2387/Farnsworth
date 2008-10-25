@@ -4099,8 +4099,7 @@ smoot := 5 feet + 7 inches  // Height of Oliver R. Smoot Jr. see:
 True := (1 > 0)
 False := (0 > 1)
 
-phi := (1 + sqrt[5])/2
-
+phi := (1 + 5^(1/2))/2
 
 b := bit
 B := byte

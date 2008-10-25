@@ -53,7 +53,7 @@ sub unit
 	#args is... a Math::Farnsworth::Value array
 	my ($args, $eval, $branches)= @_;
 	
-	print Dumper($branches);
+	#print Dumper($branches);
 
 	if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{units}->isunit($branches->[1][0][0])))
 	{
@@ -111,8 +111,8 @@ sub sort
 
 	my @rets = CORE::sort $sortsub @sorts;
 
-	print "SORT RETURNING!\n";
-	print Dumper(\@rets);
+	#print "SORT RETURNING!\n";
+	#print Dumper(\@rets);
 
 	return new Math::Farnsworth::Value([@rets], {array => 1});
 }
@@ -307,7 +307,7 @@ sub substrlen
 	{
 		#do i need to do something to convert these to work? (the 1,2 anyway?)
 		my $ns = substr($arg[0]{pari}, "".$arg[1]{pari}, "".$arg[2]{pari});
-		print "SUBSTR :: $ns\n";
+		#print "SUBSTR :: $ns\n";
 		return Math::Farnsworth::Value->new($ns, {string=>1});
 	}
 	else
@@ -326,7 +326,7 @@ sub ord
 	{
 		#do i need to do something to convert these to work? (the 1,2 anyway?)
 		my $ns = ord($arg[0]{pari}); #substr($arg[0]{pari}, "".$arg[1]{pari}, "".$arg[2]{pari});
-		print "ord :: $ns\n";
+		#print "ord :: $ns\n";
 		return Math::Farnsworth::Value->new($ns);
 	}
 	else
@@ -345,7 +345,7 @@ sub chr
 	{
 		#do i need to do something to convert these to work? (the 1,2 anyway?)
 		my $ns = chr($arg[0]{pari}); #substr($arg[0]{pari}, "".$arg[1]{pari}, "".$arg[2]{pari});
-		print "chr :: $ns\n";
+		#print "chr :: $ns\n";
 		return Math::Farnsworth::Value->new($ns, {string => 1}); #give string flag of 1, since we don't know what language is intended
 	}
 	else

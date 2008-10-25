@@ -33,16 +33,16 @@ sub new
 		@modules = ("Units::Standard", "Functions::Standard", "Functions::StdMath", "Functions::GoogleTranslate"); #standard modules to include
 	}
 
-	print Dumper(\@modules);
+	#print Dumper(\@modules);
 
 	$self->{eval} = Math::Farnsworth::Evaluate->new();
 
 	for my $a (@modules)
 	{
 		eval 'use Math::Farnsworth::'.$a.'; Math::Farnsworth::'.$a.'::init($self->{eval});';
-		print "-------FAILED? $a\n";
-		print $@;
-		print "\n";
+#		print "-------FAILED? $a\n";
+#		print $@;
+#		print "\n";
 	}
 
 	bless $self;
@@ -130,15 +130,33 @@ Some things Math::Farnsworth can do a little better than Frink, other areas Math
 =head2 PREREQUISITS
 Modules and Libraries you need before this will work
 
-* PARI library for L<Math::Pari>
-* L<Math::Pari>
-* L<Date::Manip>
+=over 4
+
+=item *
+
+The PARI library
+
+=item *
+
+L<Math::Pari>
+
+=item *
+
+L<Date::Manip>
 
 The following are optional
 
-	For the Google Translation library
-	* L<REST::Google::Translate>
-	* L<HTML::Entities>
+For the Google Translation library
+
+=item *
+
+L<REST::Google::Translate>
+
+=item *
+
+L<HTML::Entities>
+
+=back
 
 =head2 EXPORT
 
@@ -150,12 +168,33 @@ At this time there are no known bugs
 =head2 MISSING FEATURES
 The following features are currently missing and WILL be implemented in a future version of Math::Farnsworth
 
-* Better control over the output
-	* Adjustable precision of numbers
-	* Better defaults for certain types of output
+=over 4
 
-* Passing arguments by reference
-* Syntax tree introspection inside the language itself
+=item *
+
+Better control over the output
+
+=over 8
+
+=item *
+
+Adjustable precision of numbers
+
+=item *
+
+Better defaults for certain types of output
+
+=back
+
+=item *
+
+Passing arguments by reference
+
+=item *
+
+Syntax tree introspection inside the language itself
+
+=back
 
 =head1 SEE ALSO
 

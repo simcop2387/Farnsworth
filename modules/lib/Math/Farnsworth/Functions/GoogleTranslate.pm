@@ -92,7 +92,7 @@ sub callgoogle
                 langpair => "$langa|$langb",
        );
 
-  print Dumper($res);
+	   #print Dumper($res);
 
   die "response status failure when translating, ".$res->responseStatus, "details follow, ".$res->responseDetails if $res->responseStatus != 200;
 
@@ -120,7 +120,7 @@ sub translate
   my $response = callgoogle($langa, $langb, $args, $eval, $branches);
   my $translated = $response->responseData->translatedText;
 
-  print "TRANSLATED: $langa|$langb '$translated'\n";
+  #print "TRANSLATED: $langa|$langb '$translated'\n";
 
   $translated = new Math::Farnsworth::Value(decode_entities($translated), {string=>$langb});
 
@@ -146,7 +146,7 @@ sub detectlang
   my $response = callgoogle("", "en", $args, $eval, $branches);
   my $translated = $response->{responseData}{detectedSourceLanguage};
 
-  print "DETECTED: '$translated'\n";
+  #print "DETECTED: '$translated'\n";
 
   $translated = $langs{$translated} || $translated; #either its got a name, or we return the code
 
@@ -165,8 +165,8 @@ sub islang
     die "First argument to IsLanguage must be a string";
   }
 
-  print "ISLANG: $lang\n";
-  print Dumper($args);
+  #print "ISLANG: $lang\n";
+  #print Dumper($args);
 
   my $text = $args->{pari}[0]{pari};
 

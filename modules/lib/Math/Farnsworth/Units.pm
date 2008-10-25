@@ -213,9 +213,9 @@ sub getdisplay
 		for my $d (keys %{$dimen->{dimen}})
 		{
 			my $exp = "";
-			print Dumper($dimen->{dimen}, $exp);
+			#print Dumper($dimen->{dimen}, $exp);
 			$exp = "^".($dimen->{dimen}{$d} =~ /^[\d\.]+$/? $dimen->{dimen}{$d} :"(".$dimen->{dimen}{$d}.")") unless ($dimen->{dimen}{$d} == 1);
-			print Dumper($exp);
+			#print Dumper($exp);
 			push @returns, $self->getdimen($d).$exp;
 		}
 		my $prec = Math::Pari::setprecision();
@@ -233,7 +233,7 @@ sub setprefix
 	my $name = shift;
 	my $value = shift;
 
-	print "SETTING PREFIX: $name : $value\n" if ($name eq "m");
+	#print "SETTING PREFIX: $name : $value\n" if ($name eq "m");
 	$self->{prefix}{$name} = $value;
 }
 

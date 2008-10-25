@@ -102,10 +102,10 @@ sub callfunc
 
 	my $fval = $self->{funcs}{$name}{value};
 
-	print "-------------ATTEMPTING TO CALL FUNCTION!-------------\n";
-	print "FUNCTION NAME : $name\n";
-	print "Dumper of func: ".Dumper($fval);
-	print "--------------------THAT IS ALL\n";
+	#print "-------------ATTEMPTING TO CALL FUNCTION!-------------\n";
+	#print "FUNCTION NAME : $name\n";
+	#print "Dumper of func: ".Dumper($fval);
+	#print "--------------------THAT IS ALL\n";
 
 	die "Number of arguments not correct to $name\[\]\n" unless $self->checkparams($args, $argtypes); #this should check....
 
@@ -140,8 +140,8 @@ sub calllambda
 	my $fval = $lambda->{pari}{code};
     my $eval = $lambda->{pari}{scope};
 
-	print "LAMBDA---------------\n";
-	print Dumper($argtypes, $args, $fval);
+	#print "LAMBDA---------------\n";
+	#print Dumper($argtypes, $args, $fval);
 
 	die "Number of arguments not correct to lambda\n" unless $self->checkparams($args, $argtypes); #this shoul
 
@@ -178,8 +178,8 @@ sub checkparams
 
 	$vararg = 1 if (grep {defined($_->[2]) && ref($_->[2]) ne "Math::Farnsworth::Value" && ($_->[2] eq "VarArg")} @{$argtypes}); #find out if there is a vararg arg
 
-	print "NEEDED: $neededargs\n";
-	print Data::Dumper->Dump([$argtypes, $args->{pari}], [qw(argtypes args)]);
+	#print "NEEDED: $neededargs\n";
+	#print Data::Dumper->Dump([$argtypes, $args->{pari}], [qw(argtypes args)]);
 
     return 1 if ($vararg || (@{$args->{pari}} <= (@{$argtypes}-$badargs) && @{$args->{pari}} >= $neededargs));
 

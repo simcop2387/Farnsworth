@@ -296,9 +296,9 @@ sub evalbranch
 
 			if (defined($constraint))
 			{
-				print Dumper($constraint);
+				#print Dumper($constraint);
 				$constraint = $self->makevalue($constraint); #should be right
-				print Dumper($constraint);
+				#print Dumper($constraint);
 			}
 
 			push @$vargs, [$name, $default, $constraint];
@@ -323,8 +323,8 @@ sub evalbranch
 		my $args = $branch->[0];
 		my $code = $branch->[1];
 
-		print "==========LAMBDA==========\n";
-		print Data::Dumper->Dump([$args,$code], ["args", "code"]);
+		#print "==========LAMBDA==========\n";
+		#print Data::Dumper->Dump([$args,$code], ["args", "code"]);
 
 		my $nvars = new Math::Farnsworth::Variables($self->{vars}); #lamdbas get their own vars
 		my %nopts = (vars => $nvars, funcs => $self->{funcs}, units => $self->{units}, parser => $self->{parser});
@@ -346,9 +346,9 @@ sub evalbranch
 
 			if (defined($constraint))
 			{
-				print Dumper($constraint);
+				#print Dumper($constraint);
 				$constraint = $self->makevalue($constraint); #should be right
-				print Dumper($constraint);
+				#print Dumper($constraint);
 			}
 
 			push @$vargs, [$name, $default, $constraint];
@@ -576,7 +576,7 @@ sub makevalue
 	if (ref($input) eq "HexNum")
 	{
 		#need to make a value here with Math::Farnsworth::Value!
-		print "HEX VALUE: ".$input->[0]."\n";
+		#print "HEX VALUE: ".$input->[0]."\n";
 		my $value = eval $input->[0]; #this SHOULD work, shouldn't be a security risk since its validated through the lexer and parser.
 		my $val = new Math::Farnsworth::Value($value);
 		return $val;
@@ -606,7 +606,7 @@ sub makevalue
 		$value =~ s/^"(.*)"$/$1/;
 		$value =~ s/\\"/"/g;
 		$value =~ s/\\\\/\\/g;
-		my $ss = sub{my $var =shift; $var =~ s/^[\$]//; print "MATCHED $var\n";if ($var !~ /^{.*}$/) {$self->{vars}->getvar($var)->toperl($self->{units})} else {$var =~ s/[{}]//g;$self->eval($var)->toperl($self->{units});}};
+		my $ss = sub{my $var =shift; $var =~ s/^[\$]//; if ($var !~ /^{.*}$/) {$self->{vars}->getvar($var)->toperl($self->{units})} else {$var =~ s/[{}]//g;$self->eval($var)->toperl($self->{units});}};
 		$value =~ s/(?<!\\)(\$\w+|\${[^}]+})/$ss->($1)/eg;
 		my $val = new Math::Farnsworth::Value($value, {string => 1});
 		return $val;
@@ -620,7 +620,7 @@ sub makevalue
 	}
 	elsif (ref($input) eq "VarArg")
 	{
-		warn "Got a VarArg, code untested, want to mark when i get them\n"; #just so i can track down the inevitable crash
+		#warn "Got a VarArg, code untested, want to mark when i get them\n"; #just so i can track down the inevitable crash
 		return "VarArg";
 	}
 	elsif (ref($input) eq "Math::Farnsworth::Value")

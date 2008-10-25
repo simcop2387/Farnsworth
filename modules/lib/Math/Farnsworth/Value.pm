@@ -87,7 +87,7 @@ sub toperl
   my $units = shift;
   my $quotes = shift; #used to tell if strings should be quoted
 
-  print "To PERL\n";
+  #print "To PERL\n";
 
 #  print Dumper($self, $target);
 #  print Dumper($self);
@@ -116,7 +116,7 @@ sub add
   my $new;
   if ($one->{dimen}{dimen}{string})
   {
-	print Dumper($one, $two);
+	  #print Dumper($one, $two);
   	$new = new Math::Farnsworth::Value($one->{pari} . $tv, $one->{dimen});
   }
   elsif ($one->{dimen}{dimen}{array})
@@ -319,9 +319,9 @@ sub bool
 
 	#seems good enough of an idea to me
 	#i have a bug HERE
-	print "BOOLCONV\n";
-	print Dumper($self);
-	print "ENDBOOLCONV\n";
+	#print "BOOLCONV\n";
+	#print Dumper($self);
+	#print "ENDBOOLCONV\n";
 	return $self->{pari}?1:0;
 }
 
@@ -349,7 +349,7 @@ sub pow
   else
   {
 #	  print Dumper(\@_);
-	  print "POW: $tv :: $two :: $one\n";
+	  #print "POW: $tv :: $two :: $one\n";
       $new = new Math::Farnsworth::Value($tv ** $one->{pari}, $one->{dimen}->mult($tv)); #if !$rev they are in order
   }
 
