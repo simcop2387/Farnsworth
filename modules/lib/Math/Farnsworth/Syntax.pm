@@ -165,7 +165,7 @@ Now lets have a look at a slightly more complicated function
 
 	max{x,y} := { var z; if (x > y) {z = x} else {z = y}; z}
 
-here we've got a function 'B<max>' that takes two arguments, 'B<x>' and 'B<y>', then we've got something new on the right side, 'B<{ var z; if (x E<gt> y) {z = x} else {z = y}; z}>', we've surrounded the expression on the right with ' B<{ }> ', this lets us use multiple statements to build up the function if you've programmed before you'll realize that we're seperating each expression with a 'B<;>'
+here we've got a function 'B<max>' that takes two arguments, 'B<x>' and 'B<y>', then we've got something new on the right side, 'B<{ var z; if (x E<gt> y) {z = x} else {z = y}; z}>', we've surrounded the expression on the right with ' B<{ }> ', this lets us use multiple statements to build up the function if you've programmed before you'll realize that we're separating each expression with a 'B<;>'
 
 the very last expression that gets evaluated, in this case, 'B<z>' is what the function returns (NOTE: there are plans to add the ability to return at any point in the function but those have not been implemented yet)
 
@@ -206,7 +206,7 @@ Currently type constraints have to be some expression that describes the type of
 	f[10 feet]
 
 is perfectly valid.  There are plans to implement the ability to say something like 'B<f{x isa length}> however they have not been implemented yet.
-You can combine default arguments and constraints by specifiying the default argument first, e.g.
+You can combine default arguments and constraints by specifying the default argument first, e.g.
 
 	f{x = 10 cm isa meter} := {x per 10 seconds}
 
@@ -235,7 +235,7 @@ Now what the heck is that? You wanted feet didn't you? This is what the 'B<-E<gt
 
 	1 foot + 12 inches -> feet
 
-and Farnsworth gives you back the single number 'B<2>'. Thats the correct answer, but what if you wanted it to tell you 'B<2 feet>' instead? you can do this by putting the unit you want the result in in quotes that will tell Farnsworth that you want the answer to contain the unit also. So lets do this one more time
+and Farnsworth gives you back the single number 'B<2>'. That's the correct answer, but what if you wanted it to tell you 'B<2 feet>' instead? you can do this by putting the unit you want the result in in quotes that will tell Farnsworth that you want the answer to contain the unit also. So lets do this one more time
 
 	1 foot + 12 inches -> "feet"
 
@@ -330,18 +330,18 @@ Calling a lambda is fairly simple, the syntax looks a lot like the syntax for do
 	argument => lambda
 	[arguments] => lambda
 
-This syntax also makes it easy to chain several lambdas up to do multiple calculations and have the order of execution blatently obvious
+This syntax also makes it easy to chain several lambdas up to do multiple calculations and have the order of execution blatantly obvious
 
 	[arguments] => lambda1 => lambda2 => lambda3
 
 =head3 Nesting Lambdas
 
-Since i've mentioned it before and example is neccesary of what nesting a lambda really means
+Since i've mentioned it before and example is necessary of what nesting a lambda really means
 
 	index = ([] => {`` var count=0; {`` count = count + 1}});
 
 What we've got here is a lambda call inside of an expression that returns a lambda.  Since lambdas carry the scopes that they were defined in around with them the lambda that B<index> contains has access to the variable B<count> and since it was defined outside of the nested lambda it does not get reset between calls, allowing it to continue incrementing B<count> over and over.  
-And because B<count> was declared in the first lambda it isn't available to anything outside of that scope, meaning that B<count> cannot be altered by anything other than the lambda that B<index> now contiains.
+And because B<count> was declared in the first lambda it isn't available to anything outside of that scope, meaning that B<count> cannot be altered by anything other than the lambda that B<index> now contains.
 
 =head1 SEE ALSO
 
