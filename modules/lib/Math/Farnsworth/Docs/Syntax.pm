@@ -4,7 +4,7 @@ __END__
 
 =head1 NAME
 
-Math::Farnsworth::Syntax - A bunch of examples of all the syntax in Math::Farnsworth
+Math::Farnsworth::Docs::Syntax - A bunch of examples of all the syntax in Math::Farnsworth
 
 =head1 SYNOPSIS
 
@@ -383,8 +383,8 @@ And because B<count> was declared in the first lambda it isn't available to anyt
 
 L<Math::Farnsworth::Evaluate> 
 L<Math::Farnsworth::Value> 
-L<Math::Farnsworth::Syntax> 
-L<Math::Farnsworth::Functions>
+L<Math::Farnsworth::Docs::Syntax> 
+L<Math::Farnsworth::Docs::Functions>
 
 There is also an RT tracker for the module (this may change) setup at
 L<http://farnsworth.sexypenguins.com/>, you can also reach the tracker by sending an email to E<lt>farnsworth.rt@gmail.comE<gt>
