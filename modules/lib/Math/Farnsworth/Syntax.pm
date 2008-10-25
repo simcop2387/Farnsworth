@@ -219,6 +219,24 @@ As you can see here, a lambda is actually stored inside a variable rather than a
 
 =head3 Calling Lambdas
 
+Calling a lambda is fairly simple, the syntax looks a lot like the syntax for doing unit conversion or calling a function implicitly.
+
+	argument => lambda
+	[arguments] => lambda
+
+This syntax also makes it easy to chain several lambdas up to do multiple calculations and have the order of execution blatently obvious
+
+	[arguments] => lambda1 => lambda2 => lambda3
+
+=head3 Nesting Lambdas
+
+Since i've mentioned it before and example is neccesary of what nesting a lambda really means
+
+	index = ([] => {`` var count=0; {`` count = count + 1}});
+
+What we've got here is a lambda call inside of an expression that returns a lambda.  Since lambdas carry the scopes that they were defined in around with them the lambda that B<index> contains has access to the variable B<count> and since it was defined outside of the nested lambda it does not get reset between calls, allowing it to continue incrementing B<count> over and over.  
+And because B<count> was declared in the first lambda it isn't available to anything outside of that scope, meaning that B<count> cannot be altered by anything other than the lambda that B<index> now contiains.
+
 =head1 SEE ALSO
 
 L<Math::Farnsworth::Evaluate> 
