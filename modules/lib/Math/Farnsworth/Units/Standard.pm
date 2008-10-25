@@ -1,11 +1,14 @@
 package Math::Farnsworth::Units::Standard;
 
+use Encode;
+
 sub init
 {
 	my $env = shift;
 	
 	while(<DATA>)
 	{
+		$_=decode('UTF-8', $_); #fixes unicode variables
 		chomp;
 		s|//.*$||;
 		s|\s*$||;
