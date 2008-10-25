@@ -33,13 +33,45 @@ You can also explicitly declare a variable so that it will only stay local to th
 	var i;
 	var x = 10;
 
+#find some way to work this in, it sounds good
+#
+#[00:53:24] <sili> simcop2387: what does " 10 * meters
+#[00:53:33] <sili> " mean on the backend?
+#[00:54:23] <sili> I thought "10 meteres" is a single unit..
+#[00:55:14] <simcop2387> nope, 10 is a number, and meters is just a unit, they get multiplied together to make a value that carries the meters with it
+#[00:55:38] <sili> what do you call the resulting value?
+#[00:55:52] <simcop2387> 10 meters
+#[00:56:05] <simcop2387> i'm not entirely sure what you're asking...
+#[00:56:15] <simcop2387> i've have an idea but its very vague
+#[00:56:17] <sili> what do you call the structure which composes those values?
+#[00:56:29] <sili> a "measurement" or what?
+#[00:56:33] <simcop2387> i guess
+#[00:56:40] <simcop2387> never really thought about it
+#[00:57:00] <sili> might just be me. seems like it should have a name though
+#[00:57:34] <simcop2387> i think measurement would be correct, not sure where/how to fit it into the document yet
+#[00:57:43] <simcop2387> good thing to note around though
+
 =head3 Arrays
 
 Arrays in Math::Farnsworth are pretty simple to understand and create
 
-	B<[>elementB<,> elementB<,> elementB<,> ...B<]>
+	[element, element, element, ...]
 
 You can have any number of elements and they can contain anything that you can store in a variable (currently the only thing you cannot store in a variable is a function, but there is a solution to that, see below about Lambdas)
+
+=head4 Accessing elements of the Array
+
+	NOTE: This section and its syntax is VERY likely to change in future releases
+	
+You can access elements of arrays with syntax that looks like this
+
+	a = [1,2,3]
+	b = a@0$
+
+You can also do an array slice by putting multiple elements in between the @ and $. For example:
+
+	a = [1,2,3]
+	b = a@0,2,1$
 
 =head2 OPERATORS
 
@@ -220,13 +252,13 @@ Like all useful programming languages Math::Farnsworth has ways to do loops and 
 
 As you've seen above Math::Farnsworth does have B<if> statements, they look just like they do in C or Perl or Java or most other languages like those
 
-	B<if (> condition B<) {> statements to run if true; B<} else {> the optional else clause to run if the condition is false B<}>
+	if ( condition ) { statements to run if true; } else { the optional else clause to run if the condition is false }
 
 =head3 While
 
 Farnsworth also has loops, they look exactly like they do in C or Perl or Java
 
-	B<while (> condition B<) {> statements to run while condition is true B<}>
+	while ( condition ) { statements to run while condition is true }
 
 This is currently the only kind of loop that exists in Farnsworth, however ALL types of loops can be made from this, which is an exercise currently outside the scope of this document
 
