@@ -33,6 +33,14 @@ You can also explicitly declare a variable so that it will only stay local to th
 	var i;
 	var x = 10;
 
+=head3 Arrays
+
+Arrays in Math::Farnsworth are pretty simple to understand and create
+
+	B<[>elementB<,> elementB<,> elementB<,> ...B<]>
+
+You can have any number of elements and they can contain anything that you can store in a variable (currently the only thing you cannot store in a variable is a function, but there is a solution to that, see below about Lambdas)
+
 =head2 OPERATORS
 
 The Farnsworth Language is a simple language to learn, the basic operators +-/* are all there and do exactly what you think they should do (assuming you know any math or have programmed before)
@@ -103,6 +111,30 @@ There is also another way to call functions indirectly, this way shouldn't be us
 	10 -> f
 
 both of these methods call the functions to the right of 'B<-E<gt>>' using the expressions on the left as arguments. As I've said though this method shouldn't be used heavily as it can be ambiguous as to what you are wanting to do.
+
+=head3 Default Parameters
+
+Arguments to functions in Math::Farnsworth can have default parameters so that they don't always have to be specified explicitly.
+They are set when you create the function by setting the arguments equal to the default value
+
+	f{x = 1} := {x * x}
+
+=head3 Type Constraints
+
+Arguments can also be told that they have to be of a certain type in order to be given to a function, otherwise an exception is raised and the execution of the code stops
+
+These also are create at the time you define the function
+
+	f{x isa meter} := {x per 10 seconds}
+
+Currently type constraints have to be some expression that describes the type of input you are expecting, in this case we used "meter" however meter describes a length, and any expression that describes a length can be used as the argument to the function e.g.
+
+	f[10 feet]
+
+is perfectly valid.  There are plans to implement the ability to say something like 'B<f{x isa length}> however they have not been implemented yet.
+You can combine default arguments and constraints by specifiying the default argument first, e.g.
+
+	f{x = 10 cm isa meter} := {x per 10 seconds}
 
 =head2 Units
 
