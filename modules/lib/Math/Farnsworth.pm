@@ -158,6 +158,18 @@ L<HTML::Entities>
 
 =back
 
+=head2 METHODS
+
+One thing to be aware of
+
+=head3 runString
+
+This method does pretty much what it says it does, it takes any number of single strings and evaluates them using Math::Farnsworth
+
+=head3 runFile
+
+This takes a single file name as the only argument and 
+
 =head2 EXPORT
 
 None by default.
@@ -198,8 +210,8 @@ Syntax tree introspection inside the language itself
 
 =head1 SEE ALSO
 
-L<Math::Farnsworth::Evaluate> L<Math::Farnsworth::Value> 
-L<Math::Farnsworth::Tutorial> L<Math::Farnsworth::Syntax> L<Math::Farnsworth::Functions>
+L<Math::Farnsworth::Value> 
+L<Math::Farnsworth::Syntax> L<Math::Farnsworth::Functions>
 
 Mention other useful documentation such as the documentation of
 related modules or operating system documentation (such as man pages
@@ -207,7 +219,7 @@ in UNIX), or any relevant external documentation such as RFCs or
 standards.
 
 There is also an RT tracker for the module (this may change) setup at
-L<http://farnsworth.sexypenguins.com/>, you can also reach the tracker by sending an email to E<lt>farnswort.rt@gmail.comE<gt>
+L<http://farnsworth.sexypenguins.com/>, you can also reach the tracker by sending an email to E<lt>farnsworth.rt@gmail.comE<gt>
 
 =head1 AUTHOR
 

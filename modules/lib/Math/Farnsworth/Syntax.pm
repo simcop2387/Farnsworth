@@ -18,7 +18,7 @@ Some things Math::Farnsworth can do a little better than Frink, other areas Math
 
 =head2 IMPLICIT MULTIPLICATION
 
-In Math::Farnsworth two tokens that are seperated by a space or parenthesis are 
+In Math::Farnsworth two tokens that are separated by a space or parenthesis are 
 
 =head2 VARIABLES
 
@@ -33,6 +33,7 @@ You can also explicitly declare a variable so that it will only stay local to th
 	var i;
 	var x = 10;
 
+=cut
 #find some way to work this in, it sounds good
 #
 #[00:53:24] <sili> simcop2387: what does " 10 * meters
@@ -50,6 +51,7 @@ You can also explicitly declare a variable so that it will only stay local to th
 #[00:57:00] <sili> might just be me. seems like it should have a name though
 #[00:57:34] <simcop2387> i think measurement would be correct, not sure where/how to fit it into the document yet
 #[00:57:43] <simcop2387> good thing to note around though
+=pod
 
 =head3 Strings
 
@@ -62,7 +64,7 @@ Like all good programming languages Math::Farnsworth has strings
 Math::Farnsworth currently only supports two escapes, this will be rectified in future versions of Math::Farnsworth but was not a priority for the first release which is intended to just be not much more than a proof of concept
 
 	\" # to escape a quote inside a string
-	\\ # to escape a backslace inside a string
+	\\ # to escape a backslash inside a string
 
 =head4 Variable Interpolation
 
@@ -184,7 +186,21 @@ There is also another way to call functions indirectly, this way shouldn't be us
 	[1,2] -> max
 	10 -> f
 
-both of these methods call the functions to the right of 'B<-E<gt>>' using the expressions on the left as arguments. As I've said though this method shouldn't be used heavily as it can be ambiguous as to what you are wanting to do.
+both of these methods call the functions to the right of 'B<-E<gt>>' using the expressions on the left as arguments.  
+This method should be used sparingly because it can be ambiguous and can actually cause problems when there is a unit the same name as a function that just happens to allow a proper conversion.
+In the standard library there is a unit B<f> (short for B<femto>) that will cause the following example to not work properly
+
+	f{x} := {x * x}
+	10 -> f
+
+This will not in fact call the function B<f>, but will end up telling you how many B<femto>s will fit into B<10>.
+This is however a good way to do certain things that APPEAR to be a conversion between two things, but don't easily convert because there's some other factor involved.
+Temperature conversions between Celsius and Kelvin are possible this way.
+
+	C{x} := (x / K) - 273.15
+	10 K -> C
+
+and you'll get back the result B<-263.15>. That kind of conversion isn't possible to do with standard units as you'll begin to understand below.
 
 =head3 Default Parameters
 
@@ -209,6 +225,21 @@ is perfectly valid.  There are plans to implement the ability to say something l
 You can combine default arguments and constraints by specifying the default argument first, e.g.
 
 	f{x = 10 cm isa meter} := {x per 10 seconds}
+
+=head3 Variable Number of Arguments
+
+Sometimes you want to be able to take any number of arguments in order to perform some action on many different things, this is possible in Math::Farnsworth.
+You can do this by adding a constraint to the last argument to the function.
+
+	dostuff{x, y isa ...} := {/*something*/};
+
+From this example you can see that we use the type constraint 'B<...>'.  What this does is tell Math::Farnsworth to take any additional arguments and place them into an array and pass that array as the variable B<y>.
+Here's an example of what use this can be to do something like recreate the C<map> function from perl.
+
+	map{sub isa {`x`}, x isa ...} := {var e; var out=[]; while(e = shift[x]) {push[out, (e => sub)]}; out};
+	map[{`x` x+1}, 1,2,3];
+
+What we've got here is the first argument B<sub> must be a Lambda (see below for more information on them).  And the second argument swallows up ALL of the other arguments to the function allowing you to take any number of them.
 
 =head2 Units
 
@@ -280,29 +311,34 @@ You can also define your own basic units like length, time and mass, you do this
 
 so lets say we wanted to be able to count pixels as units 
 
-	pixel =!= pixel
+	pixels =!= pixel
 	
 and now you've got a basic unit B<pixel> that you can use to define other things like how many pixels are in a VGA screen
 
 	VGA := 640 * 480 pixels
 
-=head2 Control Structures
+=head2 Flow Control
 
 Like all useful programming languages Math::Farnsworth has ways to do loops and branching
 
 =head3 If
 
-As you've seen above Math::Farnsworth does have B<if> statements, they look just like they do in C or Perl or Java or most other languages like those
+As you've seen above Math::Farnsworth does have B<if> statements, they look very similar to the languages C or Perl or Java
 
-	if ( condition ) { statements to run if true; } else { the optional else clause to run if the condition is false }
+	if ( condition ) { statements to run if the previous condition is true } else { the optional else clause to run if the previous condition is false };
+	if (x > y) {z = x} else {z = y};
+
+The braces around the statements are necessary as they are in Perl and Java.
+You also need to have a semi-colon after the braces when you want to begin the next statement.
 
 =head3 While
 
 Farnsworth also has loops, they look exactly like they do in C or Perl or Java
 
-	while ( condition ) { statements to run while condition is true }
+	while ( condition ) { statements to run while the condition is true }
 
 This is currently the only kind of loop that exists in Farnsworth, however ALL types of loops can be made from this, which is an exercise currently outside the scope of this document
+The braces around the statements are necessary as they are in Perl and Java. As with B<if>s you also need to have a semi-colon after the braces when you want to begin the next statement.
 
 NOTE: for loops are definitely going to be added, i just haven't gotten to them yet.
 
@@ -351,7 +387,7 @@ L<Math::Farnsworth::Syntax>
 L<Math::Farnsworth::Functions>
 
 There is also an RT tracker for the module (this may change) setup at
-L<http://farnsworth.sexypenguins.com/>, you can also reach the tracker by sending an email to E<lt>farnswort.rt@gmail.comE<gt>
+L<http://farnsworth.sexypenguins.com/>, you can also reach the tracker by sending an email to E<lt>farnsworth.rt@gmail.comE<gt>
 
 =head1 AUTHOR
 
