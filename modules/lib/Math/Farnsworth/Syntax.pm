@@ -51,6 +51,48 @@ You can also explicitly declare a variable so that it will only stay local to th
 #[00:57:34] <simcop2387> i think measurement would be correct, not sure where/how to fit it into the document yet
 #[00:57:43] <simcop2387> good thing to note around though
 
+=head3 Strings
+
+Like all good programming languages Math::Farnsworth has strings
+
+	"Text goes here"
+
+=head4 String Escapes
+
+Math::Farnsworth currently only supports two escapes, this will be rectified in future versions of Math::Farnsworth but was not a priority for the first release which is intended to just be not much more than a proof of concept
+
+	\" # to escape a quote inside a string
+	\\ # to escape a backslace inside a string
+
+=head4 Variable Interpolation
+
+Math::Farnsworth also supports interpolating variables inside of a string so that you can either stringify a number or just use them to produce nicer output.
+The syntax looks something like this
+
+	"There are $days until Halloween"
+
+Upon evaluating that string B<$days> will be replaced by the value of the variable B<days>
+
+=head4 Expression Interpolation
+
+Math::Farnsworth also supports simple expressions to be interpolated inside of a string itself, the syntax is very similar to variable interpolation and can be used to interpolate a variable when you don't want to have some space around it.
+
+	"One foot is the same as ${1.0 foot -> \"meters\"}."
+
+And the result will look like.
+
+	"One foot is the same as 0.3048 meters."
+
+=head3 Dates
+
+Math::Farnsworth also supports dates as an inherent feature of the language meaning that you can use Math::Farnsworth to perform calculations involving dates
+The syntax looks like this
+
+	#March 3rd, 2008#
+	#2008-12-25# + 1 year
+
+Math::Farnsworth uses Date::Manip to do the parsing and calculations involving dates, so it can parse and work with any date format that Date::Manip supports
+
 =head3 Arrays
 
 Arrays in Math::Farnsworth are pretty simple to understand and create
@@ -85,7 +127,7 @@ Farnsworth has logical operators for dealing with boolean values, it has the sta
 
 =head3 per
 
-This is almost exactly the same as the division operator except that it has a different precedence this allows you to do things like
+This is almost exactly the same as the division operator except that it has a different precedence. This allows you to do things like
 
 	10 meters per 3 hours
 

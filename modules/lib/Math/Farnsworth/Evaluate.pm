@@ -69,6 +69,9 @@ sub eval
 	my $self = shift;
 	my $code = shift; #i should probably take an array, so i can use arrays of things, but that'll be later
 
+	$code =~ s/^\s*//;
+	$code =~ s/\s*$//;
+
 	my $tree = $self->{parser}->parse($code); #should i catch the exceptions here? dunno
 
 	#print Dumper($tree);

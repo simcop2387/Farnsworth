@@ -4094,3 +4094,26 @@ smoot := 5 feet + 7 inches  // Height of Oliver R. Smoot Jr. see:
            // http://spectrum.lbl.gov/www/personnel/smoot/smoot-measure.html
 True := (1 > 0)
 False := (0 > 1)
+
+phi := (1 + sqrt[5])/2
+
+
+b := bit
+B := byte
+yobi ::- 1024^8
+zebi ::- 1024^7
+exbi ::- 1024^6
+pebi ::- 1024^5
+tebi ::- 1024^4
+gibi ::- 1024^3
+mebi ::- 1024^2
+kibi ::- 1024^1
+
+Ki :- kibi
+Mi :- mebi
+Gi :- gibi
+Ti :- tebi
+Pi :- pebi
+Ei :- exbi
+Zi :- zebi
+Yi :- yobi
