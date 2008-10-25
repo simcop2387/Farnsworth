@@ -132,6 +132,7 @@ Modules and Libraries you need before this will work
 
 * PARI library for L<Math::Pari>
 * L<Math::Pari>
+* L<Date::Manip>
 
 The following are optional
 

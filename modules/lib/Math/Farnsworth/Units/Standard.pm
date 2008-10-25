@@ -124,7 +124,7 @@ m :-  milli
    // "u" to indicate micro?  I've added "uF" for microfarad later on to
    // tackle the most common case.
 //\u00b5 :- micro   // Unicode "MICRO SIGN" //unicode like this doesn't work! in fact all unicode might not...
-//µ :- micro
+Âµ :- micro
 u :- micro
 n :-  nano
 p :-  pico
@@ -2473,6 +2473,7 @@ PETN :=                6.01e6 J/kg     // An explosive compound,
                                        // used in plastic explosive like Semtex
 gasoline :=            1.4e8 J/gallon  // So you can convert energy
                                        // to gallons gasoline
+gasoline_density := 0.694 g / cm^3 //Density at 300K, according to, http://wiki.answers.com/Q/How_does_temperature_affect_the_density_of_gasoline_or_petrol
 natural_gas :=         1.09e6 J/foot^3 // Energy in natural gas
 naturalgas :=          natural_gas
 propane :=             9.63e7 J/gallon // Energy in liquid propane
