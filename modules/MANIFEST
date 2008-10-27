@@ -1,14 +1,9 @@
-lib/Math
-lib/Math/Farnsworth
 lib/Math/Farnsworth/Dimension.pm
-lib/Math/Farnsworth/Docs
 lib/Math/Farnsworth/Docs/Syntax.pm
 lib/Math/Farnsworth/Docs/Functions.pm
 lib/Math/Farnsworth/Evaluate.pm
 lib/Math/Farnsworth/Variables.pm
-lib/Math/Farnsworth/Units
 lib/Math/Farnsworth/Units/Standard.pm
-lib/Math/Farnsworth/Functions
 lib/Math/Farnsworth/Functions/GoogleTranslate.pm
 lib/Math/Farnsworth/Functions/Standard.pm
 lib/Math/Farnsworth/Functions/StdMath.pm
