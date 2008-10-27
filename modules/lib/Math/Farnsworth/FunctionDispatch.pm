@@ -107,6 +107,7 @@ sub callfunc
 	#print "Dumper of func: ".Dumper($fval);
 	#print "--------------------THAT IS ALL\n";
 
+	die "Function $name is not defined\n" unless defined($fval);
 	die "Number of arguments not correct to $name\[\]\n" unless $self->checkparams($args, $argtypes); #this should check....
 
 #	print Dumper($args);
