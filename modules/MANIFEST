@@ -12,3 +12,5 @@ lib/Math/Farnsworth/FunctionDispatch.pm
 lib/Math/Farnsworth/Units.pm
 lib/Math/Farnsworth/Value.pm
 lib/Math/Farnsworth.pm
+MANIFEST
+Makefile.PL

@@ -10,6 +10,9 @@ tracemangle{x} := {var z=[]; var d = x -> Dutch; push[z,[d,d->FromDutch]]; d = d
 
 dutchmangle{x} :=[x -> DutchToEnglish] -> mangle -> EnglishToDutch
 
+[]=>{`` var output=[]; _display = {`` var o=output; output=[]; o}; _print={`x isa ...` output=[output, x]; x}; print{x isa ...} := x => _print; display{} := [] => _display; };
+
+
 tobase{x isa 1, b = 16 isa 1} := { var getchr = {`x` substrLen["0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_\\| <>/;:'[]{}=+`~.,?", x, 1]};
 if ((b < 2)||(b > 93)) {"" + [] /*raise an exception*/}; 
 
