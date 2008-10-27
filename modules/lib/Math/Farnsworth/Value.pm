@@ -127,6 +127,10 @@ sub add
   {
 	  die "Adding Booleans is undefined behavoir!\n";
   }
+  elsif ($one->{dimen}{dimen}{lambda})
+  {
+	  die "Adding Lambdas is undefined behavoir.\n";
+  }
   elsif (($one->{dimen}{dimen}{date}) && ($two->{dimen}{dimen}{date}))
   {
 	  die "Adding of two dates is unsupported\n";
@@ -200,6 +204,11 @@ sub subtract
 		  #we reached here with some other subtraction with a Date, do not do it
 		  die "Subtracting Booleans is undefined behavior\n";
 	  }
+  	  elsif ($one->{dimen}{dimen}{lambda} || $two->{dimen}{dimen}{lambda})
+	  {
+		  #we reached here with some other subtraction with a Date, do not do it
+		  die "Subtracting lambdas is undefined behavior\n";
+	  }
 	  else
 	  {
 		  $new = new Math::Farnsworth::Value($one->{pari} - $tv, $one->{dimen}); #if !$rev they are in order
@@ -227,9 +236,10 @@ sub mod
   if ($one->{dimen}->compare({dimen => {string => 1}}) ||$one->{dimen}->compare({dimen => {array =>1}}) ||
 	  $two->{dimen}->compare({dimen => {string => 1}}) ||$two->{dimen}->compare({dimen => {array =>1}}) ||
 	  $two->{dimen}->compare({dimen => {bool => 1}})   ||$one->{dimen}->compare({dimen => {bool =>1}})  ||
+	  $two->{dimen}->compare({dimen => {lambda => 1}})   ||$one->{dimen}->compare({dimen => {lambda =>1}})  ||
 	  $two->{dimen}->compare({dimen => {date => 1}})   ||$one->{dimen}->compare({dimen => {date =>1}}))
   {
-	  die "Can't divide arrays or strings or booleans or dates, it doesn't make sense\n";
+	  die "Can't divide arrays or strings or booleans or dates or lambdas, it doesn't make sense\n";
   }
 
   #moving this down so that i don't do any math i don't have to
@@ -256,6 +266,7 @@ sub mult
   if ($one->{dimen}->compare({dimen => {string => 1}}) ||$one->{dimen}->compare({dimen => {array =>1}}) ||
 	  $td->compare({dimen => {string => 1}}) ||$td->compare({dimen => {array =>1}}) ||
 	  $td->compare({dimen => {bool => 1}})   ||$one->{dimen}->compare({dimen => {bool =>1}})  ||
+	  $td->compare({dimen => {lambda => 1}})   ||$one->{dimen}->compare({dimen => {lambda =>1}})  ||
 	  $td->compare({dimen => {date => 1}})   ||$one->{dimen}->compare({dimen => {date =>1}}))  {
 	  die "Can't multiply arrays or strings, it doesn't make sense\n";
   }
@@ -278,6 +289,7 @@ sub div
   if ($one->{dimen}->compare({dimen => {string => 1}}) ||$one->{dimen}->compare({dimen => {array =>1}}) ||
 	  $td->compare({dimen => {string => 1}}) ||$td->compare({dimen => {array =>1}}) ||
 	  $td->compare({dimen => {bool => 1}})   ||$one->{dimen}->compare({dimen => {bool =>1}})  ||
+	  $td->compare({dimen => {lambda => 1}}) ||$one->{dimen}->compare({dimen => {lambda =>1}})  ||
 	  $td->compare({dimen => {date => 1}})   ||$one->{dimen}->compare({dimen => {date =>1}})) 
   {
 	  die "Can't divide arrays or strings, it doesn't make sense\n";
@@ -332,6 +344,7 @@ sub pow
   if ($one->{dimen}->compare({dimen => {string => 1}}) ||$one->{dimen}->compare({dimen => {array =>1}}) ||
 	  $two->{dimen}->compare({dimen => {string => 1}}) ||$two->{dimen}->compare({dimen => {array =>1}}) ||
 	  $two->{dimen}->compare({dimen => {bool => 1}})   ||$one->{dimen}->compare({dimen => {bool =>1}})  ||
+	  $two->{dimen}->compare({dimen => {lambda => 1}})   ||$one->{dimen}->compare({dimen => {lambda =>1}})  ||
 	  $two->{dimen}->compare({dimen => {date => 1}})   ||$one->{dimen}->compare({dimen => {date =>1}})) 
   {
 	  die "Can't exponentiate arrays or strings or dates or bools, it doesn't make sense\n";
@@ -339,7 +352,13 @@ sub pow
 
   #check for $two being a simple value
   my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
-  
+  my $td = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{dimen} : undef;
+
+  if (defined($td) && !$td->compare({dimen=>{}}))
+  {
+	  die "A number with units as the exponent doesn't make sense";
+  }
+
   #moving this down so that i don't do any math i don't have to
   my $new;
   if (!$rev)
@@ -388,6 +407,10 @@ sub compare
   elsif ($one->{dimen}{dimen}{array})
   {
 	  die "Comparing arrays has not been implemented\n";
+  }
+  elsif ($one->{dimen}{dimen}{lambdas})
+  {
+	  die "Comparing lambdas has not been implemented\n";
   }
   elsif ($one->{dimen}{dimen}{date})
   {

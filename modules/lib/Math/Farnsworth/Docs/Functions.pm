@@ -67,6 +67,15 @@ When you give length[] and array, it will return how many elements the array has
 
 reverse[] will reverse the order of the elements in array and return the result.
 
+=head2 min[] and max[]
+
+	minimum = min[array]
+	minimum = min[elements, ...]
+	maximum = max[array]
+	maximum = max[elements, ...]
+
+These two functions give you the minimum or maximum element from their arguments.
+
 =head1 String Functions
 
 =head2 reverse[]
@@ -135,27 +144,97 @@ right[] returns the right 'B<length>' characters from 'B<string>'.
 
 =head2 Trigonometry Functions
 
-	sin[]   csc[]
-	cos[]   sec[]
-	tan[]   cot[]
-	atan[] 	arctan[]
-	acos[] 	arccos[]
-	asin[] 	arcsin[]
+	sin[x]  csc[x]
+	cos[x]  sec[x]
+	tan[x]  cot[x]
+	atan[x] arctan[x]
+	acos[x] arccos[x]
+	asin[x] arcsin[x]
 
-	sinh[]
-	cosh[]
-	tanh[]
-	atanh[] arctanh[]
-	acosh[] arccosh[]
-	asinh[] arcsinh[]
+	sinh[x]
+	cosh[x]
+	tanh[x]
+	atanh[x] arctanh[x]
+	acosh[x] arccosh[x]
+	asinh[x] arcsinh[x]
+
+	atan2[x, y]
 
 I will not go into a detailed explination of what these functions are.  They are the basic trigonometric functions, they all take a single number in and return the result.
+atan2[x,y] is best explained by wikipedia L<http://en.wikipedia.org/w/index.php?title=Atan2&oldid=246845908>.
 
 =head2 Miscellaneous Math Functions
+	
+	sqrt[x]
 
-	abs[]
-	floor[] ceil[]
-	int[] trunc[]
+Returns the square root of B<x>
+
+	exp[x]
+
+Returns B<e ** x>.
+
+	ln[x]
+
+Returns the natural logarithm of B<x>
+
+	log[x]
+
+returns the logarithm base 10 of B<x>
+
+	abs[x]
+
+Returns the absolute value of B<x>
+
+	gcd[x, y]
+
+Returns the greatest common divisor of B<x> and B<y>
+
+	lcm[x, y]
+
+Returns the lowest common multiple of B<x> and B<y>
+
+	quad[a, b, c]
+	quadratic[a, b, c]
+
+Returns an array containing the two solutions to the quadratic equation described by the equation
+
+	a x^2 + b x + c
+
+=head2 Rounding Functions
+
+	floor[x]	ceil[x]
+	int[x]		trunc[x]
+	
+	rint[x] round[x, digits]
+
+floor[] and ceil[] do what they say they do.  Both int[] and trunc[] will in fact just truncate a floating point number to an integer, dropping all digits past the decimal point.
+rint[] will round the to the nearest integer.  round[x, digits] will round to a specified number of digits, 0 being an integer 1 meaning having one digit past the decimal point.
+
+=head2 Functions for Rational Numbers
+
+	numerator[x]
+	denominator[x]
+
+Because Math::Farnsworth uses L<Math::Pari> internally for doing all calculations numbers may be represented as a rational number when possible rather than a floating point number in order to preserve precision.
+When used on floating point numbers numerator[] will return the number back to you, and denominator[] will return 1.
+
+=head2 Prime Numbers
+
+	isprime[x]
+
+Returns true if B<x> is a prime number.
+
+	prime[x]
+
+Returns the B<x>th prime number.
+
+	nextprime[x]
+
+Returns the next prime number after B<x>
+
+	precprimep[x]
+
+Returns the preceeding prime number before B<x>
 
 =head2 Complex Number Math Functions
 
@@ -164,6 +243,23 @@ I will not go into a detailed explination of what these functions are.  They are
 	real[x] # gives back the real part of a complex number
 	imag[x] # gives back the imaginary part of a complex number
 
+=head2 Random Number Functions
+	
+	randmax[x]
+
+randmax[x] returns a random number between 0 and B<x>.
+
+	getrseed[]
+
+returns the current seed for the random number generator.
+
+	setrseed[x]
+
+sets the seed for the random number generator to B<x>.
+
+	random[]
+
+returns a random number between 0 and 1 with 30 digits of precision (e.g. 10**30 different random numbers).
 
 =head1 Miscellaneous Functions
 

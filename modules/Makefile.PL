@@ -8,5 +8,5 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
    NAME => "Math::Farnsworth",
    VERSION_FROM  => 'lib/Math/Farnsworth.pm',
-   PREREQ_PM => {"Parse::Yapp" => 0},
+   PREREQ_PM => {"Date::Manip" => 0, "Math::Pari" => 0},
 );

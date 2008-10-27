@@ -40,9 +40,9 @@ sub new
 	for my $a (@modules)
 	{
 		eval 'use Math::Farnsworth::'.$a.'; Math::Farnsworth::'.$a.'::init($self->{eval});';
-#		print "-------FAILED? $a\n";
-#		print $@;
-#		print "\n";
+		print "-------FAILED? $a\n";
+		print $@;
+		print "\n";
 	}
 
 	bless $self;
@@ -123,11 +123,13 @@ Math::Farnsworth - A Turing Complete Language for Mathematics
 
 =head1 DESCRIPTION
 
+THIS IS A BETA RELEASE! There are typos in the error messages and in the POD.  There are also probably plenty of bugs.  It is being released early because there have been a number of people who have shown interest in having it released.  Not every feature is documented yet and a future release will have that cleaned up along with some of the hairier parts of the internal API.
 Math::Farnsworth is a programming language originally inspired by Frink (see http://futureboy.homeip.net/frinkdocs/ ).
 However due to certain difficulties during the creation of it, the syntax has changed slightly and the capabilities are also different.
 Some things Math::Farnsworth can do a little better than Frink, other areas Math::Farnsworth lacks.
 
 =head2 PREREQUISITS
+
 Modules and Libraries you need before this will work
 
 =over 4
@@ -160,24 +162,31 @@ L<HTML::Entities>
 
 =head2 METHODS
 
-One thing to be aware of
+ALL of the methods here call C<die> whenever something doesn't go right.  This means that unless you want bad input to them to cause your program to fail you should wrap any calls to them with C<eval {}>.   When they call C<die> they will give you back a message explaining what went wrong, this is useful for telling a user what they have done.
 
 =head3 runString
 
-This method does pretty much what it says it does, it takes any number of single strings and evaluates them using Math::Farnsworth
+This method takes a string (or multiple strings) and executes them as Math::Farnsworth expressions.
+For more information on making Math::Farnsworth expressions, see L<Math::Farnsworth::Docs::Syntax>.
 
 =head3 runFile
 
-This takes a single file name as the only argument and 
+This takes a file name and executes the entire file as a single Math::Farnsworth expression.
+
+=head3 prettyOut
+
+This takes a Math::Farnsworth::Value and turns it into a string for perl to be able to display.  This method WILL disappear in a future version.
 
 =head2 EXPORT
 
 None by default.
 
 =head2 KNOWN BUGS
-At this time there are no known bugs
+
+At the moment all known bugs are related to badly formatted output, this will be rectified in a future release.
 
 =head2 MISSING FEATURES
+
 The following features are currently missing and WILL be implemented in a future version of Math::Farnsworth
 
 =over 4
@@ -206,17 +215,16 @@ Passing arguments by reference
 
 Syntax tree introspection inside the language itself
 
+=item *
+
+Better Documentation
+
 =back
 
 =head1 SEE ALSO
 
-L<Math::Farnsworth::Value> 
-L<Math::Farnsworth::Syntax> L<Math::Farnsworth::Functions>
+L<Math::Farnsworth::Docs::Syntax> L<Math::Farnsworth::Docs::Functions>
 
-Mention other useful documentation such as the documentation of
-related modules or operating system documentation (such as man pages
-in UNIX), or any relevant external documentation such as RFCs or
-standards.
 
 There is also an RT tracker for the module (this may change) setup at
 L<http://farnsworth.sexypenguins.com/>, you can also reach the tracker by sending an email to E<lt>farnsworth.rt@gmail.comE<gt>

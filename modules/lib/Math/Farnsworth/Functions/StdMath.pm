@@ -16,13 +16,13 @@ sub init
    my $number = new Math::Farnsworth::Value(0);
 
    $env->{funcs}->addfunc("ln",  [["in", undef, $number]],\&log);
+   $env->eval("log{x isa 1} := {ln[x]/ln[10]}"); 
    $env->{funcs}->addfunc("sin", [["in", undef, $number]],\&sin);
    $env->{funcs}->addfunc("cos", [["in", undef, $number]],\&cos);
    $env->{funcs}->addfunc("tan", [["in", undef, $number]],\&tan);
-   $env->eval("csc{x isa 1} := {1/sin[x]}"); 
-   $env->eval("sec{x isa 1} := {1/cos[x]}"); 
-   $env->eval("cot{x isa 1} := {1/tan[x]}"); 
-   $env->eval("log{x isa 1} := {ln[x]/ln[10]}"); 
+   $env->eval("csc{x isa 1} := {1/sin[x]}");
+   $env->eval("sec{x isa 1} := {1/cos[x]}");
+   $env->eval("cot{x isa 1} := {1/tan[x]}");
    $env->eval("atan2{x isa 1,y isa 1} := {var s=x^2+y^2; var r=y+x i; -i * ln[r / sqrt[s]]}");
    $env->{funcs}->addfunc("sinh", [["in", undef, $number]],\&sinh);
    $env->{funcs}->addfunc("cosh", [["in", undef, $number]],\&cosh);
@@ -71,10 +71,6 @@ sub init
    $env->{funcs}->addfunc("gcd", [["left", undef, $number],["right", undef, $number]],\&gcd);
    $env->{funcs}->addfunc("lcm", [["left", undef, $number],["right", undef, $number]],\&lcm);
 
-   $env->eval('max{x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var m = pop[z]; var n = length[z]; var q; while((n=n-1)>=0){q=pop[z]; q>m?m=q:0}; m}'); 
-   $env->eval('min{x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var m = pop[z]; var n = length[z]; var q; while((n=n-1)>=0){q=pop[z]; q<m?m=q:0}; m}'); 
-   #$env->{funcs}->addfunc("min", [],\&min);
-   #$env->{funcs}->addfunc("max", [],\&max);
    #these functions are simple enough to implement in farnsworth itself, so why not
    $env->{funcs}->addfunc("sqrt", [["in", undef, undef]],\&sqrt); #putting in like this to see if it brings better luck
    $env->eval("i := sqrt[-1]"); #since we have a better sqrt, use it to make a better i
@@ -83,7 +79,7 @@ sub init
    $env->eval("inv{x} := {1/x}"); 
    $env->eval("recip{x} := {1/x}"); 
 
-   $env->eval("_tohex{x isa 1} := { if(x < 16) { substrLen[\"0123456789abcdef\", x, 1] } else { _tohex[floor[x/16]] + _tohex[x%16] } }; tohex{x isa 1} := {\"0x\"+_tohex[x]}");
+   #$env->eval("_tohex{x isa 1} := { if(x < 16) { substrLen[\"0123456789abcdef\", x, 1] } else { _tohex[floor[x/16]] + _tohex[x%16] } }; tohex{x isa 1} := {\"0x\"+_tohex[x]}");
 
 }
 
@@ -271,14 +267,14 @@ sub numerator
 	return Math::Farnsworth::Value->new(Math::Pari::numerator($input->{pari}));
 }
 
-sub denomenator
+sub denominator
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return Math::Farnsworth::Value->new(Math::Pari::denomenator($input->{pari}));
+	return Math::Farnsworth::Value->new(Math::Pari::denominator($input->{pari}));
 }
 
 sub real
