@@ -4099,6 +4099,8 @@ smoot := 5 feet + 7 inches  // Height of Oliver R. Smoot Jr. see:
 True := (1 > 0)
 False := (0 > 1)
 
+undef := ([1,,2])@1$ //Make the engine generate the value for me, why should i make NEW syntax to do it when this works too, also why should i avoid making something else
+
 phi := (1 + 5^(1/2))/2
 
 b := bit

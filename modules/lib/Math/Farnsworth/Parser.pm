@@ -3444,7 +3444,7 @@ sub
 		 'expr', 2,
 sub
 #line 143 "Farnsworth.yp"
-{ bless [ @_[2] ], 'Not' }
+{ bless [ $_[2] ], 'Not' }
 	],
 	[#Rule 72
 		 'expr', 3,

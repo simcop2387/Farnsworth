@@ -2,7 +2,7 @@
 __END__
 =head1 NAME
 
-Math::Farnsworth::Functions - A big reference to all the functions in the Math::Farnsworth Standard Library 
+Math::Farnsworth::Docs::Functions - A big reference to all the functions in the Math::Farnsworth Standard Library 
 
 =head1 DESCRIPTION
 

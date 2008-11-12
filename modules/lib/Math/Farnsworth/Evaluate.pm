@@ -12,6 +12,7 @@ use Math::Farnsworth::Variables;
 use Math::Farnsworth::Units;
 use Math::Farnsworth::Parser;
 use Math::Farnsworth::Value;
+use Math::Farnsworth::Output;
 
 use Date::Manip;
 
@@ -379,6 +380,8 @@ sub evalbranch
 			my $type = ref($bs); #find out what kind of thing we are
 			my $value = $self->makevalue($bs);
 
+			print "ARRAY FILL -- $type\n";
+
 			if (exists($value->{dimen}{dimen}{array}))
 			{
 				#since we have an array, but its not in a SUBarray, we dereference it before the push
@@ -387,6 +390,7 @@ sub evalbranch
 			}
 			else
 			{
+				print "ARRAY VALUE --- ".Dumper($value);
 				#its not an array or anything so we push it on
 				push @$array, $value; #we return an array ref! i need more error checking around for this later
 			}
@@ -551,6 +555,12 @@ sub evalbranch
 		}
 	}
 
+	if (!defined($return))
+	{
+		#this creates a "true" undefined value for returning, this makes things funner!
+		$return = new Math::Farnsworth::Value(undef, {undef => 1});
+	}
+	
 	if (!defined($outdim))
 	{
 		#if we don't know any better copy the results
@@ -606,7 +616,23 @@ sub makevalue
 		$value =~ s/^"(.*)"$/$1/;
 		$value =~ s/\\"/"/g;
 		$value =~ s/\\\\/\\/g;
-		my $ss = sub{my $var =shift; $var =~ s/^[\$]//; if ($var !~ /^{.*}$/) {$self->{vars}->getvar($var)->toperl($self->{units})} else {$var =~ s/[{}]//g;$self->eval($var)->toperl($self->{units});}};
+		my $ss = sub
+		{
+			my $var =shift; 
+			$var =~ s/^[\$]//; 
+			my $output = undef;
+			if ($var !~ /^{.*}$/) 
+			{
+				$output = new Math::Farnsworth::Output($self->{units}, $self->{vars}->getvar($var));
+			} 
+			else 
+			{
+				$var =~ s/[{}]//g;
+				$output = new Math::Farnsworth::Output($self->{units}, $self->eval($var));
+			}
+
+			"".$output;
+		};
 		$value =~ s/(?<!\\)(\$\w+|\${[^}]+})/$ss->($1)/eg;
 		my $val = new Math::Farnsworth::Value($value, {string => 1});
 		return $val;

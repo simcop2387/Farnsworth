@@ -1,5 +1,5 @@
-source := "You can see my insides at https://vdiddy.sexypenguins.com/subversion/frinkbot/modules BUT do not try to run me, as i have no documentation and i can probably cause your computer to neuter the cats in your neighborhood";
-help := "see  http://vdiddy.sexypenguins.com/twiki/bin/view/Farnsworth/LanguageTutorial  for an incomplete tutorial on my language!";
+source := "I'm on CPAN! see Math::Farnsworth there. you can also see the latest changes at svn co https://vdiddy.sexypenguins.com/subversion/frinkbot/modules";
+help := "see http://search.cpan.org/~SIMCOP/Math-Farnsworth-0.5/lib/Math/Farnsworth/Docs/Syntax.pm for an almost complete tutorial on my language!";
 bug := "think you found a bug? file it at http://farnsworth.sexypenguins.com/ OR send an email to farnsworth.rt@gmail.com";
 
 frozen := C[0];

@@ -68,9 +68,9 @@ sub runfarnsworth
     {
 	  	$output = $@;
     }
-    elsif (ref($out) eq "Math::Farnsworth::Value")
+    elsif (ref($out) eq "Math::Farnsworth::Output")
     {
-      $output = eval{$out->toperl($farnsworth->{eval}{units})};
+      $output = "".$out;
     }
     elsif (!defined($out))
     {
@@ -82,12 +82,12 @@ sub runfarnsworth
     }
     else
     {
-      $output = "BUG!";
+      $output = "BUG! +- ".ref($out)." -+ ".Dumper($out);
     }
 
 	if (!defined($output) || $output eq "")
 	{
-		$output = "undefined return value\n";
+		$output = "Got back Empty string for outpt, this is a bug\n";
 	}
   print "Done Running : $output\n";
 

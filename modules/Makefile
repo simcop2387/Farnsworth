@@ -11,7 +11,7 @@
 #   MakeMaker Parameters:
 
 #     NAME => q[Math::Farnsworth]
-#     PREREQ_PM => { Math::Pari=>q[0], Date::Manip=>q[0] }
+#     PREREQ_PM => { Math::Pari=>q[0], Date::Manip=>q[0], List::MoreUtils=>q[0] }
 #     VERSION_FROM => q[lib/Math/Farnsworth.pm]
 
 # --- MakeMaker post_initialize section:
@@ -51,11 +51,11 @@ DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
 NAME = Math::Farnsworth
 NAME_SYM = Math_Farnsworth
-VERSION = 0.5
+VERSION = 0.5.1
 VERSION_MACRO = VERSION
-VERSION_SYM = 0_5
+VERSION_SYM = 0_5_1
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = 0.5
+XS_VERSION = 0.5.1
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -156,7 +156,8 @@ H_FILES  =
 MAN1PODS = 
 MAN3PODS = lib/Math/Farnsworth.pm \
 	lib/Math/Farnsworth/Docs/Functions.pm \
-	lib/Math/Farnsworth/Docs/Syntax.pm
+	lib/Math/Farnsworth/Docs/Syntax.pm \
+	lib/Math/Farnsworth/Output.pm
 
 # Where is the Config information that we are using/depend on
 CONFIGDEP = $(PERL_ARCHLIB)$(DFSEP)Config.pm $(PERL_INC)$(DFSEP)config.h
@@ -181,14 +182,18 @@ PERL_ARCHIVE_AFTER =
 TO_INST_PM = bot2.pl \
 	botriz.pl \
 	lib/Math/Farnsworth.pm \
+	lib/Math/Farnsworth/.Variables.pm.swp \
 	lib/Math/Farnsworth/Dimension.pm \
 	lib/Math/Farnsworth/Docs/Functions.pm \
 	lib/Math/Farnsworth/Docs/Syntax.pm \
 	lib/Math/Farnsworth/Evaluate.pm \
 	lib/Math/Farnsworth/FunctionDispatch.pm \
+	lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp \
+	lib/Math/Farnsworth/Functions/.Standard.pm.swp \
 	lib/Math/Farnsworth/Functions/GoogleTranslate.pm \
 	lib/Math/Farnsworth/Functions/Standard.pm \
 	lib/Math/Farnsworth/Functions/StdMath.pm \
+	lib/Math/Farnsworth/Output.pm \
 	lib/Math/Farnsworth/Parser.pm \
 	lib/Math/Farnsworth/Units.pm \
 	lib/Math/Farnsworth/Units/Pi10-6.html \
@@ -203,8 +208,12 @@ TO_INST_PM = bot2.pl \
 
 PM_TO_BLIB = lib/Math/Farnsworth/Evaluate.pm \
 	blib/lib/Math/Farnsworth/Evaluate.pm \
+	lib/Math/Farnsworth/Functions/.Standard.pm.swp \
+	blib/lib/Math/Farnsworth/Functions/.Standard.pm.swp \
 	paritest.pl \
 	$(INST_LIB)/Math/paritest.pl \
+	lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp \
+	blib/lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp \
 	lib/Math/Farnsworth/Units/Pi10-6.html \
 	blib/lib/Math/Farnsworth/Units/Pi10-6.html \
 	lib/Math/Farnsworth/Docs/Syntax.pm \
@@ -225,6 +234,8 @@ PM_TO_BLIB = lib/Math/Farnsworth/Evaluate.pm \
 	blib/lib/Math/Farnsworth.pm \
 	lib/Math/Farnsworth/Docs/Functions.pm \
 	blib/lib/Math/Farnsworth/Docs/Functions.pm \
+	lib/Math/Farnsworth/.Variables.pm.swp \
+	blib/lib/Math/Farnsworth/.Variables.pm.swp \
 	server.pl \
 	$(INST_LIB)/Math/server.pl \
 	lib/Math/Farnsworth/Value.pm \
@@ -235,6 +246,8 @@ PM_TO_BLIB = lib/Math/Farnsworth/Evaluate.pm \
 	blib/lib/Math/Farnsworth/Units/Standard.pm \
 	lib/Math/Farnsworth/Parser.pm \
 	blib/lib/Math/Farnsworth/Parser.pm \
+	lib/Math/Farnsworth/Output.pm \
+	blib/lib/Math/Farnsworth/Output.pm \
 	bot2.pl \
 	$(INST_LIB)/Math/bot2.pl \
 	mgr.pl \
@@ -311,7 +324,7 @@ RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
 DISTNAME = Math-Farnsworth
-DISTVNAME = Math-Farnsworth-0.5
+DISTVNAME = Math-Farnsworth-0.5.1
 
 
 # --- MakeMaker macro section:
@@ -465,10 +478,12 @@ POD2MAN = $(POD2MAN_EXE)
 
 manifypods : pure_all  \
 	lib/Math/Farnsworth/Docs/Functions.pm \
+	lib/Math/Farnsworth/Output.pm \
 	lib/Math/Farnsworth/Docs/Syntax.pm \
 	lib/Math/Farnsworth.pm
 	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW) \
 	  lib/Math/Farnsworth/Docs/Functions.pm $(INST_MAN3DIR)/Math::Farnsworth::Docs::Functions.$(MAN3EXT) \
+	  lib/Math/Farnsworth/Output.pm $(INST_MAN3DIR)/Math::Farnsworth::Output.$(MAN3EXT) \
 	  lib/Math/Farnsworth/Docs/Syntax.pm $(INST_MAN3DIR)/Math::Farnsworth::Docs::Syntax.$(MAN3EXT) \
 	  lib/Math/Farnsworth.pm $(INST_MAN3DIR)/Math::Farnsworth.$(MAN3EXT) 
 
@@ -542,7 +557,7 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) Generating META.yml
 	$(NOECHO) $(ECHO) '--- #YAML:1.0' > META_new.yml
 	$(NOECHO) $(ECHO) 'name:               Math-Farnsworth' >> META_new.yml
-	$(NOECHO) $(ECHO) 'version:            0.5' >> META_new.yml
+	$(NOECHO) $(ECHO) 'version:            0.5.1' >> META_new.yml
 	$(NOECHO) $(ECHO) 'abstract:           ~' >> META_new.yml
 	$(NOECHO) $(ECHO) 'author:  []' >> META_new.yml
 	$(NOECHO) $(ECHO) 'license:            unknown' >> META_new.yml
@@ -550,8 +565,9 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) 'configure_requires:' >> META_new.yml
 	$(NOECHO) $(ECHO) '    ExtUtils::MakeMaker:  0' >> META_new.yml
 	$(NOECHO) $(ECHO) 'requires:' >> META_new.yml
-	$(NOECHO) $(ECHO) '    Date::Manip:  0' >> META_new.yml
-	$(NOECHO) $(ECHO) '    Math::Pari:   0' >> META_new.yml
+	$(NOECHO) $(ECHO) '    Date::Manip:      0' >> META_new.yml
+	$(NOECHO) $(ECHO) '    List::MoreUtils:  0' >> META_new.yml
+	$(NOECHO) $(ECHO) '    Math::Pari:       0' >> META_new.yml
 	$(NOECHO) $(ECHO) 'no_index:' >> META_new.yml
 	$(NOECHO) $(ECHO) '    directory:' >> META_new.yml
 	$(NOECHO) $(ECHO) '        - t' >> META_new.yml
@@ -850,12 +866,13 @@ testdb_static :: testdb_dynamic
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd :
-	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0,5,0,0">' > $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0,5,1,0">' > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <TITLE>$(DISTNAME)</TITLE>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <ABSTRACT></ABSTRACT>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <AUTHOR></AUTHOR>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Date-Manip" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="List-MoreUtils" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Math-Pari" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <OS NAME="$(OSNAME)" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="x86_64-linux-thread-multi-5.1" />' >> $(DISTNAME).ppd
@@ -869,7 +886,9 @@ ppd :
 pm_to_blib : $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', '\''$(PM_FILTER)'\'')' -- \
 	  lib/Math/Farnsworth/Evaluate.pm blib/lib/Math/Farnsworth/Evaluate.pm \
+	  lib/Math/Farnsworth/Functions/.Standard.pm.swp blib/lib/Math/Farnsworth/Functions/.Standard.pm.swp \
 	  paritest.pl $(INST_LIB)/Math/paritest.pl \
+	  lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp blib/lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp \
 	  lib/Math/Farnsworth/Units/Pi10-6.html blib/lib/Math/Farnsworth/Units/Pi10-6.html \
 	  lib/Math/Farnsworth/Docs/Syntax.pm blib/lib/Math/Farnsworth/Docs/Syntax.pm \
 	  lib/Math/Farnsworth/FunctionDispatch.pm blib/lib/Math/Farnsworth/FunctionDispatch.pm \
@@ -880,11 +899,13 @@ pm_to_blib : $(TO_INST_PM)
 	  lib/Math/Farnsworth/Dimension.pm blib/lib/Math/Farnsworth/Dimension.pm \
 	  lib/Math/Farnsworth.pm blib/lib/Math/Farnsworth.pm \
 	  lib/Math/Farnsworth/Docs/Functions.pm blib/lib/Math/Farnsworth/Docs/Functions.pm \
+	  lib/Math/Farnsworth/.Variables.pm.swp blib/lib/Math/Farnsworth/.Variables.pm.swp \
 	  server.pl $(INST_LIB)/Math/server.pl \
 	  lib/Math/Farnsworth/Value.pm blib/lib/Math/Farnsworth/Value.pm \
 	  lib/Math/Farnsworth/Functions/StdMath.pm blib/lib/Math/Farnsworth/Functions/StdMath.pm \
 	  lib/Math/Farnsworth/Units/Standard.pm blib/lib/Math/Farnsworth/Units/Standard.pm \
 	  lib/Math/Farnsworth/Parser.pm blib/lib/Math/Farnsworth/Parser.pm \
+	  lib/Math/Farnsworth/Output.pm blib/lib/Math/Farnsworth/Output.pm \
 	  bot2.pl $(INST_LIB)/Math/bot2.pl \
 	  mgr.pl $(INST_LIB)/Math/mgr.pl \
 	  botriz.pl $(INST_LIB)/Math/botriz.pl \

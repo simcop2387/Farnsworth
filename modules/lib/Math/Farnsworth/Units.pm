@@ -6,7 +6,6 @@ use warnings;
 use Data::Dumper;
 use Math::Farnsworth::Value;
 use Math::Pari;
-use Date::Manip;
 
 sub new
 {
@@ -147,84 +146,6 @@ sub findcombo
 sub setdisplay
 {
 	my $self = shift; #i'll implement this later
-}
-
-#this takes a set of dimensions and returns what to display
-sub getdisplay
-{
-	my $self = shift; #i'll implement this later too
-	my $dimen = shift; #i take a Math::Farnsworth::Dimension object!
-    my $value = shift; #the value so we can stringify it
-
-    my @returns;
-
-	if (defined($value->{outmagic}))
-	{
-		if (exists($value->{outmagic}[1]{dimen}{dimen}{string}))
-		{
-			#ok we were given a string!
-			my $number = $value->{outmagic}[0];
-			my $string = $value->{outmagic}[1];
-			return $self->getdisplay($number->{dimen}, $number) . " ".$string->{pari};
-		}
-		elsif (exists($value->{outmagic}[0]) && (!exists($value->{outmagic}[0]{dimen}{dimen}{array})))
-		{
-			#ok we were given a value without the string
-			my $number = $value->{outmagic}[0];
-			return $self->getdisplay($number->{dimen}, $number);
-		}
-		else
-		{
-			die "Unhandled output magic, this IS A BUG!";
-		}
-	}
-	elsif (exists($dimen->{dimen}{"bool"}))
-	{
-		return $value ? "True" : "False"
-		#these should do something!
-	}
-	elsif (exists($dimen->{dimen}{"string"}))
-	{
-		my $val = $value->{pari};
-		$val =~ s/\\/\\\\/g;
-		$val =~ s/"/\\"/g;
-		return '"'.$val.'"';
-	}
-	elsif (exists($dimen->{dimen}{"array"}))
-	{
-		my @array; #this will be used to build the output
-		for my $v (@{$value->{pari}})
-		{
-			push @array, $v->toperl($self);
-		}
-
-		return '['.(join ' , ', @array).']';
-	}
-	elsif (exists($dimen->{dimen}{"date"}))
-	{
-		return UnixDate($value->{pari}, "%O"); #output in ISO format for now
-	}
-	elsif (exists($dimen->{dimen}{"lambda"}))
-	{
-		return "No magic for lambdas yet, functions shall get this too";
-	}
-	else
-	{
-		for my $d (keys %{$dimen->{dimen}})
-		{
-			my $exp = "";
-			#print Dumper($dimen->{dimen}, $exp);
-			$exp = "^".($dimen->{dimen}{$d} =~ /^[\d\.]+$/? $dimen->{dimen}{$d} :"(".$dimen->{dimen}{$d}.")") unless ($dimen->{dimen}{$d} == 1);
-			#print Dumper($exp);
-			push @returns, $self->getdimen($d).$exp;
-		}
-		my $prec = Math::Pari::setprecision();
-		Math::Pari::setprecision(15); #set it to 15?
-		my $pv = "".(Math::Pari::pari_print($value->{pari}));
-		$pv =~ s/([.]\d+?)0+$/$1/ ;
-		Math::Pari::setprecision($prec); #restore it before calcs
-		return $pv." ".join " ", @returns;
-	}
 }
 
 sub setprefix

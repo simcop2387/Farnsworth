@@ -2,7 +2,7 @@
 
 package Math::Farnsworth;
 
-our $VERSION = 0.5;
+our $VERSION = "0.5.1";
 
 use strict;
 use warnings;
@@ -13,6 +13,7 @@ use Math::Farnsworth::Dimension;
 use Math::Farnsworth::Units;
 use Math::Farnsworth::FunctionDispatch;
 use Math::Farnsworth::Variables;
+use Math::Farnsworth::Output;
 use Math::Pari;
 
 use Carp qw(croak);
@@ -26,7 +27,7 @@ sub new
 	my $self = {};
     my @modules = @_; #i get passed a list of modules to use for standard stuff;
 
-	Math::Pari::setprecision(1000);
+	Math::Pari::setprecision(100);
 
 	if (@modules < 1)
 	{
@@ -40,9 +41,9 @@ sub new
 	for my $a (@modules)
 	{
 		eval 'use Math::Farnsworth::'.$a.'; Math::Farnsworth::'.$a.'::init($self->{eval});';
-		print "-------FAILED? $a\n";
-		print $@;
-		print "\n";
+		#print "-------FAILED? $a\n";
+		#print $@;
+		#print "\n";
 	}
 
 	bless $self;
@@ -55,7 +56,7 @@ sub runString
 	my @torun = @_; # we can run an array
 	my @results;
 
-	push @results, $self->{eval}->eval($_) for (@torun);
+	push @results, new Math::Farnsworth::Output($self->{eval}{units},$self->{eval}->eval($_)) for (@torun);
 
 	return wantarray ? @results : $results[-1]; #return all of them in array context, only the last in scalar context
 }
@@ -77,7 +78,7 @@ sub runFile
 	#as much as i would like this to work WITHOUT this i need to filter blank lines out
 	$lines =~ s/\s*\n\s*\n\s*/\n/;
 		
-	return $self->{eval}->eval($lines);
+	return new Math::Farnsworth::Output($self->{eval}{units},$self->{eval}->eval($lines));
 
 #	while(<$fh>)
 #	{
@@ -92,13 +93,13 @@ sub runFile
 }
 
 #this will wrap around a lot of the funky code for creating a nice looking output
-sub prettyOut
-{
-	my $self = shift;
-	my $input = shift;
+#sub prettyOut
+#{
+#	my $self = shift;
+#	my $input = shift;
 
-	return $input->toPerl($self->{eval}{units});
-}
+#	return $input->toperl($self->{eval}{units});
+#}
 
 1;
 __END__
@@ -119,7 +120,7 @@ Math::Farnsworth - A Turing Complete Language for Mathematics
 
   my $result = $hubert->runFile("file.frns");
 
-  print $hubert->prettyOut($result);
+  print $result;
 
 =head1 DESCRIPTION
 

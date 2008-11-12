@@ -14,3 +14,4 @@ lib/Math/Farnsworth/Value.pm
 lib/Math/Farnsworth.pm
 MANIFEST
 Makefile.PL
+t/sanity.t

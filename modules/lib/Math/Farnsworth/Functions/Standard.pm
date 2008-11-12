@@ -34,7 +34,7 @@ sub init
    $env->{funcs}->addfunc("index", [["str", undef, $string],["substr", undef, $string],["pos", $number, $number]],\&index);
    $env->{funcs}->addfunc("eval", [["str", undef, $string]],\&eval);
 
-   $env->eval('map{sub isa {`x`}, x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var e; var out=[]; while(e = shift[z]) {push[out,e => sub]}; out}');
+   $env->eval('map{sub isa {`x`}, x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var e; var out=[]; while(length[z]) {e = shift[z]; print[e]; push[out,e => sub]}; print[out]; out}');
 
    $env->{funcs}->addfunc("substrLen", [["str", undef, $string],["left", undef, $number],["length", undef, $number]],\&substrlen); #this one works like perls
    $env->eval("substr{str,left,right}:={substrLen[str,left,right-left]}");

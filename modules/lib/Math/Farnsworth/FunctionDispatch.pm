@@ -56,7 +56,7 @@ ARG:for my $argc (0..$#$argtypes)
 		my $v = $args->{pari}->[$argc];
 
 		my $const = $argtypes->[$argc][2];
-		if (!defined($v))
+		if (!defined($v))# || ($v->{dimen}{dimen}{"undef"})) #uncomment for undef== default value
 		{
 			#i need a default value!
 			if (!defined($argtypes->[$argc][1]) && defined($argtypes->[$argc][0])  && (defined($const) && ref($const) ne "Math::Farnsworth::Value" && $const ne "VarArg"))

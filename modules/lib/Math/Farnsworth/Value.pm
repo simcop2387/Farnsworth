@@ -25,8 +25,7 @@ use overload
 	'%' => \&mod,
 	'**' => \&pow,
 	'<=>' => \&compare,
-	'bool' => \&bool,
-	'""' => \&toperl;
+	'bool' => \&bool;
 
 sub new
 {
@@ -71,6 +70,10 @@ sub new
 
 	$self->{pari} = [@{$value}]; #this should never not be an array reference
   }
+  elsif (!defined($value))
+  {
+	  $self->{pari} = undef;
+  }
   else
   {
 	$value =~ s/ee/e/i; #fixes double ee's
@@ -84,18 +87,6 @@ sub new
 sub toperl
 {
   my $self = shift;
-  my $units = shift;
-  my $quotes = shift; #used to tell if strings should be quoted
-
-  #print "To PERL\n";
-
-#  print Dumper($self, $target);
-#  print Dumper($self);
-
-  if (ref($units) eq "Math::Farnsworth::Units")
-  {
-	  return $units->getdisplay($self->{dimen}, $self, $quotes);
-  }
 
   return "".($self->{pari}); #stringifiying it seems to work, though i need cases for arrays!
 }

@@ -140,7 +140,7 @@ expr
 	|	expr '&&' expr	{ bless [ @_[1,3] ], 'And' }
 	|	expr '||' expr	{ bless [ @_[1,3] ], 'Or' }
 	|	expr '^^' expr	{ bless [ @_[1,3] ], 'Xor' }
-	|	'!' exprval		{ bless [ @_[2] ], 'Not' }
+	|	'!' exprval		{ bless [ $_[2] ], 'Not' }
 	|	expr '<' expr	{ bless [ @_[1,3] ], 'Lt' }
 	|	expr '>' expr	{ bless [ @_[1,3] ], 'Gt' }
 	|	expr '<=' expr	{ bless [ @_[1,3] ], 'Le' }
