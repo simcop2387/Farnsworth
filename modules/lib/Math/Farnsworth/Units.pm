@@ -6,6 +6,7 @@ use warnings;
 use Data::Dumper;
 use Math::Farnsworth::Value;
 use Math::Pari;
+use Math::Farnsworth::Output;
 
 sub new
 {
@@ -104,9 +105,10 @@ sub adddimen
 	my $self = shift;
 	my $name = shift;
 	my $default = shift; #primitive unit for the dimension, all other units are defined against this
-	$self->{dimens}{$name} = $default;
 	my $val = new Math::Farnsworth::Value(1, {$name => 1}); #i think this is right
-	$self->addunit($default, $val);
+	Math::Farnsworth::Output::addcombo($name,$val);
+	$self->{dimens}{$name} = $default;
+    $self->addunit($default, $val);
 }
 
 #is this useful? yes, need it for display

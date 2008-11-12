@@ -631,12 +631,12 @@ sub makevalue
 			my $output = undef;
 			if ($var !~ /^{.*}$/) 
 			{
-				$output = new Math::Farnsworth::Output($self->{units}, $self->{vars}->getvar($var));
+				$output = new Math::Farnsworth::Output($self->{units}, $self->{vars}->getvar($var), $self);
 			} 
 			else 
 			{
 				$var =~ s/[{}]//g;
-				$output = new Math::Farnsworth::Output($self->{units}, $self->eval($var));
+				$output = new Math::Farnsworth::Output($self->{units}, $self->eval($var), $self);
 			}
 
 			"".$output;

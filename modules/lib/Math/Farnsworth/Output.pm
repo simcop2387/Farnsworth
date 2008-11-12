@@ -7,6 +7,7 @@ use overload '""' => \&tostring;
 
 use Data::Dumper;
 use Date::Manip;
+use Carp;
 
 our %combos;
 our %displays;
@@ -42,9 +43,10 @@ sub setdisplay
 	my $name = shift; #this only works on things created by =!= or |||, i might try to extend that later but i don't think i need to, since you can just create a name with ||| when you need it
 	my $branch = shift;
 
-	
-}
+	#I SHOULD CHECK FOR THE NAME!!!!!
 
+	$displays{$name} = $branch;
+}
 
 sub new
 {
@@ -56,7 +58,7 @@ sub new
 
   #warn Dumper($self->{obj});
   die "Attempting to make output class of non Math::Farnsworth::Value" unless ref($self->{obj}) eq "Math::Farnsworth::Value";
-  die "Forgot to add \$eval to params!" unless ref($self->{eval} eq "Math::Farnsworth::Evaluate");
+  confess "Forgot to add \$eval to params!" unless ref($self->{eval}) eq "Math::Farnsworth::Evaluate";
 
   bless $self;
 }

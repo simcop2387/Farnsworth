@@ -56,7 +56,7 @@ sub runString
 	my @torun = @_; # we can run an array
 	my @results;
 
-	push @results, new Math::Farnsworth::Output($self->{eval}{units},$self->{eval}->eval($_)) for (@torun);
+	push @results, new Math::Farnsworth::Output($self->{eval}{units},$self->{eval}->eval($_), $self->{eval}) for (@torun);
 
 	return wantarray ? @results : $results[-1]; #return all of them in array context, only the last in scalar context
 }
@@ -78,7 +78,7 @@ sub runFile
 	#as much as i would like this to work WITHOUT this i need to filter blank lines out
 	$lines =~ s/\s*\n\s*\n\s*/\n/;
 		
-	return new Math::Farnsworth::Output($self->{eval}{units},$self->{eval}->eval($lines));
+	return new Math::Farnsworth::Output($self->{eval}{units},$self->{eval}->eval($lines), $self->{eval});
 
 #	while(<$fh>)
 #	{
