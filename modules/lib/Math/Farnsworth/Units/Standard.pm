@@ -293,7 +293,7 @@ candela := cd   // Official definition:
 i := (-1) ^ (1/2) //this is intrinsic to Math::PARI, i don't need to do anything special for it // if you include Functions::StdMath this gets redefined with the more accurate sqrt[]
  
 // Define unit combinations
-1   ||| dimensionless
+//1   ||| dimensionless //POINTLESS!
 
 m^2 ||| area
 m^3 ||| volume

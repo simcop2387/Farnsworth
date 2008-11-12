@@ -8,15 +8,55 @@ use overload '""' => \&tostring;
 use Data::Dumper;
 use Date::Manip;
 
+our %combos;
+our %displays;
+
+#these primarily are used for display purposes
+sub addcombo
+{
+	my $name = shift;
+	my $value = shift; #this is a valueless list of dimensions
+
+	print "ADDING COMBO!\n";
+	print Dumper($name, $value);
+	$combos{$name} = $value;
+}
+
+#this returns the name of the combo that matches the current dimensions of a Math::Farnsworth::Value
+sub findcombo
+{
+	my $value = shift;
+
+	for my $combo (keys %combos)
+	{
+		my $cv = $combos{$combo}; #grab the value
+		return $combo if ($value->{dimen}->compare($cv->{dimen}));
+	}
+
+	return undef; #none found
+}
+
+#this sets a display for a combo first, then for a dimension
+sub setdisplay
+{
+	my $name = shift; #this only works on things created by =!= or |||, i might try to extend that later but i don't think i need to, since you can just create a name with ||| when you need it
+	my $branch = shift;
+
+	
+}
+
+
 sub new
 {
   shift; #remove the class
   my $self = {};
   $self->{units} = shift;
   $self->{obj} = shift;
+  $self->{eval} = shift;
 
-  warn Dumper($self->{obj});
+  #warn Dumper($self->{obj});
   die "Attempting to make output class of non Math::Farnsworth::Value" unless ref($self->{obj}) eq "Math::Farnsworth::Value";
+  die "Forgot to add \$eval to params!" unless ref($self->{eval} eq "Math::Farnsworth::Evaluate");
 
   bless $self;
 }
@@ -77,7 +117,7 @@ sub getdisplay
 		my @array; #this will be used to build the output
 		for my $v (@{$value->{pari}})
 		{
-			print Dumper($v);
+			#print Dumper($v);
 			push @array, $self->getdisplay($v->{dimen}, $v);
 		}
 
@@ -104,7 +144,8 @@ sub getdisplay
 	}
 	else
 	{
-		for my $d (keys %{$dimen->{dimen}})
+		#added a sort so its stable, i'll need this...
+		for my $d (sort {$a cmp $b} keys %{$dimen->{dimen}})
 		{
 			my $exp = "";
 			#print Dumper($dimen->{dimen}, $exp);
@@ -113,9 +154,23 @@ sub getdisplay
 			
 			push @returns, $self->{units}->getdimen($d).$exp;
 		}
+		
+		if (my $combo = Math::Farnsworth::Output::findcombo($value)) #this should be a method?
+		{
+			push @returns, "/* $combo */";
+		}
+
+
 		my $prec = Math::Pari::setprecision();
 		Math::Pari::setprecision(15); #set it to 15?
 		my $pv = "".(Math::Pari::pari_print($value->{pari}));
+		if ($pv =~ m|/|) #check for rationality
+		{
+			my $nv = "".($value->{pari} * 1.0); #attempt to force a floating value
+			$nv =~ s/([.]\d+?)0+$/$1/ ;
+			$pv .= "  /* apx ($nv) */";
+		}
+
 		$pv = ($pv =~ /^[\d\.]+$/? $pv :"(".$pv.")"); #check if its a simple value, or complex, if it is complex, add parens
 		$pv =~ s/([.]\d+?)0+$/$1/ ;
 		Math::Pari::setprecision($prec); #restore it before calcs

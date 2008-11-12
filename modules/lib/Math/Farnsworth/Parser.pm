@@ -3105,7 +3105,7 @@ sub
 		 'stmt', 3,
 sub
 #line 43 "Farnsworth.yp"
-{ bless [ @_[3,1] ], 'DefineCombo' }
+{ bless [ @_[1,3] ], 'DefineCombo' }
 	],
 	[#Rule 12
 		 'stmt', 1, undef
@@ -3128,115 +3128,115 @@ sub
 	[#Rule 16
 		 'if', 2,
 sub
-#line 53 "Farnsworth.yp"
+#line 54 "Farnsworth.yp"
 {bless [@_[1,2], undef], 'If'}
 	],
 	[#Rule 17
 		 'if', 4,
 sub
-#line 54 "Farnsworth.yp"
+#line 55 "Farnsworth.yp"
 {bless [@_[1,2,4]], 'If'}
 	],
 	[#Rule 18
 		 'if', 3,
 sub
-#line 55 "Farnsworth.yp"
+#line 56 "Farnsworth.yp"
 {bless [@_[1,3], undef], 'If'}
 	],
 	[#Rule 19
 		 'if', 5,
 sub
-#line 56 "Farnsworth.yp"
+#line 57 "Farnsworth.yp"
 {bless [@_[1,3,5]], 'If'}
 	],
 	[#Rule 20
 		 'if', 6,
 sub
-#line 57 "Farnsworth.yp"
+#line 58 "Farnsworth.yp"
 {bless [@_[1,3,6]], 'If'}
 	],
 	[#Rule 21
 		 'if', 6,
 sub
-#line 58 "Farnsworth.yp"
+#line 59 "Farnsworth.yp"
 {bless [@_[1,3,6]], 'If'}
 	],
 	[#Rule 22
 		 'if', 7,
 sub
-#line 59 "Farnsworth.yp"
+#line 60 "Farnsworth.yp"
 {bless [@_[1,3,7]], 'If'}
 	],
 	[#Rule 23
 		 'if', 5,
 sub
-#line 60 "Farnsworth.yp"
+#line 61 "Farnsworth.yp"
 {bless [@_[1,2,5]], 'If'}
 	],
 	[#Rule 24
 		 'if', 5,
 sub
-#line 61 "Farnsworth.yp"
+#line 62 "Farnsworth.yp"
 {bless [@_[1,2,5]], 'If'}
 	],
 	[#Rule 25
 		 'if', 6,
 sub
-#line 62 "Farnsworth.yp"
+#line 63 "Farnsworth.yp"
 {bless [@_[1,2,6]], 'If'}
 	],
 	[#Rule 26
 		 'while', 7,
 sub
-#line 70 "Farnsworth.yp"
+#line 71 "Farnsworth.yp"
 { bless [ @_[3,6] ], 'While' }
 	],
 	[#Rule 27
 		 'array', 3,
 sub
-#line 77 "Farnsworth.yp"
+#line 78 "Farnsworth.yp"
 {bless [ ( ref($_[1]) eq 'Array' ? ( bless [@{$_[1]}], 'SubArray' ) : $_[1] ), ref($_[3]) eq 'Array' ? @{$_[3]} : $_[3] ], 'Array' }
 	],
 	[#Rule 28
 		 'array', 1,
 sub
-#line 78 "Farnsworth.yp"
+#line 79 "Farnsworth.yp"
 {bless [ ( ref($_[1]) eq 'Array' ? ( bless [@{$_[1]}], 'SubArray' ) : $_[1] ) ], 'Array'}
 	],
 	[#Rule 29
 		 'array', 0,
 sub
-#line 79 "Farnsworth.yp"
+#line 80 "Farnsworth.yp"
 {bless [], 'Array'}
 	],
 	[#Rule 30
 		 'array', 2,
 sub
-#line 80 "Farnsworth.yp"
+#line 81 "Farnsworth.yp"
 {bless [ undef, ref($_[2]) eq 'Array' ? @{$_[2]} : $_[2] ], 'Array' }
 	],
 	[#Rule 31
 		 'argarray', 3,
 sub
-#line 83 "Farnsworth.yp"
+#line 84 "Farnsworth.yp"
 {bless [ ( ref($_[1]) eq 'ArgArray' ? ( bless [@{$_[1]}], 'SubArray' ) : $_[1] ), ref($_[3]) eq 'ArgArray' ? @{$_[3]} : $_[3] ], 'ArgArray' }
 	],
 	[#Rule 32
 		 'argarray', 2,
 sub
-#line 84 "Farnsworth.yp"
+#line 85 "Farnsworth.yp"
 {bless [ undef, ref($_[2]) eq 'ArgArray' ? @{$_[2]} : $_[2] ], 'ArgArray' }
 	],
 	[#Rule 33
 		 'argarray', 1,
 sub
-#line 85 "Farnsworth.yp"
+#line 86 "Farnsworth.yp"
 {bless [ ( ref($_[1]) eq 'ArgArray' ? ( bless [@{$_[1]}], 'SubArray' ) : $_[1] ) ], 'ArgArray'}
 	],
 	[#Rule 34
 		 'argarray', 0,
 sub
-#line 86 "Farnsworth.yp"
+#line 87 "Farnsworth.yp"
 {bless [], 'ArgArray'}
 	],
 	[#Rule 35
@@ -3245,31 +3245,31 @@ sub
 	[#Rule 36
 		 'constraint', 1,
 sub
-#line 90 "Farnsworth.yp"
+#line 91 "Farnsworth.yp"
 {bless [], 'VarArg'}
 	],
 	[#Rule 37
 		 'argelement', 5,
 sub
-#line 93 "Farnsworth.yp"
+#line 94 "Farnsworth.yp"
 {bless [$_[1], $_[3], $_[5]], 'Argele'}
 	],
 	[#Rule 38
 		 'argelement', 3,
 sub
-#line 94 "Farnsworth.yp"
+#line 95 "Farnsworth.yp"
 {bless [ $_[1], undef, $_[3] ], 'Argele'}
 	],
 	[#Rule 39
 		 'argelement', 3,
 sub
-#line 95 "Farnsworth.yp"
+#line 96 "Farnsworth.yp"
 {bless [$_[1], $_[3]], 'Argele'}
 	],
 	[#Rule 40
 		 'argelement', 1,
 sub
-#line 96 "Farnsworth.yp"
+#line 97 "Farnsworth.yp"
 {bless [ $_[1] ], 'Argele'}
 	],
 	[#Rule 41
@@ -3278,43 +3278,43 @@ sub
 	[#Rule 42
 		 'arglist', 3,
 sub
-#line 100 "Farnsworth.yp"
+#line 101 "Farnsworth.yp"
 { bless [ $_[1], ref($_[3]) eq 'Arglist' ? @{$_[3]} : $_[3] ], 'Arglist' }
 	],
 	[#Rule 43
 		 'arglist', 1,
 sub
-#line 101 "Farnsworth.yp"
+#line 102 "Farnsworth.yp"
 {bless [ $_[1] ], 'Arglist'}
 	],
 	[#Rule 44
 		 'exprval1', 1,
 sub
-#line 104 "Farnsworth.yp"
+#line 105 "Farnsworth.yp"
 { bless [ $_[1] ], 'Num' }
 	],
 	[#Rule 45
 		 'exprval1', 1,
 sub
-#line 105 "Farnsworth.yp"
+#line 106 "Farnsworth.yp"
 { bless [ $_[1] ], 'HexNum' }
 	],
 	[#Rule 46
 		 'exprval2', 1,
 sub
-#line 109 "Farnsworth.yp"
+#line 110 "Farnsworth.yp"
 { bless [ $_[1] ], 'Fetch' }
 	],
 	[#Rule 47
 		 'exprval2', 3,
 sub
-#line 110 "Farnsworth.yp"
+#line 111 "Farnsworth.yp"
 { bless [$_[2]], 'Paren' }
 	],
 	[#Rule 48
 		 'exprval2', 4,
 sub
-#line 111 "Farnsworth.yp"
+#line 112 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'FuncCall' }
 	],
 	[#Rule 49
@@ -3329,229 +3329,229 @@ sub
 	[#Rule 52
 		 'assignexpr', 3,
 sub
-#line 119 "Farnsworth.yp"
+#line 120 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Store' }
 	],
 	[#Rule 53
 		 'arrayfetchexpr', 4,
 sub
-#line 122 "Farnsworth.yp"
+#line 123 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'ArrayFetch' }
 	],
 	[#Rule 54
 		 'expr', 1,
 sub
-#line 126 "Farnsworth.yp"
+#line 127 "Farnsworth.yp"
 { $_[1] }
 	],
 	[#Rule 55
 		 'expr', 2,
 sub
-#line 127 "Farnsworth.yp"
+#line 128 "Farnsworth.yp"
 { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' }
 	],
 	[#Rule 56
 		 'expr', 3,
 sub
-#line 128 "Farnsworth.yp"
+#line 129 "Farnsworth.yp"
 { bless [ @_[1,3], ''], 'Mul' }
 	],
 	[#Rule 57
 		 'expr', 3,
 sub
-#line 129 "Farnsworth.yp"
+#line 130 "Farnsworth.yp"
 { bless [ @_[1,3]], 'Add' }
 	],
 	[#Rule 58
 		 'expr', 3,
 sub
-#line 130 "Farnsworth.yp"
+#line 131 "Farnsworth.yp"
 { bless [ @_[1,3]], 'Sub' }
 	],
 	[#Rule 59
 		 'expr', 3,
 sub
-#line 131 "Farnsworth.yp"
+#line 132 "Farnsworth.yp"
 { bless [ @_[1,3], '*'], 'Mul' }
 	],
 	[#Rule 60
 		 'expr', 2,
 sub
-#line 132 "Farnsworth.yp"
+#line 133 "Farnsworth.yp"
 { bless [ @_[1,2], 'imp'], 'Mul' }
 	],
 	[#Rule 61
 		 'expr', 3,
 sub
-#line 133 "Farnsworth.yp"
+#line 134 "Farnsworth.yp"
 { bless [ @_[1,3], '/'], 'Div' }
 	],
 	[#Rule 62
 		 'expr', 3,
 sub
-#line 134 "Farnsworth.yp"
+#line 135 "Farnsworth.yp"
 { bless [ @_[1,3], 'per' ], 'Div' }
 	],
 	[#Rule 63
 		 'expr', 3,
 sub
-#line 135 "Farnsworth.yp"
+#line 136 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Mod' }
 	],
 	[#Rule 64
 		 'expr', 3,
 sub
-#line 136 "Farnsworth.yp"
+#line 137 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Pow' }
 	],
 	[#Rule 65
 		 'expr', 3,
 sub
-#line 137 "Farnsworth.yp"
+#line 138 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Pow' }
 	],
 	[#Rule 66
 		 'expr', 3,
 sub
-#line 138 "Farnsworth.yp"
+#line 139 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Conforms' }
 	],
 	[#Rule 67
 		 'expr', 5,
 sub
-#line 139 "Farnsworth.yp"
+#line 140 "Farnsworth.yp"
 { bless [@_[1,3,5]], 'Ternary' }
 	],
 	[#Rule 68
 		 'expr', 3,
 sub
-#line 140 "Farnsworth.yp"
+#line 141 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'And' }
 	],
 	[#Rule 69
 		 'expr', 3,
 sub
-#line 141 "Farnsworth.yp"
+#line 142 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Or' }
 	],
 	[#Rule 70
 		 'expr', 3,
 sub
-#line 142 "Farnsworth.yp"
+#line 143 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Xor' }
 	],
 	[#Rule 71
 		 'expr', 2,
 sub
-#line 143 "Farnsworth.yp"
+#line 144 "Farnsworth.yp"
 { bless [ $_[2] ], 'Not' }
 	],
 	[#Rule 72
 		 'expr', 3,
 sub
-#line 144 "Farnsworth.yp"
+#line 145 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Lt' }
 	],
 	[#Rule 73
 		 'expr', 3,
 sub
-#line 145 "Farnsworth.yp"
+#line 146 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Gt' }
 	],
 	[#Rule 74
 		 'expr', 3,
 sub
-#line 146 "Farnsworth.yp"
+#line 147 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Le' }
 	],
 	[#Rule 75
 		 'expr', 3,
 sub
-#line 147 "Farnsworth.yp"
+#line 148 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Ge' }
 	],
 	[#Rule 76
 		 'expr', 3,
 sub
-#line 148 "Farnsworth.yp"
+#line 149 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Eq' }
 	],
 	[#Rule 77
 		 'expr', 3,
 sub
-#line 149 "Farnsworth.yp"
+#line 150 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Compare' }
 	],
 	[#Rule 78
 		 'expr', 3,
 sub
-#line 150 "Farnsworth.yp"
+#line 151 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Ne' }
 	],
 	[#Rule 79
 		 'expr', 3,
 sub
-#line 151 "Farnsworth.yp"
+#line 152 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'SetPrefix' }
 	],
 	[#Rule 80
 		 'expr', 3,
 sub
-#line 152 "Farnsworth.yp"
+#line 153 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'SetPrefixAbrv' }
 	],
 	[#Rule 81
 		 'expr', 6,
 sub
-#line 153 "Farnsworth.yp"
+#line 154 "Farnsworth.yp"
 { bless [@_[1,3], (bless [$_[6]], 'Stmt')], 'FuncDef' }
 	],
 	[#Rule 82
 		 'expr', 8,
 sub
-#line 154 "Farnsworth.yp"
+#line 155 "Farnsworth.yp"
 { bless [@_[1,3,7]], 'FuncDef' }
 	],
 	[#Rule 83
 		 'expr', 3,
 sub
-#line 155 "Farnsworth.yp"
+#line 156 "Farnsworth.yp"
 { $_[2] }
 	],
 	[#Rule 84
 		 'expr', 6,
 sub
-#line 156 "Farnsworth.yp"
+#line 157 "Farnsworth.yp"
 {bless [ @_[3,5] ], 'Lambda'}
 	],
 	[#Rule 85
 		 'expr', 3,
 sub
-#line 157 "Farnsworth.yp"
+#line 158 "Farnsworth.yp"
 {bless [@_[1,3]], 'LambdaCall'}
 	],
 	[#Rule 86
 		 'expr', 3,
 sub
-#line 158 "Farnsworth.yp"
+#line 159 "Farnsworth.yp"
 { bless [($_[1]->[0][0]), ($_[1]->[1]), $_[3]], 'ArrayStore' }
 	],
 	[#Rule 87
 		 'expr', 3,
 sub
-#line 159 "Farnsworth.yp"
+#line 160 "Farnsworth.yp"
 { bless [ @_[1,3]], 'Trans' }
 	],
 	[#Rule 88
 		 'expr', 1,
 sub
-#line 160 "Farnsworth.yp"
+#line 161 "Farnsworth.yp"
 { bless [ $_[1] ], 'Date' }
 	],
 	[#Rule 89
 		 'expr', 1,
 sub
-#line 161 "Farnsworth.yp"
+#line 162 "Farnsworth.yp"
 { bless [ $_[1] ], 'String' }
 	],
 	[#Rule 90
@@ -3562,7 +3562,7 @@ sub
     bless($self,$class);
 }
 
-#line 164 "Farnsworth.yp"
+#line 165 "Farnsworth.yp"
 
 
 sub yylex

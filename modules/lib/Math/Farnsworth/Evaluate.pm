@@ -380,7 +380,7 @@ sub evalbranch
 			my $type = ref($bs); #find out what kind of thing we are
 			my $value = $self->makevalue($bs);
 
-			print "ARRAY FILL -- $type\n";
+			#print "ARRAY FILL -- $type\n";
 
 			if (exists($value->{dimen}{dimen}{array}))
 			{
@@ -390,7 +390,7 @@ sub evalbranch
 			}
 			else
 			{
-				print "ARRAY VALUE --- ".Dumper($value);
+				#print "ARRAY VALUE --- ".Dumper($value);
 				#its not an array or anything so we push it on
 				push @$array, $value; #we return an array ref! i need more error checking around for this later
 			}
@@ -500,6 +500,14 @@ sub evalbranch
 		my $unit = $branch->[1];
 		my $dimen = $branch->[0];
 		$self->{units}->adddimen($dimen, $unit);
+		$outdim = $branch;
+	}
+	elsif ($type eq "DefineCombo")
+	{
+		my $combo = $branch->[1]; #should get me a string!
+		my $value = $self->makevalue($branch->[0]);
+		print Dumper($branch);
+		Math::Farnsworth::Output::addcombo($combo, $value);
 		$outdim = $branch;
 	}
 	elsif (($type eq "SetPrefix") || ($type eq "SetPrefixAbrv"))

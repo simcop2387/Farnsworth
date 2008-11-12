@@ -118,36 +118,6 @@ sub getdimen
 	return $self->{dimens}{$name};
 }
 
-#these primarily are used for display purposes
-sub addcombo
-{
-	my $self = shift;
-	my $name = shift;
-	my $value = shift; #this is a valueless list of dimensions
-	$self->{combos}{$name} = $value;
-}
-
-#this returns the name of the combo that matches the current dimensions of a Math::Farnsworth::Value
-sub findcombo
-{
-	my $self = shift;
-	my $value = shift;
-
-	for my $combo (keys %{$self->{combos}})
-	{
-		my $cv = $self->{combos}{$combo}; #grab the value
-		return $combo if ($value->{dimen}->compare($cv->{dimen}));
-	}
-
-	return undef; #none found
-}
-
-#this sets a display for a combo first, then for a dimension
-sub setdisplay
-{
-	my $self = shift; #i'll implement this later
-}
-
 sub setprefix
 {
 	my $self = shift;
