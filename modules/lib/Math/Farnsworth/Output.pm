@@ -18,14 +18,13 @@ sub addcombo
 	my $name = shift;
 	my $value = shift; #this is a valueless list of dimensions
 
-	print "ADDING COMBO!\n";
-	print Dumper($name, $value);
 	$combos{$name} = $value;
 }
 
 #this returns the name of the combo that matches the current dimensions of a Math::Farnsworth::Value
 sub findcombo
 {
+	my $self = shift;
 	my $value = shift;
 
 	for my $combo (keys %combos)
@@ -40,12 +39,34 @@ sub findcombo
 #this sets a display for a combo first, then for a dimension
 sub setdisplay
 {
+	my $self = shift;
 	my $name = shift; #this only works on things created by =!= or |||, i might try to extend that later but i don't think i need to, since you can just create a name with ||| when you need it
 	my $branch = shift;
 
 	#I SHOULD CHECK FOR THE NAME!!!!!
+	#print Dumper($name, $branch);
 
-	$displays{$name} = $branch;
+	if (exists($combos{$name}))
+	{
+		$displays{$name} = $branch;
+	}
+	else
+	{
+		die "No such dimension/combination as $name\n";
+	}
+}
+
+sub getdisplay
+{
+	my $self = shift;
+	my $name = shift;
+
+	if (exists($displays{$name}))
+	{
+		return $displays{$name}; #guess i'll just do the rest in there?
+	}
+
+	return undef;
 }
 
 sub new
@@ -69,11 +90,11 @@ sub tostring
   my $value = $self->{obj};
   my $dimen = $self->{obj}{dimen};
 
-  return $self->getdisplay($dimen, $value);
+  return $self->getstring($dimen, $value);
 }
 
 #this takes a set of dimensions and returns what to display
-sub getdisplay
+sub getstring
 {
 	my $self = shift; #i'll implement this later too
 	my $dimen = shift; #i take a Math::Farnsworth::Dimension object!
@@ -88,13 +109,13 @@ sub getdisplay
 			#ok we were given a string!
 			my $number = $value->{outmagic}[0];
 			my $string = $value->{outmagic}[1];
-			return $self->getdisplay($number->{dimen}, $number) . " ".$string->{pari};
+			return $self->getstring($number->{dimen}, $number) . " ".$string->{pari};
 		}
 		elsif (exists($value->{outmagic}[0]) && (!exists($value->{outmagic}[0]{dimen}{dimen}{array})))
 		{
 			#ok we were given a value without the string
 			my $number = $value->{outmagic}[0];
-			return $self->getdisplay($number->{dimen}, $number);
+			return $self->getstring($number->{dimen}, $number);
 		}
 		else
 		{
@@ -120,7 +141,7 @@ sub getdisplay
 		for my $v (@{$value->{pari}})
 		{
 			#print Dumper($v);
-			push @array, $self->getdisplay($v->{dimen}, $v);
+			push @array, $self->getstring($v->{dimen}, $v);
 		}
 
 		return '['.(join ' , ', @array).']';
@@ -144,6 +165,17 @@ sub getdisplay
 
 		return "undef";
 	}
+	elsif (my $disp = $self->getdisplay($self->findcombo($value)))
+	{
+		#$disp should now contain the branches to be used on the RIGHT side of the ->
+		#wtf do i put on the left? i'm going to send over the Math::Farnsworth::Value, this generates a warning but i can remove that after i decide that its correct
+
+		print "SUPERDISPLAY:\n";
+		my $branch = bless [$value, $disp], 'Trans';
+		print Dumper($branch);
+		my $newvalue = $self->{eval}->evalbranch($branch); #recurse down!
+		return $self->getstring($newvalue->{dimen}, $newvalue);
+	}
 	else
 	{
 		#added a sort so its stable, i'll need this...
@@ -151,13 +183,17 @@ sub getdisplay
 		{
 			my $exp = "";
 			#print Dumper($dimen->{dimen}, $exp);
-			$exp = "^".($dimen->{dimen}{$d} =~ /^[\d\.]+$/? $dimen->{dimen}{$d} :"(".$dimen->{dimen}{$d}.")") unless ($dimen->{dimen}{$d} == 1);
-			
+			my $dv = "".$dimen->{dimen}{$d};
+
+			$dv =~ s/([.]\d+?)0+$/$1/;
+			$dv =~ s/E/e/; #make floating points clearer
+
+			$exp = "^".($dv =~ /^[\d\.]+$/? $dv :"(".$dv.")") unless ($dv == 1);
 			
 			push @returns, $self->{units}->getdimen($d).$exp;
 		}
 		
-		if (my $combo = Math::Farnsworth::Output::findcombo($value)) #this should be a method?
+		if (my $combo = $self->findcombo($value)) #this should be a method?
 		{
 			push @returns, "/* $combo */";
 		}
@@ -166,15 +202,21 @@ sub getdisplay
 		my $prec = Math::Pari::setprecision();
 		Math::Pari::setprecision(15); #set it to 15?
 		my $pv = "".(Math::Pari::pari_print($value->{pari}));
+		my $parenflag = $pv =~ /^[\d\.e]+$/i;
+		my $rational = $pv =~ m|/|;
+
+		$pv =~ s/E/e/; #make floating points clearer
+
 		if ($pv =~ m|/|) #check for rationality
 		{
-			my $nv = "".($value->{pari} * 1.0); #attempt to force a floating value
+			my $nv = "".Math::Pari::pari_print($value->{pari} * 1.0); #attempt to force a floating value
 			$nv =~ s/([.]\d+?)0+$/$1/ ;
 			$pv .= "  /* apx ($nv) */";
 		}
 
-		$pv = ($pv =~ /^[\d\.]+$/? $pv :"(".$pv.")"); #check if its a simple value, or complex, if it is complex, add parens
+		$pv = ($parenflag? $pv :"(".$pv.")"); #check if its a simple value, or complex, if it is complex, add parens
 		$pv =~ s/([.]\d+?)0+$/$1/ ;
+
 		Math::Pari::setprecision($prec); #restore it before calcs
 		return $pv." ".join " ", @returns;
 	}

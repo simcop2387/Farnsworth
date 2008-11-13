@@ -20,6 +20,8 @@ use utf8;
 
 my $farnsworth = new Math::Farnsworth;
 $farnsworth->runFile("startups/startup.frns");
+$farnsworth->runFile("startups/combodefaults.frns");
+print "DONE STARTING UP!\n";
 
 my $aliases = POE::Component::Server::HTTP->new(
   Port => 8080,

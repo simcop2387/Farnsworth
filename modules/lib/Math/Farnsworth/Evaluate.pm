@@ -487,6 +487,11 @@ sub evalbranch
 	}
 	elsif ($type eq "SetDisplay")
 	{
+		print Dumper($branch);
+		my $combo = $branch->[0][0]; #is a string?
+		my $right = $branch->[1];
+
+		Math::Farnsworth::Output->setdisplay($combo, $right);
 	}
 	elsif ($type eq "UnitDef")
 	{
@@ -506,7 +511,6 @@ sub evalbranch
 	{
 		my $combo = $branch->[1]; #should get me a string!
 		my $value = $self->makevalue($branch->[0]);
-		print Dumper($branch);
 		Math::Farnsworth::Output::addcombo($combo, $value);
 		$outdim = $branch;
 	}
