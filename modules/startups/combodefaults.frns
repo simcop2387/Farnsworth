@@ -5,7 +5,7 @@
 //mass_density
 //flow
 power :-> "kW";
-electric_potential :-> "volts"
+electric_potential :-> "volts";
 //electric_charge_density
 //temperature
 //permittivity
@@ -29,7 +29,7 @@ concentration_by_volume :-> "molar";
 //magnetic_field_strength
 //linear_mass_density
 length :-> "meters";
-charge :-> "Coulombs";
+charge :-> "coulombs";
 //heat_capacity
 //permeability
 //molar_volume
