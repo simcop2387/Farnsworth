@@ -1,5 +1,5 @@
 source := "I'm on CPAN! see Math::Farnsworth there. you can also see the latest changes at svn co https://vdiddy.sexypenguins.com/subversion/frinkbot/modules";
-help := "see http://search.cpan.org/~SIMCOP/Math-Farnsworth-0.5/lib/Math/Farnsworth/Docs/Syntax.pm for an almost complete tutorial on my language!";
+help := "see http://search.cpan.org/~SIMCOP/Math-Farnsworth-0.5.1/lib/Math/Farnsworth/Docs/Syntax.pm for an almost complete tutorial on my language!";
 bug := "think you found a bug? file it at http://farnsworth.sexypenguins.com/ OR send an email to farnsworth.rt@gmail.com";
 
 frozen := C[0];
