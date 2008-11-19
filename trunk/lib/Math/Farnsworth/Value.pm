@@ -371,6 +371,10 @@ sub compare
 {
   my ($one, $two, $rev) = @_;
 
+  print "---COMPARE!!!\n";
+  print Dumper(\@_);
+
+  my $rv = $rev ? -1 : 1;
   #check for $two being a simple value
   my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
 
@@ -385,15 +389,15 @@ sub compare
   {
 	  if ($one->{pari} eq $tv)
 	  {
-		  $new = Math::Farnsworth::Value->new(0);
+		  $new = 0;
 	  }
 	  elsif ($one->{pari} lt $tv)
 	  {
-		  $new = Math::Farnsworth::Value->new(-1);
+		  $new = -1;
 	  }
 	  elsif ($one->{pari} gt $tv)
 	  {
-		$new = Math::Farnsworth::Value->new(1);
+		$new = 1;
 	  }
   }
   elsif ($one->{dimen}{dimen}{array})
@@ -412,18 +416,22 @@ sub compare
   {
 	  if ($one->{pari} == $tv)
 	  {
-		  $new = Math::Farnsworth::Value->new(0);
+		  print "ONE EQUAL THAN TWO\n";
+		  $new = 0;
 	  }
 	  elsif ($one->{pari} < $tv)
 	  {
-		  $new = Math::Farnsworth::Value->new(-1);
+		  print "ONE LESS THAN TWO\n";
+		  $new = -1;
 	  }
 	  elsif ($one->{pari} > $tv)
 	  {
-		$new = Math::Farnsworth::Value->new(1);
+		print "ONE GRATER THAN TWO\n";
+		$new =1;
 	  }
   }
 
+  print "\$new = $new\n";
   return $new;
 }
 

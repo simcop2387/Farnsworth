@@ -55,6 +55,7 @@ sub init
 }
 
 open(my $log, ">>", "/var/www/farnsworth/htdocs/test/debuglog.log");
+$log->autoflush(1);
 
 sub dbgprint
 {

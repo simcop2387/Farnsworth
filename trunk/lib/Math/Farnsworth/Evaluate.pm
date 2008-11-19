@@ -89,7 +89,6 @@ sub evalbranch
 	my $type = ref($branch); #this'll grab what kind from the bless on the tree
 
 	my $return; #to make things simpler later on
-	my $outdim; #this'll change names probably, but will go along with $return to provide some nicer info for printing
 
 	if ($type eq "Add")
 	{
@@ -178,10 +177,16 @@ sub evalbranch
 	}
 	elsif ($type eq "Gt")
 	{
+		print "----GT----\n";
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
+		print Dumper($branch);
 		$return = ($a > $b) ? 1 : 0;
+		print $a <=> $b;
+		print "\$return = $return\n";
 		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		print Dumper($return);
+		print "----EN----\n";
 	}
 	elsif ($type eq "Lt")
 	{
@@ -209,7 +214,7 @@ sub evalbranch
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a <=> $b;
-		#$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		$return = Math::Farnsworth::Value->new($return); #make sure its the right type
 	}
 	elsif ($type eq "Eq")
 	{
@@ -477,8 +482,12 @@ sub evalbranch
 	elsif ($type eq "Stmt")
 	{
 		for my $bs (@$branch) #iterate over all the statements
-		{   my $r = $self->makevalue($bs);
-			$return = $r if defined $r; #this has interesting semantics!
+		{   
+			if (defined($bs))
+			{
+				my $r = $self->makevalue($bs);
+				$return = $r if defined $r; #this has interesting semantics!
+			}
 		}
 	}
 	elsif ($type eq "Paren")
@@ -498,21 +507,18 @@ sub evalbranch
 		my $unitsize = $self->makevalue($branch->[1]);
 		my $name = $branch->[0];
 		$self->{units}->addunit($name, $unitsize);
-		$outdim = $branch; #have this display back what we saw
 	}
 	elsif ($type eq "DefineDimen")
 	{
 		my $unit = $branch->[1];
 		my $dimen = $branch->[0];
 		$self->{units}->adddimen($dimen, $unit);
-		$outdim = $branch;
 	}
 	elsif ($type eq "DefineCombo")
 	{
 		my $combo = $branch->[1]; #should get me a string!
 		my $value = $self->makevalue($branch->[0]);
 		Math::Farnsworth::Output::addcombo($combo, $value);
-		$outdim = $branch;
 	}
 	elsif (($type eq "SetPrefix") || ($type eq "SetPrefixAbrv"))
 	{
@@ -569,16 +575,10 @@ sub evalbranch
 
 	if (!defined($return))
 	{
-		#this creates a "true" undefined value for returning, this makes things funner!
+		#this creates a "true" undefined value for returning, this makes things funner! it also introduced a bug from naive coding above, which has been fixed
 		$return = new Math::Farnsworth::Value(undef, {undef => 1});
 	}
 	
-	if (!defined($outdim))
-	{
-		#if we don't know any better copy the results
-		#$outdim = $return->{dimen}; #this will be magic!
-	}
-
 	return $return;
 }
 

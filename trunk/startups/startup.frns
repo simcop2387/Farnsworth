@@ -1,3 +1,4 @@
+dbgprint["------BOT START------"];
 source := "I'm on CPAN! see Math::Farnsworth there. you can also see the latest changes at svn co https://vdiddy.sexypenguins.com/subversion/frinkbot/modules";
 help := "see http://search.cpan.org/~SIMCOP/Math-Farnsworth-0.5.1/lib/Math/Farnsworth/Docs/Syntax.pm for an almost complete tutorial on my language!";
 bug := "think you found a bug? file it at http://farnsworth.sexypenguins.com/ OR send an email to farnsworth.rt@gmail.com";
@@ -35,10 +36,13 @@ if (floor[x] < x)
  bar = x > 0 ? 1 + floor[log[x]/log[b]] : 0;
  rounds = bar >= foo ? 0 : foo - bar;
 
+ dbgprint["inside floor loop", "foo = $foo", "bar = $bar", "rounds = $rounds"];
+
  var i = 0;
 
  while ((i < rounds) && (floor[x] < x))
  {
+   dbgprint["DOROUND", "i = $i", "x = $x"];
    i = i + 1;
 
    x = x * b;
@@ -48,30 +52,69 @@ if (floor[x] < x)
  x = floor[x];
  while (i = i - 1)
  {
+    dbgprint["MIDROUND----", "i = $i", "x = $x"];
 	var c;
 			c = x % b;
+			dbgprint["c = $c"];
 			x = floor[x / b];
 			if (c >= 0) { /*i don't think i need this check, was in original algorithm*/
 				output = output + (c => getchr);
 			};
+			dbgprint["output = $output"];
  };
 
  output = output + ".";
 };
 
+ dbgprint["endfloorloop---", "x = $x"];
  if (x <= 0) {output = output + "0";};
 
  while (x > 0)
  {
 	var c;
+	        dbgprint["MIDROUND----", "x = $x"];
 			c = x % b;
+			dbgprint["c = $c"];
 			x = floor[x / b];
 			if (c >= 0) { /*i don't think i need this check, was in original algorithm*/
 				output = output + (c => getchr);
 			};
+			dbgprint["output = $output"];
  };
- sign+reverse[output];
+ dbgprint["TOTALOUT = ${sign+reverse[output]}"];
+ sign+reverse[output]
 };
 
-frombase{x isa "",y isa 1} := {var sign = 1; if (index[x,"-"] == 0) {sign=-1; x=right[x,length[x]-1];}; var p = index[x,"."]; var e= p>=0?p:length[x]; var getord = {`x` index["0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_\\| <>/;:'[]{}=+`~.,?", x]};var out=[]; var t=0; var s=1; var n = length[x]; while(n>0) {n=n-1;var c=substrLen[x,length[x]-n-1,1]; if (c != "."){e=e-1; var v=(c=>getord); t=t+v*(y**e); };}; p != -1 ? sign t +0.0 : sign t};
+frombase{x isa "",y isa 1} := {
+var sign = 1; 
+
+dbgprint["----FROMBASE----", "input = $x", "base = $y"];
+
+if (index[x,"-"] == 0) {sign=-1; x=right[x,length[x]-1];}; 
+dbgprint["sign = $sign", "input = $x"];
+
+var p = index[x,"."]; 
+var e= p>=0?p:length[x]; 
+var getord = {`x` index["0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_\\| <>/;:'[]{}=+`~.,?", x]};
+
+dbgprint["p = $p", "e = $e", "getord = $getord"];
+
+var out=[]; 
+var t=0; 
+var s=1; 
+var n = length[x]; 
+
+while(n>0) {
+	n=n-1;
+	var c=substrLen[x,length[x]-n-1,1]; 
+
+	if (c != ".") {e=e-1; var v=(c=>getord); t=t+v*(y**e); };
+};
+
+	var r = p != -1 ? sign t +0.0 : sign t;
+	dbgprint[r];
+	r
+};
+
+
 ping =!= pong; ping := pong; /*make it respond to ping*/
