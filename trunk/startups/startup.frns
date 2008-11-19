@@ -14,7 +14,8 @@ dutchmangle{x} :=[x -> DutchToEnglish] -> mangle -> EnglishToDutch
 
 
 tobase{x isa 1, b = 16 isa 1} := { var getchr = {`x` substrLen["0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_\\| <>/;:'[]{}=+`~.,?", x, 1]};
-if ((b < 2)||(b > 93)) {"" + [] /*raise an exception*/}; 
+
+dbgprint["-----STARTING TOBASE-----","getchr = $getchr", "x = $x", "b = $b"];
 
 var output = "";
 
@@ -24,6 +25,8 @@ if (x < 0)
 sign = "-";
 x=-x;
 };
+
+dbgprint["x = $x", "floor[x] = ${floor[x]}", "sign = $sign"];
 
 if (floor[x] < x)
 {var foo; var bar;
@@ -70,5 +73,5 @@ if (floor[x] < x)
  sign+reverse[output];
 };
 
-frombase{x isa "",y isa 1} := {var sign = 1; if (index[x,"-"] == 0) {sign=-1; x=right[x,length[x]-1];}; var p = index[x,"."]; var e= p>=0?p:length[x]; var getord = {`x` index["0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_\\| <>/;:'[]{}=+`~.,?", x]};var out=[]; var t=0; var s=1; var n = length[x]; while(n>0) {n=n-1;var c=substrLen[x,length[x]-n-1,1]; if (c != "."){e=e-1; var v=(c=>getord); if (v<0 || v >= y) {[]+"" /*throw exception*/};t=t+v*(y**e); };}; p != -1 ? sign t +0.0 : sign t};
+frombase{x isa "",y isa 1} := {var sign = 1; if (index[x,"-"] == 0) {sign=-1; x=right[x,length[x]-1];}; var p = index[x,"."]; var e= p>=0?p:length[x]; var getord = {`x` index["0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_\\| <>/;:'[]{}=+`~.,?", x]};var out=[]; var t=0; var s=1; var n = length[x]; while(n>0) {n=n-1;var c=substrLen[x,length[x]-n-1,1]; if (c != "."){e=e-1; var v=(c=>getord); t=t+v*(y**e); };}; p != -1 ? sign t +0.0 : sign t};
 ping =!= pong; ping := pong; /*make it respond to ping*/

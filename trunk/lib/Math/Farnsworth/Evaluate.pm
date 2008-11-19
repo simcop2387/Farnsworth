@@ -356,7 +356,7 @@ sub evalbranch
 		}
 
 		my $lambda = {code => $code, args => $vargs, 
-			          scope => $scope};
+			          scope => $scope, branches=>$branch};
 
 		$return = new Math::Farnsworth::Value($lambda, {lambda => 1});
 	}
@@ -578,6 +578,7 @@ sub evalbranch
 		#if we don't know any better copy the results
 		#$outdim = $return->{dimen}; #this will be magic!
 	}
+
 	return $return;
 }
 

@@ -34,7 +34,10 @@ sub init
    $env->{funcs}->addfunc("index", [["str", undef, $string],["substr", undef, $string],["pos", $number, $number]],\&index);
    $env->{funcs}->addfunc("eval", [["str", undef, $string]],\&eval);
 
-   $env->eval('map{sub isa {`x`}, x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var e; var out=[]; while(length[z]) {e = shift[z]; print[e]; push[out,e => sub]}; print[out]; out}');
+   $env->eval('dbgprint{x isa ...} := {var z; var n = 0; var p; while(n != length[x]) {p = shift[x]; if (p conforms "") {z = p} else {z = "$p"}; _dbgprint[z]}}');
+   $env->{funcs}->addfunc("_dbgprint", [["str", undef, $string]], \&dbgprint);
+   
+   $env->eval('map{sub isa {`x`}, x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var e; var out=[]; while(length[z]) {e = shift[z]; dbgprint[e]; push[out,e => sub]}; dbgprint[out]; out}');
 
    $env->{funcs}->addfunc("substrLen", [["str", undef, $string],["left", undef, $number],["length", undef, $number]],\&substrlen); #this one works like perls
    $env->eval("substr{str,left,right}:={substrLen[str,left,right-left]}");
@@ -49,6 +52,22 @@ sub init
 
    $env->eval('max{x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var m = pop[z]; var n = length[z]; var q; while((n=n-1)>=0){q=pop[z]; q>m?m=q:0}; m}'); 
    $env->eval('min{x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var m = pop[z]; var n = length[z]; var q; while((n=n-1)>=0){q=pop[z]; q<m?m=q:0}; m}'); 
+}
+
+open(my $log, ">>", "/var/www/farnsworth/htdocs/test/debuglog.log");
+
+sub dbgprint
+{
+	#with an array we give the number of elements, with a string we give the length of the string
+	my ($args, $eval, $branches)= @_;
+
+	my $input = $eval->{vars}->getvar("str"); #i should clean this up more too
+    my $string = $input->{pari};
+
+	print "DEBUGLOG: $string\n";
+	print $log "$string\n";
+
+	return Math::Farnsworth::Value->new(1);
 }
 
 sub unit

@@ -7,7 +7,7 @@ use overload '""' => \&tostring;
 
 use Data::Dumper;
 use Date::Manip;
-use Carp;
+use Carp qw(cluck carp confess);
 
 our %combos;
 our %displays;
@@ -152,7 +152,8 @@ sub getstring
 	}
 	elsif (exists($dimen->{dimen}{"lambda"}))
 	{
-		return "No magic for lambdas yet, functions shall get this too";
+		
+		return $self->deparsetree($value->{pari}{branches});
 	}
 	elsif (exists($dimen->{dimen}{"undef"}))
 	{
@@ -228,6 +229,7 @@ sub deparsetree
 	my $branch = shift;
 
 	my $type = ref($branch);
+	my $return;
 	
 	if ($type eq "Add")
 	{
@@ -265,86 +267,86 @@ sub deparsetree
 	}
 	elsif ($type eq "Mod")
 	{
-		my $a = $self->makevalue($branch->[0]);
-		my $b = $self->makevalue($branch->[1]);
+		my $a = $self->deparsetree($branch->[0]);
+		my $b = $self->deparsetree($branch->[1]);
 		return "$a % $b";
 	}
 	elsif ($type eq "Pow")
 	{
-		my $a = $self->makevalue($branch->[0]);
-		my $b = $self->makevalue($branch->[1]);
+		my $a = $self->deparsetree($branch->[0]);
+		my $b = $self->deparsetree($branch->[1]);
 		return "$a ^ $b";
 	}
 	elsif ($type eq "And")
 	{
-		my $a = $self->makevalue($branch->[0]);
-		my $b = $self->makevalue($branch->[1]);
+		my $a = $self->deparsetree($branch->[0]);
+		my $b = $self->deparsetree($branch->[1]);
 
 		return "$a && $b";
 	}
 	elsif ($type eq "Or")
 	{
-		my $a = $self->makevalue($branch->[0]);
-		my $b = $self->makevalue($branch->[1]);
+		my $a = $self->deparsetree($branch->[0]);
+		my $b = $self->deparsetree($branch->[1]);
 		
 		return "$a || $b";
 	}
 	elsif ($type eq "Xor")
 	{
-		my $a = $self->makevalue($branch->[0]);
-		my $b = $self->makevalue($branch->[1]);
+		my $a = $self->deparsetree($branch->[0]);
+		my $b = $self->deparsetree($branch->[1]);
 		return "$a ^^ $b";
 	}
 	elsif ($type eq "Not")
 	{
-		my $a = $self->makevalue($branch->[0]);
+		my $a = $self->deparsetree($branch->[0]);
 		return "!$a";
 	}
 	elsif ($type eq "Gt")
 	{
-		my $a = $self->makevalue($branch->[0]);
-		my $b = $self->makevalue($branch->[1]);
+		my $a = $self->deparsetree($branch->[0]);
+		my $b = $self->deparsetree($branch->[1]);
 		return "$a > $b";
 	}
 	elsif ($type eq "Lt")
 	{
-		my $a = $self->makevalue($branch->[0]);
-		my $b = $self->makevalue($branch->[1]);
+		my $a = $self->deparsetree($branch->[0]);
+		my $b = $self->deparsetree($branch->[1]);
 		return "$a < $b";
 	}
 	elsif ($type eq "Ge")
 	{
-		my $a = $self->makevalue($branch->[0]);
-		my $b = $self->makevalue($branch->[1]);
+		my $a = $self->deparsetree($branch->[0]);
+		my $b = $self->deparsetree($branch->[1]);
 		return "$a >= $b";
 	}
 	elsif ($type eq "Le")
 	{
-		my $a = $self->makevalue($branch->[0]);
-		my $b = $self->makevalue($branch->[1]);
+		my $a = $self->deparsetree($branch->[0]);
+		my $b = $self->deparsetree($branch->[1]);
 		return "$a <= $b";
 	}
 	elsif ($type eq "Compare")
 	{
-		my $a = $self->makevalue($branch->[0]);
-		my $b = $self->makevalue($branch->[1]);
+		my $a = $self->deparsetree($branch->[0]);
+		my $b = $self->deparsetree($branch->[1]);
 		return "$a <=> $b";
 	}
 	elsif ($type eq "Eq")
 	{
-		my $a = $self->makevalue($branch->[0]);
-		my $b = $self->makevalue($branch->[1]);
+		my $a = $self->deparsetree($branch->[0]);
+		my $b = $self->deparsetree($branch->[1]);
 		return "$a == $b";
 	}
 	elsif ($type eq "Ne")
 	{
-		my $a = $self->makevalue($branch->[0]);
-		my $b = $self->makevalue($branch->[1]);
+		my $a = $self->deparsetree($branch->[0]);
+		my $b = $self->deparsetree($branch->[1]);
 		return "$a != $b";
 	}
 	elsif ($type eq "Ternary")
 	{
-		my $left = $self->makevalue($branch->[0]);
+		my $left = $self->deparsetree($branch->[0]);
 		my $one = $self->deparsetree($branch->[1]);
 		my $two = $self->deparsetree($branch->[2]);
 
@@ -353,14 +355,15 @@ sub deparsetree
 	elsif ($type eq "If")
 	{
 		my $return = "";
-		my $left = $self->makevalue($branch->[0]);
+		my $left = $self->deparsetree($branch->[0]);
         my $std = $self->deparsetree($branch->[1]);
 		
 		$return = "if ($left) { $std }";
 
 		if ($branch->[2])
 		{
-			$return .= "else { $else }";
+			my $else = $self->deparsetree($branch->[2]);
+			$return .= " else { $else }";
 		}
 		
 		#$return .= ";"; #NOTE: DO I NEED THIS? probably not!
@@ -370,7 +373,7 @@ sub deparsetree
 	elsif ($type eq "Store")
 	{
 		my $name = $branch->[0];
-		my $value = $self->makevalue($branch->[1]);
+		my $value = $self->deparsetree($branch->[1]);
 
 		return "$name = $value";
 	}
@@ -382,7 +385,7 @@ sub deparsetree
 
 		if (defined($branch->[1]))
 		{
-			my $val =  $self->makevalue($branch->[1]);
+			my $val =  $self->deparsetree($branch->[1]);
 			$return .= " = $val";
 		}
 
@@ -393,97 +396,82 @@ sub deparsetree
 		#print Dumper($branch);
 		my $name = $branch->[0];
 		my $args = $branch->[1];
-		my $value = $branch->[2]; #not really a value, but in fact the tree to run for the function
+		my $value = $self->deparsetree($branch->[2]); #not really a value, but in fact the tree to run for the function
 
-		my $vargs;
+		my $return = "${name}{";
+
+		my $vargs = "";
 
 		for my $arg (@$args)
 		{
+			my $foobs="";
 			my $constraint = $arg->[2];
 			my $default = $arg->[1];
 			my $name = $arg->[0]; #name
 
+			$foobs = $name;
 			if (defined($default))
 			{
-				$default = $self->makevalue($default); #should be right
+				$foobs .= " = ".$self->deparsetree($default); #should be right
 			}
 
 			if (defined($constraint))
 			{
 				#print Dumper($constraint);
-				$constraint = $self->makevalue($constraint); #should be right
+				$foobs .= " isa ".$self->deparsetree($constraint); #should be right
 				#print Dumper($constraint);
 			}
 
-			push @$vargs, [$name, $default, $constraint];
+			$vargs .= $foobs;
 		}
 
-		$self->{funcs}->addfunc($name, $vargs, $value);
-		$return = undef; #cause an error should someone manage to make it parse other than the way i think it should be
+		$return .= "$vargs} := { $value }";
 	}
 	elsif ($type eq "FuncCall")
 	{
 		my $name = $branch->[0];
-		my $args = $self->makevalue($branch->[1]); #this is an array, need to evaluate it
+		my $args = $self->deparsetree($branch->[1]); #this is an array, need to evaluate it
 
-		$return = $self->{funcs}->callfunc($self, $name, $args, $branch);
-
-		#print "FUNCCALL RETURNED\n";
-		#print Dumper($return);
-
+		return "$name\[$args\]";
 	}
 	elsif ($type eq "Lambda")
 	{
 		my $args = $branch->[0];
-		my $code = $branch->[1];
+		my $code = $self->deparsetree($branch->[1]);
 
-		#print "==========LAMBDA==========\n";
-		#print Data::Dumper->Dump([$args,$code], ["args", "code"]);
-
-		my $nvars = new Math::Farnsworth::Variables($self->{vars}); #lamdbas get their own vars
-		my %nopts = (vars => $nvars, funcs => $self->{funcs}, units => $self->{units}, parser => $self->{parser});
-		my $scope = $self->new(%nopts);
-
-		#this should probably get a function in Math::Farnsworth::FunctionDispatch
-		my $vargs;
+		my $vargs = "";
 
 		for my $arg (@$args)
 		{
+			my $foobs="";
 			my $constraint = $arg->[2];
 			my $default = $arg->[1];
 			my $name = $arg->[0]; #name
 
+			$foobs = $name;
 			if (defined($default))
 			{
-				$default = $self->makevalue($default); #should be right
+				$foobs .= " = ".$self->deparsetree($default); #should be right
 			}
 
 			if (defined($constraint))
 			{
 				#print Dumper($constraint);
-				$constraint = $self->makevalue($constraint); #should be right
+				$foobs .= " isa ".$self->deparsetree($constraint); #should be right
 				#print Dumper($constraint);
 			}
 
-			push @$vargs, [$name, $default, $constraint];
+			$vargs .= $foobs;
 		}
 
-		my $lambda = {code => $code, args => $vargs, 
-			          scope => $scope};
-
-		$return = new Math::Farnsworth::Value($lambda, {lambda => 1});
+		return "{`$vargs` $code}";
 	}
 	elsif ($type eq "LambdaCall")
 	{		
-		my $left = $self->makevalue($branch->[0]);
-		my $right = $self->makevalue($branch->[1]);
+		my $left = $self->deparsetree($branch->[0]);
+		my $right = $self->deparsetree($branch->[1]);
 
-		die "Right side of lamdbda call must evaluate to a Lambda\n" unless $right->{dimen}{dimen}{lambda};
-
-		#need $args to be an array
-		my $args = $left->{dimen}{dimen}{array} ? $left :  new Math::Farnsworth::Value([$left], {array => 1}); 
-
-		$return = $self->{funcs}->calllambda($right, $args);
+		return "$left => $right";
 	}
 	elsif (($type eq "Array") || ($type eq "SubArray"))
 	{
@@ -491,198 +479,133 @@ sub deparsetree
 		for my $bs (@$branch) #iterate over all the elements
 		{
 			my $type = ref($bs); #find out what kind of thing we are
-			my $value = $self->makevalue($bs);
+			my $value = $self->deparsetree($bs);
 
-			#print "ARRAY FILL -- $type\n";
-
-			if (exists($value->{dimen}{dimen}{array}))
-			{
-				#since we have an array, but its not in a SUBarray, we dereference it before the push
-				push @$array, @{$value->{pari}} unless ($type eq "SubArray");
-				push @$array, $value if ($type eq "SubArray");
-			}
-			else
-			{
-				#print "ARRAY VALUE --- ".Dumper($value);
-				#its not an array or anything so we push it on
-				push @$array, $value; #we return an array ref! i need more error checking around for this later
-			}
+			#since we have an array, but its not in a SUBarray, we dereference it before the push
+			push @$array, $value;
+			#push @$array, '['.$value.']' if ($type eq "SubArray");
 		}
-		$return = new Math::Farnsworth::Value($array, {array => 1});
+		return '[ '.(join ', ',@$array).' ]';
+		
 	}
 	elsif ($type eq "ArgArray")
 	{
-		my $array;
+		my $array = [];
 		for my $bs (@$branch) #iterate over all the elements
 		{
-			my $type = ref($bs); #find out what kind of thing we are
-			my $value = $self->makevalue($bs);
+			my $value = $self->deparsetree($bs);
 
-			#even if it is an array we don't want to deref it here, because thats the wrong behavior, this will make things like push[a, 1,2,3] work properly
 			push @$array, $value; #we return an array ref! i need more error checking around for this later
 		}
-		$return = new Math::Farnsworth::Value($array, {array => 1});
+		return join ', ', @$array;
 	}
 	elsif ($type eq "ArrayFetch")
 	{
-		my $var = $self->makevalue($branch->[0]); #need to check if this is an array, and die if not
-		my $listval = $self->makevalue($branch->[1]);
-		my @rval;
+		my $var = $self->deparsetree($branch->[0]); #need to check if this is an array, and die if not
+		my $listval = $self->deparsetree($branch->[1]);
+		
+		$listval = substr $listval, 1,length($listval)-2; #strip the []
 
-		#print Dumper($branch, $var, $listval);
-
-		for (@{$listval->{pari}})
-		{
-			my $input = $var->{pari}->[$_];
-			die "Array out of bounds\n" unless defined $input; #NTS: would be useful to look if i have a name and use it
-			push @rval, $input;
-		}
-
-		#print Dumper(\@rval);
-
-		if (@rval > 1)
-		{
-			my $pr = $self->makevalue(bless [bless ['0.1234'], 'Num'], 'Array'); #we return an array
-			$pr->{pari} = [@rval]; #make a shallow copy, why not
-			$return = $pr;
-		}
-		else
-		{
-			$return = $rval[0];
-		}
+		return "$var\@$listval\$";
 	}
 	elsif ($type eq "ArrayStore")
 	{
-		my $var = $self->makevalue(bless [$branch->[0]], 'Fetch'); #need to check if this is an array, and die if not
-		my $listval = $self->makevalue($branch->[1]);
-		my $rval = $self->makevalue($branch->[2]);
+		my $var = $self->deparsetree(bless [$branch->[0]], 'Fetch'); #need to check if this is an array, and die if not
+		my $listval = $self->deparsetree($branch->[1]);
+		my $rval = $self->deparsetree($branch->[2]);
 
-		#print Dumper($branch, $var, $listval);
+		$listval = substr $listval, 1,length($listval)-2; #strip the []
 
-		if (@{$listval->{pari}} > 1)
-		{
-			die "Assigning to slices not implemented yet\n";
-		}
-
-		$var->{pari}->[${$listval->{pari}}[0]] = $rval;
-
-		for my $value (@{$var->{pari}})
-		{
-			$value = $self->makevalue(bless [0], 'Num') if !defined($value);
-		}
-
-		$return = $rval;
+		return "$var\@$listval\$ = $rval";
 	}
 	elsif ($type eq "While")
 	{
-		my $cond = $branch->[0]; #what to check each time
-		my $stmts = $branch->[1]; #what to run each time
+		my $cond = $self->deparsetree($branch->[0]); #what to check each time
+		my $stmts = $self->deparsetree($branch->[1]); #what to run each time
 
-		my $condval = $self->makevalue($cond);
-		while ($condval)
-		{
-			my $v = $self->makevalue($stmts);
-			$condval = $self->makevalue($cond);
-		}
-
-		$return = undef; #cause errors
+		return "while ($cond) { $stmts }"
 	}
 	elsif ($type eq "Stmt")
 	{
+		my $return = "";
 		for my $bs (@$branch) #iterate over all the statements
-		{   my $r = $self->makevalue($bs);
-			$return = $r if defined $r; #this has interesting semantics!
+		{   my $r = $self->deparsetree($bs);
+			$return .= "$r; " if defined $r; #this has interesting semantics!
 		}
+		return $return;
 	}
 	elsif ($type eq "Paren")
 	{
-		$return = $self->makevalue($branch->[0]);
+		return '(' . $self->deparsetree($branch->[0]) . ')';
 	}
 	elsif ($type eq "SetDisplay")
 	{
-		print Dumper($branch);
 		my $combo = $branch->[0][0]; #is a string?
-		my $right = $branch->[1];
+		my $right = $self->deparsetree($branch->[1]);
 
-		Math::Farnsworth::Output->setdisplay($combo, $right);
+		return "$combo :-> $right";
 	}
 	elsif ($type eq "UnitDef")
 	{
-		my $unitsize = $self->makevalue($branch->[1]);
+		my $unitsize = $self->deparsetree($branch->[1]);
 		my $name = $branch->[0];
-		$self->{units}->addunit($name, $unitsize);
-		$outdim = $branch; #have this display back what we saw
+		
+		return "$name := $unitsize";
 	}
 	elsif ($type eq "DefineDimen")
 	{
 		my $unit = $branch->[1];
 		my $dimen = $branch->[0];
-		$self->{units}->adddimen($dimen, $unit);
-		$outdim = $branch;
+		
+		return "$dimen =!= $unit";
 	}
 	elsif ($type eq "DefineCombo")
 	{
 		my $combo = $branch->[1]; #should get me a string!
-		my $value = $self->makevalue($branch->[0]);
-		Math::Farnsworth::Output::addcombo($combo, $value);
-		$outdim = $branch;
+		my $value = $self->deparsetree($branch->[0]);
+		
+		return "$value ||| $combo";
 	}
 	elsif (($type eq "SetPrefix") || ($type eq "SetPrefixAbrv"))
 	{
 		my $name = $branch->[0];
-		my $value = $self->makevalue($branch->[1]);
-		#print "SETTING PREFIX0: $name : $value : ".Dumper($branch->[1]) if ($name eq "m");
-		$self->{units}->setprefix($name, $value);
+		my $value = $self->deparsetree($branch->[1]);
+
+		return "$name ::- $value";
 	}
 	elsif ($type eq "Trans")
 	{
-		my $left = $self->makevalue($branch->[0]);
-		my $rights = eval {$self->makevalue($branch->[1])};
-		my $right = $rights;
+		my $left = $self->deparsetree($branch->[0]);
+		my $right = $self->deparsetree($branch->[1]);
 
-		if ($rights->{dimen}{dimen}{string}) #if its a string we do some fun stuff
-		{
-			$right = $self->eval($rights->{pari}); #we need to set $right to the evaluation $rights
-		}
-
-		if (!$@)
-		{
-			if ($left->{dimen}->compare($right->{dimen})) #only do this if they are the same
-			{
-				my $dispval = ($left / $right);
-				$return = $left;
-				
-				if ($rights->{dimen}{dimen}{string})
-				{
-					#right side was a string, use it
-					$return->{outmagic} = [$dispval, $rights];
-				}
-				else
-				{
-					$return->{outmagic} = [$dispval];
-				}
-			}
-			elsif ($self->{funcs}->isfunc($branch->[1][0]))
-			{
-				$left = $left->{dimen}{dimen}{array} ? $left : new Math::Farnsworth::Value([$left], {array=>1});
-				$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
-			}
-			else
-			{
-				die "Conformance error, left side has different units than right side\n";
-			}
-		}
-		else
-		{
-			#$right doesn't evaluate... so we check for a function?
-			$left = $left->{dimen}{dimen}{array} ? $left : new Math::Farnsworth::Value([$left], {array=>1});
-			$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
-		}
+		return "$left -> $right";
+	}
+	elsif (($type eq "Num") || ($type eq "Fetch") || ($type eq "HexNum") || ($type eq "String"))
+	{
+		return $branch->[0]; #its already a string!
+	}
+	elsif ($type eq "Date")
+	{
+		return "#".$branch->[0]."#";
+	}
+	elsif ($type eq "VarArg")
+	{
+		return "...";
+	}
+	elsif (!defined($branch))
+	{
+		return ""; #got an undefined value, just make it blank
 	}
 	else
 	{
-		return Dumper($tree);
+#		cluck "Unhandled input!";
+		return '/*'.Dumper($branch).'*/';
 	}
+}
+
+sub makevalue
+{
+	confess "MAKEVALUE WAS CALLED!\n";
 }
 
 1;

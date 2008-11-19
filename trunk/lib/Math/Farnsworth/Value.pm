@@ -100,6 +100,7 @@ sub add
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
+  #print Dumper($one->{dimen}, $two->{dimen});
   die "Unable to process different units in addition\n" unless ($one->{dimen}->compare($two->{dimen}) || $one->{dimen}{dimen}{date}); #always call this on one, since $two COULD be some other object 
 
   #moving this down so that i don't do any math i don't have to
