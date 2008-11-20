@@ -1,7 +1,7 @@
 # This Makefile is for the Math::Farnsworth extension to perl.
 #
 # It was generated automatically by MakeMaker version
-# 6.46 (Revision: 66493) from the contents of
+# 6.48 (Revision: 64800) from the contents of
 # Makefile.PL. Don't edit this file, edit Makefile.PL instead.
 #
 #       ANY CHANGES MADE HERE WILL BE LOST!
@@ -10,9 +10,17 @@
 #
 #   MakeMaker Parameters:
 
+#     ABSTRACT => q[A Turing Complete Language for Mathematics]
+#     AUTHOR => q[Ryan Voots <simcop@cpan.org>]
+#     DIR => []
+#     DISTNAME => q[Math-Farnsworth]
 #     NAME => q[Math::Farnsworth]
-#     PREREQ_PM => { Math::Pari=>q[0], Date::Manip=>q[0], List::MoreUtils=>q[0] }
-#     VERSION_FROM => q[lib/Math/Farnsworth.pm]
+#     NO_META => q[1]
+#     PL_FILES => {  }
+#     PREREQ_PM => { Math::Pari=>q[0], Test::More=>q[0], Test::Exception=>q[0], ExtUtils::MakeMaker=>q[6.48], Date::Manip=>q[0], List::MoreUtils=>q[0] }
+#     VERSION => q[0.5.1]
+#     clean => { FILES=>q[META.yml] }
+#     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
 
 # --- MakeMaker post_initialize section:
 
@@ -108,7 +116,7 @@ INSTALLSITEMAN3DIR = /usr/share/man/man3
 DESTINSTALLSITEMAN3DIR = $(DESTDIR)$(INSTALLSITEMAN3DIR)
 INSTALLVENDORMAN3DIR = /usr/share/man/man3
 DESTINSTALLVENDORMAN3DIR = $(DESTDIR)$(INSTALLVENDORMAN3DIR)
-PERL_LIB = /usr/lib/perl5/5.10.0
+PERL_LIB =
 PERL_ARCHLIB = /usr/lib/perl5/5.10.0/x86_64-linux-thread-multi
 LIBPERL_A = libperl.a
 FIRST_MAKEFILE = Makefile
@@ -116,22 +124,22 @@ MAKEFILE_OLD = Makefile.old
 MAKE_APERL_FILE = Makefile.aperl
 PERLMAINCC = $(CC)
 PERL_INC = /usr/lib/perl5/5.10.0/x86_64-linux-thread-multi/CORE
-PERL = /usr/bin/perl5.10.0
-FULLPERL = /usr/bin/perl5.10.0
+PERL = /usr/bin/perl5.10.0 "-Iinc"
+FULLPERL = /usr/bin/perl5.10.0 "-Iinc"
 ABSPERL = $(PERL)
 PERLRUN = $(PERL)
 FULLPERLRUN = $(FULLPERL)
 ABSPERLRUN = $(ABSPERL)
-PERLRUNINST = $(PERLRUN) "-I$(INST_ARCHLIB)" "-I$(INST_LIB)"
-FULLPERLRUNINST = $(FULLPERLRUN) "-I$(INST_ARCHLIB)" "-I$(INST_LIB)"
-ABSPERLRUNINST = $(ABSPERLRUN) "-I$(INST_ARCHLIB)" "-I$(INST_LIB)"
+PERLRUNINST = $(PERLRUN) "-I$(INST_ARCHLIB)" "-Iinc" "-I$(INST_LIB)"
+FULLPERLRUNINST = $(FULLPERLRUN) "-I$(INST_ARCHLIB)" "-Iinc" "-I$(INST_LIB)"
+ABSPERLRUNINST = $(ABSPERLRUN) "-I$(INST_ARCHLIB)" "-Iinc" "-I$(INST_LIB)"
 PERL_CORE = 0
 PERM_RW = 644
 PERM_RWX = 755
 
 MAKEMAKER   = /usr/lib/perl5/5.10.0/ExtUtils/MakeMaker.pm
-MM_VERSION  = 6.46
-MM_REVISION = 66493
+MM_VERSION  = 6.48
+MM_REVISION = 64800
 
 # FULLEXT = Pathname for extension directory (eg Foo/Bar/Oracle).
 # BASEEXT = Basename part of FULLEXT. May be just equal FULLEXT. (eg Oracle)
@@ -142,7 +150,7 @@ FULLEXT = Math/Farnsworth
 BASEEXT = Farnsworth
 PARENT_NAME = Math
 DLBASE = $(BASEEXT)
-VERSION_FROM = lib/Math/Farnsworth.pm
+VERSION_FROM = 
 OBJECT = 
 LDFROM = $(OBJECT)
 LINKTYPE = dynamic
@@ -200,6 +208,7 @@ TO_INST_PM = bot2.pl \
 	lib/Math/Farnsworth/Units/Standard.pm \
 	lib/Math/Farnsworth/Units/e.2mil \
 	lib/Math/Farnsworth/Value.pm \
+	lib/Math/Farnsworth/Value/Pari.pm \
 	lib/Math/Farnsworth/Variables.pm \
 	loadunits.pl \
 	mgr.pl \
@@ -224,6 +233,8 @@ PM_TO_BLIB = lib/Math/Farnsworth/Evaluate.pm \
 	blib/lib/Math/Farnsworth/Variables.pm \
 	loadunits.pl \
 	$(INST_LIB)/Math/loadunits.pl \
+	lib/Math/Farnsworth/Value/Pari.pm \
+	blib/lib/Math/Farnsworth/Value/Pari.pm \
 	lib/Math/Farnsworth/Functions/GoogleTranslate.pm \
 	blib/lib/Math/Farnsworth/Functions/GoogleTranslate.pm \
 	lib/Math/Farnsworth/Functions/Standard.pm \
@@ -261,7 +272,7 @@ PM_TO_BLIB = lib/Math/Farnsworth/Evaluate.pm \
 
 
 # --- MakeMaker platform_constants section:
-MM_Unix_VERSION = 6.46
+MM_Unix_VERSION = 6.48
 PERL_MALLOC_DEF = -DPERL_EXTMALLOC_DEF -Dmalloc=Perl_malloc -Dfree=Perl_mfree -Drealloc=Perl_realloc -Dcalloc=Perl_calloc
 
 
@@ -316,7 +327,7 @@ ZIPFLAGS = -r
 COMPRESS = gzip --best
 SUFFIX = .gz
 SHAR = shar
-PREOP = $(NOECHO) $(NOOP)
+PREOP = $(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"
 POSTOP = $(NOECHO) $(NOOP)
 TO_UNIX = $(NOECHO) $(NOOP)
 CI = ci -u
@@ -492,12 +503,6 @@ manifypods : pure_all  \
 
 # --- MakeMaker processPL section:
 
-all :: yappparser
-	$(NOECHO) $(NOOP)
-
-yappparser :: yappparser.PL pm_to_blib
-	$(PERLRUNINST) yappparser.PL yappparser
-
 
 # --- MakeMaker installbin section:
 
@@ -534,7 +539,7 @@ clean :: clean_subdirs
 	  perl.exe so_locations \
 	  $(BASEEXT).exp 
 	- $(RM_RF) \
-	  blib 
+	  META.yml blib 
 	- $(MV) $(FIRST_MAKEFILE) $(MAKEFILE_OLD) $(DEV_NULL)
 
 
@@ -553,30 +558,8 @@ realclean purge ::  clean realclean_subdirs
 
 
 # --- MakeMaker metafile section:
-metafile : create_distdir
-	$(NOECHO) $(ECHO) Generating META.yml
-	$(NOECHO) $(ECHO) '--- #YAML:1.0' > META_new.yml
-	$(NOECHO) $(ECHO) 'name:               Math-Farnsworth' >> META_new.yml
-	$(NOECHO) $(ECHO) 'version:            0.5.1' >> META_new.yml
-	$(NOECHO) $(ECHO) 'abstract:           ~' >> META_new.yml
-	$(NOECHO) $(ECHO) 'author:  []' >> META_new.yml
-	$(NOECHO) $(ECHO) 'license:            unknown' >> META_new.yml
-	$(NOECHO) $(ECHO) 'distribution_type:  module' >> META_new.yml
-	$(NOECHO) $(ECHO) 'configure_requires:' >> META_new.yml
-	$(NOECHO) $(ECHO) '    ExtUtils::MakeMaker:  0' >> META_new.yml
-	$(NOECHO) $(ECHO) 'requires:' >> META_new.yml
-	$(NOECHO) $(ECHO) '    Date::Manip:      0' >> META_new.yml
-	$(NOECHO) $(ECHO) '    List::MoreUtils:  0' >> META_new.yml
-	$(NOECHO) $(ECHO) '    Math::Pari:       0' >> META_new.yml
-	$(NOECHO) $(ECHO) 'no_index:' >> META_new.yml
-	$(NOECHO) $(ECHO) '    directory:' >> META_new.yml
-	$(NOECHO) $(ECHO) '        - t' >> META_new.yml
-	$(NOECHO) $(ECHO) '        - inc' >> META_new.yml
-	$(NOECHO) $(ECHO) 'generated_by:       ExtUtils::MakeMaker version 6.46' >> META_new.yml
-	$(NOECHO) $(ECHO) 'meta-spec:' >> META_new.yml
-	$(NOECHO) $(ECHO) '    url:      http://module-build.sourceforge.net/META-spec-v1.4.html' >> META_new.yml
-	$(NOECHO) $(ECHO) '    version:  1.4' >> META_new.yml
-	-$(NOECHO) $(MV) META_new.yml $(DISTVNAME)/META.yml
+metafile :
+	$(NOECHO) $(NOOP)
 
 
 # --- MakeMaker signature section:
@@ -644,7 +627,7 @@ create_distdir :
 	$(PERLRUN) "-MExtUtils::Manifest=manicopy,maniread" \
 		-e "manicopy(maniread(),'$(DISTVNAME)', '$(DIST_CP)');"
 
-distdir : create_distdir distmeta 
+distdir : create_distdir  
 	$(NOECHO) $(NOOP)
 
 
@@ -852,10 +835,11 @@ subdirs-test ::
 
 
 test_dynamic :: pure_all
-	PERL_DL_NONLAZY=1 $(FULLPERLRUN) "-MExtUtils::Command::MM" "-e" "test_harness($(TEST_VERBOSE), '$(INST_LIB)', '$(INST_ARCHLIB)')" $(TEST_FILES)
+	PERL_DL_NONLAZY=1 $(FULLPERLRUN) "-MExtUtils::Command::MM" "-e" "test_harness($(TEST_VERBOSE), 'inc', '$(INST_LIB)', '$(INST_ARCHLIB)')" $(TEST_FILES)
+	PERL_DL_NONLAZY=1 $(FULLPERLRUN) "-Iinc" "-I$(INST_LIB)" "-I$(INST_ARCHLIB)" $(TEST_FILE)
 
 testdb_dynamic :: pure_all
-	PERL_DL_NONLAZY=1 $(FULLPERLRUN) $(TESTDB_SW) "-I$(INST_LIB)" "-I$(INST_ARCHLIB)" $(TEST_FILE)
+	PERL_DL_NONLAZY=1 $(FULLPERLRUN) $(TESTDB_SW) "-Iinc" "-I$(INST_LIB)" "-I$(INST_ARCHLIB)" $(TEST_FILE)
 
 test_ : test_dynamic
 
@@ -868,12 +852,15 @@ testdb_static :: testdb_dynamic
 ppd :
 	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0,5,1,0">' > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <TITLE>$(DISTNAME)</TITLE>' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '    <ABSTRACT></ABSTRACT>' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '    <AUTHOR></AUTHOR>' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '    <ABSTRACT>A Turing Complete Language for Mathematics</ABSTRACT>' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '    <AUTHOR>Ryan Voots &lt;simcop@cpan.org&gt;</AUTHOR>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Date-Manip" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="ExtUtils-MakeMaker" VERSION="6,48,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="List-MoreUtils" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Math-Pari" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Test-Exception" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Test-More" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <OS NAME="$(OSNAME)" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="x86_64-linux-thread-multi-5.1" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <CODEBASE HREF="" />' >> $(DISTNAME).ppd
@@ -894,6 +881,7 @@ pm_to_blib : $(TO_INST_PM)
 	  lib/Math/Farnsworth/FunctionDispatch.pm blib/lib/Math/Farnsworth/FunctionDispatch.pm \
 	  lib/Math/Farnsworth/Variables.pm blib/lib/Math/Farnsworth/Variables.pm \
 	  loadunits.pl $(INST_LIB)/Math/loadunits.pl \
+	  lib/Math/Farnsworth/Value/Pari.pm blib/lib/Math/Farnsworth/Value/Pari.pm \
 	  lib/Math/Farnsworth/Functions/GoogleTranslate.pm blib/lib/Math/Farnsworth/Functions/GoogleTranslate.pm \
 	  lib/Math/Farnsworth/Functions/Standard.pm blib/lib/Math/Farnsworth/Functions/Standard.pm \
 	  lib/Math/Farnsworth/Dimension.pm blib/lib/Math/Farnsworth/Dimension.pm \
@@ -921,3 +909,22 @@ pm_to_blib : $(TO_INST_PM)
 
 
 # End.
+# Postamble by Module::Install 0.77
+# --- Module::Install::Admin::Makefile section:
+
+realclean purge ::
+	$(RM_F) $(DISTVNAME).tar$(SUFFIX)
+	$(RM_RF) inc MANIFEST.bak _build
+	$(PERL) -I. "-MModule::Install::Admin" -e "remove_meta()"
+
+reset :: purge
+
+upload :: test dist
+	cpan-upload -verbose $(DISTVNAME).tar$(SUFFIX)
+
+grok ::
+	perldoc Module::Install
+
+distsign ::
+	cpansign -s
+

@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Data::Dumper;
+use Carp qw(cluck);
 
 #this is very simple right now but i'll need to make a way to inherit
 #variables from an old Math::Farnsworth::Variables class so that i can do
@@ -36,9 +37,15 @@ sub setvar
 
 sub declare
 {
+	my @args = @_; #save a copy for now
 	my $self = shift;
 	my $name = shift;
 	my $value = shift;
+
+	if (!defined($name))
+	{
+		cluck "NAME UNDEFINED!\n".Dumper(\@args);
+	}
 
 	#really all we need to do is just set it in this scope to see it
 	$self->{vars}{$name} = $value;

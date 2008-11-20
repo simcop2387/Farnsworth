@@ -177,16 +177,10 @@ sub evalbranch
 	}
 	elsif ($type eq "Gt")
 	{
-		print "----GT----\n";
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
-		print Dumper($branch);
 		$return = ($a > $b) ? 1 : 0;
-		print $a <=> $b;
-		print "\$return = $return\n";
 		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
-		print Dumper($return);
-		print "----EN----\n";
 	}
 	elsif ($type eq "Lt")
 	{
@@ -233,8 +227,6 @@ sub evalbranch
 	elsif ($type eq "Ternary")
 	{
 		#turing completeness FTW
-		#wtf? for some reason i have to do this...
-		#odd bug here, + 0 fixes?
 		my $left = $self->makevalue($branch->[0]);
 		$left = $left != new Math::Farnsworth::Value(0, $left->{dimen});
 		$return = $left ? $self->makevalue($branch->[1]) : $self->makevalue($branch->[2]);
@@ -242,8 +234,6 @@ sub evalbranch
 	elsif ($type eq "If")
 	{
 		#turing completeness FTW
-		#wtf? for some reason i have to do this...
-		#odd bug here, + 0 fixes?
 		my $left = $self->makevalue($branch->[0]);
 		$left = $left != new Math::Farnsworth::Value(0, $left->{dimen});
 		

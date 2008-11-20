@@ -85,7 +85,7 @@ ARG:for my $argc (0..$#$argtypes)
 			last ARG; #don't parse ANY more arguments
 		}
 
-		$vars->declare($n, $v);
+		$vars->declare($n, $v) if defined $n; #happens when no arguments!
 	}
 }
 

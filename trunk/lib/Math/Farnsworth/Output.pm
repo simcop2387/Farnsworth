@@ -61,7 +61,7 @@ sub getdisplay
 	my $self = shift;
 	my $name = shift;
 
-	if (exists($displays{$name}))
+	if (defined($name) && exists($displays{$name}))
 	{
 		return $displays{$name}; #guess i'll just do the rest in there?
 	}
@@ -174,7 +174,7 @@ sub getstring
 		print "SUPERDISPLAY:\n";
 		my $branch = bless [$value, $disp], 'Trans';
 		print Dumper($branch);
-		my $newvalue = $self->{eval}->evalbranch($branch); #recurse down!
+		my $newvalue = eval {$self->{eval}->evalbranch($branch);};
 		return $self->getstring($newvalue->{dimen}, $newvalue);
 	}
 	else
@@ -184,12 +184,13 @@ sub getstring
 		{
 			my $exp = "";
 			#print Dumper($dimen->{dimen}, $exp);
-			my $dv = "".$dimen->{dimen}{$d};
+			my $dv = "".($dimen->{dimen}{$d});
+			my $realdv = "".(0.0+$dimen->{dimen}{$d}); #use this for comparing below, that way i can keep rational exponents when possible
 
 			$dv =~ s/([.]\d+?)0+$/$1/;
 			$dv =~ s/E/e/; #make floating points clearer
 
-			$exp = "^".($dv =~ /^[\d\.]+$/? $dv :"(".$dv.")") unless ($dv == 1);
+			$exp = "^".($dv =~ /^[\d\.]+$/? $dv :"(".$dv.")") unless ($realdv == 1);
 			
 			push @returns, $self->{units}->getdimen($d).$exp;
 		}
