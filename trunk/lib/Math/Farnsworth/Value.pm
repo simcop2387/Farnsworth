@@ -64,7 +64,7 @@ sub new
 
     if (!defined($value))
 	{
-		warn "OMG \$VALUE IS UNDEFINED!!!!";
+		#warn "OMG \$VALUE IS UNDEFINED!!!!";
 		$value = [];
 	}
 

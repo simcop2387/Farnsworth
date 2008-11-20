@@ -415,7 +415,8 @@ sub evalbranch
 
 		for (@{$listval->{pari}})
 		{
-			my $input = $var->{pari}->[$_];
+			my $float = $_ * (Math::Farnsworth::Value->new(1.0)); #makes rationals work right
+			my $input = $var->{pari}->[$float->toperl()]; #->toperl makes indexes work right again
 			die "Array out of bounds\n" unless defined $input; #NTS: would be useful to look if i have a name and use it
 			push @rval, $input;
 		}
