@@ -19,7 +19,6 @@
 #     PL_FILES => {  }
 #     PREREQ_PM => { Math::Pari=>q[0], Test::More=>q[0], Test::Exception=>q[0], ExtUtils::MakeMaker=>q[6.48], Date::Manip=>q[0], List::MoreUtils=>q[0] }
 #     VERSION => q[0.5.1]
-#     clean => { FILES=>q[META.yml] }
 #     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
 
 # --- MakeMaker post_initialize section:
@@ -213,7 +212,8 @@ TO_INST_PM = bot2.pl \
 	loadunits.pl \
 	mgr.pl \
 	paritest.pl \
-	server.pl
+	server.pl \
+	temp.pl
 
 PM_TO_BLIB = lib/Math/Farnsworth/Evaluate.pm \
 	blib/lib/Math/Farnsworth/Evaluate.pm \
@@ -241,6 +241,8 @@ PM_TO_BLIB = lib/Math/Farnsworth/Evaluate.pm \
 	blib/lib/Math/Farnsworth/Functions/Standard.pm \
 	lib/Math/Farnsworth/Dimension.pm \
 	blib/lib/Math/Farnsworth/Dimension.pm \
+	temp.pl \
+	$(INST_LIB)/Math/temp.pl \
 	lib/Math/Farnsworth.pm \
 	blib/lib/Math/Farnsworth.pm \
 	lib/Math/Farnsworth/Docs/Functions.pm \
@@ -539,7 +541,7 @@ clean :: clean_subdirs
 	  perl.exe so_locations \
 	  $(BASEEXT).exp 
 	- $(RM_RF) \
-	  META.yml blib 
+	  blib 
 	- $(MV) $(FIRST_MAKEFILE) $(MAKEFILE_OLD) $(DEV_NULL)
 
 
@@ -836,7 +838,6 @@ subdirs-test ::
 
 test_dynamic :: pure_all
 	PERL_DL_NONLAZY=1 $(FULLPERLRUN) "-MExtUtils::Command::MM" "-e" "test_harness($(TEST_VERBOSE), 'inc', '$(INST_LIB)', '$(INST_ARCHLIB)')" $(TEST_FILES)
-	PERL_DL_NONLAZY=1 $(FULLPERLRUN) "-Iinc" "-I$(INST_LIB)" "-I$(INST_ARCHLIB)" $(TEST_FILE)
 
 testdb_dynamic :: pure_all
 	PERL_DL_NONLAZY=1 $(FULLPERLRUN) $(TESTDB_SW) "-Iinc" "-I$(INST_LIB)" "-I$(INST_ARCHLIB)" $(TEST_FILE)
@@ -885,6 +886,7 @@ pm_to_blib : $(TO_INST_PM)
 	  lib/Math/Farnsworth/Functions/GoogleTranslate.pm blib/lib/Math/Farnsworth/Functions/GoogleTranslate.pm \
 	  lib/Math/Farnsworth/Functions/Standard.pm blib/lib/Math/Farnsworth/Functions/Standard.pm \
 	  lib/Math/Farnsworth/Dimension.pm blib/lib/Math/Farnsworth/Dimension.pm \
+	  temp.pl $(INST_LIB)/Math/temp.pl \
 	  lib/Math/Farnsworth.pm blib/lib/Math/Farnsworth.pm \
 	  lib/Math/Farnsworth/Docs/Functions.pm blib/lib/Math/Farnsworth/Docs/Functions.pm \
 	  lib/Math/Farnsworth/.Variables.pm.swp blib/lib/Math/Farnsworth/.Variables.pm.swp \
