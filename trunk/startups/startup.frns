@@ -118,3 +118,5 @@ while(n>0) {
 
 
 ping =!= pong; ping := pong; /*make it respond to ping*/
+pixel =!= pixel; /*by popular request*/
+bpp := bits/pixel;

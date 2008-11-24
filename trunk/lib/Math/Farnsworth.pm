@@ -2,7 +2,7 @@
 
 package Math::Farnsworth;
 
-our $VERSION = "0.5.1";
+our $VERSION = "0.6.0";
 
 use strict;
 use warnings;

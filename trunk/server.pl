@@ -20,7 +20,7 @@ use utf8;
 
 my $farnsworth = new Math::Farnsworth;
 $farnsworth->runFile("startups/startup.frns");
-#$farnsworth->runFile("startups/combodefaults.frns");
+$farnsworth->runFile("startups/combodefaults.frns");
 print "DONE STARTING UP!\n";
 
 my $aliases = POE::Component::Server::HTTP->new(
@@ -54,7 +54,7 @@ sub runfarnsworth
 	  my $oa = $SIG{ALRM};
     my $oat = alarm(0);
     $SIG{ALRM} = sub {die "Timeout!"};
-    alarm(25);
+    #alarm(25); #commented out for testing
 
   my $out = eval 
 	{

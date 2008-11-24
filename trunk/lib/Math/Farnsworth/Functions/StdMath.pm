@@ -62,6 +62,7 @@ sub init
 	$env->{funcs}->addfunc("factor", [["in", undef, $number]],\&factor);
    
    $env->{funcs}->addfunc("randmax", [["in", undef, $number]],\&randmax);
+   $env->{funcs}->addfunc("exit", [[]],\&exit);
    $env->{funcs}->addfunc("getrseed", [[]],\&getrseed);
    $env->{funcs}->addfunc("setrseed", [[]],\&setrseed);
    $env->eval("random{} := randmax[10**30]/10.0**30");
@@ -81,6 +82,11 @@ sub init
 
    #$env->eval("_tohex{x isa 1} := { if(x < 16) { substrLen[\"0123456789abcdef\", x, 1] } else { _tohex[floor[x/16]] + _tohex[x%16] } }; tohex{x isa 1} := {\"0x\"+_tohex[x]}");
 
+}
+
+sub exit
+{
+  exit(0);
 }
 
 sub sqrt
@@ -254,7 +260,9 @@ sub int
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
 	my $e = PARI '0';
-	return Math::Farnsworth::Value->new(Math::Pari::int($input->{pari}), $e);
+	my $r = Math::Farnsworth::Value->new(Math::Pari::truncate($input->{pari},$e));
+	print Data::Dumper->Dump([$r], ["\$r"]);
+	return $r;
 }
 
 sub numerator
