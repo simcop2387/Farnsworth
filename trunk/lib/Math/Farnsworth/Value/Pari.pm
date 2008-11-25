@@ -98,7 +98,7 @@ sub subtract
   confess "Non reference given to subtraction" unless (!ref($two));
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
-  return $two->add($one, !$rev) unless ($two->isa(__PACKAGE__));
+  return $two->subtract($one, !$rev) unless ($two->isa(__PACKAGE__));
 
   #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
   die "Unable to process different units in subtraction\n" unless ($one->conforms($two)); 
@@ -106,7 +106,7 @@ sub subtract
   #moving this down so that i don't do any math i don't have to
   if (!$rev)
   {
-	  return new Math::Farnsworth::Value($one->{pari} - $tv, $one->{dimen}); #if !$rev they are in order
+	  return new Math::Farnsworth::Value::Pari($one->getpari() - $two->getpari(), $one->getdimen()); #if !$rev they are in order
   }
   else
   {
@@ -119,41 +119,32 @@ sub mod
 {
   my ($one, $two, $rev) = @_;
 
-  #check for $two being a simple value
-  my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
+  confess "Non reference given to modulus" unless (!ref($two));
 
-  #i also need to check the units, but that will come later
-  #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
-  die "Unable to process different units in modulous\n" unless $one->{dimen}->compare($two->{dimen}); #always call this on one, since $two COULD be some other object 
-
-  if ($one->{dimen}->compare({dimen => {string => 1}}) ||$one->{dimen}->compare({dimen => {array =>1}}) ||
-	  $two->{dimen}->compare({dimen => {string => 1}}) ||$two->{dimen}->compare({dimen => {array =>1}}) ||
-	  $two->{dimen}->compare({dimen => {bool => 1}})   ||$one->{dimen}->compare({dimen => {bool =>1}})  ||
-	  $two->{dimen}->compare({dimen => {lambda => 1}})   ||$one->{dimen}->compare({dimen => {lambda =>1}})  ||
-	  $two->{dimen}->compare({dimen => {date => 1}})   ||$one->{dimen}->compare({dimen => {date =>1}}))
-  {
-	  die "Can't divide arrays or strings or booleans or dates or lambdas, it doesn't make sense\n";
-  }
+  #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
+  die "Unable to process different units in modulus\n" unless ($one->conforms($two)); 
 
   #moving this down so that i don't do any math i don't have to
-  my $new;
   if (!$rev)
   {
-	  $new = new Math::Farnsworth::Value($one->{pari} % $tv, $one->{dimen}); #if !$rev they are in order
+	  return new Math::Farnsworth::Value($one->getpari() % $two->getpari(), $one->getdimen()); #if !$rev they are in order
   }
   else
   {
-      $new = new Math::Farnsworth::Value($tv % $one->{pari}, $one->{dimen}); #if !$rev they are in order
+      return new Math::Farnsworth::Value($two->getpari() % $one->getpari(), $one->getdimen()); #if !$rev they are in order
   }
-  return $new;
 }
 
 sub mult
 {
   my ($one, $two, $rev) = @_;
 
+  confess "Non reference given to subtraction" unless (!ref($two));
+
+  #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
+  return $two->mult($one, !$rev) unless ($two->isa(__PACKAGE__));
+
   #check for $two being a simple value
-  my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
   my $td = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{dimen} : new Math::Farnsworth::Dimension();
   
   if ($one->{dimen}->compare({dimen => {string => 1}}) ||$one->{dimen}->compare({dimen => {array =>1}}) ||
@@ -164,10 +155,10 @@ sub mult
 	  die "Can't multiply arrays or strings, it doesn't make sense\n";
   }
 
-  my $nd = $one->{dimen}->merge($td); #merge the dimensions! don't cross the streams though
+  my $nd = $one->getdimen()->merge($two->getdimen()); #merge the dimensions! don't cross the streams though
 
   #moving this down so that i don't do any math i don't have to
-  my $new = new Math::Farnsworth::Value($one->{pari} * $tv, $nd);
+  my $new = new Math::Farnsworth::Value($one->getpari() * $two->getpari(), $nd);
   return $new;
 }
 
