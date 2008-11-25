@@ -58,6 +58,52 @@ sub new
   return $self;
 }
 
+####
+#THESE FUNCTIONS WILL BE MOVED TO Math::Farnsworth::Value, or somewhere more appropriate
+
+sub getdimen
+{
+	my $self = shift;
+	return $self->{dimen};
+}
+
+#these values will also probably be put into a "memoized" setup so that they don't get recreated all the fucking time
+sub TYPE_STRING
+{
+	my $d = new Math::Farnsworth::Dimension({string => 1});
+	bless {dimen => $d}, 'Math::Farnsworth::Value';
+}
+
+sub TYPE_DATE
+{
+	my $d = new Math::Farnsworth::Dimension({date => 1});
+	bless {dimen => $d}, 'Math::Farnsworth::Value';
+}
+
+sub TYPE_PLAIN #this tells it that it is the same as a constraint of "1", e.g. no units
+{
+	my $d = new Math::Farnsworth::Dimension({});
+	bless {dimen => $d}, 'Math::Farnsworth::Value';
+}
+
+sub TYPE_LAMBDA
+{
+	my $d = new Math::Farnsworth::Dimension({lambda => 1});
+	bless {dimen => $d}, 'Math::Farnsworth::Value';
+}
+
+sub TYPE_UNDEF
+{
+	my $d = new Math::Farnsworth::Dimension({"undef" => 1});
+	bless {dimen => $d}, 'Math::Farnsworth::Value';
+}
+
+sub TYPE_ARRAY
+{
+	my $d = new Math::Farnsworth::Dimension({array => 1});
+	bless {dimen => $d}, 'Math::Farnsworth::Value';
+}
+
 #######
 #The rest of this code can be GREATLY cleaned up by assuming that $one is of type, Math::Farnsworth::Value::Pari, this means that i can slowly redo a lot of this code
 
@@ -65,12 +111,6 @@ sub getpari
 {
 	my $self = shift;
 	return $self->{pari};
-}
-
-sub getdimen
-{
-	my $self = shift;
-	return $self->{dimen};
 }
 
 sub add
@@ -121,17 +161,21 @@ sub mod
 
   confess "Non reference given to modulus" unless (!ref($two));
 
+  #as odd as this seems, we need it in order to allow overloading later on
+  #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
+  return $two->mod($one, !$rev) unless ($two->isa(__PACKAGE__));
+
   #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
   die "Unable to process different units in modulus\n" unless ($one->conforms($two)); 
 
   #moving this down so that i don't do any math i don't have to
   if (!$rev)
   {
-	  return new Math::Farnsworth::Value($one->getpari() % $two->getpari(), $one->getdimen()); #if !$rev they are in order
+	  return new Math::Farnsworth::Value::Pari($one->getpari() % $two->getpari(), $one->getdimen()); #if !$rev they are in order
   }
   else
   {
-      return new Math::Farnsworth::Value($two->getpari() % $one->getpari(), $one->getdimen()); #if !$rev they are in order
+      return new Math::Farnsworth::Value::Pari($two->getpari() % $one->getpari(), $one->getdimen()); #if !$rev they are in order
   }
 }
 
@@ -139,74 +183,41 @@ sub mult
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to subtraction" unless (!ref($two));
+  confess "Non reference given to multiplication" unless (!ref($two));
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   return $two->mult($one, !$rev) unless ($two->isa(__PACKAGE__));
 
-  #check for $two being a simple value
-  my $td = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{dimen} : new Math::Farnsworth::Dimension();
-  
-  if ($one->{dimen}->compare({dimen => {string => 1}}) ||$one->{dimen}->compare({dimen => {array =>1}}) ||
-	  $td->compare({dimen => {string => 1}}) ||$td->compare({dimen => {array =>1}}) ||
-	  $td->compare({dimen => {bool => 1}})   ||$one->{dimen}->compare({dimen => {bool =>1}})  ||
-	  $td->compare({dimen => {lambda => 1}})   ||$one->{dimen}->compare({dimen => {lambda =>1}})  ||
-	  $td->compare({dimen => {date => 1}})   ||$one->{dimen}->compare({dimen => {date =>1}}))  {
-	  die "Can't multiply arrays or strings, it doesn't make sense\n";
-  }
-
   my $nd = $one->getdimen()->merge($two->getdimen()); #merge the dimensions! don't cross the streams though
 
   #moving this down so that i don't do any math i don't have to
-  my $new = new Math::Farnsworth::Value($one->getpari() * $two->getpari(), $nd);
-  return $new;
+  return new Math::Farnsworth::Value($one->getpari() * $two->getpari(), $nd);
 }
 
 sub div
 {
   my ($one, $two, $rev) = @_;
 
-  #check for $two being a simple value
-  my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
-  my $td = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{dimen} : new Math::Farnsworth::Dimension();
+  confess "Non reference given to division" unless (!ref($two));
 
-  if ($one->{dimen}->compare({dimen => {string => 1}}) ||$one->{dimen}->compare({dimen => {array =>1}}) ||
-	  $td->compare({dimen => {string => 1}}) ||$td->compare({dimen => {array =>1}}) ||
-	  $td->compare({dimen => {bool => 1}})   ||$one->{dimen}->compare({dimen => {bool =>1}})  ||
-	  $td->compare({dimen => {lambda => 1}}) ||$one->{dimen}->compare({dimen => {lambda =>1}})  ||
-	  $td->compare({dimen => {date => 1}})   ||$one->{dimen}->compare({dimen => {date =>1}})) 
-  {
-	  die "Can't divide arrays or strings, it doesn't make sense\n";
-  }
+  #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
+  return $two->mult($one, !$rev) unless ($two->isa(__PACKAGE__));
 
   #these are a little screwy SO i'll probably comment them more later
   #probably after i find out that they're wrong
-  my $qd = $rev ? $td : $one->{dimen};
-  my $dd = $rev ? $one->{dimen}->invert() : (ref($td) eq "HASH" ? $td : $td->invert());
+  my $qd = $rev ? $two->getdimen() : $one->getdimen();
+  my $dd = $rev ? $one->getdimen()->invert() : $two->getdimen()->invert());
 
-  my $nd;
+  my $nd = $qd->merge($dd);
   
-  if (ref($qd) ne "HASH")
-  {
-	  $nd = $qd->merge($dd); #merge the dimensions! don't cross the streams though
-  }
-  else
-  {
-	  $nd = $dd->merge($qd); #merge them the other way, because $qd is a "HASH" and not an object
-  }
-
-  #moving this down so that i don't do any math i don't have to
-  my $new;
   if (!$rev)
   {
-	  $new = new Math::Farnsworth::Value($one->{pari} / $tv, $nd); #if !$rev they are in order
+	  return new Math::Farnsworth::Value::Pari($one->getpari() / $two->getpari(), $nd); #if !$rev they are in order
   }
   else
   {
-      $new = new Math::Farnsworth::Value($tv / $one->{pari}, $nd); #if !$rev they are in order
+      return new Math::Farnsworth::Value::Pari($two->getpari() / $one->getpari(), $nd); #if !$rev they are in order
   }
-
-  return $new;
 }
 
 sub bool
@@ -218,27 +229,19 @@ sub bool
 	#print "BOOLCONV\n";
 	#print Dumper($self);
 	#print "ENDBOOLCONV\n";
-	return $self->{pari}?1:0;
+	return $self->getpari()?1:0;
 }
 
 sub pow
 {
   my ($one, $two, $rev) = @_;
 
-  if ($one->{dimen}->compare({dimen => {string => 1}}) ||$one->{dimen}->compare({dimen => {array =>1}}) ||
-	  $two->{dimen}->compare({dimen => {string => 1}}) ||$two->{dimen}->compare({dimen => {array =>1}}) ||
-	  $two->{dimen}->compare({dimen => {bool => 1}})   ||$one->{dimen}->compare({dimen => {bool =>1}})  ||
-	  $two->{dimen}->compare({dimen => {lambda => 1}})   ||$one->{dimen}->compare({dimen => {lambda =>1}})  ||
-	  $two->{dimen}->compare({dimen => {date => 1}})   ||$one->{dimen}->compare({dimen => {date =>1}})) 
-  {
-	  die "Can't exponentiate arrays or strings or dates or bools, it doesn't make sense\n";
-  }
+  confess "Non reference given to exponentiation" unless (!ref($two));
 
-  #check for $two being a simple value
-  my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
-  my $td = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{dimen} : undef;
+  #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
+  return $two->pow($one, !$rev) unless ($two->isa(__PACKAGE__));
 
-  if (defined($td) && !$td->compare({dimen=>{}}))
+  if (!$two->conforms(TYPE_PLAIN))
   {
 	  die "A number with units as the exponent doesn't make sense";
   }
@@ -247,13 +250,11 @@ sub pow
   my $new;
   if (!$rev)
   {
-	  $new = new Math::Farnsworth::Value($one->{pari} ** $tv, $one->{dimen}->mult($tv)); #if !$rev they are in order
+	  $new = new Math::Farnsworth::Value($one->getpari() ** $two->getpari(), $one->getdimen()->mult($two->getpari())); #if !$rev they are in order
   }
   else
   {
-#	  print Dumper(\@_);
-	  #print "POW: $tv :: $two :: $one\n";
-      $new = new Math::Farnsworth::Value($tv ** $one->{pari}, $one->{dimen}->mult($tv)); #if !$rev they are in order
+	  die "Wrong order in ->pow()";
   }
 
   return $new;
@@ -263,60 +264,34 @@ sub compare
 {
   my ($one, $two, $rev) = @_;
 
+  confess "Non reference given to exponentiation" unless (!ref($two));
+
+  #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
+  return $two->compare($one, !$rev) unless ($two->isa(__PACKAGE__));
+
   my $rv = $rev ? -1 : 1;
   #check for $two being a simple value
-  my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
+  my $tv = $two->getpari();
+  my $ov = $one->getpari();
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
-  die "Unable to process different units in compare\n" unless $one->{dimen}->compare($two->{dimen}); #always call this on one, since $two COULD be some other object 
+  die "Unable to process different units in compare\n" unless $one->conforms($two); #always call this on one, since $two COULD be some other object 
 
   #moving this down so that i don't do any math i don't have to
   my $new;
   
-  if ($one->{dimen}{dimen}{string})
+  if ($ov == $tv)
   {
-	  if ($one->{pari} eq $tv)
-	  {
-		  $new = 0;
-	  }
-	  elsif ($one->{pari} lt $tv)
-	  {
-		  $new = -1;
-	  }
-	  elsif ($one->{pari} gt $tv)
-	  {
-		$new = 1;
-	  }
+	return 0;
   }
-  elsif ($one->{dimen}{dimen}{array})
+  elsif ($ov < $tv)
   {
-	  die "Comparing arrays has not been implemented\n";
+	return -1;
   }
-  elsif ($one->{dimen}{dimen}{lambdas})
+  elsif ($ov > $tv)
   {
-	  die "Comparing lambdas has not been implemented\n";
+	return 1;
   }
-  elsif ($one->{dimen}{dimen}{date})
-  {
-	  return Date_Cmp($one->{pari}, $two->{pari}); #does it for me!
-  }
-  else
-  {
-	  if ($one->{pari} == $tv)
-	  {
-		  $new = 0;
-	  }
-	  elsif ($one->{pari} < $tv)
-	  {
-		  $new = -1;
-	  }
-	  elsif ($one->{pari} > $tv)
-	  {
-		$new =1;
-	  }
-  }
-
-  return $new;
 }
 
