@@ -61,128 +61,58 @@ sub new
 #######
 #The rest of this code can be GREATLY cleaned up by assuming that $one is of type, Math::Farnsworth::Value::Pari, this means that i can slowly redo a lot of this code
 
+sub getpari
+{
+	my $self = shift;
+	return $self->{pari};
+}
+
+sub getdimen
+{
+	my $self = shift;
+	return $self->{dimen};
+}
 
 sub add
 {
   my ($one, $two, $rev) = @_;
 
-  #check for $two being a simple value
-  my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
+  confess "Non reference given to addition" unless (!ref($two));
 
-  #i also need to check the units, but that will come later
-  #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
-  #print Dumper($one->{dimen}, $two->{dimen});
-  die "Unable to process different units in addition\n" unless ($one->{dimen}->compare($two->{dimen}) || $one->{dimen}{dimen}{date}); #always call this on one, since $two COULD be some other object 
+  #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
+  return $two->add($one, !$rev) unless ($two->isa(__PACKAGE__));
+
+  #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
+  die "Unable to process different units in addition\n" unless ($one->conforms($two)); 
 
   #moving this down so that i don't do any math i don't have to
 
-  my $new;
-  if ($one->{dimen}{dimen}{string})
-  {
-	  #print Dumper($one, $two);
-  	$new = new Math::Farnsworth::Value($one->{pari} . $tv, $one->{dimen});
-  }
-  elsif ($one->{dimen}{dimen}{array})
-  {
-	  die "Adding arrays is undefined behavoir!\n";
-  }
-  elsif ($one->{dimen}{dimen}{bool})
-  {
-	  die "Adding Booleans is undefined behavoir!\n";
-  }
-  elsif ($one->{dimen}{dimen}{lambda})
-  {
-	  die "Adding Lambdas is undefined behavoir.\n";
-  }
-  elsif (($one->{dimen}{dimen}{date}) && ($two->{dimen}{dimen}{date}))
-  {
-	  die "Adding of two dates is unsupported\n";
-  }
-  elsif (($one->{dimen}{dimen}{date}) && ($two->{dimen}->compare({dimen=>{time => 1}}))) #check if we are adding time to a date
-  {
-		  my $seconds = $two->toperl(); #calling WITHOUT the units SHOULD give me a string containing just the number
-		  $seconds =~ s/\..*$//; #filter off fractional parts of a second as Date::Manip hates them
-		  my $sign = $seconds > 0 ? "+" : "-"; #should work fine, even with loss of precision
-		  my $delta = DateCalc($one->{pari}, "$sign $seconds seconds"); #order is switched, to make it work the way I think it should
-
-		  $new = new Math::Farnsworth::Value($delta, {date=>1});
-  }
-  else
-  {
-	$new = new Math::Farnsworth::Value($one->{pari} + $tv, $one->{dimen});
-  }
-
-  return $new;
+  #ONLY THIS MODULE SHOULD EVER TOUCH ->{pari} ANYMORE! this might change into, NEVER
+  return new Math::Farnsworth::Value::Pari($one->getpari() + $two->getpari(), $one->getdimen());
 }
 
 sub subtract
 {
   my ($one, $two, $rev) = @_;
 
-  #check for $two being a simple value
-  my $tv = ref($two) && $two->isa("Math::Farnsworth::Value") ? $two->{pari} : $two;
+  confess "Non reference given to subtraction" unless (!ref($two));
 
-  #i also need to check the units, but that will come later
-  #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
-  die "Unable to process different units in subtraction\n" unless ($one->{dimen}->compare($two->{dimen}) || $one->{dimen}{dimen}{date}); #always call this on one, sinc
+  #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
+  return $two->add($one, !$rev) unless ($two->isa(__PACKAGE__));
+
+  #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
+  die "Unable to process different units in subtraction\n" unless ($one->conforms($two)); 
 
   #moving this down so that i don't do any math i don't have to
-  my $new;
   if (!$rev)
   {
-	  if (($one->{dimen}{dimen}{date}) && ($two->{dimen}{dimen}{date}))
-	  {
-		  my $delta = DateCalc($two->{pari}, $one->{pari}); #order is switched, to make it work the way I think it should
-		  die "something went screwy with calculating deltas, $delta\n" unless $delta =~ /^[+-](\d+:){6}(\d+)$/;
-
-		  my $seconds = new Math::Farnsworth::Value(Delta_Format($delta,1,"%st"), {time => 1});
-		  $new = $seconds; #create that
-	  }
-	  elsif (($one->{dimen}{dimen}{date}) && ($two->{dimen}->compare({dimen => {time => 1}})))
-	  {
-		  my $seconds = $two->toperl(); #calling WITHOUT the units SHOULD give me a string containing just the number
-		  $seconds =~ s/\..*$//; #filter off fractional parts of a second as Date::Manip hates them
-		  my $sign = $seconds > 0 ? "-" : "+"; #should work fine, even with loss of precision
-		  my $delta = DateCalc($one->{pari}, "$sign $seconds seconds"); #order is switched, to make it work the way I think it should
-
-		  $new = new Math::Farnsworth::Value($delta, {date=>1});
-	  }
-	  elsif ($one->{dimen}{dimen}{date})
-	  {
-		  #we reached here with some other subtraction with a Date, do not do it
-		  die "Dates can only have dates and time subtracted, nothing else\n";
-	  }
-  	  elsif ($one->{dimen}{dimen}{array} || $two->{dimen}{dimen}{array})
-	  {
-		  #we reached here with some other subtraction with a Date, do not do it
-		  die "subtracting arrays is undefined behavior\n";
-	  }
-  	  elsif ($one->{dimen}{dimen}{string} || $two->{dimen}{dimen}{string})
-	  {
-		  #we reached here with some other subtraction with a Date, do not do it
-		  die "Subtracting strings is undefined behavior\n";
-	  }
-	  elsif ($one->{dimen}{dimen}{bool} || $two->{dimen}{dimen}{bool})
-	  {
-		  #we reached here with some other subtraction with a Date, do not do it
-		  die "Subtracting Booleans is undefined behavior\n";
-	  }
-  	  elsif ($one->{dimen}{dimen}{lambda} || $two->{dimen}{dimen}{lambda})
-	  {
-		  #we reached here with some other subtraction with a Date, do not do it
-		  die "Subtracting lambdas is undefined behavior\n";
-	  }
-	  else
-	  {
-		  $new = new Math::Farnsworth::Value($one->{pari} - $tv, $one->{dimen}); #if !$rev they are in order
-	  }
+	  return new Math::Farnsworth::Value($one->{pari} - $tv, $one->{dimen}); #if !$rev they are in order
   }
   else
   {
+	  #i've never seen this happen, we'll see if it works
 	  die "some mistake happened here in subtraction\n"; #to test later on
-#      $new = new Math::Farnsworth::Value($tv - $one->{pari}, $one->{dimen}); #if !$rev they are in order
   }
-  return $new;
 }
 
 sub mod
