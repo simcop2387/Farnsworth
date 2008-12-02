@@ -46,6 +46,8 @@ my @tests =
 #	["#today# + 4", undef, "units, date + 1"], #real bug involved here, need to fix
 	['"foo" + "bar"', '"foobar"', "string concat"],
 	['a=[1,2,3]; a@2$', '3 ', "array access"],
+	['10 m^(3/2)', '10.0 m^(3/2)', "rational powers"],
+	['10 m^(1/2)', '10.0 m^(1/2)', "rational powers < 1 with 1 as numerator"],
 
 );
 

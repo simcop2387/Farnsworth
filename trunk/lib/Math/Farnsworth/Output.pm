@@ -190,7 +190,7 @@ sub getstring
 			$dv =~ s/([.]\d+?)0+$/$1/;
 			$dv =~ s/E/e/; #make floating points clearer
 
-			$exp = "^".($dv =~ /^[\d\.]+$/? $dv :"(".$dv.")") unless ($realdv == 1);
+			$exp = "^".($dv =~ /^[\d\.]+$/? $dv :"(".$dv.")") unless ($realdv eq "1");
 			
 			push @returns, $self->{units}->getdimen($d).$exp;
 		}
