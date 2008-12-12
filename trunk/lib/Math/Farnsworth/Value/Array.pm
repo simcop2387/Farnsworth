@@ -3,12 +3,12 @@ package Math::Farnsworth::Value::Pari
 use Math::Pari;
 use Math::Farnsworth::Dimension;
 use Date::Manip;
-use List::Util qw(sum);
+use List::MoreUtils 'each_array'; 
 use Storable qw(dclone);
 
 use utf8;
 
-our $VERSION = 0.5;
+our $VERSION = 0.6;
 
 use overload 
     '+' => \&add,
@@ -32,8 +32,9 @@ sub new
 {
   my $class = shift;
   my $value = shift;
-  my $dimen = shift; #should only really be used internally?
   my $outmagic = shift; #i'm still not sure on this one
+
+  confess "Non array reference given as \$value to constructor" unless ref($value) eq "ARRAY" && defined($value);
 
   my $self = {};
 
@@ -42,75 +43,52 @@ sub new
   $self->{outmagic} = $outmagic;
   $self->{valueinput} = $value;
 
-  if (ref($dimen) eq "Math::Farnsworth::Dimension")
-  {
-    $self->{dimen} = $dimen;
-  }
-  else
-  {
-	  $dimen = {} if !defined($dimen);
-	  $self->{dimen} = new Math::Farnsworth::Dimension($dimen);
-  }
-
-  $value =~ s/(ee|E)/e/i; #fixes double ee's, i could probably eventually remove this, but it doesn't do any harm for now
-  $self->{pari} = PARI $value;
-
+  $self->{array} = $value || [];
+  
   return $self;
 }
 
 ####
 #THESE FUNCTIONS WILL BE MOVED TO Math::Farnsworth::Value, or somewhere more appropriate
 
-sub getdimen
-{
-	my $self = shift;
-	return $self->{dimen};
-}
-
 #these values will also probably be put into a "memoized" setup so that they don't get recreated all the fucking time
 sub TYPE_STRING
 {
-	my $d = new Math::Farnsworth::Dimension({string => 1});
-	bless {dimen => $d}, 'Math::Farnsworth::Value';
+	new Math::Farnsworth::Value::String();
 }
 
 sub TYPE_DATE
 {
-	my $d = new Math::Farnsworth::Dimension({date => 1});
-	bless {dimen => $d}, 'Math::Farnsworth::Value';
+	new Math::Farnsworth::Value::Date();
 }
 
 sub TYPE_PLAIN #this tells it that it is the same as a constraint of "1", e.g. no units
 {
-	my $d = new Math::Farnsworth::Dimension({});
-	bless {dimen => $d}, 'Math::Farnsworth::Value';
+	new Math::Farnsworth::Value::Pari(0);
 }
 
 sub TYPE_LAMBDA
 {
-	my $d = new Math::Farnsworth::Dimension({lambda => 1});
-	bless {dimen => $d}, 'Math::Farnsworth::Value';
+	new Math::Farnsworth::Value::Lambda();
 }
 
 sub TYPE_UNDEF
 {
-	my $d = new Math::Farnsworth::Dimension({"undef" => 1});
-	bless {dimen => $d}, 'Math::Farnsworth::Value';
+	new Math::Farnsworth::Value::Undef();
 }
 
 sub TYPE_ARRAY
 {
-	my $d = new Math::Farnsworth::Dimension({array => 1});
-	bless {dimen => $d}, 'Math::Farnsworth::Value';
+	new Math::Farnsworth::Value::Array();
 }
 
 #######
 #The rest of this code can be GREATLY cleaned up by assuming that $one is of type, Math::Farnsworth::Value::Pari, this means that i can slowly redo a lot of this code
 
-sub getpari
+sub getarray
 {
 	my $self = shift;
-	return $self->{pari};
+	return $self->{array};
 }
 
 sub add
@@ -120,7 +98,9 @@ sub add
   confess "Non reference given to addition" unless (!ref($two));
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
+  confess "Scalar value given to addition to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->add($one, !$rev) unless ($two->isa(__PACKAGE__));
+
 
   #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
   die "Unable to process different units in addition\n" unless ($one->conforms($two)); 
@@ -128,7 +108,10 @@ sub add
   #moving this down so that i don't do any math i don't have to
 
   #ONLY THIS MODULE SHOULD EVER TOUCH ->{pari} ANYMORE! this might change into, NEVER
-  return new Math::Farnsworth::Value::Pari($one->getpari() + $two->getpari(), $one->getdimen());
+  my $order;
+  $order = [@{$one->getarray()}, @{$two->getarray()}] unless $rev;
+  $order = [@{$two->getarray()}, @{$one->getarray()}] if $rev;
+  return new Math::Farnsworth::Value::Array($order); #concatenate the arrays
 }
 
 sub subtract
@@ -137,46 +120,24 @@ sub subtract
 
   confess "Non reference given to subtraction" unless (!ref($two));
 
-  #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
+  #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
+  confess "Scalar value given to subtraction to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->subtract($one, !$rev) unless ($two->isa(__PACKAGE__));
 
-  #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
-  die "Unable to process different units in subtraction\n" unless ($one->conforms($two)); 
-
-  #moving this down so that i don't do any math i don't have to
-  if (!$rev)
-  {
-	  return new Math::Farnsworth::Value::Pari($one->getpari() - $two->getpari(), $one->getdimen()); #if !$rev they are in order
-  }
-  else
-  {
-	  #i've never seen this happen, we'll see if it works
-	  die "some mistake happened here in subtraction\n"; #to test later on
-  }
+  die "Subtracting arrays? what did you think this would do, create a black hole?";
 }
 
-sub mod
+sub modulus
 {
   my ($one, $two, $rev) = @_;
 
   confess "Non reference given to modulus" unless (!ref($two));
 
-  #as odd as this seems, we need it in order to allow overloading later on
-  #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
+  #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
+  confess "Scalar value given to modulus to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->mod($one, !$rev) unless ($two->isa(__PACKAGE__));
 
-  #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
-  die "Unable to process different units in modulus\n" unless ($one->conforms($two)); 
-
-  #moving this down so that i don't do any math i don't have to
-  if (!$rev)
-  {
-	  return new Math::Farnsworth::Value::Pari($one->getpari() % $two->getpari(), $one->getdimen()); #if !$rev they are in order
-  }
-  else
-  {
-      return new Math::Farnsworth::Value::Pari($two->getpari() % $one->getpari(), $one->getdimen()); #if !$rev they are in order
-  }
+  die "Modulusing arrays? what did you think this would do, create a black hole?";
 }
 
 sub mult
@@ -185,13 +146,11 @@ sub mult
 
   confess "Non reference given to multiplication" unless (!ref($two));
 
-  #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
+  #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
+  confess "Scalar value given to multiplcation to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->mult($one, !$rev) unless ($two->isa(__PACKAGE__));
 
-  my $nd = $one->getdimen()->merge($two->getdimen()); #merge the dimensions! don't cross the streams though
-
-  #moving this down so that i don't do any math i don't have to
-  return new Math::Farnsworth::Value($one->getpari() * $two->getpari(), $nd);
+  die "Multiplying arrays? what did you think this would do, create a black hole?";
 }
 
 sub div
@@ -200,24 +159,11 @@ sub div
 
   confess "Non reference given to division" unless (!ref($two));
 
-  #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
-  return $two->mult($one, !$rev) unless ($two->isa(__PACKAGE__));
+  #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
+  confess "Scalar value given to division to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
+  return $two->div($one, !$rev) unless ($two->isa(__PACKAGE__));
 
-  #these are a little screwy SO i'll probably comment them more later
-  #probably after i find out that they're wrong
-  my $qd = $rev ? $two->getdimen() : $one->getdimen();
-  my $dd = $rev ? $one->getdimen()->invert() : $two->getdimen()->invert());
-
-  my $nd = $qd->merge($dd);
-  
-  if (!$rev)
-  {
-	  return new Math::Farnsworth::Value::Pari($one->getpari() / $two->getpari(), $nd); #if !$rev they are in order
-  }
-  else
-  {
-      return new Math::Farnsworth::Value::Pari($two->getpari() / $one->getpari(), $nd); #if !$rev they are in order
-  }
+  die "Dividing arrays? what did you think this would do, create a black hole?";
 }
 
 sub bool
@@ -229,7 +175,7 @@ sub bool
 	#print "BOOLCONV\n";
 	#print Dumper($self);
 	#print "ENDBOOLCONV\n";
-	return $self->getpari()?1:0;
+	return $self->getarray()?1:0;
 }
 
 sub pow
@@ -238,60 +184,49 @@ sub pow
 
   confess "Non reference given to exponentiation" unless (!ref($two));
 
-  #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
+  #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
+  confess "Exponentiating arrays? what did you think this would do, create a black hole?" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->pow($one, !$rev) unless ($two->isa(__PACKAGE__));
 
-  if (!$two->conforms(TYPE_PLAIN))
-  {
-	  die "A number with units as the exponent doesn't make sense";
-  }
+  die "Exponentiating arrays? what did you think this would do, create a black hole?";
+}
 
-  #moving this down so that i don't do any math i don't have to
-  my $new;
-  if (!$rev)
-  {
-	  $new = new Math::Farnsworth::Value($one->getpari() ** $two->getpari(), $one->getdimen()->mult($two->getpari())); #if !$rev they are in order
-  }
-  else
-  {
-	  die "Wrong order in ->pow()";
-  }
+sub __compare
+{
+	my ($a1, $a2) = @_;
+	my $same = 0;
+	my $ea = each_array(@$a1, @$a2);
+	
+	while(my ($first, $second) = $ea->()) 
+	{ 
+		$same = $first > $second ? 1 : -1 and last if $first != $second 
+	} # shortcircuits
 
-  return $new;
+	return $same;
 }
 
 sub compare
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to exponentiation" unless (!ref($two));
+  confess "Non reference given to compare" unless (!ref($two));
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
+  confess "Scalar value given to division to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->compare($one, !$rev) unless ($two->isa(__PACKAGE__));
 
   my $rv = $rev ? -1 : 1;
   #check for $two being a simple value
-  my $tv = $two->getpari();
-  my $ov = $one->getpari();
+  my $tv = $two->getarray();
+  my $ov = $one->getarray();
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
   die "Unable to process different units in compare\n" unless $one->conforms($two); #always call this on one, since $two COULD be some other object 
 
   #moving this down so that i don't do any math i don't have to
-  my $new;
+  my $new = __compare($tv, $ov);
   
-  if ($ov == $tv)
-  {
-	return 0;
-  }
-  elsif ($ov < $tv)
-  {
-	return -1;
-  }
-  elsif ($ov > $tv)
-  {
-	return 1;
-  }
+  return $new * $rv;
 }
 
