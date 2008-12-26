@@ -173,20 +173,6 @@ sub pow
   die "Exponentiating arrays? what did you think this would do, create a black hole?";
 }
 
-sub __compare
-{
-	my ($a1, $a2) = @_;
-	my $same = 0;
-	my $ea = each_array(@$a1, @$a2);
-	
-	while(my ($first, $second) = $ea->()) 
-	{ 
-		$same = $first > $second ? 1 : -1 and last if $first != $second 
-	} # shortcircuits
-
-	return $same;
-}
-
 sub compare
 {
   my ($one, $two, $rev) = @_;
@@ -211,4 +197,3 @@ sub compare
   
   return $new * $rv;
 }
-

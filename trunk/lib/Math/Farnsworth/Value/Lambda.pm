@@ -169,22 +169,7 @@ sub pow
     confess "Given non boolean to boolean operation";
   }
 
-
   die "Exponentiating arrays? what did you think this would do, create a black hole?";
-}
-
-sub __compare
-{
-	my ($a1, $a2) = @_;
-	my $same = 0;
-	my $ea = each_array(@$a1, @$a2);
-	
-	while(my ($first, $second) = $ea->()) 
-	{ 
-		$same = $first > $second ? 1 : -1 and last if $first != $second 
-	} # shortcircuits
-
-	return $same;
 }
 
 sub compare
@@ -197,18 +182,6 @@ sub compare
   confess "Scalar value given to division to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->compare($one, !$rev) unless ($two->isa(__PACKAGE__));
 
-  my $rv = $rev ? -1 : 1;
-  #check for $two being a simple value
-  my $tv = $two->gettruth();
-  my $ov = $one->gettruth();
-
-  #i also need to check the units, but that will come later
-  #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
-  die "Unable to process different units in compare\n" unless $one->conforms($two); #always call this on one, since $two COULD be some other object 
-
-  #moving this down so that i don't do any math i don't have to
-  my $new = $tv <=> $ov;
-  
-  return $new * $rv;
+  return 0;
 }
 

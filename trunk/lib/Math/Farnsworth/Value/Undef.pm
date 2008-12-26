@@ -31,26 +31,15 @@ use base qw(Math::Farnsworth::Value);
 sub new
 {
   my $class = shift;
-  my $value = shift;
   my $outmagic = shift; #i'm still not sure on this one
-
-  confess "Non array reference given as \$value to constructor" unless ref($value) eq "ARRAY" && defined($value);
 
   my $self = {};
 
   bless $self, $class;
 
   $self->{outmagic} = $outmagic;
-  $self->{valueinput} = $value;
-
-  $self->{truthiness} = $value ? 1 : 0;
-  
+ 
   return $self;
-}
-
-sub gettruth
-{
-	return $_[0]->{truthiness};
 }
 
 #######
@@ -152,7 +141,7 @@ sub bool
 	#print "BOOLCONV\n";
 	#print Dumper($self);
 	#print "ENDBOOLCONV\n";
-	return $self->gettruth()?1:0;
+	return 0;
 }
 
 sub pow
@@ -163,7 +152,7 @@ sub pow
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Exponentiating arrays? what did you think this would do, create a black hole?" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->pow($one, !$rev) unless ($two->isa(__PACKAGE__));
+  return $two->pow($one, !$rev) unless ($two->ismediumtype());
   if (!$two->ismediumtype("Boolean"))
   {
     confess "Given non boolean to boolean operation";
@@ -195,20 +184,8 @@ sub compare
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   confess "Scalar value given to division to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->compare($one, !$rev) unless ($two->isa(__PACKAGE__));
+  return $two->compare($one, !$rev) unless ($two->ismediumtype());
 
-  my $rv = $rev ? -1 : 1;
-  #check for $two being a simple value
-  my $tv = $two->gettruth();
-  my $ov = $one->gettruth();
-
-  #i also need to check the units, but that will come later
-  #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
-  die "Unable to process different units in compare\n" unless $one->conforms($two); #always call this on one, since $two COULD be some other object 
-
-  #moving this down so that i don't do any math i don't have to
-  my $new = $tv <=> $ov;
-  
-  return $new * $rv;
+  return 0;
 }
 
