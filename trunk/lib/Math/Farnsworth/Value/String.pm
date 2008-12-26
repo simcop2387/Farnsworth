@@ -34,7 +34,7 @@ sub new
   my $value = shift;
   my $outmagic = shift; #i'm still not sure on this one
 
-  confess "Non array reference given as \$value to constructor" unless ref($value) eq "ARRAY" && defined($value);
+  confess "Non string given as \$value to constructor" unless ref($value) eq "" && defined($value);
 
   my $self = {};
 
@@ -43,44 +43,11 @@ sub new
   $self->{outmagic} = $outmagic;
   $self->{valueinput} = $value;
 
-  $self->{array} = $value || [];
+  $self->{array} = $value."" || "";
   
   return $self;
 }
 
-####
-#THESE FUNCTIONS WILL BE MOVED TO Math::Farnsworth::Value, or somewhere more appropriate
-
-#these values will also probably be put into a "memoized" setup so that they don't get recreated all the fucking time
-sub TYPE_STRING
-{
-	new Math::Farnsworth::Value::String();
-}
-
-sub TYPE_DATE
-{
-	new Math::Farnsworth::Value::Date();
-}
-
-sub TYPE_PLAIN #this tells it that it is the same as a constraint of "1", e.g. no units
-{
-	new Math::Farnsworth::Value::Pari(0);
-}
-
-sub TYPE_LAMBDA
-{
-	new Math::Farnsworth::Value::Lambda();
-}
-
-sub TYPE_UNDEF
-{
-	new Math::Farnsworth::Value::Undef();
-}
-
-sub TYPE_ARRAY
-{
-	new Math::Farnsworth::Value::Array();
-}
 
 #######
 #The rest of this code can be GREATLY cleaned up by assuming that $one is of type, Math::Farnsworth::Value::Pari, this means that i can slowly redo a lot of this code
@@ -100,7 +67,10 @@ sub add
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   confess "Scalar value given to addition to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->add($one, !$rev) unless ($two->isa(__PACKAGE__));
-
+  if (!$two->ismediumtype("String"))
+  {
+    confess "Given non boolean to boolean operation";
+  }
 
   #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
   die "Unable to process different units in addition\n" unless ($one->conforms($two)); 
