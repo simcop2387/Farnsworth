@@ -1,4 +1,4 @@
-package Math::Farnsworth::Value::Pari
+package Math::Farnsworth::Value::Array
 
 use Math::Pari;
 use Math::Farnsworth::Dimension;
@@ -48,43 +48,6 @@ sub new
   return $self;
 }
 
-####
-#THESE FUNCTIONS WILL BE MOVED TO Math::Farnsworth::Value, or somewhere more appropriate
-
-#these values will also probably be put into a "memoized" setup so that they don't get recreated all the fucking time
-sub TYPE_STRING
-{
-	new Math::Farnsworth::Value::String();
-}
-
-sub TYPE_DATE
-{
-	new Math::Farnsworth::Value::Date();
-}
-
-sub TYPE_PLAIN #this tells it that it is the same as a constraint of "1", e.g. no units
-{
-	new Math::Farnsworth::Value::Pari(0);
-}
-
-sub TYPE_LAMBDA
-{
-	new Math::Farnsworth::Value::Lambda();
-}
-
-sub TYPE_UNDEF
-{
-	new Math::Farnsworth::Value::Undef();
-}
-
-sub TYPE_ARRAY
-{
-	new Math::Farnsworth::Value::Array();
-}
-
-#######
-#The rest of this code can be GREATLY cleaned up by assuming that $one is of type, Math::Farnsworth::Value::Pari, this means that i can slowly redo a lot of this code
-
 sub getarray
 {
 	my $self = shift;
@@ -99,13 +62,11 @@ sub add
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   confess "Scalar value given to addition to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->add($one, !$rev) unless ($two->isa(__PACKAGE__));
-
-
-  #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
-  die "Unable to process different units in addition\n" unless ($one->conforms($two)); 
-
-  #moving this down so that i don't do any math i don't have to
+  return $two->add($one, !$rev) unless ($two->ismediumtype());
+  if (!$two->ismediumtype("Array"))
+  {
+    confess "Given non array to array addition";
+  }
 
   #ONLY THIS MODULE SHOULD EVER TOUCH ->{pari} ANYMORE! this might change into, NEVER
   my $order;
@@ -122,7 +83,11 @@ sub subtract
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Scalar value given to subtraction to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->subtract($one, !$rev) unless ($two->isa(__PACKAGE__));
+  return $two->subtract($one, !$rev) unless ($two->ismediumtype());
+  if (!$two->ismediumtype("Array"))
+  {
+    confess "Given non array to array subtraction";
+  }
 
   die "Subtracting arrays? what did you think this would do, create a black hole?";
 }
@@ -135,7 +100,11 @@ sub modulus
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Scalar value given to modulus to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->mod($one, !$rev) unless ($two->isa(__PACKAGE__));
+  return $two->mod($one, !$rev) unless ($two->ismediumtype());
+  if (!$two->ismediumtype("Array"))
+  {
+    confess "Given non array to array modulus";
+  }
 
   die "Modulusing arrays? what did you think this would do, create a black hole?";
 }
@@ -148,7 +117,11 @@ sub mult
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Scalar value given to multiplcation to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->mult($one, !$rev) unless ($two->isa(__PACKAGE__));
+  return $two->mult($one, !$rev) unless ($two->ismediumtype());
+  if (!$two->ismediumtype("Array"))
+  {
+    confess "Given non array to array multiplication";
+  }
 
   die "Multiplying arrays? what did you think this would do, create a black hole?";
 }
@@ -161,7 +134,11 @@ sub div
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Scalar value given to division to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->div($one, !$rev) unless ($two->isa(__PACKAGE__));
+  return $two->div($one, !$rev) unless ($two->ismediumtype());
+  if (!$two->ismediumtype("Array"))
+  {
+    confess "Given non array to array division";
+  }
 
   die "Dividing arrays? what did you think this would do, create a black hole?";
 }
@@ -170,12 +147,8 @@ sub bool
 {
 	my $self = shift;
 
-	#seems good enough of an idea to me
-	#i have a bug HERE
-	#print "BOOLCONV\n";
-	#print Dumper($self);
-	#print "ENDBOOLCONV\n";
-	return $self->getarray()?1:0;
+    #boolean for array is the same as it is in perl, empty or not
+	return @{$self->getarray()}?1:0;
 }
 
 sub pow
@@ -186,7 +159,11 @@ sub pow
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Exponentiating arrays? what did you think this would do, create a black hole?" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->pow($one, !$rev) unless ($two->isa(__PACKAGE__));
+  return $two->pow($one, !$rev) unless ($two->ismediumtype());
+  if (!$two->ismediumtype("Array"))
+  {
+    confess "Given non array to array exponentiation";
+  }
 
   die "Exponentiating arrays? what did you think this would do, create a black hole?";
 }
@@ -212,11 +189,10 @@ sub compare
   confess "Non reference given to compare" unless (!ref($two));
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
-  confess "Scalar value given to division to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->compare($one, !$rev) unless ($two->isa(__PACKAGE__));
+  return $two->compare($one, !$rev) unless ($two->ismediumtype());
+  die "Can't compare two things that aren't arrays!" unless $two->isa("Math::Farnsworth::Value::Array");
 
   my $rv = $rev ? -1 : 1;
-  #check for $two being a simple value
   my $tv = $two->getarray();
   my $ov = $one->getarray();
 

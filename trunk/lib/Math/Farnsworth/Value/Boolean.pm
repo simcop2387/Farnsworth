@@ -1,4 +1,4 @@
-package Math::Farnsworth::Value::Pari
+package Math::Farnsworth::Value::Boolean
 
 use Math::Pari;
 use Math::Farnsworth::Dimension;
@@ -43,53 +43,18 @@ sub new
   $self->{outmagic} = $outmagic;
   $self->{valueinput} = $value;
 
-  $self->{array} = $value || [];
+  $self->{truthiness} = $value ? 1 : 0;
   
   return $self;
 }
 
-####
-#THESE FUNCTIONS WILL BE MOVED TO Math::Farnsworth::Value, or somewhere more appropriate
-
-#these values will also probably be put into a "memoized" setup so that they don't get recreated all the fucking time
-sub TYPE_STRING
+sub gettruth
 {
-	new Math::Farnsworth::Value::String();
-}
-
-sub TYPE_DATE
-{
-	new Math::Farnsworth::Value::Date();
-}
-
-sub TYPE_PLAIN #this tells it that it is the same as a constraint of "1", e.g. no units
-{
-	new Math::Farnsworth::Value::Pari(0);
-}
-
-sub TYPE_LAMBDA
-{
-	new Math::Farnsworth::Value::Lambda();
-}
-
-sub TYPE_UNDEF
-{
-	new Math::Farnsworth::Value::Undef();
-}
-
-sub TYPE_ARRAY
-{
-	new Math::Farnsworth::Value::Array();
+	return $_[0]->{truthiness};
 }
 
 #######
 #The rest of this code can be GREATLY cleaned up by assuming that $one is of type, Math::Farnsworth::Value::Pari, this means that i can slowly redo a lot of this code
-
-sub getarray
-{
-	my $self = shift;
-	return $self->{array};
-}
 
 sub add
 {
@@ -98,20 +63,16 @@ sub add
   confess "Non reference given to addition" unless (!ref($two));
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
-  confess "Scalar value given to addition to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->add($one, !$rev) unless ($two->isa(__PACKAGE__));
+  confess "Scalar value given to addition to boolean" if ($two->isa("Math::Farnsworth::Value::Pari"));
+  return $two->add($one, !$rev) unless ($two->ismediumtype());
+  if (!$two->ismediumtype("Boolean"))
+  {
+    confess "Given non boolean to boolean operation";
+  }
 
 
   #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
-  die "Unable to process different units in addition\n" unless ($one->conforms($two)); 
-
-  #moving this down so that i don't do any math i don't have to
-
-  #ONLY THIS MODULE SHOULD EVER TOUCH ->{pari} ANYMORE! this might change into, NEVER
-  my $order;
-  $order = [@{$one->getarray()}, @{$two->getarray()}] unless $rev;
-  $order = [@{$two->getarray()}, @{$one->getarray()}] if $rev;
-  return new Math::Farnsworth::Value::Array($order); #concatenate the arrays
+  die "Adding booleans is not a good idea\n"; 
 }
 
 sub subtract
@@ -121,10 +82,14 @@ sub subtract
   confess "Non reference given to subtraction" unless (!ref($two));
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to subtraction to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->subtract($one, !$rev) unless ($two->isa(__PACKAGE__));
+  die "Scalar value given to subtraction to Booleans" if ($two->isa("Math::Farnsworth::Value::Pari"));
+  return $two->subtract($one, !$rev) unless ($two->ismediumtype());
+  if (!$two->ismediumtype("Boolean"))
+  {
+    confess "Given non boolean to boolean operation";
+  }
 
-  die "Subtracting arrays? what did you think this would do, create a black hole?";
+  die "Subtracting Booleans? what did you think this would do, create a black hole?";
 }
 
 sub modulus
@@ -134,10 +99,14 @@ sub modulus
   confess "Non reference given to modulus" unless (!ref($two));
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to modulus to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->mod($one, !$rev) unless ($two->isa(__PACKAGE__));
+  confess "Scalar value given to modulus to boolean" if ($two->isa("Math::Farnsworth::Value::Pari"));
+  return $two->mod($one, !$rev) unless ($two->ismediumtype());
+  if (!$two->ismediumtype("Boolean"))
+  {
+    confess "Given non boolean to boolean operation";
+  }
 
-  die "Modulusing arrays? what did you think this would do, create a black hole?";
+  die "Modulusing booleans? what did you think this would do, create a black hole?";
 }
 
 sub mult
@@ -148,7 +117,11 @@ sub mult
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Scalar value given to multiplcation to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->mult($one, !$rev) unless ($two->isa(__PACKAGE__));
+  return $two->mult($one, !$rev) unless ($two->ismediumtype());
+  if (!$two->ismediumtype("Boolean"))
+  {
+    confess "Given non boolean to boolean operation";
+  }
 
   die "Multiplying arrays? what did you think this would do, create a black hole?";
 }
@@ -162,6 +135,10 @@ sub div
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Scalar value given to division to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->div($one, !$rev) unless ($two->isa(__PACKAGE__));
+  if (!$two->ismediumtype("Boolean"))
+  {
+    confess "Given non boolean to boolean operation";
+  }
 
   die "Dividing arrays? what did you think this would do, create a black hole?";
 }
@@ -175,7 +152,7 @@ sub bool
 	#print "BOOLCONV\n";
 	#print Dumper($self);
 	#print "ENDBOOLCONV\n";
-	return $self->getarray()?1:0;
+	return $self->gettruth()?1:0;
 }
 
 sub pow
@@ -187,6 +164,11 @@ sub pow
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Exponentiating arrays? what did you think this would do, create a black hole?" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->pow($one, !$rev) unless ($two->isa(__PACKAGE__));
+  if (!$two->ismediumtype("Boolean"))
+  {
+    confess "Given non boolean to boolean operation";
+  }
+
 
   die "Exponentiating arrays? what did you think this would do, create a black hole?";
 }
@@ -217,15 +199,15 @@ sub compare
 
   my $rv = $rev ? -1 : 1;
   #check for $two being a simple value
-  my $tv = $two->getarray();
-  my $ov = $one->getarray();
+  my $tv = $two->gettruth();
+  my $ov = $one->gettruth();
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
   die "Unable to process different units in compare\n" unless $one->conforms($two); #always call this on one, since $two COULD be some other object 
 
   #moving this down so that i don't do any math i don't have to
-  my $new = __compare($tv, $ov);
+  my $new = $tv <=> $ov;
   
   return $new * $rv;
 }
