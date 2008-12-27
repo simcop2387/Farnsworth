@@ -1,4 +1,4 @@
-package Math::Farnsworth::Value::Boolean
+package Math::Farnsworth::Value::Lambda
 
 use Math::Pari;
 use Math::Farnsworth::Dimension;
