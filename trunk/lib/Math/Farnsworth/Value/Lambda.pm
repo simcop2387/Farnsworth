@@ -31,10 +31,12 @@ use base qw(Math::Farnsworth::Value);
 sub new
 {
   my $class = shift;
-  my $value = shift;
+  my $scope = shift;
+  my $args = shift;
+  my $code = shift;
   my $outmagic = shift; #i'm still not sure on this one
 
-  confess "Non array reference given as \$value to constructor" unless ref($value) eq "ARRAY" && defined($value);
+  warn "Need error checking in lambda creation!";
 
   my $self = {};
 
@@ -43,14 +45,26 @@ sub new
   $self->{outmagic} = $outmagic;
   $self->{valueinput} = $value;
 
-  $self->{truthiness} = $value ? 1 : 0;
+  $self->{scope} = $scope;
+  $self->{code} = $code;
+  $self->{args} = $args;
   
   return $self;
 }
 
-sub gettruth
+sub getcode
 {
-	return $_[0]->{truthiness};
+	return $_[0]->{code};
+}
+
+sub getargs
+{
+	return $_[0]->{args};
+}
+
+sub getscope
+{
+	return $_[0]->{scope};
 }
 
 #######
