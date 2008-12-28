@@ -181,7 +181,7 @@ sub compare
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   confess "Scalar value given to division to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->compare($one, !$rev) unless ($two->isa(__PACKAGE__));
+  return $two->compare($one, !$rev) unless ($two->ismediumtype());
 
   my $rv = $rev ? -1 : 1;
   #check for $two being a simple value

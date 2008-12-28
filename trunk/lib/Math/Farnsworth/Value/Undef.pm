@@ -123,7 +123,7 @@ sub div
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Scalar value given to division to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->div($one, !$rev) unless ($two->isa(__PACKAGE__));
+  return $two->div($one, !$rev) unless ($two->ismediumtype());
   if (!$two->ismediumtype("Boolean"))
   {
     confess "Given non boolean to boolean operation";

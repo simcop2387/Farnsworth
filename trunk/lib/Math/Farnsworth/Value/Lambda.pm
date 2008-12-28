@@ -77,16 +77,16 @@ sub add
   confess "Non reference given to addition" unless (!ref($two));
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
-  confess "Scalar value given to addition to boolean" if ($two->isa("Math::Farnsworth::Value::Pari"));
+  confess "Scalar value given to addition to Lambda" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->add($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("Boolean"))
+  if (!$two->ismediumtype("Lambda"))
   {
     confess "Given non boolean to boolean operation";
   }
 
 
   #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
-  die "Adding booleans is not a good idea\n"; 
+  die "Adding lambda is not a good idea\n"; 
 }
 
 sub subtract
@@ -96,14 +96,14 @@ sub subtract
   confess "Non reference given to subtraction" unless (!ref($two));
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  die "Scalar value given to subtraction to Booleans" if ($two->isa("Math::Farnsworth::Value::Pari"));
+  die "Scalar value given to subtraction to Lambda" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->subtract($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("Boolean"))
+  if (!$two->ismediumtype("Lambda"))
   {
-    confess "Given non boolean to boolean operation";
+    confess "Given non boolean to lambda operation";
   }
 
-  die "Subtracting Booleans? what did you think this would do, create a black hole?";
+  die "Subtracting lambdas? what did you think this would do, create a black hole?";
 }
 
 sub modulus
@@ -113,14 +113,14 @@ sub modulus
   confess "Non reference given to modulus" unless (!ref($two));
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to modulus to boolean" if ($two->isa("Math::Farnsworth::Value::Pari"));
+  confess "Scalar value given to modulus to lambda" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->mod($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("Boolean"))
+  if (!$two->ismediumtype("Lambda"))
   {
-    confess "Given non boolean to boolean operation";
+    confess "Given non lambda to lambda operation";
   }
 
-  die "Modulusing booleans? what did you think this would do, create a black hole?";
+  die "Modulusing lambda? what did you think this would do, create a black hole?";
 }
 
 sub mult
@@ -130,14 +130,14 @@ sub mult
   confess "Non reference given to multiplication" unless (!ref($two));
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to multiplcation to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
+  confess "Scalar value given to multiplcation to lambda. ED: This will make white holes later" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->mult($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("Boolean"))
+  if (!$two->ismediumtype("Lambda"))
   {
-    confess "Given non boolean to boolean operation";
+    confess "Given non lambda to lambda operation";
   }
 
-  die "Multiplying arrays? what did you think this would do, create a black hole?";
+  die "Multiplying lambdas? what did you think this would do, create a black hole? ED: this will make black holes later";
 }
 
 sub div
@@ -147,14 +147,14 @@ sub div
   confess "Non reference given to division" unless (!ref($two));
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to division to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->div($one, !$rev) unless ($two->isa(__PACKAGE__));
-  if (!$two->ismediumtype("Boolean"))
+  confess "Scalar value given to division to Lambda" if ($two->isa("Math::Farnsworth::Value::Pari"));
+  return $two->div($one, !$rev) unless ($two->ismediumtype());
+  if (!$two->ismediumtype("Lambda"))
   {
-    confess "Given non boolean to boolean operation";
+    confess "Given non boolean to lambda operation";
   }
 
-  die "Dividing arrays? what did you think this would do, create a black hole?";
+  die "Dividing lambdas? what did you think this would do, create a black hole?";
 }
 
 sub bool
@@ -166,7 +166,7 @@ sub bool
 	#print "BOOLCONV\n";
 	#print Dumper($self);
 	#print "ENDBOOLCONV\n";
-	return $self->gettruth()?1:0;
+	return 1; #for now lambdas are ALWAYS true!
 }
 
 sub pow
@@ -177,13 +177,13 @@ sub pow
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Exponentiating arrays? what did you think this would do, create a black hole?" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->pow($one, !$rev) unless ($two->isa(__PACKAGE__));
-  if (!$two->ismediumtype("Boolean"))
+  return $two->pow($one, !$rev) unless ($two->ismediumtype());
+  if (!$two->ismediumtype("Lambda"))
   {
-    confess "Given non boolean to boolean operation";
+    confess "Given non boolean to lambdas operation";
   }
 
-  die "Exponentiating arrays? what did you think this would do, create a black hole?";
+  die "Exponentiating lambdas? what did you think this would do, create a black hole?";
 }
 
 sub compare
@@ -193,9 +193,9 @@ sub compare
   confess "Non reference given to compare" unless (!ref($two));
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
-  confess "Scalar value given to division to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->compare($one, !$rev) unless ($two->isa(__PACKAGE__));
+  confess "Scalar value given to division to lambdas" if ($two->isa("Math::Farnsworth::Value::Pari"));
+  return $two->compare($one, !$rev) unless ($two->ismediumtype());
 
-  return 0;
+  return 0; #i don't have any metric for comparing lambdas, so...
 }
 
