@@ -227,20 +227,6 @@ sub pow
   die "Exponentiating dates? what did you think this would do, create a black hole?";
 }
 
-sub __compare
-{
-	my ($a1, $a2) = @_;
-	my $same = 0;
-	my $ea = each_array(@$a1, @$a2);
-	
-	while(my ($first, $second) = $ea->()) 
-	{ 
-		$same = $first > $second ? 1 : -1 and last if $first != $second 
-	} # shortcircuits
-
-	return $same;
-}
-
 sub compare
 {
   my ($one, $two, $rev) = @_;
@@ -248,22 +234,20 @@ sub compare
   confess "Non reference given to compare" unless (!ref($two));
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
-  confess "Scalar value given to division to string" if ($two->isa("Math::Farnsworth::Value::Pari"));
+  confess "Scalar value given to division to dates" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->compare($one, !$rev) unless ($two->ismediumtype());
-
-  return 0; #i don't want to write this right now
 
   my $rv = $rev ? -1 : 1;
   #check for $two being a simple value
-  my $tv = $two->getstring();
-  my $ov = $one->getstring();
+  my $tv = $two->getdate();
+  my $ov = $one->getdate();
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
   die "Unable to process different units in compare\n" unless $one->conforms($two); #always call this on one, since $two COULD be some other object 
 
   #moving this down so that i don't do any math i don't have to
-  my $new = $tv cmp $ov;
+  my $new = $tv <=> $ov;
   
   return $new * $rv;
 }
