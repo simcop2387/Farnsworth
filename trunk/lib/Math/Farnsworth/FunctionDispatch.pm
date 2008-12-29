@@ -177,12 +177,13 @@ sub checkparams
 		$badargs++ if (!defined($argt->[0]));
 	}
 
-	$vararg = 1 if (grep {defined($_->[2]) && ref($_->[2]) ne "Math::Farnsworth::Value" && ($_->[2] eq "VarArg")} @{$argtypes}); #find out if there is a vararg arg
+	#might want to change the !~ to something else?
+	$vararg = 1 if (grep {defined($_->[2]) && ref($_->[2]) !~ /Math::Farnsworth::Value/ && ($_->[2] eq "VarArg")} @{$argtypes}); #find out if there is a vararg arg
 
 	#print "NEEDED: $neededargs\n";
 	#print Data::Dumper->Dump([$argtypes, $args->{pari}], [qw(argtypes args)]);
 
-    return 1 if ($vararg || (@{$args->{pari}} <= (@{$argtypes}-$badargs) && @{$args->{pari}} >= $neededargs));
+    return 1 if ($vararg || ($args->getarray() <= (@{$argtypes}-$badargs) && $args->getarray() >= $neededargs));
 
 	#return 0 unless (ref($args) eq "Math::Farnsworth::Value") && ($args->{dimen}->compare({dimen=>{array=>1}}));
 

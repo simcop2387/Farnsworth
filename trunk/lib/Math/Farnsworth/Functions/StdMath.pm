@@ -10,10 +10,10 @@ sub init
 {
    my $env = shift;
 
-   my $array = new Math::Farnsworth::Value([], {array => 1});
-   my $string = new Math::Farnsworth::Value("", {string => 1});
-   my $lambda = new Math::Farnsworth::Value("", {lambda => 1});
-   my $number = new Math::Farnsworth::Value(0);
+   my $array = new Math::Farnsworth::Value::Array([]);
+   my $string = new Math::Farnsworth::Value::String("");
+   my $lambda = new Math::Farnsworth::Value::Lambda();
+   my $number = new Math::Farnsworth::Value::Pari(0);
 
    $env->{funcs}->addfunc("ln",  [["in", undef, $number]],\&log);
    $env->eval("log{x isa 1} := {ln[x]/ln[10]}"); 
@@ -96,10 +96,10 @@ sub sqrt
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	my $units = $input->{dimen};
+	my $units = $input->getdimen();
 	$units = $units->mult(PARI '1/2'); #half them all!
 
-	return  Math::Farnsworth::Value->new(Math::Pari::sqrt($input->{pari}), $units);
+	return  Math::Farnsworth::Value::Pari->new(Math::Pari::sqrt($input->getpari()), $units);
 }
 
 sub sin
