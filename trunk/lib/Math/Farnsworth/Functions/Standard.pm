@@ -16,10 +16,10 @@ sub init
 
    #i should really make some stuff to make this easier
    #maybe some subs in Math::Farnsworth::Value that get exported
-   my $array = new Math::Farnsworth::Value([], {array => 1});
-   my $string = new Math::Farnsworth::Value("", {string => 1});
-   my $lambda = new Math::Farnsworth::Value("", {lambda => 1});
-   my $number = new Math::Farnsworth::Value(0);
+   my $array = new Math::Farnsworth::Value::Array([]);
+   my $string = new Math::Farnsworth::Value::String("");
+   my $lambda = new Math::Farnsworth::Value::Lambda();
+   my $number = new Math::Farnsworth::Value::Pari(0);
 
    $env->{funcs}->addfunc("push", [["arr", undef, $array], ["in", undef, "VarArg"]],\&push); #actually i might rewrite this in farnsworth now that it can do it
    $env->{funcs}->addfunc("pop", [["arr", undef, $array]],\&pop); #eventually this maybe too
@@ -121,15 +121,15 @@ sub sort
 		#we've been given a bunch of things, assume we need to sort them like that
 		push @sorts, @{$args->{pari}};
 	}
-	elsif (($args->getarray() == 1) && ($args->{pari}[0]->{dimen}{dimen}{array}))
+	elsif (($args->getarray() == 1) && (ref($args->getarrayref()->[0]) eq "Math::Farnsworth::Value::Array"))
 	{
 		#given an array as a second value, dereference it since its the only thing we've got
-		push @sorts, @{$args->{pari}[0]{pari}};
+		push @sorts, $args->getarrayref()->[0]->getarray();
 	}
 	else
 	{
 		#ok you want me to sort ONE thing? i'll sort that one thing, in O(1) time!
-		return $args->{pari}[0];
+		return $args->getarrayref()->[0];
 	}
 
 	my @rets = CORE::sort $sortsub @sorts;
@@ -137,7 +137,7 @@ sub sort
 	#print "SORT RETURNING!\n";
 	#print Dumper(\@rets);
 
-	return new Math::Farnsworth::Value([@rets], {array => 1});
+	return new Math::Farnsworth::Value::Array([@rets]);
 }
 
 sub push
@@ -152,21 +152,21 @@ sub push
 
 	my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
 
-	if (!exists($arrayvar->{dimen}{dimen}{array}))
+	unless (ref($arrayvar) eq "Math::Farnsworth::Value::Array")
 	{
 		die "First argument to push must be an array";
 	}
 
 	#ok type checking is done, do the push!
 	
-	my @input = @{$args->{pari}};
+	my @input = $args->getarray();
 	shift @input; #remove the original array value
 
 	#i should probably flatten arrays here so that; a=[1,2,3]; push[a,a]; will result in a = [1,2,3,1,2,3]; instead of a = [1,2,3,[1,2,3]];
 
-	CORE::push @{$arrayvar->{pari}}, @input;
+	CORE::push @{$arrayvar->getarrayref()}, @input;
 
-	return undef; #push doesn't return anything? probably should, but i'll do that later
+	return new Math::Farnsworth::Value::Pari(0+@input); #returns number of items pushed
 }
 
 sub unshift
@@ -181,21 +181,21 @@ sub unshift
 
 	my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
 
-	if (!exists($arrayvar->{dimen}{dimen}{array}))
+	unless (ref($arrayvar) eq "Math::Farnsworth::Value::Array")
 	{
 		die "First argument to push must be an array";
 	}
 
 	#ok type checking is done, do the push!
 	
-	my @input = @{$args->{pari}};
+	my @input = $args->getarray();
 	shift @input; #remove the original array value
 
 	#i should probably flatten arrays here so that; a=[1,2,3]; push[a,a]; will result in a = [1,2,3,1,2,3]; instead of a = [1,2,3,[1,2,3]];
 
-	CORE::unshift @{$arrayvar->{pari}}, @input;
+	CORE::unshift @{$arrayvar->getarrayref()}, @input;
 
-	return undef; #push doesn't return anything? probably should, but i'll do that later
+	return new Math::Farnsworth::Value::Pari(0+@input); 
 }
 
 sub pop
@@ -210,14 +210,14 @@ sub pop
 
 	my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
 
-	if (!exists($arrayvar->{dimen}{dimen}{array}))
+	unless (ref($arrayvar) eq "Math::Farnsworth::Value::Array")
 	{
 		die "Argument to pop must be an array";
 	}
 
 	#ok type checking is done, do the pop
 	
-	my $retval = CORE::pop @{$arrayvar->{pari}};
+	my $retval = CORE::pop @{$arrayvar->getarrayref()};
 
 	return $retval; #pop returns the value of the element removed
 }
@@ -234,14 +234,14 @@ sub shift
 
 	my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
 
-	if (!exists($arrayvar->{dimen}{dimen}{array}))
+	unless (ref($arrayvar) eq "Math::Farnsworth::Value::Array")
 	{
 		die "Argument to pop must be an array";
 	}
 
 	#ok type checking is done, do the pop
 	
-	my $retval = CORE::shift @{$arrayvar->{pari}};
+	my $retval = CORE::shift @{$arrayvar->getarrayref()};
 
 	return $retval; #pop returns the value of the element removed
 }
@@ -250,30 +250,30 @@ sub length
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
+	my @argsarry = $args->getarray();
 
 	my @rets;
 
 	for my $arg (@argsarry)
 	{
-		if ($arg->{dimen}{dimen}{array})
+		if (ref($arg) eq "Math::Farnsworth::Value::Array")
 		{
-			CORE::push @rets, Math::Farnsworth::Value->new(scalar @{$arg->{pari}}, {});
+			CORE::push @rets, Math::Farnsworth::Value::Pari->new(scalar $arg->getarray());
 		}
-		elsif ($arg->{dimen}{dimen}{string})
+		elsif (ref($arg) eq "Math::Farnsworth::Value::String")
 		{
-			CORE::push @rets, Math::Farnsworth::Value->new(length $arg->{pari}, {});
+			CORE::push @rets, Math::Farnsworth::Value::Pari->new(length $arg->getstring());
 		}
 		else
 		{
 			#until i decide how this should work on regular numbers, just do this
-			CORE::push @rets, Math::Farnsworth::Value->new(0, {});
+			CORE::push @rets, Math::Farnsworth::Value::Pari->new(0);
 		}
 	}
 
 	if (@rets > 1)
 	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
+		return Math::Farnsworth::Value::Array->new(\@rets);
 	}
 	else
 	{
@@ -285,19 +285,19 @@ sub reverse
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @argsarry = @{$args->{pari}};
+	my @argsarry = $args->getarray();
 
 	my @rets;
 
 	for my $arg (reverse @argsarry) #this will make reverse[1,2,3,4] return [4,3,2,1]
 	{
-		if ($arg->{dimen}{dimen}{array})
+		if (ref($arg) eq "Math::Farnsworth::Value::Array")
 		{
-			CORE::push @rets, Math::Farnsworth::Value->new(reverse @{$arg->{pari}}, {array => 1});
+			CORE::push @rets, Math::Farnsworth::Value::Array->new([reverse $arg->getarray()]);
 		}
-		elsif ($arg->{dimen}{dimen}{string})
+		elsif (ref($arg) eq "Math::Farnsworth::Value::String")
 		{
-			CORE::push @rets, Math::Farnsworth::Value->new("".reverse($arg->{pari}), {string=>1});
+			CORE::push @rets, Math::Farnsworth::Value::String->new("".reverse($arg->getstring()));
 		}
 		else
 		{
@@ -307,7 +307,7 @@ sub reverse
 
 	if (@rets > 1)
 	{
-		return Math::Farnsworth::Value->new(\@rets, {array=>1});
+		return Math::Farnsworth::Value::Array->new(\@rets);
 	}
 	else
 	{
@@ -319,19 +319,14 @@ sub substrlen
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @arg = @{$args->{pari}};
+	my @arg = $args->getarray();
 
-
-	if ($arg[0]{dimen}{dimen}{array})
-	{
-		die "substr and friends only works on strings";
-	}
-	elsif ($arg[0]{dimen}{dimen}{string})
+	if (ref $arg[0] eq "Math::Farnsworth::Value::String")
 	{
 		#do i need to do something to convert these to work? (the 1,2 anyway?)
-		my $ns = substr($arg[0]{pari}, "".$arg[1]{pari}, "".$arg[2]{pari});
+		my $ns = substr($arg[0]->getstring(), "".$arg[1], "".$arg[2]);
 		#print "SUBSTR :: $ns\n";
-		return Math::Farnsworth::Value->new($ns, {string=>1});
+		return Math::Farnsworth::Value::String->new($ns);
 	}
 	else
 	{
@@ -343,14 +338,14 @@ sub ord
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @arg = @{$args->{pari}};
+	my @arg = $args->getarray();
 
-	if ($arg[0]{dimen}{dimen}{string})
+	if (ref $arg[0] eq "Math::Farnsworth::String")
 	{
 		#do i need to do something to convert these to work? (the 1,2 anyway?)
-		my $ns = ord($arg[0]{pari}); #substr($arg[0]{pari}, "".$arg[1]{pari}, "".$arg[2]{pari});
+		my $ns = ord($arg[0]->getstring()); #substr($arg[0]{pari}, "".$arg[1]{pari}, "".$arg[2]{pari});
 		#print "ord :: $ns\n";
-		return Math::Farnsworth::Value->new($ns);
+		return Math::Farnsworth::Value::Pari->new($ns);
 	}
 	else
 	{
@@ -362,14 +357,14 @@ sub chr
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @arg = @{$args->{pari}};
+	my @arg = $args->getarray();
 
-	if ($arg[0]{dimen}->compare({dimen=>{}}))
+	if ($arg[0]->conforms($arg[0]->TYPE_PLAIN))
 	{
 		#do i need to do something to convert these to work? (the 1,2 anyway?)
 		my $ns = chr($arg[0]{pari}); #substr($arg[0]{pari}, "".$arg[1]{pari}, "".$arg[2]{pari});
 		#print "chr :: $ns\n";
-		return Math::Farnsworth::Value->new($ns, {string => 1}); #give string flag of 1, since we don't know what language is intended
+		return Math::Farnsworth::Value::String->new($ns); #give string flag of 1, since we don't know what language is intended
 	}
 	else
 	{
@@ -381,20 +376,20 @@ sub index
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @arg = @{$args->{pari}};
+	my @arg = $args->getarray();
 
-	if ($arg[0]{dimen}->compare({dimen=>{string=>1}}) && $arg[1]{dimen}->compare({dimen=>{string => 1}}))
+	if (ref($arg[0]) eq "Math::Farnsworth::Value::String" && ref($arg[1]) eq "Math::Farnsworth::Value::String")
 	{
 		my $pos = 0;
-		if (defined($arg[2]) && $arg[2]{dimen}->compare({dimen=>{}}))
+		if (defined($arg[2]) && $arg[2]->conforms($arg[2]->TYPE_PLAIN))
 		{
-			$pos = $arg[2]->{pari};
+			$pos = $arg[2]->toperl();
 		}
-		my $string = $arg[0]->{pari};
-		my $substr = $arg[1]->{pari};
+		my $string = $arg[0]->getstring();
+		my $substr = $arg[1]->getstring();
 		#do i need to do something to convert these to work? (the 1,2 anyway?)
 		my $ns = index $string, $substr, $pos; #substr($arg[0]{pari}, "".$arg[1]{pari}, "".$arg[2]{pari});
-		return Math::Farnsworth::Value->new($ns); #give string flag of 1, since we don't know what language is intended
+		return Math::Farnsworth::Value::Pari->new($ns); #give string flag of 1, since we don't know what language is intended
 	}
 	else
 	{
@@ -406,15 +401,15 @@ sub eval
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @arg = @{$args->{pari}};
+	my @arg = $args->getarray();
 
-	if ($arg[0]{dimen}{dimen}{string})
+	if (ref($arg[0]) eq "Math::Farnsworth::Value::String")
 	{
 		my $nvars = new Math::Farnsworth::Variables($eval->{vars});
 		my %nopts = (vars => $nvars, funcs => $eval->{funcs}, units => $eval->{units}, parser => $eval->{parser});
 	    my $neval = $eval->new(%nopts);
 
-		return $neval->eval($arg[0]{pari});
+		return $neval->eval($arg[0]->getstring());
 	}
 	else
 	{
