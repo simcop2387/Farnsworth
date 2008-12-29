@@ -22,9 +22,15 @@ lib/Math/Farnsworth/Units.pm
 lib/Math/Farnsworth/Units/Standard.pm
 lib/Math/Farnsworth/Value.pm
 lib/Math/Farnsworth/Value/Pari.pm
+lib/Math/Farnsworth/Value/Date.pm
+lib/Math/Farnsworth/Value/Array.pm
+lib/Math/Farnsworth/Value/Lambda.pm
+lib/Math/Farnsworth/Value/Boolean.pm
+lib/Math/Farnsworth/Value/Undef.pm
+lib/Math/Farnsworth/Value/String.pm
 lib/Math/Farnsworth/Variables.pm
 Makefile.PL
 MANIFEST
 META.yml
-t/operators.t
-t/sanity.t
+t/01-operators.t
+t/00-sanity.t

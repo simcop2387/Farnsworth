@@ -21,7 +21,7 @@ sub addcombo
 	$combos{$name} = $value;
 }
 
-#this returns the name of the combo that matches the current dimensions of a Math::Farnsworth::Value
+#this returns the name of the combo that matches the current dimensions of a Math::Farnsworth::Value::Pari
 sub findcombo
 {
 	my $self = shift;
@@ -30,7 +30,7 @@ sub findcombo
 	for my $combo (keys %combos)
 	{
 		my $cv = $combos{$combo}; #grab the value
-		return $combo if ($value->{dimen}->compare($cv->{dimen}));
+		return $combo if ($value->getdimen()->compare($cv->getdimen()));
 	}
 
 	return undef; #none found
@@ -78,7 +78,7 @@ sub new
   $self->{eval} = shift;
 
   #warn Dumper($self->{obj});
-  die "Attempting to make output class of non Math::Farnsworth::Value" unless ref($self->{obj}) eq "Math::Farnsworth::Value";
+  die "Attempting to make output class of non Math::Farnsworth::Value" unless ref($self->{obj}) =~ /Math::Farnsworth::Value/;
   confess "Forgot to add \$eval to params!" unless ref($self->{eval}) eq "Math::Farnsworth::Evaluate";
 
   bless $self;
@@ -88,74 +88,74 @@ sub tostring
 {
   my $self = shift;
   my $value = $self->{obj};
-  my $dimen = $self->{obj}{dimen};
+  my $dimen = $self->{obj};
 
-  return $self->getstring($dimen, $value);
+  return $self->getstring($value);
 }
 
 #this takes a set of dimensions and returns what to display
 sub getstring
 {
 	my $self = shift; #i'll implement this later too
-	my $dimen = shift; #i take a Math::Farnsworth::Dimension object!
+#	my $dimen = shift; #i take a Math::Farnsworth::Dimension object!
     my $value = shift; #the value so we can stringify it
 
     my @returns;
 
 	if (defined($value->{outmagic}))
 	{
-		if (exists($value->{outmagic}[1]{dimen}{dimen}{string}))
+		if (ref($value->{outmagic}[1]) eq "Math::Farnsworth::Value::String")
 		{
 			#ok we were given a string!
 			my $number = $value->{outmagic}[0];
 			my $string = $value->{outmagic}[1];
 			return $self->getstring($number->{dimen}, $number) . " ".$string->{pari};
 		}
-		elsif (exists($value->{outmagic}[0]) && (!exists($value->{outmagic}[0]{dimen}{dimen}{array})))
+		elsif (exists($value->{outmagic}[0]) && (!ref($value->{outmagic}[0]) eq "Math::Farnsworth::Value::Array"))
 		{
 			#ok we were given a value without the string
 			my $number = $value->{outmagic}[0];
-			return $self->getstring($number->{dimen}, $number);
+			return $self->getstring($number->getdimen(), $number);
 		}
 		else
 		{
 			die "Unhandled output magic, this IS A BUG!";
 		}
 	}
-	elsif (exists($dimen->{dimen}{"bool"}))
+	elsif (ref($value) eq "Math::Farnsworth::Value::Boolean")
 	{
 		return $value ? "True" : "False"
 		#these should do something!
 	}
-	elsif (exists($dimen->{dimen}{"string"}))
+	elsif (ref($value) eq "Math::Farnsworth::Value::String")
 	{
 		#I NEED FUNCTIONS TO HANDLE ESCAPING AND UNESCAPING!!!!
-		my $val = $value->{pari};
+		my $val = $value->getstring();
 		$val =~ s/\\/\\\\/g; 
 		$val =~ s/"/\\"/g;
 		return '"'.$val.'"';
 	}
-	elsif (exists($dimen->{dimen}{"array"}))
+	elsif (ref($value) eq "Math::Farnsworth::Value::Array")
 	{
 		my @array; #this will be used to build the output
-		for my $v (@{$value->{pari}})
+		for my $v ($value->getarray())
 		{
 			#print Dumper($v);
-			push @array, $self->getstring($v->{dimen}, $v);
+			push @array, $self->getstring($v);
 		}
 
 		return '['.(join ' , ', @array).']';
 	}
-	elsif (exists($dimen->{dimen}{"date"}))
+	elsif (ref($value) eq "Math::Farnsworth::Value::Date")
 	{
-		return UnixDate($value->{pari}, "# %C #"); #output in ISO format for now
+		return "# BROKEN DATES! #";#UnixDate($value->{pari}, "# %C #"); #output in ISO format for now
 	}
-	elsif (exists($dimen->{dimen}{"lambda"}))
+	elsif (ref($value) eq "Math::Farnsworth::Value::Lambda")
 	{
 		
-		return $self->deparsetree($value->{pari}{branches});
+		return $self->deparsetree($value->getbranches());
 	}
-	elsif (exists($dimen->{dimen}{"undef"}))
+	elsif (ref($value) eq "Math::Farnsworth::Value::Undef")
 	{
 		return "undef";
 	}
@@ -175,10 +175,11 @@ sub getstring
 		my $branch = bless [$value, $disp], 'Trans';
 		print Dumper($branch);
 		my $newvalue = eval {$self->{eval}->evalbranch($branch);};
-		return $self->getstring($newvalue->{dimen}, $newvalue);
+		return $self->getstring($newvalue);
 	}
 	else
 	{
+		my $dimen = $value->getdimen();
 		#added a sort so its stable, i'll need this...
 		for my $d (sort {$a cmp $b} keys %{$dimen->{dimen}})
 		{
@@ -203,7 +204,7 @@ sub getstring
 
 		my $prec = Math::Pari::setprecision();
 		Math::Pari::setprecision(15); #set it to 15?
-		my $pv = "".(Math::Pari::pari_print($value->{pari}));
+		my $pv = "".(Math::Pari::pari_print($value->getpari()));
 		my $parenflag = $pv =~ /^[\d\.e]+$/i;
 		my $rational = $pv =~ m|/|;
 
@@ -211,7 +212,7 @@ sub getstring
 
 		if ($pv =~ m|/|) #check for rationality
 		{
-			my $nv = "".Math::Pari::pari_print($value->{pari} * 1.0); #attempt to force a floating value
+			my $nv = "".Math::Pari::pari_print($value->getpari() * 1.0); #attempt to force a floating value
 			$nv =~ s/([.]\d+?)0+$/$1/ ;
 			$pv .= "  /* apx ($nv) */";
 		}

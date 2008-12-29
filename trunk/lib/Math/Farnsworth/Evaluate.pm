@@ -11,7 +11,13 @@ use Math::Farnsworth::FunctionDispatch;
 use Math::Farnsworth::Variables;
 use Math::Farnsworth::Units;
 use Math::Farnsworth::Parser;
-use Math::Farnsworth::Value;
+use Math::Farnsworth::Value::Pari;
+use Math::Farnsworth::Value::Date;
+use Math::Farnsworth::Value::String;
+use Math::Farnsworth::Value::Undef;
+use Math::Farnsworth::Value::Lambda;
+use Math::Farnsworth::Value::Array;
+use Math::Farnsworth::Value::Boolean;
 use Math::Farnsworth::Output;
 
 use Date::Manip;
@@ -118,7 +124,7 @@ sub evalbranch
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
-		$return = new Math::Farnsworth::Value($a->{dimen}->compare($b->{dimen}), {bool => 1});
+		$return = new Math::Farnsworth::Value::Boolean($a->conforms($b));
 	}
 	elsif ($type eq "Mod")
 	{
@@ -140,11 +146,11 @@ sub evalbranch
 		{
 			my $b = $self->makevalue($branch->[1]);
 			$return = $a && $b ? 1 : 0;
-			$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+			$return = Math::Farnsworth::Value::Boolean->new($return); #make sure its the right type
 		}
 		else
 		{
-			$return = Math::Farnsworth::Value->new(0, {bool=>1}); #make sure its the right type
+			$return = Math::Farnsworth::Value::Boolean->new(0); #make sure its the right type
 		}
 	}
 	elsif ($type eq "Or")
@@ -153,13 +159,13 @@ sub evalbranch
 
 		if ($a->bool())
 		{
-			$return = Math::Farnsworth::Value->new(1, {bool=>1}); #make sure its the right type
+			$return = Math::Farnsworth::Value::Boolean->new(1); #make sure its the right type
 		}
 		else
 		{
 			my $b = $self->makevalue($branch->[1]);
 			$return = $a || $b ? 1 : 0;
-			$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+			$return = Math::Farnsworth::Value::Boolean->new($return); #make sure its the right type
 		}
 	}
 	elsif ($type eq "Xor")
@@ -167,75 +173,75 @@ sub evalbranch
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a->bool() ^ $b->bool() ? 1 : 0;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		$return = Math::Farnsworth::Value::Boolean->new($return); #make sure its the right type
 	}
 	elsif ($type eq "Not")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		$return = $a->bool() ? 0 : 1;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		$return = Math::Farnsworth::Value::Boolean->new($return); #make sure its the right type
 	}
 	elsif ($type eq "Gt")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = ($a > $b) ? 1 : 0;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		$return = Math::Farnsworth::Value::Boolean->new($return); #make sure its the right type
 	}
 	elsif ($type eq "Lt")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a < $b ? 1 : 0;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		$return = Math::Farnsworth::Value::Boolean->new($return); #make sure its the right type
 	}
 	elsif ($type eq "Ge")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a >= $b ? 1 : 0;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		$return = Math::Farnsworth::Value::Boolean->new($return); #make sure its the right type
 	}
 	elsif ($type eq "Le")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a <= $b ? 1 : 0;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		$return = Math::Farnsworth::Value::Boolean->new($return); #make sure its the right type
 	}
 	elsif ($type eq "Compare")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a <=> $b;
-		$return = Math::Farnsworth::Value->new($return); #make sure its the right type
+		$return = Math::Farnsworth::Value::Pari->new($return); #make sure its the right type
 	}
 	elsif ($type eq "Eq")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a == $b ? 1 : 0;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		$return = Math::Farnsworth::Value::Boolean->new($return); #make sure its the right type
 	}
 	elsif ($type eq "Ne")
 	{
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
 		$return = $a != $b ? 1 : 0;
-		$return = Math::Farnsworth::Value->new($return, {bool=>1}); #make sure its the right type
+		$return = Math::Farnsworth::Value::Boolean->new($return); #make sure its the right type
 	}
 	elsif ($type eq "Ternary")
 	{
 		#turing completeness FTW
 		my $left = $self->makevalue($branch->[0]);
-		$left = $left != new Math::Farnsworth::Value(0, $left->{dimen});
+		#$left = $left->bool() != new Math::Farnsworth::Value::Pari(0, $left->{dimen}); #shouldn't need it anymore, since i got ->bool working
 		$return = $left ? $self->makevalue($branch->[1]) : $self->makevalue($branch->[2]);
 	}
 	elsif ($type eq "If")
 	{
 		#turing completeness FTW
 		my $left = $self->makevalue($branch->[0]);
-		$left = $left != new Math::Farnsworth::Value(0, $left->{dimen});
+		#$left = $left != new Math::Farnsworth::Value(0, $left->{dimen});
 		
 		if ($left)
 		{
@@ -353,7 +359,7 @@ sub evalbranch
 		my $lambda = {code => $code, args => $vargs, 
 			          scope => $scope, branches=>$branch};
 
-		$return = new Math::Farnsworth::Value($lambda, {lambda => 1});
+		$return = new Math::Farnsworth::Value::Lambda($scope, $args, $code, $branches);
 	}
 	elsif ($type eq "LambdaCall")
 	{		
@@ -363,9 +369,9 @@ sub evalbranch
 		die "Right side of lamdbda call must evaluate to a Lambda\n" unless $right->{dimen}{dimen}{lambda};
 
 		#need $args to be an array
-		my $args = $left->{dimen}{dimen}{array} ? $left :  new Math::Farnsworth::Value([$left], {array => 1}); 
+		my $args = ref($left) eq "Math::Farnsworth::Value::Array" ? $left :  new Math::Farnsworth::Value::Array([$left]); 
 
-		$return = $self->{funcs}->calllambda($right, $args);
+		$return = $self->{funcs}->calllambda($right, $args); #needs to be updated
 	}
 	elsif (($type eq "Array") || ($type eq "SubArray"))
 	{
@@ -403,7 +409,7 @@ sub evalbranch
 			#even if it is an array we don't want to deref it here, because thats the wrong behavior, this will make things like push[a, 1,2,3] work properly
 			push @$array, $value; #we return an array ref! i need more error checking around for this later
 		}
-		$return = new Math::Farnsworth::Value($array, {array => 1});
+		$return = new Math::Farnsworth::Value::Array($array);
 	}
 	elsif ($type eq "ArrayFetch")
 	{
@@ -584,7 +590,7 @@ sub makevalue
 	if (ref($input) eq "Num")
 	{
 		#need to make a value here with Math::Farnsworth::Value!
-		my $val = new Math::Farnsworth::Value($input->[0]);
+		my $val = new Math::Farnsworth::Value::Pari($input->[0]);
 		return $val;
 	}
 	if (ref($input) eq "HexNum")
@@ -592,7 +598,7 @@ sub makevalue
 		#need to make a value here with Math::Farnsworth::Value!
 		#print "HEX VALUE: ".$input->[0]."\n";
 		my $value = eval $input->[0]; #this SHOULD work, shouldn't be a security risk since its validated through the lexer and parser.
-		my $val = new Math::Farnsworth::Value($value);
+		my $val = new Math::Farnsworth::Value::Pari($value);
 		return $val;
 	}
 	elsif (ref($input) eq "Fetch")
@@ -638,13 +644,13 @@ sub makevalue
 			"".$output;
 		};
 		$value =~ s/(?<!\\)(\$\w+|\${[^}]+})/$ss->($1)/eg;
-		my $val = new Math::Farnsworth::Value($value, {string => 1});
+		my $val = new Math::Farnsworth::Value::String($value);
 		return $val;
 	}
 	elsif (ref($input) eq "Date")
 	{
 		#print "\n\n\nMaking DATE!\n\n\n";
-		my $val = new Math::Farnsworth::Value(ParseDate($input->[0]), {date => 1});
+		my $val = new Math::Farnsworth::Value::Date($input->[0]);
 #		print Dumper($val);
 		return $val;
 	}
@@ -653,9 +659,9 @@ sub makevalue
 		#warn "Got a VarArg, code untested, want to mark when i get them\n"; #just so i can track down the inevitable crash
 		return "VarArg";
 	}
-	elsif (ref($input) eq "Math::Farnsworth::Value")
+	elsif (ref($input) =~ /Math::Farnsworth::Value/)
 	{
-		warn "Got a Math::Farnsworth::Value, i PROBABLY shouldn't be getting these, i'm just going to let it fall through";
+		warn "Got a Math::Farnsworth::Value::*, i PROBABLY shouldn't be getting these, i'm just going to let it fall through";
 		return $input;
 	}
 

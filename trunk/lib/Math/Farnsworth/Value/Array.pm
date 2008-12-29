@@ -1,8 +1,7 @@
-package Math::Farnsworth::Value::Array
+package Math::Farnsworth::Value::Array;
 
-use Math::Pari;
 use Math::Farnsworth::Dimension;
-use Date::Manip;
+use Carp;
 use List::MoreUtils 'each_array'; 
 use Storable qw(dclone);
 
@@ -43,7 +42,7 @@ sub new
   $self->{outmagic} = $outmagic;
   $self->{valueinput} = $value;
 
-  $self->{array} = $value || [];
+  $self->{array} = dclone($value) || [];
   
   return $self;
 }

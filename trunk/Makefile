@@ -18,7 +18,7 @@
 #     NO_META => q[1]
 #     PL_FILES => {  }
 #     PREREQ_PM => { Math::Pari=>q[0], Test::More=>q[0], Test::Exception=>q[0], ExtUtils::MakeMaker=>q[6.48], Date::Manip=>q[0], List::MoreUtils=>q[0] }
-#     VERSION => q[0.5.1]
+#     VERSION => q[0.6.0]
 #     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
 
 # --- MakeMaker post_initialize section:
@@ -58,11 +58,11 @@ DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
 NAME = Math::Farnsworth
 NAME_SYM = Math_Farnsworth
-VERSION = 0.5.1
+VERSION = 0.6.0
 VERSION_MACRO = VERSION
-VERSION_SYM = 0_5_1
+VERSION_SYM = 0_6_0
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = 0.5.1
+XS_VERSION = 0.6.0
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -207,7 +207,15 @@ TO_INST_PM = bot2.pl \
 	lib/Math/Farnsworth/Units/Standard.pm \
 	lib/Math/Farnsworth/Units/e.2mil \
 	lib/Math/Farnsworth/Value.pm \
+	lib/Math/Farnsworth/Value/Array.pm \
+	lib/Math/Farnsworth/Value/Boolean.pm \
+	lib/Math/Farnsworth/Value/Date.pm \
+	lib/Math/Farnsworth/Value/Lambda.pm \
+	lib/Math/Farnsworth/Value/NewValue.pm \
 	lib/Math/Farnsworth/Value/Pari.pm \
+	lib/Math/Farnsworth/Value/String.pm \
+	lib/Math/Farnsworth/Value/Undef.pm \
+	lib/Math/Farnsworth/Value_old.pm \
 	lib/Math/Farnsworth/Variables.pm \
 	loadunits.pl \
 	mgr.pl \
@@ -215,62 +223,78 @@ TO_INST_PM = bot2.pl \
 	server.pl \
 	temp.pl
 
-PM_TO_BLIB = lib/Math/Farnsworth/Evaluate.pm \
+PM_TO_BLIB = lib/Math/Farnsworth/Value/Lambda.pm \
+	blib/lib/Math/Farnsworth/Value/Lambda.pm \
+	lib/Math/Farnsworth/Evaluate.pm \
 	blib/lib/Math/Farnsworth/Evaluate.pm \
-	lib/Math/Farnsworth/Functions/.Standard.pm.swp \
-	blib/lib/Math/Farnsworth/Functions/.Standard.pm.swp \
 	paritest.pl \
 	$(INST_LIB)/Math/paritest.pl \
-	lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp \
-	blib/lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp \
 	lib/Math/Farnsworth/Units/Pi10-6.html \
 	blib/lib/Math/Farnsworth/Units/Pi10-6.html \
 	lib/Math/Farnsworth/Docs/Syntax.pm \
 	blib/lib/Math/Farnsworth/Docs/Syntax.pm \
-	lib/Math/Farnsworth/FunctionDispatch.pm \
-	blib/lib/Math/Farnsworth/FunctionDispatch.pm \
 	lib/Math/Farnsworth/Variables.pm \
 	blib/lib/Math/Farnsworth/Variables.pm \
-	loadunits.pl \
-	$(INST_LIB)/Math/loadunits.pl \
-	lib/Math/Farnsworth/Value/Pari.pm \
-	blib/lib/Math/Farnsworth/Value/Pari.pm \
-	lib/Math/Farnsworth/Functions/GoogleTranslate.pm \
-	blib/lib/Math/Farnsworth/Functions/GoogleTranslate.pm \
+	lib/Math/Farnsworth/Value/Undef.pm \
+	blib/lib/Math/Farnsworth/Value/Undef.pm \
 	lib/Math/Farnsworth/Functions/Standard.pm \
 	blib/lib/Math/Farnsworth/Functions/Standard.pm \
-	lib/Math/Farnsworth/Dimension.pm \
-	blib/lib/Math/Farnsworth/Dimension.pm \
-	temp.pl \
-	$(INST_LIB)/Math/temp.pl \
-	lib/Math/Farnsworth.pm \
-	blib/lib/Math/Farnsworth.pm \
+	lib/Math/Farnsworth/Value/String.pm \
+	blib/lib/Math/Farnsworth/Value/String.pm \
+	lib/Math/Farnsworth/Value/Array.pm \
+	blib/lib/Math/Farnsworth/Value/Array.pm \
 	lib/Math/Farnsworth/Docs/Functions.pm \
 	blib/lib/Math/Farnsworth/Docs/Functions.pm \
 	lib/Math/Farnsworth/.Variables.pm.swp \
 	blib/lib/Math/Farnsworth/.Variables.pm.swp \
 	server.pl \
 	$(INST_LIB)/Math/server.pl \
-	lib/Math/Farnsworth/Value.pm \
-	blib/lib/Math/Farnsworth/Value.pm \
-	lib/Math/Farnsworth/Functions/StdMath.pm \
-	blib/lib/Math/Farnsworth/Functions/StdMath.pm \
 	lib/Math/Farnsworth/Units/Standard.pm \
 	blib/lib/Math/Farnsworth/Units/Standard.pm \
 	lib/Math/Farnsworth/Parser.pm \
 	blib/lib/Math/Farnsworth/Parser.pm \
-	lib/Math/Farnsworth/Output.pm \
-	blib/lib/Math/Farnsworth/Output.pm \
 	bot2.pl \
 	$(INST_LIB)/Math/bot2.pl \
 	mgr.pl \
 	$(INST_LIB)/Math/mgr.pl \
-	botriz.pl \
-	$(INST_LIB)/Math/botriz.pl \
 	lib/Math/Farnsworth/Units.pm \
 	blib/lib/Math/Farnsworth/Units.pm \
 	lib/Math/Farnsworth/Units/e.2mil \
-	blib/lib/Math/Farnsworth/Units/e.2mil
+	blib/lib/Math/Farnsworth/Units/e.2mil \
+	lib/Math/Farnsworth/Value_old.pm \
+	blib/lib/Math/Farnsworth/Value_old.pm \
+	lib/Math/Farnsworth/Functions/.Standard.pm.swp \
+	blib/lib/Math/Farnsworth/Functions/.Standard.pm.swp \
+	lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp \
+	blib/lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp \
+	loadunits.pl \
+	$(INST_LIB)/Math/loadunits.pl \
+	lib/Math/Farnsworth/FunctionDispatch.pm \
+	blib/lib/Math/Farnsworth/FunctionDispatch.pm \
+	lib/Math/Farnsworth/Value/Pari.pm \
+	blib/lib/Math/Farnsworth/Value/Pari.pm \
+	lib/Math/Farnsworth/Functions/GoogleTranslate.pm \
+	blib/lib/Math/Farnsworth/Functions/GoogleTranslate.pm \
+	temp.pl \
+	$(INST_LIB)/Math/temp.pl \
+	lib/Math/Farnsworth/Dimension.pm \
+	blib/lib/Math/Farnsworth/Dimension.pm \
+	lib/Math/Farnsworth.pm \
+	blib/lib/Math/Farnsworth.pm \
+	lib/Math/Farnsworth/Value/Boolean.pm \
+	blib/lib/Math/Farnsworth/Value/Boolean.pm \
+	lib/Math/Farnsworth/Value.pm \
+	blib/lib/Math/Farnsworth/Value.pm \
+	lib/Math/Farnsworth/Functions/StdMath.pm \
+	blib/lib/Math/Farnsworth/Functions/StdMath.pm \
+	lib/Math/Farnsworth/Value/Date.pm \
+	blib/lib/Math/Farnsworth/Value/Date.pm \
+	lib/Math/Farnsworth/Output.pm \
+	blib/lib/Math/Farnsworth/Output.pm \
+	botriz.pl \
+	$(INST_LIB)/Math/botriz.pl \
+	lib/Math/Farnsworth/Value/NewValue.pm \
+	blib/lib/Math/Farnsworth/Value/NewValue.pm
 
 
 # --- MakeMaker platform_constants section:
@@ -337,7 +361,7 @@ RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
 DISTNAME = Math-Farnsworth
-DISTVNAME = Math-Farnsworth-0.5.1
+DISTVNAME = Math-Farnsworth-0.6.0
 
 
 # --- MakeMaker macro section:
@@ -851,7 +875,7 @@ testdb_static :: testdb_dynamic
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd :
-	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0,5,1,0">' > $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0,6,0,0">' > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <TITLE>$(DISTNAME)</TITLE>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <ABSTRACT>A Turing Complete Language for Mathematics</ABSTRACT>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <AUTHOR>Ryan Voots &lt;simcop@cpan.org&gt;</AUTHOR>' >> $(DISTNAME).ppd
@@ -873,34 +897,42 @@ ppd :
 
 pm_to_blib : $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', '\''$(PM_FILTER)'\'')' -- \
+	  lib/Math/Farnsworth/Value/Lambda.pm blib/lib/Math/Farnsworth/Value/Lambda.pm \
 	  lib/Math/Farnsworth/Evaluate.pm blib/lib/Math/Farnsworth/Evaluate.pm \
-	  lib/Math/Farnsworth/Functions/.Standard.pm.swp blib/lib/Math/Farnsworth/Functions/.Standard.pm.swp \
 	  paritest.pl $(INST_LIB)/Math/paritest.pl \
-	  lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp blib/lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp \
 	  lib/Math/Farnsworth/Units/Pi10-6.html blib/lib/Math/Farnsworth/Units/Pi10-6.html \
 	  lib/Math/Farnsworth/Docs/Syntax.pm blib/lib/Math/Farnsworth/Docs/Syntax.pm \
-	  lib/Math/Farnsworth/FunctionDispatch.pm blib/lib/Math/Farnsworth/FunctionDispatch.pm \
 	  lib/Math/Farnsworth/Variables.pm blib/lib/Math/Farnsworth/Variables.pm \
-	  loadunits.pl $(INST_LIB)/Math/loadunits.pl \
-	  lib/Math/Farnsworth/Value/Pari.pm blib/lib/Math/Farnsworth/Value/Pari.pm \
-	  lib/Math/Farnsworth/Functions/GoogleTranslate.pm blib/lib/Math/Farnsworth/Functions/GoogleTranslate.pm \
+	  lib/Math/Farnsworth/Value/Undef.pm blib/lib/Math/Farnsworth/Value/Undef.pm \
 	  lib/Math/Farnsworth/Functions/Standard.pm blib/lib/Math/Farnsworth/Functions/Standard.pm \
-	  lib/Math/Farnsworth/Dimension.pm blib/lib/Math/Farnsworth/Dimension.pm \
-	  temp.pl $(INST_LIB)/Math/temp.pl \
-	  lib/Math/Farnsworth.pm blib/lib/Math/Farnsworth.pm \
+	  lib/Math/Farnsworth/Value/String.pm blib/lib/Math/Farnsworth/Value/String.pm \
+	  lib/Math/Farnsworth/Value/Array.pm blib/lib/Math/Farnsworth/Value/Array.pm \
 	  lib/Math/Farnsworth/Docs/Functions.pm blib/lib/Math/Farnsworth/Docs/Functions.pm \
 	  lib/Math/Farnsworth/.Variables.pm.swp blib/lib/Math/Farnsworth/.Variables.pm.swp \
 	  server.pl $(INST_LIB)/Math/server.pl \
-	  lib/Math/Farnsworth/Value.pm blib/lib/Math/Farnsworth/Value.pm \
-	  lib/Math/Farnsworth/Functions/StdMath.pm blib/lib/Math/Farnsworth/Functions/StdMath.pm \
 	  lib/Math/Farnsworth/Units/Standard.pm blib/lib/Math/Farnsworth/Units/Standard.pm \
 	  lib/Math/Farnsworth/Parser.pm blib/lib/Math/Farnsworth/Parser.pm \
-	  lib/Math/Farnsworth/Output.pm blib/lib/Math/Farnsworth/Output.pm \
 	  bot2.pl $(INST_LIB)/Math/bot2.pl \
 	  mgr.pl $(INST_LIB)/Math/mgr.pl \
-	  botriz.pl $(INST_LIB)/Math/botriz.pl \
 	  lib/Math/Farnsworth/Units.pm blib/lib/Math/Farnsworth/Units.pm \
-	  lib/Math/Farnsworth/Units/e.2mil blib/lib/Math/Farnsworth/Units/e.2mil 
+	  lib/Math/Farnsworth/Units/e.2mil blib/lib/Math/Farnsworth/Units/e.2mil \
+	  lib/Math/Farnsworth/Value_old.pm blib/lib/Math/Farnsworth/Value_old.pm \
+	  lib/Math/Farnsworth/Functions/.Standard.pm.swp blib/lib/Math/Farnsworth/Functions/.Standard.pm.swp \
+	  lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp blib/lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp \
+	  loadunits.pl $(INST_LIB)/Math/loadunits.pl \
+	  lib/Math/Farnsworth/FunctionDispatch.pm blib/lib/Math/Farnsworth/FunctionDispatch.pm \
+	  lib/Math/Farnsworth/Value/Pari.pm blib/lib/Math/Farnsworth/Value/Pari.pm \
+	  lib/Math/Farnsworth/Functions/GoogleTranslate.pm blib/lib/Math/Farnsworth/Functions/GoogleTranslate.pm \
+	  temp.pl $(INST_LIB)/Math/temp.pl \
+	  lib/Math/Farnsworth/Dimension.pm blib/lib/Math/Farnsworth/Dimension.pm \
+	  lib/Math/Farnsworth.pm blib/lib/Math/Farnsworth.pm \
+	  lib/Math/Farnsworth/Value/Boolean.pm blib/lib/Math/Farnsworth/Value/Boolean.pm \
+	  lib/Math/Farnsworth/Value.pm blib/lib/Math/Farnsworth/Value.pm \
+	  lib/Math/Farnsworth/Functions/StdMath.pm blib/lib/Math/Farnsworth/Functions/StdMath.pm \
+	  lib/Math/Farnsworth/Value/Date.pm blib/lib/Math/Farnsworth/Value/Date.pm \
+	  lib/Math/Farnsworth/Output.pm blib/lib/Math/Farnsworth/Output.pm \
+	  botriz.pl $(INST_LIB)/Math/botriz.pl \
+	  lib/Math/Farnsworth/Value/NewValue.pm blib/lib/Math/Farnsworth/Value/NewValue.pm 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
 

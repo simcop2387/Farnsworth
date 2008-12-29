@@ -1,7 +1,7 @@
-package Math::Farnsworth::Value::Date
+package Math::Farnsworth::Value::Date;
 
-use Math::Pari;
 use Math::Farnsworth::Dimension;
+use Carp;
 
 use DateTime;
 use DateTime::Format::DateManip;

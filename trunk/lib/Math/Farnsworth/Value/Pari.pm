@@ -1,10 +1,10 @@
-package Math::Farnsworth::Value::Pari
+package Math::Farnsworth::Value::Pari;
 
 use Math::Pari;
 use Math::Farnsworth::Dimension;
-use Date::Manip;
-use List::Util qw(sum);
-use Storable qw(dclone);
+use Carp qw(confess cluck croak carp);
+
+use Data::Dumper;
 
 use utf8;
 
@@ -67,43 +67,6 @@ sub getdimen
 	return $self->{dimen};
 }
 
-#these values will also probably be put into a "memoized" setup so that they don't get recreated all the fucking time
-sub TYPE_STRING
-{
-	my $d = new Math::Farnsworth::Dimension({string => 1});
-	bless {dimen => $d}, 'Math::Farnsworth::Value';
-}
-
-sub TYPE_DATE
-{
-	my $d = new Math::Farnsworth::Dimension({date => 1});
-	bless {dimen => $d}, 'Math::Farnsworth::Value';
-}
-
-sub TYPE_PLAIN #this tells it that it is the same as a constraint of "1", e.g. no units
-{
-	my $d = new Math::Farnsworth::Dimension({});
-	bless {dimen => $d}, 'Math::Farnsworth::Value';
-}
-
-sub TYPE_LAMBDA
-{
-	my $d = new Math::Farnsworth::Dimension({lambda => 1});
-	bless {dimen => $d}, 'Math::Farnsworth::Value';
-}
-
-sub TYPE_UNDEF
-{
-	my $d = new Math::Farnsworth::Dimension({"undef" => 1});
-	bless {dimen => $d}, 'Math::Farnsworth::Value';
-}
-
-sub TYPE_ARRAY
-{
-	my $d = new Math::Farnsworth::Dimension({array => 1});
-	bless {dimen => $d}, 'Math::Farnsworth::Value';
-}
-
 #######
 #The rest of this code can be GREATLY cleaned up by assuming that $one is of type, Math::Farnsworth::Value::Pari, this means that i can slowly redo a lot of this code
 
@@ -117,7 +80,7 @@ sub add
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to addition" unless (!ref($two));
+  confess "Non reference given to addition" unless (ref($two));
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   return $two->add($one, !$rev) unless ($two->isa(__PACKAGE__));
@@ -135,7 +98,7 @@ sub subtract
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to subtraction" unless (!ref($two));
+  confess "Non reference given to subtraction" unless (ref($two));
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   return $two->subtract($one, !$rev) unless ($two->isa(__PACKAGE__));
@@ -159,7 +122,7 @@ sub mod
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to modulus" unless (!ref($two));
+  confess "Non reference given to modulus" unless (ref($two));
 
   #as odd as this seems, we need it in order to allow overloading later on
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
@@ -183,7 +146,7 @@ sub mult
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to multiplication" unless (!ref($two));
+  confess "Non reference given to multiplication" unless (ref($two));
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   return $two->mult($one, !$rev) unless ($two->isa(__PACKAGE__));
@@ -191,14 +154,14 @@ sub mult
   my $nd = $one->getdimen()->merge($two->getdimen()); #merge the dimensions! don't cross the streams though
 
   #moving this down so that i don't do any math i don't have to
-  return new Math::Farnsworth::Value($one->getpari() * $two->getpari(), $nd);
+  return new Math::Farnsworth::Value::Pari($one->getpari() * $two->getpari(), $nd);
 }
 
 sub div
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to division" unless (!ref($two));
+  confess "Non reference given to division" unless (ref($two));
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   return $two->mult($one, !$rev) unless ($two->isa(__PACKAGE__));
@@ -206,7 +169,7 @@ sub div
   #these are a little screwy SO i'll probably comment them more later
   #probably after i find out that they're wrong
   my $qd = $rev ? $two->getdimen() : $one->getdimen();
-  my $dd = $rev ? $one->getdimen()->invert() : $two->getdimen()->invert());
+  my $dd = $rev ? $one->getdimen()->invert() : $two->getdimen()->invert();
 
   my $nd = $qd->merge($dd);
   
@@ -236,7 +199,7 @@ sub pow
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to exponentiation" unless (!ref($two));
+  confess "Non reference given to exponentiation" unless (ref($two));
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   return $two->pow($one, !$rev) unless ($two->isa(__PACKAGE__));
@@ -250,7 +213,7 @@ sub pow
   my $new;
   if (!$rev)
   {
-	  $new = new Math::Farnsworth::Value($one->getpari() ** $two->getpari(), $one->getdimen()->mult($two->getpari())); #if !$rev they are in order
+	  $new = new Math::Farnsworth::Value::Pari($one->getpari() ** $two->getpari(), $one->getdimen()->mult($two->getpari())); #if !$rev they are in order
   }
   else
   {
@@ -264,7 +227,7 @@ sub compare
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to exponentiation" unless (!ref($two));
+  confess "Non reference given to exponentiation" unless (ref($two));
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   return $two->compare($one, !$rev) unless ($two->isa(__PACKAGE__));

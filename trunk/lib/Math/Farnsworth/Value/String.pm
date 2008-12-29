@@ -1,10 +1,7 @@
-package Math::Farnsworth::Value::String
+package Math::Farnsworth::Value::String;
 
-use Math::Pari;
 use Math::Farnsworth::Dimension;
-use Date::Manip;
-use List::MoreUtils 'each_array'; 
-use Storable qw(dclone);
+use Carp;
 
 use utf8;
 

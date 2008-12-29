@@ -1,10 +1,7 @@
-package Math::Farnsworth::Value::Lambda
+package Math::Farnsworth::Value::Lambda;
 
-use Math::Pari;
 use Math::Farnsworth::Dimension;
-use Date::Manip;
-use List::MoreUtils 'each_array'; 
-use Storable qw(dclone);
+use Carp;
 
 use utf8;
 
@@ -34,6 +31,7 @@ sub new
   my $scope = shift;
   my $args = shift;
   my $code = shift;
+  my $branches = shift;
   my $outmagic = shift; #i'm still not sure on this one
 
   warn "Need error checking in lambda creation!";
@@ -48,6 +46,7 @@ sub new
   $self->{scope} = $scope;
   $self->{code} = $code;
   $self->{args} = $args;
+  $self->{branches} = $branches;
   
   return $self;
 }
@@ -65,6 +64,11 @@ sub getargs
 sub getscope
 {
 	return $_[0]->{scope};
+}
+
+sub getbranches
+{
+	return $_[0]->{branches};
 }
 
 #######

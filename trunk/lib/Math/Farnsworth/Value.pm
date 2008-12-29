@@ -5,10 +5,7 @@ use strict;
 use warnings;
 
 use Carp;
-
-use base qw/Exporter/;
-
-@EXPORT = qw();
+use Data::Dumper;
 
 ####
 #THESE FUNCTIONS WILL BE MOVED TO Math::Farnsworth::Value, or somewhere more appropriate
@@ -86,3 +83,31 @@ sub TYPE_ARRAY
 {
 	new Math::Farnsworth::Value::Array();
 }
+
+sub conforms
+{
+	my $self = shift;
+	my $comparator = shift;
+
+	carp Dumper($self, $comparator);
+
+	if (ref($self) ne ref($comparator))
+	{
+		return 0;
+	}
+	else
+	{
+		if (ref($self) eq "Math::Farnsworth::Value::Pari")
+		{
+			my $ret = $self->getdimen()->compare($comparator->getdimen());
+			carp "$ret";
+			return $ret;
+		}
+		else
+		{
+			return 1; #for now?
+		}
+	}
+}
+
+1;
