@@ -1,10 +1,11 @@
-package Math::Farnsworth::Value::String
+package Math::Farnsworth::Value::Date
 
 use Math::Pari;
 use Math::Farnsworth::Dimension;
+
+use DateTime;
+use DateTime::Format::DateManip;
 use Date::Manip;
-use List::MoreUtils 'each_array'; 
-use Storable qw(dclone);
 
 use utf8;
 
@@ -43,14 +44,26 @@ sub new
   $self->{outmagic} = $outmagic;
   $self->{valueinput} = $value;
 
-  $self->{string} = $value."" || "";
-  
+  if (ref($value) ne "DateTime")
+  {
+	my $dm = ParseDate($value);
+	my $dt = DateTime::Format::DateManip->parse_datetime($dm);
+
+	$self->{date} = $dt;
+
+	die "failed to parse date!" unless defined $dt;
+  }
+  else
+  {
+	$self->{date} = $value;
+  }
+ 
   return $self;
 }
 
-sub getstring
+sub getdate
 {
-	return $_[0]->{string};
+	return $_[0]->{date};
 }
 
 #######
@@ -63,20 +76,29 @@ sub add
   confess "Non reference given to addition" unless (!ref($two));
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
-  confess "Scalar value given to addition to string" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->add($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("String"))
+  
+  if ($two->isa("Math::Farnsworth::Value::Pari"))
   {
-    confess "Given non boolean to boolean operation";
+	  if ($two->conforms(TYPE_TIME))
+	  {
+		  return new Math::Farnsworth::Value::Date($one->clone()->add(seconds => $two->getpari()));
+	  }
+	  else
+	  {
+		  confess "Scalar value given to addition to string" if ($two->isa("Math::Farnsworth::Value::Pari"));
+	  }
   }
+  else
+  {
+	  return $two->add($one, !$rev) unless ($two->ismediumtype());
+	  
+	  if (!$two->ismediumtype("Date"))
+	  {
+	    confess "Given non date to date operation";
+	  }
 
-
-  #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
-  my $new;
-  $new = $one->getstring() . $two->getstring() unless $rev;
-  $new = $two->getstring() . $one->getstring() if $rev;
-
-  return new Math::Farnsworth::Value::String($new); #return new string
+	  die "Adding dates does nothing useful.";
+  }
 }
 
 sub subtract
