@@ -48,6 +48,7 @@ sub new
   {
 	my $dm = ParseDate($value);
 	my $dt = DateTime::Format::DateManip->parse_datetime($dm);
+    $dt->set_time_zone('UTC'); #supposed to make things easier and more predictable
 
 	$self->{date} = $dt;
 
@@ -81,7 +82,7 @@ sub add
   {
 	  if ($two->conforms(TYPE_TIME))
 	  {
-		  return new Math::Farnsworth::Value::Date($one->clone()->add(seconds => $two->getpari()));
+		  return new Math::Farnsworth::Value::Date($one->getdate()->clone()->add(seconds => $two->getpari()));
 	  }
 	  else
 	  {
@@ -105,17 +106,45 @@ sub subtract
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to subtraction" unless (!ref($two));
+  confess "Non reference given to addition" unless (!ref($two));
 
-  #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  die "Scalar value given to subtraction to strings" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->subtract($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("String"))
+  #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
+  
+  if ($two->isa("Math::Farnsworth::Value::Pari"))
   {
-    confess "Given non boolean to boolean operation";
+	  if ($two->conforms(TYPE_TIME))
+	  {
+		 if (!$rev) #we're first!
+		 {
+			 return new Math::Farnsworth::Value::Date($one->getdate()->clone()->add(seconds => -$two->getpari()));
+		 }
+		 else
+		 {
+			 die "And just now what is that supposed to do? a negative date? what the hell is that?";
+		 }
+	  }
+	  else
+	  {
+		  confess "Scalar value given to addition to string" if ($two->isa("Math::Farnsworth::Value::Pari"));
+	  }
   }
+  else
+  {
+	  return $two->subtract($one, !$rev) unless ($two->ismediumtype());
+	  
+	  if (!$two->ismediumtype("Date"))
+	  {
+	    confess "Given non date to date operation";
+	  }
 
-  die "Subtracting strings? what did you think this would do, create a black hole?";
+	  my $diff;
+	  $diff = $one->getdate()->subtract_datetime_absolute($two->getdate()) unless $rev;
+	  $diff = $two->getdate()->subtract_datetime_absolute($one->getdate()) if $rev;
+
+	  my $ret = new Math::Farnsworth::Value::Pari($diff->in_units('seconds'), {time => 1});
+
+	  return $ret;
+  }
 }
 
 sub modulus
@@ -125,14 +154,14 @@ sub modulus
   confess "Non reference given to modulus" unless (!ref($two));
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to modulus to string" if ($two->isa("Math::Farnsworth::Value::Pari"));
+  confess "Scalar value given to modulus to date" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->mod($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("String"))
+  if (!$two->ismediumtype("Date"))
   {
-    confess "Given non string to string operation";
+    confess "Given non date to date operation";
   }
 
-  die "Modulusing strings? what did you think this would do, create a black hole?";
+  die "Modulusing dates? what did you think this would do, create a black hole?";
 }
 
 sub mult
@@ -142,14 +171,14 @@ sub mult
   confess "Non reference given to multiplication" unless (!ref($two));
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to multiplcation to string" if ($two->isa("Math::Farnsworth::Value::Pari"));
+  confess "Scalar value given to multiplcation to dates" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->mult($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("String"))
+  if (!$two->ismediumtype("Date"))
   {
-    confess "Given non string to string operation";
+    confess "Given non date to date operation";
   }
 
-  die "Multiplying strings? what did you think this would do, create a black hole?";
+  die "Multiplying dates? what did you think this would do, create a black hole?";
 }
 
 sub div
@@ -159,14 +188,14 @@ sub div
   confess "Non reference given to division" unless (!ref($two));
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to division to string" if ($two->isa("Math::Farnsworth::Value::Pari"));
+  confess "Scalar value given to division to date" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->div($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("String"))
+  if (!$two->ismediumtype("Date"))
   {
-    confess "Given non string to string operation";
+    confess "Given non date to dates operation";
   }
 
-  die "Dividing string? what did you think this would do, create a black hole?";
+  die "Dividing date? what did you think this would do, create a black hole?";
 }
 
 sub bool
@@ -178,7 +207,7 @@ sub bool
 	#print "BOOLCONV\n";
 	#print Dumper($self);
 	#print "ENDBOOLCONV\n";
-	return length($self->getstring())?1:0;
+	return 1; #what else should it be?
 }
 
 sub pow
@@ -188,15 +217,14 @@ sub pow
   confess "Non reference given to exponentiation" unless (!ref($two));
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Exponentiating strings? what did you think this would do, create a black hole?" if ($two->isa("Math::Farnsworth::Value::Pari"));
+  confess "Exponentiating dates? what did you think this would do, create a black hole?" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->pow($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("String"))
+  if (!$two->ismediumtype("Date"))
   {
-    confess "Given non string to string operation";
+    confess "Given non date to date operation";
   }
 
-
-  die "Exponentiating strings? what did you think this would do, create a black hole?";
+  die "Exponentiating dates? what did you think this would do, create a black hole?";
 }
 
 sub __compare
@@ -222,6 +250,8 @@ sub compare
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   confess "Scalar value given to division to string" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->compare($one, !$rev) unless ($two->ismediumtype());
+
+  return 0; #i don't want to write this right now
 
   my $rv = $rev ? -1 : 1;
   #check for $two being a simple value
