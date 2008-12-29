@@ -1,6 +1,10 @@
 package Math::Farnsworth::Value::Array;
 
+use strict;
+use warnings;
+
 use Math::Farnsworth::Dimension;
+use Math::Farnsworth::Value;
 use Carp;
 use List::MoreUtils 'each_array'; 
 use Storable qw(dclone);
@@ -50,7 +54,12 @@ sub new
 sub getarray
 {
 	my $self = shift;
-	return $self->{array};
+	return @{$self->{array}};
+}
+
+sub getarrayref
+{
+  return $_[0]->{array};
 }
 
 sub add

@@ -68,7 +68,7 @@ sub dbgprint
 	print "DEBUGLOG: $string\n";
 	print $log "$string\n";
 
-	return Math::Farnsworth::Value->new(1);
+	return Math::Farnsworth::Value::Pari->new(1);
 }
 
 sub unit
@@ -97,9 +97,9 @@ sub sort
 
 	my $sortlambda;
 
-	if ($args->{pari}->[0]->{dimen}{dimen}{lambda})
+	if (ref($args->getarrayref()->[0]) eq "Math::Farnsworth::Value::Lambda")
 	{
-		$sortlambda = shift(@{$args->{pari}});
+		$sortlambda = shift(@{$args->getarrayref});
 	}
 	else
 	{
@@ -116,12 +116,12 @@ sub sort
 
 	my @sorts;
 
-	if (@{$args->{pari}} > 1)
+	if ($args->getarray() > 1)
 	{
 		#we've been given a bunch of things, assume we need to sort them like that
 		push @sorts, @{$args->{pari}};
 	}
-	elsif ((@{$args->{pari}} == 1) && ($args->{pari}[0]->{dimen}{dimen}{array}))
+	elsif (($args->getarray() == 1) && ($args->{pari}[0]->{dimen}{dimen}{array}))
 	{
 		#given an array as a second value, dereference it since its the only thing we've got
 		push @sorts, @{$args->{pari}[0]{pari}};

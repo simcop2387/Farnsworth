@@ -1,6 +1,10 @@
 package Math::Farnsworth::Value::Date;
 
+use strict;
+use warnings;
+
 use Math::Farnsworth::Dimension;
+use Math::Farnsworth::Value;
 use Carp;
 
 use DateTime;
@@ -80,7 +84,7 @@ sub add
   
   if ($two->isa("Math::Farnsworth::Value::Pari"))
   {
-	  if ($two->conforms(TYPE_TIME))
+	  if ($two->conforms($one->TYPE_TIME))
 	  {
 		  return new Math::Farnsworth::Value::Date($one->getdate()->clone()->add(seconds => $two->getpari()));
 	  }
@@ -112,7 +116,7 @@ sub subtract
   
   if ($two->isa("Math::Farnsworth::Value::Pari"))
   {
-	  if ($two->conforms(TYPE_TIME))
+	  if ($two->conforms($one->TYPE_TIME))
 	  {
 		 if (!$rev) #we're first!
 		 {

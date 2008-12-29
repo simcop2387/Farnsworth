@@ -6,6 +6,7 @@ use strict;
 use warnings;
 
 use Data::Dumper;
+use Carp;
 
 use Math::Farnsworth::FunctionDispatch;
 use Math::Farnsworth::Variables;
@@ -359,7 +360,7 @@ sub evalbranch
 		my $lambda = {code => $code, args => $vargs, 
 			          scope => $scope, branches=>$branch};
 
-		$return = new Math::Farnsworth::Value::Lambda($scope, $args, $code, $branches);
+		$return = new Math::Farnsworth::Value::Lambda($scope, $args, $code, $branch);
 	}
 	elsif ($type eq "LambdaCall")
 	{		
@@ -396,7 +397,7 @@ sub evalbranch
 				push @$array, $value; #we return an array ref! i need more error checking around for this later
 			}
 		}
-		$return = new Math::Farnsworth::Value($array, {array => 1});
+		$return = new Math::Farnsworth::Value::Array($array);
 	}
 	elsif ($type eq "ArgArray")
 	{
@@ -419,10 +420,10 @@ sub evalbranch
 
 		#print Dumper($branch, $var, $listval);
 
-		for (@{$listval->{pari}})
+		for ($listval->getarray())
 		{
-			my $float = $_ * (Math::Farnsworth::Value->new(1.0)); #makes rationals work right
-			my $input = $var->{pari}->[$float->toperl()]; #->toperl makes indexes work right again
+			my $float = $_ * (Math::Farnsworth::Value::Pari->new(1.0)); #makes rationals work right
+			my $input = $var->getarrayref()->[$float.""]; #."" makes indexes work right again
 			die "Array out of bounds\n" unless defined $input; #NTS: would be useful to look if i have a name and use it
 			push @rval, $input;
 		}
@@ -431,8 +432,7 @@ sub evalbranch
 
 		if (@rval > 1)
 		{
-			my $pr = $self->makevalue(bless [bless ['0.1234'], 'Num'], 'Array'); #we return an array
-			$pr->{pari} = [@rval]; #make a shallow copy, why not
+			my $pr = new Math::Farnsworth::Value::Array([@rval]);
 			$return = $pr;
 		}
 		else
@@ -521,7 +521,7 @@ sub evalbranch
 	{
 		my $name = $branch->[0];
 		my $value = $self->makevalue($branch->[1]);
-		#print "SETTING PREFIX0: $name : $value : ".Dumper($branch->[1]) if ($name eq "m");
+		#carp "SETTING PREFIX0: $name : $value : ".Dumper($branch->[1]) if ($name eq "m");
 		$self->{units}->setprefix($name, $value);
 	}
 	elsif ($type eq "Trans")
@@ -554,7 +554,7 @@ sub evalbranch
 			}
 			elsif ($self->{funcs}->isfunc($branch->[1][0]))
 			{
-				$left = $left->{dimen}{dimen}{array} ? $left : new Math::Farnsworth::Value([$left], {array=>1});
+				$left = ref($left) eq "Math::Farnsworth::Value::Array" ? $left : new Math::Farnsworth::Value::Array([$left]);
 				$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
 			}
 			else
@@ -565,7 +565,7 @@ sub evalbranch
 		else
 		{
 			#$right doesn't evaluate... so we check for a function?
-			$left = $left->{dimen}{dimen}{array} ? $left : new Math::Farnsworth::Value([$left], {array=>1});
+			$left = $left->{dimen}{dimen}{array} ? $left : new Math::Farnsworth::Value::Array([$left]);
 			$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
 		}
 	}
@@ -573,7 +573,7 @@ sub evalbranch
 	if (!defined($return))
 	{
 		#this creates a "true" undefined value for returning, this makes things funner! it also introduced a bug from naive coding above, which has been fixed
-		$return = new Math::Farnsworth::Value(undef, {undef => 1});
+		$return = new Math::Farnsworth::Value::Undef();
 	}
 	
 	return $return;

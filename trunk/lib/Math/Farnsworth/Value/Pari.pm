@@ -1,7 +1,11 @@
 package Math::Farnsworth::Value::Pari;
 
+use strict;
+use warnings;
+
 use Math::Pari;
 use Math::Farnsworth::Dimension;
+use Math::Farnsworth::Value;
 use Carp qw(confess cluck croak carp);
 
 use Data::Dumper;
@@ -18,7 +22,8 @@ use overload
 	'%' => \&mod,
 	'**' => \&pow,
 	'<=>' => \&compare,
-	'bool' => \&bool;
+	'bool' => \&bool,
+	'"' => \&toperl;
 
 use base qw(Math::Farnsworth::Value);
 
@@ -74,6 +79,12 @@ sub getpari
 {
 	my $self = shift;
 	return $self->{pari};
+}
+
+sub toperl
+{
+	my $self = shift;
+	return $self->getpari()."";
 }
 
 sub add
@@ -146,7 +157,8 @@ sub mult
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to multiplication" unless (ref($two));
+  confess "ARRAY REF WTF?" if (ref($two) eq "ARRAY");
+  confess "Non reference given to multiplication " unless (ref($two));
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   return $two->mult($one, !$rev) unless ($two->isa(__PACKAGE__));
@@ -204,7 +216,7 @@ sub pow
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   return $two->pow($one, !$rev) unless ($two->isa(__PACKAGE__));
 
-  if (!$two->conforms(TYPE_PLAIN))
+  if (!$two->conforms($one->TYPE_PLAIN))
   {
 	  die "A number with units as the exponent doesn't make sense";
   }

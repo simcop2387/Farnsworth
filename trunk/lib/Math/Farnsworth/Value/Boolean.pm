@@ -1,6 +1,10 @@
 package Math::Farnsworth::Value::Boolean;
 
+use strict;
+use warnings;
+
 use Math::Farnsworth::Dimension;
+use Math::Farnsworth::Value;
 use Carp;
 
 use utf8;
@@ -30,8 +34,6 @@ sub new
   my $class = shift;
   my $value = shift;
   my $outmagic = shift; #i'm still not sure on this one
-
-  confess "Non array reference given as \$value to constructor" unless ref($value) eq "ARRAY" && defined($value);
 
   my $self = {};
 

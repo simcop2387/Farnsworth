@@ -1,6 +1,10 @@
 package Math::Farnsworth::Value::Undef;
 
+use strict;
+use warnings;
+
 use Math::Farnsworth::Dimension;
+use Math::Farnsworth::Value;
 use Carp;
 
 use utf8;

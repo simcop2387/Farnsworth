@@ -1,6 +1,10 @@
 package Math::Farnsworth::Value::Lambda;
 
+use strict;
+use warnings;
+
 use Math::Farnsworth::Dimension;
+use Math::Farnsworth::Value;
 use Carp;
 
 use utf8;
@@ -41,7 +45,6 @@ sub new
   bless $self, $class;
 
   $self->{outmagic} = $outmagic;
-  $self->{valueinput} = $value;
 
   $self->{scope} = $scope;
   $self->{code} = $code;

@@ -7,6 +7,10 @@ use warnings;
 use Carp;
 use Data::Dumper;
 
+use base qw/Exporter/;
+
+our @EXPORT_OK = qw(TYPE_PLAIN TYPE_TIME);
+
 ####
 #THESE FUNCTIONS WILL BE MOVED TO Math::Farnsworth::Value, or somewhere more appropriate
 
@@ -89,8 +93,6 @@ sub conforms
 	my $self = shift;
 	my $comparator = shift;
 
-	carp Dumper($self, $comparator);
-
 	if (ref($self) ne ref($comparator))
 	{
 		return 0;
@@ -100,7 +102,6 @@ sub conforms
 		if (ref($self) eq "Math::Farnsworth::Value::Pari")
 		{
 			my $ret = $self->getdimen()->compare($comparator->getdimen());
-			carp "$ret";
 			return $ret;
 		}
 		else

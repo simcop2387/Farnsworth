@@ -4,14 +4,14 @@ use strict;
 use warnings;
 
 use Data::Dumper;
-use Math::Farnsworth::Value;
+use Math::Farnsworth::Value::Pari;
 use Math::Pari;
 use Math::Farnsworth::Output;
 
 sub new
 {
 	#i should make a constructor that copies, but that'll come later
-	my $self = {units=>{1=>1}, dimens=>{bool=>"Boolean", string=>"String"}}; #hack to make things work right
+	my $self = {units=>{1=>new Math::Farnsworth::Value::Pari(1)}, dimens=>{}}; #hack to make things work right
 	bless $self;
 }
 
@@ -40,6 +40,7 @@ sub getunit
 	{
 		my ($preval, undef, $realname) = $self->getprefix($name);
 #		print "GETTING PREFIXES: $name :: $preval :: $realname ::".Dumper($preval, $realname) if (($name eq "mg") || ($name eq "l") || $name eq "milli");
+
 		$return = $preval * $self->{units}{$realname};
 	}
 
@@ -105,7 +106,7 @@ sub adddimen
 	my $self = shift;
 	my $name = shift;
 	my $default = shift; #primitive unit for the dimension, all other units are defined against this
-	my $val = new Math::Farnsworth::Value(1, {$name => 1}); #i think this is right
+	my $val = new Math::Farnsworth::Value::Pari(1, {$name => 1}); #i think this is right
 	Math::Farnsworth::Output::addcombo($name,$val);
 	$self->{dimens}{$name} = $default;
     $self->addunit($default, $val);
