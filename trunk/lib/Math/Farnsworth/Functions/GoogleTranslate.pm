@@ -33,7 +33,7 @@ sub init
 
     REST::Google::Translate->http_referer('http://farnsworth.sexypenguins.com/'); #for now, i need a real website for this!
 
-	my $string = new Math::Farnsworth::Value("", {string => 1});
+	my $string = new Math::Farnsworth::Value::String("");
 
 	#generate lang to lang
 	for my $x (keys %langs)
@@ -78,15 +78,8 @@ sub init
 sub callgoogle
 {
   my ($langa, $langb) = (shift(), shift()); #get the two targets
-  my ($args, $eval, $branches)= @_;
+  my $totranslate= shift;
 	
-  if (!$args->{pari}[0]{dimen}{dimen}{string})
-  {
-	  die "First argument to translations must be a string";
-  }
-  
-  my $totranslate = $args->{pari}[0]{pari};
-  
   my $res = REST::Google::Translate->new(
               q => $totranslate,
                 langpair => "$langa|$langb",
@@ -104,25 +97,20 @@ sub translate
   my ($langa, $langb) = (shift(), shift()); #get the two targets
   my ($args, $eval, $branches)= @_;
 
-  if (!$args->{pari}[0]{dimen}{dimen}{string})
-  {
-    die "First argument to translations must be a string";
-  }
-
   if ($langa eq "")
   {
-    if ($args->{pari}[0]{dimen}{dimen}{string} ne "1") #if it is set to something other than "1"
+    if ($args->getarrayref()->[0]->getlang() ne "") #if it is set to something other than "1"
     {
-      $langa = $args->{pari}[0]{dimen}{dimen}{string};
+      $langa = $args->getarrayref()->[0]->getlang();
     }
   }
 
-  my $response = callgoogle($langa, $langb, $args, $eval, $branches);
+  my $response = callgoogle($langa, $langb, $args->getarray());
   my $translated = $response->responseData->translatedText;
 
   #print "TRANSLATED: $langa|$langb '$translated'\n";
 
-  $translated = new Math::Farnsworth::Value(decode_entities($translated), {string=>$langb});
+  $translated = new Math::Farnsworth::Value::String(decode_entities($translated), $langb);
 
   return $translated;
 }
@@ -131,26 +119,21 @@ sub detectlang
 {
   my ($args, $eval, $branches)= @_;
 
-  if (!$args->{pari}[0]{dimen}{dimen}{string})
+  if ($args->getarrayref()->[0]->getlang() ne "") #if it is set to something other than "1"
   {
-    die "First argument to DetectLanguage must be a string";
-  }
-
-  if ($args->{pari}[0]{dimen}{dimen}{string} ne "1") #if it is set to something other than "1"
-  {
-    my $lang = $args->{pari}[0]{dimen}{dimen}{string};
+    my $lang = $args->getarrayref()->[0]->getlang();
     my $txt = $langs{$lang};
-    return new Math::Farnsworth::Value($txt, {string=>"en"});
+    return new Math::Farnsworth::Value::String($txt, "en"); #NOT INTERNATIONALIZED NAMES!
   }
 
-  my $response = callgoogle("", "en", $args, $eval, $branches);
+  my $response = callgoogle("", "en", $args->getarray());
   my $translated = $response->{responseData}{detectedSourceLanguage};
 
   #print "DETECTED: '$translated'\n";
 
   $translated = $langs{$translated} || $translated; #either its got a name, or we return the code
 
-  $translated = new Math::Farnsworth::Value($translated, {string=>"en"});
+  $translated = new Math::Farnsworth::Value::String($translated, "en");
 
   return $translated;
 }
@@ -160,17 +143,9 @@ sub islang
   my ($lang) = shift();
   my ($args, $eval, $branches)= @_;
 
-  if (!$args->{pari}[0]{dimen}{dimen}{string})
-  {
-    die "First argument to IsLanguage must be a string";
-  }
+  my $text = $args->getarrayref()->[0]->getstring();
 
-  #print "ISLANG: $lang\n";
-  #print Dumper($args);
-
-  my $text = $args->{pari}[0]{pari};
-
-  return new Math::Farnsworth::Value($text, {string => $lang});
+  return new Math::Farnsworth::Value::String($text, $lang);
 }
 
 1;

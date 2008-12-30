@@ -53,13 +53,13 @@ sub setupargs
 ARG:for my $argc (0..$#$argtypes)
 	{
 		my $n = $argtypes->[$argc][0]; #the rest are defaults and constraints
-		my $v = $args->{pari}->[$argc];
+		my $v = $args->getarrayref()->[$argc];
 
 		my $const = $argtypes->[$argc][2];
 		if (!defined($v))# || ($v->{dimen}{dimen}{"undef"})) #uncomment for undef== default value
 		{
 			#i need a default value!
-			if (!defined($argtypes->[$argc][1]) && defined($argtypes->[$argc][0])  && (defined($const) && ref($const) ne "Math::Farnsworth::Value" && $const ne "VarArg"))
+			if (!defined($argtypes->[$argc][1]) && defined($argtypes->[$argc][0])  && (defined($const) && ref($const) !~ /Math::Farnsworth::Value/ && $const ne "VarArg"))
 			{
 				die "Required argument $argc to function $name\[\] missing\n";
 			}
@@ -67,10 +67,10 @@ ARG:for my $argc (0..$#$argtypes)
 			$v = $argtypes->[$argc][1];
 		}
 
-		if (defined($const) && ref($const) eq "Math::Farnsworth::Value")
+		if (defined($const) && ref($const) =~ /Math::Farnsworth::Value/)
 		{
 			#we have a constraint
-			if (!$v->{dimen}->compare($const->{dimen}))
+			if (!$v->conforms($const))
 			{
 				die "Constraint not met on argument $argc to $name\[\]\n";
 			}
@@ -78,9 +78,9 @@ ARG:for my $argc (0..$#$argtypes)
 		elsif (defined($const) && $const eq "VarArg")
 		{
 			#we've got a variable argument, it needs to slurp all the rest of the arguments into an array!
-			my $last = $#{$args->{pari}};
-			my @vargs = @{$args->{pari}}[$argc..$last];
-			my $v = new Math::Farnsworth::Value(\@vargs, {array => 1});
+			my $last = $#{$args->getarrayref()};
+			my @vargs = @{$args->getarrayref()}[$argc..$last];
+			my $v = new Math::Farnsworth::Value::Array(\@vargs);
 			$vars->declare($n, $v); #set the variable
 			last ARG; #don't parse ANY more arguments
 		}

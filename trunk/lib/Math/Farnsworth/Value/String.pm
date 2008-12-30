@@ -33,6 +33,7 @@ sub new
 {
   my $class = shift;
   my $value = shift;
+  my $lang = shift;
   my $outmagic = shift; #i'm still not sure on this one
 
   confess "Non string given as \$value to constructor" unless ref($value) eq "" && defined($value);
@@ -44,7 +45,8 @@ sub new
   $self->{outmagic} = $outmagic;
   $self->{valueinput} = $value;
 
-  $self->{string} = $value."" || "";
+  $self->{string} = $value || "";
+  $self->{lang} = $lang || "";
   
   return $self;
 }
@@ -52,6 +54,11 @@ sub new
 sub getstring
 {
 	return $_[0]->{string};
+}
+
+sub getlang
+{
+	return $_[0]->{lang};
 }
 
 #######
@@ -76,6 +83,9 @@ sub add
   my $new;
   $new = $one->getstring() . $two->getstring() unless $rev;
   $new = $two->getstring() . $one->getstring() if $rev;
+
+  my $lang = "";
+  $lang = $one->getlang() if ($one->getlang() eq $two->getlang()); #if we know their language, and they're the same, just keep it
 
   return new Math::Farnsworth::Value::String($new); #return new string
 }

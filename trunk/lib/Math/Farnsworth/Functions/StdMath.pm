@@ -5,6 +5,10 @@ use warnings;
 
 use Math::Pari;
 use Data::Dumper;
+use Math::Farnsworth::Value::Pari;
+use Math::Farnsworth::Value::Array;
+use Math::Farnsworth::Value::Lambda;
+use Math::Farnsworth::Value::Boolean;
 
 sub init
 {
@@ -62,7 +66,6 @@ sub init
 	$env->{funcs}->addfunc("factor", [["in", undef, $number]],\&factor);
    
    $env->{funcs}->addfunc("randmax", [["in", undef, $number]],\&randmax);
-   $env->{funcs}->addfunc("exit", [[]],\&exit);
    $env->{funcs}->addfunc("getrseed", [[]],\&getrseed);
    $env->{funcs}->addfunc("setrseed", [[]],\&setrseed);
    $env->eval("random{} := randmax[10**30]/10.0**30");
@@ -82,11 +85,6 @@ sub init
 
    #$env->eval("_tohex{x isa 1} := { if(x < 16) { substrLen[\"0123456789abcdef\", x, 1] } else { _tohex[floor[x/16]] + _tohex[x%16] } }; tohex{x isa 1} := {\"0x\"+_tohex[x]}");
 
-}
-
-sub exit
-{
-  exit(0);
 }
 
 sub sqrt
@@ -109,7 +107,7 @@ sub sin
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return  Math::Farnsworth::Value->new(Math::Pari::sin($input->{pari}));
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::sin($input->getpari()));
 }
 
 sub cos
@@ -119,7 +117,7 @@ sub cos
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return  Math::Farnsworth::Value->new(Math::Pari::cos($input->{pari}));
+	return  Math::Farnsworth::Value::Pari->new(Math::Pari::cos($input->getpari()));
 }
 
 sub tan
@@ -129,7 +127,7 @@ sub tan
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return  Math::Farnsworth::Value->new(Math::Pari::tan($input->{pari}));
+	return  Math::Farnsworth::Value::Pari->new(Math::Pari::tan($input->getpari()));
 }
 
 sub arcsin
@@ -139,7 +137,7 @@ sub arcsin
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return  Math::Farnsworth::Value->new(Math::Pari::asin($input->{pari}));
+	return  Math::Farnsworth::Value::Pari->new(Math::Pari::asin($input->getpari()));
 }
 
 sub arccos
@@ -149,7 +147,7 @@ sub arccos
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return  Math::Farnsworth::Value->new(Math::Pari::acos($input->{pari}));
+	return  Math::Farnsworth::Value::Pari->new(Math::Pari::acos($input->getpari()));
 }
 
 sub arctan
@@ -159,7 +157,7 @@ sub arctan
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return  Math::Farnsworth::Value->new(Math::Pari::atan($input->{pari}));
+	return  Math::Farnsworth::Value::Pari->new(Math::Pari::atan($input->getpari()));
 }
 
 sub sinh
@@ -169,7 +167,7 @@ sub sinh
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return Math::Farnsworth::Value->new(Math::Pari::sinh($input->{pari}));
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::sinh($input->getpari()));
 }
 
 sub cosh
@@ -179,7 +177,7 @@ sub cosh
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return Math::Farnsworth::Value->new(Math::Pari::cosh($input->{pari}));
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::cosh($input->getpari()));
 }
 
 sub tanh
@@ -189,7 +187,7 @@ sub tanh
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return Math::Farnsworth::Value->new(Math::Pari::tanh($input->{pari}));
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::tanh($input->getpari()));
 }
 
 sub arcsinh
@@ -199,7 +197,7 @@ sub arcsinh
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return Math::Farnsworth::Value->new(Math::Pari::asinh($input->{pari}));
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::asinh($input->getpari()));
 }
 
 sub arccosh
@@ -209,7 +207,7 @@ sub arccosh
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return Math::Farnsworth::Value->new(Math::Pari::acosh($input->{pari}));
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::acosh($input->getpari()));
 }
 
 sub arctanh
@@ -219,7 +217,7 @@ sub arctanh
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return Math::Farnsworth::Value->new(Math::Pari::atanh($input->{pari}));
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::atanh($input->getpari()));
 }
 
 sub abs
@@ -229,7 +227,7 @@ sub abs
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return Math::Farnsworth::Value->new(Math::Pari::abs($input->{pari}));
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::abs($input->getpari()), $input->getdimen());
 }
 
 sub floor
@@ -239,7 +237,7 @@ sub floor
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return Math::Farnsworth::Value->new(Math::Pari::floor($input->{pari}));
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::floor($input->getpari()), $input->getdimen());
 }
 
 sub ceil
@@ -249,7 +247,7 @@ sub ceil
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return Math::Farnsworth::Value->new(Math::Pari::ceil($input->{pari}));
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::ceil($input->getpari()), $input->getdimen());
 }
 
 sub int
@@ -260,7 +258,7 @@ sub int
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
 	my $e = PARI '0';
-	my $r = Math::Farnsworth::Value->new(Math::Pari::truncate($input->{pari},$e));
+	my $r = Math::Farnsworth::Value::Pari->new(Math::Pari::truncate($input->getpari(),$e), $input->getdimen());
 	print Data::Dumper->Dump([$r], ["\$r"]);
 	return $r;
 }
@@ -272,7 +270,8 @@ sub numerator
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return Math::Farnsworth::Value->new(Math::Pari::numerator($input->{pari}));
+	#bug? should i make it pull the positive dimensions?
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::numerator($input->getpari()));
 }
 
 sub denominator
@@ -282,7 +281,8 @@ sub denominator
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return Math::Farnsworth::Value->new(Math::Pari::denominator($input->{pari}));
+	#bug? should i make it pull the negative dimensions?
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::denominator($input->getpari()));
 }
 
 sub real
@@ -292,7 +292,7 @@ sub real
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 	
-	return  Math::Farnsworth::Value->new(Math::Pari::real($input->{pari}), $input->{dimen});
+	return  Math::Farnsworth::Value::Pari->new(Math::Pari::real($input->getpari()), $input->getdimen());
 }
 
 sub imag
@@ -302,7 +302,7 @@ sub imag
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 	
-	return  Math::Farnsworth::Value->new(Math::Pari::imag($input->{pari}), $input->{dimen});
+	return  Math::Farnsworth::Value::Pari->new(Math::Pari::imag($input->getpari()), $input->getdimen());
 }
 
 sub conj
@@ -312,7 +312,7 @@ sub conj
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 	
-	return  Math::Farnsworth::Value->new(Math::Pari::conj($input->{pari}), $input->{dimen});
+	return  Math::Farnsworth::Value::Pari->new(Math::Pari::conj($input->getpari()), $input->getdimen());
 }
 
 sub norm
@@ -322,7 +322,7 @@ sub norm
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 	
-	return  Math::Farnsworth::Value->new(Math::Pari::norm($input->{pari}), $input->{dimen});
+	return  Math::Farnsworth::Value::Pari->new(Math::Pari::norm($input->getpari()), $input->getdimen());
 }
 
 sub isprime
@@ -332,7 +332,7 @@ sub isprime
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 	
-	return Math::Farnsworth::Value->new(Math::Pari::isprime($input->{pari}), {bool => 1});
+	return Math::Farnsworth::Value::Boolean->new(Math::Pari::isprime($input->getpari()));
 }
 
 sub prime
@@ -342,7 +342,7 @@ sub prime
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 	
-	return Math::Farnsworth::Value->new(Math::Pari::prime($input->{pari}));
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::prime($input->getpari()));
 }
 
 sub nextprime
@@ -352,7 +352,7 @@ sub nextprime
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 	
-	return Math::Farnsworth::Value->new(Math::Pari::nextprime($input->{pari}));
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::nextprime($input->getpari()));
 }
 
 sub precprime
@@ -362,7 +362,7 @@ sub precprime
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 	
-	return Math::Farnsworth::Value->new(Math::Pari::precprime($input->{pari}));
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::precprime($input->getpari()));
 }
 
 sub factor
@@ -372,7 +372,7 @@ sub factor
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 	
-	return Math::Farnsworth::Value->new(Math::Pari::factor($input->{pari}));
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::factor($input->getpari()));
 }
 
 sub randmax
@@ -382,7 +382,7 @@ sub randmax
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 	
-	return Math::Farnsworth::Value->new(Math::Pari::random($input->{pari}));
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::random($input->getpari()));
 }
 
 sub setrseed 
@@ -393,9 +393,9 @@ sub setrseed
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 	
 	my $oldseed = Math::Pari::getrand();
-	Math::Pari::setrand($input->{pari});
+	Math::Pari::setrand($input->getpari());
 
-	return Math::Farnsworth::Value->new($oldseed);
+	return Math::Farnsworth::Value::Pari->new($oldseed);
 }
 
 sub getrseed 
@@ -403,7 +403,7 @@ sub getrseed
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
 
-	return Math::Farnsworth::Value->new(Math::Pari::getrand());
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::getrand());
 }
 
 sub rint
@@ -415,7 +415,7 @@ sub rint
 
 	#die "Argument to rint[] is not a numeric value" unless $input->isPARI();
 	my $e = PARI '0';
-	return  Math::Farnsworth::Value->new(Math::Pari::round($input->{pari}, $e), $input->{dimen});
+	return  Math::Farnsworth::Value::Pari->new(Math::Pari::round($input->getpari(), $e), $input->getdimen());
 }
 
 sub gcd
@@ -426,7 +426,7 @@ sub gcd
 	my $left = $eval->{vars}->getvar("left"); #i should clean this up more too
 	my $right = $eval->{vars}->getvar("right"); #i should clean this up more too
 	
-	return Math::Farnsworth::Value->new(Math::Pari::gcd($left->{pari}, $right->{pari}));
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::gcd($left->getpari(), $right->getpari()));
 }
 
 sub lcm
@@ -437,7 +437,7 @@ sub lcm
 	my $left = $eval->{vars}->getvar("left"); #i should clean this up more too
 	my $right = $eval->{vars}->getvar("right"); #i should clean this up more too
 	
-	return Math::Farnsworth::Value->new(Math::Pari::lcm($left->{pari}, $right->{pari}));
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::lcm($left->getpari(), $right->getpari()));
 }
 
 sub log
@@ -447,7 +447,7 @@ sub log
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
-	return Math::Farnsworth::Value->new(Math::Pari::log($input->{pari}));
+	return Math::Farnsworth::Value::Pari->new(Math::Pari::log($input->getpari()));
 }
 
 1;
