@@ -51,6 +51,7 @@ sub ismediumtype
 {
 	my $self = shift;
 	my $allow = shift; #type to allow!
+	$allow ||= "";
 	
 	if ($self->isa("Math::Farnsworth::Value::Array") && $allow ne "Array")
 	{

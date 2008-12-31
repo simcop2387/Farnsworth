@@ -422,8 +422,10 @@ sub evalbranch
 
 		for ($listval->getarray())
 		{
-			my $float = $_ * (Math::Farnsworth::Value::Pari->new(1.0)); #makes rationals work right
-			my $input = $var->getarrayref()->[$float->toperl()]; #."" makes indexes work right again
+			print STDERR "ARFET: ".$_->toperl()."\n";
+			#ok this line FOR WHATEVER REASON, makes Math::Pari.xs die in isnull(), WHY i don't know, there's something wrong here somewhere
+			#my $float = $_ * (Math::Farnsworth::Value::Pari->new(1.0)); #makes rationals work right
+			my $input = $var->getarrayref()->[$_->getpari()*1.0]; #."" makes indexes work right again
 			die "Array out of bounds\n" unless defined $input; #NTS: would be useful to look if i have a name and use it
 			push @rval, $input;
 		}
