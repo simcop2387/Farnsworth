@@ -367,10 +367,10 @@ sub evalbranch
 		my $left = $self->makevalue($branch->[0]);
 		my $right = $self->makevalue($branch->[1]);
 
-		die "Right side of lamdbda call must evaluate to a Lambda\n" unless ref($right) eq "Math::Farnsworth::Value::Lambda";
+		die "Right side of lamdbda call must evaluate to a Lambda\n" unless $right->istype("Lambda");
 
 		#need $args to be an array
-		my $args = ref($left) eq "Math::Farnsworth::Value::Array" ? $left :  new Math::Farnsworth::Value::Array([$left]); 
+		my $args = $left->istype("Array") ? $left :  new Math::Farnsworth::Value::Array([$left]); 
 
 		$return = $self->{funcs}->calllambda($right, $args); #needs to be updated
 	}

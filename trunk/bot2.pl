@@ -84,6 +84,7 @@ sub irc_public
 
   print Dumper($who);
   return if _ignore($nick);
+  return if ($what =~ /^farnsworth\+\+/);
 
   if (my ($equation) = $what =~ /^farnsworth[[:punct:]]\s*(.*)$/i)
   {

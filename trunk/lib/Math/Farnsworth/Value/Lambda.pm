@@ -139,10 +139,13 @@ sub mult
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Scalar value given to multiplcation to lambda. ED: This will make white holes later" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->mult($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->istype("Lambda"))
-  {
-    confess "Given non lambda to lambda operation";
-  }
+  
+#  if (!$two->istype("Lambda"))
+#  {
+#    confess "Given non lambda to lambda operation";
+#  }
+
+  my $args = $one->istype("Array") ? $two :  new Math::Farnsworth::Value::Array([$two]); 
 
   die "Multiplying lambdas? what did you think this would do, create a black hole? ED: this will make black holes later";
 }

@@ -8,8 +8,9 @@ use Math::Farnsworth::Value;
 use Carp;
 
 use DateTime;
-use DateTime::Format::DateManip;
-use Date::Manip;
+#use DateTime::Format::DateManip;
+#use Date::Manip;
+use DateTimeX::Easy;
 
 use utf8;
 
@@ -50,13 +51,11 @@ sub new
 
   if (ref($value) ne "DateTime")
   {
-	my $dm = ParseDate($value);
-	my $dt = DateTime::Format::DateManip->parse_datetime($dm);
+	my $dt = DateTimeX::Easy->parse($value);
+	die "failed to parse date!" unless defined $dt;
     $dt->set_time_zone('UTC'); #supposed to make things easier and more predictable
 
 	$self->{date} = $dt;
-
-	die "failed to parse date!" unless defined $dt;
   }
   else
   {
@@ -145,7 +144,10 @@ sub subtract
 	  $diff = $one->getdate()->subtract_datetime_absolute($two->getdate()) unless $rev;
 	  $diff = $two->getdate()->subtract_datetime_absolute($one->getdate()) if $rev;
 
-	  my $ret = new Math::Farnsworth::Value::Pari($diff->in_units('seconds'), {time => 1});
+	  my ($secs, $nano) = $diff->in_units('seconds','nanoseconds');
+	  my $rdiff = $secs + 0.000000001 *$nano;
+
+	  my $ret = new Math::Farnsworth::Value::Pari($rdiff, {time => 1});
 
 	  return $ret;
   }
