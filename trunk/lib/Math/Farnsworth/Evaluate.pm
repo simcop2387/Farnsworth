@@ -384,13 +384,13 @@ sub evalbranch
 
 			#print "ARRAY FILL -- $type\n";
 
-			if (exists($value->{dimen}{dimen}{array}))
-			{
+#			if ($value->istype("Array"))
+#			{
 				#since we have an array, but its not in a SUBarray, we dereference it before the push
-				push @$array, @{$value->{pari}} unless ($type eq "SubArray");
-				push @$array, $value if ($type eq "SubArray");
-			}
-			else
+				#push @$array, $value->getarray() unless ($type eq "SubArray");
+				#push @$array, $value;# if ($type eq "SubArray");
+				#}
+			#else
 			{
 				#print "ARRAY VALUE --- ".Dumper($value);
 				#its not an array or anything so we push it on
@@ -450,14 +450,14 @@ sub evalbranch
 
 		#print Dumper($branch, $var, $listval);
 
-		if (@{$listval->{pari}} > 1)
+		if ($listval->getarray() > 1)
 		{
 			die "Assigning to slices not implemented yet\n";
 		}
 
-		$var->{pari}->[${$listval->{pari}}[0]] = $rval;
+		$var->getarrayref()->[$listval->getarrayref()->[0]] = $rval;
 
-		for my $value (@{$var->{pari}})
+		for my $value ($var->getarray())
 		{
 			$value = $self->makevalue(bless [0], 'Num') if !defined($value);
 		}

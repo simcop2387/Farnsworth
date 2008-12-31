@@ -30,8 +30,6 @@ sub findcombo
 	for my $combo (keys %combos)
 	{
 		my $cv = $combos{$combo}; #grab the value
-		print "FINDCOMBO::: $combo\n";
-		print Dumper($cv, $value);
 		return $combo if ($value->getdimen()->compare($cv->getdimen()));
 	}
 
@@ -110,7 +108,7 @@ sub getoutstring
 			#ok we were given a string!
 			my $number = $value->{outmagic}[0];
 			my $string = $value->{outmagic}[1];
-			return $self->getoutstring($number) . " ".$string->{pari};
+			return $self->getoutstring($number) . " ".$string->getstring();
 		}
 		elsif (exists($value->{outmagic}[0]) && (ref($value->{outmagic}[0]) ne "Math::Farnsworth::Value::Array"))
 		{
@@ -150,7 +148,7 @@ sub getoutstring
 	}
 	elsif (ref($value) eq "Math::Farnsworth::Value::Date")
 	{
-		return "# BROKEN DATES! #";#UnixDate($value->{pari}, "# %C #"); #output in ISO format for now
+		return "# ".$value->getdate()." #";#UnixDate($value->{pari}, "# %C #"); #output in ISO format for now
 	}
 	elsif (ref($value) eq "Math::Farnsworth::Value::Lambda")
 	{

@@ -39,7 +39,7 @@ sub new
   my $value = shift;
   my $outmagic = shift; #i'm still not sure on this one
 
-  confess "Non string given as \$value to constructor" unless ref($value) eq "" && defined($value);
+  confess "Non string or date given as \$value to constructor" unless (ref($value) eq "" || ref($value) eq "DateTime") && defined($value);
 
   my $self = {};
 
@@ -86,7 +86,7 @@ sub add
   {
 	  if ($two->conforms($one->TYPE_TIME))
 	  {
-		  return new Math::Farnsworth::Value::Date($one->getdate()->clone()->add(seconds => $two->getpari()));
+		  return new Math::Farnsworth::Value::Date($one->getdate()->clone()->add(seconds => "".$two->getpari()));
 	  }
 	  else
 	  {
@@ -120,7 +120,7 @@ sub subtract
 	  {
 		 if (!$rev) #we're first!
 		 {
-			 return new Math::Farnsworth::Value::Date($one->getdate()->clone()->add(seconds => -$two->getpari()));
+			 return new Math::Farnsworth::Value::Date($one->getdate()->clone()->add(seconds => "".(-$two->getpari())));
 		 }
 		 else
 		 {

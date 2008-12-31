@@ -78,8 +78,8 @@ sub add
 
   #ONLY THIS MODULE SHOULD EVER TOUCH ->{pari} ANYMORE! this might change into, NEVER
   my $order;
-  $order = [@{$one->getarray()}, @{$two->getarray()}] unless $rev;
-  $order = [@{$two->getarray()}, @{$one->getarray()}] if $rev;
+  $order = [$one->getarray(), $two->getarray()] unless $rev;
+  $order = [$two->getarray(), $one->getarray()] if $rev;
   return new Math::Farnsworth::Value::Array($order); #concatenate the arrays
 }
 

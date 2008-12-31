@@ -63,7 +63,7 @@ sub dbgprint
 	my ($args, $eval, $branches)= @_;
 
 	my $input = $eval->{vars}->getvar("str"); #i should clean this up more too
-    my $string = $input->{pari};
+    my $string = $input->getstring();
 
 	print "DEBUGLOG: $string\n";
 	print $log "$string\n";
@@ -93,7 +93,7 @@ sub sort
 	#args is... a Math::Farnsworth::Value array
 	my ($args, $eval, $branches)= @_;
 
-	my $argcount = @{$args->{pari}};
+	my $argcount = $args->getarray();
 
 	my $sortlambda;
 
@@ -119,7 +119,7 @@ sub sort
 	if ($args->getarray() > 1)
 	{
 		#we've been given a bunch of things, assume we need to sort them like that
-		push @sorts, @{$args->{pari}};
+		push @sorts, $args->getarray();
 	}
 	elsif (($args->getarray() == 1) && (ref($args->getarrayref()->[0]) eq "Math::Farnsworth::Value::Array"))
 	{
