@@ -137,17 +137,19 @@ sub mult
   confess "Non reference given to multiplication" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to multiplcation to lambda. ED: This will make white holes later" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->mult($one, !$rev) unless ($two->ismediumtype());
+  #confess "Scalar value given to multiplcation to lambda. ED: This will make white holes later" if ($two->isa("Math::Farnsworth::Value::Pari"));
+  return $two->mult($one, !$rev) unless ($two->ismediumtype() || $two->istype("Pari") || $two->istype("Lambda"));
   
 #  if (!$two->istype("Lambda"))
 #  {
 #    confess "Given non lambda to lambda operation";
 #  }
 
-  my $args = $one->istype("Array") ? $two :  new Math::Farnsworth::Value::Array([$two]); 
+  my $args = $two->istype("Array") ? $two :  new Math::Farnsworth::Value::Array([$two]); 
 
-  die "Multiplying lambdas? what did you think this would do, create a black hole? ED: this will make black holes later";
+  return $one->{scope}->{funcs}->calllambda($one, $args); #needs to be updated
+
+#  die "Multiplying lambdas? what did you think this would do, create a black hole? ED: this will make black holes later";
 }
 
 sub div

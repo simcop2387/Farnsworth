@@ -109,7 +109,8 @@ exprval1 : 	NUMBER			{ bless [ $_[1] ], 'Num' }
 
 exprval2 :	NAME			%prec NAME { bless [ $_[1] ], 'Fetch' }
 		|	'(' expr ')'	{ bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything
-		|   NAME '[' argarray ']' { bless [ @_[1,3] ], 'FuncCall' }
+#		|   NAME '[' argarray ']' { bless [ @_[1,3] ], 'FuncCall' }
+		|   lambda
 		;
 
 exprval : exprval1
@@ -123,8 +124,12 @@ assignexpr : 	NAME '=' expr	{ bless [ @_[1,3] ], 'Store' }
 arrayfetchexpr : exprval '@' array '$' %prec ARRAYFETCH { bless [ @_[1,3] ], 'ArrayFetch' }
 			   ;
 
+lambda :	'{`' arglist '`' stma '}' {bless [ @_[2,4] ], 'Lambda'} #i'm not sure how or when i'll implement these
+	   ;
+
 multexpr :	expr '*' expr	{ bless [ @_[1,3], '*'], 'Mul' }
-	|   exprval exprval  %prec IMPLICIT { bless [ @_[1,2], 'imp'], 'Mul' }
+	|   exprval expr  %prec IMPLICIT { bless [ @_[1,2], 'imp'], 'Mul' }
+#	|   expr lambda %prec IMPLICIT { bless [ @_[1,2], 'imp'], 'Mul' }
 	|   expr ' ' expr { bless [ @_[1,3], ''], 'Mul' }
 	;
 
@@ -157,7 +162,7 @@ expr
 	|	NAME '{' arglist '}' ':=' expr { bless [@_[1,3], (bless [$_[6]], 'Stmt')], 'FuncDef' }
 	|   NAME '{' arglist '}' ':=' '{' stma '}' { bless [@_[1,3,7]], 'FuncDef' } #i really want scoping here, should i do it?
 	|   '[' array ']'              { $_[2] } 
-	|	'{' '`' arglist '`' stma '}' {bless [ @_[3,5] ], 'Lambda'} #i'm not sure how or when i'll implement these
+#	|   lambda
 	|   expr '=>' expr {bless [@_[1,3]], 'LambdaCall'}
 	|   arrayfetchexpr '=' expr { bless [($_[1]->[0][0]), ($_[1]->[1]), $_[3]], 'ArrayStore' }
 	|   expr '->' expr  { bless [ @_[1,3]], 'Trans' }
@@ -204,7 +209,7 @@ sub yylex
 	#seperated this to shorten the lines, and hopefully to make parts of it more readable
 	$s =~ /\G\s*(:=|==|!=|<=>|>=|<=|=>|->|:->|\*\*)\s*/icg and return lc $1;
 	$s =~ /\G\s*(var\b|per\b|isa\b|\:?\:\-|\=\!\=|\|\|\|)\s*/icg and return lc $1;
-	$s =~ /\G\s*(\+|\*|-|\/|\%|\^\^?|=|;|\n|\{|\}|\>|\<|\?|\:|\,|\&\&|\|\||\!|\||\.\.\.|\`)\s*/cg and return $1;
+	$s =~ /\G\s*(\+|\*|-|\/|\%|\^\^?|=|;|\n|\{\s*\`|\{|\}|\>|\<|\?|\:|\,|\&\&|\|\||\!|\||\.\.\.|\`)\s*/cg and return $1;
 	$s =~ /\G\s*(\)|\])/cg and return $1; #freaking quirky lexers!
 	$s =~ /\G(\(|\[)\s*/cg and return $1;
 	$s =~ /\G(\w[\w\d]*)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here

@@ -44,10 +44,11 @@ sub ismediumtype
 	{
 		return 1;
 	}
-	elsif ($self->isa("Math::Farnsworth::Value::Lambda") && $allow ne "Lambda")
-	{
-		return 1;
-	}
+# promoting Lambda to a High type, so that it can capture the multiplication with other types
+#	elsif ($self->isa("Math::Farnsworth::Value::Lambda") && $allow ne "Lambda")
+#	{
+#		return 1;
+#	}
 	elsif ($self->isa("Math::Farnsworth::Value::Undef") && $allow ne "Undef")
 	{
 		return 1;
