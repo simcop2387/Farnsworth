@@ -111,9 +111,34 @@ sub evalbranch
 	}
 	elsif ($type eq "Mul")
 	{
-		my $a = $self->makevalue($branch->[0]);
-		my $b = $self->makevalue($branch->[1]);
-		$return = $a * $b;
+#		print "------MULT!\n";
+#		print Dumper($branch);
+
+	    if ((ref($branch->[0]) eq "Fetch") && (ref($branch->[1]) eq "Array") && ($branch->[2] eq "imp"))
+		{
+		    #we've got a new style function call!
+			my $a = $branch->[0][0]; #grab the function name
+			my $b = $self->makevalue($branch->[1]);
+
+			print "----------------FUNCCALL!\n";
+			print Dumper($a, $b);
+			
+			if ($self->{funcs}->isfunc($a)) #check if there is a func $a
+			{   #$return = $self->{funcs}->callfunc($self, $name, $args, $branch);
+				$return = $self->{funcs}->callfunc($self, $a, $b, $branch);
+			}
+			else #otherwise we try to 
+			{
+				$a = $self->makevalue($branch->[0]); #evaluate it, since it wasn't a function
+				$return = $a * $b; #do the multiplication
+			}
+		}
+		else
+		{
+		    my $a = $self->makevalue($branch->[0]);
+			my $b = $self->makevalue($branch->[1]);
+			$return = $a * $b;
+		}
 	}
 	elsif ($type eq "Div")
 	{

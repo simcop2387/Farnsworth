@@ -251,7 +251,7 @@ sub deparsetree
 		my $b = $self->deparsetree($branch->[1]);
 		my $t = $branch->[2];
 
-		return $a . ' * ' . $b; #NOTE: this should listen to the 'imp' or '*' in the tree!
+		return $a . ($t eq 'imp' ? '' : ' * ') . $b; #NOTE: this should listen to the 'imp' or '*' in the tree!
 	}
 	elsif ($type eq "Div")
 	{
