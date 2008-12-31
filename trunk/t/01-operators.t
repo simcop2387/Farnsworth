@@ -1,12 +1,18 @@
 #use Test::More tests => 23;
-use Test::More;
   
   BEGIN 
   {
-	  eval "use Test::Exception";
-      plan skip_all => "Test::Exception needed" if $@;
+ 	  eval "use Test::Exception";
 
-	  plan no_plan;
+    if ($@)
+    {
+		  eval 'use Test::More; plan skip_all => "Test::Exception needed"' if $@
+    }
+    else
+    {
+	    eval 'use Test::More; plan no_plan';
+    }
+
 	  use_ok( 'Math::Farnsworth' ); use_ok('Math::Farnsworth::Value'); use_ok('Math::Farnsworth::Output');
   }
 
@@ -40,12 +46,14 @@ my @tests =
 	["[3,2] => {`x,y` x * x + x * y + y * y}", "19 ", "multi argument lambda call, direct"],
 	["foo{x=1,y = 2 m isa m} := {x y}; 1", "1 ", "Function definition, with defaults and constraints"],
 	["foo[]", "2 m /* length */", "function call using defaults"],
-    ["foo[2]", "4 m /* length */", "function call using one default"],
+	["foo[2]", "4 m /* length */", "function call using one default"],
 	["foo[2,3m]", "6 m /* length */", "function call no defaults"],
 	["foo[2,3 s]", undef, "function call failing constraint"],
-#	["#today# + 4", undef, "units, date + 1"], #real bug involved here, need to fix
+	["#today# + 4", undef, "units, date + 1"], #real bug involved here, fixed!
+	["#2008-12-13# - #2008-12-12#", "86400 s /* time */", "date subtraction"],
 	['"foo" + "bar"', '"foobar"', "string concat"],
 	['a=[1,2,3]; a@2$', '3 ', "array access"],
+	['a=[1,2,3,4]; a@2/2$', '2 ', "array access, rational"],
 	['10 m^(3/2)', '10.0 m^(3/2)', "rational powers"],
 	['10 m^(1/2)', '10.0 m^(1/2)', "rational powers < 1 with 1 as numerator"],
 

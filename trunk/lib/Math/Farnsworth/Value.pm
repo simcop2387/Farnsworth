@@ -14,6 +14,39 @@ our @EXPORT_OK = qw(TYPE_PLAIN TYPE_TIME);
 ####
 #THESE FUNCTIONS WILL BE MOVED TO Math::Farnsworth::Value, or somewhere more appropriate
 
+sub istype
+{
+	my $self = shift;
+	my $allow = shift; #type to allow!
+
+	if ($allow eq "Array")
+	{
+		return 1;
+	}
+	elsif ($allow eq "Boolean")
+	{
+		return 1;
+	}
+	elsif ($allow eq "String")
+	{
+		return 1;
+	}
+	elsif ($allow eq "Date")
+	{
+		return 1;
+	}
+	elsif ($allow eq "Lambda")
+	{
+		return 1;
+	}
+	elsif ($allow eq "Undef")
+	{
+		return 1;
+	}
+	
+	return 0;
+}
+
 sub ismediumtype
 {
 	my $self = shift;

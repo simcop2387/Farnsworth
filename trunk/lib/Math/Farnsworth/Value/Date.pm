@@ -78,7 +78,7 @@ sub add
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to addition" unless (!ref($two));
+  confess "Non reference given to addition" unless ref($two);
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   
@@ -97,7 +97,7 @@ sub add
   {
 	  return $two->add($one, !$rev) unless ($two->ismediumtype());
 	  
-	  if (!$two->ismediumtype("Date"))
+	  if (!$two->istype("Date"))
 	  {
 	    confess "Given non date to date operation";
 	  }
@@ -110,7 +110,7 @@ sub subtract
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to addition" unless (!ref($two));
+  confess "Non reference given to addition" unless ref($two);
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   
@@ -136,7 +136,7 @@ sub subtract
   {
 	  return $two->subtract($one, !$rev) unless ($two->ismediumtype());
 	  
-	  if (!$two->ismediumtype("Date"))
+	  if (!$two->istype("Date"))
 	  {
 	    confess "Given non date to date operation";
 	  }
@@ -155,12 +155,12 @@ sub modulus
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to modulus" unless (!ref($two));
+  confess "Non reference given to modulus" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Scalar value given to modulus to date" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->mod($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("Date"))
+  if (!$two->istype("Date"))
   {
     confess "Given non date to date operation";
   }
@@ -172,12 +172,12 @@ sub mult
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to multiplication" unless (!ref($two));
+  confess "Non reference given to multiplication" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Scalar value given to multiplcation to dates" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->mult($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("Date"))
+  if (!$two->istype("Date"))
   {
     confess "Given non date to date operation";
   }
@@ -189,12 +189,12 @@ sub div
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to division" unless (!ref($two));
+  confess "Non reference given to division" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Scalar value given to division to date" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->div($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("Date"))
+  if (!$two->istype("Date"))
   {
     confess "Given non date to dates operation";
   }
@@ -218,12 +218,12 @@ sub pow
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to exponentiation" unless (!ref($two));
+  confess "Non reference given to exponentiation" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Exponentiating dates? what did you think this would do, create a black hole?" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->pow($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("Date"))
+  if (!$two->istype("Date"))
   {
     confess "Given non date to date operation";
   }
@@ -235,7 +235,7 @@ sub compare
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to compare" unless (!ref($two));
+  confess "Non reference given to compare" unless ref($two);
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   confess "Scalar value given to division to dates" if ($two->isa("Math::Farnsworth::Value::Pari"));

@@ -137,9 +137,9 @@ sub calllambda
 	my $lambda = shift;
 	my $args = shift;
 
-	my $argtypes = $lambda->{pari}{args};
-	my $fval = $lambda->{pari}{code};
-    my $eval = $lambda->{pari}{scope};
+	my $argtypes = $lambda->getargs();
+	my $fval = $lambda->getcode();
+    my $eval = $lambda->getscope();
 
 	#print "LAMBDA---------------\n";
 	#print Dumper($argtypes, $args, $fval);

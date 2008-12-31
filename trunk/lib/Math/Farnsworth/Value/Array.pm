@@ -66,12 +66,12 @@ sub add
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to addition" unless (!ref($two));
+  confess "Non reference given to addition" unless ref($two);
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   confess "Scalar value given to addition to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->add($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("Array"))
+  if (!$two->istype("Array"))
   {
     confess "Given non array to array addition";
   }
@@ -87,12 +87,12 @@ sub subtract
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to subtraction" unless (!ref($two));
+  confess "Non reference given to subtraction" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Scalar value given to subtraction to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->subtract($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("Array"))
+  if (!$two->istype("Array"))
   {
     confess "Given non array to array subtraction";
   }
@@ -104,12 +104,12 @@ sub modulus
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to modulus" unless (!ref($two));
+  confess "Non reference given to modulus" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Scalar value given to modulus to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->mod($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("Array"))
+  if (!$two->istype("Array"))
   {
     confess "Given non array to array modulus";
   }
@@ -121,12 +121,12 @@ sub mult
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to multiplication" unless (!ref($two));
+  confess "Non reference given to multiplication" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Scalar value given to multiplcation to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->mult($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("Array"))
+  if (!$two->istype("Array"))
   {
     confess "Given non array to array multiplication";
   }
@@ -138,12 +138,12 @@ sub div
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to division" unless (!ref($two));
+  confess "Non reference given to division" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Scalar value given to division to array" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->div($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("Array"))
+  if (!$two->istype("Array"))
   {
     confess "Given non array to array division";
   }
@@ -163,12 +163,12 @@ sub pow
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to exponentiation" unless (!ref($two));
+  confess "Non reference given to exponentiation" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   confess "Exponentiating arrays? what did you think this would do, create a black hole?" if ($two->isa("Math::Farnsworth::Value::Pari"));
   return $two->pow($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->ismediumtype("Array"))
+  if (!$two->istype("Array"))
   {
     confess "Given non array to array exponentiation";
   }
@@ -194,7 +194,7 @@ sub compare
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to compare" unless (!ref($two));
+  confess "Non reference given to compare" unless ref($two);
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
   return $two->compare($one, !$rev) unless ($two->ismediumtype());

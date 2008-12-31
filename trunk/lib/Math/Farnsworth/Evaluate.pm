@@ -367,7 +367,7 @@ sub evalbranch
 		my $left = $self->makevalue($branch->[0]);
 		my $right = $self->makevalue($branch->[1]);
 
-		die "Right side of lamdbda call must evaluate to a Lambda\n" unless $right->{dimen}{dimen}{lambda};
+		die "Right side of lamdbda call must evaluate to a Lambda\n" unless ref($right) eq "Math::Farnsworth::Value::Lambda";
 
 		#need $args to be an array
 		my $args = ref($left) eq "Math::Farnsworth::Value::Array" ? $left :  new Math::Farnsworth::Value::Array([$left]); 
@@ -401,7 +401,7 @@ sub evalbranch
 	}
 	elsif ($type eq "ArgArray")
 	{
-		my $array;
+		my $array = []; #autovivification wasn't working?
 		for my $bs (@$branch) #iterate over all the elements
 		{
 			my $type = ref($bs); #find out what kind of thing we are
@@ -423,7 +423,7 @@ sub evalbranch
 		for ($listval->getarray())
 		{
 			my $float = $_ * (Math::Farnsworth::Value::Pari->new(1.0)); #makes rationals work right
-			my $input = $var->getarrayref()->[$float.""]; #."" makes indexes work right again
+			my $input = $var->getarrayref()->[$float->toperl()]; #."" makes indexes work right again
 			die "Array out of bounds\n" unless defined $input; #NTS: would be useful to look if i have a name and use it
 			push @rval, $input;
 		}
