@@ -79,6 +79,8 @@ sub callgoogle
 {
   my ($langa, $langb) = (shift(), shift()); #get the two targets
   my $totranslate= shift;
+
+  print "CALLING GOOGLE! $langa, $langb, \"$totranslate\"\n";
 	
   my $res = REST::Google::Translate->new(
               q => $totranslate,
@@ -105,7 +107,7 @@ sub translate
     }
   }
 
-  my $response = callgoogle($langa, $langb, $args->getarray());
+  my $response = callgoogle($langa, $langb, $args->getarrayref()->[0]->getstring());
   my $translated = $response->responseData->translatedText;
 
   #print "TRANSLATED: $langa|$langb '$translated'\n";
@@ -126,7 +128,7 @@ sub detectlang
     return new Math::Farnsworth::Value::String($txt, "en"); #NOT INTERNATIONALIZED NAMES!
   }
 
-  my $response = callgoogle("", "en", $args->getarray());
+  my $response = callgoogle("", "en", $args->getarrayref()->[0]->getstring());
   my $translated = $response->{responseData}{detectedSourceLanguage};
 
   #print "DETECTED: '$translated'\n";

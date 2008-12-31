@@ -532,7 +532,7 @@ sub evalbranch
 		my $rights = eval {$self->makevalue($branch->[1])};
 		my $right = $rights;
 
-		if ($rights->istype("String")) #if its a string we do some fun stuff
+		if (!$@ && $rights->istype("String")) #if its a string we do some fun stuff
 		{
 			$right = $self->eval($rights->getstring()); #we need to set $right to the evaluation $rights
 		}
