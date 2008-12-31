@@ -30,6 +30,8 @@ sub findcombo
 	for my $combo (keys %combos)
 	{
 		my $cv = $combos{$combo}; #grab the value
+		print "FINDCOMBO::: $combo\n";
+		print Dumper($cv, $value);
 		return $combo if ($value->getdimen()->compare($cv->getdimen()));
 	}
 
@@ -88,13 +90,12 @@ sub tostring
 {
   my $self = shift;
   my $value = $self->{obj};
-  my $dimen = $self->{obj};
 
-  return $self->getstring($value);
+  return $self->getoutstring($value);
 }
 
 #this takes a set of dimensions and returns what to display
-sub getstring
+sub getoutstring
 {
 	my $self = shift; #i'll implement this later too
 #	my $dimen = shift; #i take a Math::Farnsworth::Dimension object!
@@ -109,16 +110,17 @@ sub getstring
 			#ok we were given a string!
 			my $number = $value->{outmagic}[0];
 			my $string = $value->{outmagic}[1];
-			return $self->getstring($number->{dimen}, $number) . " ".$string->{pari};
+			return $self->getoutstring($number) . " ".$string->{pari};
 		}
-		elsif (exists($value->{outmagic}[0]) && (!ref($value->{outmagic}[0]) eq "Math::Farnsworth::Value::Array"))
+		elsif (exists($value->{outmagic}[0]) && (ref($value->{outmagic}[0]) ne "Math::Farnsworth::Value::Array"))
 		{
 			#ok we were given a value without the string
 			my $number = $value->{outmagic}[0];
-			return $self->getstring($number->getdimen(), $number);
+			return $self->getoutstring($number);
 		}
 		else
 		{
+			print Dumper($value);
 			die "Unhandled output magic, this IS A BUG!";
 		}
 	}
@@ -141,7 +143,7 @@ sub getstring
 		for my $v ($value->getarray())
 		{
 			#print Dumper($v);
-			push @array, $self->getstring($v);
+			push @array, $self->getoutstring($v);
 		}
 
 		return '['.(join ' , ', @array).']';
@@ -175,7 +177,7 @@ sub getstring
 		my $branch = bless [$value, $disp], 'Trans';
 		print Dumper($branch);
 		my $newvalue = eval {$self->{eval}->evalbranch($branch);};
-		return $self->getstring($newvalue);
+		return $self->getoutstring($newvalue);
 	}
 	else
 	{

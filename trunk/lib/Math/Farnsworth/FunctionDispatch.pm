@@ -6,7 +6,7 @@ use warnings;
 use Data::Dumper;
 
 use Math::Farnsworth::Variables;
-use Math::Farnsworth::Value;
+use Math::Farnsworth::Value::Array;
 
 sub new
 {

@@ -532,19 +532,19 @@ sub evalbranch
 		my $rights = eval {$self->makevalue($branch->[1])};
 		my $right = $rights;
 
-		if ($rights->{dimen}{dimen}{string}) #if its a string we do some fun stuff
+		if ($rights->istype("String")) #if its a string we do some fun stuff
 		{
-			$right = $self->eval($rights->{pari}); #we need to set $right to the evaluation $rights
+			$right = $self->eval($rights->getstring()); #we need to set $right to the evaluation $rights
 		}
 
 		if (!$@)
 		{
-			if ($left->{dimen}->compare($right->{dimen})) #only do this if they are the same
+			if ($left->conforms($right)) #only do this if they are the same
 			{
 				my $dispval = ($left / $right);
 				$return = $left;
 				
-				if ($rights->{dimen}{dimen}{string})
+				if ($rights->istype("String"))
 				{
 					#right side was a string, use it
 					$return->{outmagic} = [$dispval, $rights];
@@ -556,7 +556,7 @@ sub evalbranch
 			}
 			elsif ($self->{funcs}->isfunc($branch->[1][0]))
 			{
-				$left = ref($left) eq "Math::Farnsworth::Value::Array" ? $left : new Math::Farnsworth::Value::Array([$left]);
+				$left = $left->istype("Array") ? $left : new Math::Farnsworth::Value::Array([$left]);
 				$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
 			}
 			else
@@ -567,7 +567,7 @@ sub evalbranch
 		else
 		{
 			#$right doesn't evaluate... so we check for a function?
-			$left = $left->{dimen}{dimen}{array} ? $left : new Math::Farnsworth::Value::Array([$left]);
+			$left = $left->istype("Array") ? $left : new Math::Farnsworth::Value::Array([$left]);
 			$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
 		}
 	}
