@@ -37,7 +37,7 @@ sub init
    $env->eval('dbgprint{x isa ...} := {var z; var n = 0; var p; while(n != length[x]) {p = shift[x]; if (p conforms "") {z = p} else {z = "$p"}; _dbgprint[z]}}');
    $env->{funcs}->addfunc("_dbgprint", [["str", undef, $string]], \&dbgprint);
    
-   $env->eval('map{sub isa {`x`}, x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var e; var out=[]; while(length[z]) {e = shift[z]; dbgprint[e]; push[out,e => sub]}; dbgprint[out]; out}');
+   $env->eval('map{sub isa {`x`}, x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; if (length[x] == 1 && !(x conforms [])) {x = [x]}; var z=x; var e; var out=[]; while(length[z]) {e = shift[z]; dbgprint[e]; push[out,e => sub]}; dbgprint[out]; out}');
 
    $env->{funcs}->addfunc("substrLen", [["str", undef, $string],["left", undef, $number],["length", undef, $number]],\&substrlen); #this one works like perls
    $env->eval("substr{str,left,right}:={substrLen[str,left,right-left]}");
