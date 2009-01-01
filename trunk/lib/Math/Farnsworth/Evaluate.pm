@@ -111,8 +111,8 @@ sub evalbranch
 	}
 	elsif ($type eq "Mul")
 	{
-#		print "------MULT!\n";
-#		print Dumper($branch);
+		print "------MULT!\n";
+		print Dumper($branch);
 
 	    if ((ref($branch->[0]) eq "Fetch") && (ref($branch->[1]) eq "Array") && ($branch->[2] eq "imp"))
 		{
@@ -130,6 +130,10 @@ sub evalbranch
 			else #otherwise we try to 
 			{
 				$a = $self->makevalue($branch->[0]); #evaluate it, since it wasn't a function
+				
+				print "----------------SUBFUNCMULT!\n";
+				print Dumper($a, $b);
+
 				$return = $a * $b; #do the multiplication
 			}
 		}
@@ -137,6 +141,10 @@ sub evalbranch
 		{
 		    my $a = $self->makevalue($branch->[0]);
 			my $b = $self->makevalue($branch->[1]);
+
+			#print "-----------SUBMULT!\n";
+			#print Dumper($a,$b);
+
 			$return = $a * $b;
 		}
 	}
@@ -583,10 +591,18 @@ sub evalbranch
 			{
 				$left = $left->istype("Array") ? $left : new Math::Farnsworth::Value::Array([$left]);
 				$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
+
+				if ($rights->istype("String"))
+				{
+					#right side was a string, use it
+					my $nm = {%$return}; #do a shallow copy!
+					bless $nm, ref($return); #rebless it
+					$return->{outmagic} = [$nm, $rights];
+				}
 			}
 			else
 			{
-				die "Conformance error, left side has different units than right side\n";
+				die "Conformance error, left side has different units than right side ".Dumper($branch->[1])."\n";
 			}
 		}
 		else
@@ -594,6 +610,14 @@ sub evalbranch
 			#$right doesn't evaluate... so we check for a function?
 			$left = $left->istype("Array") ? $left : new Math::Farnsworth::Value::Array([$left]);
 			$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
+
+			if ($rights->istype("String"))
+			{
+				#right side was a string, use it
+				my $nm = {%$return}; #do a shallow copy!
+				bless $nm, ref($return); #rebless it
+				$return->{outmagic} = [$nm, $rights];
+			}
 		}
 	}
 
@@ -650,8 +674,8 @@ sub makevalue
 	{
 		my $value = $input->[0];
 		#here it comes in with quotes, so lets remove them
-		$value =~ s/^"(.*)"$/$1/;
-		$value =~ s/\\"/"/g;
+		#$value =~ s/^"(.*)"$/$1/; #no longer needed
+		$value =~ s/\\"/"/g; #i'm gonna move these into the constructor i think
 		$value =~ s/\\\\/\\/g;
 		my $ss = sub
 		{

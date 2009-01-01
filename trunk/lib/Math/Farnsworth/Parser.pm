@@ -3590,7 +3590,7 @@ sub yylex
     #token out the date
     $s =~ /\G\s*#([^#]*)#\s*/gc and return 'DATE', $1;
 
-    $s =~ /\G\s*("(\\.|[^"\\])*")/gc #" bad syntax highlighters are annoying
+    $s =~ /\G\s*"((\\.|[^"\\])*)"/gc #" bad syntax highlighters are annoying
 		and return "STRING", $1;
 
     #i'll probably ressurect this later too

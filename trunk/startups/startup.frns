@@ -120,3 +120,6 @@ while(n>0) {
 ping =!= pong; ping := pong; /*make it respond to ping*/
 pixel =!= pixel; /*by popular request*/
 bpp := bits/pixel;
+C := {`x` C[x]}; F := {`x` F[x]}; /*by popular request for the bot, makes temperatures work REALLY well*/
+square := {`x` {`y` x * y ** 2} }; /*these are experimental, there's bugs related to similar situations, not sure why yet*/
+cubic := {`x` {`y` x * y ** 3} }; 

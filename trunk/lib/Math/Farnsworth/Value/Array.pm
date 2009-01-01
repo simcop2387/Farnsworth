@@ -7,7 +7,6 @@ use Math::Farnsworth::Dimension;
 use Math::Farnsworth::Value;
 use Carp;
 use List::MoreUtils 'each_array'; 
-use Storable qw(dclone);
 
 use utf8;
 
@@ -46,7 +45,7 @@ sub new
   $self->{outmagic} = $outmagic;
   $self->{valueinput} = $value;
 
-  $self->{array} = dclone($value) || [];
+  $self->{array} = [@{$value}] || [];
   
   return $self;
 }

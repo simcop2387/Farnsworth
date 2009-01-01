@@ -147,6 +147,9 @@ sub mult
 
   my $args = $two->istype("Array") ? $two :  new Math::Farnsworth::Value::Array([$two]); 
 
+  print "LAMBDAMULT\n";
+  eval{print Dumper($one->{scope}->{vars}->getvar('x'), $one->{scope}->{vars}->getvar('y'))};
+
   return $one->{scope}->{funcs}->calllambda($one, $args); #needs to be updated
 
 #  die "Multiplying lambdas? what did you think this would do, create a black hole? ED: this will make black holes later";
