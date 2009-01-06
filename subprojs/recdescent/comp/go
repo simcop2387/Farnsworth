@@ -1,0 +1,1 @@
+./parse.pl | ./show.pl | ./compute.pl

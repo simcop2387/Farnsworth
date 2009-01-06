@@ -1,0 +1,21 @@
+here are the parts
+
+Makefile      to build UP.y -> UP.pm
+UP.pm         generated file
+UP.y          source for Yapp version of compiler
+compute.pl    runs parse tree directly
+fasm.pl       assembler
+fold.pl       constant folding (works on tree)
+gen.pl        parse tree to asm code
+go            quick test
+machine.d     maps symbolic op codes to machine instructions
+opt.pl        peephole optimizer
+parse.pl      RecDescent parser
+run.pl        runs assembled code
+show.pl       display parse tree
+up.pl         main for Yapp parser module
+
+these are all built to pipe together...
+
+Rick
+rklement@pacbell.net
