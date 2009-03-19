@@ -45,7 +45,10 @@ sub new
   $self->{outmagic} = $outmagic;
   $self->{valueinput} = $value;
 
-  $self->{string} = $value || "";
+  {
+	no warnings 'uninitialized';
+	$self->{string} = "".$value;
+  }
   $self->{lang} = $lang || "";
   
   return $self;

@@ -64,7 +64,7 @@ sub irc_001 {
             print "Connected to ", $irc->server_name(), "\n";
 
             # we join our channels
-            $irc->yield( join => $_ ) for ("#yapb", "#buubot", "#perl", "#codeyard", "#perlcafe");
+            $irc->yield( join => $_ ) for ("#yapb", "#buubot", "#codeyard", "#perlcafe", "##turtles");
 			$kernel->delay_add(tock=>0.5);
 			$kernel->delay_add(comfuck=>50);
 			return;
@@ -254,9 +254,9 @@ sub submitform
     $q =~ s/\n/ /g; #filter a few annoying things
     $q =~ s/\s{2,}/ /g;
 
-    if ((length $q > 100) && $ad ne "msg")
+    if ((length $q > 320) && $ad ne "msg")
     {
-      $q = "".(substr $q, 0, 100) . ".... tl;dr, use /msg";
+      $q = "".(substr $q, 0, 320) . ".... tl;dr, use /msg";
       $q =~ s/\n//g; #tr probably faster, but who cares
     }
 

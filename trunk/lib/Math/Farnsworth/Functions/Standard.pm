@@ -324,7 +324,7 @@ sub substrlen
 	if (ref $arg[0] eq "Math::Farnsworth::Value::String")
 	{
 		#do i need to do something to convert these to work? (the 1,2 anyway?)
-		my $ns = substr($arg[0]->getstring(), "".$arg[1], "".$arg[2]);
+		my $ns = substr($arg[0]->getstring(), $arg[1]->toperl(), $arg[2]->toperl());
 		#print "SUBSTR :: $ns\n";
 		return Math::Farnsworth::Value::String->new($ns);
 	}

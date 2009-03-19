@@ -111,9 +111,6 @@ sub evalbranch
 	}
 	elsif ($type eq "Mul")
 	{
-		print "------MULT!\n";
-		print Dumper($branch);
-
 	    if ((ref($branch->[0]) eq "Fetch") && (ref($branch->[1]) eq "Array") && ($branch->[2] eq "imp"))
 		{
 		    #we've got a new style function call!
@@ -131,9 +128,6 @@ sub evalbranch
 			{
 				$a = $self->makevalue($branch->[0]); #evaluate it, since it wasn't a function
 				
-				print "----------------SUBFUNCMULT!\n";
-				print Dumper($a, $b);
-
 				$return = $a * $b; #do the multiplication
 			}
 		}
@@ -565,7 +559,7 @@ sub evalbranch
 		my $rights = eval {$self->makevalue($branch->[1])};
 		my $right = $rights;
 
-		if (!$@ && $rights->istype("String")) #if its a string we do some fun stuff
+		if (!$@ && defined($rights) && $rights->istype("String")) #if its a string we do some fun stuff
 		{
 			$right = $self->eval($rights->getstring()); #we need to set $right to the evaluation $rights
 		}
@@ -575,7 +569,10 @@ sub evalbranch
 			if ($left->conforms($right)) #only do this if they are the same
 			{
 				my $dispval = ($left / $right);
-				$return = $left;
+
+				#$return = $left; 
+				%$return = %$left; #ok this makes NO SENSE as to WHY it would behave like it was...
+				bless $return, ref($left);
 				
 				if ($rights->istype("String"))
 				{
@@ -611,7 +608,7 @@ sub evalbranch
 			$left = $left->istype("Array") ? $left : new Math::Farnsworth::Value::Array([$left]);
 			$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
 
-			if ($rights->istype("String"))
+			if (defined($rights) && $rights->istype("String"))
 			{
 				#right side was a string, use it
 				my $nm = {%$return}; #do a shallow copy!

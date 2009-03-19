@@ -34,7 +34,7 @@ my $queue = POE::Queue::Array->new();
 POE::Session->create(
   package_states => 
     [
-      main => [ qw(_start irc_001 irc_public irc_msg tock) ],
+      main => [ qw(_start irc_001 irc_public irc_msg tock comfuck) ],
 	],
     heap => { irc => $bot, queue => $queue, lastsend=>time()},);
 
@@ -63,8 +63,9 @@ sub irc_001 {
             print "Connected to ", $irc->server_name(), "\n";
 
             # we join our channels
-            $irc->yield( join => $_ ) for ("#DCTP");
+            $irc->yield( join => $_ ) for ("#DCTP", "#kienai", "#azfs");
 			$kernel->delay_add(tock=>0.5);
+			$kernel->delay_add(comfuck=>50);
 			return;
 }
 
@@ -72,6 +73,15 @@ sub _ignore
 {
   my $who = shift;
   return (grep {$who =~ /\Q$_/i} @ignore) ? 1 : 0
+}
+
+sub comfuck
+{    
+  my ($sender, $kernel, $heap) = @_[SENDER, KERNEL, HEAP];
+
+  my $d = $heap->{irc}->server_name();
+  $heap->{irc}->yield( quote => "PONG $d\n");
+  $kernel->delay_add(comfuck => 50);
 }
 
 sub irc_public

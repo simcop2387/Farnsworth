@@ -582,9 +582,13 @@ sub deparsetree
 
 		return "$left -> $right";
 	}
-	elsif (($type eq "Num") || ($type eq "Fetch") || ($type eq "HexNum") || ($type eq "String"))
+	elsif (($type eq "Num") || ($type eq "Fetch") || ($type eq "HexNum"))
 	{
 		return $branch->[0]; #its already a string!
+	}
+	elsif ($type eq "String")
+	{
+		return '"'.$branch->[0].'"';
 	}
 	elsif ($type eq "Date")
 	{

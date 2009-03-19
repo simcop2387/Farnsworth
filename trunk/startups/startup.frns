@@ -58,7 +58,7 @@ if (floor[x] < x)
 			dbgprint["c = $c"];
 			x = floor[x / b];
 			if (c >= 0) { /*i don't think i need this check, was in original algorithm*/
-				output = output + (c => getchr);
+				output = output + (getchr [c]);
 			};
 			dbgprint["output = $output"];
  };
@@ -77,7 +77,8 @@ if (floor[x] < x)
 			dbgprint["c = $c"];
 			x = floor[x / b];
 			if (c >= 0) { /*i don't think i need this check, was in original algorithm*/
-				output = output + (c => getchr);
+			    dbgprint["in if", "getchr [c ($c)] = "+(getchr [c])];
+				output = output + (getchr [c]);
 			};
 			dbgprint["output = $output"];
  };
@@ -121,5 +122,11 @@ ping =!= pong; ping := pong; /*make it respond to ping*/
 pixel =!= pixel; /*by popular request*/
 bpp := bits/pixel;
 C := {`x` C[x]}; F := {`x` F[x]}; /*by popular request for the bot, makes temperatures work REALLY well*/
-square := {`x` {`y` x * y ** 2} }; /*these are experimental, there's bugs related to similar situations, not sure why yet*/
+square := {`x` {`y` x * y ** 2} }; /*these are experimental, there's bugs related to similar situations, not sure why yet, the bugs are fixed, still not sure why*/
 cubic := {`x` {`y` x * y ** 3} }; 
+
+Delisle{x} := {if (x conforms unit[K]) {(373.15 - x/unit[K])*3/2} else {(373.15- 2x/3) unit[K]}}; D{x} := {Delisle[x]}; D := {`x` Delisle[x]};
+Delisle := {`x` Delisle[x]};
+Celsius := {`x` Celsius[x]};
+Fahrenheit := {`x` Fahrenheit[x]};
+
