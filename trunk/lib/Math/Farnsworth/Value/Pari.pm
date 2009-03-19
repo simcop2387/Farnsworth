@@ -176,7 +176,7 @@ sub div
   confess "Non reference given to division" unless (ref($two));
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
-  return $two->mult($one, !$rev) unless ($two->isa(__PACKAGE__));
+  return $two->div($one, !$rev) unless ($two->isa(__PACKAGE__));
 
   #these are a little screwy SO i'll probably comment them more later
   #probably after i find out that they're wrong

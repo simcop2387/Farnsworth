@@ -7,6 +7,8 @@ use Math::Farnsworth::Dimension;
 use Math::Farnsworth::Value;
 use Carp;
 
+use Data::Dumper;
+
 use utf8;
 
 our $VERSION = 0.6;
@@ -160,11 +162,24 @@ sub div
 {
   my ($one, $two, $rev) = @_;
 
+  print "INSIDE LAMBDA DIVISION\n";
+
   confess "Non reference given to division" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to division to Lambda" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->div($one, !$rev) unless ($two->ismediumtype());
+  
+  return $two->div($one, !$rev) unless ($two->ismediumtype()|| $two->istype("Pari") || $two->istype("Lambda"));
+
+  if ($two->isa("Math::Farnsworth::Value::Pari"))
+  {
+	  #ok i've got a simple thing here i think!
+	  #its not simple, will not be simple and will not end up working right, this is a hack to make 10 kg per cubic meter, and the like to work, until i add objects
+	  my $onevalue = Math::Farnsworth::Value::Pari->new(1); #don't use 1.0 it'll coerce things into floats unneccesarily
+	  my $newv = $onevalue * $one; #this'll remultiply things!
+	  my $ret = $two / $newv; #this COULD be dangerous since i can see how to make an inf loop in a division this way
+	  return $ret;
+  }
+
   if (!$two->istype("Lambda"))
   {
     confess "Given non boolean to lambda operation";

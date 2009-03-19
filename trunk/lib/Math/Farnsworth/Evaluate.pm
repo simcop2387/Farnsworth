@@ -97,6 +97,10 @@ sub evalbranch
 
 	my $return; #to make things simpler later on
 
+
+	print Dumper($branch);
+
+
 	if ($type eq "Add")
 	{
 		my $a = $self->makevalue($branch->[0]);
@@ -111,6 +115,7 @@ sub evalbranch
 	}
 	elsif ($type eq "Mul")
 	{
+		print "INSIDE MULTI\n";
 	    if ((ref($branch->[0]) eq "Fetch") && (ref($branch->[1]) eq "Array") && ($branch->[2] eq "imp"))
 		{
 		    #we've got a new style function call!
@@ -144,8 +149,10 @@ sub evalbranch
 	}
 	elsif ($type eq "Div")
 	{
+		print "INSIDE DIV\n";
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
+		print Dumper($a, $b);
 		$return = $a / $b;
 	}
 	elsif ($type eq "Conforms")
@@ -557,15 +564,24 @@ sub evalbranch
 	{
 		my $left = $self->makevalue($branch->[0]);
 		my $rights = eval {$self->makevalue($branch->[1])};
+		print "TRANS: right side eval\n";
+		print Dumper($@);
 		my $right = $rights;
 
 		if (!$@ && defined($rights) && $rights->istype("String")) #if its a string we do some fun stuff
 		{
+			print "STRINGED\n";
 			$right = $self->eval($rights->getstring()); #we need to set $right to the evaluation $rights
+			print Dumper($rights, $right);
+			print "ERRORED: ".Dumper($@);
 		}
 
 		if (!$@)
 		{
+			print "\n\nLEFT\n";
+			print Dumper($left);
+			print "RIGHT\n";
+			print Dumper($right);
 			if ($left->conforms($right)) #only do this if they are the same
 			{
 				my $dispval = ($left / $right);
