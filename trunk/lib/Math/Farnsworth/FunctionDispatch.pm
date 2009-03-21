@@ -7,6 +7,7 @@ use Data::Dumper;
 
 use Math::Farnsworth::Variables;
 use Math::Farnsworth::Value::Array;
+use Math::Farnsworth::Error;
 
 sub new
 {
@@ -47,6 +48,7 @@ sub setupargs
 	my $args = shift;
 	my $argtypes = shift;
 	my $name = shift; #name to display
+	my $branch = shift;
 
 	my $vars = $eval->{vars}; #get the scope we need
 
@@ -85,7 +87,23 @@ ARG:for my $argc (0..$#$argtypes)
 			last ARG; #don't parse ANY more arguments
 		}
 
-		$vars->declare($n, $v) if defined $n; #happens when no arguments!
+		if (defined $n)  #happens when no arguments! so we check if the name is defined
+		{
+			#print "CHECKING REF! $argc\n";
+			#print Dumper($argtypes);
+			if (!$argtypes->[$argc][3]) #make sure that it shouldn't be byref
+			{ 
+				$vars->declare($n, $v);
+			}
+			else
+			{
+				#it should be by ref
+				if ($self->getref($argc, $branch))
+				{
+				  $vars->setref($n, $v);
+			    }
+			}
+		}
 	}
 }
 
@@ -117,7 +135,7 @@ sub callfunc
 	my %nopts = (vars => $nvars, funcs => $self, units => $eval->{units}, parser => $eval->{parser});
 	my $neval = $eval->new(%nopts);
 
-	$self->setupargs($neval, $args, $argtypes, $name); #setup the arguments
+	$self->setupargs($neval, $args, $argtypes, $name, $branches); #setup the arguments
 
 	if (ref($fval) ne "CODE")
 	{
@@ -136,6 +154,7 @@ sub calllambda
 	my $self = shift;
 	my $lambda = shift;
 	my $args = shift;
+	my $branch = shift; #new for lambdas!
 
 	my $argtypes = $lambda->getargs();
 	my $fval = $lambda->getcode();
@@ -146,7 +165,7 @@ sub calllambda
 
 	die "Number of arguments not correct to lambda\n" unless $self->checkparams($args, $argtypes); #this shoul
 
-	$self->setupargs($eval, $args, $argtypes, "lambda");
+	$self->setupargs($eval, $args, $argtypes, "lambda", $branch);
 	return $self->callbranch($eval, $fval);
 }
 
@@ -188,6 +207,18 @@ sub checkparams
 	#return 0 unless (ref($args) eq "Math::Farnsworth::Value") && ($args->{dimen}->compare({dimen=>{array=>1}}));
 
 	return 0;
+}
+
+sub getref
+{
+	my $self = shift;
+	my $argc = shift;
+	my $branch = shift;
+
+#	print "\n\nGETREF\n";
+#	print Dumper($branch);
+
+	return undef;
 }
 
 1;

@@ -2374,6 +2374,9 @@ sub new {
 		}
 	},
 	{#State 115
+		ACTIONS => {
+			"isa" => 139
+		},
 		DEFAULT => -38
 	},
 	{#State 116
@@ -2392,7 +2395,7 @@ sub new {
 		GOTOS => {
 			'exprval1' => 9,
 			'exprval2' => 2,
-			'expr' => 139,
+			'expr' => 140,
 			'lambda' => 3,
 			'exprval' => 19,
 			'multexpr' => 14,
@@ -2406,7 +2409,7 @@ sub new {
 			"-" => 1,
 			'NAME' => 28,
 			'DATE' => 4,
-			"..." => 142,
+			"..." => 143,
 			'STRING' => 7,
 			'HEXNUMBER' => 25,
 			"(" => 26,
@@ -2421,9 +2424,9 @@ sub new {
 			'arrayfetchexpr' => 5,
 			'assignexpr' => 6,
 			'exprval1' => 9,
-			'expr' => 140,
+			'expr' => 141,
 			'multexpr' => 14,
-			'constraint' => 141
+			'constraint' => 142
 		}
 	},
 	{#State 118
@@ -2445,7 +2448,7 @@ sub new {
 		DEFAULT => -1,
 		GOTOS => {
 			'exprval2' => 2,
-			'stma' => 143,
+			'stma' => 144,
 			'lambda' => 3,
 			'exprval' => 19,
 			'ifstartcond' => 21,
@@ -2461,7 +2464,7 @@ sub new {
 	},
 	{#State 119
 		ACTIONS => {
-			"]" => 144
+			"]" => 145
 		}
 	},
 	{#State 120
@@ -2494,7 +2497,7 @@ sub new {
 	},
 	{#State 121
 		ACTIONS => {
-			"}" => 145
+			"}" => 146
 		}
 	},
 	{#State 122
@@ -2586,32 +2589,32 @@ sub new {
 	},
 	{#State 126
 		ACTIONS => {
-			"\$" => 146
+			"\$" => 147
 		}
 	},
 	{#State 127
 		ACTIONS => {
-			"else" => 147
+			"else" => 148
 		},
 		DEFAULT => -18
 	},
 	{#State 128
 		ACTIONS => {
-			"}" => 149
+			"}" => 150
 		}
 	},
 	{#State 129
 		ACTIONS => {
-			"\n" => 150,
+			"\n" => 151,
 			"{" => 78
 		},
 		GOTOS => {
-			'ifstmts' => 151
+			'ifstmts' => 152
 		}
 	},
 	{#State 130
 		ACTIONS => {
-			"else" => 152
+			"else" => 153
 		}
 	},
 	{#State 131
@@ -2628,7 +2631,7 @@ sub new {
 			"^" => 42,
 			"*" => 44,
 			"per" => 45,
-			")" => 153,
+			")" => 154,
 			"!=" => 47,
 			"?" => 51,
 			"||" => 49,
@@ -2670,7 +2673,7 @@ sub new {
 		GOTOS => {
 			'exprval1' => 9,
 			'exprval2' => 2,
-			'expr' => 154,
+			'expr' => 155,
 			'lambda' => 3,
 			'exprval' => 19,
 			'multexpr' => 14,
@@ -2685,6 +2688,32 @@ sub new {
 		DEFAULT => -40
 	},
 	{#State 139
+		ACTIONS => {
+			"{`" => 16,
+			"-" => 1,
+			'NAME' => 28,
+			'DATE' => 4,
+			"..." => 143,
+			'STRING' => 7,
+			'HEXNUMBER' => 25,
+			"(" => 26,
+			"!" => 11,
+			"[" => 13,
+			'NUMBER' => 15
+		},
+		GOTOS => {
+			'exprval2' => 2,
+			'lambda' => 3,
+			'exprval' => 19,
+			'arrayfetchexpr' => 5,
+			'assignexpr' => 6,
+			'exprval1' => 9,
+			'expr' => 141,
+			'multexpr' => 14,
+			'constraint' => 156
+		}
+	},
+	{#State 140
 		ACTIONS => {
 			"-" => 34,
 			"conforms" => 35,
@@ -2705,7 +2734,7 @@ sub new {
 			"^^" => 52,
 			"/" => 54,
 			"->" => 53,
-			"isa" => 155,
+			"isa" => 157,
 			"=>" => 55,
 			"<=" => 57,
 			"<=>" => 56,
@@ -2713,7 +2742,7 @@ sub new {
 		},
 		DEFAULT => -35
 	},
-	{#State 140
+	{#State 141
 		ACTIONS => {
 			"-" => 34,
 			"conforms" => 35,
@@ -2741,74 +2770,71 @@ sub new {
 		},
 		DEFAULT => -31
 	},
-	{#State 141
-		ACTIONS => {
-			"byref" => 156
-		},
+	{#State 142
 		DEFAULT => -34
 	},
-	{#State 142
+	{#State 143
 		DEFAULT => -32
 	},
-	{#State 143
-		ACTIONS => {
-			"}" => 157
-		}
-	},
 	{#State 144
-		DEFAULT => -54
+		ACTIONS => {
+			"}" => 158
+		}
 	},
 	{#State 145
-		ACTIONS => {
-			":=" => 158
-		}
+		DEFAULT => -54
 	},
 	{#State 146
-		DEFAULT => -50
+		ACTIONS => {
+			":=" => 159
+		}
 	},
 	{#State 147
-		ACTIONS => {
-			"\n" => 159,
-			"{" => 78
-		},
-		GOTOS => {
-			'ifstmts' => 160
-		}
+		DEFAULT => -50
 	},
 	{#State 148
 		ACTIONS => {
-			"else" => 161
+			"\n" => 160,
+			"{" => 78
+		},
+		GOTOS => {
+			'ifstmts' => 161
 		}
 	},
 	{#State 149
-		DEFAULT => -15
+		ACTIONS => {
+			"else" => 162
+		}
 	},
 	{#State 150
-		ACTIONS => {
-			"{" => 78
-		},
-		GOTOS => {
-			'ifstmts' => 162
-		}
+		DEFAULT => -15
 	},
 	{#State 151
-		DEFAULT => -17
-	},
-	{#State 152
 		ACTIONS => {
-			"\n" => 163,
 			"{" => 78
 		},
 		GOTOS => {
-			'ifstmts' => 164
+			'ifstmts' => 163
 		}
+	},
+	{#State 152
+		DEFAULT => -17
 	},
 	{#State 153
 		ACTIONS => {
-			"{" => 165
+			"\n" => 164,
+			"{" => 78
+		},
+		GOTOS => {
+			'ifstmts' => 165
 		}
 	},
 	{#State 154
+		ACTIONS => {
+			"{" => 166
+		}
+	},
+	{#State 155
 		ACTIONS => {
 			"-" => 34,
 			"conforms" => 35,
@@ -2834,13 +2860,16 @@ sub new {
 		},
 		DEFAULT => -67
 	},
-	{#State 155
+	{#State 156
+		DEFAULT => -37
+	},
+	{#State 157
 		ACTIONS => {
 			"{`" => 16,
 			"-" => 1,
 			'NAME' => 28,
 			'DATE' => 4,
-			"..." => 142,
+			"..." => 143,
 			'STRING' => 7,
 			'HEXNUMBER' => 25,
 			"(" => 26,
@@ -2855,24 +2884,21 @@ sub new {
 			'arrayfetchexpr' => 5,
 			'assignexpr' => 6,
 			'exprval1' => 9,
-			'expr' => 140,
+			'expr' => 141,
 			'multexpr' => 14,
-			'constraint' => 166
+			'constraint' => 167
 		}
 	},
-	{#State 156
-		DEFAULT => -37
-	},
-	{#State 157
+	{#State 158
 		DEFAULT => -51
 	},
-	{#State 158
+	{#State 159
 		ACTIONS => {
 			"{`" => 16,
 			"-" => 1,
 			'NAME' => 28,
 			'DATE' => 4,
-			"{" => 168,
+			"{" => 169,
 			'STRING' => 7,
 			'HEXNUMBER' => 25,
 			"(" => 26,
@@ -2883,7 +2909,7 @@ sub new {
 		GOTOS => {
 			'exprval1' => 9,
 			'exprval2' => 2,
-			'expr' => 167,
+			'expr' => 168,
 			'lambda' => 3,
 			'exprval' => 19,
 			'multexpr' => 14,
@@ -2891,105 +2917,41 @@ sub new {
 			'assignexpr' => 6
 		}
 	},
-	{#State 159
+	{#State 160
 		ACTIONS => {
 			"{" => 78
 		},
 		GOTOS => {
-			'ifstmts' => 169
+			'ifstmts' => 170
 		}
-	},
-	{#State 160
-		DEFAULT => -19
 	},
 	{#State 161
-		ACTIONS => {
-			"\n" => 170,
-			"{" => 78
-		},
-		GOTOS => {
-			'ifstmts' => 171
-		}
+		DEFAULT => -19
 	},
 	{#State 162
-		DEFAULT => -24
-	},
-	{#State 163
 		ACTIONS => {
+			"\n" => 171,
 			"{" => 78
 		},
 		GOTOS => {
 			'ifstmts' => 172
 		}
 	},
-	{#State 164
-		DEFAULT => -23
+	{#State 163
+		DEFAULT => -24
 	},
-	{#State 165
+	{#State 164
 		ACTIONS => {
-			"{`" => 16,
-			"-" => 1,
-			'NAME' => 17,
-			"var" => 20,
-			'DATE' => 4,
-			"while" => 22,
-			'STRING' => 7,
-			"if" => 10,
-			'HEXNUMBER' => 25,
-			"(" => 26,
-			"!" => 11,
-			"[" => 13,
-			'NUMBER' => 15
+			"{" => 78
 		},
-		DEFAULT => -1,
 		GOTOS => {
-			'exprval2' => 2,
-			'stma' => 173,
-			'lambda' => 3,
-			'exprval' => 19,
-			'ifstartcond' => 21,
-			'arrayfetchexpr' => 5,
-			'if' => 8,
-			'assignexpr' => 6,
-			'stmt' => 23,
-			'exprval1' => 9,
-			'while' => 24,
-			'expr' => 12,
-			'multexpr' => 14
+			'ifstmts' => 173
 		}
 	},
+	{#State 165
+		DEFAULT => -23
+	},
 	{#State 166
-		DEFAULT => -33
-	},
-	{#State 167
-		ACTIONS => {
-			"-" => 34,
-			"conforms" => 35,
-			"<" => 36,
-			"%" => 39,
-			"==" => 40,
-			">=" => 41,
-			" " => 43,
-			"*" => 44,
-			"||" => 49,
-			"->" => 53,
-			"=>" => 55,
-			"<=" => 57,
-			">" => 58,
-			"**" => 37,
-			"+" => 38,
-			"^" => 42,
-			"per" => 45,
-			"!=" => 47,
-			"&&" => 50,
-			"?" => 51,
-			"^^" => 52,
-			"/" => 54,
-			"<=>" => 56
-		},
-		DEFAULT => -81
-	},
-	{#State 168
 		ACTIONS => {
 			"{`" => 16,
 			"-" => 1,
@@ -3022,27 +2984,86 @@ sub new {
 			'multexpr' => 14
 		}
 	},
+	{#State 167
+		DEFAULT => -33
+	},
+	{#State 168
+		ACTIONS => {
+			"-" => 34,
+			"conforms" => 35,
+			"<" => 36,
+			"%" => 39,
+			"==" => 40,
+			">=" => 41,
+			" " => 43,
+			"*" => 44,
+			"||" => 49,
+			"->" => 53,
+			"=>" => 55,
+			"<=" => 57,
+			">" => 58,
+			"**" => 37,
+			"+" => 38,
+			"^" => 42,
+			"per" => 45,
+			"!=" => 47,
+			"&&" => 50,
+			"?" => 51,
+			"^^" => 52,
+			"/" => 54,
+			"<=>" => 56
+		},
+		DEFAULT => -81
+	},
 	{#State 169
-		DEFAULT => -21
+		ACTIONS => {
+			"{`" => 16,
+			"-" => 1,
+			'NAME' => 17,
+			"var" => 20,
+			'DATE' => 4,
+			"while" => 22,
+			'STRING' => 7,
+			"if" => 10,
+			'HEXNUMBER' => 25,
+			"(" => 26,
+			"!" => 11,
+			"[" => 13,
+			'NUMBER' => 15
+		},
+		DEFAULT => -1,
+		GOTOS => {
+			'exprval2' => 2,
+			'stma' => 175,
+			'lambda' => 3,
+			'exprval' => 19,
+			'ifstartcond' => 21,
+			'arrayfetchexpr' => 5,
+			'if' => 8,
+			'assignexpr' => 6,
+			'stmt' => 23,
+			'exprval1' => 9,
+			'while' => 24,
+			'expr' => 12,
+			'multexpr' => 14
+		}
 	},
 	{#State 170
+		DEFAULT => -21
+	},
+	{#State 171
 		ACTIONS => {
 			"{" => 78
 		},
 		GOTOS => {
-			'ifstmts' => 175
+			'ifstmts' => 176
 		}
-	},
-	{#State 171
-		DEFAULT => -20
 	},
 	{#State 172
-		DEFAULT => -25
+		DEFAULT => -20
 	},
 	{#State 173
-		ACTIONS => {
-			"}" => 176
-		}
+		DEFAULT => -25
 	},
 	{#State 174
 		ACTIONS => {
@@ -3050,12 +3071,17 @@ sub new {
 		}
 	},
 	{#State 175
-		DEFAULT => -22
+		ACTIONS => {
+			"}" => 178
+		}
 	},
 	{#State 176
-		DEFAULT => -26
+		DEFAULT => -22
 	},
 	{#State 177
+		DEFAULT => -26
+	},
+	{#State 178
 		DEFAULT => -82
 	}
 ],
@@ -3251,37 +3277,37 @@ sub
 		 'argelement', 5,
 sub
 #line 89 "Farnsworth.yp"
-{bless [$_[1], $_[3], $_[5]], 'Argele'}
+{bless [ $_[1], $_[3], $_[5], 0], 'Argele'}
 	],
 	[#Rule 34
 		 'argelement', 3,
 sub
 #line 90 "Farnsworth.yp"
-{bless [ $_[1], undef, $_[3] ], 'Argele'}
+{bless [ $_[1], undef, $_[3], 0], 'Argele'}
 	],
 	[#Rule 35
 		 'argelement', 3,
 sub
 #line 91 "Farnsworth.yp"
-{bless [$_[1], $_[3]], 'Argele'}
+{bless [ $_[1], $_[3], undef, 0], 'Argele'}
 	],
 	[#Rule 36
 		 'argelement', 1,
 sub
 #line 92 "Farnsworth.yp"
-{bless [ $_[1] ], 'Argele'}
+{bless [ $_[1], undef, undef, 0], 'Argele'}
 	],
 	[#Rule 37
 		 'argelement', 4,
 sub
 #line 93 "Farnsworth.yp"
-{bless [ $_[1], undef, $_[3], 1], 'Argele'}
+{bless [ $_[1], undef, $_[4], 1], 'Argele'}
 	],
 	[#Rule 38
 		 'argelement', 2,
 sub
 #line 94 "Farnsworth.yp"
-{bless [ $_[1] , undef, undef, 1], 'Argele'}
+{bless [ $_[1], undef, undef, 1], 'Argele'}
 	],
 	[#Rule 39
 		 'argelement', 0, undef

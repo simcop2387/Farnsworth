@@ -150,8 +150,8 @@ sub mult
   my $args = $two->istype("Array") ? $two :  new Math::Farnsworth::Value::Array([$two]); 
 
   #this code is debug code, but i'm afraid to take it out, when i put it here it started working properly
-  print "LAMBDAMULT\n";
-  eval{print Dumper($one->{scope}->{vars}->getvar('x'), $one->{scope}->{vars}->getvar('y'))};
+  #print "LAMBDAMULT\n";
+  #eval{print Dumper($one->{scope}->{vars}->getvar('x'), $one->{scope}->{vars}->getvar('y'))}; #this bug was fixed
 
   return $one->{scope}->{funcs}->calllambda($one, $args); #needs to be updated
 

@@ -86,12 +86,12 @@ constraint: expr #// this MIGHT have to change slightly, mostly to make it allow
 		  | '...' {bless [], 'VarArg'} #// for having variable arguments
 		  ;
 
-argelement : NAME '=' expr 'isa' constraint {bless [$_[1], $_[3], $_[5]], 'Argele'} #default value AND constraint 
-		   | NAME 'isa' constraint {bless [ $_[1], undef, $_[3] ], 'Argele'} #constraint
-		   | NAME '=' expr {bless [$_[1], $_[3]], 'Argele'} #default value
-		   | NAME {bless [ $_[1] ], 'Argele'}
-		   | NAME 'isa' constraint 'byref' {bless [ $_[1], undef, $_[3], 1], 'Argele'} #constraint
-		   | NAME 'byref' {bless [ $_[1] , undef, undef, 1], 'Argele'}
+argelement : NAME '=' expr 'isa' constraint {bless [ $_[1], $_[3], $_[5], 0], 'Argele'} #default value AND constraint 
+		   | NAME 'isa' constraint          {bless [ $_[1], undef, $_[3], 0], 'Argele'} #constraint
+		   | NAME '=' expr                  {bless [ $_[1], $_[3], undef, 0], 'Argele'} #default value
+		   | NAME                           {bless [ $_[1], undef, undef, 0], 'Argele'}
+		   | NAME 'byref' 'isa' constraint  {bless [ $_[1], undef, $_[4], 1], 'Argele'} #constraint
+		   | NAME 'byref'                   {bless [ $_[1], undef, undef, 1], 'Argele'}
 		   |
 		   ;
 

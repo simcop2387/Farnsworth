@@ -21,8 +21,6 @@ use Math::Farnsworth::Value::Array;
 use Math::Farnsworth::Value::Boolean;
 use Math::Farnsworth::Output;
 
-use Date::Manip;
-
 use Math::Pari ':hex'; #why not?
 
 sub new
@@ -97,10 +95,6 @@ sub evalbranch
 
 	my $return; #to make things simpler later on
 
-
-	print Dumper($branch);
-
-
 	if ($type eq "Add")
 	{
 		my $a = $self->makevalue($branch->[0]);
@@ -115,7 +109,6 @@ sub evalbranch
 	}
 	elsif ($type eq "Mul")
 	{
-		print "INSIDE MULTI\n";
 	    if ((ref($branch->[0]) eq "Fetch") && (ref($branch->[1]) eq "Array") && ($branch->[2] eq "imp"))
 		{
 		    #we've got a new style function call!
@@ -123,7 +116,7 @@ sub evalbranch
 			my $b = $self->makevalue($branch->[1]);
 
 			print "----------------FUNCCALL!\n";
-			print Dumper($a, $b);
+			#print Dumper($a, $b);
 			
 			if ($self->{funcs}->isfunc($a)) #check if there is a func $a
 			{   #$return = $self->{funcs}->callfunc($self, $name, $args, $branch);
@@ -149,10 +142,9 @@ sub evalbranch
 	}
 	elsif ($type eq "Div")
 	{
-		print "INSIDE DIV\n";
 		my $a = $self->makevalue($branch->[0]);
 		my $b = $self->makevalue($branch->[1]);
-		print Dumper($a, $b);
+		#print Dumper($a, $b);
 		$return = $a / $b;
 	}
 	elsif ($type eq "Conforms")
@@ -322,6 +314,7 @@ sub evalbranch
 
 		for my $arg (@$args)
 		{
+			my $reference = $arg->[2];
 			my $constraint = $arg->[2];
 			my $default = $arg->[1];
 			my $name = $arg->[0]; #name
@@ -338,7 +331,7 @@ sub evalbranch
 				#print Dumper($constraint);
 			}
 
-			push @$vargs, [$name, $default, $constraint];
+			push @$vargs, [$name, $default, $constraint, $reference];
 		}
 
 		$self->{funcs}->addfunc($name, $vargs, $value);
@@ -346,6 +339,7 @@ sub evalbranch
 	}
 	elsif ($type eq "FuncCall")
 	{
+		print "DEPRECIATED FUNCTION CALL!\n";
 		my $name = $branch->[0];
 		my $args = $self->makevalue($branch->[1]); #this is an array, need to evaluate it
 
@@ -372,6 +366,7 @@ sub evalbranch
 
 		for my $arg (@$args)
 		{
+			my $reference = $arg->[3];
 			my $constraint = $arg->[2];
 			my $default = $arg->[1];
 			my $name = $arg->[0]; #name
@@ -388,7 +383,7 @@ sub evalbranch
 				#print Dumper($constraint);
 			}
 
-			push @$vargs, [$name, $default, $constraint];
+			push @$vargs, [$name, $default, $constraint, $reference];
 		}
 
 		my $lambda = {code => $code, args => $vargs, 
@@ -565,14 +560,14 @@ sub evalbranch
 		my $left = $self->makevalue($branch->[0]);
 		my $rights = eval {$self->makevalue($branch->[1])};
 		print "TRANS: right side eval\n";
-		print Dumper($@);
+		#print Dumper($@);
 		my $right = $rights;
 
 		if (!$@ && defined($rights) && $rights->istype("String")) #if its a string we do some fun stuff
 		{
 			print "STRINGED\n";
 			$right = $self->eval($rights->getstring()); #we need to set $right to the evaluation $rights
-			print Dumper($rights, $right);
+			#print Dumper($rights, $right);
 			print "ERRORED: ".Dumper($@);
 		}
 

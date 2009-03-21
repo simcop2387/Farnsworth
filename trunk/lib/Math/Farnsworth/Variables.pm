@@ -27,7 +27,15 @@ sub setvar
 
 	if ((exists($self->{vars}{$name})) || !defined($self->{parent}))
 	{
-		$self->{vars}{$name} = $value;
+		if (exists($self->{vars}{$name}) && ref($self->{vars}{$name}) eq "REF")
+	    {
+			#we've got a reference
+			${$self->{vars}{$name}} = $value;
+		}
+		else
+		{
+		  $self->{vars}{$name} = $value;
+		}
 	}
 	else
 	{
@@ -37,18 +45,31 @@ sub setvar
 
 sub declare
 {
-	my @args = @_; #save a copy for now
 	my $self = shift;
 	my $name = shift;
 	my $value = shift;
 
 	if (!defined($name))
 	{
-		cluck "NAME UNDEFINED!\n".Dumper(\@args);
+		cluck "NAME UNDEFINED!\n".Dumper([$self, $name, $value, @_]);
 	}
 
 	#really all we need to do is just set it in this scope to see it
 	$self->{vars}{$name} = $value;
+}
+
+sub setref
+{
+	my $self = shift;
+	my $name = shift;
+
+	if (!defined($name))
+	{
+		cluck "NAME UNDEFINED!\n".Dumper([$self, $name, @_]);
+	}
+
+	#really all we need to do is just set it in this scope to see it
+	$self->{vars}{$name} = \$_[0]; #can't set things myself with shift, HAVE to use @_ directly
 }
 
 sub getvar
@@ -64,6 +85,11 @@ sub getvar
 	elsif (defined($self->{parent}))
 	{
 		$val = $self->{parent}->getvar($name);
+	}
+
+	if (ref $val eq "REF")
+	{ #we've got one set by reference
+		$val = $$val; #deref it for getting its value
 	}
 
 	return $val;
