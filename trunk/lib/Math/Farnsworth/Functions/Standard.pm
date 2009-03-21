@@ -21,34 +21,34 @@ sub init
    my $lambda = new Math::Farnsworth::Value::Lambda();
    my $number = new Math::Farnsworth::Value::Pari(0);
 
-   $env->{funcs}->addfunc("push", [["arr", undef, $array], ["in", undef, "VarArg"]],\&push); #actually i might rewrite this in farnsworth now that it can do it
-   $env->{funcs}->addfunc("pop", [["arr", undef, $array]],\&pop); #eventually this maybe too
-   $env->{funcs}->addfunc("shift", [["arr", undef, $array]], \&shift);
-   $env->{funcs}->addfunc("unshift", [["arr", undef, $array], ["in", undef, "VarArg"]], \&unshift);
-   $env->{funcs}->addfunc("sort", [["sortsub", undef, $lambda],["arr", undef, $array]],\&sort);
+   $env->{funcs}->addfunc("push", [["arr", undef, $array, 0], ["in", undef, "VarArg", 0]],\&push); #actually i might rewrite this in farnsworth now that it can do it
+   $env->{funcs}->addfunc("pop", [["arr", undef, $array, 0]],\&pop); #eventually this maybe too
+   $env->{funcs}->addfunc("shift", [["arr", undef, $array, 0]], \&shift);
+   $env->{funcs}->addfunc("unshift", [["arr", undef, $array, 0], ["in", undef, "VarArg", 0]], \&unshift);
+   $env->{funcs}->addfunc("sort", [["sortsub", undef, $lambda, 0],["arr", undef, $array, 0]],\&sort);
 
-   $env->{funcs}->addfunc("length", [["in", undef, undef]],\&length);
+   $env->{funcs}->addfunc("length", [["in", undef, undef, 0]],\&length);
 
-   $env->{funcs}->addfunc("ord", [["in", undef, $string]],\&ord);
-   $env->{funcs}->addfunc("chr", [["in", undef, $number]],\&chr);
-   $env->{funcs}->addfunc("index", [["str", undef, $string],["substr", undef, $string],["pos", $number, $number]],\&index);
-   $env->{funcs}->addfunc("eval", [["str", undef, $string]],\&eval);
+   $env->{funcs}->addfunc("ord", [["in", undef, $string, 0]],\&ord);
+   $env->{funcs}->addfunc("chr", [["in", undef, $number, 0]],\&chr);
+   $env->{funcs}->addfunc("index", [["str", undef, $string, 0],["substr", undef, $string, 0],["pos", $number, $number, 0]],\&index);
+   $env->{funcs}->addfunc("eval", [["str", undef, $string, 0]],\&eval);
 
    $env->eval('dbgprint{x isa ...} := {var z; var n = 0; var p; while(n != length[x]) {p = shift[x]; if (p conforms "") {z = p} else {z = "$p"}; _dbgprint[z]}}');
-   $env->{funcs}->addfunc("_dbgprint", [["str", undef, $string]], \&dbgprint);
+   $env->{funcs}->addfunc("_dbgprint", [["str", undef, $string, 0]], \&dbgprint);
    
    $env->eval('map{sub isa {`x`}, x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; if (length[x] == 1 && !(x conforms [])) {x = [x]}; var z=x; var e; var out=[]; while(length[z]) {e = shift[z]; dbgprint[e]; push[out,e => sub]}; dbgprint[out]; out}');
 
-   $env->{funcs}->addfunc("substrLen", [["str", undef, $string],["left", undef, $number],["length", undef, $number]],\&substrlen); #this one works like perls
+   $env->{funcs}->addfunc("substrLen", [["str", undef, $string, 0],["left", undef, $number, 0],["length", undef, $number, 0]],\&substrlen); #this one works like perls
    $env->eval("substr{str,left,right}:={substrLen[str,left,right-left]}");
    $env->eval("left{str,pos}:={substrLen[str,0,pos]}");
    $env->eval("right{str,pos}:={substrLen[str,length[str]-pos,pos]}");
 
-   $env->{funcs}->addfunc("reverse", [["in", undef, undef]],\&reverse);
+   $env->{funcs}->addfunc("reverse", [["in", undef, undef, 0]],\&reverse);
 
    $env->eval("now{} := {#today#}");
 
-   $env->{funcs}->addfunc("unit", [["in", undef, undef]], \&unit);
+   $env->{funcs}->addfunc("unit", [["in", undef, undef, 0]], \&unit);
 
    $env->eval('max{x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var m = pop[z]; var n = length[z]; var q; while((n=n-1)>=0){q=pop[z]; q>m?m=q:0}; m}'); 
    $env->eval('min{x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var m = pop[z]; var n = length[z]; var q; while((n=n-1)>=0){q=pop[z]; q<m?m=q:0}; m}'); 

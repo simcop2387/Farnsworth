@@ -21,9 +21,10 @@ sub addfunc
 	my $name = shift;
 	my $args = shift;
 	my $value = shift;
+	my $scope = shift;
 
 	#i should really have some error checking here
-	$self->{funcs}{$name} = {name=>$name, args=>$args, value=>$value};
+	$self->{funcs}{$name} = {name=>$name, args=>$args, value=>$value, scope=>$scope};
 }
 
 sub getfunc
@@ -89,8 +90,8 @@ ARG:for my $argc (0..$#$argtypes)
 
 		if (defined $n)  #happens when no arguments! so we check if the name is defined
 		{
-			#print "CHECKING REF! $argc\n";
-			#print Dumper($argtypes);
+			print "CHECKING REF! $argc\n";
+			print Dumper($argtypes);
 			if (!$argtypes->[$argc][3]) #make sure that it shouldn't be byref
 			{ 
 				$vars->declare($n, $v);
@@ -98,10 +99,14 @@ ARG:for my $argc (0..$#$argtypes)
 			else
 			{
 				#it should be by ref
-				if ($self->getref($argc, $branch))
+				if (my $v=$self->getref($argc, $branch, $name))
 				{
 				  $vars->setref($n, $v);
 			    }
+				else
+				{
+					error "Can't get reference for expression";
+				}
 			}
 		}
 	}
@@ -130,10 +135,20 @@ sub callfunc
 
 #	print Dumper($args);
 
-	my $nvars = new Math::Farnsworth::Variables($eval->{vars});
+	my $neval;
 
-	my %nopts = (vars => $nvars, funcs => $self, units => $eval->{units}, parser => $eval->{parser});
-	my $neval = $eval->new(%nopts);
+	if (defined $self->{funcs}{$name}{scope})
+	{
+		$neval = $self->{funcs}{$name}{scope};
+	}
+	else
+	{
+		#this should get scrapped once i fix the other modules!
+		my $nvars = new Math::Farnsworth::Variables($eval->{vars});
+
+		my %nopts = (vars => $nvars, funcs => $self, units => $eval->{units}, parser => $eval->{parser});
+		$neval = $eval->new(%nopts);
+	}
 
 	$self->setupargs($neval, $args, $argtypes, $name, $branches); #setup the arguments
 
@@ -214,11 +229,31 @@ sub getref
 	my $self = shift;
 	my $argc = shift;
 	my $branch = shift;
+	my $name = shift;
 
-#	print "\n\nGETREF\n";
-#	print Dumper($branch);
+	print "\n\nGETREF\n";
+	print Dumper($branch);
 
-	return undef;
+	if (ref $branch->[1] ne "Array")
+	{
+		#this should add support for some other stuff
+		error "Cannot get a reference if function/lambda is called without []";
+	}
+
+	my $argexpr = $branch->[1][$argc];
+	
+	#print Dumper($argbranches->[$argc]);
+	
+	if (ref $argexpr ne "Fetch")
+	{
+		error "Argument $argc to $name\[\] is not referencable";
+	}
+
+	my $ref = $self->{funcs}{$name}->{scope}{vars}->getref($argexpr->[0]);
+
+	print Dumper($argexpr, $ref);
+
+	return $ref;
 }
 
 1;

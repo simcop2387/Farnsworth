@@ -13,7 +13,8 @@ our @ISA = qw(Exporter);
 
 our @EXPORT = qw(error);
 
-use overload '""' => \&tostring;
+use overload '""' => \&tostring,
+			 'eq' => \&eq;
 
 sub error
 {
@@ -22,11 +23,19 @@ sub error
     $eobj->{msg} = $err;
 	bless $eobj;
 
-	carp $eobj;
+	die $eobj;
 }
 
 sub tostring
 {
 	my $self = shift;
 	return $self->{msg};
+}
+
+sub eq
+{
+	my ($one, $two, $rev) = @_;
+
+	my $str = $one->tostring();
+	return $str eq $two;
 }

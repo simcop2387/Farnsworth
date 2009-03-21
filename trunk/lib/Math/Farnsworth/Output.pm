@@ -446,11 +446,17 @@ sub deparsetree
 		for my $arg (@$args)
 		{
 			my $foobs="";
+			my $reference = $arg->[3];
 			my $constraint = $arg->[2];
 			my $default = $arg->[1];
 			my $name = $arg->[0]; #name
 
 			$foobs = $name;
+			if (defined($reference))
+			{
+				$foobs .= " byref "; #should be right
+			}
+
 			if (defined($default))
 			{
 				$foobs .= " = ".$self->deparsetree($default); #should be right

@@ -20,6 +20,7 @@ use Math::Farnsworth::Value::Lambda;
 use Math::Farnsworth::Value::Array;
 use Math::Farnsworth::Value::Boolean;
 use Math::Farnsworth::Output;
+use Math::Farnsworth::Error;
 
 use Math::Pari ':hex'; #why not?
 
@@ -310,11 +311,15 @@ sub evalbranch
 		my $args = $branch->[1];
 		my $value = $branch->[2]; #not really a value, but in fact the tree to run for the function
 
+		my $nvars = new Math::Farnsworth::Variables($self->{vars}); #lamdbas get their own vars
+		my %nopts = (vars => $nvars, funcs => $self->{funcs}, units => $self->{units}, parser => $self->{parser});
+		my $scope = $self->new(%nopts);
+
 		my $vargs;
 
 		for my $arg (@$args)
 		{
-			my $reference = $arg->[2];
+			my $reference = $arg->[3];
 			my $constraint = $arg->[2];
 			my $default = $arg->[1];
 			my $name = $arg->[0]; #name
@@ -334,7 +339,7 @@ sub evalbranch
 			push @$vargs, [$name, $default, $constraint, $reference];
 		}
 
-		$self->{funcs}->addfunc($name, $vargs, $value);
+		$self->{funcs}->addfunc($name, $vargs, $value, $scope);
 		$return = undef; #cause an error should someone manage to make it parse other than the way i think it should be
 	}
 	elsif ($type eq "FuncCall")
@@ -371,6 +376,12 @@ sub evalbranch
 			my $default = $arg->[1];
 			my $name = $arg->[0]; #name
 
+			if ($reference)
+			{
+				#we've got a reference for lambdas!
+				carp "Passing arguments by reference for lambdas is unsupported at this time";
+			}
+
 			if (defined($default))
 			{
 				$default = $self->makevalue($default); #should be right
@@ -396,7 +407,7 @@ sub evalbranch
 		my $left = $self->makevalue($branch->[0]);
 		my $right = $self->makevalue($branch->[1]);
 
-		die "Right side of lamdbda call must evaluate to a Lambda\n" unless $right->istype("Lambda");
+		error "Right side of lamdbda call must evaluate to a Lambda\n" unless $right->istype("Lambda");
 
 		#need $args to be an array
 		my $args = $left->istype("Array") ? $left :  new Math::Farnsworth::Value::Array([$left]); 
@@ -455,7 +466,7 @@ sub evalbranch
 			#ok this line FOR WHATEVER REASON, makes Math::Pari.xs die in isnull(), WHY i don't know, there's something wrong here somewhere
 			#my $float = $_ * (Math::Farnsworth::Value::Pari->new(1.0)); #makes rationals work right
 			my $input = $var->getarrayref()->[$_->getpari()*1.0]; #."" makes indexes work right again
-			die "Array out of bounds\n" unless defined $input; #NTS: would be useful to look if i have a name and use it
+			error "Array out of bounds\n" unless defined $input; #NTS: would be useful to look if i have a name and use it
 			push @rval, $input;
 		}
 
@@ -481,7 +492,7 @@ sub evalbranch
 
 		if ($listval->getarray() > 1)
 		{
-			die "Assigning to slices not implemented yet\n";
+			error "Assigning to slices not implemented yet\n";
 		}
 
 		$var->getarrayref()->[$listval->getarrayref()->[0]] = $rval;
@@ -610,7 +621,7 @@ sub evalbranch
 			}
 			else
 			{
-				die "Conformance error, left side has different units than right side ".Dumper($branch->[1])."\n";
+				error "Conformance error, left side has different units than right side ".Dumper($branch->[1])."\n";
 			}
 		}
 		else

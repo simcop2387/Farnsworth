@@ -69,7 +69,25 @@ sub setref
 	}
 
 	#really all we need to do is just set it in this scope to see it
-	$self->{vars}{$name} = \$_[0]; #can't set things myself with shift, HAVE to use @_ directly
+	$self->{vars}{$name} = $_[0]; #can't set things myself with shift, HAVE to use @_ directly
+}
+
+sub getref
+{
+	my $self = shift;
+	my $name = shift;
+	my $val;
+
+	if (exists($self->{vars}{$name}))
+	{
+		$val = \$self->{vars}{$name};
+	}
+	elsif (defined($self->{parent}))
+	{
+		$val = $self->{parent}->getref($name);
+	}
+
+	return $val;
 }
 
 sub getvar
