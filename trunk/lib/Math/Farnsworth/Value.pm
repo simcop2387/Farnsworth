@@ -14,6 +14,19 @@ our @EXPORT_OK = qw(TYPE_PLAIN TYPE_TIME);
 ####
 #THESE FUNCTIONS WILL BE MOVED TO Math::Farnsworth::Value, or somewhere more appropriate
 
+sub setref
+{
+	my $self = shift;
+	my $ref = shift;
+	$self->{_ref} = $ref;
+}
+
+sub getref
+{
+	my $self = shift;
+	return $self->{_ref};
+}
+
 sub istype
 {
 	my $self = shift;

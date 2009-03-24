@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Data::Dumper;
-use Carp qw(cluck);
+use Carp qw(cluck carp);
 
 #this is very simple right now but i'll need to make a way to inherit
 #variables from an old Math::Farnsworth::Variables class so that i can do
@@ -78,6 +78,8 @@ sub getref
 	my $name = shift;
 	my $val;
 
+	carp "DEPRECIATED CALL TO Variables->getref()";
+
 	if (exists($self->{vars}{$name}))
 	{
 		$val = \$self->{vars}{$name};
@@ -99,6 +101,7 @@ sub getvar
 	if (exists($self->{vars}{$name}))
 	{
 		$val = $self->{vars}{$name};
+		$val->setref(\$self->{vars}{$name}) unless (ref($val) eq "REF");
 	}
 	elsif (defined($self->{parent}))
 	{

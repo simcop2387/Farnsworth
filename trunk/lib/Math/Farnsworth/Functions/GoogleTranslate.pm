@@ -46,7 +46,7 @@ sub init
 				my $name = $langs{$x}."To".$langs{$y};
 
 				#closures in perl will give me this! closures FTW!
-				$env->{funcs}->addfunc($name, [["in", undef, $string, 0]], sub {translate($x,$y,@_)});
+				$env->{funcs}->addfunc($name, [["in", undef, $string, 0]], sub {translate($x,$y,@_)},$env);
 			}
 		}
 	}
@@ -59,20 +59,20 @@ sub init
 		#closures in perl will give me this! closures FTW!
 		if ($x ne $defaultcode)
 		{
-			$env->{funcs}->addfunc($name, [["in", undef, $string, 0]], sub {translate("",$x,@_)});
-			$env->{funcs}->addfunc("Is".$name, [["in", undef, $string, 0]], sub {islang($x, @_)});
-			$env->{funcs}->addfunc("To".$name, [["in", undef, $string, 0]], sub {translate("",$x,@_)});
-			$env->{funcs}->addfunc("From".$name, [["in", undef, $string, 0]], sub {translate($x, $defaultcode,@_)});
+			$env->{funcs}->addfunc($name, [["in", undef, $string, 0]], sub {translate("",$x,@_)},$env);
+			$env->{funcs}->addfunc("Is".$name, [["in", undef, $string, 0]], sub {islang($x, @_)},$env);
+			$env->{funcs}->addfunc("To".$name, [["in", undef, $string, 0]], sub {translate("",$x,@_)},$env);
+			$env->{funcs}->addfunc("From".$name, [["in", undef, $string, 0]], sub {translate($x, $defaultcode,@_)},$env);
 		}
 		else
 		{
-			$env->{funcs}->addfunc("Is".$name, [["in", undef, $string, 0]], sub {islang($x, @_)});
-			$env->{funcs}->addfunc($name, [["in", undef, $string, 0]], sub {translate("",$defaultcode,@_)});
-			$env->{funcs}->addfunc("To".$name, [["in", undef, $string, 0]], sub {translate("",$defaultcode,@_)});
+			$env->{funcs}->addfunc("Is".$name, [["in", undef, $string, 0]], sub {islang($x, @_)},$env);
+			$env->{funcs}->addfunc($name, [["in", undef, $string, 0]], sub {translate("",$defaultcode,@_)},$env);
+			$env->{funcs}->addfunc("To".$name, [["in", undef, $string, 0]], sub {translate("",$defaultcode,@_)},$env);
 		}
 	}
 
-	$env->{funcs}->addfunc("DetectLanguage", [["in", undef, $string, 0]], \&detectlang);
+	$env->{funcs}->addfunc("DetectLanguage", [["in", undef, $string, 0]], \&detectlang,$env);
 }
 
 sub callgoogle

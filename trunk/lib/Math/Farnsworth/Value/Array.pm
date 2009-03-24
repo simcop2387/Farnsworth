@@ -155,7 +155,7 @@ sub bool
 	my $self = shift;
 
     #boolean for array is the same as it is in perl, empty or not
-	return @{$self->getarray()}?1:0;
+	return @{$self->getarrayref()}?1:0;
 }
 
 sub pow

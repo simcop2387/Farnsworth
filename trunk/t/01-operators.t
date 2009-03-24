@@ -54,6 +54,7 @@ my @tests =
 	['"foo" + "bar"', '"foobar"', "string concat"],
 	['a=[1,2,3]; a@2$', '3 ', "array access"],
 	['a=[1,2,3,4]; a@2/2$', '2 ', "array access, rational"],
+    ['a=[1,2,3,4]; a@2$=10; a@2$', '10 ', "array storage"],
 	['10 m^(3/2)', '10.0 m^(3/2)', "rational powers"],
 	['10 m^(1/2)', '10.0 m^(1/2)', "rational powers < 1 with 1 as numerator"],
 

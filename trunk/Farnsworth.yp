@@ -19,7 +19,6 @@
 
 %{
 use Data::Dumper; #boobs
-use Text::Balanced qw(extract_delimited);
 my $s;		# warning - not re-entrant
 my $fullstring;
 my $charcount;

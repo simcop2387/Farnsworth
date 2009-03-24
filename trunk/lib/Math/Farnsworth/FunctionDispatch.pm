@@ -9,6 +9,8 @@ use Math::Farnsworth::Variables;
 use Math::Farnsworth::Value::Array;
 use Math::Farnsworth::Error;
 
+use Carp;
+
 sub new
 {
 	my $self = {};
@@ -24,7 +26,7 @@ sub addfunc
 	my $scope = shift;
 
 	#i should really have some error checking here
-	$self->{funcs}{$name} = {name=>$name, args=>$args, value=>$value, scope=>$scope};
+	$self->{funcs}{$name} = {name=>$name, args=>$args, value=>$value, parentscope=>$scope};
 }
 
 sub getfunc
@@ -49,7 +51,7 @@ sub setupargs
 	my $args = shift;
 	my $argtypes = shift;
 	my $name = shift; #name to display
-	my $branch = shift;
+	#my $branch = shift;
 
 	my $vars = $eval->{vars}; #get the scope we need
 
@@ -90,8 +92,9 @@ ARG:for my $argc (0..$#$argtypes)
 
 		if (defined $n)  #happens when no arguments! so we check if the name is defined
 		{
-			print "CHECKING REF! $argc\n";
-			print Dumper($argtypes);
+			#print "SETVAR $n: ";
+			#print Dumper($argtypes->[$argc]);
+			#print Dumper($vars->{vars});
 			if (!$argtypes->[$argc][3]) #make sure that it shouldn't be byref
 			{ 
 				$vars->declare($n, $v);
@@ -99,15 +102,17 @@ ARG:for my $argc (0..$#$argtypes)
 			else
 			{
 				#it should be by ref
-				if (my $v=$self->getref($argc, $branch, $name))
+				if ($v->getref())
 				{
-				  $vars->setref($n, $v);
+				  $vars->setref($n, $v->getref());
 			    }
 				else
 				{
-					error "Can't get reference for expression";
+					error "Can't get reference from expression for argument $argc";
 				}
 			}
+
+			#print Dumper($vars->{vars});
 		}
 	}
 }
@@ -137,25 +142,43 @@ sub callfunc
 
 	my $neval;
 
-	if (defined $self->{funcs}{$name}{scope})
+	if (defined $self->{funcs}{$name}{parentscope})
 	{
-		$neval = $self->{funcs}{$name}{scope};
+		print "PARENTSCOPE! ".$self->{funcs}{$name}{parentscope}{vars}."\n";
+		$neval = $self->{funcs}{$name}{parentscope};
+		
+		my $nvars = new Math::Farnsworth::Variables($neval->{vars});
+
+		my %nopts = (vars => $nvars, funcs => $self, units => $neval->{units}, parser => $neval->{parser});
+		$neval = $neval->new(%nopts);
 	}
 	else
 	{
 		#this should get scrapped once i fix the other modules!
+		carp "SETTING UP PARENT SCOPE OUT OF NO WHERE!";
 		my $nvars = new Math::Farnsworth::Variables($eval->{vars});
 
 		my %nopts = (vars => $nvars, funcs => $self, units => $eval->{units}, parser => $eval->{parser});
 		$neval = $eval->new(%nopts);
+		$self->{funcs}{$name}{parentscope} = $neval; #store it for later!
 	}
+
+	#print "NEWSCOPE! ".$neval->{vars}."\n";
+
+	#eval #just for fucks sake!
+	#{
+	#	my $facts = $neval->{vars}->getvar("facts");
+	#	print "FACTS!\n";
+	#	print Dumper($facts, "$facts");
+	#};
+
+	#carp "$@" if $@;
 
 	$self->setupargs($neval, $args, $argtypes, $name, $branches); #setup the arguments
 
 	if (ref($fval) ne "CODE")
 	{
-
-		return $self->callbranch($neval, $fval);
+		return $self->callbranch($neval, $fval, $name);
 	}
 	else
 	{
@@ -169,7 +192,8 @@ sub calllambda
 	my $self = shift;
 	my $lambda = shift;
 	my $args = shift;
-	my $branch = shift; #new for lambdas!
+#	my $refscope = shift;
+#	my $branch = shift; #new for lambdas!
 
 	my $argtypes = $lambda->getargs();
 	my $fval = $lambda->getcode();
@@ -178,10 +202,15 @@ sub calllambda
 	#print "LAMBDA---------------\n";
 	#print Dumper($argtypes, $args, $fval);
 
+	my $nvars = new Math::Farnsworth::Variables($eval->{vars});
+
+	my %nopts = (vars => $nvars, funcs => $self, units => $eval->{units}, parser => $eval->{parser});
+	my $neval = $eval->new(%nopts);
+
 	die "Number of arguments not correct to lambda\n" unless $self->checkparams($args, $argtypes); #this shoul
 
-	$self->setupargs($eval, $args, $argtypes, "lambda", $branch);
-	return $self->callbranch($eval, $fval);
+	$self->setupargs($neval, $args, $argtypes, "lambda");
+	return $self->callbranch($neval, $fval);
 }
 
 sub callbranch
@@ -189,6 +218,12 @@ sub callbranch
 	my $self = shift;
 	my $eval = shift;
 	my $branches = shift;
+	my $name = shift;
+
+
+	print "CALLBRANCHES :: ";
+	print $name if defined $name;
+	print " :: $eval\n";
 
 	return $eval->evalbranch($branches);
 }

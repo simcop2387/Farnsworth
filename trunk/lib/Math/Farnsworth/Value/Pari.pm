@@ -201,7 +201,7 @@ sub bool
 
 	#seems good enough of an idea to me
 	#i have a bug HERE
-	#print "BOOLCONV\n";
+	print "PARI BOOLCONV\n";
 	#print Dumper($self);
 	#print "ENDBOOLCONV\n";
 	return $self->getpari()?1:0;

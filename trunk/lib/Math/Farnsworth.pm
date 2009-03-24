@@ -25,9 +25,10 @@ sub new
 	shift; #get the class off
 
 	my $self = {};
-    my @modules = @_; #i get passed a list of modules to use for standard stuff;
+	my @modules = @_; #i get passed a list of modules to use for standard stuff;
 
 	Math::Pari::setprecision(100);
+	Math::Pari::allocatemem(40_000_000);
 
 	if (@modules < 1)
 	{

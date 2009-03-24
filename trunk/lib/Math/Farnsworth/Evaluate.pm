@@ -116,7 +116,7 @@ sub evalbranch
 			my $a = $branch->[0][0]; #grab the function name
 			my $b = $self->makevalue($branch->[1]);
 
-			print "----------------FUNCCALL!\n";
+			print "----------------FUNCCALL! $a\n";
 			#print Dumper($a, $b);
 			
 			if ($self->{funcs}->isfunc($a)) #check if there is a func $a
@@ -397,9 +397,6 @@ sub evalbranch
 			push @$vargs, [$name, $default, $constraint, $reference];
 		}
 
-		my $lambda = {code => $code, args => $vargs, 
-			          scope => $scope, branches=>$branch};
-
 		$return = new Math::Farnsworth::Value::Lambda($scope, $args, $code, $branch);
 	}
 	elsif ($type eq "LambdaCall")
@@ -467,6 +464,7 @@ sub evalbranch
 			#my $float = $_ * (Math::Farnsworth::Value::Pari->new(1.0)); #makes rationals work right
 			my $input = $var->getarrayref()->[$_->getpari()*1.0]; #."" makes indexes work right again
 			error "Array out of bounds\n" unless defined $input; #NTS: would be useful to look if i have a name and use it
+			$input->setref(\$var->getarrayref()->[$_->getpari()*1.0]);
 			push @rval, $input;
 		}
 
@@ -476,6 +474,7 @@ sub evalbranch
 		{
 			my $pr = new Math::Farnsworth::Value::Array([@rval]);
 			$return = $pr;
+			$return->setref(\$return); #i think this should work fine
 		}
 		else
 		{
@@ -494,8 +493,12 @@ sub evalbranch
 		{
 			error "Assigning to slices not implemented yet\n";
 		}
+		
+		error "Only numerics may be given as array indexes!" unless ($listval->getarrayref()->[0]->istype("Pari"));
 
-		$var->getarrayref()->[$listval->getarrayref()->[0]] = $rval;
+		my $num = $listval->getarrayref()->[0]->getpari() + 0; #the +0 makes sure its coerced into a number
+
+		$var->getarrayref()->[$num] = $rval;
 
 		for my $value ($var->getarray())
 		{

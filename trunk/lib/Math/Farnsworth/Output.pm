@@ -452,7 +452,7 @@ sub deparsetree
 			my $name = $arg->[0]; #name
 
 			$foobs = $name;
-			if (defined($reference))
+			if ($reference)
 			{
 				$foobs .= " byref "; #should be right
 			}

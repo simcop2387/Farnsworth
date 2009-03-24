@@ -1,7 +1,7 @@
 # This Makefile is for the Math::Farnsworth extension to perl.
 #
 # It was generated automatically by MakeMaker version
-# 6.48 (Revision: 64800) from the contents of
+# 6.42 (Revision: 41145) from the contents of
 # Makefile.PL. Don't edit this file, edit Makefile.PL instead.
 #
 #       ANY CHANGES MADE HERE WILL BE LOST!
@@ -17,7 +17,7 @@
 #     NAME => q[Math::Farnsworth]
 #     NO_META => q[1]
 #     PL_FILES => {  }
-#     PREREQ_PM => { Math::Pari=>q[0], Test::More=>q[0], Test::Exception=>q[0], ExtUtils::MakeMaker=>q[6.48], Date::Manip=>q[0], List::MoreUtils=>q[0] }
+#     PREREQ_PM => { Math::Pari=>q[0], Test::More=>q[0], Test::Exception=>q[0], ExtUtils::MakeMaker=>q[6.42], Date::Manip=>q[0], List::MoreUtils=>q[0] }
 #     VERSION => q[0.6.0]
 #     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
 
@@ -26,8 +26,9 @@
 
 # --- MakeMaker const_config section:
 
-# These definitions are from config.sh (via /usr/lib/perl5/5.10.0/x86_64-linux-thread-multi/Config.pm).
-# They may have been overridden via Makefile.PL or on the command line.
+# These definitions are from config.sh (via /usr/lib/perl5/5.10.0/x86_64-linux-thread-multi/Config.pm)
+
+# They may have been overridden via Makefile.PL or on the command line
 AR = ar
 CC = x86_64-pc-linux-gnu-gcc
 CCCDLFLAGS = -fPIC
@@ -37,13 +38,13 @@ DLSRC = dl_dlopen.xs
 EXE_EXT = 
 FULL_AR = /usr/bin/ar
 LD = x86_64-pc-linux-gnu-gcc
-LDDLFLAGS = -shared -march=athlon64 -O2
+LDDLFLAGS = -shared -march=athlon64 -O2 -ftree-vectorize -msse -msse2 -mmmx -m3dnow -msse3 -pipe
 LDFLAGS = 
-LIBC = /lib/libc-2.8.so
+LIBC = /lib/libc-2.9.so
 LIB_EXT = .a
 OBJ_EXT = .o
 OSNAME = linux
-OSVERS = 2.6.25-gentoo-r6
+OSVERS = 2.6.28-gentoo
 RANLIB = :
 SITELIBEXP = /usr/lib/perl5/site_perl/5.10.0
 SITEARCHEXP = /usr/lib/perl5/site_perl/5.10.0/x86_64-linux-thread-multi
@@ -137,8 +138,8 @@ PERM_RW = 644
 PERM_RWX = 755
 
 MAKEMAKER   = /usr/lib/perl5/5.10.0/ExtUtils/MakeMaker.pm
-MM_VERSION  = 6.48
-MM_REVISION = 64800
+MM_VERSION  = 6.42
+MM_REVISION = 41145
 
 # FULLEXT = Pathname for extension directory (eg Foo/Bar/Oracle).
 # BASEEXT = Basename part of FULLEXT. May be just equal FULLEXT. (eg Oracle)
@@ -193,6 +194,7 @@ TO_INST_PM = bot2.pl \
 	lib/Math/Farnsworth/Dimension.pm \
 	lib/Math/Farnsworth/Docs/Functions.pm \
 	lib/Math/Farnsworth/Docs/Syntax.pm \
+	lib/Math/Farnsworth/Error.pm \
 	lib/Math/Farnsworth/Evaluate.pm \
 	lib/Math/Farnsworth/FunctionDispatch.pm \
 	lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp \
@@ -218,6 +220,7 @@ TO_INST_PM = bot2.pl \
 	lib/Math/Farnsworth/Value_old.pm \
 	lib/Math/Farnsworth/Variables.pm \
 	loadunits.pl \
+	maukes.pl \
 	mgr.pl \
 	paritest.pl \
 	server.pl \
@@ -241,6 +244,8 @@ PM_TO_BLIB = lib/Math/Farnsworth/Value/Lambda.pm \
 	blib/lib/Math/Farnsworth/Functions/Standard.pm \
 	lib/Math/Farnsworth/Value/String.pm \
 	blib/lib/Math/Farnsworth/Value/String.pm \
+	maukes.pl \
+	$(INST_LIB)/Math/maukes.pl \
 	lib/Math/Farnsworth/Value/Array.pm \
 	blib/lib/Math/Farnsworth/Value/Array.pm \
 	lib/Math/Farnsworth/Docs/Functions.pm \
@@ -255,6 +260,8 @@ PM_TO_BLIB = lib/Math/Farnsworth/Value/Lambda.pm \
 	blib/lib/Math/Farnsworth/Parser.pm \
 	bot2.pl \
 	$(INST_LIB)/Math/bot2.pl \
+	lib/Math/Farnsworth/Error.pm \
+	blib/lib/Math/Farnsworth/Error.pm \
 	mgr.pl \
 	$(INST_LIB)/Math/mgr.pl \
 	lib/Math/Farnsworth/Units.pm \
@@ -298,7 +305,7 @@ PM_TO_BLIB = lib/Math/Farnsworth/Value/Lambda.pm \
 
 
 # --- MakeMaker platform_constants section:
-MM_Unix_VERSION = 6.48
+MM_Unix_VERSION = 6.42
 PERL_MALLOC_DEF = -DPERL_EXTMALLOC_DEF -Dmalloc=Perl_malloc -Dfree=Perl_mfree -Drealloc=Perl_realloc -Dcalloc=Perl_calloc
 
 
@@ -881,7 +888,7 @@ ppd :
 	$(NOECHO) $(ECHO) '    <AUTHOR>Ryan Voots &lt;simcop@cpan.org&gt;</AUTHOR>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Date-Manip" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="ExtUtils-MakeMaker" VERSION="6,48,0,0" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="ExtUtils-MakeMaker" VERSION="6,42,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="List-MoreUtils" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Math-Pari" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Test-Exception" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
@@ -906,6 +913,7 @@ pm_to_blib : $(TO_INST_PM)
 	  lib/Math/Farnsworth/Value/Undef.pm blib/lib/Math/Farnsworth/Value/Undef.pm \
 	  lib/Math/Farnsworth/Functions/Standard.pm blib/lib/Math/Farnsworth/Functions/Standard.pm \
 	  lib/Math/Farnsworth/Value/String.pm blib/lib/Math/Farnsworth/Value/String.pm \
+	  maukes.pl $(INST_LIB)/Math/maukes.pl \
 	  lib/Math/Farnsworth/Value/Array.pm blib/lib/Math/Farnsworth/Value/Array.pm \
 	  lib/Math/Farnsworth/Docs/Functions.pm blib/lib/Math/Farnsworth/Docs/Functions.pm \
 	  lib/Math/Farnsworth/.Variables.pm.swp blib/lib/Math/Farnsworth/.Variables.pm.swp \
@@ -913,6 +921,7 @@ pm_to_blib : $(TO_INST_PM)
 	  lib/Math/Farnsworth/Units/Standard.pm blib/lib/Math/Farnsworth/Units/Standard.pm \
 	  lib/Math/Farnsworth/Parser.pm blib/lib/Math/Farnsworth/Parser.pm \
 	  bot2.pl $(INST_LIB)/Math/bot2.pl \
+	  lib/Math/Farnsworth/Error.pm blib/lib/Math/Farnsworth/Error.pm \
 	  mgr.pl $(INST_LIB)/Math/mgr.pl \
 	  lib/Math/Farnsworth/Units.pm blib/lib/Math/Farnsworth/Units.pm \
 	  lib/Math/Farnsworth/Units/e.2mil blib/lib/Math/Farnsworth/Units/e.2mil \
