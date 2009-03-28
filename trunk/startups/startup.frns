@@ -139,3 +139,5 @@ inc{x byref,y=1}:=x=x+y;
 dec{x byref,y=1}:=x=x-y;
 postdec{x byref,y=1}:={var t=x; x=x-y; t};
 postinc{x byref,y=1}:={var t=x; x=x+y; t};
+
+reduce{sub isa {``}, x isa ...} := {var input = x@0$ conforms [] ? x@0$ : x; var st = shift[input]; while(length[input] >= 1) {var next = shift[input]; st = sub[st, next];}; st}

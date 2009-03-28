@@ -27,7 +27,7 @@ sub init
 
    #$env->{funcs}->addfunc("push", [["arr", undef, $array, 0], ["in", undef, "VarArg", 0]],\&push); #actually i might rewrite this in farnsworth now that it can do it
    $env->{funcs}->addfunc("pop", [["arr", undef, $array, 0]],\&pop); #eventually this maybe too
-   $env->{funcs}->addfunc("shift", [["arr", undef, $array, 0]], \&shift);
+   $env->{funcs}->addfunc("shift", [["arr", undef, $array, 1]], \&shift);
    #$env->{funcs}->addfunc("unshift", [["arr", undef, $array, 0], ["in", undef, "VarArg", 0]], \&unshift);
    $env->{funcs}->addfunc("sort", [["sortsub", undef, $lambda, 0],["arr", undef, $array, 0]],\&sort);
 
@@ -257,21 +257,26 @@ sub shift
 	#args is... a Math::Farnsworth::Value array
 	my ($args, $eval, $branches)= @_;
 	
-	if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{vars}->isvar($branches->[1][0][0])))
-	{
-		die "Argument to pop must be a variable";
-	}
+	my $var = $eval->{vars}->getvar("arr");
+	my $varref = $var->getref();
 
-	my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
+	error "Need lvalue for input to shift[]" unless defined $varref;
 
-	unless (ref($arrayvar) eq "Math::Farnsworth::Value::Array")
+	#if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{vars}->isvar($branches->[1][0][0])))
+	#{
+	#	die "Argument to shift must be a variable";
+	#}
+
+	#my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
+
+	unless (ref($var) eq "Math::Farnsworth::Value::Array")
 	{
-		die "Argument to pop must be an array";
+		die "Argument to shift must be an array";
 	}
 
 	#ok type checking is done, do the pop
 	
-	my $retval = CORE::shift @{$arrayvar->getarrayref()};
+	my $retval = CORE::shift @{${$varref}->getarrayref()};
 
 	return $retval; #pop returns the value of the element removed
 }
