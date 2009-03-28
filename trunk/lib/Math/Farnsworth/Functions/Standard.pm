@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Math::Farnsworth::Value;
+use Math::Farnsworth::Error;
 use utf8;
 
 use Data::Dumper;
@@ -20,11 +21,14 @@ sub init
    my $string = new Math::Farnsworth::Value::String("");
    my $lambda = new Math::Farnsworth::Value::Lambda();
    my $number = new Math::Farnsworth::Value::Pari(0);
+    
+   $env->eval("push{arr byref isa [], x isa ...} := {arr = arr + x};");
+   $env->eval("unshift{arr byref isa [], x isa ...} := {arr =x+arr};");
 
-   $env->{funcs}->addfunc("push", [["arr", undef, $array, 0], ["in", undef, "VarArg", 0]],\&push); #actually i might rewrite this in farnsworth now that it can do it
+   #$env->{funcs}->addfunc("push", [["arr", undef, $array, 0], ["in", undef, "VarArg", 0]],\&push); #actually i might rewrite this in farnsworth now that it can do it
    $env->{funcs}->addfunc("pop", [["arr", undef, $array, 0]],\&pop); #eventually this maybe too
    $env->{funcs}->addfunc("shift", [["arr", undef, $array, 0]], \&shift);
-   $env->{funcs}->addfunc("unshift", [["arr", undef, $array, 0], ["in", undef, "VarArg", 0]], \&unshift);
+   #$env->{funcs}->addfunc("unshift", [["arr", undef, $array, 0], ["in", undef, "VarArg", 0]], \&unshift);
    $env->{funcs}->addfunc("sort", [["sortsub", undef, $lambda, 0],["arr", undef, $array, 0]],\&sort);
 
    $env->{funcs}->addfunc("length", [["in", undef, undef, 0]],\&length);
@@ -49,6 +53,8 @@ sub init
    $env->eval("now{} := {#today#}");
 
    $env->{funcs}->addfunc("unit", [["in", undef, undef, 0]], \&unit);
+   $env->{funcs}->addfunc("units", [["in", undef, undef, 0]], \&units);
+   $env->{funcs}->addfunc("error", [["in", undef, $string, 0]], \&doerror);
 
    $env->eval('max{x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var m = pop[z]; var n = length[z]; var q; while((n=n-1)>=0){q=pop[z]; q>m?m=q:0}; m}'); 
    $env->eval('min{x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var m = pop[z]; var n = length[z]; var q; while((n=n-1)>=0){q=pop[z]; q<m?m=q:0}; m}'); 
@@ -69,6 +75,30 @@ sub dbgprint
 	print $log "$string\n";
 
 	return Math::Farnsworth::Value::Pari->new(1);
+}
+
+sub doerror
+{
+	#with an array we give the number of elements, with a string we give the length of the string
+	my ($args, $eval, $branches)= @_;
+
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
+
+	error $input->getstring();
+}
+
+sub units
+{
+	#with an array we give the number of elements, with a string we give the length of the string
+	my ($args, $eval, $branches)= @_;
+
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
+
+	error "Need number with units for units[]" unless $input->istype("Pari");
+
+	my $units = $input->getdimen();
+
+	return  Math::Farnsworth::Value::Pari->new(1.0, $units);
 }
 
 sub unit

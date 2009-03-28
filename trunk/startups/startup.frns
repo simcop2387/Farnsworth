@@ -135,3 +135,7 @@ I:=i;
 
 /*likely to change names but a great function! converts coordinates from cartesian (complex or normal form) into polar coords*/
 polar{x isa 1, y = undef } := {var a = x; var b = y; if (y conforms undef) {a = real[x]; b = imag[x];}; var r = sqrt[a^2 + b^2]; var t = atan2[b,a];  t = real[t] i - i imag[t]; "$r * e ^ $t"};
+inc{x byref,y=1}:=x=x+y;
+dec{x byref,y=1}:=x=x-y;
+postdec{x byref,y=1}:={var t=x; x=x-y; t};
+postinc{x byref,y=1}:={var t=x; x=x+y; t};

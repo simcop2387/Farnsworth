@@ -72,12 +72,15 @@ sub runFile
 
 	open(my $fh, "<", $filename) or die "couldn't open: $!";
 	my $lines;
-	{local $/;
-		$lines = <$fh>; #slurp the file! we need it!
+	my $first = 1;
+	while(<$fh>)
+	{
+		$first=0, next if ($first && $_ =~ /^#!/); #skip a shebang line, not part of the language but makes it possible to have executable .frns files!
+		$lines .= $_; 
 	}
     close($fh);
 
-	#as much as i would like this to work WITHOUT this i need to filter blank lines out
+	#as much as i would like this to work WITHOUT this i need to filter blank lines out #not as sure i need to do this anymore! need tests to check
 	$lines =~ s/\s*\n\s*\n\s*/\n/;
 		
 	return new Math::Farnsworth::Output($self->{eval}{units},$self->{eval}->eval($lines), $self->{eval});
