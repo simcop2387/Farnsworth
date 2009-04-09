@@ -5,9 +5,24 @@ bug := "think you found a bug? file it at http://farnsworth.sexypenguins.com/ OR
 
 frozen := C[0];
 microwavetime{mass isa kg, end isa K, start = frozen isa K, watts = 1000W isa watt, sh = 1 calorie/gram/degC isa calorie/gram/degC} := (mass sh)(end - start)/watts -> "seconds"
-mangle{x} := {var s = x -> Dutch -> Japanese -> Arabic -> German -> Chinese -> French -> Hindi; var lang = x -> DetectLanguage; eval["s -> HindiTo" + lang] };
 
-tracemangle{x} := {var z=[]; var d = x -> Dutch; push[z,[d,d->FromDutch]]; d = d -> DutchToJapanese; push[z,[d, d->FromJapanese]]; d=d -> JapaneseToArabic; push[z,[d,d->FromArabic]]; d=d -> ArabicToGerman; push[z,[d,d->FromGerman]]; d=d -> GermanToChinese; push[z,[d,d->FromChinese]]; d=d -> ChineseToFrench; push[z,[d, d->FromFrench]]; d=d -> FrenchToHindi; push[z,[d, d->FromHindi]]; d=d -> FromHindi; push[z,d]; z};
+[]=>{``
+var steps = [];
+mangle{x} := {steps = []; 
+              var origlang = x -> DetectLanguage; 
+              push[steps, x]; 
+              push[steps, steps@-1$ -> Dutch]; 
+              push[steps, steps@-1$ -> Japanese]; 
+              push[steps, steps@-1$ -> Arabic]; 
+              push[steps, steps@-1$ -> German]; 
+              push[steps, steps@-1$ -> Chinese]; 
+              push[steps, steps@-1$ -> French]; 
+              push[steps, steps@-1$ -> Hindi]; 
+              push[steps, eval["steps@-1$ -> "+origlang]]; 
+              steps@-1$};
+1 1/* -> Arabic -> German -> Chinese -> French -> Hindi; var lang = x -> DetectLanguage; eval["s -> HindiTo" + lang] };*/;
+tracemangle{} := {steps};
+};
 
 dutchmangle{x} :=[x -> DutchToEnglish] -> mangle -> EnglishToDutch
 
