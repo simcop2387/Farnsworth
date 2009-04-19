@@ -21,6 +21,7 @@ sub init
    my $string = new Math::Farnsworth::Value::String("");
    my $lambda = new Math::Farnsworth::Value::Lambda();
    my $number = new Math::Farnsworth::Value::Pari(0);
+   my $date = new Math::Farnsworth::Value::Date("today"); #create a date type for use
     
    $env->eval("push{arr byref isa [], x isa ...} := {arr = arr + x};");
    $env->eval("unshift{arr byref isa [], x isa ...} := {arr =x+arr};");
@@ -41,7 +42,7 @@ sub init
    $env->eval('dbgprint{x isa ...} := {var z; var n = 0; var p; while(n != length[x]) {p = shift[x]; if (p conforms "") {z = p} else {z = "$p"}; _dbgprint[z]}}');
    $env->{funcs}->addfunc("_dbgprint", [["str", undef, $string, 0]], \&dbgprint);
    
-   $env->eval('map{sub isa {`x`}, x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; if (length[x] == 1 && !(x conforms [])) {x = [x]}; var z=x; var e; var out=[]; while(length[z]) {e = shift[z]; dbgprint[e]; push[out,e => sub]}; dbgprint[out]; out}');
+   $env->eval('map{sub isa {`x`}, x isa ...} := {var xx=[]+x; if (length[xx] == 1 && xx@0$ conforms []) {xx = x@0$}; if (length[xx] == 1 && !(xx conforms [])) {xx = [xx]}; var z=[]+xx; var e; var out=[]; while(length[z]) {e = shift[z]; dbgprint[e]; push[out,e => sub]}; dbgprint[out]; out}');
 
    $env->{funcs}->addfunc("substrLen", [["str", undef, $string, 0],["left", undef, $number, 0],["length", undef, $number, 0]],\&substrlen); #this one works like perls
    $env->eval("substr{str,left,right}:={substrLen[str,left,right-left]}");
@@ -50,7 +51,8 @@ sub init
 
    $env->{funcs}->addfunc("reverse", [["in", undef, undef, 0]],\&reverse);
 
-   $env->eval("now{} := {#today#}");
+   $env->eval("now{x = \"UTC\" isa \"\"} := {setzone[#today#, x]}");
+   $env->{funcs}->addfunc("setzone", [["date", undef, $date, 0],["zone", undef, $string, 0]], \&setzone);
 
    $env->{funcs}->addfunc("unit", [["in", undef, undef, 0]], \&unit);
    $env->{funcs}->addfunc("units", [["in", undef, undef, 0]], \&units);
@@ -99,6 +101,19 @@ sub units
 	my $units = $input->getdimen();
 
 	return  Math::Farnsworth::Value::Pari->new(1.0, $units);
+}
+
+sub setzone
+{
+        #with an array we give the number of elements, with a string we give the length of the string
+        my ($args, $eval, $branches)= @_;
+           
+        my $date = $eval->{vars}->getvar("date"); #i should clean this up more too
+        my $zone = $eval->{vars}->getvar("zone"); #i should clean this up more too
+
+	$date->getdate()->set_time_zone($zone->getstring());        
+        
+        return $date;
 }
 
 sub unit

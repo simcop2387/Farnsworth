@@ -53,7 +53,7 @@ sub new
   {
 	my $dt = DateTimeX::Easy->parse($value);
 	die "failed to parse date!" unless defined $dt;
-    $dt->set_time_zone('UTC'); #supposed to make things easier and more predictable
+    	$dt->set_time_zone('UTC'); #supposed to make things easier and more predictable
 
 	$self->{date} = $dt;
   }

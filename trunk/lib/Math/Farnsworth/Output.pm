@@ -148,7 +148,7 @@ sub getoutstring
 	}
 	elsif (ref($value) eq "Math::Farnsworth::Value::Date")
 	{
-		return "# ".$value->getdate()." #";#UnixDate($value->{pari}, "# %C #"); #output in ISO format for now
+		return $value->getdate()->strftime("# %F %H:%M:%S.%3N %Z #");#UnixDate($value->{pari}, "# %C #"); #output in ISO format for now
 	}
 	elsif (ref($value) eq "Math::Farnsworth::Value::Lambda")
 	{
