@@ -57,6 +57,7 @@ sub init
    $env->{funcs}->addfunc("unit", [["in", undef, undef, 0]], \&unit);
    $env->{funcs}->addfunc("units", [["in", undef, undef, 0]], \&units);
    $env->{funcs}->addfunc("error", [["in", undef, $string, 0]], \&doerror);
+   $env->{funcs}->addfunc("match", [["regex", undef, $string, 0], ["input", undef, $string, 0], ["options",$string,$string, 0]], \&match);
 
    $env->eval('max{x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var m = pop[z]; var n = length[z]; var q; while((n=n-1)>=0){q=pop[z]; q>m?m=q:0}; m}'); 
    $env->eval('min{x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var m = pop[z]; var n = length[z]; var q; while((n=n-1)>=0){q=pop[z]; q<m?m=q:0}; m}'); 
@@ -87,6 +88,17 @@ sub doerror
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
 	error $input->getstring();
+}
+
+sub match
+{
+	my ($args, $eval, $branches)= @_;
+
+	my $input = $eval->{vars}->getvar("input"); 
+	my $regex = $eval->{vars}->getvar("regex");
+	my $options = $eval->{vars}->getvar("options"); 
+
+	error $@ if $@;
 }
 
 sub units
