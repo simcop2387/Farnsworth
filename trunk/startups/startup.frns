@@ -159,3 +159,40 @@ postinc{x byref,y=1}:={var t=x; x=x+y; t};
 
 reduce{sub isa {``}, x isa ...} := {var input = x@0$ conforms [] ? x@0$ : x; var st = shift[input]; while(length[input] >= 1) {var next = shift[input]; st = sub[st, next];}; st};
 eta{amount,speed,perc=0 isa 1,zone="UTC" isa ""} := {if (!(speed conforms amount/s)) {error["units of Speed and Amount do not match!"];}; if ((perc > 1) || (perc < 0)) {error["percentage must be between 0.00 and 1.00"]}; now[zone]+(1-perc) amount per speed};
+
+newhash{} := {
+{`` 
+	var store=[]; 
+	var names=[]; 
+
+	var findname={`x` 
+		var i=-1; 
+		var ret=-1; 
+		while((i=i+1) < length[names]) {if (names@i$ == x) {ret = i}}; 
+		ret}; 
+
+	var getval={`x` 
+		var ind=(findname)*[x];
+		if (ind==-1)
+		{undef}
+		else
+		{store@ind$}
+	}; 
+
+	var setval = {`x, val` 
+			var ind=(findname)*[x]; 
+			if (ind==-1) 
+			{push[names,x]; push[store,val];} 
+			else 
+			{store@ind$ = val};
+		}; 
+
+	var t = {`x isa "", val isa ...` 
+			if (length[val] == 0 ) 
+			{getval[x]} 
+			else 
+			{setval[x, val@0$]}
+		};
+
+} [];
+};
