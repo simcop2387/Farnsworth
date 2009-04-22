@@ -165,7 +165,7 @@ newhash{} := {
 	var findname={`x` 
 		var i=-1; 
 		var ret=-1; 
-		while((i=i+1) < length[names]) {if (names@i$ == x) {ret = i}}; 
+		while((i=i+1) < length[names]) {if ((names@i$ conforms x) && (names@i$ == x)) {ret = i}}; 
 		ret}; 
 
 	var getval={`x` 
@@ -185,11 +185,25 @@ newhash{} := {
 			{store@ind$ = val; val};
 		}; 
 
-	var t = {`x isa "", val isa ...` 
-			if (length[val] == 0 ) 
-			{getval[x]} 
-			else 
-			{setval[x, val@0$]}
+	var t = {`x, val isa ...` 
+			if ((x conforms "") && (x == "__keys"))
+			{
+			  names+[]
+			}
+			else
+			{
+				if ((x conforms "") && (x == "__values"))
+				{
+					store+[]
+				}
+				else
+				{
+					if (length[val] == 0 ) 
+					{getval[x]} 
+					else 
+					{setval[x, val@0$]}
+				}
+			}
 		};
 
 } [];

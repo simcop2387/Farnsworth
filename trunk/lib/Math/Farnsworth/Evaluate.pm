@@ -473,7 +473,7 @@ sub evalbranch
 			#my $float = $_ * (Math::Farnsworth::Value::Pari->new(1.0)); #makes rationals work right
 			my $input = $var->getarrayref()->[$_->getpari()*1.0]; #."" makes indexes work right again
 			error "Array out of bounds\n" unless defined $input; #NTS: would be useful to look if i have a name and use it
-			$input->setref(\$var->getarrayref()->[$_->getpari()*1.0]) if (!$input->getref());
+			$input->setref(\$var->getarrayref()->[$_->getpari()*1.0]);# if (!$input->getref()); #need to fix this XXX
 			push @rval, $input;
 		}
 

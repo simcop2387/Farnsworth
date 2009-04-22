@@ -21,7 +21,7 @@ use overload
 	'%' => \&mod,
 	'**' => \&pow,
 	'<=>' => \&compare,
-	'bool' => \&bool;
+;#	'bool' => \&bool;
 
 use base qw(Math::Farnsworth::Value);
 
@@ -188,17 +188,17 @@ sub div
   die "Dividing lambdas? what did you think this would do, create a black hole?";
 }
 
-sub bool
-{
-	my $self = shift;
+#sub bool
+#{
+	#my $self = shift;
 
 	#seems good enough of an idea to me
 	#i have a bug HERE
 	#print "BOOLCONV\n";
 	#print Dumper($self);
 	#print "ENDBOOLCONV\n";
-	return 1; #for now lambdas are ALWAYS true!
-}
+#	return 1; #for now lambdas are ALWAYS true!
+#}
 
 sub pow
 {
@@ -224,9 +224,9 @@ sub compare
   confess "Non reference given to compare" unless ref($two);
 
   #if we're not being added to a Math::Farnsworth::Value::Pari, the higher class object needs to handle it.
-  confess "Scalar value given to division to lambdas" if ($two->isa("Math::Farnsworth::Value::Pari"));
-  return $two->compare($one, !$rev) unless ($two->ismediumtype());
+  confess "Scalar value given to division to lambdas" if ($two->istype("Pari"));
+  return $two->compare($one, !$rev) unless ($two->istype("Lambda"));
 
-  return 0; #i don't have any metric for comparing lambdas, so...
+  return 0; #i don't have any metric for comparing lambdas, so... they'll always be equal
 }
 

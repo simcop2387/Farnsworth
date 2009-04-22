@@ -253,7 +253,7 @@ sub compare
   die "Unable to process different units in compare\n" unless $one->conforms($two); #always call this on one, since $two COULD be some other object 
 
   #moving this down so that i don't do any math i don't have to
-  my $new = $tv <=> $ov;
+  my $new = $ov <=> $tv;
   
   return $new * $rv;
 }

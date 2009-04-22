@@ -50,6 +50,17 @@ sub new
   return $self;
 }
 
+sub sanitizeself
+{
+	my $self=shift;
+	#this is to deal with a single bug i've got, it slows things down a lot :(
+	
+	for (@{$self->{array}})
+	{
+		$_->setref(undef);
+	}
+}
+
 sub getarray
 {
 	my $self = shift;
@@ -79,7 +90,9 @@ sub add
   my $order;
   $order = [$one->getarray(), $two->getarray()] unless $rev;
   $order = [$two->getarray(), $one->getarray()] if $rev;
-  return new Math::Farnsworth::Value::Array($order); #concatenate the arrays
+  my $arr = new Math::Farnsworth::Value::Array($order); #concatenate the arrays
+  #$arr->sanitizeself();
+  return $arr;
 }
 
 sub subtract
