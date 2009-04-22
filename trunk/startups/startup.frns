@@ -158,6 +158,10 @@ reduce{sub isa {``}, x isa ...} := {var input = x@0$ conforms [] ? x@0$ : x; var
 eta{amount,speed,perc=0 isa 1,zone="UTC" isa ""} := {if (!(speed conforms amount/s)) {error["units of Speed and Amount do not match!"];}; if ((perc > 1) || (perc < 0)) {error["percentage must be between 0.00 and 1.00"]}; now[zone]+(1-perc) amount per speed};
 
 newhash{} := {
+{`` 
+	var store=[]; 
+	var names=[]; 
+
 	var findname={`x` 
 		var i=-1; 
 		var ret=-1; 
@@ -166,21 +170,20 @@ newhash{} := {
 
 	var getval={`x` 
 		var ind=(findname)*[x];
+		dbgprint["x = $x", "ind = $ind"];
 		if (ind==-1)
 		{setval[x, undef]; ind = (findname)*[x]};
 		store@ind$
 	}; 
 
 	var setval = {`x, val` 
-			var ind=(findname)*[x]; 
+			var ind=(findname)*[x];
+			dbgprint["SETVAL: x = $x ind = $ind"];
 			if (ind==-1) 
-			{push[names,x]; push[store,val];} 
+			{push[names,x]; push[store,val]; val} 
 			else 
 			{store@ind$ = val; val};
 		}; 
-{`` 
-	var store=[]; 
-	var names=[]; 
 
 	var t = {`x isa "", val isa ...` 
 			if (length[val] == 0 ) 

@@ -254,11 +254,11 @@ sub checkparams
 	}
 
 	#might want to change the !~ to something else?
-	warn "Strange bug here to investigate, lambdas produce blessed array refs for vararg... wtf";
-	$vararg = 1 if (grep {print Data::Dumper->Dump([$_->[2]], [qw(CHECKME)]);defined($_->[2]) && ref($_->[2]) !~ /Math::Farnsworth::Value/ && (($_->[2] eq "VarArg") || (ref($_->[2]) eq "VarArg"))} @{$argtypes}); #find out if there is a vararg arg
+	#warn "Strange bug here to investigate, lambdas produce blessed array refs for vararg... wtf";
+	$vararg = 1 if (grep {defined($_->[2]) && ref($_->[2]) !~ /Math::Farnsworth::Value/ && (($_->[2] eq "VarArg") || (ref($_->[2]) eq "VarArg"))} @{$argtypes}); #find out if there is a vararg arg
 
-	print "NEEDED: $neededargs :: $vararg\n";
-	print Data::Dumper->Dump([$argtypes, $args->getarrayref()], [qw(argtypes args)]);
+	#print "NEEDED: $neededargs :: $vararg\n";
+	#print Data::Dumper->Dump([$argtypes, $args->getarrayref()], [qw(argtypes args)]);
 
     return 1 if ($vararg || ($args->getarray() <= (@{$argtypes}-$badargs) && $args->getarray() >= $neededargs));
 
@@ -274,8 +274,8 @@ sub getref
 	my $branch = shift;
 	my $name = shift;
 
-	print "\n\nGETREF\n";
-	print Dumper($branch);
+	#print "\n\nGETREF\n";
+	#print Dumper($branch);
 
 	if (ref $branch->[1] ne "Array")
 	{

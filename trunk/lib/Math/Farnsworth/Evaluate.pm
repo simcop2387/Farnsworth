@@ -120,7 +120,7 @@ sub evalbranch
 			my $a = $branch->[0][0]; #grab the function name
 			my $b = $self->makevalue($branch->[1]);
 
-			print "----------------FUNCCALL! $a\n";
+			#print "----------------FUNCCALL! $a\n";
 			#print Dumper($a, $b);
 			
 			if ($self->{funcs}->isfunc($a)) #check if there is a func $a
