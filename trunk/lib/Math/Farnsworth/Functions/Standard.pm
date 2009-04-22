@@ -41,6 +41,7 @@ sub init
 
    $env->eval('dbgprint{x isa ...} := {var z; var n = 0; var p; while(n != length[x]) {p = shift[x]; if (p conforms "") {z = p} else {z = "$p"}; _dbgprint[z]}}');
    $env->{funcs}->addfunc("_dbgprint", [["str", undef, $string, 0]], \&dbgprint);
+   $env->{funcs}->addfunc("__dbgbranches", [[undef, undef, undef, 0]], \&dbgbranch);
    
    $env->eval('map{sub isa {`x`}, x isa ...} := {var xx=[]+x; if (length[xx] == 1 && xx@0$ conforms []) {xx = x@0$}; if (length[xx] == 1 && !(xx conforms [])) {xx = [xx]}; var z=[]+xx; var e; var out=[]; while(length[z]) {e = shift[z]; dbgprint[e]; push[out,e => sub]}; dbgprint[out]; out}');
 
@@ -78,6 +79,16 @@ sub dbgprint
 	print $log "$string\n";
 
 	return Math::Farnsworth::Value::Pari->new(1);
+}
+
+sub dbgbranch
+{
+	#with an array we give the number of elements, with a string we give the length of the string
+	my ($args, $eval, $branches)= @_;
+
+	$eval->{dumpbranches} = 1-   $eval->{dumpbranches};
+
+	return Math::Farnsworth::Value::Pari->new($eval->{dumpbranches});
 }
 
 sub doerror

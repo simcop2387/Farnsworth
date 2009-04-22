@@ -28,9 +28,6 @@ tracemangle{} := {steps};
 
 dutchmangle{x} :=[x -> DutchToEnglish] -> mangle -> EnglishToDutch
 
-[]=>{`` var output=[]; _display = {`` var o=output; output=[]; o}; _print={`x isa ...` output=[output, x]; x}; print{x isa ...} := x => _print; display{} := [] => _display; };
-
-
 tobase{x isa 1, b = 16 isa 1} := { var getchr = {`x` substrLen["0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_\\| <>/;:'[]{}=+`~.,?", x, 1]};
 
 dbgprint["-----STARTING TOBASE-----","getchr = $getchr", "x = $x", "b = $b"];
@@ -161,10 +158,6 @@ reduce{sub isa {``}, x isa ...} := {var input = x@0$ conforms [] ? x@0$ : x; var
 eta{amount,speed,perc=0 isa 1,zone="UTC" isa ""} := {if (!(speed conforms amount/s)) {error["units of Speed and Amount do not match!"];}; if ((perc > 1) || (perc < 0)) {error["percentage must be between 0.00 and 1.00"]}; now[zone]+(1-perc) amount per speed};
 
 newhash{} := {
-{`` 
-	var store=[]; 
-	var names=[]; 
-
 	var findname={`x` 
 		var i=-1; 
 		var ret=-1; 
@@ -174,9 +167,8 @@ newhash{} := {
 	var getval={`x` 
 		var ind=(findname)*[x];
 		if (ind==-1)
-		{undef}
-		else
-		{store@ind$}
+		{setval[x, undef]; ind = (findname)*[x]};
+		store@ind$
 	}; 
 
 	var setval = {`x, val` 
@@ -184,8 +176,11 @@ newhash{} := {
 			if (ind==-1) 
 			{push[names,x]; push[store,val];} 
 			else 
-			{store@ind$ = val};
+			{store@ind$ = val; val};
 		}; 
+{`` 
+	var store=[]; 
+	var names=[]; 
 
 	var t = {`x isa "", val isa ...` 
 			if (length[val] == 0 ) 
@@ -196,3 +191,11 @@ newhash{} := {
 
 } [];
 };
+
+UTC{x isa #today#} := {setzone[x, "UTC"]};
+CET{x isa #today#} := {setzone[x, "CET"]};
+GMT{x isa #today#} := {setzone[x, "GMT"]};
+PST8PDT{x isa #today#} := {setzone[x, "PST8PDT"]};
+EST5EDT{x isa #today#} := {setzone[x, "EST5EDT"]};
+MST7MDT{x isa #today#} := {setzone[x, "MST7MDT"]};
+CST6CDT{x isa #today#} := {setzone[x, "CST6CDT"]};

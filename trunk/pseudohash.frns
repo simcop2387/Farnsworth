@@ -1,5 +1,7 @@
 #!./farnsworth.pl
 
+__dbgbranches[];
+
 newhash{} := {
 {`` 
 	var store=[]; 
@@ -24,7 +26,7 @@ newhash{} := {
 			if (ind==-1) 
 			{push[names,x]; push[store,val];} 
 			else 
-			{store@ind$ = val};
+			{store@ind$ = val; val};
 		}; 
 
 	var t = {`x isa "", val isa ...` 
@@ -37,6 +39,5 @@ newhash{} := {
 } [];
 };
 
-var t = newhash[];
-t["foo", 10];
-t["foo"];
+var xxxfoo = newhash[];
+xxxfoo

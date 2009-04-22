@@ -36,7 +36,7 @@ stma
 stmt
 	:	expr						 { $_[1] }
 	|   'var' NAME			%prec DECLAREVAR { bless [ $_[2] ], 'DeclareVar' }
-	|   'var' assignexpr	%prec DECLAREVAR { bless [ @{$_[2]} ], 'DeclareVar' }
+	|   'var' NAME '=' expr	%prec DECLAREVAR { bless [ $_[2], $_[4] ], 'DeclareVar' }
 	|	NAME ':=' expr				 { bless [@_[1,3]], 'UnitDef' }
 	|	expr ':->' expr				 { bless [ @_[1,3] ], 'SetDisplay' }
 	|   NAME '=!=' NAME              { bless [ @_[1,3] ], 'DefineDimen' }
@@ -112,7 +112,7 @@ exprval : exprval1
 		| arrayfetchexpr
 		;
 
-assignexpr : 	NAME '=' expr	{ bless [ @_[1,3] ], 'Store' }
+assignexpr : 	expr '=' expr	{ bless [ @_[1,3] ], 'Store' }
 		   ;
 
 arrayfetchexpr : exprval '@' array '$' %prec ARRAYFETCH { bless [ @_[1,3] ], 'ArrayFetch' }
@@ -160,7 +160,7 @@ expr
 	|   '[' array ']'              { $_[2] } 
 	|   lambda
 	|   expr '=>' expr {bless [@_[1,3]], 'LambdaCall'}
-	|   arrayfetchexpr '=' expr { bless [($_[1]->[0][0]), ($_[1]->[1]), $_[3]], 'ArrayStore' }
+#//	|   arrayfetchexpr '=' expr { bless [($_[1]->[0][0]), ($_[1]->[1]), $_[3]], 'ArrayStore' } #this may no longer be needed!
 	|   expr '->' expr  { bless [ @_[1,3]], 'Trans' }
 	|	DATE			{ bless [ $_[1] ], 'Date' }
 	|	STRING			{ bless [ $_[1] ], 'String' } #this will have to be reparsed later, just before evaluating

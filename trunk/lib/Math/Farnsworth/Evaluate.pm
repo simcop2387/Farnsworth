@@ -68,6 +68,8 @@ sub new
 		$self->{parser} = new Math::Farnsworth::Parser();
 	}
 
+	$self->{dumpbranches} = 0;
+
     return $self;
 }
 
@@ -95,6 +97,8 @@ sub evalbranch
 	my $type = ref($branch); #this'll grab what kind from the bless on the tree
 
 	my $return; #to make things simpler later on
+
+	#print Data::Dumper->Dump([$branch],["BRANCH"]);
 
 	if ($type eq "Add")
 	{
@@ -282,15 +286,20 @@ sub evalbranch
 	}
 	elsif ($type eq "Store")
 	{
-		my $name = $branch->[0];
+		my $lvalue = $self->makevalue($branch->[0]);
 		my $value = $self->makevalue($branch->[1]);
 		$return = $value; #make stores evaluate to the value on the right
-		$self->{vars}->setvar($name, $value);
+		#$self->{vars}->setvar($name, $value);
+		warn "SETTING VALUES";
+		warn Data::Dumper->Dump([$lvalue, $lvalue->getref()], [qw($lvalue \$ref)]);
+		${$lvalue->getref()} = $value;
 	}
 	elsif ($type eq "DeclareVar")
 	{
 		my $name = $branch->[0];
 		my $value;
+		print "\n\n DECLARING $name\n";
+		print Dumper($branch);
 
 		if (defined($branch->[1]))
 		{
@@ -464,7 +473,7 @@ sub evalbranch
 			#my $float = $_ * (Math::Farnsworth::Value::Pari->new(1.0)); #makes rationals work right
 			my $input = $var->getarrayref()->[$_->getpari()*1.0]; #."" makes indexes work right again
 			error "Array out of bounds\n" unless defined $input; #NTS: would be useful to look if i have a name and use it
-			$input->setref(\$var->getarrayref()->[$_->getpari()*1.0]);
+			$input->setref(\$var->getarrayref()->[$_->getpari()*1.0]) if (!$input->getref());
 			push @rval, $input;
 		}
 

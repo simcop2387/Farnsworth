@@ -1668,11 +1668,11 @@ earth_flattening :=         (earthradius_equatorial-earthradius_polar)/earthradi
 // Larger moons... their distances are the average distances from their planet.
 
 // Mars
-phobosdist = 9378.5 km
-phobosmass = 1.08e16 kg
+phobosdist := 9378.5 km
+phobosmass := 1.08e16 kg
 
-deimosdist = 23458. km
-deimosmass = 1.8e15 kg
+deimosdist := 23458. km
+deimosmass := 1.8e15 kg
 
 // Jupiter
 iodist       := 422000. km

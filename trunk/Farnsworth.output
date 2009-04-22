@@ -22,653 +22,658 @@ Conflict in state 27 between rule 57 and token '&&' resolved as reduce.
 Conflict in state 27 between rule 57 and token '?' resolved as reduce.
 Conflict in state 27 between rule 57 and token '^^' resolved as reduce.
 Conflict in state 27 between rule 57 and token '/' resolved as reduce.
+Conflict in state 27 between rule 57 and token '=' resolved as reduce.
 Conflict in state 27 between rule 57 and token '<=>' resolved as reduce.
-Conflict in state 79 between rule 16 and token '\n' resolved as reduce.
-Conflict in state 84 between rule 86 and token '-' resolved as shift.
-Conflict in state 84 between rule 86 and token 'conforms' resolved as shift.
-Conflict in state 84 between rule 86 and token '<' resolved as shift.
-Conflict in state 84 between rule 86 and token '%' resolved as shift.
-Conflict in state 84 between rule 86 and token '==' resolved as shift.
-Conflict in state 84 between rule 86 and token '>=' resolved as shift.
-Conflict in state 84 between rule 86 and token ' ' resolved as shift.
-Conflict in state 84 between rule 86 and token '*' resolved as shift.
-Conflict in state 84 between rule 86 and token '||' resolved as shift.
-Conflict in state 84 between rule 86 and token '->' resolved as shift.
-Conflict in state 84 between rule 86 and token '=>' resolved as shift.
-Conflict in state 84 between rule 86 and token '<=' resolved as shift.
-Conflict in state 84 between rule 86 and token '>' resolved as shift.
-Conflict in state 84 between rule 86 and token '**' resolved as shift.
-Conflict in state 84 between rule 86 and token '+' resolved as shift.
-Conflict in state 84 between rule 86 and token '^' resolved as shift.
-Conflict in state 84 between rule 86 and token 'per' resolved as shift.
-Conflict in state 84 between rule 86 and token '!=' resolved as shift.
-Conflict in state 84 between rule 86 and token '&&' resolved as shift.
-Conflict in state 84 between rule 86 and token '?' resolved as shift.
-Conflict in state 84 between rule 86 and token '^^' resolved as shift.
-Conflict in state 84 between rule 86 and token '/' resolved as shift.
-Conflict in state 84 between rule 86 and token '<=>' resolved as shift.
-Conflict in state 86 between rule 60 and token '-' resolved as reduce.
-Conflict in state 86 between rule 60 and token 'conforms' resolved as reduce.
-Conflict in state 86 between rule 60 and token '<' resolved as reduce.
-Conflict in state 86 between rule 60 and token '%' resolved as shift.
-Conflict in state 86 between rule 60 and token '==' resolved as reduce.
-Conflict in state 86 between rule 60 and token '>=' resolved as reduce.
-Conflict in state 86 between rule 60 and token ' ' resolved as shift.
-Conflict in state 86 between rule 60 and token '*' resolved as shift.
-Conflict in state 86 between rule 60 and token '||' resolved as reduce.
-Conflict in state 86 between rule 60 and token '->' resolved as reduce.
-Conflict in state 86 between rule 60 and token '=>' resolved as reduce.
-Conflict in state 86 between rule 60 and token '<=' resolved as reduce.
-Conflict in state 86 between rule 60 and token '>' resolved as reduce.
-Conflict in state 86 between rule 60 and token '**' resolved as shift.
-Conflict in state 86 between rule 60 and token '+' resolved as reduce.
-Conflict in state 86 between rule 60 and token '^' resolved as shift.
-Conflict in state 86 between rule 60 and token 'per' resolved as shift.
-Conflict in state 86 between rule 60 and token '!=' resolved as reduce.
-Conflict in state 86 between rule 60 and token '&&' resolved as reduce.
-Conflict in state 86 between rule 60 and token '?' resolved as reduce.
-Conflict in state 86 between rule 60 and token '^^' resolved as reduce.
-Conflict in state 86 between rule 60 and token '/' resolved as shift.
-Conflict in state 86 between rule 60 and token '<=>' resolved as reduce.
-Conflict in state 87 between rule 66 and token '-' resolved as shift.
-Conflict in state 87 between rule 66 and token 'conforms' resolved as reduce.
-Conflict in state 87 between rule 66 and token '<' resolved as shift.
-Conflict in state 87 between rule 66 and token '%' resolved as shift.
-Conflict in state 87 between rule 66 and token '==' resolved as shift.
-Conflict in state 87 between rule 66 and token '>=' resolved as shift.
-Conflict in state 87 between rule 66 and token ' ' resolved as shift.
-Conflict in state 87 between rule 66 and token '*' resolved as shift.
-Conflict in state 87 between rule 66 and token '||' resolved as reduce.
-Conflict in state 87 between rule 66 and token '->' resolved as reduce.
-Conflict in state 87 between rule 66 and token '=>' resolved as reduce.
-Conflict in state 87 between rule 66 and token '<=' resolved as shift.
-Conflict in state 87 between rule 66 and token '>' resolved as shift.
-Conflict in state 87 between rule 66 and token '**' resolved as shift.
-Conflict in state 87 between rule 66 and token '+' resolved as shift.
-Conflict in state 87 between rule 66 and token '^' resolved as shift.
-Conflict in state 87 between rule 66 and token 'per' resolved as shift.
-Conflict in state 87 between rule 66 and token '!=' resolved as shift.
-Conflict in state 87 between rule 66 and token '&&' resolved as reduce.
-Conflict in state 87 between rule 66 and token '?' resolved as reduce.
-Conflict in state 87 between rule 66 and token '^^' resolved as reduce.
-Conflict in state 87 between rule 66 and token '/' resolved as shift.
-Conflict in state 87 between rule 66 and token '<=>' resolved as shift.
-Conflict in state 88 between rule 72 and token '-' resolved as shift.
-Conflict in state 88 between rule 72 and token 'conforms' resolved as reduce.
-Conflict in state 88 between rule 72 and token '<' resolved as error.
-Conflict in state 88 between rule 72 and token '%' resolved as shift.
-Conflict in state 88 between rule 72 and token '==' resolved as error.
-Conflict in state 88 between rule 72 and token '>=' resolved as error.
-Conflict in state 88 between rule 72 and token ' ' resolved as shift.
-Conflict in state 88 between rule 72 and token '*' resolved as shift.
-Conflict in state 88 between rule 72 and token '||' resolved as reduce.
-Conflict in state 88 between rule 72 and token '->' resolved as reduce.
-Conflict in state 88 between rule 72 and token '=>' resolved as reduce.
-Conflict in state 88 between rule 72 and token '<=' resolved as error.
-Conflict in state 88 between rule 72 and token '>' resolved as error.
-Conflict in state 88 between rule 72 and token '**' resolved as shift.
-Conflict in state 88 between rule 72 and token '+' resolved as shift.
-Conflict in state 88 between rule 72 and token '^' resolved as shift.
-Conflict in state 88 between rule 72 and token 'per' resolved as shift.
-Conflict in state 88 between rule 72 and token '!=' resolved as error.
-Conflict in state 88 between rule 72 and token '&&' resolved as reduce.
-Conflict in state 88 between rule 72 and token '?' resolved as reduce.
-Conflict in state 88 between rule 72 and token '^^' resolved as reduce.
-Conflict in state 88 between rule 72 and token '/' resolved as shift.
-Conflict in state 88 between rule 72 and token '<=>' resolved as error.
-Conflict in state 89 between rule 65 and token '-' resolved as reduce.
-Conflict in state 89 between rule 65 and token 'conforms' resolved as reduce.
-Conflict in state 89 between rule 65 and token '<' resolved as reduce.
-Conflict in state 89 between rule 65 and token '%' resolved as reduce.
-Conflict in state 89 between rule 65 and token '==' resolved as reduce.
-Conflict in state 89 between rule 65 and token '>=' resolved as reduce.
-Conflict in state 89 between rule 65 and token ' ' resolved as reduce.
-Conflict in state 89 between rule 65 and token '*' resolved as reduce.
-Conflict in state 89 between rule 65 and token '||' resolved as reduce.
-Conflict in state 89 between rule 65 and token '->' resolved as reduce.
-Conflict in state 89 between rule 65 and token '=>' resolved as reduce.
-Conflict in state 89 between rule 65 and token '<=' resolved as reduce.
-Conflict in state 89 between rule 65 and token '>' resolved as reduce.
-Conflict in state 89 between rule 65 and token '**' resolved as reduce.
-Conflict in state 89 between rule 65 and token '+' resolved as reduce.
-Conflict in state 89 between rule 65 and token '^' resolved as reduce.
-Conflict in state 89 between rule 65 and token 'per' resolved as reduce.
-Conflict in state 89 between rule 65 and token '!=' resolved as reduce.
-Conflict in state 89 between rule 65 and token '&&' resolved as reduce.
-Conflict in state 89 between rule 65 and token '?' resolved as reduce.
-Conflict in state 89 between rule 65 and token '^^' resolved as reduce.
-Conflict in state 89 between rule 65 and token '/' resolved as reduce.
-Conflict in state 89 between rule 65 and token '<=>' resolved as reduce.
-Conflict in state 90 between rule 59 and token '-' resolved as reduce.
-Conflict in state 90 between rule 59 and token 'conforms' resolved as reduce.
-Conflict in state 90 between rule 59 and token '<' resolved as reduce.
-Conflict in state 90 between rule 59 and token '%' resolved as shift.
-Conflict in state 90 between rule 59 and token '==' resolved as reduce.
-Conflict in state 90 between rule 59 and token '>=' resolved as reduce.
-Conflict in state 90 between rule 59 and token ' ' resolved as shift.
-Conflict in state 90 between rule 59 and token '*' resolved as shift.
-Conflict in state 90 between rule 59 and token '||' resolved as reduce.
-Conflict in state 90 between rule 59 and token '->' resolved as reduce.
-Conflict in state 90 between rule 59 and token '=>' resolved as reduce.
-Conflict in state 90 between rule 59 and token '<=' resolved as reduce.
-Conflict in state 90 between rule 59 and token '>' resolved as reduce.
-Conflict in state 90 between rule 59 and token '**' resolved as shift.
-Conflict in state 90 between rule 59 and token '+' resolved as reduce.
-Conflict in state 90 between rule 59 and token '^' resolved as shift.
-Conflict in state 90 between rule 59 and token 'per' resolved as shift.
-Conflict in state 90 between rule 59 and token '!=' resolved as reduce.
-Conflict in state 90 between rule 59 and token '&&' resolved as reduce.
-Conflict in state 90 between rule 59 and token '?' resolved as reduce.
-Conflict in state 90 between rule 59 and token '^^' resolved as reduce.
-Conflict in state 90 between rule 59 and token '/' resolved as shift.
-Conflict in state 90 between rule 59 and token '<=>' resolved as reduce.
-Conflict in state 91 between rule 63 and token '-' resolved as reduce.
-Conflict in state 91 between rule 63 and token 'conforms' resolved as reduce.
-Conflict in state 91 between rule 63 and token '<' resolved as reduce.
-Conflict in state 91 between rule 63 and token '%' resolved as reduce.
-Conflict in state 91 between rule 63 and token '==' resolved as reduce.
-Conflict in state 91 between rule 63 and token '>=' resolved as reduce.
-Conflict in state 91 between rule 63 and token ' ' resolved as reduce.
-Conflict in state 91 between rule 63 and token '*' resolved as reduce.
-Conflict in state 91 between rule 63 and token '||' resolved as reduce.
-Conflict in state 91 between rule 63 and token '->' resolved as reduce.
-Conflict in state 91 between rule 63 and token '=>' resolved as reduce.
-Conflict in state 91 between rule 63 and token '<=' resolved as reduce.
-Conflict in state 91 between rule 63 and token '>' resolved as reduce.
-Conflict in state 91 between rule 63 and token '**' resolved as shift.
-Conflict in state 91 between rule 63 and token '+' resolved as reduce.
-Conflict in state 91 between rule 63 and token '^' resolved as shift.
-Conflict in state 91 between rule 63 and token 'per' resolved as reduce.
-Conflict in state 91 between rule 63 and token '!=' resolved as reduce.
-Conflict in state 91 between rule 63 and token '&&' resolved as reduce.
-Conflict in state 91 between rule 63 and token '?' resolved as reduce.
-Conflict in state 91 between rule 63 and token '^^' resolved as reduce.
-Conflict in state 91 between rule 63 and token '/' resolved as reduce.
-Conflict in state 91 between rule 63 and token '<=>' resolved as reduce.
-Conflict in state 92 between rule 76 and token '-' resolved as shift.
-Conflict in state 92 between rule 76 and token 'conforms' resolved as reduce.
-Conflict in state 92 between rule 76 and token '<' resolved as error.
-Conflict in state 92 between rule 76 and token '%' resolved as shift.
-Conflict in state 92 between rule 76 and token '==' resolved as error.
-Conflict in state 92 between rule 76 and token '>=' resolved as error.
-Conflict in state 92 between rule 76 and token ' ' resolved as shift.
-Conflict in state 92 between rule 76 and token '*' resolved as shift.
-Conflict in state 92 between rule 76 and token '||' resolved as reduce.
-Conflict in state 92 between rule 76 and token '->' resolved as reduce.
-Conflict in state 92 between rule 76 and token '=>' resolved as reduce.
-Conflict in state 92 between rule 76 and token '<=' resolved as error.
-Conflict in state 92 between rule 76 and token '>' resolved as error.
-Conflict in state 92 between rule 76 and token '**' resolved as shift.
-Conflict in state 92 between rule 76 and token '+' resolved as shift.
-Conflict in state 92 between rule 76 and token '^' resolved as shift.
-Conflict in state 92 between rule 76 and token 'per' resolved as shift.
-Conflict in state 92 between rule 76 and token '!=' resolved as error.
-Conflict in state 92 between rule 76 and token '&&' resolved as reduce.
-Conflict in state 92 between rule 76 and token '?' resolved as reduce.
-Conflict in state 92 between rule 76 and token '^^' resolved as reduce.
-Conflict in state 92 between rule 76 and token '/' resolved as shift.
-Conflict in state 92 between rule 76 and token '<=>' resolved as error.
-Conflict in state 93 between rule 75 and token '-' resolved as shift.
-Conflict in state 93 between rule 75 and token 'conforms' resolved as reduce.
-Conflict in state 93 between rule 75 and token '<' resolved as error.
-Conflict in state 93 between rule 75 and token '%' resolved as shift.
-Conflict in state 93 between rule 75 and token '==' resolved as error.
-Conflict in state 93 between rule 75 and token '>=' resolved as error.
-Conflict in state 93 between rule 75 and token ' ' resolved as shift.
-Conflict in state 93 between rule 75 and token '*' resolved as shift.
-Conflict in state 93 between rule 75 and token '||' resolved as reduce.
-Conflict in state 93 between rule 75 and token '->' resolved as reduce.
-Conflict in state 93 between rule 75 and token '=>' resolved as reduce.
-Conflict in state 93 between rule 75 and token '<=' resolved as error.
-Conflict in state 93 between rule 75 and token '>' resolved as error.
-Conflict in state 93 between rule 75 and token '**' resolved as shift.
-Conflict in state 93 between rule 75 and token '+' resolved as shift.
-Conflict in state 93 between rule 75 and token '^' resolved as shift.
-Conflict in state 93 between rule 75 and token 'per' resolved as shift.
-Conflict in state 93 between rule 75 and token '!=' resolved as error.
-Conflict in state 93 between rule 75 and token '&&' resolved as reduce.
-Conflict in state 93 between rule 75 and token '?' resolved as reduce.
-Conflict in state 93 between rule 75 and token '^^' resolved as reduce.
-Conflict in state 93 between rule 75 and token '/' resolved as shift.
-Conflict in state 93 between rule 75 and token '<=>' resolved as error.
-Conflict in state 94 between rule 64 and token '-' resolved as reduce.
-Conflict in state 94 between rule 64 and token 'conforms' resolved as reduce.
-Conflict in state 94 between rule 64 and token '<' resolved as reduce.
-Conflict in state 94 between rule 64 and token '%' resolved as reduce.
-Conflict in state 94 between rule 64 and token '==' resolved as reduce.
-Conflict in state 94 between rule 64 and token '>=' resolved as reduce.
-Conflict in state 94 between rule 64 and token ' ' resolved as reduce.
-Conflict in state 94 between rule 64 and token '*' resolved as reduce.
-Conflict in state 94 between rule 64 and token '||' resolved as reduce.
-Conflict in state 94 between rule 64 and token '->' resolved as reduce.
-Conflict in state 94 between rule 64 and token '=>' resolved as reduce.
-Conflict in state 94 between rule 64 and token '<=' resolved as reduce.
-Conflict in state 94 between rule 64 and token '>' resolved as reduce.
-Conflict in state 94 between rule 64 and token '**' resolved as reduce.
-Conflict in state 94 between rule 64 and token '+' resolved as reduce.
-Conflict in state 94 between rule 64 and token '^' resolved as reduce.
-Conflict in state 94 between rule 64 and token 'per' resolved as reduce.
-Conflict in state 94 between rule 64 and token '!=' resolved as reduce.
-Conflict in state 94 between rule 64 and token '&&' resolved as reduce.
-Conflict in state 94 between rule 64 and token '?' resolved as reduce.
-Conflict in state 94 between rule 64 and token '^^' resolved as reduce.
-Conflict in state 94 between rule 64 and token '/' resolved as reduce.
-Conflict in state 94 between rule 64 and token '<=>' resolved as reduce.
-Conflict in state 95 between rule 55 and token '-' resolved as reduce.
-Conflict in state 95 between rule 55 and token 'conforms' resolved as reduce.
-Conflict in state 95 between rule 55 and token '<' resolved as reduce.
-Conflict in state 95 between rule 55 and token '%' resolved as reduce.
-Conflict in state 95 between rule 55 and token '==' resolved as reduce.
-Conflict in state 95 between rule 55 and token '>=' resolved as reduce.
-Conflict in state 95 between rule 55 and token ' ' resolved as reduce.
-Conflict in state 95 between rule 55 and token '*' resolved as reduce.
-Conflict in state 95 between rule 55 and token '||' resolved as reduce.
-Conflict in state 95 between rule 55 and token '->' resolved as reduce.
-Conflict in state 95 between rule 55 and token '=>' resolved as reduce.
-Conflict in state 95 between rule 55 and token '<=' resolved as reduce.
-Conflict in state 95 between rule 55 and token '>' resolved as reduce.
-Conflict in state 95 between rule 55 and token '**' resolved as shift.
-Conflict in state 95 between rule 55 and token '+' resolved as reduce.
-Conflict in state 95 between rule 55 and token '^' resolved as shift.
-Conflict in state 95 between rule 55 and token 'per' resolved as reduce.
-Conflict in state 95 between rule 55 and token '!=' resolved as reduce.
-Conflict in state 95 between rule 55 and token '&&' resolved as reduce.
-Conflict in state 95 between rule 55 and token '?' resolved as reduce.
-Conflict in state 95 between rule 55 and token '^^' resolved as reduce.
-Conflict in state 95 between rule 55 and token '/' resolved as reduce.
-Conflict in state 95 between rule 55 and token '<=>' resolved as reduce.
-Conflict in state 96 between rule 52 and token '-' resolved as reduce.
-Conflict in state 96 between rule 52 and token 'conforms' resolved as reduce.
-Conflict in state 96 between rule 52 and token '<' resolved as reduce.
-Conflict in state 96 between rule 52 and token '%' resolved as reduce.
-Conflict in state 96 between rule 52 and token '==' resolved as reduce.
-Conflict in state 96 between rule 52 and token '>=' resolved as reduce.
-Conflict in state 96 between rule 52 and token ' ' resolved as reduce.
-Conflict in state 96 between rule 52 and token '*' resolved as reduce.
-Conflict in state 96 between rule 52 and token '||' resolved as reduce.
-Conflict in state 96 between rule 52 and token '->' resolved as reduce.
-Conflict in state 96 between rule 52 and token '=>' resolved as reduce.
-Conflict in state 96 between rule 52 and token '<=' resolved as reduce.
-Conflict in state 96 between rule 52 and token '>' resolved as reduce.
-Conflict in state 96 between rule 52 and token '**' resolved as shift.
-Conflict in state 96 between rule 52 and token '+' resolved as reduce.
-Conflict in state 96 between rule 52 and token '^' resolved as shift.
-Conflict in state 96 between rule 52 and token 'per' resolved as reduce.
-Conflict in state 96 between rule 52 and token '!=' resolved as reduce.
-Conflict in state 96 between rule 52 and token '&&' resolved as reduce.
-Conflict in state 96 between rule 52 and token '?' resolved as reduce.
-Conflict in state 96 between rule 52 and token '^^' resolved as reduce.
-Conflict in state 96 between rule 52 and token '/' resolved as reduce.
-Conflict in state 96 between rule 52 and token '<=>' resolved as reduce.
-Conflict in state 97 between rule 62 and token '-' resolved as reduce.
-Conflict in state 97 between rule 62 and token 'conforms' resolved as reduce.
-Conflict in state 97 between rule 62 and token '<' resolved as reduce.
-Conflict in state 97 between rule 62 and token '%' resolved as shift.
-Conflict in state 97 between rule 62 and token '==' resolved as reduce.
-Conflict in state 97 between rule 62 and token '>=' resolved as reduce.
-Conflict in state 97 between rule 62 and token ' ' resolved as shift.
-Conflict in state 97 between rule 62 and token '*' resolved as shift.
-Conflict in state 97 between rule 62 and token '||' resolved as reduce.
-Conflict in state 97 between rule 62 and token '->' resolved as reduce.
-Conflict in state 97 between rule 62 and token '=>' resolved as reduce.
-Conflict in state 97 between rule 62 and token '<=' resolved as reduce.
-Conflict in state 97 between rule 62 and token '>' resolved as reduce.
-Conflict in state 97 between rule 62 and token '**' resolved as shift.
-Conflict in state 97 between rule 62 and token '+' resolved as reduce.
-Conflict in state 97 between rule 62 and token '^' resolved as shift.
-Conflict in state 97 between rule 62 and token 'per' resolved as reduce.
-Conflict in state 97 between rule 62 and token '!=' resolved as reduce.
-Conflict in state 97 between rule 62 and token '&&' resolved as reduce.
-Conflict in state 97 between rule 62 and token '?' resolved as reduce.
-Conflict in state 97 between rule 62 and token '^^' resolved as reduce.
-Conflict in state 97 between rule 62 and token '/' resolved as shift.
-Conflict in state 97 between rule 62 and token '<=>' resolved as reduce.
-Conflict in state 99 between rule 78 and token '-' resolved as shift.
-Conflict in state 99 between rule 78 and token 'conforms' resolved as reduce.
-Conflict in state 99 between rule 78 and token '<' resolved as error.
-Conflict in state 99 between rule 78 and token '%' resolved as shift.
-Conflict in state 99 between rule 78 and token '==' resolved as error.
-Conflict in state 99 between rule 78 and token '>=' resolved as error.
-Conflict in state 99 between rule 78 and token ' ' resolved as shift.
-Conflict in state 99 between rule 78 and token '*' resolved as shift.
-Conflict in state 99 between rule 78 and token '||' resolved as reduce.
-Conflict in state 99 between rule 78 and token '->' resolved as reduce.
-Conflict in state 99 between rule 78 and token '=>' resolved as reduce.
-Conflict in state 99 between rule 78 and token '<=' resolved as error.
-Conflict in state 99 between rule 78 and token '>' resolved as error.
-Conflict in state 99 between rule 78 and token '**' resolved as shift.
-Conflict in state 99 between rule 78 and token '+' resolved as shift.
-Conflict in state 99 between rule 78 and token '^' resolved as shift.
-Conflict in state 99 between rule 78 and token 'per' resolved as shift.
-Conflict in state 99 between rule 78 and token '!=' resolved as error.
-Conflict in state 99 between rule 78 and token '&&' resolved as reduce.
-Conflict in state 99 between rule 78 and token '?' resolved as reduce.
-Conflict in state 99 between rule 78 and token '^^' resolved as reduce.
-Conflict in state 99 between rule 78 and token '/' resolved as shift.
-Conflict in state 99 between rule 78 and token '<=>' resolved as error.
-Conflict in state 101 between rule 69 and token '-' resolved as shift.
-Conflict in state 101 between rule 69 and token 'conforms' resolved as shift.
-Conflict in state 101 between rule 69 and token '<' resolved as shift.
-Conflict in state 101 between rule 69 and token '%' resolved as shift.
-Conflict in state 101 between rule 69 and token '==' resolved as shift.
-Conflict in state 101 between rule 69 and token '>=' resolved as shift.
-Conflict in state 101 between rule 69 and token ' ' resolved as shift.
-Conflict in state 101 between rule 69 and token '*' resolved as shift.
-Conflict in state 101 between rule 69 and token '||' resolved as reduce.
-Conflict in state 101 between rule 69 and token '->' resolved as reduce.
-Conflict in state 101 between rule 69 and token '=>' resolved as reduce.
-Conflict in state 101 between rule 69 and token '<=' resolved as shift.
-Conflict in state 101 between rule 69 and token '>' resolved as shift.
-Conflict in state 101 between rule 69 and token '**' resolved as shift.
-Conflict in state 101 between rule 69 and token '+' resolved as shift.
-Conflict in state 101 between rule 69 and token '^' resolved as shift.
-Conflict in state 101 between rule 69 and token 'per' resolved as shift.
-Conflict in state 101 between rule 69 and token '!=' resolved as shift.
-Conflict in state 101 between rule 69 and token '&&' resolved as reduce.
-Conflict in state 101 between rule 69 and token '?' resolved as reduce.
-Conflict in state 101 between rule 69 and token '^^' resolved as reduce.
-Conflict in state 101 between rule 69 and token '/' resolved as shift.
-Conflict in state 101 between rule 69 and token '<=>' resolved as shift.
-Conflict in state 102 between rule 68 and token '-' resolved as shift.
-Conflict in state 102 between rule 68 and token 'conforms' resolved as shift.
-Conflict in state 102 between rule 68 and token '<' resolved as shift.
-Conflict in state 102 between rule 68 and token '%' resolved as shift.
-Conflict in state 102 between rule 68 and token '==' resolved as shift.
-Conflict in state 102 between rule 68 and token '>=' resolved as shift.
-Conflict in state 102 between rule 68 and token ' ' resolved as shift.
-Conflict in state 102 between rule 68 and token '*' resolved as shift.
-Conflict in state 102 between rule 68 and token '||' resolved as reduce.
-Conflict in state 102 between rule 68 and token '->' resolved as reduce.
-Conflict in state 102 between rule 68 and token '=>' resolved as reduce.
-Conflict in state 102 between rule 68 and token '<=' resolved as shift.
-Conflict in state 102 between rule 68 and token '>' resolved as shift.
-Conflict in state 102 between rule 68 and token '**' resolved as shift.
-Conflict in state 102 between rule 68 and token '+' resolved as shift.
-Conflict in state 102 between rule 68 and token '^' resolved as shift.
-Conflict in state 102 between rule 68 and token 'per' resolved as shift.
-Conflict in state 102 between rule 68 and token '!=' resolved as shift.
-Conflict in state 102 between rule 68 and token '&&' resolved as reduce.
-Conflict in state 102 between rule 68 and token '?' resolved as reduce.
-Conflict in state 102 between rule 68 and token '^^' resolved as reduce.
-Conflict in state 102 between rule 68 and token '/' resolved as shift.
-Conflict in state 102 between rule 68 and token '<=>' resolved as shift.
-Conflict in state 104 between rule 70 and token '-' resolved as shift.
-Conflict in state 104 between rule 70 and token 'conforms' resolved as shift.
-Conflict in state 104 between rule 70 and token '<' resolved as shift.
-Conflict in state 104 between rule 70 and token '%' resolved as shift.
-Conflict in state 104 between rule 70 and token '==' resolved as shift.
-Conflict in state 104 between rule 70 and token '>=' resolved as shift.
-Conflict in state 104 between rule 70 and token ' ' resolved as shift.
-Conflict in state 104 between rule 70 and token '*' resolved as shift.
-Conflict in state 104 between rule 70 and token '||' resolved as reduce.
-Conflict in state 104 between rule 70 and token '->' resolved as reduce.
-Conflict in state 104 between rule 70 and token '=>' resolved as reduce.
-Conflict in state 104 between rule 70 and token '<=' resolved as shift.
-Conflict in state 104 between rule 70 and token '>' resolved as shift.
-Conflict in state 104 between rule 70 and token '**' resolved as shift.
-Conflict in state 104 between rule 70 and token '+' resolved as shift.
-Conflict in state 104 between rule 70 and token '^' resolved as shift.
-Conflict in state 104 between rule 70 and token 'per' resolved as shift.
-Conflict in state 104 between rule 70 and token '!=' resolved as shift.
-Conflict in state 104 between rule 70 and token '&&' resolved as reduce.
-Conflict in state 104 between rule 70 and token '?' resolved as reduce.
-Conflict in state 104 between rule 70 and token '^^' resolved as reduce.
-Conflict in state 104 between rule 70 and token '/' resolved as shift.
-Conflict in state 104 between rule 70 and token '<=>' resolved as shift.
-Conflict in state 105 between rule 87 and token '-' resolved as shift.
-Conflict in state 105 between rule 87 and token 'conforms' resolved as shift.
-Conflict in state 105 between rule 87 and token '<' resolved as shift.
-Conflict in state 105 between rule 87 and token '%' resolved as shift.
-Conflict in state 105 between rule 87 and token '==' resolved as shift.
-Conflict in state 105 between rule 87 and token '>=' resolved as shift.
-Conflict in state 105 between rule 87 and token ' ' resolved as shift.
-Conflict in state 105 between rule 87 and token '*' resolved as shift.
-Conflict in state 105 between rule 87 and token '||' resolved as shift.
-Conflict in state 105 between rule 87 and token '->' resolved as reduce.
-Conflict in state 105 between rule 87 and token '=>' resolved as reduce.
-Conflict in state 105 between rule 87 and token '<=' resolved as shift.
-Conflict in state 105 between rule 87 and token '>' resolved as shift.
-Conflict in state 105 between rule 87 and token '**' resolved as shift.
-Conflict in state 105 between rule 87 and token '+' resolved as shift.
-Conflict in state 105 between rule 87 and token '^' resolved as shift.
-Conflict in state 105 between rule 87 and token 'per' resolved as shift.
-Conflict in state 105 between rule 87 and token '!=' resolved as shift.
-Conflict in state 105 between rule 87 and token '&&' resolved as shift.
-Conflict in state 105 between rule 87 and token '?' resolved as shift.
-Conflict in state 105 between rule 87 and token '^^' resolved as shift.
-Conflict in state 105 between rule 87 and token '/' resolved as shift.
-Conflict in state 105 between rule 87 and token '<=>' resolved as shift.
-Conflict in state 106 between rule 61 and token '-' resolved as reduce.
-Conflict in state 106 between rule 61 and token 'conforms' resolved as reduce.
-Conflict in state 106 between rule 61 and token '<' resolved as reduce.
-Conflict in state 106 between rule 61 and token '%' resolved as reduce.
-Conflict in state 106 between rule 61 and token '==' resolved as reduce.
-Conflict in state 106 between rule 61 and token '>=' resolved as reduce.
-Conflict in state 106 between rule 61 and token ' ' resolved as reduce.
-Conflict in state 106 between rule 61 and token '*' resolved as reduce.
-Conflict in state 106 between rule 61 and token '||' resolved as reduce.
-Conflict in state 106 between rule 61 and token '->' resolved as reduce.
-Conflict in state 106 between rule 61 and token '=>' resolved as reduce.
-Conflict in state 106 between rule 61 and token '<=' resolved as reduce.
-Conflict in state 106 between rule 61 and token '>' resolved as reduce.
-Conflict in state 106 between rule 61 and token '**' resolved as shift.
-Conflict in state 106 between rule 61 and token '+' resolved as reduce.
-Conflict in state 106 between rule 61 and token '^' resolved as shift.
-Conflict in state 106 between rule 61 and token 'per' resolved as reduce.
-Conflict in state 106 between rule 61 and token '!=' resolved as reduce.
-Conflict in state 106 between rule 61 and token '&&' resolved as reduce.
-Conflict in state 106 between rule 61 and token '?' resolved as reduce.
-Conflict in state 106 between rule 61 and token '^^' resolved as reduce.
-Conflict in state 106 between rule 61 and token '/' resolved as reduce.
-Conflict in state 106 between rule 61 and token '<=>' resolved as reduce.
-Conflict in state 107 between rule 85 and token '-' resolved as shift.
-Conflict in state 107 between rule 85 and token 'conforms' resolved as shift.
-Conflict in state 107 between rule 85 and token '<' resolved as shift.
-Conflict in state 107 between rule 85 and token '%' resolved as shift.
-Conflict in state 107 between rule 85 and token '==' resolved as shift.
-Conflict in state 107 between rule 85 and token '>=' resolved as shift.
-Conflict in state 107 between rule 85 and token ' ' resolved as shift.
-Conflict in state 107 between rule 85 and token '*' resolved as shift.
-Conflict in state 107 between rule 85 and token '||' resolved as shift.
-Conflict in state 107 between rule 85 and token '->' resolved as reduce.
-Conflict in state 107 between rule 85 and token '=>' resolved as reduce.
-Conflict in state 107 between rule 85 and token '<=' resolved as shift.
-Conflict in state 107 between rule 85 and token '>' resolved as shift.
-Conflict in state 107 between rule 85 and token '**' resolved as shift.
-Conflict in state 107 between rule 85 and token '+' resolved as shift.
-Conflict in state 107 between rule 85 and token '^' resolved as shift.
-Conflict in state 107 between rule 85 and token 'per' resolved as shift.
-Conflict in state 107 between rule 85 and token '!=' resolved as shift.
-Conflict in state 107 between rule 85 and token '&&' resolved as shift.
-Conflict in state 107 between rule 85 and token '?' resolved as shift.
-Conflict in state 107 between rule 85 and token '^^' resolved as shift.
-Conflict in state 107 between rule 85 and token '/' resolved as shift.
-Conflict in state 107 between rule 85 and token '<=>' resolved as shift.
-Conflict in state 108 between rule 77 and token '-' resolved as shift.
-Conflict in state 108 between rule 77 and token 'conforms' resolved as reduce.
-Conflict in state 108 between rule 77 and token '<' resolved as error.
-Conflict in state 108 between rule 77 and token '%' resolved as shift.
-Conflict in state 108 between rule 77 and token '==' resolved as error.
-Conflict in state 108 between rule 77 and token '>=' resolved as error.
-Conflict in state 108 between rule 77 and token ' ' resolved as shift.
-Conflict in state 108 between rule 77 and token '*' resolved as shift.
-Conflict in state 108 between rule 77 and token '||' resolved as reduce.
-Conflict in state 108 between rule 77 and token '->' resolved as reduce.
-Conflict in state 108 between rule 77 and token '=>' resolved as reduce.
-Conflict in state 108 between rule 77 and token '<=' resolved as error.
-Conflict in state 108 between rule 77 and token '>' resolved as error.
-Conflict in state 108 between rule 77 and token '**' resolved as shift.
-Conflict in state 108 between rule 77 and token '+' resolved as shift.
-Conflict in state 108 between rule 77 and token '^' resolved as shift.
-Conflict in state 108 between rule 77 and token 'per' resolved as shift.
-Conflict in state 108 between rule 77 and token '!=' resolved as error.
-Conflict in state 108 between rule 77 and token '&&' resolved as reduce.
-Conflict in state 108 between rule 77 and token '?' resolved as reduce.
-Conflict in state 108 between rule 77 and token '^^' resolved as reduce.
-Conflict in state 108 between rule 77 and token '/' resolved as shift.
-Conflict in state 108 between rule 77 and token '<=>' resolved as error.
-Conflict in state 109 between rule 74 and token '-' resolved as shift.
-Conflict in state 109 between rule 74 and token 'conforms' resolved as reduce.
-Conflict in state 109 between rule 74 and token '<' resolved as error.
-Conflict in state 109 between rule 74 and token '%' resolved as shift.
-Conflict in state 109 between rule 74 and token '==' resolved as error.
-Conflict in state 109 between rule 74 and token '>=' resolved as error.
-Conflict in state 109 between rule 74 and token ' ' resolved as shift.
-Conflict in state 109 between rule 74 and token '*' resolved as shift.
-Conflict in state 109 between rule 74 and token '||' resolved as reduce.
-Conflict in state 109 between rule 74 and token '->' resolved as reduce.
-Conflict in state 109 between rule 74 and token '=>' resolved as reduce.
-Conflict in state 109 between rule 74 and token '<=' resolved as error.
-Conflict in state 109 between rule 74 and token '>' resolved as error.
-Conflict in state 109 between rule 74 and token '**' resolved as shift.
-Conflict in state 109 between rule 74 and token '+' resolved as shift.
-Conflict in state 109 between rule 74 and token '^' resolved as shift.
-Conflict in state 109 between rule 74 and token 'per' resolved as shift.
-Conflict in state 109 between rule 74 and token '!=' resolved as error.
-Conflict in state 109 between rule 74 and token '&&' resolved as reduce.
-Conflict in state 109 between rule 74 and token '?' resolved as reduce.
-Conflict in state 109 between rule 74 and token '^^' resolved as reduce.
-Conflict in state 109 between rule 74 and token '/' resolved as shift.
-Conflict in state 109 between rule 74 and token '<=>' resolved as error.
-Conflict in state 110 between rule 73 and token '-' resolved as shift.
-Conflict in state 110 between rule 73 and token 'conforms' resolved as reduce.
-Conflict in state 110 between rule 73 and token '<' resolved as error.
-Conflict in state 110 between rule 73 and token '%' resolved as shift.
-Conflict in state 110 between rule 73 and token '==' resolved as error.
-Conflict in state 110 between rule 73 and token '>=' resolved as error.
-Conflict in state 110 between rule 73 and token ' ' resolved as shift.
-Conflict in state 110 between rule 73 and token '*' resolved as shift.
-Conflict in state 110 between rule 73 and token '||' resolved as reduce.
-Conflict in state 110 between rule 73 and token '->' resolved as reduce.
-Conflict in state 110 between rule 73 and token '=>' resolved as reduce.
-Conflict in state 110 between rule 73 and token '<=' resolved as error.
-Conflict in state 110 between rule 73 and token '>' resolved as error.
-Conflict in state 110 between rule 73 and token '**' resolved as shift.
-Conflict in state 110 between rule 73 and token '+' resolved as shift.
-Conflict in state 110 between rule 73 and token '^' resolved as shift.
-Conflict in state 110 between rule 73 and token 'per' resolved as shift.
-Conflict in state 110 between rule 73 and token '!=' resolved as error.
-Conflict in state 110 between rule 73 and token '&&' resolved as reduce.
-Conflict in state 110 between rule 73 and token '?' resolved as reduce.
-Conflict in state 110 between rule 73 and token '^^' resolved as reduce.
-Conflict in state 110 between rule 73 and token '/' resolved as shift.
-Conflict in state 110 between rule 73 and token '<=>' resolved as error.
-Conflict in state 123 between rule 79 and token '-' resolved as shift.
-Conflict in state 123 between rule 79 and token 'conforms' resolved as shift.
-Conflict in state 123 between rule 79 and token '<' resolved as shift.
-Conflict in state 123 between rule 79 and token '%' resolved as shift.
-Conflict in state 123 between rule 79 and token '==' resolved as shift.
-Conflict in state 123 between rule 79 and token '>=' resolved as shift.
-Conflict in state 123 between rule 79 and token ' ' resolved as shift.
-Conflict in state 123 between rule 79 and token '*' resolved as shift.
-Conflict in state 123 between rule 79 and token '||' resolved as shift.
-Conflict in state 123 between rule 79 and token '->' resolved as shift.
-Conflict in state 123 between rule 79 and token '=>' resolved as shift.
-Conflict in state 123 between rule 79 and token '<=' resolved as shift.
-Conflict in state 123 between rule 79 and token '>' resolved as shift.
-Conflict in state 123 between rule 79 and token '**' resolved as shift.
-Conflict in state 123 between rule 79 and token '+' resolved as shift.
-Conflict in state 123 between rule 79 and token '^' resolved as shift.
-Conflict in state 123 between rule 79 and token 'per' resolved as shift.
-Conflict in state 123 between rule 79 and token '!=' resolved as shift.
-Conflict in state 123 between rule 79 and token '&&' resolved as shift.
-Conflict in state 123 between rule 79 and token '?' resolved as shift.
-Conflict in state 123 between rule 79 and token '^^' resolved as shift.
-Conflict in state 123 between rule 79 and token '/' resolved as shift.
-Conflict in state 123 between rule 79 and token '<=>' resolved as shift.
-Conflict in state 124 between rule 49 and token '-' resolved as shift.
-Conflict in state 124 between rule 49 and token 'conforms' resolved as shift.
-Conflict in state 124 between rule 49 and token '<' resolved as shift.
-Conflict in state 124 between rule 49 and token '%' resolved as shift.
-Conflict in state 124 between rule 49 and token '==' resolved as shift.
-Conflict in state 124 between rule 49 and token '>=' resolved as shift.
-Conflict in state 124 between rule 49 and token ' ' resolved as shift.
-Conflict in state 124 between rule 49 and token '*' resolved as shift.
-Conflict in state 124 between rule 49 and token '||' resolved as shift.
-Conflict in state 124 between rule 49 and token '->' resolved as shift.
-Conflict in state 124 between rule 49 and token '=>' resolved as shift.
-Conflict in state 124 between rule 49 and token '<=' resolved as shift.
-Conflict in state 124 between rule 49 and token '>' resolved as shift.
-Conflict in state 124 between rule 49 and token '**' resolved as shift.
-Conflict in state 124 between rule 49 and token '+' resolved as shift.
-Conflict in state 124 between rule 49 and token '^' resolved as shift.
-Conflict in state 124 between rule 49 and token 'per' resolved as shift.
-Conflict in state 124 between rule 49 and token '!=' resolved as shift.
-Conflict in state 124 between rule 49 and token '&&' resolved as shift.
-Conflict in state 124 between rule 49 and token '?' resolved as shift.
-Conflict in state 124 between rule 49 and token '^^' resolved as shift.
-Conflict in state 124 between rule 49 and token '/' resolved as shift.
-Conflict in state 124 between rule 49 and token '<=>' resolved as shift.
-Conflict in state 125 between rule 80 and token '-' resolved as shift.
-Conflict in state 125 between rule 80 and token 'conforms' resolved as shift.
-Conflict in state 125 between rule 80 and token '<' resolved as shift.
-Conflict in state 125 between rule 80 and token '%' resolved as shift.
-Conflict in state 125 between rule 80 and token '==' resolved as shift.
-Conflict in state 125 between rule 80 and token '>=' resolved as shift.
-Conflict in state 125 between rule 80 and token ' ' resolved as shift.
-Conflict in state 125 between rule 80 and token '*' resolved as shift.
-Conflict in state 125 between rule 80 and token '||' resolved as shift.
-Conflict in state 125 between rule 80 and token '->' resolved as shift.
-Conflict in state 125 between rule 80 and token '=>' resolved as shift.
-Conflict in state 125 between rule 80 and token '<=' resolved as shift.
-Conflict in state 125 between rule 80 and token '>' resolved as shift.
-Conflict in state 125 between rule 80 and token '**' resolved as shift.
-Conflict in state 125 between rule 80 and token '+' resolved as shift.
-Conflict in state 125 between rule 80 and token '^' resolved as shift.
-Conflict in state 125 between rule 80 and token 'per' resolved as shift.
-Conflict in state 125 between rule 80 and token '!=' resolved as shift.
-Conflict in state 125 between rule 80 and token '&&' resolved as shift.
-Conflict in state 125 between rule 80 and token '?' resolved as shift.
-Conflict in state 125 between rule 80 and token '^^' resolved as shift.
-Conflict in state 125 between rule 80 and token '/' resolved as shift.
-Conflict in state 125 between rule 80 and token '<=>' resolved as shift.
-Conflict in state 127 between rule 18 and token '\n' resolved as reduce.
-Conflict in state 155 between rule 67 and token '-' resolved as shift.
-Conflict in state 155 between rule 67 and token 'conforms' resolved as shift.
-Conflict in state 155 between rule 67 and token '<' resolved as shift.
-Conflict in state 155 between rule 67 and token '%' resolved as shift.
-Conflict in state 155 between rule 67 and token '==' resolved as shift.
-Conflict in state 155 between rule 67 and token '>=' resolved as shift.
-Conflict in state 155 between rule 67 and token ' ' resolved as shift.
-Conflict in state 155 between rule 67 and token '*' resolved as shift.
-Conflict in state 155 between rule 67 and token '||' resolved as shift.
-Conflict in state 155 between rule 67 and token '->' resolved as reduce.
-Conflict in state 155 between rule 67 and token '=>' resolved as reduce.
-Conflict in state 155 between rule 67 and token '<=' resolved as shift.
-Conflict in state 155 between rule 67 and token '>' resolved as shift.
-Conflict in state 155 between rule 67 and token '**' resolved as shift.
-Conflict in state 155 between rule 67 and token '+' resolved as shift.
-Conflict in state 155 between rule 67 and token '^' resolved as shift.
-Conflict in state 155 between rule 67 and token 'per' resolved as shift.
-Conflict in state 155 between rule 67 and token '!=' resolved as shift.
-Conflict in state 155 between rule 67 and token '&&' resolved as shift.
-Conflict in state 155 between rule 67 and token '?' resolved as shift.
-Conflict in state 155 between rule 67 and token '^^' resolved as shift.
-Conflict in state 155 between rule 67 and token '/' resolved as shift.
-Conflict in state 155 between rule 67 and token '<=>' resolved as shift.
-Conflict in state 168 between rule 81 and token '-' resolved as shift.
-Conflict in state 168 between rule 81 and token 'conforms' resolved as shift.
-Conflict in state 168 between rule 81 and token '<' resolved as shift.
-Conflict in state 168 between rule 81 and token '%' resolved as shift.
-Conflict in state 168 between rule 81 and token '==' resolved as shift.
-Conflict in state 168 between rule 81 and token '>=' resolved as shift.
-Conflict in state 168 between rule 81 and token ' ' resolved as shift.
-Conflict in state 168 between rule 81 and token '*' resolved as shift.
-Conflict in state 168 between rule 81 and token '||' resolved as shift.
-Conflict in state 168 between rule 81 and token '->' resolved as shift.
-Conflict in state 168 between rule 81 and token '=>' resolved as shift.
-Conflict in state 168 between rule 81 and token '<=' resolved as shift.
-Conflict in state 168 between rule 81 and token '>' resolved as shift.
-Conflict in state 168 between rule 81 and token '**' resolved as shift.
-Conflict in state 168 between rule 81 and token '+' resolved as shift.
-Conflict in state 168 between rule 81 and token '^' resolved as shift.
-Conflict in state 168 between rule 81 and token 'per' resolved as shift.
-Conflict in state 168 between rule 81 and token '!=' resolved as shift.
-Conflict in state 168 between rule 81 and token '&&' resolved as shift.
-Conflict in state 168 between rule 81 and token '?' resolved as shift.
-Conflict in state 168 between rule 81 and token '^^' resolved as shift.
-Conflict in state 168 between rule 81 and token '/' resolved as shift.
-Conflict in state 168 between rule 81 and token '<=>' resolved as shift.
+Conflict in state 76 between rule 16 and token '\n' resolved as reduce.
+Conflict in state 82 between rule 60 and token '-' resolved as reduce.
+Conflict in state 82 between rule 60 and token 'conforms' resolved as reduce.
+Conflict in state 82 between rule 60 and token '<' resolved as reduce.
+Conflict in state 82 between rule 60 and token '%' resolved as shift.
+Conflict in state 82 between rule 60 and token '==' resolved as reduce.
+Conflict in state 82 between rule 60 and token '>=' resolved as reduce.
+Conflict in state 82 between rule 60 and token ' ' resolved as shift.
+Conflict in state 82 between rule 60 and token '*' resolved as shift.
+Conflict in state 82 between rule 60 and token '||' resolved as reduce.
+Conflict in state 82 between rule 60 and token '->' resolved as reduce.
+Conflict in state 82 between rule 60 and token '=>' resolved as reduce.
+Conflict in state 82 between rule 60 and token '<=' resolved as reduce.
+Conflict in state 82 between rule 60 and token '>' resolved as reduce.
+Conflict in state 82 between rule 60 and token '**' resolved as shift.
+Conflict in state 82 between rule 60 and token '+' resolved as reduce.
+Conflict in state 82 between rule 60 and token '^' resolved as shift.
+Conflict in state 82 between rule 60 and token 'per' resolved as shift.
+Conflict in state 82 between rule 60 and token '!=' resolved as reduce.
+Conflict in state 82 between rule 60 and token '&&' resolved as reduce.
+Conflict in state 82 between rule 60 and token '?' resolved as reduce.
+Conflict in state 82 between rule 60 and token '^^' resolved as reduce.
+Conflict in state 82 between rule 60 and token '/' resolved as shift.
+Conflict in state 82 between rule 60 and token '=' resolved as reduce.
+Conflict in state 82 between rule 60 and token '<=>' resolved as reduce.
+Conflict in state 83 between rule 66 and token '-' resolved as shift.
+Conflict in state 83 between rule 66 and token 'conforms' resolved as reduce.
+Conflict in state 83 between rule 66 and token '<' resolved as shift.
+Conflict in state 83 between rule 66 and token '%' resolved as shift.
+Conflict in state 83 between rule 66 and token '==' resolved as shift.
+Conflict in state 83 between rule 66 and token '>=' resolved as shift.
+Conflict in state 83 between rule 66 and token ' ' resolved as shift.
+Conflict in state 83 between rule 66 and token '*' resolved as shift.
+Conflict in state 83 between rule 66 and token '||' resolved as reduce.
+Conflict in state 83 between rule 66 and token '->' resolved as reduce.
+Conflict in state 83 between rule 66 and token '=>' resolved as reduce.
+Conflict in state 83 between rule 66 and token '<=' resolved as shift.
+Conflict in state 83 between rule 66 and token '>' resolved as shift.
+Conflict in state 83 between rule 66 and token '**' resolved as shift.
+Conflict in state 83 between rule 66 and token '+' resolved as shift.
+Conflict in state 83 between rule 66 and token '^' resolved as shift.
+Conflict in state 83 between rule 66 and token 'per' resolved as shift.
+Conflict in state 83 between rule 66 and token '!=' resolved as shift.
+Conflict in state 83 between rule 66 and token '&&' resolved as reduce.
+Conflict in state 83 between rule 66 and token '?' resolved as reduce.
+Conflict in state 83 between rule 66 and token '^^' resolved as reduce.
+Conflict in state 83 between rule 66 and token '/' resolved as shift.
+Conflict in state 83 between rule 66 and token '=' resolved as reduce.
+Conflict in state 83 between rule 66 and token '<=>' resolved as shift.
+Conflict in state 84 between rule 72 and token '-' resolved as shift.
+Conflict in state 84 between rule 72 and token 'conforms' resolved as reduce.
+Conflict in state 84 between rule 72 and token '<' resolved as error.
+Conflict in state 84 between rule 72 and token '%' resolved as shift.
+Conflict in state 84 between rule 72 and token '==' resolved as error.
+Conflict in state 84 between rule 72 and token '>=' resolved as error.
+Conflict in state 84 between rule 72 and token ' ' resolved as shift.
+Conflict in state 84 between rule 72 and token '*' resolved as shift.
+Conflict in state 84 between rule 72 and token '||' resolved as reduce.
+Conflict in state 84 between rule 72 and token '->' resolved as reduce.
+Conflict in state 84 between rule 72 and token '=>' resolved as reduce.
+Conflict in state 84 between rule 72 and token '<=' resolved as error.
+Conflict in state 84 between rule 72 and token '>' resolved as error.
+Conflict in state 84 between rule 72 and token '**' resolved as shift.
+Conflict in state 84 between rule 72 and token '+' resolved as shift.
+Conflict in state 84 between rule 72 and token '^' resolved as shift.
+Conflict in state 84 between rule 72 and token 'per' resolved as shift.
+Conflict in state 84 between rule 72 and token '!=' resolved as error.
+Conflict in state 84 between rule 72 and token '&&' resolved as reduce.
+Conflict in state 84 between rule 72 and token '?' resolved as reduce.
+Conflict in state 84 between rule 72 and token '^^' resolved as reduce.
+Conflict in state 84 between rule 72 and token '/' resolved as shift.
+Conflict in state 84 between rule 72 and token '=' resolved as reduce.
+Conflict in state 84 between rule 72 and token '<=>' resolved as error.
+Conflict in state 85 between rule 65 and token '-' resolved as reduce.
+Conflict in state 85 between rule 65 and token 'conforms' resolved as reduce.
+Conflict in state 85 between rule 65 and token '<' resolved as reduce.
+Conflict in state 85 between rule 65 and token '%' resolved as reduce.
+Conflict in state 85 between rule 65 and token '==' resolved as reduce.
+Conflict in state 85 between rule 65 and token '>=' resolved as reduce.
+Conflict in state 85 between rule 65 and token ' ' resolved as reduce.
+Conflict in state 85 between rule 65 and token '*' resolved as reduce.
+Conflict in state 85 between rule 65 and token '||' resolved as reduce.
+Conflict in state 85 between rule 65 and token '->' resolved as reduce.
+Conflict in state 85 between rule 65 and token '=>' resolved as reduce.
+Conflict in state 85 between rule 65 and token '<=' resolved as reduce.
+Conflict in state 85 between rule 65 and token '>' resolved as reduce.
+Conflict in state 85 between rule 65 and token '**' resolved as reduce.
+Conflict in state 85 between rule 65 and token '+' resolved as reduce.
+Conflict in state 85 between rule 65 and token '^' resolved as reduce.
+Conflict in state 85 between rule 65 and token 'per' resolved as reduce.
+Conflict in state 85 between rule 65 and token '!=' resolved as reduce.
+Conflict in state 85 between rule 65 and token '&&' resolved as reduce.
+Conflict in state 85 between rule 65 and token '?' resolved as reduce.
+Conflict in state 85 between rule 65 and token '^^' resolved as reduce.
+Conflict in state 85 between rule 65 and token '/' resolved as reduce.
+Conflict in state 85 between rule 65 and token '=' resolved as reduce.
+Conflict in state 85 between rule 65 and token '<=>' resolved as reduce.
+Conflict in state 86 between rule 59 and token '-' resolved as reduce.
+Conflict in state 86 between rule 59 and token 'conforms' resolved as reduce.
+Conflict in state 86 between rule 59 and token '<' resolved as reduce.
+Conflict in state 86 between rule 59 and token '%' resolved as shift.
+Conflict in state 86 between rule 59 and token '==' resolved as reduce.
+Conflict in state 86 between rule 59 and token '>=' resolved as reduce.
+Conflict in state 86 between rule 59 and token ' ' resolved as shift.
+Conflict in state 86 between rule 59 and token '*' resolved as shift.
+Conflict in state 86 between rule 59 and token '||' resolved as reduce.
+Conflict in state 86 between rule 59 and token '->' resolved as reduce.
+Conflict in state 86 between rule 59 and token '=>' resolved as reduce.
+Conflict in state 86 between rule 59 and token '<=' resolved as reduce.
+Conflict in state 86 between rule 59 and token '>' resolved as reduce.
+Conflict in state 86 between rule 59 and token '**' resolved as shift.
+Conflict in state 86 between rule 59 and token '+' resolved as reduce.
+Conflict in state 86 between rule 59 and token '^' resolved as shift.
+Conflict in state 86 between rule 59 and token 'per' resolved as shift.
+Conflict in state 86 between rule 59 and token '!=' resolved as reduce.
+Conflict in state 86 between rule 59 and token '&&' resolved as reduce.
+Conflict in state 86 between rule 59 and token '?' resolved as reduce.
+Conflict in state 86 between rule 59 and token '^^' resolved as reduce.
+Conflict in state 86 between rule 59 and token '/' resolved as shift.
+Conflict in state 86 between rule 59 and token '=' resolved as reduce.
+Conflict in state 86 between rule 59 and token '<=>' resolved as reduce.
+Conflict in state 87 between rule 63 and token '-' resolved as reduce.
+Conflict in state 87 between rule 63 and token 'conforms' resolved as reduce.
+Conflict in state 87 between rule 63 and token '<' resolved as reduce.
+Conflict in state 87 between rule 63 and token '%' resolved as reduce.
+Conflict in state 87 between rule 63 and token '==' resolved as reduce.
+Conflict in state 87 between rule 63 and token '>=' resolved as reduce.
+Conflict in state 87 between rule 63 and token ' ' resolved as reduce.
+Conflict in state 87 between rule 63 and token '*' resolved as reduce.
+Conflict in state 87 between rule 63 and token '||' resolved as reduce.
+Conflict in state 87 between rule 63 and token '->' resolved as reduce.
+Conflict in state 87 between rule 63 and token '=>' resolved as reduce.
+Conflict in state 87 between rule 63 and token '<=' resolved as reduce.
+Conflict in state 87 between rule 63 and token '>' resolved as reduce.
+Conflict in state 87 between rule 63 and token '**' resolved as shift.
+Conflict in state 87 between rule 63 and token '+' resolved as reduce.
+Conflict in state 87 between rule 63 and token '^' resolved as shift.
+Conflict in state 87 between rule 63 and token 'per' resolved as reduce.
+Conflict in state 87 between rule 63 and token '!=' resolved as reduce.
+Conflict in state 87 between rule 63 and token '&&' resolved as reduce.
+Conflict in state 87 between rule 63 and token '?' resolved as reduce.
+Conflict in state 87 between rule 63 and token '^^' resolved as reduce.
+Conflict in state 87 between rule 63 and token '/' resolved as reduce.
+Conflict in state 87 between rule 63 and token '=' resolved as reduce.
+Conflict in state 87 between rule 63 and token '<=>' resolved as reduce.
+Conflict in state 88 between rule 76 and token '-' resolved as shift.
+Conflict in state 88 between rule 76 and token 'conforms' resolved as reduce.
+Conflict in state 88 between rule 76 and token '<' resolved as error.
+Conflict in state 88 between rule 76 and token '%' resolved as shift.
+Conflict in state 88 between rule 76 and token '==' resolved as error.
+Conflict in state 88 between rule 76 and token '>=' resolved as error.
+Conflict in state 88 between rule 76 and token ' ' resolved as shift.
+Conflict in state 88 between rule 76 and token '*' resolved as shift.
+Conflict in state 88 between rule 76 and token '||' resolved as reduce.
+Conflict in state 88 between rule 76 and token '->' resolved as reduce.
+Conflict in state 88 between rule 76 and token '=>' resolved as reduce.
+Conflict in state 88 between rule 76 and token '<=' resolved as error.
+Conflict in state 88 between rule 76 and token '>' resolved as error.
+Conflict in state 88 between rule 76 and token '**' resolved as shift.
+Conflict in state 88 between rule 76 and token '+' resolved as shift.
+Conflict in state 88 between rule 76 and token '^' resolved as shift.
+Conflict in state 88 between rule 76 and token 'per' resolved as shift.
+Conflict in state 88 between rule 76 and token '!=' resolved as error.
+Conflict in state 88 between rule 76 and token '&&' resolved as reduce.
+Conflict in state 88 between rule 76 and token '?' resolved as reduce.
+Conflict in state 88 between rule 76 and token '^^' resolved as reduce.
+Conflict in state 88 between rule 76 and token '/' resolved as shift.
+Conflict in state 88 between rule 76 and token '=' resolved as reduce.
+Conflict in state 88 between rule 76 and token '<=>' resolved as error.
+Conflict in state 89 between rule 75 and token '-' resolved as shift.
+Conflict in state 89 between rule 75 and token 'conforms' resolved as reduce.
+Conflict in state 89 between rule 75 and token '<' resolved as error.
+Conflict in state 89 between rule 75 and token '%' resolved as shift.
+Conflict in state 89 between rule 75 and token '==' resolved as error.
+Conflict in state 89 between rule 75 and token '>=' resolved as error.
+Conflict in state 89 between rule 75 and token ' ' resolved as shift.
+Conflict in state 89 between rule 75 and token '*' resolved as shift.
+Conflict in state 89 between rule 75 and token '||' resolved as reduce.
+Conflict in state 89 between rule 75 and token '->' resolved as reduce.
+Conflict in state 89 between rule 75 and token '=>' resolved as reduce.
+Conflict in state 89 between rule 75 and token '<=' resolved as error.
+Conflict in state 89 between rule 75 and token '>' resolved as error.
+Conflict in state 89 between rule 75 and token '**' resolved as shift.
+Conflict in state 89 between rule 75 and token '+' resolved as shift.
+Conflict in state 89 between rule 75 and token '^' resolved as shift.
+Conflict in state 89 between rule 75 and token 'per' resolved as shift.
+Conflict in state 89 between rule 75 and token '!=' resolved as error.
+Conflict in state 89 between rule 75 and token '&&' resolved as reduce.
+Conflict in state 89 between rule 75 and token '?' resolved as reduce.
+Conflict in state 89 between rule 75 and token '^^' resolved as reduce.
+Conflict in state 89 between rule 75 and token '/' resolved as shift.
+Conflict in state 89 between rule 75 and token '=' resolved as reduce.
+Conflict in state 89 between rule 75 and token '<=>' resolved as error.
+Conflict in state 90 between rule 64 and token '-' resolved as reduce.
+Conflict in state 90 between rule 64 and token 'conforms' resolved as reduce.
+Conflict in state 90 between rule 64 and token '<' resolved as reduce.
+Conflict in state 90 between rule 64 and token '%' resolved as reduce.
+Conflict in state 90 between rule 64 and token '==' resolved as reduce.
+Conflict in state 90 between rule 64 and token '>=' resolved as reduce.
+Conflict in state 90 between rule 64 and token ' ' resolved as reduce.
+Conflict in state 90 between rule 64 and token '*' resolved as reduce.
+Conflict in state 90 between rule 64 and token '||' resolved as reduce.
+Conflict in state 90 between rule 64 and token '->' resolved as reduce.
+Conflict in state 90 between rule 64 and token '=>' resolved as reduce.
+Conflict in state 90 between rule 64 and token '<=' resolved as reduce.
+Conflict in state 90 between rule 64 and token '>' resolved as reduce.
+Conflict in state 90 between rule 64 and token '**' resolved as reduce.
+Conflict in state 90 between rule 64 and token '+' resolved as reduce.
+Conflict in state 90 between rule 64 and token '^' resolved as reduce.
+Conflict in state 90 between rule 64 and token 'per' resolved as reduce.
+Conflict in state 90 between rule 64 and token '!=' resolved as reduce.
+Conflict in state 90 between rule 64 and token '&&' resolved as reduce.
+Conflict in state 90 between rule 64 and token '?' resolved as reduce.
+Conflict in state 90 between rule 64 and token '^^' resolved as reduce.
+Conflict in state 90 between rule 64 and token '/' resolved as reduce.
+Conflict in state 90 between rule 64 and token '=' resolved as reduce.
+Conflict in state 90 between rule 64 and token '<=>' resolved as reduce.
+Conflict in state 91 between rule 55 and token '-' resolved as reduce.
+Conflict in state 91 between rule 55 and token 'conforms' resolved as reduce.
+Conflict in state 91 between rule 55 and token '<' resolved as reduce.
+Conflict in state 91 between rule 55 and token '%' resolved as reduce.
+Conflict in state 91 between rule 55 and token '==' resolved as reduce.
+Conflict in state 91 between rule 55 and token '>=' resolved as reduce.
+Conflict in state 91 between rule 55 and token ' ' resolved as reduce.
+Conflict in state 91 between rule 55 and token '*' resolved as reduce.
+Conflict in state 91 between rule 55 and token '||' resolved as reduce.
+Conflict in state 91 between rule 55 and token '->' resolved as reduce.
+Conflict in state 91 between rule 55 and token '=>' resolved as reduce.
+Conflict in state 91 between rule 55 and token '<=' resolved as reduce.
+Conflict in state 91 between rule 55 and token '>' resolved as reduce.
+Conflict in state 91 between rule 55 and token '**' resolved as shift.
+Conflict in state 91 between rule 55 and token '+' resolved as reduce.
+Conflict in state 91 between rule 55 and token '^' resolved as shift.
+Conflict in state 91 between rule 55 and token 'per' resolved as reduce.
+Conflict in state 91 between rule 55 and token '!=' resolved as reduce.
+Conflict in state 91 between rule 55 and token '&&' resolved as reduce.
+Conflict in state 91 between rule 55 and token '?' resolved as reduce.
+Conflict in state 91 between rule 55 and token '^^' resolved as reduce.
+Conflict in state 91 between rule 55 and token '/' resolved as reduce.
+Conflict in state 91 between rule 55 and token '=' resolved as reduce.
+Conflict in state 91 between rule 55 and token '<=>' resolved as reduce.
+Conflict in state 92 between rule 52 and token '-' resolved as reduce.
+Conflict in state 92 between rule 52 and token 'conforms' resolved as reduce.
+Conflict in state 92 between rule 52 and token '<' resolved as reduce.
+Conflict in state 92 between rule 52 and token '%' resolved as reduce.
+Conflict in state 92 between rule 52 and token '==' resolved as reduce.
+Conflict in state 92 between rule 52 and token '>=' resolved as reduce.
+Conflict in state 92 between rule 52 and token ' ' resolved as reduce.
+Conflict in state 92 between rule 52 and token '*' resolved as reduce.
+Conflict in state 92 between rule 52 and token '||' resolved as reduce.
+Conflict in state 92 between rule 52 and token '->' resolved as reduce.
+Conflict in state 92 between rule 52 and token '=>' resolved as reduce.
+Conflict in state 92 between rule 52 and token '<=' resolved as reduce.
+Conflict in state 92 between rule 52 and token '>' resolved as reduce.
+Conflict in state 92 between rule 52 and token '**' resolved as shift.
+Conflict in state 92 between rule 52 and token '+' resolved as reduce.
+Conflict in state 92 between rule 52 and token '^' resolved as shift.
+Conflict in state 92 between rule 52 and token 'per' resolved as reduce.
+Conflict in state 92 between rule 52 and token '!=' resolved as reduce.
+Conflict in state 92 between rule 52 and token '&&' resolved as reduce.
+Conflict in state 92 between rule 52 and token '?' resolved as reduce.
+Conflict in state 92 between rule 52 and token '^^' resolved as reduce.
+Conflict in state 92 between rule 52 and token '/' resolved as reduce.
+Conflict in state 92 between rule 52 and token '=' resolved as reduce.
+Conflict in state 92 between rule 52 and token '<=>' resolved as reduce.
+Conflict in state 93 between rule 62 and token '-' resolved as reduce.
+Conflict in state 93 between rule 62 and token 'conforms' resolved as reduce.
+Conflict in state 93 between rule 62 and token '<' resolved as reduce.
+Conflict in state 93 between rule 62 and token '%' resolved as shift.
+Conflict in state 93 between rule 62 and token '==' resolved as reduce.
+Conflict in state 93 between rule 62 and token '>=' resolved as reduce.
+Conflict in state 93 between rule 62 and token ' ' resolved as shift.
+Conflict in state 93 between rule 62 and token '*' resolved as shift.
+Conflict in state 93 between rule 62 and token '||' resolved as reduce.
+Conflict in state 93 between rule 62 and token '->' resolved as reduce.
+Conflict in state 93 between rule 62 and token '=>' resolved as reduce.
+Conflict in state 93 between rule 62 and token '<=' resolved as reduce.
+Conflict in state 93 between rule 62 and token '>' resolved as reduce.
+Conflict in state 93 between rule 62 and token '**' resolved as shift.
+Conflict in state 93 between rule 62 and token '+' resolved as reduce.
+Conflict in state 93 between rule 62 and token '^' resolved as shift.
+Conflict in state 93 between rule 62 and token 'per' resolved as reduce.
+Conflict in state 93 between rule 62 and token '!=' resolved as reduce.
+Conflict in state 93 between rule 62 and token '&&' resolved as reduce.
+Conflict in state 93 between rule 62 and token '?' resolved as reduce.
+Conflict in state 93 between rule 62 and token '^^' resolved as reduce.
+Conflict in state 93 between rule 62 and token '/' resolved as shift.
+Conflict in state 93 between rule 62 and token '=' resolved as reduce.
+Conflict in state 93 between rule 62 and token '<=>' resolved as reduce.
+Conflict in state 95 between rule 78 and token '-' resolved as shift.
+Conflict in state 95 between rule 78 and token 'conforms' resolved as reduce.
+Conflict in state 95 between rule 78 and token '<' resolved as error.
+Conflict in state 95 between rule 78 and token '%' resolved as shift.
+Conflict in state 95 between rule 78 and token '==' resolved as error.
+Conflict in state 95 between rule 78 and token '>=' resolved as error.
+Conflict in state 95 between rule 78 and token ' ' resolved as shift.
+Conflict in state 95 between rule 78 and token '*' resolved as shift.
+Conflict in state 95 between rule 78 and token '||' resolved as reduce.
+Conflict in state 95 between rule 78 and token '->' resolved as reduce.
+Conflict in state 95 between rule 78 and token '=>' resolved as reduce.
+Conflict in state 95 between rule 78 and token '<=' resolved as error.
+Conflict in state 95 between rule 78 and token '>' resolved as error.
+Conflict in state 95 between rule 78 and token '**' resolved as shift.
+Conflict in state 95 between rule 78 and token '+' resolved as shift.
+Conflict in state 95 between rule 78 and token '^' resolved as shift.
+Conflict in state 95 between rule 78 and token 'per' resolved as shift.
+Conflict in state 95 between rule 78 and token '!=' resolved as error.
+Conflict in state 95 between rule 78 and token '&&' resolved as reduce.
+Conflict in state 95 between rule 78 and token '?' resolved as reduce.
+Conflict in state 95 between rule 78 and token '^^' resolved as reduce.
+Conflict in state 95 between rule 78 and token '/' resolved as shift.
+Conflict in state 95 between rule 78 and token '=' resolved as reduce.
+Conflict in state 95 between rule 78 and token '<=>' resolved as error.
+Conflict in state 97 between rule 69 and token '-' resolved as shift.
+Conflict in state 97 between rule 69 and token 'conforms' resolved as shift.
+Conflict in state 97 between rule 69 and token '<' resolved as shift.
+Conflict in state 97 between rule 69 and token '%' resolved as shift.
+Conflict in state 97 between rule 69 and token '==' resolved as shift.
+Conflict in state 97 between rule 69 and token '>=' resolved as shift.
+Conflict in state 97 between rule 69 and token ' ' resolved as shift.
+Conflict in state 97 between rule 69 and token '*' resolved as shift.
+Conflict in state 97 between rule 69 and token '||' resolved as reduce.
+Conflict in state 97 between rule 69 and token '->' resolved as reduce.
+Conflict in state 97 between rule 69 and token '=>' resolved as reduce.
+Conflict in state 97 between rule 69 and token '<=' resolved as shift.
+Conflict in state 97 between rule 69 and token '>' resolved as shift.
+Conflict in state 97 between rule 69 and token '**' resolved as shift.
+Conflict in state 97 between rule 69 and token '+' resolved as shift.
+Conflict in state 97 between rule 69 and token '^' resolved as shift.
+Conflict in state 97 between rule 69 and token 'per' resolved as shift.
+Conflict in state 97 between rule 69 and token '!=' resolved as shift.
+Conflict in state 97 between rule 69 and token '&&' resolved as reduce.
+Conflict in state 97 between rule 69 and token '?' resolved as reduce.
+Conflict in state 97 between rule 69 and token '^^' resolved as reduce.
+Conflict in state 97 between rule 69 and token '/' resolved as shift.
+Conflict in state 97 between rule 69 and token '=' resolved as reduce.
+Conflict in state 97 between rule 69 and token '<=>' resolved as shift.
+Conflict in state 98 between rule 68 and token '-' resolved as shift.
+Conflict in state 98 between rule 68 and token 'conforms' resolved as shift.
+Conflict in state 98 between rule 68 and token '<' resolved as shift.
+Conflict in state 98 between rule 68 and token '%' resolved as shift.
+Conflict in state 98 between rule 68 and token '==' resolved as shift.
+Conflict in state 98 between rule 68 and token '>=' resolved as shift.
+Conflict in state 98 between rule 68 and token ' ' resolved as shift.
+Conflict in state 98 between rule 68 and token '*' resolved as shift.
+Conflict in state 98 between rule 68 and token '||' resolved as reduce.
+Conflict in state 98 between rule 68 and token '->' resolved as reduce.
+Conflict in state 98 between rule 68 and token '=>' resolved as reduce.
+Conflict in state 98 between rule 68 and token '<=' resolved as shift.
+Conflict in state 98 between rule 68 and token '>' resolved as shift.
+Conflict in state 98 between rule 68 and token '**' resolved as shift.
+Conflict in state 98 between rule 68 and token '+' resolved as shift.
+Conflict in state 98 between rule 68 and token '^' resolved as shift.
+Conflict in state 98 between rule 68 and token 'per' resolved as shift.
+Conflict in state 98 between rule 68 and token '!=' resolved as shift.
+Conflict in state 98 between rule 68 and token '&&' resolved as reduce.
+Conflict in state 98 between rule 68 and token '?' resolved as reduce.
+Conflict in state 98 between rule 68 and token '^^' resolved as reduce.
+Conflict in state 98 between rule 68 and token '/' resolved as shift.
+Conflict in state 98 between rule 68 and token '=' resolved as reduce.
+Conflict in state 98 between rule 68 and token '<=>' resolved as shift.
+Conflict in state 100 between rule 70 and token '-' resolved as shift.
+Conflict in state 100 between rule 70 and token 'conforms' resolved as shift.
+Conflict in state 100 between rule 70 and token '<' resolved as shift.
+Conflict in state 100 between rule 70 and token '%' resolved as shift.
+Conflict in state 100 between rule 70 and token '==' resolved as shift.
+Conflict in state 100 between rule 70 and token '>=' resolved as shift.
+Conflict in state 100 between rule 70 and token ' ' resolved as shift.
+Conflict in state 100 between rule 70 and token '*' resolved as shift.
+Conflict in state 100 between rule 70 and token '||' resolved as reduce.
+Conflict in state 100 between rule 70 and token '->' resolved as reduce.
+Conflict in state 100 between rule 70 and token '=>' resolved as reduce.
+Conflict in state 100 between rule 70 and token '<=' resolved as shift.
+Conflict in state 100 between rule 70 and token '>' resolved as shift.
+Conflict in state 100 between rule 70 and token '**' resolved as shift.
+Conflict in state 100 between rule 70 and token '+' resolved as shift.
+Conflict in state 100 between rule 70 and token '^' resolved as shift.
+Conflict in state 100 between rule 70 and token 'per' resolved as shift.
+Conflict in state 100 between rule 70 and token '!=' resolved as shift.
+Conflict in state 100 between rule 70 and token '&&' resolved as reduce.
+Conflict in state 100 between rule 70 and token '?' resolved as reduce.
+Conflict in state 100 between rule 70 and token '^^' resolved as reduce.
+Conflict in state 100 between rule 70 and token '/' resolved as shift.
+Conflict in state 100 between rule 70 and token '=' resolved as reduce.
+Conflict in state 100 between rule 70 and token '<=>' resolved as shift.
+Conflict in state 101 between rule 86 and token '-' resolved as shift.
+Conflict in state 101 between rule 86 and token 'conforms' resolved as shift.
+Conflict in state 101 between rule 86 and token '<' resolved as shift.
+Conflict in state 101 between rule 86 and token '%' resolved as shift.
+Conflict in state 101 between rule 86 and token '==' resolved as shift.
+Conflict in state 101 between rule 86 and token '>=' resolved as shift.
+Conflict in state 101 between rule 86 and token ' ' resolved as shift.
+Conflict in state 101 between rule 86 and token '*' resolved as shift.
+Conflict in state 101 between rule 86 and token '||' resolved as shift.
+Conflict in state 101 between rule 86 and token '->' resolved as reduce.
+Conflict in state 101 between rule 86 and token '=>' resolved as reduce.
+Conflict in state 101 between rule 86 and token '<=' resolved as shift.
+Conflict in state 101 between rule 86 and token '>' resolved as shift.
+Conflict in state 101 between rule 86 and token '**' resolved as shift.
+Conflict in state 101 between rule 86 and token '+' resolved as shift.
+Conflict in state 101 between rule 86 and token '^' resolved as shift.
+Conflict in state 101 between rule 86 and token 'per' resolved as shift.
+Conflict in state 101 between rule 86 and token '!=' resolved as shift.
+Conflict in state 101 between rule 86 and token '&&' resolved as shift.
+Conflict in state 101 between rule 86 and token '?' resolved as shift.
+Conflict in state 101 between rule 86 and token '^^' resolved as shift.
+Conflict in state 101 between rule 86 and token '/' resolved as shift.
+Conflict in state 101 between rule 86 and token '=' resolved as reduce.
+Conflict in state 101 between rule 86 and token '<=>' resolved as shift.
+Conflict in state 102 between rule 61 and token '-' resolved as reduce.
+Conflict in state 102 between rule 61 and token 'conforms' resolved as reduce.
+Conflict in state 102 between rule 61 and token '<' resolved as reduce.
+Conflict in state 102 between rule 61 and token '%' resolved as reduce.
+Conflict in state 102 between rule 61 and token '==' resolved as reduce.
+Conflict in state 102 between rule 61 and token '>=' resolved as reduce.
+Conflict in state 102 between rule 61 and token ' ' resolved as reduce.
+Conflict in state 102 between rule 61 and token '*' resolved as reduce.
+Conflict in state 102 between rule 61 and token '||' resolved as reduce.
+Conflict in state 102 between rule 61 and token '->' resolved as reduce.
+Conflict in state 102 between rule 61 and token '=>' resolved as reduce.
+Conflict in state 102 between rule 61 and token '<=' resolved as reduce.
+Conflict in state 102 between rule 61 and token '>' resolved as reduce.
+Conflict in state 102 between rule 61 and token '**' resolved as shift.
+Conflict in state 102 between rule 61 and token '+' resolved as reduce.
+Conflict in state 102 between rule 61 and token '^' resolved as shift.
+Conflict in state 102 between rule 61 and token 'per' resolved as reduce.
+Conflict in state 102 between rule 61 and token '!=' resolved as reduce.
+Conflict in state 102 between rule 61 and token '&&' resolved as reduce.
+Conflict in state 102 between rule 61 and token '?' resolved as reduce.
+Conflict in state 102 between rule 61 and token '^^' resolved as reduce.
+Conflict in state 102 between rule 61 and token '/' resolved as reduce.
+Conflict in state 102 between rule 61 and token '=' resolved as reduce.
+Conflict in state 102 between rule 61 and token '<=>' resolved as reduce.
+Conflict in state 103 between rule 49 and token '-' resolved as shift.
+Conflict in state 103 between rule 49 and token 'conforms' resolved as shift.
+Conflict in state 103 between rule 49 and token '<' resolved as shift.
+Conflict in state 103 between rule 49 and token '%' resolved as shift.
+Conflict in state 103 between rule 49 and token '==' resolved as shift.
+Conflict in state 103 between rule 49 and token '>=' resolved as shift.
+Conflict in state 103 between rule 49 and token ' ' resolved as shift.
+Conflict in state 103 between rule 49 and token '*' resolved as shift.
+Conflict in state 103 between rule 49 and token '||' resolved as shift.
+Conflict in state 103 between rule 49 and token '->' resolved as shift.
+Conflict in state 103 between rule 49 and token '=>' resolved as shift.
+Conflict in state 103 between rule 49 and token '<=' resolved as shift.
+Conflict in state 103 between rule 49 and token '>' resolved as shift.
+Conflict in state 103 between rule 49 and token '**' resolved as shift.
+Conflict in state 103 between rule 49 and token '+' resolved as shift.
+Conflict in state 103 between rule 49 and token '^' resolved as shift.
+Conflict in state 103 between rule 49 and token 'per' resolved as shift.
+Conflict in state 103 between rule 49 and token '!=' resolved as shift.
+Conflict in state 103 between rule 49 and token '&&' resolved as shift.
+Conflict in state 103 between rule 49 and token '?' resolved as shift.
+Conflict in state 103 between rule 49 and token '^^' resolved as shift.
+Conflict in state 103 between rule 49 and token '/' resolved as shift.
+Conflict in state 103 between rule 49 and token '=' resolved as shift.
+Conflict in state 103 between rule 49 and token '<=>' resolved as shift.
+Conflict in state 104 between rule 85 and token '-' resolved as shift.
+Conflict in state 104 between rule 85 and token 'conforms' resolved as shift.
+Conflict in state 104 between rule 85 and token '<' resolved as shift.
+Conflict in state 104 between rule 85 and token '%' resolved as shift.
+Conflict in state 104 between rule 85 and token '==' resolved as shift.
+Conflict in state 104 between rule 85 and token '>=' resolved as shift.
+Conflict in state 104 between rule 85 and token ' ' resolved as shift.
+Conflict in state 104 between rule 85 and token '*' resolved as shift.
+Conflict in state 104 between rule 85 and token '||' resolved as shift.
+Conflict in state 104 between rule 85 and token '->' resolved as reduce.
+Conflict in state 104 between rule 85 and token '=>' resolved as reduce.
+Conflict in state 104 between rule 85 and token '<=' resolved as shift.
+Conflict in state 104 between rule 85 and token '>' resolved as shift.
+Conflict in state 104 between rule 85 and token '**' resolved as shift.
+Conflict in state 104 between rule 85 and token '+' resolved as shift.
+Conflict in state 104 between rule 85 and token '^' resolved as shift.
+Conflict in state 104 between rule 85 and token 'per' resolved as shift.
+Conflict in state 104 between rule 85 and token '!=' resolved as shift.
+Conflict in state 104 between rule 85 and token '&&' resolved as shift.
+Conflict in state 104 between rule 85 and token '?' resolved as shift.
+Conflict in state 104 between rule 85 and token '^^' resolved as shift.
+Conflict in state 104 between rule 85 and token '/' resolved as shift.
+Conflict in state 104 between rule 85 and token '=' resolved as reduce.
+Conflict in state 104 between rule 85 and token '<=>' resolved as shift.
+Conflict in state 105 between rule 77 and token '-' resolved as shift.
+Conflict in state 105 between rule 77 and token 'conforms' resolved as reduce.
+Conflict in state 105 between rule 77 and token '<' resolved as error.
+Conflict in state 105 between rule 77 and token '%' resolved as shift.
+Conflict in state 105 between rule 77 and token '==' resolved as error.
+Conflict in state 105 between rule 77 and token '>=' resolved as error.
+Conflict in state 105 between rule 77 and token ' ' resolved as shift.
+Conflict in state 105 between rule 77 and token '*' resolved as shift.
+Conflict in state 105 between rule 77 and token '||' resolved as reduce.
+Conflict in state 105 between rule 77 and token '->' resolved as reduce.
+Conflict in state 105 between rule 77 and token '=>' resolved as reduce.
+Conflict in state 105 between rule 77 and token '<=' resolved as error.
+Conflict in state 105 between rule 77 and token '>' resolved as error.
+Conflict in state 105 between rule 77 and token '**' resolved as shift.
+Conflict in state 105 between rule 77 and token '+' resolved as shift.
+Conflict in state 105 between rule 77 and token '^' resolved as shift.
+Conflict in state 105 between rule 77 and token 'per' resolved as shift.
+Conflict in state 105 between rule 77 and token '!=' resolved as error.
+Conflict in state 105 between rule 77 and token '&&' resolved as reduce.
+Conflict in state 105 between rule 77 and token '?' resolved as reduce.
+Conflict in state 105 between rule 77 and token '^^' resolved as reduce.
+Conflict in state 105 between rule 77 and token '/' resolved as shift.
+Conflict in state 105 between rule 77 and token '=' resolved as reduce.
+Conflict in state 105 between rule 77 and token '<=>' resolved as error.
+Conflict in state 106 between rule 74 and token '-' resolved as shift.
+Conflict in state 106 between rule 74 and token 'conforms' resolved as reduce.
+Conflict in state 106 between rule 74 and token '<' resolved as error.
+Conflict in state 106 between rule 74 and token '%' resolved as shift.
+Conflict in state 106 between rule 74 and token '==' resolved as error.
+Conflict in state 106 between rule 74 and token '>=' resolved as error.
+Conflict in state 106 between rule 74 and token ' ' resolved as shift.
+Conflict in state 106 between rule 74 and token '*' resolved as shift.
+Conflict in state 106 between rule 74 and token '||' resolved as reduce.
+Conflict in state 106 between rule 74 and token '->' resolved as reduce.
+Conflict in state 106 between rule 74 and token '=>' resolved as reduce.
+Conflict in state 106 between rule 74 and token '<=' resolved as error.
+Conflict in state 106 between rule 74 and token '>' resolved as error.
+Conflict in state 106 between rule 74 and token '**' resolved as shift.
+Conflict in state 106 between rule 74 and token '+' resolved as shift.
+Conflict in state 106 between rule 74 and token '^' resolved as shift.
+Conflict in state 106 between rule 74 and token 'per' resolved as shift.
+Conflict in state 106 between rule 74 and token '!=' resolved as error.
+Conflict in state 106 between rule 74 and token '&&' resolved as reduce.
+Conflict in state 106 between rule 74 and token '?' resolved as reduce.
+Conflict in state 106 between rule 74 and token '^^' resolved as reduce.
+Conflict in state 106 between rule 74 and token '/' resolved as shift.
+Conflict in state 106 between rule 74 and token '=' resolved as reduce.
+Conflict in state 106 between rule 74 and token '<=>' resolved as error.
+Conflict in state 107 between rule 73 and token '-' resolved as shift.
+Conflict in state 107 between rule 73 and token 'conforms' resolved as reduce.
+Conflict in state 107 between rule 73 and token '<' resolved as error.
+Conflict in state 107 between rule 73 and token '%' resolved as shift.
+Conflict in state 107 between rule 73 and token '==' resolved as error.
+Conflict in state 107 between rule 73 and token '>=' resolved as error.
+Conflict in state 107 between rule 73 and token ' ' resolved as shift.
+Conflict in state 107 between rule 73 and token '*' resolved as shift.
+Conflict in state 107 between rule 73 and token '||' resolved as reduce.
+Conflict in state 107 between rule 73 and token '->' resolved as reduce.
+Conflict in state 107 between rule 73 and token '=>' resolved as reduce.
+Conflict in state 107 between rule 73 and token '<=' resolved as error.
+Conflict in state 107 between rule 73 and token '>' resolved as error.
+Conflict in state 107 between rule 73 and token '**' resolved as shift.
+Conflict in state 107 between rule 73 and token '+' resolved as shift.
+Conflict in state 107 between rule 73 and token '^' resolved as shift.
+Conflict in state 107 between rule 73 and token 'per' resolved as shift.
+Conflict in state 107 between rule 73 and token '!=' resolved as error.
+Conflict in state 107 between rule 73 and token '&&' resolved as reduce.
+Conflict in state 107 between rule 73 and token '?' resolved as reduce.
+Conflict in state 107 between rule 73 and token '^^' resolved as reduce.
+Conflict in state 107 between rule 73 and token '/' resolved as shift.
+Conflict in state 107 between rule 73 and token '=' resolved as reduce.
+Conflict in state 107 between rule 73 and token '<=>' resolved as error.
+Conflict in state 120 between rule 79 and token '-' resolved as shift.
+Conflict in state 120 between rule 79 and token 'conforms' resolved as shift.
+Conflict in state 120 between rule 79 and token '<' resolved as shift.
+Conflict in state 120 between rule 79 and token '%' resolved as shift.
+Conflict in state 120 between rule 79 and token '==' resolved as shift.
+Conflict in state 120 between rule 79 and token '>=' resolved as shift.
+Conflict in state 120 between rule 79 and token ' ' resolved as shift.
+Conflict in state 120 between rule 79 and token '*' resolved as shift.
+Conflict in state 120 between rule 79 and token '||' resolved as shift.
+Conflict in state 120 between rule 79 and token '->' resolved as shift.
+Conflict in state 120 between rule 79 and token '=>' resolved as shift.
+Conflict in state 120 between rule 79 and token '<=' resolved as shift.
+Conflict in state 120 between rule 79 and token '>' resolved as shift.
+Conflict in state 120 between rule 79 and token '**' resolved as shift.
+Conflict in state 120 between rule 79 and token '+' resolved as shift.
+Conflict in state 120 between rule 79 and token '^' resolved as shift.
+Conflict in state 120 between rule 79 and token 'per' resolved as shift.
+Conflict in state 120 between rule 79 and token '!=' resolved as shift.
+Conflict in state 120 between rule 79 and token '&&' resolved as shift.
+Conflict in state 120 between rule 79 and token '?' resolved as shift.
+Conflict in state 120 between rule 79 and token '^^' resolved as shift.
+Conflict in state 120 between rule 79 and token '/' resolved as shift.
+Conflict in state 120 between rule 79 and token '=' resolved as shift.
+Conflict in state 120 between rule 79 and token '<=>' resolved as shift.
+Conflict in state 121 between rule 80 and token '-' resolved as shift.
+Conflict in state 121 between rule 80 and token 'conforms' resolved as shift.
+Conflict in state 121 between rule 80 and token '<' resolved as shift.
+Conflict in state 121 between rule 80 and token '%' resolved as shift.
+Conflict in state 121 between rule 80 and token '==' resolved as shift.
+Conflict in state 121 between rule 80 and token '>=' resolved as shift.
+Conflict in state 121 between rule 80 and token ' ' resolved as shift.
+Conflict in state 121 between rule 80 and token '*' resolved as shift.
+Conflict in state 121 between rule 80 and token '||' resolved as shift.
+Conflict in state 121 between rule 80 and token '->' resolved as shift.
+Conflict in state 121 between rule 80 and token '=>' resolved as shift.
+Conflict in state 121 between rule 80 and token '<=' resolved as shift.
+Conflict in state 121 between rule 80 and token '>' resolved as shift.
+Conflict in state 121 between rule 80 and token '**' resolved as shift.
+Conflict in state 121 between rule 80 and token '+' resolved as shift.
+Conflict in state 121 between rule 80 and token '^' resolved as shift.
+Conflict in state 121 between rule 80 and token 'per' resolved as shift.
+Conflict in state 121 between rule 80 and token '!=' resolved as shift.
+Conflict in state 121 between rule 80 and token '&&' resolved as shift.
+Conflict in state 121 between rule 80 and token '?' resolved as shift.
+Conflict in state 121 between rule 80 and token '^^' resolved as shift.
+Conflict in state 121 between rule 80 and token '/' resolved as shift.
+Conflict in state 121 between rule 80 and token '=' resolved as shift.
+Conflict in state 121 between rule 80 and token '<=>' resolved as shift.
+Conflict in state 124 between rule 18 and token '\n' resolved as reduce.
+Conflict in state 153 between rule 67 and token '-' resolved as shift.
+Conflict in state 153 between rule 67 and token 'conforms' resolved as shift.
+Conflict in state 153 between rule 67 and token '<' resolved as shift.
+Conflict in state 153 between rule 67 and token '%' resolved as shift.
+Conflict in state 153 between rule 67 and token '==' resolved as shift.
+Conflict in state 153 between rule 67 and token '>=' resolved as shift.
+Conflict in state 153 between rule 67 and token ' ' resolved as shift.
+Conflict in state 153 between rule 67 and token '*' resolved as shift.
+Conflict in state 153 between rule 67 and token '||' resolved as shift.
+Conflict in state 153 between rule 67 and token '->' resolved as reduce.
+Conflict in state 153 between rule 67 and token '=>' resolved as reduce.
+Conflict in state 153 between rule 67 and token '<=' resolved as shift.
+Conflict in state 153 between rule 67 and token '>' resolved as shift.
+Conflict in state 153 between rule 67 and token '**' resolved as shift.
+Conflict in state 153 between rule 67 and token '+' resolved as shift.
+Conflict in state 153 between rule 67 and token '^' resolved as shift.
+Conflict in state 153 between rule 67 and token 'per' resolved as shift.
+Conflict in state 153 between rule 67 and token '!=' resolved as shift.
+Conflict in state 153 between rule 67 and token '&&' resolved as shift.
+Conflict in state 153 between rule 67 and token '?' resolved as shift.
+Conflict in state 153 between rule 67 and token '^^' resolved as shift.
+Conflict in state 153 between rule 67 and token '/' resolved as shift.
+Conflict in state 153 between rule 67 and token '=' resolved as reduce.
+Conflict in state 153 between rule 67 and token '<=>' resolved as shift.
+Conflict in state 166 between rule 81 and token '-' resolved as shift.
+Conflict in state 166 between rule 81 and token 'conforms' resolved as shift.
+Conflict in state 166 between rule 81 and token '<' resolved as shift.
+Conflict in state 166 between rule 81 and token '%' resolved as shift.
+Conflict in state 166 between rule 81 and token '==' resolved as shift.
+Conflict in state 166 between rule 81 and token '>=' resolved as shift.
+Conflict in state 166 between rule 81 and token ' ' resolved as shift.
+Conflict in state 166 between rule 81 and token '*' resolved as shift.
+Conflict in state 166 between rule 81 and token '||' resolved as shift.
+Conflict in state 166 between rule 81 and token '->' resolved as shift.
+Conflict in state 166 between rule 81 and token '=>' resolved as shift.
+Conflict in state 166 between rule 81 and token '<=' resolved as shift.
+Conflict in state 166 between rule 81 and token '>' resolved as shift.
+Conflict in state 166 between rule 81 and token '**' resolved as shift.
+Conflict in state 166 between rule 81 and token '+' resolved as shift.
+Conflict in state 166 between rule 81 and token '^' resolved as shift.
+Conflict in state 166 between rule 81 and token 'per' resolved as shift.
+Conflict in state 166 between rule 81 and token '!=' resolved as shift.
+Conflict in state 166 between rule 81 and token '&&' resolved as shift.
+Conflict in state 166 between rule 81 and token '?' resolved as shift.
+Conflict in state 166 between rule 81 and token '^^' resolved as shift.
+Conflict in state 166 between rule 81 and token '/' resolved as shift.
+Conflict in state 166 between rule 81 and token '=' resolved as shift.
+Conflict in state 166 between rule 81 and token '<=>' resolved as shift.
 
 Rules:
 ------
@@ -679,7 +684,7 @@ Rules:
 4:	stma -> stmt '\n' stma
 5:	stmt -> expr
 6:	stmt -> 'var' NAME
-7:	stmt -> 'var' assignexpr
+7:	stmt -> 'var' NAME '=' expr
 8:	stmt -> NAME ':=' expr
 9:	stmt -> expr ':->' expr
 10:	stmt -> NAME '=!=' NAME
@@ -721,7 +726,7 @@ Rules:
 46:	exprval -> exprval1
 47:	exprval -> exprval2
 48:	exprval -> arrayfetchexpr
-49:	assignexpr -> NAME '=' expr
+49:	assignexpr -> expr '=' expr
 50:	arrayfetchexpr -> exprval '@' array '$'
 51:	lambda -> '{`' arglist '`' stma '}'
 52:	multexpr -> expr '*' expr
@@ -758,11 +763,10 @@ Rules:
 83:	expr -> '[' array ']'
 84:	expr -> lambda
 85:	expr -> expr '=>' expr
-86:	expr -> arrayfetchexpr '=' expr
-87:	expr -> expr '->' expr
-88:	expr -> DATE
-89:	expr -> STRING
-90:	expr -> assignexpr
+86:	expr -> expr '->' expr
+87:	expr -> DATE
+88:	expr -> STRING
+89:	expr -> assignexpr
 
 States:
 -------
@@ -838,30 +842,27 @@ State 3:
 
 State 4:
 
-	expr -> DATE .	(Rule 88)
+	expr -> DATE .	(Rule 87)
 
-	$default	reduce using rule 88 (expr)
+	$default	reduce using rule 87 (expr)
 
 State 5:
 
 	exprval -> arrayfetchexpr .	(Rule 48)
-	expr -> arrayfetchexpr . '=' expr	(Rule 86)
-
-	'='	shift, and go to state 29
 
 	$default	reduce using rule 48 (exprval)
 
 State 6:
 
-	expr -> assignexpr .	(Rule 90)
+	expr -> assignexpr .	(Rule 89)
 
-	$default	reduce using rule 90 (expr)
+	$default	reduce using rule 89 (expr)
 
 State 7:
 
-	expr -> STRING .	(Rule 89)
+	expr -> STRING .	(Rule 88)
 
-	$default	reduce using rule 89 (expr)
+	$default	reduce using rule 88 (expr)
 
 State 8:
 
@@ -879,7 +880,7 @@ State 10:
 
 	ifstartcond -> 'if' . '(' expr ')'	(Rule 14)
 
-	'('	shift, and go to state 30
+	'('	shift, and go to state 29
 
 State 11:
 
@@ -887,19 +888,20 @@ State 11:
 
 	'('	shift, and go to state 26
 	HEXNUMBER	shift, and go to state 25
-	NAME	shift, and go to state 32
+	NAME	shift, and go to state 30
 	NUMBER	shift, and go to state 15
 
 	exprval1	go to state 9
 	exprval2	go to state 2
-	exprval	go to state 33
-	arrayfetchexpr	go to state 31
+	exprval	go to state 31
+	arrayfetchexpr	go to state 5
 
 State 12:
 
 	stmt -> expr .	(Rule 5)
 	stmt -> expr . ':->' expr	(Rule 9)
 	stmt -> expr . '|||' NAME	(Rule 11)
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -922,33 +924,34 @@ State 12:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'&&'	shift, and go to state 50
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'->'	shift, and go to state 53
-	'/'	shift, and go to state 54
-	':->'	shift, and go to state 46
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'=>'	shift, and go to state 55
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'?'	shift, and go to state 51
-	'^'	shift, and go to state 42
-	'^^'	shift, and go to state 52
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
-	'||'	shift, and go to state 49
-	'|||'	shift, and go to state 48
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'&&'	shift, and go to state 48
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'->'	shift, and go to state 51
+	'/'	shift, and go to state 52
+	':->'	shift, and go to state 44
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'='	shift, and go to state 53
+	'=='	shift, and go to state 38
+	'=>'	shift, and go to state 54
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'?'	shift, and go to state 49
+	'^'	shift, and go to state 40
+	'^^'	shift, and go to state 50
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
+	'||'	shift, and go to state 47
+	'|||'	shift, and go to state 46
 
 	$default	reduce using rule 5 (stmt)
 
@@ -958,7 +961,7 @@ State 13:
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
-	','	shift, and go to state 59
+	','	shift, and go to state 58
 	'-'	shift, and go to state 1
 	'['	shift, and go to state 13
 	'{`'	shift, and go to state 16
@@ -976,8 +979,8 @@ State 13:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 	exprval1	go to state 9
-	array	go to state 60
-	expr	go to state 61
+	array	go to state 59
+	expr	go to state 60
 	multexpr	go to state 14
 
 State 14:
@@ -996,32 +999,30 @@ State 16:
 
 	lambda -> '{`' . arglist '`' stma '}'	(Rule 51)
 
-	NAME	shift, and go to state 63
+	NAME	shift, and go to state 62
 
 	$default	reduce using rule 39 (argelement)
 
-	arglist	go to state 64
-	argelement	go to state 62
+	arglist	go to state 63
+	argelement	go to state 61
 
 State 17:
 
 	stmt -> NAME . ':=' expr	(Rule 8)
 	stmt -> NAME . '=!=' NAME	(Rule 10)
 	exprval2 -> NAME .	(Rule 44)
-	assignexpr -> NAME . '=' expr	(Rule 49)
 	multexpr -> NAME . '[' array ']'	(Rule 54)
 	expr -> NAME . '::-' expr	(Rule 79)
 	expr -> NAME . ':-' expr	(Rule 80)
 	expr -> NAME . '{' arglist '}' ':=' expr	(Rule 81)
 	expr -> NAME . '{' arglist '}' ':=' '{' stma '}'	(Rule 82)
 
-	':-'	shift, and go to state 71
-	'::-'	shift, and go to state 69
-	':='	shift, and go to state 66
-	'=!='	shift, and go to state 68
-	'='	shift, and go to state 70
-	'['	shift, and go to state 65
-	'{'	shift, and go to state 67
+	':-'	shift, and go to state 69
+	'::-'	shift, and go to state 68
+	':='	shift, and go to state 65
+	'=!='	shift, and go to state 67
+	'['	shift, and go to state 64
+	'{'	shift, and go to state 66
 
 	$default	reduce using rule 44 (exprval2)
 
@@ -1029,7 +1030,7 @@ State 18:
 
 	$start -> stma . $end	(Rule 0)
 
-	$end	shift, and go to state 72
+	$end	shift, and go to state 70
 
 State 19:
 
@@ -1038,26 +1039,24 @@ State 19:
 	expr -> exprval .	(Rule 56)
 
 	'('	shift, and go to state 26
-	'@'	shift, and go to state 73
+	'@'	shift, and go to state 71
 	HEXNUMBER	shift, and go to state 25
-	NAME	shift, and go to state 32
+	NAME	shift, and go to state 30
 	NUMBER	shift, and go to state 15
 
 	$default	reduce using rule 56 (expr)
 
 	exprval1	go to state 9
 	exprval2	go to state 2
-	exprval	go to state 74
-	arrayfetchexpr	go to state 31
+	exprval	go to state 72
+	arrayfetchexpr	go to state 5
 
 State 20:
 
 	stmt -> 'var' . NAME	(Rule 6)
-	stmt -> 'var' . assignexpr	(Rule 7)
+	stmt -> 'var' . NAME '=' expr	(Rule 7)
 
-	NAME	shift, and go to state 76
-
-	assignexpr	go to state 75
+	NAME	shift, and go to state 73
 
 State 21:
 
@@ -1072,16 +1071,16 @@ State 21:
 	if -> ifstartcond . ifstmts 'else' '\n' ifstmts	(Rule 24)
 	if -> ifstartcond . ifstmts '\n' 'else' '\n' ifstmts	(Rule 25)
 
-	'\n'	shift, and go to state 77
-	'{'	shift, and go to state 78
+	'\n'	shift, and go to state 74
+	'{'	shift, and go to state 75
 
-	ifstmts	go to state 79
+	ifstmts	go to state 76
 
 State 22:
 
 	while -> 'while' . '(' expr ')' '{' stma '}'	(Rule 26)
 
-	'('	shift, and go to state 80
+	'('	shift, and go to state 77
 
 State 23:
 
@@ -1089,8 +1088,8 @@ State 23:
 	stma -> stmt . ';' stma	(Rule 3)
 	stma -> stmt . '\n' stma	(Rule 4)
 
-	';'	shift, and go to state 81
-	'\n'	shift, and go to state 82
+	';'	shift, and go to state 78
+	'\n'	shift, and go to state 79
 
 	$default	reduce using rule 2 (stma)
 
@@ -1123,7 +1122,7 @@ State 26:
 
 	exprval1	go to state 9
 	exprval2	go to state 2
-	expr	go to state 83
+	expr	go to state 80
 	lambda	go to state 3
 	exprval	go to state 19
 	multexpr	go to state 14
@@ -1132,6 +1131,7 @@ State 26:
 
 State 27:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> '-' expr .	(Rule 57)
@@ -1155,34 +1155,119 @@ State 27:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	'**'	shift, and go to state 37
-	'^'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'^'	shift, and go to state 40
 
 	$default	reduce using rule 57 (expr)
 
 State 28:
 
 	exprval2 -> NAME .	(Rule 44)
-	assignexpr -> NAME . '=' expr	(Rule 49)
 	multexpr -> NAME . '[' array ']'	(Rule 54)
 	expr -> NAME . '::-' expr	(Rule 79)
 	expr -> NAME . ':-' expr	(Rule 80)
 	expr -> NAME . '{' arglist '}' ':=' expr	(Rule 81)
 	expr -> NAME . '{' arglist '}' ':=' '{' stma '}'	(Rule 82)
 
-	':-'	shift, and go to state 71
-	'::-'	shift, and go to state 69
-	'='	shift, and go to state 70
-	'['	shift, and go to state 65
-	'{'	shift, and go to state 67
+	':-'	shift, and go to state 69
+	'::-'	shift, and go to state 68
+	'['	shift, and go to state 64
+	'{'	shift, and go to state 66
 
 	$default	reduce using rule 44 (exprval2)
 
 State 29:
 
-	expr -> arrayfetchexpr '=' . expr	(Rule 86)
+	ifstartcond -> 'if' '(' . expr ')'	(Rule 14)
+
+	'!'	shift, and go to state 11
+	'('	shift, and go to state 26
+	'-'	shift, and go to state 1
+	'['	shift, and go to state 13
+	'{`'	shift, and go to state 16
+	DATE	shift, and go to state 4
+	HEXNUMBER	shift, and go to state 25
+	NAME	shift, and go to state 28
+	NUMBER	shift, and go to state 15
+	STRING	shift, and go to state 7
+
+	exprval1	go to state 9
+	exprval2	go to state 2
+	expr	go to state 81
+	lambda	go to state 3
+	exprval	go to state 19
+	multexpr	go to state 14
+	arrayfetchexpr	go to state 5
+	assignexpr	go to state 6
+
+State 30:
+
+	exprval2 -> NAME .	(Rule 44)
+
+	$default	reduce using rule 44 (exprval2)
+
+State 31:
+
+	arrayfetchexpr -> exprval . '@' array '$'	(Rule 50)
+	expr -> '!' exprval .	(Rule 71)
+
+	'@'	shift, and go to state 71
+
+	$default	reduce using rule 71 (expr)
+
+State 32:
+
+	expr -> expr '-' . expr	(Rule 60)
+
+	'!'	shift, and go to state 11
+	'('	shift, and go to state 26
+	'-'	shift, and go to state 1
+	'['	shift, and go to state 13
+	'{`'	shift, and go to state 16
+	DATE	shift, and go to state 4
+	HEXNUMBER	shift, and go to state 25
+	NAME	shift, and go to state 28
+	NUMBER	shift, and go to state 15
+	STRING	shift, and go to state 7
+
+	exprval1	go to state 9
+	exprval2	go to state 2
+	expr	go to state 82
+	lambda	go to state 3
+	exprval	go to state 19
+	multexpr	go to state 14
+	arrayfetchexpr	go to state 5
+	assignexpr	go to state 6
+
+State 33:
+
+	expr -> expr 'conforms' . expr	(Rule 66)
+
+	'!'	shift, and go to state 11
+	'('	shift, and go to state 26
+	'-'	shift, and go to state 1
+	'['	shift, and go to state 13
+	'{`'	shift, and go to state 16
+	DATE	shift, and go to state 4
+	HEXNUMBER	shift, and go to state 25
+	NAME	shift, and go to state 28
+	NUMBER	shift, and go to state 15
+	STRING	shift, and go to state 7
+
+	exprval1	go to state 9
+	exprval2	go to state 2
+	expr	go to state 83
+	lambda	go to state 3
+	exprval	go to state 19
+	multexpr	go to state 14
+	arrayfetchexpr	go to state 5
+	assignexpr	go to state 6
+
+State 34:
+
+	expr -> expr '<' . expr	(Rule 72)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1204,9 +1289,9 @@ State 29:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 30:
+State 35:
 
-	ifstartcond -> 'if' '(' . expr ')'	(Rule 14)
+	expr -> expr '**' . expr	(Rule 65)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1228,30 +1313,9 @@ State 30:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 31:
+State 36:
 
-	exprval -> arrayfetchexpr .	(Rule 48)
-
-	$default	reduce using rule 48 (exprval)
-
-State 32:
-
-	exprval2 -> NAME .	(Rule 44)
-
-	$default	reduce using rule 44 (exprval2)
-
-State 33:
-
-	arrayfetchexpr -> exprval . '@' array '$'	(Rule 50)
-	expr -> '!' exprval .	(Rule 71)
-
-	'@'	shift, and go to state 73
-
-	$default	reduce using rule 71 (expr)
-
-State 34:
-
-	expr -> expr '-' . expr	(Rule 60)
+	expr -> expr '+' . expr	(Rule 59)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1273,9 +1337,9 @@ State 34:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 35:
+State 37:
 
-	expr -> expr 'conforms' . expr	(Rule 66)
+	expr -> expr '%' . expr	(Rule 63)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1297,9 +1361,9 @@ State 35:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 36:
+State 38:
 
-	expr -> expr '<' . expr	(Rule 72)
+	expr -> expr '==' . expr	(Rule 76)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1321,9 +1385,9 @@ State 36:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 37:
+State 39:
 
-	expr -> expr '**' . expr	(Rule 65)
+	expr -> expr '>=' . expr	(Rule 75)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1345,9 +1409,9 @@ State 37:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 38:
+State 40:
 
-	expr -> expr '+' . expr	(Rule 59)
+	expr -> expr '^' . expr	(Rule 64)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1369,9 +1433,9 @@ State 38:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 39:
+State 41:
 
-	expr -> expr '%' . expr	(Rule 63)
+	multexpr -> expr ' ' . expr	(Rule 55)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1393,9 +1457,9 @@ State 39:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 40:
+State 42:
 
-	expr -> expr '==' . expr	(Rule 76)
+	multexpr -> expr '*' . expr	(Rule 52)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1417,9 +1481,9 @@ State 40:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 41:
+State 43:
 
-	expr -> expr '>=' . expr	(Rule 75)
+	expr -> expr 'per' . expr	(Rule 62)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1441,9 +1505,9 @@ State 41:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 42:
+State 44:
 
-	expr -> expr '^' . expr	(Rule 64)
+	stmt -> expr ':->' . expr	(Rule 9)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1465,9 +1529,9 @@ State 42:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 43:
+State 45:
 
-	multexpr -> expr ' ' . expr	(Rule 55)
+	expr -> expr '!=' . expr	(Rule 78)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1489,33 +1553,15 @@ State 43:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 44:
+State 46:
 
-	multexpr -> expr '*' . expr	(Rule 52)
+	stmt -> expr '|||' . NAME	(Rule 11)
 
-	'!'	shift, and go to state 11
-	'('	shift, and go to state 26
-	'-'	shift, and go to state 1
-	'['	shift, and go to state 13
-	'{`'	shift, and go to state 16
-	DATE	shift, and go to state 4
-	HEXNUMBER	shift, and go to state 25
-	NAME	shift, and go to state 28
-	NUMBER	shift, and go to state 15
-	STRING	shift, and go to state 7
+	NAME	shift, and go to state 96
 
-	exprval1	go to state 9
-	exprval2	go to state 2
-	expr	go to state 96
-	lambda	go to state 3
-	exprval	go to state 19
-	multexpr	go to state 14
-	arrayfetchexpr	go to state 5
-	assignexpr	go to state 6
+State 47:
 
-State 45:
-
-	expr -> expr 'per' . expr	(Rule 62)
+	expr -> expr '||' . expr	(Rule 69)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1537,9 +1583,9 @@ State 45:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 46:
+State 48:
 
-	stmt -> expr ':->' . expr	(Rule 9)
+	expr -> expr '&&' . expr	(Rule 68)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1561,9 +1607,9 @@ State 46:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 47:
+State 49:
 
-	expr -> expr '!=' . expr	(Rule 78)
+	expr -> expr '?' . expr ':' expr	(Rule 67)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1585,15 +1631,33 @@ State 47:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 48:
+State 50:
 
-	stmt -> expr '|||' . NAME	(Rule 11)
+	expr -> expr '^^' . expr	(Rule 70)
 
-	NAME	shift, and go to state 100
+	'!'	shift, and go to state 11
+	'('	shift, and go to state 26
+	'-'	shift, and go to state 1
+	'['	shift, and go to state 13
+	'{`'	shift, and go to state 16
+	DATE	shift, and go to state 4
+	HEXNUMBER	shift, and go to state 25
+	NAME	shift, and go to state 28
+	NUMBER	shift, and go to state 15
+	STRING	shift, and go to state 7
 
-State 49:
+	exprval1	go to state 9
+	exprval2	go to state 2
+	expr	go to state 100
+	lambda	go to state 3
+	exprval	go to state 19
+	multexpr	go to state 14
+	arrayfetchexpr	go to state 5
+	assignexpr	go to state 6
 
-	expr -> expr '||' . expr	(Rule 69)
+State 51:
+
+	expr -> expr '->' . expr	(Rule 86)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1615,9 +1679,9 @@ State 49:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 50:
+State 52:
 
-	expr -> expr '&&' . expr	(Rule 68)
+	expr -> expr '/' . expr	(Rule 61)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1639,9 +1703,9 @@ State 50:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 51:
+State 53:
 
-	expr -> expr '?' . expr ':' expr	(Rule 67)
+	assignexpr -> expr '=' . expr	(Rule 49)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1663,9 +1727,9 @@ State 51:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 52:
+State 54:
 
-	expr -> expr '^^' . expr	(Rule 70)
+	expr -> expr '=>' . expr	(Rule 85)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1687,9 +1751,9 @@ State 52:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 53:
+State 55:
 
-	expr -> expr '->' . expr	(Rule 87)
+	expr -> expr '<=>' . expr	(Rule 77)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1711,9 +1775,9 @@ State 53:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 54:
+State 56:
 
-	expr -> expr '/' . expr	(Rule 61)
+	expr -> expr '<=' . expr	(Rule 74)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1735,9 +1799,9 @@ State 54:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 55:
+State 57:
 
-	expr -> expr '=>' . expr	(Rule 85)
+	expr -> expr '>' . expr	(Rule 73)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -1759,85 +1823,13 @@ State 55:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 56:
-
-	expr -> expr '<=>' . expr	(Rule 77)
-
-	'!'	shift, and go to state 11
-	'('	shift, and go to state 26
-	'-'	shift, and go to state 1
-	'['	shift, and go to state 13
-	'{`'	shift, and go to state 16
-	DATE	shift, and go to state 4
-	HEXNUMBER	shift, and go to state 25
-	NAME	shift, and go to state 28
-	NUMBER	shift, and go to state 15
-	STRING	shift, and go to state 7
-
-	exprval1	go to state 9
-	exprval2	go to state 2
-	expr	go to state 108
-	lambda	go to state 3
-	exprval	go to state 19
-	multexpr	go to state 14
-	arrayfetchexpr	go to state 5
-	assignexpr	go to state 6
-
-State 57:
-
-	expr -> expr '<=' . expr	(Rule 74)
-
-	'!'	shift, and go to state 11
-	'('	shift, and go to state 26
-	'-'	shift, and go to state 1
-	'['	shift, and go to state 13
-	'{`'	shift, and go to state 16
-	DATE	shift, and go to state 4
-	HEXNUMBER	shift, and go to state 25
-	NAME	shift, and go to state 28
-	NUMBER	shift, and go to state 15
-	STRING	shift, and go to state 7
-
-	exprval1	go to state 9
-	exprval2	go to state 2
-	expr	go to state 109
-	lambda	go to state 3
-	exprval	go to state 19
-	multexpr	go to state 14
-	arrayfetchexpr	go to state 5
-	assignexpr	go to state 6
-
 State 58:
-
-	expr -> expr '>' . expr	(Rule 73)
-
-	'!'	shift, and go to state 11
-	'('	shift, and go to state 26
-	'-'	shift, and go to state 1
-	'['	shift, and go to state 13
-	'{`'	shift, and go to state 16
-	DATE	shift, and go to state 4
-	HEXNUMBER	shift, and go to state 25
-	NAME	shift, and go to state 28
-	NUMBER	shift, and go to state 15
-	STRING	shift, and go to state 7
-
-	exprval1	go to state 9
-	exprval2	go to state 2
-	expr	go to state 110
-	lambda	go to state 3
-	exprval	go to state 19
-	multexpr	go to state 14
-	arrayfetchexpr	go to state 5
-	assignexpr	go to state 6
-
-State 59:
 
 	array -> ',' . array	(Rule 30)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
-	','	shift, and go to state 59
+	','	shift, and go to state 58
 	'-'	shift, and go to state 1
 	'['	shift, and go to state 13
 	'{`'	shift, and go to state 16
@@ -1855,20 +1847,21 @@ State 59:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 	exprval1	go to state 9
-	array	go to state 111
-	expr	go to state 61
+	array	go to state 108
+	expr	go to state 60
 	multexpr	go to state 14
 
-State 60:
+State 59:
 
 	expr -> '[' array . ']'	(Rule 83)
 
-	']'	shift, and go to state 112
+	']'	shift, and go to state 109
 
-State 61:
+State 60:
 
 	array -> expr . ',' array	(Rule 27)
 	array -> expr .	(Rule 28)
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -1891,45 +1884,46 @@ State 61:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'&&'	shift, and go to state 50
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	','	shift, and go to state 113
-	'-'	shift, and go to state 34
-	'->'	shift, and go to state 53
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'=>'	shift, and go to state 55
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'?'	shift, and go to state 51
-	'^'	shift, and go to state 42
-	'^^'	shift, and go to state 52
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
-	'||'	shift, and go to state 49
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'&&'	shift, and go to state 48
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	','	shift, and go to state 110
+	'-'	shift, and go to state 32
+	'->'	shift, and go to state 51
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'='	shift, and go to state 53
+	'=='	shift, and go to state 38
+	'=>'	shift, and go to state 54
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'?'	shift, and go to state 49
+	'^'	shift, and go to state 40
+	'^^'	shift, and go to state 50
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
+	'||'	shift, and go to state 47
 
 	$default	reduce using rule 28 (array)
 
-State 62:
+State 61:
 
 	arglist -> argelement . ',' arglist	(Rule 40)
 	arglist -> argelement .	(Rule 41)
 
-	','	shift, and go to state 114
+	','	shift, and go to state 111
 
 	$default	reduce using rule 41 (arglist)
 
-State 63:
+State 62:
 
 	argelement -> NAME . '=' expr 'isa' constraint	(Rule 33)
 	argelement -> NAME . 'isa' constraint	(Rule 34)
@@ -1938,25 +1932,25 @@ State 63:
 	argelement -> NAME . 'byref' 'isa' constraint	(Rule 37)
 	argelement -> NAME . 'byref'	(Rule 38)
 
-	'='	shift, and go to state 116
-	'byref'	shift, and go to state 115
-	'isa'	shift, and go to state 117
+	'='	shift, and go to state 113
+	'byref'	shift, and go to state 112
+	'isa'	shift, and go to state 114
 
 	$default	reduce using rule 36 (argelement)
 
-State 64:
+State 63:
 
 	lambda -> '{`' arglist . '`' stma '}'	(Rule 51)
 
-	'`'	shift, and go to state 118
+	'`'	shift, and go to state 115
 
-State 65:
+State 64:
 
 	multexpr -> NAME '[' . array ']'	(Rule 54)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
-	','	shift, and go to state 59
+	','	shift, and go to state 58
 	'-'	shift, and go to state 1
 	'['	shift, and go to state 13
 	'{`'	shift, and go to state 16
@@ -1974,13 +1968,55 @@ State 65:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 	exprval1	go to state 9
-	array	go to state 119
-	expr	go to state 61
+	array	go to state 116
+	expr	go to state 60
 	multexpr	go to state 14
+
+State 65:
+
+	stmt -> NAME ':=' . expr	(Rule 8)
+
+	'!'	shift, and go to state 11
+	'('	shift, and go to state 26
+	'-'	shift, and go to state 1
+	'['	shift, and go to state 13
+	'{`'	shift, and go to state 16
+	DATE	shift, and go to state 4
+	HEXNUMBER	shift, and go to state 25
+	NAME	shift, and go to state 28
+	NUMBER	shift, and go to state 15
+	STRING	shift, and go to state 7
+
+	exprval1	go to state 9
+	exprval2	go to state 2
+	expr	go to state 117
+	lambda	go to state 3
+	exprval	go to state 19
+	multexpr	go to state 14
+	arrayfetchexpr	go to state 5
+	assignexpr	go to state 6
 
 State 66:
 
-	stmt -> NAME ':=' . expr	(Rule 8)
+	expr -> NAME '{' . arglist '}' ':=' expr	(Rule 81)
+	expr -> NAME '{' . arglist '}' ':=' '{' stma '}'	(Rule 82)
+
+	NAME	shift, and go to state 62
+
+	$default	reduce using rule 39 (argelement)
+
+	arglist	go to state 118
+	argelement	go to state 61
+
+State 67:
+
+	stmt -> NAME '=!=' . NAME	(Rule 10)
+
+	NAME	shift, and go to state 119
+
+State 68:
+
+	expr -> NAME '::-' . expr	(Rule 79)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
@@ -2002,73 +2038,7 @@ State 66:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 67:
-
-	expr -> NAME '{' . arglist '}' ':=' expr	(Rule 81)
-	expr -> NAME '{' . arglist '}' ':=' '{' stma '}'	(Rule 82)
-
-	NAME	shift, and go to state 63
-
-	$default	reduce using rule 39 (argelement)
-
-	arglist	go to state 121
-	argelement	go to state 62
-
-State 68:
-
-	stmt -> NAME '=!=' . NAME	(Rule 10)
-
-	NAME	shift, and go to state 122
-
 State 69:
-
-	expr -> NAME '::-' . expr	(Rule 79)
-
-	'!'	shift, and go to state 11
-	'('	shift, and go to state 26
-	'-'	shift, and go to state 1
-	'['	shift, and go to state 13
-	'{`'	shift, and go to state 16
-	DATE	shift, and go to state 4
-	HEXNUMBER	shift, and go to state 25
-	NAME	shift, and go to state 28
-	NUMBER	shift, and go to state 15
-	STRING	shift, and go to state 7
-
-	exprval1	go to state 9
-	exprval2	go to state 2
-	expr	go to state 123
-	lambda	go to state 3
-	exprval	go to state 19
-	multexpr	go to state 14
-	arrayfetchexpr	go to state 5
-	assignexpr	go to state 6
-
-State 70:
-
-	assignexpr -> NAME '=' . expr	(Rule 49)
-
-	'!'	shift, and go to state 11
-	'('	shift, and go to state 26
-	'-'	shift, and go to state 1
-	'['	shift, and go to state 13
-	'{`'	shift, and go to state 16
-	DATE	shift, and go to state 4
-	HEXNUMBER	shift, and go to state 25
-	NAME	shift, and go to state 28
-	NUMBER	shift, and go to state 15
-	STRING	shift, and go to state 7
-
-	exprval1	go to state 9
-	exprval2	go to state 2
-	expr	go to state 124
-	lambda	go to state 3
-	exprval	go to state 19
-	multexpr	go to state 14
-	arrayfetchexpr	go to state 5
-	assignexpr	go to state 6
-
-State 71:
 
 	expr -> NAME ':-' . expr	(Rule 80)
 
@@ -2085,26 +2055,26 @@ State 71:
 
 	exprval1	go to state 9
 	exprval2	go to state 2
-	expr	go to state 125
+	expr	go to state 121
 	lambda	go to state 3
 	exprval	go to state 19
 	multexpr	go to state 14
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 72:
+State 70:
 
 	$start -> stma $end .	(Rule 0)
 
 	$default	accept
 
-State 73:
+State 71:
 
 	arrayfetchexpr -> exprval '@' . array '$'	(Rule 50)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
-	','	shift, and go to state 59
+	','	shift, and go to state 58
 	'-'	shift, and go to state 1
 	'['	shift, and go to state 13
 	'{`'	shift, and go to state 16
@@ -2122,35 +2092,29 @@ State 73:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 	exprval1	go to state 9
-	array	go to state 126
-	expr	go to state 61
+	array	go to state 122
+	expr	go to state 60
 	multexpr	go to state 14
 
-State 74:
+State 72:
 
 	arrayfetchexpr -> exprval . '@' array '$'	(Rule 50)
 	multexpr -> exprval exprval .	(Rule 53)
 
-	'@'	shift, and go to state 73
+	'@'	shift, and go to state 71
 
 	$default	reduce using rule 53 (multexpr)
 
-State 75:
-
-	stmt -> 'var' assignexpr .	(Rule 7)
-
-	$default	reduce using rule 7 (stmt)
-
-State 76:
+State 73:
 
 	stmt -> 'var' NAME .	(Rule 6)
-	assignexpr -> NAME . '=' expr	(Rule 49)
+	stmt -> 'var' NAME . '=' expr	(Rule 7)
 
-	'='	shift, and go to state 70
+	'='	shift, and go to state 123
 
 	$default	reduce using rule 6 (stmt)
 
-State 77:
+State 74:
 
 	if -> ifstartcond '\n' . ifstmts	(Rule 18)
 	if -> ifstartcond '\n' . ifstmts 'else' ifstmts	(Rule 19)
@@ -2158,11 +2122,11 @@ State 77:
 	if -> ifstartcond '\n' . ifstmts 'else' '\n' ifstmts	(Rule 21)
 	if -> ifstartcond '\n' . ifstmts '\n' 'else' '\n' ifstmts	(Rule 22)
 
-	'{'	shift, and go to state 78
+	'{'	shift, and go to state 75
 
-	ifstmts	go to state 127
+	ifstmts	go to state 124
 
-State 78:
+State 75:
 
 	ifstmts -> '{' . stma '}'	(Rule 15)
 
@@ -2183,7 +2147,7 @@ State 78:
 	$default	reduce using rule 1 (stma)
 
 	exprval2	go to state 2
-	stma	go to state 128
+	stma	go to state 125
 	lambda	go to state 3
 	exprval	go to state 19
 	ifstartcond	go to state 21
@@ -2196,7 +2160,7 @@ State 78:
 	expr	go to state 12
 	multexpr	go to state 14
 
-State 79:
+State 76:
 
 	if -> ifstartcond ifstmts .	(Rule 16)
 	if -> ifstartcond ifstmts . 'else' ifstmts	(Rule 17)
@@ -2204,11 +2168,11 @@ State 79:
 	if -> ifstartcond ifstmts . 'else' '\n' ifstmts	(Rule 24)
 	if -> ifstartcond ifstmts . '\n' 'else' '\n' ifstmts	(Rule 25)
 
-	'else'	shift, and go to state 129
+	'else'	shift, and go to state 126
 
 	$default	reduce using rule 16 (if)
 
-State 80:
+State 77:
 
 	while -> 'while' '(' . expr ')' '{' stma '}'	(Rule 26)
 
@@ -2225,14 +2189,14 @@ State 80:
 
 	exprval1	go to state 9
 	exprval2	go to state 2
-	expr	go to state 131
+	expr	go to state 128
 	lambda	go to state 3
 	exprval	go to state 19
 	multexpr	go to state 14
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 81:
+State 78:
 
 	stma -> stmt ';' . stma	(Rule 3)
 
@@ -2253,7 +2217,7 @@ State 81:
 	$default	reduce using rule 1 (stma)
 
 	exprval2	go to state 2
-	stma	go to state 132
+	stma	go to state 129
 	lambda	go to state 3
 	exprval	go to state 19
 	ifstartcond	go to state 21
@@ -2266,7 +2230,7 @@ State 81:
 	expr	go to state 12
 	multexpr	go to state 14
 
-State 82:
+State 79:
 
 	stma -> stmt '\n' . stma	(Rule 4)
 
@@ -2287,7 +2251,7 @@ State 82:
 	$default	reduce using rule 1 (stma)
 
 	exprval2	go to state 2
-	stma	go to state 133
+	stma	go to state 130
 	lambda	go to state 3
 	exprval	go to state 19
 	ifstartcond	go to state 21
@@ -2300,9 +2264,10 @@ State 82:
 	expr	go to state 12
 	multexpr	go to state 14
 
-State 83:
+State 80:
 
 	exprval2 -> '(' expr . ')'	(Rule 45)
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -2325,89 +2290,38 @@ State 83:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'&&'	shift, and go to state 50
-	')'	shift, and go to state 134
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'->'	shift, and go to state 53
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'=>'	shift, and go to state 55
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'?'	shift, and go to state 51
-	'^'	shift, and go to state 42
-	'^^'	shift, and go to state 52
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
-	'||'	shift, and go to state 49
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'&&'	shift, and go to state 48
+	')'	shift, and go to state 131
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'->'	shift, and go to state 51
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'='	shift, and go to state 53
+	'=='	shift, and go to state 38
+	'=>'	shift, and go to state 54
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'?'	shift, and go to state 49
+	'^'	shift, and go to state 40
+	'^^'	shift, and go to state 50
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
+	'||'	shift, and go to state 47
 
-State 84:
-
-	multexpr -> expr . '*' expr	(Rule 52)
-	multexpr -> expr . ' ' expr	(Rule 55)
-	expr -> expr . '+' expr	(Rule 59)
-	expr -> expr . '-' expr	(Rule 60)
-	expr -> expr . '/' expr	(Rule 61)
-	expr -> expr . 'per' expr	(Rule 62)
-	expr -> expr . '%' expr	(Rule 63)
-	expr -> expr . '^' expr	(Rule 64)
-	expr -> expr . '**' expr	(Rule 65)
-	expr -> expr . 'conforms' expr	(Rule 66)
-	expr -> expr . '?' expr ':' expr	(Rule 67)
-	expr -> expr . '&&' expr	(Rule 68)
-	expr -> expr . '||' expr	(Rule 69)
-	expr -> expr . '^^' expr	(Rule 70)
-	expr -> expr . '<' expr	(Rule 72)
-	expr -> expr . '>' expr	(Rule 73)
-	expr -> expr . '<=' expr	(Rule 74)
-	expr -> expr . '>=' expr	(Rule 75)
-	expr -> expr . '==' expr	(Rule 76)
-	expr -> expr . '<=>' expr	(Rule 77)
-	expr -> expr . '!=' expr	(Rule 78)
-	expr -> expr . '=>' expr	(Rule 85)
-	expr -> arrayfetchexpr '=' expr .	(Rule 86)
-	expr -> expr . '->' expr	(Rule 87)
-
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'&&'	shift, and go to state 50
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'->'	shift, and go to state 53
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'=>'	shift, and go to state 55
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'?'	shift, and go to state 51
-	'^'	shift, and go to state 42
-	'^^'	shift, and go to state 52
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
-	'||'	shift, and go to state 49
-
-	$default	reduce using rule 86 (expr)
-
-State 85:
+State 81:
 
 	ifstartcond -> 'if' '(' expr . ')'	(Rule 14)
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -2430,35 +2344,37 @@ State 85:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'&&'	shift, and go to state 50
-	')'	shift, and go to state 135
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'->'	shift, and go to state 53
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'=>'	shift, and go to state 55
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'?'	shift, and go to state 51
-	'^'	shift, and go to state 42
-	'^^'	shift, and go to state 52
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
-	'||'	shift, and go to state 49
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'&&'	shift, and go to state 48
+	')'	shift, and go to state 132
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'->'	shift, and go to state 51
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'='	shift, and go to state 53
+	'=='	shift, and go to state 38
+	'=>'	shift, and go to state 54
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'?'	shift, and go to state 49
+	'^'	shift, and go to state 40
+	'^^'	shift, and go to state 50
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
+	'||'	shift, and go to state 47
 
-State 86:
+State 82:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -2482,20 +2398,21 @@ State 86:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'%'	shift, and go to state 39
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'/'	shift, and go to state 54
-	'^'	shift, and go to state 42
-	'per'	shift, and go to state 45
+	' '	shift, and go to state 41
+	'%'	shift, and go to state 37
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'/'	shift, and go to state 52
+	'^'	shift, and go to state 40
+	'per'	shift, and go to state 43
 
 	$default	reduce using rule 60 (expr)
 
-State 87:
+State 83:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -2519,29 +2436,30 @@ State 87:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'^'	shift, and go to state 42
-	'per'	shift, and go to state 45
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'=='	shift, and go to state 38
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'^'	shift, and go to state 40
+	'per'	shift, and go to state 43
 
 	$default	reduce using rule 66 (expr)
 
-State 88:
+State 84:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -2565,17 +2483,17 @@ State 88:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'%'	shift, and go to state 39
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'/'	shift, and go to state 54
-	'^'	shift, and go to state 42
-	'per'	shift, and go to state 45
+	' '	shift, and go to state 41
+	'%'	shift, and go to state 37
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'/'	shift, and go to state 52
+	'^'	shift, and go to state 40
+	'per'	shift, and go to state 43
 
 	'!='	error (nonassociative)
 	'<'	error (nonassociative)
@@ -2587,8 +2505,9 @@ State 88:
 
 	$default	reduce using rule 72 (expr)
 
-State 89:
+State 85:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -2612,12 +2531,13 @@ State 89:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
 	$default	reduce using rule 65 (expr)
 
-State 90:
+State 86:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -2641,20 +2561,21 @@ State 90:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'%'	shift, and go to state 39
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'/'	shift, and go to state 54
-	'^'	shift, and go to state 42
-	'per'	shift, and go to state 45
+	' '	shift, and go to state 41
+	'%'	shift, and go to state 37
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'/'	shift, and go to state 52
+	'^'	shift, and go to state 40
+	'per'	shift, and go to state 43
 
 	$default	reduce using rule 59 (expr)
 
-State 91:
+State 87:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -2678,15 +2599,16 @@ State 91:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	'**'	shift, and go to state 37
-	'^'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'^'	shift, and go to state 40
 
 	$default	reduce using rule 63 (expr)
 
-State 92:
+State 88:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -2710,17 +2632,17 @@ State 92:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'%'	shift, and go to state 39
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'/'	shift, and go to state 54
-	'^'	shift, and go to state 42
-	'per'	shift, and go to state 45
+	' '	shift, and go to state 41
+	'%'	shift, and go to state 37
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'/'	shift, and go to state 52
+	'^'	shift, and go to state 40
+	'per'	shift, and go to state 43
 
 	'!='	error (nonassociative)
 	'<'	error (nonassociative)
@@ -2732,8 +2654,9 @@ State 92:
 
 	$default	reduce using rule 76 (expr)
 
-State 93:
+State 89:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -2757,17 +2680,17 @@ State 93:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'%'	shift, and go to state 39
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'/'	shift, and go to state 54
-	'^'	shift, and go to state 42
-	'per'	shift, and go to state 45
+	' '	shift, and go to state 41
+	'%'	shift, and go to state 37
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'/'	shift, and go to state 52
+	'^'	shift, and go to state 40
+	'per'	shift, and go to state 43
 
 	'!='	error (nonassociative)
 	'<'	error (nonassociative)
@@ -2779,8 +2702,9 @@ State 93:
 
 	$default	reduce using rule 75 (expr)
 
-State 94:
+State 90:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -2804,12 +2728,13 @@ State 94:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
 	$default	reduce using rule 64 (expr)
 
-State 95:
+State 91:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	multexpr -> expr ' ' expr .	(Rule 55)
@@ -2833,15 +2758,16 @@ State 95:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	'**'	shift, and go to state 37
-	'^'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'^'	shift, and go to state 40
 
 	$default	reduce using rule 55 (multexpr)
 
-State 96:
+State 92:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr '*' expr .	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
@@ -2865,15 +2791,16 @@ State 96:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	'**'	shift, and go to state 37
-	'^'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'^'	shift, and go to state 40
 
 	$default	reduce using rule 52 (multexpr)
 
-State 97:
+State 93:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -2897,20 +2824,21 @@ State 97:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'%'	shift, and go to state 39
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'/'	shift, and go to state 54
-	'^'	shift, and go to state 42
+	' '	shift, and go to state 41
+	'%'	shift, and go to state 37
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'/'	shift, and go to state 52
+	'^'	shift, and go to state 40
 
 	$default	reduce using rule 62 (expr)
 
-State 98:
+State 94:
 
 	stmt -> expr ':->' expr .	(Rule 9)
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -2933,36 +2861,38 @@ State 98:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'&&'	shift, and go to state 50
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'->'	shift, and go to state 53
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'=>'	shift, and go to state 55
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'?'	shift, and go to state 51
-	'^'	shift, and go to state 42
-	'^^'	shift, and go to state 52
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
-	'||'	shift, and go to state 49
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'&&'	shift, and go to state 48
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'->'	shift, and go to state 51
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'='	shift, and go to state 53
+	'=='	shift, and go to state 38
+	'=>'	shift, and go to state 54
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'?'	shift, and go to state 49
+	'^'	shift, and go to state 40
+	'^^'	shift, and go to state 50
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
+	'||'	shift, and go to state 47
 
 	$default	reduce using rule 9 (stmt)
 
-State 99:
+State 95:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -2986,17 +2916,17 @@ State 99:
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr '!=' expr .	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'%'	shift, and go to state 39
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'/'	shift, and go to state 54
-	'^'	shift, and go to state 42
-	'per'	shift, and go to state 45
+	' '	shift, and go to state 41
+	'%'	shift, and go to state 37
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'/'	shift, and go to state 52
+	'^'	shift, and go to state 40
+	'per'	shift, and go to state 43
 
 	'!='	error (nonassociative)
 	'<'	error (nonassociative)
@@ -3008,14 +2938,15 @@ State 99:
 
 	$default	reduce using rule 78 (expr)
 
-State 100:
+State 96:
 
 	stmt -> expr '|||' NAME .	(Rule 11)
 
 	$default	reduce using rule 11 (stmt)
 
-State 101:
+State 97:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -3039,30 +2970,31 @@ State 101:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'^'	shift, and go to state 42
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'=='	shift, and go to state 38
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'^'	shift, and go to state 40
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
 
 	$default	reduce using rule 69 (expr)
 
-State 102:
+State 98:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -3086,30 +3018,31 @@ State 102:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'^'	shift, and go to state 42
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'=='	shift, and go to state 38
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'^'	shift, and go to state 40
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
 
 	$default	reduce using rule 68 (expr)
 
-State 103:
+State 99:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -3133,35 +3066,37 @@ State 103:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'&&'	shift, and go to state 50
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'->'	shift, and go to state 53
-	'/'	shift, and go to state 54
-	':'	shift, and go to state 136
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'=>'	shift, and go to state 55
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'?'	shift, and go to state 51
-	'^'	shift, and go to state 42
-	'^^'	shift, and go to state 52
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
-	'||'	shift, and go to state 49
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'&&'	shift, and go to state 48
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'->'	shift, and go to state 51
+	'/'	shift, and go to state 52
+	':'	shift, and go to state 133
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'='	shift, and go to state 53
+	'=='	shift, and go to state 38
+	'=>'	shift, and go to state 54
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'?'	shift, and go to state 49
+	'^'	shift, and go to state 40
+	'^^'	shift, and go to state 50
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
+	'||'	shift, and go to state 47
 
-State 104:
+State 100:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -3185,30 +3120,31 @@ State 104:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'^'	shift, and go to state 42
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'=='	shift, and go to state 38
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'^'	shift, and go to state 40
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
 
 	$default	reduce using rule 70 (expr)
 
-State 105:
+State 101:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -3231,35 +3167,36 @@ State 105:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
-	expr -> expr '->' expr .	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
+	expr -> expr '->' expr .	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'&&'	shift, and go to state 50
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'?'	shift, and go to state 51
-	'^'	shift, and go to state 42
-	'^^'	shift, and go to state 52
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
-	'||'	shift, and go to state 49
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'&&'	shift, and go to state 48
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'=='	shift, and go to state 38
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'?'	shift, and go to state 49
+	'^'	shift, and go to state 40
+	'^^'	shift, and go to state 50
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
+	'||'	shift, and go to state 47
 
-	$default	reduce using rule 87 (expr)
+	$default	reduce using rule 86 (expr)
 
-State 106:
+State 102:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -3283,15 +3220,71 @@ State 106:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	'**'	shift, and go to state 37
-	'^'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'^'	shift, and go to state 40
 
 	$default	reduce using rule 61 (expr)
 
-State 107:
+State 103:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
+	assignexpr -> expr '=' expr .	(Rule 49)
+	multexpr -> expr . '*' expr	(Rule 52)
+	multexpr -> expr . ' ' expr	(Rule 55)
+	expr -> expr . '+' expr	(Rule 59)
+	expr -> expr . '-' expr	(Rule 60)
+	expr -> expr . '/' expr	(Rule 61)
+	expr -> expr . 'per' expr	(Rule 62)
+	expr -> expr . '%' expr	(Rule 63)
+	expr -> expr . '^' expr	(Rule 64)
+	expr -> expr . '**' expr	(Rule 65)
+	expr -> expr . 'conforms' expr	(Rule 66)
+	expr -> expr . '?' expr ':' expr	(Rule 67)
+	expr -> expr . '&&' expr	(Rule 68)
+	expr -> expr . '||' expr	(Rule 69)
+	expr -> expr . '^^' expr	(Rule 70)
+	expr -> expr . '<' expr	(Rule 72)
+	expr -> expr . '>' expr	(Rule 73)
+	expr -> expr . '<=' expr	(Rule 74)
+	expr -> expr . '>=' expr	(Rule 75)
+	expr -> expr . '==' expr	(Rule 76)
+	expr -> expr . '<=>' expr	(Rule 77)
+	expr -> expr . '!=' expr	(Rule 78)
+	expr -> expr . '=>' expr	(Rule 85)
+	expr -> expr . '->' expr	(Rule 86)
+
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'&&'	shift, and go to state 48
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'->'	shift, and go to state 51
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'='	shift, and go to state 53
+	'=='	shift, and go to state 38
+	'=>'	shift, and go to state 54
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'?'	shift, and go to state 49
+	'^'	shift, and go to state 40
+	'^^'	shift, and go to state 50
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
+	'||'	shift, and go to state 47
+
+	$default	reduce using rule 49 (assignexpr)
+
+State 104:
+
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -3315,34 +3308,35 @@ State 107:
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
 	expr -> expr '=>' expr .	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'&&'	shift, and go to state 50
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'?'	shift, and go to state 51
-	'^'	shift, and go to state 42
-	'^^'	shift, and go to state 52
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
-	'||'	shift, and go to state 49
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'&&'	shift, and go to state 48
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'=='	shift, and go to state 38
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'?'	shift, and go to state 49
+	'^'	shift, and go to state 40
+	'^^'	shift, and go to state 50
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
+	'||'	shift, and go to state 47
 
 	$default	reduce using rule 85 (expr)
 
-State 108:
+State 105:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -3366,17 +3360,17 @@ State 108:
 	expr -> expr '<=>' expr .	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'%'	shift, and go to state 39
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'/'	shift, and go to state 54
-	'^'	shift, and go to state 42
-	'per'	shift, and go to state 45
+	' '	shift, and go to state 41
+	'%'	shift, and go to state 37
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'/'	shift, and go to state 52
+	'^'	shift, and go to state 40
+	'per'	shift, and go to state 43
 
 	'!='	error (nonassociative)
 	'<'	error (nonassociative)
@@ -3388,8 +3382,9 @@ State 108:
 
 	$default	reduce using rule 77 (expr)
 
-State 109:
+State 106:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -3413,17 +3408,17 @@ State 109:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'%'	shift, and go to state 39
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'/'	shift, and go to state 54
-	'^'	shift, and go to state 42
-	'per'	shift, and go to state 45
+	' '	shift, and go to state 41
+	'%'	shift, and go to state 37
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'/'	shift, and go to state 52
+	'^'	shift, and go to state 40
+	'per'	shift, and go to state 43
 
 	'!='	error (nonassociative)
 	'<'	error (nonassociative)
@@ -3435,8 +3430,9 @@ State 109:
 
 	$default	reduce using rule 74 (expr)
 
-State 110:
+State 107:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -3460,17 +3456,17 @@ State 110:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'%'	shift, and go to state 39
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'/'	shift, and go to state 54
-	'^'	shift, and go to state 42
-	'per'	shift, and go to state 45
+	' '	shift, and go to state 41
+	'%'	shift, and go to state 37
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'/'	shift, and go to state 52
+	'^'	shift, and go to state 40
+	'per'	shift, and go to state 43
 
 	'!='	error (nonassociative)
 	'<'	error (nonassociative)
@@ -3482,25 +3478,25 @@ State 110:
 
 	$default	reduce using rule 73 (expr)
 
-State 111:
+State 108:
 
 	array -> ',' array .	(Rule 30)
 
 	$default	reduce using rule 30 (array)
 
-State 112:
+State 109:
 
 	expr -> '[' array ']' .	(Rule 83)
 
 	$default	reduce using rule 83 (expr)
 
-State 113:
+State 110:
 
 	array -> expr ',' . array	(Rule 27)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
-	','	shift, and go to state 59
+	','	shift, and go to state 58
 	'-'	shift, and go to state 1
 	'['	shift, and go to state 13
 	'{`'	shift, and go to state 16
@@ -3518,31 +3514,31 @@ State 113:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 	exprval1	go to state 9
-	array	go to state 137
-	expr	go to state 61
+	array	go to state 134
+	expr	go to state 60
 	multexpr	go to state 14
 
-State 114:
+State 111:
 
 	arglist -> argelement ',' . arglist	(Rule 40)
 
-	NAME	shift, and go to state 63
+	NAME	shift, and go to state 62
 
 	$default	reduce using rule 39 (argelement)
 
-	arglist	go to state 138
-	argelement	go to state 62
+	arglist	go to state 135
+	argelement	go to state 61
 
-State 115:
+State 112:
 
 	argelement -> NAME 'byref' . 'isa' constraint	(Rule 37)
 	argelement -> NAME 'byref' .	(Rule 38)
 
-	'isa'	shift, and go to state 139
+	'isa'	shift, and go to state 136
 
 	$default	reduce using rule 38 (argelement)
 
-State 116:
+State 113:
 
 	argelement -> NAME '=' . expr 'isa' constraint	(Rule 33)
 	argelement -> NAME '=' . expr	(Rule 35)
@@ -3560,21 +3556,21 @@ State 116:
 
 	exprval1	go to state 9
 	exprval2	go to state 2
-	expr	go to state 140
+	expr	go to state 137
 	lambda	go to state 3
 	exprval	go to state 19
 	multexpr	go to state 14
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 117:
+State 114:
 
 	argelement -> NAME 'isa' . constraint	(Rule 34)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
 	'-'	shift, and go to state 1
-	'...'	shift, and go to state 143
+	'...'	shift, and go to state 140
 	'['	shift, and go to state 13
 	'{`'	shift, and go to state 16
 	DATE	shift, and go to state 4
@@ -3589,11 +3585,11 @@ State 117:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 	exprval1	go to state 9
-	expr	go to state 141
+	expr	go to state 138
 	multexpr	go to state 14
-	constraint	go to state 142
+	constraint	go to state 139
 
-State 118:
+State 115:
 
 	lambda -> '{`' arglist '`' . stma '}'	(Rule 51)
 
@@ -3614,7 +3610,7 @@ State 118:
 	$default	reduce using rule 1 (stma)
 
 	exprval2	go to state 2
-	stma	go to state 144
+	stma	go to state 141
 	lambda	go to state 3
 	exprval	go to state 19
 	ifstartcond	go to state 21
@@ -3627,15 +3623,16 @@ State 118:
 	expr	go to state 12
 	multexpr	go to state 14
 
-State 119:
+State 116:
 
 	multexpr -> NAME '[' array . ']'	(Rule 54)
 
-	']'	shift, and go to state 145
+	']'	shift, and go to state 142
 
-State 120:
+State 117:
 
 	stmt -> NAME ':=' expr .	(Rule 8)
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -3658,49 +3655,51 @@ State 120:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'&&'	shift, and go to state 50
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'->'	shift, and go to state 53
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'=>'	shift, and go to state 55
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'?'	shift, and go to state 51
-	'^'	shift, and go to state 42
-	'^^'	shift, and go to state 52
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
-	'||'	shift, and go to state 49
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'&&'	shift, and go to state 48
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'->'	shift, and go to state 51
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'='	shift, and go to state 53
+	'=='	shift, and go to state 38
+	'=>'	shift, and go to state 54
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'?'	shift, and go to state 49
+	'^'	shift, and go to state 40
+	'^^'	shift, and go to state 50
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
+	'||'	shift, and go to state 47
 
 	$default	reduce using rule 8 (stmt)
 
-State 121:
+State 118:
 
 	expr -> NAME '{' arglist . '}' ':=' expr	(Rule 81)
 	expr -> NAME '{' arglist . '}' ':=' '{' stma '}'	(Rule 82)
 
-	'}'	shift, and go to state 146
+	'}'	shift, and go to state 143
 
-State 122:
+State 119:
 
 	stmt -> NAME '=!=' NAME .	(Rule 10)
 
 	$default	reduce using rule 10 (stmt)
 
-State 123:
+State 120:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -3724,89 +3723,38 @@ State 123:
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> NAME '::-' expr .	(Rule 79)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'&&'	shift, and go to state 50
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'->'	shift, and go to state 53
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'=>'	shift, and go to state 55
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'?'	shift, and go to state 51
-	'^'	shift, and go to state 42
-	'^^'	shift, and go to state 52
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
-	'||'	shift, and go to state 49
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'&&'	shift, and go to state 48
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'->'	shift, and go to state 51
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'='	shift, and go to state 53
+	'=='	shift, and go to state 38
+	'=>'	shift, and go to state 54
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'?'	shift, and go to state 49
+	'^'	shift, and go to state 40
+	'^^'	shift, and go to state 50
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
+	'||'	shift, and go to state 47
 
 	$default	reduce using rule 79 (expr)
 
-State 124:
+State 121:
 
-	assignexpr -> NAME '=' expr .	(Rule 49)
-	multexpr -> expr . '*' expr	(Rule 52)
-	multexpr -> expr . ' ' expr	(Rule 55)
-	expr -> expr . '+' expr	(Rule 59)
-	expr -> expr . '-' expr	(Rule 60)
-	expr -> expr . '/' expr	(Rule 61)
-	expr -> expr . 'per' expr	(Rule 62)
-	expr -> expr . '%' expr	(Rule 63)
-	expr -> expr . '^' expr	(Rule 64)
-	expr -> expr . '**' expr	(Rule 65)
-	expr -> expr . 'conforms' expr	(Rule 66)
-	expr -> expr . '?' expr ':' expr	(Rule 67)
-	expr -> expr . '&&' expr	(Rule 68)
-	expr -> expr . '||' expr	(Rule 69)
-	expr -> expr . '^^' expr	(Rule 70)
-	expr -> expr . '<' expr	(Rule 72)
-	expr -> expr . '>' expr	(Rule 73)
-	expr -> expr . '<=' expr	(Rule 74)
-	expr -> expr . '>=' expr	(Rule 75)
-	expr -> expr . '==' expr	(Rule 76)
-	expr -> expr . '<=>' expr	(Rule 77)
-	expr -> expr . '!=' expr	(Rule 78)
-	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
-
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'&&'	shift, and go to state 50
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'->'	shift, and go to state 53
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'=>'	shift, and go to state 55
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'?'	shift, and go to state 51
-	'^'	shift, and go to state 42
-	'^^'	shift, and go to state 52
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
-	'||'	shift, and go to state 49
-
-	$default	reduce using rule 49 (assignexpr)
-
-State 125:
-
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -3830,41 +3778,66 @@ State 125:
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> NAME ':-' expr .	(Rule 80)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'&&'	shift, and go to state 50
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'->'	shift, and go to state 53
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'=>'	shift, and go to state 55
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'?'	shift, and go to state 51
-	'^'	shift, and go to state 42
-	'^^'	shift, and go to state 52
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
-	'||'	shift, and go to state 49
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'&&'	shift, and go to state 48
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'->'	shift, and go to state 51
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'='	shift, and go to state 53
+	'=='	shift, and go to state 38
+	'=>'	shift, and go to state 54
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'?'	shift, and go to state 49
+	'^'	shift, and go to state 40
+	'^^'	shift, and go to state 50
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
+	'||'	shift, and go to state 47
 
 	$default	reduce using rule 80 (expr)
 
-State 126:
+State 122:
 
 	arrayfetchexpr -> exprval '@' array . '$'	(Rule 50)
 
-	'$'	shift, and go to state 147
+	'$'	shift, and go to state 144
 
-State 127:
+State 123:
+
+	stmt -> 'var' NAME '=' . expr	(Rule 7)
+
+	'!'	shift, and go to state 11
+	'('	shift, and go to state 26
+	'-'	shift, and go to state 1
+	'['	shift, and go to state 13
+	'{`'	shift, and go to state 16
+	DATE	shift, and go to state 4
+	HEXNUMBER	shift, and go to state 25
+	NAME	shift, and go to state 28
+	NUMBER	shift, and go to state 15
+	STRING	shift, and go to state 7
+
+	exprval1	go to state 9
+	exprval2	go to state 2
+	expr	go to state 145
+	lambda	go to state 3
+	exprval	go to state 19
+	multexpr	go to state 14
+	arrayfetchexpr	go to state 5
+	assignexpr	go to state 6
+
+State 124:
 
 	if -> ifstartcond '\n' ifstmts .	(Rule 18)
 	if -> ifstartcond '\n' ifstmts . 'else' ifstmts	(Rule 19)
@@ -3872,36 +3845,37 @@ State 127:
 	if -> ifstartcond '\n' ifstmts . 'else' '\n' ifstmts	(Rule 21)
 	if -> ifstartcond '\n' ifstmts . '\n' 'else' '\n' ifstmts	(Rule 22)
 
-	'else'	shift, and go to state 148
+	'else'	shift, and go to state 146
 
 	$default	reduce using rule 18 (if)
 
-State 128:
+State 125:
 
 	ifstmts -> '{' stma . '}'	(Rule 15)
 
-	'}'	shift, and go to state 150
+	'}'	shift, and go to state 148
 
-State 129:
+State 126:
 
 	if -> ifstartcond ifstmts 'else' . ifstmts	(Rule 17)
 	if -> ifstartcond ifstmts 'else' . '\n' ifstmts	(Rule 24)
 
-	'\n'	shift, and go to state 151
-	'{'	shift, and go to state 78
+	'\n'	shift, and go to state 149
+	'{'	shift, and go to state 75
 
-	ifstmts	go to state 152
+	ifstmts	go to state 150
 
-State 130:
+State 127:
 
 	if -> ifstartcond ifstmts '\n' . 'else' ifstmts	(Rule 23)
 	if -> ifstartcond ifstmts '\n' . 'else' '\n' ifstmts	(Rule 25)
 
-	'else'	shift, and go to state 153
+	'else'	shift, and go to state 151
 
-State 131:
+State 128:
 
 	while -> 'while' '(' expr . ')' '{' stma '}'	(Rule 26)
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -3924,58 +3898,59 @@ State 131:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'&&'	shift, and go to state 50
-	')'	shift, and go to state 154
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'->'	shift, and go to state 53
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'=>'	shift, and go to state 55
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'?'	shift, and go to state 51
-	'^'	shift, and go to state 42
-	'^^'	shift, and go to state 52
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
-	'||'	shift, and go to state 49
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'&&'	shift, and go to state 48
+	')'	shift, and go to state 152
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'->'	shift, and go to state 51
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'='	shift, and go to state 53
+	'=='	shift, and go to state 38
+	'=>'	shift, and go to state 54
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'?'	shift, and go to state 49
+	'^'	shift, and go to state 40
+	'^^'	shift, and go to state 50
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
+	'||'	shift, and go to state 47
 
-State 132:
+State 129:
 
 	stma -> stmt ';' stma .	(Rule 3)
 
 	$default	reduce using rule 3 (stma)
 
-State 133:
+State 130:
 
 	stma -> stmt '\n' stma .	(Rule 4)
 
 	$default	reduce using rule 4 (stma)
 
-State 134:
+State 131:
 
 	exprval2 -> '(' expr ')' .	(Rule 45)
 
 	$default	reduce using rule 45 (exprval2)
 
-State 135:
+State 132:
 
 	ifstartcond -> 'if' '(' expr ')' .	(Rule 14)
 
 	$default	reduce using rule 14 (ifstartcond)
 
-State 136:
+State 133:
 
 	expr -> expr '?' expr ':' . expr	(Rule 67)
 
@@ -3992,33 +3967,33 @@ State 136:
 
 	exprval1	go to state 9
 	exprval2	go to state 2
-	expr	go to state 155
+	expr	go to state 153
 	lambda	go to state 3
 	exprval	go to state 19
 	multexpr	go to state 14
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 137:
+State 134:
 
 	array -> expr ',' array .	(Rule 27)
 
 	$default	reduce using rule 27 (array)
 
-State 138:
+State 135:
 
 	arglist -> argelement ',' arglist .	(Rule 40)
 
 	$default	reduce using rule 40 (arglist)
 
-State 139:
+State 136:
 
 	argelement -> NAME 'byref' 'isa' . constraint	(Rule 37)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
 	'-'	shift, and go to state 1
-	'...'	shift, and go to state 143
+	'...'	shift, and go to state 140
 	'['	shift, and go to state 13
 	'{`'	shift, and go to state 16
 	DATE	shift, and go to state 4
@@ -4033,14 +4008,15 @@ State 139:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 	exprval1	go to state 9
-	expr	go to state 141
+	expr	go to state 138
 	multexpr	go to state 14
-	constraint	go to state 156
+	constraint	go to state 154
 
-State 140:
+State 137:
 
 	argelement -> NAME '=' expr . 'isa' constraint	(Rule 33)
 	argelement -> NAME '=' expr .	(Rule 35)
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -4063,38 +4039,40 @@ State 140:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'&&'	shift, and go to state 50
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'->'	shift, and go to state 53
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'=>'	shift, and go to state 55
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'?'	shift, and go to state 51
-	'^'	shift, and go to state 42
-	'^^'	shift, and go to state 52
-	'conforms'	shift, and go to state 35
-	'isa'	shift, and go to state 157
-	'per'	shift, and go to state 45
-	'||'	shift, and go to state 49
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'&&'	shift, and go to state 48
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'->'	shift, and go to state 51
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'='	shift, and go to state 53
+	'=='	shift, and go to state 38
+	'=>'	shift, and go to state 54
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'?'	shift, and go to state 49
+	'^'	shift, and go to state 40
+	'^^'	shift, and go to state 50
+	'conforms'	shift, and go to state 33
+	'isa'	shift, and go to state 155
+	'per'	shift, and go to state 43
+	'||'	shift, and go to state 47
 
 	$default	reduce using rule 35 (argelement)
 
-State 141:
+State 138:
 
 	constraint -> expr .	(Rule 31)
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -4117,126 +4095,183 @@ State 141:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'&&'	shift, and go to state 50
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'->'	shift, and go to state 53
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'=>'	shift, and go to state 55
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'?'	shift, and go to state 51
-	'^'	shift, and go to state 42
-	'^^'	shift, and go to state 52
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
-	'||'	shift, and go to state 49
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'&&'	shift, and go to state 48
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'->'	shift, and go to state 51
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'='	shift, and go to state 53
+	'=='	shift, and go to state 38
+	'=>'	shift, and go to state 54
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'?'	shift, and go to state 49
+	'^'	shift, and go to state 40
+	'^^'	shift, and go to state 50
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
+	'||'	shift, and go to state 47
 
 	$default	reduce using rule 31 (constraint)
 
-State 142:
+State 139:
 
 	argelement -> NAME 'isa' constraint .	(Rule 34)
 
 	$default	reduce using rule 34 (argelement)
 
-State 143:
+State 140:
 
 	constraint -> '...' .	(Rule 32)
 
 	$default	reduce using rule 32 (constraint)
 
-State 144:
+State 141:
 
 	lambda -> '{`' arglist '`' stma . '}'	(Rule 51)
 
-	'}'	shift, and go to state 158
+	'}'	shift, and go to state 156
 
-State 145:
+State 142:
 
 	multexpr -> NAME '[' array ']' .	(Rule 54)
 
 	$default	reduce using rule 54 (multexpr)
 
-State 146:
+State 143:
 
 	expr -> NAME '{' arglist '}' . ':=' expr	(Rule 81)
 	expr -> NAME '{' arglist '}' . ':=' '{' stma '}'	(Rule 82)
 
-	':='	shift, and go to state 159
+	':='	shift, and go to state 157
 
-State 147:
+State 144:
 
 	arrayfetchexpr -> exprval '@' array '$' .	(Rule 50)
 
 	$default	reduce using rule 50 (arrayfetchexpr)
 
-State 148:
+State 145:
+
+	stmt -> 'var' NAME '=' expr .	(Rule 7)
+	assignexpr -> expr . '=' expr	(Rule 49)
+	multexpr -> expr . '*' expr	(Rule 52)
+	multexpr -> expr . ' ' expr	(Rule 55)
+	expr -> expr . '+' expr	(Rule 59)
+	expr -> expr . '-' expr	(Rule 60)
+	expr -> expr . '/' expr	(Rule 61)
+	expr -> expr . 'per' expr	(Rule 62)
+	expr -> expr . '%' expr	(Rule 63)
+	expr -> expr . '^' expr	(Rule 64)
+	expr -> expr . '**' expr	(Rule 65)
+	expr -> expr . 'conforms' expr	(Rule 66)
+	expr -> expr . '?' expr ':' expr	(Rule 67)
+	expr -> expr . '&&' expr	(Rule 68)
+	expr -> expr . '||' expr	(Rule 69)
+	expr -> expr . '^^' expr	(Rule 70)
+	expr -> expr . '<' expr	(Rule 72)
+	expr -> expr . '>' expr	(Rule 73)
+	expr -> expr . '<=' expr	(Rule 74)
+	expr -> expr . '>=' expr	(Rule 75)
+	expr -> expr . '==' expr	(Rule 76)
+	expr -> expr . '<=>' expr	(Rule 77)
+	expr -> expr . '!=' expr	(Rule 78)
+	expr -> expr . '=>' expr	(Rule 85)
+	expr -> expr . '->' expr	(Rule 86)
+
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'&&'	shift, and go to state 48
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'->'	shift, and go to state 51
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'='	shift, and go to state 53
+	'=='	shift, and go to state 38
+	'=>'	shift, and go to state 54
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'?'	shift, and go to state 49
+	'^'	shift, and go to state 40
+	'^^'	shift, and go to state 50
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
+	'||'	shift, and go to state 47
+
+	$default	reduce using rule 7 (stmt)
+
+State 146:
 
 	if -> ifstartcond '\n' ifstmts 'else' . ifstmts	(Rule 19)
 	if -> ifstartcond '\n' ifstmts 'else' . '\n' ifstmts	(Rule 21)
 
-	'\n'	shift, and go to state 160
-	'{'	shift, and go to state 78
+	'\n'	shift, and go to state 158
+	'{'	shift, and go to state 75
 
-	ifstmts	go to state 161
+	ifstmts	go to state 159
 
-State 149:
+State 147:
 
 	if -> ifstartcond '\n' ifstmts '\n' . 'else' ifstmts	(Rule 20)
 	if -> ifstartcond '\n' ifstmts '\n' . 'else' '\n' ifstmts	(Rule 22)
 
-	'else'	shift, and go to state 162
+	'else'	shift, and go to state 160
 
-State 150:
+State 148:
 
 	ifstmts -> '{' stma '}' .	(Rule 15)
 
 	$default	reduce using rule 15 (ifstmts)
 
-State 151:
+State 149:
 
 	if -> ifstartcond ifstmts 'else' '\n' . ifstmts	(Rule 24)
 
-	'{'	shift, and go to state 78
+	'{'	shift, and go to state 75
 
-	ifstmts	go to state 163
+	ifstmts	go to state 161
 
-State 152:
+State 150:
 
 	if -> ifstartcond ifstmts 'else' ifstmts .	(Rule 17)
 
 	$default	reduce using rule 17 (if)
 
-State 153:
+State 151:
 
 	if -> ifstartcond ifstmts '\n' 'else' . ifstmts	(Rule 23)
 	if -> ifstartcond ifstmts '\n' 'else' . '\n' ifstmts	(Rule 25)
 
-	'\n'	shift, and go to state 164
-	'{'	shift, and go to state 78
+	'\n'	shift, and go to state 162
+	'{'	shift, and go to state 75
 
-	ifstmts	go to state 165
+	ifstmts	go to state 163
 
-State 154:
+State 152:
 
 	while -> 'while' '(' expr ')' . '{' stma '}'	(Rule 26)
 
-	'{'	shift, and go to state 166
+	'{'	shift, and go to state 164
 
-State 155:
+State 153:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -4260,46 +4295,46 @@ State 155:
 	expr -> expr . '<=>' expr	(Rule 77)
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'&&'	shift, and go to state 50
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'?'	shift, and go to state 51
-	'^'	shift, and go to state 42
-	'^^'	shift, and go to state 52
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
-	'||'	shift, and go to state 49
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'&&'	shift, and go to state 48
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'=='	shift, and go to state 38
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'?'	shift, and go to state 49
+	'^'	shift, and go to state 40
+	'^^'	shift, and go to state 50
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
+	'||'	shift, and go to state 47
 
 	$default	reduce using rule 67 (expr)
 
-State 156:
+State 154:
 
 	argelement -> NAME 'byref' 'isa' constraint .	(Rule 37)
 
 	$default	reduce using rule 37 (argelement)
 
-State 157:
+State 155:
 
 	argelement -> NAME '=' expr 'isa' . constraint	(Rule 33)
 
 	'!'	shift, and go to state 11
 	'('	shift, and go to state 26
 	'-'	shift, and go to state 1
-	'...'	shift, and go to state 143
+	'...'	shift, and go to state 140
 	'['	shift, and go to state 13
 	'{`'	shift, and go to state 16
 	DATE	shift, and go to state 4
@@ -4314,17 +4349,17 @@ State 157:
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 	exprval1	go to state 9
-	expr	go to state 141
+	expr	go to state 138
 	multexpr	go to state 14
-	constraint	go to state 167
+	constraint	go to state 165
 
-State 158:
+State 156:
 
 	lambda -> '{`' arglist '`' stma '}' .	(Rule 51)
 
 	$default	reduce using rule 51 (lambda)
 
-State 159:
+State 157:
 
 	expr -> NAME '{' arglist '}' ':=' . expr	(Rule 81)
 	expr -> NAME '{' arglist '}' ':=' . '{' stma '}'	(Rule 82)
@@ -4333,7 +4368,7 @@ State 159:
 	'('	shift, and go to state 26
 	'-'	shift, and go to state 1
 	'['	shift, and go to state 13
-	'{'	shift, and go to state 169
+	'{'	shift, and go to state 167
 	'{`'	shift, and go to state 16
 	DATE	shift, and go to state 4
 	HEXNUMBER	shift, and go to state 25
@@ -4343,58 +4378,58 @@ State 159:
 
 	exprval1	go to state 9
 	exprval2	go to state 2
-	expr	go to state 168
+	expr	go to state 166
 	lambda	go to state 3
 	exprval	go to state 19
 	multexpr	go to state 14
 	arrayfetchexpr	go to state 5
 	assignexpr	go to state 6
 
-State 160:
+State 158:
 
 	if -> ifstartcond '\n' ifstmts 'else' '\n' . ifstmts	(Rule 21)
 
-	'{'	shift, and go to state 78
+	'{'	shift, and go to state 75
 
-	ifstmts	go to state 170
+	ifstmts	go to state 168
 
-State 161:
+State 159:
 
 	if -> ifstartcond '\n' ifstmts 'else' ifstmts .	(Rule 19)
 
 	$default	reduce using rule 19 (if)
 
-State 162:
+State 160:
 
 	if -> ifstartcond '\n' ifstmts '\n' 'else' . ifstmts	(Rule 20)
 	if -> ifstartcond '\n' ifstmts '\n' 'else' . '\n' ifstmts	(Rule 22)
 
-	'\n'	shift, and go to state 171
-	'{'	shift, and go to state 78
+	'\n'	shift, and go to state 169
+	'{'	shift, and go to state 75
 
-	ifstmts	go to state 172
+	ifstmts	go to state 170
 
-State 163:
+State 161:
 
 	if -> ifstartcond ifstmts 'else' '\n' ifstmts .	(Rule 24)
 
 	$default	reduce using rule 24 (if)
 
-State 164:
+State 162:
 
 	if -> ifstartcond ifstmts '\n' 'else' '\n' . ifstmts	(Rule 25)
 
-	'{'	shift, and go to state 78
+	'{'	shift, and go to state 75
 
-	ifstmts	go to state 173
+	ifstmts	go to state 171
 
-State 165:
+State 163:
 
 	if -> ifstartcond ifstmts '\n' 'else' ifstmts .	(Rule 23)
 
 	$default	reduce using rule 23 (if)
 
-State 166:
+State 164:
 
 	while -> 'while' '(' expr ')' '{' . stma '}'	(Rule 26)
 
@@ -4415,7 +4450,7 @@ State 166:
 	$default	reduce using rule 1 (stma)
 
 	exprval2	go to state 2
-	stma	go to state 174
+	stma	go to state 172
 	lambda	go to state 3
 	exprval	go to state 19
 	ifstartcond	go to state 21
@@ -4428,14 +4463,15 @@ State 166:
 	expr	go to state 12
 	multexpr	go to state 14
 
-State 167:
+State 165:
 
 	argelement -> NAME '=' expr 'isa' constraint .	(Rule 33)
 
 	$default	reduce using rule 33 (argelement)
 
-State 168:
+State 166:
 
+	assignexpr -> expr . '=' expr	(Rule 49)
 	multexpr -> expr . '*' expr	(Rule 52)
 	multexpr -> expr . ' ' expr	(Rule 55)
 	expr -> expr . '+' expr	(Rule 59)
@@ -4459,35 +4495,36 @@ State 168:
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> NAME '{' arglist '}' ':=' expr .	(Rule 81)
 	expr -> expr . '=>' expr	(Rule 85)
-	expr -> expr . '->' expr	(Rule 87)
+	expr -> expr . '->' expr	(Rule 86)
 
-	' '	shift, and go to state 43
-	'!='	shift, and go to state 47
-	'%'	shift, and go to state 39
-	'&&'	shift, and go to state 50
-	'*'	shift, and go to state 44
-	'**'	shift, and go to state 37
-	'+'	shift, and go to state 38
-	'-'	shift, and go to state 34
-	'->'	shift, and go to state 53
-	'/'	shift, and go to state 54
-	'<'	shift, and go to state 36
-	'<='	shift, and go to state 57
-	'<=>'	shift, and go to state 56
-	'=='	shift, and go to state 40
-	'=>'	shift, and go to state 55
-	'>'	shift, and go to state 58
-	'>='	shift, and go to state 41
-	'?'	shift, and go to state 51
-	'^'	shift, and go to state 42
-	'^^'	shift, and go to state 52
-	'conforms'	shift, and go to state 35
-	'per'	shift, and go to state 45
-	'||'	shift, and go to state 49
+	' '	shift, and go to state 41
+	'!='	shift, and go to state 45
+	'%'	shift, and go to state 37
+	'&&'	shift, and go to state 48
+	'*'	shift, and go to state 42
+	'**'	shift, and go to state 35
+	'+'	shift, and go to state 36
+	'-'	shift, and go to state 32
+	'->'	shift, and go to state 51
+	'/'	shift, and go to state 52
+	'<'	shift, and go to state 34
+	'<='	shift, and go to state 56
+	'<=>'	shift, and go to state 55
+	'='	shift, and go to state 53
+	'=='	shift, and go to state 38
+	'=>'	shift, and go to state 54
+	'>'	shift, and go to state 57
+	'>='	shift, and go to state 39
+	'?'	shift, and go to state 49
+	'^'	shift, and go to state 40
+	'^^'	shift, and go to state 50
+	'conforms'	shift, and go to state 33
+	'per'	shift, and go to state 43
+	'||'	shift, and go to state 47
 
 	$default	reduce using rule 81 (expr)
 
-State 169:
+State 167:
 
 	expr -> NAME '{' arglist '}' ':=' '{' . stma '}'	(Rule 82)
 
@@ -4508,7 +4545,7 @@ State 169:
 	$default	reduce using rule 1 (stma)
 
 	exprval2	go to state 2
-	stma	go to state 175
+	stma	go to state 173
 	lambda	go to state 3
 	exprval	go to state 19
 	ifstartcond	go to state 21
@@ -4521,57 +4558,57 @@ State 169:
 	expr	go to state 12
 	multexpr	go to state 14
 
-State 170:
+State 168:
 
 	if -> ifstartcond '\n' ifstmts 'else' '\n' ifstmts .	(Rule 21)
 
 	$default	reduce using rule 21 (if)
 
-State 171:
+State 169:
 
 	if -> ifstartcond '\n' ifstmts '\n' 'else' '\n' . ifstmts	(Rule 22)
 
-	'{'	shift, and go to state 78
+	'{'	shift, and go to state 75
 
-	ifstmts	go to state 176
+	ifstmts	go to state 174
 
-State 172:
+State 170:
 
 	if -> ifstartcond '\n' ifstmts '\n' 'else' ifstmts .	(Rule 20)
 
 	$default	reduce using rule 20 (if)
 
-State 173:
+State 171:
 
 	if -> ifstartcond ifstmts '\n' 'else' '\n' ifstmts .	(Rule 25)
 
 	$default	reduce using rule 25 (if)
 
-State 174:
+State 172:
 
 	while -> 'while' '(' expr ')' '{' stma . '}'	(Rule 26)
 
-	'}'	shift, and go to state 177
+	'}'	shift, and go to state 175
 
-State 175:
+State 173:
 
 	expr -> NAME '{' arglist '}' ':=' '{' stma . '}'	(Rule 82)
 
-	'}'	shift, and go to state 178
+	'}'	shift, and go to state 176
 
-State 176:
+State 174:
 
 	if -> ifstartcond '\n' ifstmts '\n' 'else' '\n' ifstmts .	(Rule 22)
 
 	$default	reduce using rule 22 (if)
 
-State 177:
+State 175:
 
 	while -> 'while' '(' expr ')' '{' stma '}' .	(Rule 26)
 
 	$default	reduce using rule 26 (while)
 
-State 178:
+State 176:
 
 	expr -> NAME '{' arglist '}' ':=' '{' stma '}' .	(Rule 82)
 
@@ -4580,7 +4617,7 @@ State 178:
 
 Summary:
 --------
-Number of rules         : 91
+Number of rules         : 90
 Number of terminals     : 65
 Number of non-terminals : 19
-Number of states        : 179
+Number of states        : 177
