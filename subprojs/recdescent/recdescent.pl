@@ -10,6 +10,7 @@ use Parse::RecDescent;
  # Enable warnings within the Parse::RecDescent module.
 
  $::RD_ERRORS = 1; # Make sure the parser dies when it encounters an error
+# $::RD_TRACE = 1; # Make sure the parser dies when it encounters an error
  $::RD_WARN   = 1; # Enable warnings. This will warn on unused rules &c.
  $::RD_HINT   = 1; # Give out hints to help fix problems.
  
@@ -24,13 +25,16 @@ morestmt: ';' stmt
 
 stmt	: /while\b/ '(' lexpr ')' '{' stmtlist '}'
                          { bless [ @item[3,6] ], 'While' }
-		| /print\b/ expr { bless [ $item[2] ], 'Print' }
 		| name '=' expr  { bless [ @item[1,3] ], 'Store' }
+		| name '@' arrayexpr '$' '=' expr  { bless [ @item[1,3,6] ], 'ArrayStore' }
+#		| name '{' argumentlist '}' ':=' '{' stmtlist '}' {bless [@item[1,3,7], 'FuncDef'}
 		| expr
 
+#i need to work this into expr!
 lexpr	: expr '<' expr { bless [ @item[1,3] ], 'Lt' }
 		| expr '>' expr { bless [ @item[1,3] ], 'Gt' }
 		| expr '<=' expr { bless [ @item[1,3] ], 'Le' }
+		| expr '<=>' expr { bless [ @item[1,3] ], 'Cmp' }
 		| expr '>=' expr { bless [ @item[1,3] ], 'Ge' }
 		| expr '==' expr { bless [ @item[1,3] ], 'Eq' }
 		| expr '!=' expr { bless [ @item[1,3] ], 'Ne' }
@@ -38,7 +42,7 @@ lexpr	: expr '<' expr { bless [ @item[1,3] ], 'Lt' }
 		| expr '||' expr { bless [ @item[1,3] ], 'Or' }
 		| expr '^^' expr { bless [ @item[1,3] ], 'Xor' }
 		| '!' expr { bless [ @item[1,3] ], 'Not' }
-#		| expr { bless [ $item[1], bless [ 0 ], 'Num' ], 'Ne' } #do i need this?
+		| expr { $item[1] } #this used to produce a != 0, but i've got that built in to my boolean stuff
 
 expr	: term moreterm(s?)
 					{
@@ -74,7 +78,10 @@ moretokens : '**' rawtoken { bless [ $item[2] ], 'Pow' }
 
 rawtoken : number { bless [ $item[1] ], 'Num' }
 		 | '(' expr ')' { bless [ $item[2] ], 'Paren' }
-		 | '[' arrayexpr ']' { bless [ $item[2] ], 'Array' }
+		 | '[' arrayexpr ']' { bless [ @{$item[2]} ], 'Array' }
+		 | '#' /[^#]+/ '#' { bless [$item[2]], 'Date' }
+         | '"' /(\\.|[^"\\])*/ '"' { bless [$item[2]], 'String' }
+		 | name '@' arrayexpr '$' { bless [ $item[1], $item[3]], 'ArrayFetch' }
 		 | name { bless [ $item[1] ], 'Fetch' }
 
 arrayexpr : expr ',' arrayexpr { [$item[1], @{$item[3]}] }
@@ -88,24 +95,6 @@ name	: /[a-z]\w*/i
 HEREDOCS
 ;
 
- sub expression {
-   print Dumper(\@_);
-   shift;
-   my ($lhs,$op,$rhs) = @_;
-   #  $lhs = $VARIABLE{$lhs} if $lhs=~/[^-+0-9]/;
-   #print "$lhs $op $rhs == " .(eval "$lhs $op $rhs")."\n";
-   return eval "$lhs $op $rhs";
- }
+my $parser = Parse::RecDescent->new($grammar);
 
- my $parser = Parse::RecDescent->new($grammar);
-
-
-# print "a=2\n";             $parser->startrule("a=2");
-# print "a=1+3\n";           $parser->startrule("a=1+3+4");
-# print "print 5*7\n";       $parser->startrule("print 5*7");
-# print "print 2/4\n";       $parser->startrule("print 2/4");
-# print "print 2/4+3/2\n";   $parser->startrule("print 2/4+3/2");
-print "a=1-3+4\n";  print Dumper($parser->startrule("[1,2,3]"));
-# print "print 2+2/4\n";     $parser->startrule("print 2+2/4");
-# print "print 2+-2/4\n";    $parser->startrule("print 2+-2/4");
-# print "a = 5 ; print a\n"; $parser->startrule("a = 5 ; print a");
+print Dumper($parser->startrule('[1+1,[1+3]]'));

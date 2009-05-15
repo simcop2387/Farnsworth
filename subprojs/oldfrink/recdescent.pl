@@ -1,4 +1,4 @@
- #!/usr/bin/perl -w
+#!/usr/bin/perl -w
 
  use strict;
  use Parse::RecDescent;
@@ -26,7 +26,7 @@
                     | INTEGER
 
    lowerorder  : <leftop: token /(\-|\+)/ token>
-         		 { return main::expression(@item) }
+         		 { bless [@item], 'LOWORDER' }
 			   | token
 
    expression : lowerorder
