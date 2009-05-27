@@ -411,83 +411,48 @@ sub ord
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @arg = $args->getarray();
 
-	if (ref $arg[0] eq "Math::Farnsworth::String")
-	{
-		#do i need to do something to convert these to work? (the 1,2 anyway?)
-		my $ns = ord($arg[0]->getstring()); #substr($arg[0]{pari}, "".$arg[1]{pari}, "".$arg[2]{pari});
-		#print "ord :: $ns\n";
-		return Math::Farnsworth::Value::Pari->new($ns);
-	}
-	else
-	{
-		die "ord[] only works on strings";
-	}
+        my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
+
+	my $ns = ord($input->getstring()); 
+	return Math::Farnsworth::Value::Pari->new($ns);
 }
 
 sub chr
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @arg = $args->getarray();
 
-	if ($arg[0]->conforms($arg[0]->TYPE_PLAIN))
-	{
-		#do i need to do something to convert these to work? (the 1,2 anyway?)
-		my $ns = chr($arg[0]{pari}); #substr($arg[0]{pari}, "".$arg[1]{pari}, "".$arg[2]{pari});
-		#print "chr :: $ns\n";
-		return Math::Farnsworth::Value::String->new($ns); #give string flag of 1, since we don't know what language is intended
-	}
-	else
-	{
-		die "chr[] only works on plain numbers";
-	}
+        my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
+
+	my $ns = chr($input->toperl()); 
+	return Math::Farnsworth::Value::String->new($ns);
 }
 
 sub index
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @arg = $args->getarray();
 
-	if (ref($arg[0]) eq "Math::Farnsworth::Value::String" && ref($arg[1]) eq "Math::Farnsworth::Value::String")
-	{
-		my $pos = 0;
-		if (defined($arg[2]) && $arg[2]->conforms($arg[2]->TYPE_PLAIN))
-		{
-			$pos = $arg[2]->toperl();
-		}
-		my $string = $arg[0]->getstring();
-		my $substr = $arg[1]->getstring();
-		#do i need to do something to convert these to work? (the 1,2 anyway?)
-		my $ns = index $string, $substr, $pos; #substr($arg[0]{pari}, "".$arg[1]{pari}, "".$arg[2]{pari});
-		return Math::Farnsworth::Value::Pari->new($ns); #give string flag of 1, since we don't know what language is intended
-	}
-	else
-	{
-		die "arguments to index[] are of the incorrect type";
-	}
+	my $string = $eval->{vars}->getvar("str")->getstring();
+	my $substr = $eval->{vars}->getvar("substr")->getstring();
+	my $pos = $eval->{vars}->getvar("pos")->toperl();
+
+	my $ns = index $string, $substr, $pos; #substr($arg[0]{pari}, "".$arg[1]{pari}, "".$arg[2]{pari});
+	return Math::Farnsworth::Value::Pari->new($ns); #give string flag of 1, since we don't know what language is intended
 }
 
 sub eval
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $branches)= @_;
-	my @arg = $args->getarray();
+	my $evalstr = $eval->{vars}->getvar("str")->getstring();
 
-	if (ref($arg[0]) eq "Math::Farnsworth::Value::String")
-	{
-		my $nvars = new Math::Farnsworth::Variables($eval->{vars});
-		my %nopts = (vars => $nvars, funcs => $eval->{funcs}, units => $eval->{units}, parser => $eval->{parser});
-	    my $neval = $eval->new(%nopts);
+	my $nvars = new Math::Farnsworth::Variables($eval->{vars});
+	my %nopts = (vars => $nvars, funcs => $eval->{funcs}, units => $eval->{units}, parser => $eval->{parser});
+	my $neval = $eval->new(%nopts);
 
-		return $neval->eval($arg[0]->getstring());
-	}
-	else
-	{
-		die "eval[] only works on strings";
-	}
+	return $neval->eval($evalstr);
 }
 
 1;

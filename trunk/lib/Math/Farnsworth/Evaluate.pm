@@ -290,16 +290,16 @@ sub evalbranch
 		my $value = $self->makevalue($branch->[1]);
 		$return = $value; #make stores evaluate to the value on the right
 		#$self->{vars}->setvar($name, $value);
-		warn "SETTING VALUES";
-		warn Data::Dumper->Dump([$lvalue, $lvalue->getref()], [qw($lvalue \$ref)]);
+		#warn "SETTING VALUES";
+		#warn Data::Dumper->Dump([$lvalue, $lvalue->getref()], [qw($lvalue \$ref)]);
 		${$lvalue->getref()} = $value;
 	}
 	elsif ($type eq "DeclareVar")
 	{
 		my $name = $branch->[0];
 		my $value;
-		print "\n\n DECLARING $name\n";
-		print Dumper($branch);
+		#print "\n\n DECLARING $name\n";
+		#print Dumper($branch);
 
 		if (defined($branch->[1]))
 		{
@@ -460,6 +460,7 @@ sub evalbranch
 	}
 	elsif ($type eq "ArrayFetch")
 	{
+		#print "AFETCH\n", Dumper($branch);
 		my $var = $self->makevalue($branch->[0]); #need to check if this is an array, and die if not
 		my $listval = $self->makevalue($branch->[1]);
 		my @rval;
@@ -468,7 +469,7 @@ sub evalbranch
 
 		for ($listval->getarray())
 		{
-			print STDERR "ARFET: ".$_->toperl()."\n";
+#			print STDERR "ARFET: ".$_->toperl()."\n";
 			#ok this line FOR WHATEVER REASON, makes Math::Pari.xs die in isnull(), WHY i don't know, there's something wrong here somewhere
 			#my $float = $_ * (Math::Farnsworth::Value::Pari->new(1.0)); #makes rationals work right
 			my $input = $var->getarrayref()->[$_->getpari()*1.0]; #."" makes indexes work right again
@@ -706,8 +707,9 @@ sub makevalue
 		my $value = $input->[0];
 		#here it comes in with quotes, so lets remove them
 		#$value =~ s/^"(.*)"$/$1/; #no longer needed
-		$value =~ s/\\"/"/g; #i'm gonna move these into the constructor i think
-		$value =~ s/\\\\/\\/g;
+		#$value =~ s/\\"/"/g; #i'm gonna move these into the constructor i think
+		#$value =~ s/\\\\/\\/g;
+		$value =~ s/\\(.)/qq("\\$1")/eeg;
 		my $ss = sub
 		{
 			my $var =shift; 

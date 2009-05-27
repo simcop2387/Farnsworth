@@ -3612,7 +3612,7 @@ sub yylex
 	#1 while $s =~ /\G\s+/cg; #remove extra whitespace?
 
 	$s =~ m|\G\s*/\*.*?\*/\s*|gcs and redo; #skip C comments
-	$s =~ m|\G\s*//.*\n|gc and redo;
+	$s =~ m|\G\s*//.*\n?|gc and redo;
 #	$s =~ s|\G/\*.*?\*/||g;
 
     #i want a complete number regex

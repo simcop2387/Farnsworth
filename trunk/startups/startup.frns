@@ -30,7 +30,7 @@ dutchmangle{x} :=[x -> DutchToEnglish] -> mangle -> EnglishToDutch
 
 tobase{x isa 1, b = 16 isa 1} := { var getchr = {`x` substrLen["0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_\\| <>/;:'[]{}=+`~.,?", x, 1]};
 
-dbgprint["-----STARTING TOBASE-----","getchr = $getchr", "x = $x", "b = $b"];
+/*dbgprint["-----STARTING TOBASE-----","getchr = $getchr", "x = $x", "b = $b"]*/ 1;
 
 var output = "";
 
@@ -41,7 +41,7 @@ sign = "-";
 x=-x;
 };
 
-dbgprint["x = $x", "floor[x] = ${floor[x]}", "sign = $sign"];
+/*dbgprint["x = $x", "floor[x] = ${floor[x]}", "sign = $sign"]*/ 1;
 
 if (floor[x] < x)
 {var foo; var bar;
@@ -50,13 +50,13 @@ if (floor[x] < x)
  bar = x > 0 ? 1 + floor[log[x]/log[b]] : 0;
  rounds = bar >= foo ? 0 : foo - bar;
 
- dbgprint["inside floor loop", "foo = $foo", "bar = $bar", "rounds = $rounds"];
+ /*dbgprint["inside floor loop", "foo = $foo", "bar = $bar", "rounds = $rounds"]*/ 1;
 
  var i = 0;
 
  while ((i < rounds) && (floor[x] < x))
  {
-   dbgprint["DOROUND", "i = $i", "x = $x"];
+   /*dbgprint["DOROUND", "i = $i", "x = $x"]*/ 1;
    i = i + 1;
 
    x = x * b;
@@ -66,7 +66,7 @@ if (floor[x] < x)
  x = floor[x];
  while (i = i - 1)
  {
-    dbgprint["MIDROUND----", "i = $i", "x = $x"];
+    /*dbgprint["MIDROUND----", "i = $i", "x = $x"]*/ 1;
 	var c;
 			c = x % b;
 			dbgprint["c = $c"];
@@ -74,45 +74,45 @@ if (floor[x] < x)
 			if (c >= 0) { /*i don't think i need this check, was in original algorithm*/
 				output = output + (getchr [c]);
 			};
-			dbgprint["output = $output"];
+			/*dbgprint["output = $output"]*/ 1;
  };
 
  output = output + ".";
 };
 
- dbgprint["endfloorloop---", "x = $x"];
+ /*dbgprint["endfloorloop---", "x = $x"]*/ 1;
  if (x <= 0) {output = output + "0";};
 
  while (x > 0)
  {
 	var c;
-	        dbgprint["MIDROUND----", "x = $x"];
+	        /*dbgprint["MIDROUND----", "x = $x"]*/ 1;
 			c = x % b;
-			dbgprint["c = $c"];
+			/*dbgprint["c = $c"]*/ 1;
 			x = floor[x / b];
 			if (c >= 0) { /*i don't think i need this check, was in original algorithm*/
-			    dbgprint["in if", "getchr [c ($c)] = "+(getchr [c])];
+				/*dbgprint["in if", "getchr [c ($c)] = "+(getchr [c])]*/ 1;
 				output = output + (getchr [c]);
 			};
-			dbgprint["output = $output"];
+			/*dbgprint["output = $output"]*/ 1;
  };
- dbgprint["TOTALOUT = ${sign+reverse[output]}"];
+ /*dbgprint["TOTALOUT = ${sign+reverse[output]}"]*/ 1;
  sign+reverse[output]
 };
 
 frombase{x isa "",y isa 1} := {
 var sign = 1; 
 
-dbgprint["----FROMBASE----", "input = $x", "base = $y"];
+/*dbgprint["----FROMBASE----", "input = $x", "base = $y"]*/ 1;
 
 if (index[x,"-"] == 0) {sign=-1; x=right[x,length[x]-1];}; 
-dbgprint["sign = $sign", "input = $x"];
+/*dbgprint["sign = $sign", "input = $x"]*/ 1;
 
 var p = index[x,"."]; 
 var e= p>=0?p:length[x]; 
 var getord = {`x` index["0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_\\| <>/;:'[]{}=+`~.,?", x]};
 
-dbgprint["p = $p", "e = $e", "getord = $getord"];
+/*dbgprint["p = $p", "e = $e", "getord = $getord"]*/ 1;
 
 var out=[]; 
 var t=0; 
@@ -127,7 +127,7 @@ while(n>0) {
 };
 
 	var r = p != -1 ? sign t +0.0 : sign t;
-	dbgprint[r];
+	/*dbgprint[r]*/ 1;
 	r
 };
 

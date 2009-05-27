@@ -4,11 +4,19 @@ use strict;
 use warnings;
 use Data::Dumper;
 #use base 'Bot::BasicBot';
-use POE qw(Component::IRC Queue::Array);
+use POE qw(Component::IRC 
+           Queue::Array 
+           Component::IRC::Plugin::NickReclaim 
+           Component::IRC::Plugin::CTCP 
+           Component::IRC::Plugin::NickServID);
+
 use WWW::Mechanize;
 use URI::Escape;
 use Math::BigFloat;
 use Encode;
+
+my $password;
+$password=$ARGV[0] if @ARGV;
 
 # with all known options
 my $bot = POE::Component::IRC->spawn(
@@ -46,6 +54,15 @@ sub _start {
             # retrieve our component's object from the heap where we stashed it
             my $irc = $heap->{irc};
 
+            $irc->plugin_add( 'CTCP' => POE::Component::IRC::Plugin::CTCP->new(
+                version => "Math::Farnsworth SVN",
+                userinfo => "See simcop2387 for more info", 
+            ));
+            $irc->plugin_add( 'NickReclaim' => POE::Component::IRC::Plugin::NickReclaim->new( poll => 30 ) );
+            $irc->plugin_add( 'NickServID', POE::Component::IRC::Plugin::NickServID->new(
+                Password => $password,
+            )) if $password;
+
             $irc->yield( register => 'all' );
             $irc->yield( connect => { } );
 
@@ -65,9 +82,10 @@ sub irc_001 {
 
             # we join our channels
             $irc->yield( join => $_ ) for ("#yapb", "#buubot", "#codeyard", "#perlcafe", "##turtles");
-			$kernel->delay_add(tock=>0.5);
-			$kernel->delay_add(comfuck=>50);
-			return;
+            $kernel->delay_add(tock=>0.5);
+            $kernel->delay_add(comfuck=>50);
+
+            $irc->yield(nick => "farnsworth");
 }
 
 sub _ignore
@@ -86,7 +104,7 @@ sub irc_public
   return if _ignore($nick);
   return if ($what =~ /^farnsworth\+\+/);
 
-  if (my ($equation) = $what =~ /^farnsworth[[:punct:]]\s*(.*)$/i)
+  if (my ($equation) = $what =~ /^farnswor(?:th|i)[[:punct:]]\s*(.*)$/i)
   {
     my $response = submitform($equation, "chan");	
 	my @lines = messagebreak($response); #this should really never be needed, but is here so that its consistent
