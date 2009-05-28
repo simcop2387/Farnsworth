@@ -32,7 +32,7 @@ sub new
 
 	if (@modules < 1)
 	{
-		@modules = ("Units::Standard", "Functions::Standard", "Functions::StdMath", "Functions::GoogleTranslate"); #standard modules to include
+		@modules = ("Units::Standard", "Functions::Standard", "Functions::StdMath", "Functions::GoogleTranslate", "Units::Currency"); #standard modules to include
 	}
 
 	#print Dumper(\@modules);

@@ -39,5 +39,6 @@ newhash{} := {
 } [];
 };
 
-var xxxfoo = newhash[];
-xxxfoo
+//#var xxxfoo = newhash[];
+//#xxxfoo
+10 EUR
