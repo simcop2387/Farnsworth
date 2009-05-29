@@ -41,14 +41,14 @@ my %symbols = (Afghanis=>'AFN',Baht=>'THB',Balboa=>'PAB',Bolivares_Fuertes=>'VEF
 sub init
 {
 	my $env = shift;
-	doupdate($env);
+	doupdate([],$env,[]);
 
 	$env->{funcs}->addfunc("updatecurrencies", [[undef, undef, undef, 0]], \&doupdate);
 }
 
 sub doupdate
 {
-	my $env = shift;
+	my ($args, $env, $branches)= @_;
     
 	for my $x (@currencies)
 	{
