@@ -20,6 +20,7 @@ lib/Math/Farnsworth/Output.pm
 lib/Math/Farnsworth/Parser.pm
 lib/Math/Farnsworth/Units.pm
 lib/Math/Farnsworth/Units/Standard.pm
+lib/Math/Farnsworth/Units/Currency.pm
 lib/Math/Farnsworth/Value.pm
 lib/Math/Farnsworth/Value/Pari.pm
 lib/Math/Farnsworth/Value/Date.pm

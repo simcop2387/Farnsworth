@@ -8,12 +8,12 @@ microwavetime{mass isa kg, end isa K, start = frozen isa K, watts = 1000W isa wa
 
 []=>{``
 var steps = [];
-var languages = ["Arabic", "Bulgarian", "Catalan", "Czech", "Danish", "German", "Greek", "English", "Spanish", "Finnish", "French", "Hindi", "Croatian", "Indonesian", "Italian", "Hebrew", "Japanese", "Korean", "Lithuanian", "Latvian", "Dutch", "Norwegian", "Polish", "Portuguese", "Romanian", "Russian", "Slovak", "Slovenian", "Serbian", "Swedish", "Filipino", "Ukrainian", "Vietnamese", "Chinese", "Chinese_Traditional"];
+var languages = ["Arabic","Bulgarian","Catalan","Czech","Danish","German","Greek","English","Spanish","Estonian","Finnish","French","Galician","Hindi","Croatian","Hungarian","Indonesian","Italian","Hebrew","Japanese","Korean","Lithuanian","Latvian","Maltese","Dutch","Norwegian","Polish","Portuguese","Romanian","Russian","Slovak","Slovenian","Albanian","Serbian","Swedish","Thai","Filipino","Turkish","Ukrainian","Vietnamese","Chinese","Chinese_Traditional"];
 var getlang = {`` languages@random[]*(length[languages])$};
 mangle{x} := {steps = []; 
               var origlang = x -> DetectLanguage; 
               push[steps, x]; 
-              var targetlangs = int[random[]*20]+1;
+              var targetlangs = int[random[]*42]+1;
 	      
 	      while (targetlangs=targetlangs-1)
               {
@@ -31,6 +31,8 @@ dutchmangle{x} :=[x -> DutchToEnglish] -> mangle -> EnglishToDutch
 tobase{x isa 1, b = 16 isa 1} := { var getchr = {`x` substrLen["0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_\\| <>/;:'[]{}=+`~.,?", x, 1]};
 
 /*dbgprint["-----STARTING TOBASE-----","getchr = $getchr", "x = $x", "b = $b"]*/ 1;
+
+if (b < 2) {error["Can't use a base lower than 2"]};
 
 var output = "";
 
@@ -103,6 +105,8 @@ if (floor[x] < x)
 frombase{x isa "",y isa 1} := {
 var sign = 1; 
 
+if (y < 2) {error["Can't use a base lower than 2"]};
+
 /*dbgprint["----FROMBASE----", "input = $x", "base = $y"]*/ 1;
 
 if (index[x,"-"] == 0) {sign=-1; x=right[x,length[x]-1];}; 
@@ -143,6 +147,7 @@ Delisle{x} := {if (x conforms unit[K]) {(373.15 - x/unit[K])*3/2} else {(373.15-
 Delisle := {`x` Delisle[x]};
 Celsius := {`x` Celsius[x]};
 Fahrenheit := {`x` Fahrenheit[x]};
+Kelvin := K;
 
 /*for eval[]*/
 I:=i;
@@ -216,3 +221,5 @@ PST8PDT{x isa #today#} := {setzone[x, "PST8PDT"]};
 EST5EDT{x isa #today#} := {setzone[x, "EST5EDT"]};
 MST7MDT{x isa #today#} := {setzone[x, "MST7MDT"]};
 CST6CDT{x isa #today#} := {setzone[x, "CST6CDT"]};
+
+updatecurrencies[];

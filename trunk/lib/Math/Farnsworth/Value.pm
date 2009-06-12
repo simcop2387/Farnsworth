@@ -9,7 +9,15 @@ use Data::Dumper;
 
 use base qw/Exporter/;
 
-our @EXPORT_OK = qw(TYPE_PLAIN TYPE_TIME);
+use Math::Farnsworth::Value::Boolean;
+use Math::Farnsworth::Value::Array;
+use Math::Farnsworth::Value::String;
+use Math::Farnsworth::Value::Date;
+use Math::Farnsworth::Value::Pari;
+use Math::Farnsworth::Value::Lambda;
+use Math::Farnsworth::Value::Undef;
+
+our @EXPORT = qw(TYPE_BOOLEAN TYPE_STRING TYPE_DATE TYPE_PLAIN TYPE_TIME TYPE_LAMBDA TYPE_UNDEF TYPE_ARRAY);
 
 ####
 #THESE FUNCTIONS WILL BE MOVED TO Math::Farnsworth::Value, or somewhere more appropriate
@@ -71,44 +79,27 @@ sub ismediumtype
 }
 
 #these values will also probably be put into a "memoized" setup so that they don't get recreated all the fucking time
-sub TYPE_BOOLEAN
-{
-	new Math::Farnsworth::Value::Boolean(0);
-}
 
-sub TYPE_STRING
 {
-	new Math::Farnsworth::Value::String("");
-}
+	my $boolean;
+	my $string;
+	my $date;
+	my $plain;
+	my $time;
+	my $lambda;
+	my $undef;
+	my $array;
 
-sub TYPE_DATE
-{
-	new Math::Farnsworth::Value::Date();
-}
-
-sub TYPE_PLAIN #this tells it that it is the same as a constraint of "1", e.g. no units
-{
-	new Math::Farnsworth::Value::Pari(0);
-}
-
-sub TYPE_TIME #this tells it that it is the same as a constraint of "1", e.g. no units
-{
-	new Math::Farnsworth::Value::Pari(0, {time=> 1});
-}
-
-sub TYPE_LAMBDA
-{
-	new Math::Farnsworth::Value::Lambda();
-}
-
-sub TYPE_UNDEF
-{
-	new Math::Farnsworth::Value::Undef();
-}
-
-sub TYPE_ARRAY
-{
-	new Math::Farnsworth::Value::Array();
+	sub TYPE_BOOLEAN{return $boolean if $boolean; $boolean=new Math::Farnsworth::Value::Boolean(0)}
+	sub TYPE_STRING	{return $string if $string; $string=new Math::Farnsworth::Value::String("")}
+	sub TYPE_DATE	{return $date if $date; $date=new Math::Farnsworth::Value::Date("today")}
+	#this tells it that it is the same as a constraint of "1", e.g. no units
+	sub TYPE_PLAIN 	{return $plain if $plain; $plain=new Math::Farnsworth::Value::Pari(0)}
+	#this tells it that it is the same as a constraint of "1 s", e.g. seconds
+	sub TYPE_TIME	{return $time if $time; $time=new Math::Farnsworth::Value::Pari(0, {time=>1})}
+	sub TYPE_LAMBDA	{return $lambda if $lambda; $lambda=new Math::Farnsworth::Value::Lambda()}
+	sub TYPE_UNDEF  {return $undef if $undef; $undef=new Math::Farnsworth::Value::Undef()}
+	sub TYPE_ARRAY	{return $array if $array; $array=new Math::Farnsworth::Value::Array([])}
 }
 
 sub conforms
@@ -132,6 +123,20 @@ sub conforms
 			return 1; #for now?
 		}
 	}
+}
+
+sub clone
+{
+	my $self = shift;
+	my $class = ref($self);
+
+	my $newself = {};
+	$newself->{$_} = $self->{$_} for (keys %$self);
+
+	bless $newself, $class;
+	$newself->setref(undef);
+
+	$newself;
 }
 
 1;

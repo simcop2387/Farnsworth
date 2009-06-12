@@ -110,9 +110,9 @@ Conflict in state 85 between rule 65 and token '->' resolved as reduce.
 Conflict in state 85 between rule 65 and token '=>' resolved as reduce.
 Conflict in state 85 between rule 65 and token '<=' resolved as reduce.
 Conflict in state 85 between rule 65 and token '>' resolved as reduce.
-Conflict in state 85 between rule 65 and token '**' resolved as reduce.
+Conflict in state 85 between rule 65 and token '**' resolved as shift.
 Conflict in state 85 between rule 65 and token '+' resolved as reduce.
-Conflict in state 85 between rule 65 and token '^' resolved as reduce.
+Conflict in state 85 between rule 65 and token '^' resolved as shift.
 Conflict in state 85 between rule 65 and token 'per' resolved as reduce.
 Conflict in state 85 between rule 65 and token '!=' resolved as reduce.
 Conflict in state 85 between rule 65 and token '&&' resolved as reduce.
@@ -230,9 +230,9 @@ Conflict in state 90 between rule 64 and token '->' resolved as reduce.
 Conflict in state 90 between rule 64 and token '=>' resolved as reduce.
 Conflict in state 90 between rule 64 and token '<=' resolved as reduce.
 Conflict in state 90 between rule 64 and token '>' resolved as reduce.
-Conflict in state 90 between rule 64 and token '**' resolved as reduce.
+Conflict in state 90 between rule 64 and token '**' resolved as shift.
 Conflict in state 90 between rule 64 and token '+' resolved as reduce.
-Conflict in state 90 between rule 64 and token '^' resolved as reduce.
+Conflict in state 90 between rule 64 and token '^' resolved as shift.
 Conflict in state 90 between rule 64 and token 'per' resolved as reduce.
 Conflict in state 90 between rule 64 and token '!=' resolved as reduce.
 Conflict in state 90 between rule 64 and token '&&' resolved as reduce.
@@ -2533,6 +2533,9 @@ State 85:
 	expr -> expr . '=>' expr	(Rule 85)
 	expr -> expr . '->' expr	(Rule 86)
 
+	'**'	shift, and go to state 35
+	'^'	shift, and go to state 40
+
 	$default	reduce using rule 65 (expr)
 
 State 86:
@@ -2729,6 +2732,9 @@ State 90:
 	expr -> expr . '!=' expr	(Rule 78)
 	expr -> expr . '=>' expr	(Rule 85)
 	expr -> expr . '->' expr	(Rule 86)
+
+	'**'	shift, and go to state 35
+	'^'	shift, and go to state 40
 
 	$default	reduce using rule 64 (expr)
 

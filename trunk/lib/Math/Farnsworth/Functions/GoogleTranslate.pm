@@ -16,16 +16,63 @@ use Encode;
 
 my $defaultcode = "en";
 
-	my %langs = (ar=>"Arabic", bg=>"Bulgarian", ca=>"Catalan", cs=>"Czech",
-				 da=>"Danish", de=>"German", el=>"Greek", en=>"English", 
-				 es=>"Spanish", fi=>"Finnish", fr=>"French", hi=>"Hindi",
-				 hr=>"Croatian", id=>"Indonesian", it=>"Italian", iw=>"Hebrew", 
-				 ja=>"Japanese", ko=>"Korean", lt=>"Lithuanian", lv=>"Latvian",
-				 nl=>"Dutch", no=>"Norwegian", pl=>"Polish", pt=>"Portuguese",
-				 "pt-PT" => "Portuguese", ro=>"Romanian", ru=>"Russian", sk=>"Slovak", sl=>"Slovenian", 
-				 sr=>"Serbian", sv=>"Swedish", tl=>"Filipino", uk=>"Ukrainian",
-				 vi=>"Vietnamese", "zh-CN"=>"Chinese_Simplified", "zh-CN"=>"Chinese",  #bug here! two chineses! i should really allow array refs here so that i can have all kinds of names for things!
-				 "zh-TW"=>"Chinese_Traditional");
+	my %langs = (
+		
+		#ar=>"Arabic", bg=>"Bulgarian", ca=>"Catalan", cs=>"Czech",
+		#			 da=>"Danish", de=>"German", el=>"Greek", en=>"English", 
+		#			 es=>"Spanish", fi=>"Finnish", fr=>"French", hi=>"Hindi",
+		#			 hr=>"Croatian", id=>"Indonesian", it=>"Italian", iw=>"Hebrew", 
+		#			 ja=>"Japanese", ko=>"Korean", lt=>"Lithuanian", lv=>"Latvian",
+		#			 nl=>"Dutch", no=>"Norwegian", pl=>"Polish", pt=>"Portuguese",
+		#			 "pt-PT" => "Portuguese", ro=>"Romanian", ru=>"Russian", sk=>"Slovak", sl=>"Slovenian", 
+		#			 sr=>"Serbian", sv=>"Swedish", tl=>"Filipino", uk=>"Ukrainian",
+		#			 vi=>"Vietnamese", "zh-CN"=>"Chinese_Simplified", "zh-CN"=>"Chinese",  #bug here! two chineses! i should really allow array refs here so that i can have all kinds of names for things!
+		#			 "zh-TW"=>"Chinese_Traditional");
+
+ar=>"Arabic",
+bg=>"Bulgarian",
+ca=>"Catalan",
+cs=>"Czech",
+da=>"Danish",
+de=>"German",
+el=>"Greek",
+en=>"English",
+es=>"Spanish",
+et=>"Estonian",
+fi=>"Finnish",
+fr=>"French",
+gl=>"Galician",
+hi=>"Hindi",
+hr=>"Croatian",
+hu=>"Hungarian",
+id=>"Indonesian",
+it=>"Italian",
+iw=>"Hebrew",
+ja=>"Japanese",
+ko=>"Korean",
+"lt"=>"Lithuanian",
+lv=>"Latvian",
+mt=>"Maltese",
+nl=>"Dutch",
+no=>"Norwegian",
+pl=>"Polish",
+pt=>"Portuguese",
+"pt-PT" => "Portuguese",
+ro=>"Romanian",
+ru=>"Russian",
+sk=>"Slovak",
+sl=>"Slovenian",
+sq=>"Albanian",
+sr=>"Serbian",
+sv=>"Swedish",
+th=>"Thai",
+tl=>"Filipino",
+tr=>"Turkish",
+uk=>"Ukrainian",
+vi=>"Vietnamese",
+"zh-CN"=>"Chinese",
+"zh-TW"=>"Chinese_Traditional",
+);
 	
 sub init
 {
@@ -89,7 +136,7 @@ sub callgoogle
 
 	   #print Dumper($res);
 
-  die "response status failure when translating, ".$res->responseStatus, "details follow, ".$res->responseDetails if $res->responseStatus != 200;
+  die "response status failure when translating [$langa -> $langb], ".$res->responseStatus, " details follow, ".$res->responseDetails if $res->responseStatus != 200;
 
   return $res; #if its undef, its undef! i should really make some kind of error checking here
 }

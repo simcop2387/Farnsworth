@@ -13,7 +13,7 @@
 %left '*' '/' '%' ' ' IMPLICIT
 %left UMINUS IFNONL
 %left NAME IFNL
-%left '^' '**'
+%right '^' '**'
 %right FUNCCALL
 %right DECLAREVAR
 

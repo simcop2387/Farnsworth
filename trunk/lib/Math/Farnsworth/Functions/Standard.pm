@@ -17,35 +17,35 @@ sub init
 
    #i should really make some stuff to make this easier
    #maybe some subs in Math::Farnsworth::Value that get exported
-   my $array = new Math::Farnsworth::Value::Array([]);
-   my $string = new Math::Farnsworth::Value::String("");
-   my $lambda = new Math::Farnsworth::Value::Lambda();
-   my $number = new Math::Farnsworth::Value::Pari(0);
-   my $date = new Math::Farnsworth::Value::Date("today"); #create a date type for use
+   #my $array = new Math::Farnsworth::Value::Array([]);
+   #my $string = new Math::Farnsworth::Value::String("");
+   #my $lambda = new Math::Farnsworth::Value::Lambda();
+   #my $number = new Math::Farnsworth::Value::Pari(0);
+   #my $date = new Math::Farnsworth::Value::Date("today"); #create a date type for use
     
    $env->eval("push{arr byref isa [], x isa ...} := {arr = arr + x};");
    $env->eval("unshift{arr byref isa [], x isa ...} := {arr =x+arr};");
 
    #$env->{funcs}->addfunc("push", [["arr", undef, $array, 0], ["in", undef, "VarArg", 0]],\&push); #actually i might rewrite this in farnsworth now that it can do it
-   $env->{funcs}->addfunc("pop", [["arr", undef, $array, 0]],\&pop); #eventually this maybe too
-   $env->{funcs}->addfunc("shift", [["arr", undef, $array, 1]], \&shift);
+   $env->{funcs}->addfunc("pop", [["arr", undef, TYPE_ARRAY, 0]],\&pop); #eventually this maybe too
+   $env->{funcs}->addfunc("shift", [["arr", undef, TYPE_ARRAY, 1]], \&shift);
    #$env->{funcs}->addfunc("unshift", [["arr", undef, $array, 0], ["in", undef, "VarArg", 0]], \&unshift);
-   $env->{funcs}->addfunc("sort", [["sortsub", undef, $lambda, 0],["arr", undef, $array, 0]],\&sort);
+   $env->{funcs}->addfunc("sort", [["sortsub", undef, TYPE_LAMBDA, 0],["arr", undef, TYPE_ARRAY, 0]],\&sort);
 
    $env->{funcs}->addfunc("length", [["in", undef, undef, 0]],\&length);
 
-   $env->{funcs}->addfunc("ord", [["in", undef, $string, 0]],\&ord);
-   $env->{funcs}->addfunc("chr", [["in", undef, $number, 0]],\&chr);
-   $env->{funcs}->addfunc("index", [["str", undef, $string, 0],["substr", undef, $string, 0],["pos", $number, $number, 0]],\&index);
-   $env->{funcs}->addfunc("eval", [["str", undef, $string, 0]],\&eval);
+   $env->{funcs}->addfunc("ord", [["in", undef, TYPE_STRING, 0]],\&ord);
+   $env->{funcs}->addfunc("chr", [["in", undef, TYPE_PLAIN, 0]],\&chr);
+   $env->{funcs}->addfunc("index", [["str", undef, TYPE_STRING, 0],["substr", undef, TYPE_STRING, 0],["pos", TYPE_PLAIN, TYPE_PLAIN, 0]],\&index);
+   $env->{funcs}->addfunc("eval", [["str", undef, TYPE_STRING, 0]],\&eval);
 
    $env->eval('dbgprint{x isa ...} := {var z; var n = 0; var p; while(n != length[x]) {p = shift[x]; if (p conforms "") {z = p} else {z = "$p"}; _dbgprint[z]}}');
-   $env->{funcs}->addfunc("_dbgprint", [["str", undef, $string, 0]], \&dbgprint);
+   $env->{funcs}->addfunc("_dbgprint", [["str", undef, TYPE_STRING, 0]], \&dbgprint);
    $env->{funcs}->addfunc("__dbgbranches", [[undef, undef, undef, 0]], \&dbgbranch);
    
    $env->eval('map{sub isa {`x`}, x isa ...} := {var xx=[]+x; if (length[xx] == 1 && xx@0$ conforms []) {xx = x@0$}; if (length[xx] == 1 && !(xx conforms [])) {xx = [xx]}; var z=[]+xx; var e; var out=[]; while(length[z]) {e = shift[z]; dbgprint[e]; push[out,e => sub]}; dbgprint[out]; out}');
 
-   $env->{funcs}->addfunc("substrLen", [["str", undef, $string, 0],["left", undef, $number, 0],["length", undef, $number, 0]],\&substrlen); #this one works like perls
+   $env->{funcs}->addfunc("substrLen", [["str", undef, TYPE_STRING, 0],["left", undef, TYPE_PLAIN, 0],["length", undef, TYPE_PLAIN, 0]],\&substrlen); #this one works like perls
    $env->eval("substr{str,left,right}:={substrLen[str,left,right-left]}");
    $env->eval("left{str,pos}:={substrLen[str,0,pos]}");
    $env->eval("right{str,pos}:={substrLen[str,length[str]-pos,pos]}");
@@ -53,12 +53,12 @@ sub init
    $env->{funcs}->addfunc("reverse", [["in", undef, undef, 0]],\&reverse);
 
    $env->eval("now{x = \"UTC\" isa \"\"} := {setzone[#today#, x]}");
-   $env->{funcs}->addfunc("setzone", [["date", undef, $date, 0],["zone", undef, $string, 0]], \&setzone);
+   $env->{funcs}->addfunc("setzone", [["date", undef, TYPE_DATE, 0],["zone", undef, TYPE_STRING, 0]], \&setzone);
 
    $env->{funcs}->addfunc("unit", [["in", undef, undef, 0]], \&unit);
    $env->{funcs}->addfunc("units", [["in", undef, undef, 0]], \&units);
-   $env->{funcs}->addfunc("error", [["in", undef, $string, 0]], \&doerror);
-   $env->{funcs}->addfunc("match", [["regex", undef, $string, 0], ["input", undef, $string, 0], ["options",$string,$string, 0]], \&match);
+   $env->{funcs}->addfunc("error", [["in", undef, TYPE_STRING, 0]], \&doerror);
+   $env->{funcs}->addfunc("match", [["regex", undef, TYPE_STRING, 0], ["input", undef, TYPE_STRING, 0], ["options",TYPE_STRING,TYPE_STRING, 0]], \&match);
 
    $env->eval('max{x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var m = pop[z]; var n = length[z]; var q; while((n=n-1)>=0){q=pop[z]; q>m?m=q:0}; m}'); 
    $env->eval('min{x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var m = pop[z]; var n = length[z]; var q; while((n=n-1)>=0){q=pop[z]; q<m?m=q:0}; m}'); 
@@ -445,14 +445,14 @@ sub index
 sub eval
 {
 	#with an array we give the number of elements, with a string we give the length of the string
-	my ($args, $eval, $branches)= @_;
+	my ($args, $eval, $branches, $reval)= @_;
 	my $evalstr = $eval->{vars}->getvar("str")->getstring();
 
-	my $nvars = new Math::Farnsworth::Variables($eval->{vars});
-	my %nopts = (vars => $nvars, funcs => $eval->{funcs}, units => $eval->{units}, parser => $eval->{parser});
-	my $neval = $eval->new(%nopts);
+#	my $nvars = new Math::Farnsworth::Variables($eval->{vars});
+#	my %nopts = (vars => $nvars, funcs => $eval->{funcs}, units => $eval->{units}, parser => $eval->{parser});
+#	my $neval = $eval->new(%nopts);
 
-	return $neval->eval($evalstr);
+	return $reval->eval($evalstr);
 }
 
 1;

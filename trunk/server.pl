@@ -55,7 +55,7 @@ sub runfarnsworth
 	  my $oa = $SIG{ALRM};
     my $oat = alarm(0);
     $SIG{ALRM} = sub {die "Timeout!"};
-    alarm(125); #commented out for testing
+    alarm(180); #commented out for testing
 
   my $out = eval 
 	{

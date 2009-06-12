@@ -40,7 +40,6 @@ sub new
   bless $self, $class;
 
   $self->{outmagic} = $outmagic;
-  $self->{valueinput} = $value;
 
   $self->{truthiness} = $value ? 1 : 0;
   

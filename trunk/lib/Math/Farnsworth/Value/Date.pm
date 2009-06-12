@@ -5,6 +5,7 @@ use warnings;
 
 use Math::Farnsworth::Dimension;
 use Math::Farnsworth::Value;
+use Math::Farnsworth::Value::Pari;
 use Carp;
 
 use DateTime;
@@ -47,7 +48,6 @@ sub new
   bless $self, $class;
 
   $self->{outmagic} = $outmagic;
-  $self->{valueinput} = $value;
 
   if (ref($value) ne "DateTime")
   {
@@ -147,7 +147,7 @@ sub subtract
 	  my ($secs, $nano) = $diff->in_units('seconds','nanoseconds');
 	  my $rdiff = $secs + 0.000000001 *$nano;
 
-	  my $ret = new Math::Farnsworth::Value::Pari($rdiff, {time => 1});
+	  my $ret = Math::Farnsworth::Value::Pari->new($rdiff, {time => 1});
 
 	  return $ret;
   }

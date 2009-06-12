@@ -1,7 +1,7 @@
 # This Makefile is for the Math::Farnsworth extension to perl.
 #
 # It was generated automatically by MakeMaker version
-# 6.42 (Revision: 41145) from the contents of
+# 6.50 (Revision: 65000) from the contents of
 # Makefile.PL. Don't edit this file, edit Makefile.PL instead.
 #
 #       ANY CHANGES MADE HERE WILL BE LOST!
@@ -17,7 +17,7 @@
 #     NAME => q[Math::Farnsworth]
 #     NO_META => q[1]
 #     PL_FILES => {  }
-#     PREREQ_PM => { Math::Pari=>q[0], Test::More=>q[0], Test::Exception=>q[0], ExtUtils::MakeMaker=>q[6.42], Date::Manip=>q[0], List::MoreUtils=>q[0] }
+#     PREREQ_PM => { Math::Pari=>q[0], Test::More=>q[0], Test::Exception=>q[0], ExtUtils::MakeMaker=>q[6.50], Date::Manip=>q[0], List::MoreUtils=>q[0] }
 #     VERSION => q[0.6.0]
 #     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
 
@@ -26,9 +26,8 @@
 
 # --- MakeMaker const_config section:
 
-# These definitions are from config.sh (via /usr/lib/perl5/5.10.0/x86_64-linux-thread-multi/Config.pm)
-
-# They may have been overridden via Makefile.PL or on the command line
+# These definitions are from config.sh (via /usr/lib/perl5/5.10.0/x86_64-linux-thread-multi/Config.pm).
+# They may have been overridden via Makefile.PL or on the command line.
 AR = ar
 CC = x86_64-pc-linux-gnu-gcc
 CCCDLFLAGS = -fPIC
@@ -138,8 +137,8 @@ PERM_RW = 644
 PERM_RWX = 755
 
 MAKEMAKER   = /usr/lib/perl5/5.10.0/ExtUtils/MakeMaker.pm
-MM_VERSION  = 6.42
-MM_REVISION = 41145
+MM_VERSION  = 6.50
+MM_REVISION = 65000
 
 # FULLEXT = Pathname for extension directory (eg Foo/Bar/Oracle).
 # BASEEXT = Basename part of FULLEXT. May be just equal FULLEXT. (eg Oracle)
@@ -189,6 +188,7 @@ PERL_ARCHIVE_AFTER =
 
 TO_INST_PM = bot2.pl \
 	botriz.pl \
+	farnsworth.pl \
 	lib/Math/Farnsworth.pm \
 	lib/Math/Farnsworth/.Variables.pm.swp \
 	lib/Math/Farnsworth/Dimension.pm \
@@ -205,6 +205,7 @@ TO_INST_PM = bot2.pl \
 	lib/Math/Farnsworth/Output.pm \
 	lib/Math/Farnsworth/Parser.pm \
 	lib/Math/Farnsworth/Units.pm \
+	lib/Math/Farnsworth/Units/Currency.pm \
 	lib/Math/Farnsworth/Units/Pi10-6.html \
 	lib/Math/Farnsworth/Units/Standard.pm \
 	lib/Math/Farnsworth/Units/e.2mil \
@@ -290,6 +291,8 @@ PM_TO_BLIB = lib/Math/Farnsworth/Value/Lambda.pm \
 	blib/lib/Math/Farnsworth.pm \
 	lib/Math/Farnsworth/Value/Boolean.pm \
 	blib/lib/Math/Farnsworth/Value/Boolean.pm \
+	lib/Math/Farnsworth/Units/Currency.pm \
+	blib/lib/Math/Farnsworth/Units/Currency.pm \
 	lib/Math/Farnsworth/Value.pm \
 	blib/lib/Math/Farnsworth/Value.pm \
 	lib/Math/Farnsworth/Functions/StdMath.pm \
@@ -301,11 +304,13 @@ PM_TO_BLIB = lib/Math/Farnsworth/Value/Lambda.pm \
 	botriz.pl \
 	$(INST_LIB)/Math/botriz.pl \
 	lib/Math/Farnsworth/Value/NewValue.pm \
-	blib/lib/Math/Farnsworth/Value/NewValue.pm
+	blib/lib/Math/Farnsworth/Value/NewValue.pm \
+	farnsworth.pl \
+	$(INST_LIB)/Math/farnsworth.pl
 
 
 # --- MakeMaker platform_constants section:
-MM_Unix_VERSION = 6.42
+MM_Unix_VERSION = 6.50
 PERL_MALLOC_DEF = -DPERL_EXTMALLOC_DEF -Dmalloc=Perl_malloc -Dfree=Perl_mfree -Drealloc=Perl_realloc -Dcalloc=Perl_calloc
 
 
@@ -888,7 +893,7 @@ ppd :
 	$(NOECHO) $(ECHO) '    <AUTHOR>Ryan Voots &lt;simcop@cpan.org&gt;</AUTHOR>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Date-Manip" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="ExtUtils-MakeMaker" VERSION="6,42,0,0" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="ExtUtils-MakeMaker" VERSION="6,50,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="List-MoreUtils" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Math-Pari" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Test-Exception" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
@@ -936,12 +941,15 @@ pm_to_blib : $(TO_INST_PM)
 	  lib/Math/Farnsworth/Dimension.pm blib/lib/Math/Farnsworth/Dimension.pm \
 	  lib/Math/Farnsworth.pm blib/lib/Math/Farnsworth.pm \
 	  lib/Math/Farnsworth/Value/Boolean.pm blib/lib/Math/Farnsworth/Value/Boolean.pm \
+	  lib/Math/Farnsworth/Units/Currency.pm blib/lib/Math/Farnsworth/Units/Currency.pm \
 	  lib/Math/Farnsworth/Value.pm blib/lib/Math/Farnsworth/Value.pm \
 	  lib/Math/Farnsworth/Functions/StdMath.pm blib/lib/Math/Farnsworth/Functions/StdMath.pm \
 	  lib/Math/Farnsworth/Value/Date.pm blib/lib/Math/Farnsworth/Value/Date.pm \
 	  lib/Math/Farnsworth/Output.pm blib/lib/Math/Farnsworth/Output.pm \
-	  botriz.pl $(INST_LIB)/Math/botriz.pl \
-	  lib/Math/Farnsworth/Value/NewValue.pm blib/lib/Math/Farnsworth/Value/NewValue.pm 
+	  botriz.pl $(INST_LIB)/Math/botriz.pl 
+	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', '\''$(PM_FILTER)'\'')' -- \
+	  lib/Math/Farnsworth/Value/NewValue.pm blib/lib/Math/Farnsworth/Value/NewValue.pm \
+	  farnsworth.pl $(INST_LIB)/Math/farnsworth.pl 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
 

@@ -1908,6 +1908,10 @@ sub new {
 		DEFAULT => -72
 	},
 	{#State 85
+		ACTIONS => {
+			"**" => 35,
+			"^" => 40
+		},
 		DEFAULT => -65
 	},
 	{#State 86
@@ -1972,6 +1976,10 @@ sub new {
 		DEFAULT => -75
 	},
 	{#State 90
+		ACTIONS => {
+			"**" => 35,
+			"^" => 40
+		},
 		DEFAULT => -64
 	},
 	{#State 91

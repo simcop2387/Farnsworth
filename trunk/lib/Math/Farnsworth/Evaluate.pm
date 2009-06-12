@@ -12,6 +12,7 @@ use Math::Farnsworth::FunctionDispatch;
 use Math::Farnsworth::Variables;
 use Math::Farnsworth::Units;
 use Math::Farnsworth::Parser;
+use Math::Farnsworth::Value;
 use Math::Farnsworth::Value::Pari;
 use Math::Farnsworth::Value::Date;
 use Math::Farnsworth::Value::String;
@@ -290,9 +291,11 @@ sub evalbranch
 		my $value = $self->makevalue($branch->[1]);
 		$return = $value; #make stores evaluate to the value on the right
 		#$self->{vars}->setvar($name, $value);
-		#warn "SETTING VALUES";
-		#warn Data::Dumper->Dump([$lvalue, $lvalue->getref()], [qw($lvalue \$ref)]);
-		${$lvalue->getref()} = $value;
+		
+		my $cloned = $value->clone();
+		warn "SETTING VALUES";
+		warn Data::Dumper->Dump([$lvalue, $lvalue->getref(), $value, $cloned], [qw($lvalue \$ref $value $cloned)]);
+		${$lvalue->getref()} = $cloned;
 	}
 	elsif ($type eq "DeclareVar")
 	{
@@ -460,21 +463,27 @@ sub evalbranch
 	}
 	elsif ($type eq "ArrayFetch")
 	{
-		#print "AFETCH\n", Dumper($branch);
+		#print "\n\nAFETCH\n";
 		my $var = $self->makevalue($branch->[0]); #need to check if this is an array, and die if not
 		my $listval = $self->makevalue($branch->[1]);
 		my @rval;
 
-		#print Dumper($branch, $var, $listval);
+		#print Data::Dumper->Dump([$branch, $var, $listval], ["branch","var","listval"]);
 
 		for ($listval->getarray())
 		{
-#			print STDERR "ARFET: ".$_->toperl()."\n";
+			my $index = $_->getpari()*1.0;
+			#print STDERR "ARFET: ".$_->toperl()."\n";
 			#ok this line FOR WHATEVER REASON, makes Math::Pari.xs die in isnull(), WHY i don't know, there's something wrong here somewhere
 			#my $float = $_ * (Math::Farnsworth::Value::Pari->new(1.0)); #makes rationals work right
-			my $input = $var->getarrayref()->[$_->getpari()*1.0]; #."" makes indexes work right again
-			error "Array out of bounds\n" unless defined $input; #NTS: would be useful to look if i have a name and use it
-			$input->setref(\$var->getarrayref()->[$_->getpari()*1.0]);# if (!$input->getref()); #need to fix this XXX
+			
+			my $input = $var->getarrayref()->[$index]; 
+			
+			#error "Array out of bounds\n" #old message, check is down below now;
+			$var->getarrayref()->[$index] = TYPE_UNDEF unless defined $input; 
+			$input = $var->getarrayref()->[$index] unless defined $input; #reset the value if needed, this code should be redone but i don't feel like it right now XXX
+			
+			$input->setref(\$var->getarrayref()->[$index]);
 			push @rval, $input;
 		}
 

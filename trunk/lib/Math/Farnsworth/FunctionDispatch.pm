@@ -167,7 +167,7 @@ sub callfunc
 
 		my %nopts = (vars => $nvars, funcs => $self, units => $eval->{units}, parser => $eval->{parser});
 		$neval = $eval->new(%nopts);
-		$self->{funcs}{$name}{parentscope} = $neval; #store it for later!
+#		$self->{funcs}{$name}{parentscope} = $neval; #store it for later!
 	}
 
 	#print "NEWSCOPE! ".$neval->{vars}."\n";
@@ -190,7 +190,7 @@ sub callfunc
 	else
 	{
 		#we have a code ref, so we need to call it
-		return $fval->($args, $neval, $branches);
+		return $fval->($args, $neval, $branches, $eval);
 	}
 }
 

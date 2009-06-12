@@ -45,7 +45,6 @@ sub new
   bless $self, $class;
 
   $self->{outmagic} = $outmagic;
-  $self->{valueinput} = $value;
 
   if (ref($dimen) eq "Math::Farnsworth::Dimension")
   {

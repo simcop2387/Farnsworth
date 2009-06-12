@@ -43,7 +43,6 @@ sub new
   bless $self, $class;
 
   $self->{outmagic} = $outmagic;
-  $self->{valueinput} = $value;
 
   {
 	no warnings 'uninitialized';

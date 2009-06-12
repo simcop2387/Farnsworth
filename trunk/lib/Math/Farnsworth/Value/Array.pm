@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Math::Farnsworth::Dimension;
-use Math::Farnsworth::Value;
+#use Math::Farnsworth::Value;
 use Carp;
 use List::MoreUtils 'each_array'; 
 
@@ -43,7 +43,6 @@ sub new
   bless $self, $class;
 
   $self->{outmagic} = $outmagic;
-  $self->{valueinput} = $value;
 
   $self->{array} = [@{$value}] || [];
   
