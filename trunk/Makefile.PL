@@ -10,6 +10,9 @@ all_from       'lib/Math/Farnsworth.pm';
 version_from "lib/Math/Farnsworth.pm";
 license 'perl';
 recommends 'REST::Google::Translate' => 0;
+recommends 'Finance::Currency::Convert::XE' => 0;
+requires 'REST::Google::Translate' => 0;
+requires 'Finance::Currency::Convert::XE' => 0;
 
 requires 'List::MoreUtils' => 0;
 requires 'Date::Manip' => 0;
