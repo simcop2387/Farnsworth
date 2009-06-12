@@ -17,6 +17,7 @@ lib/Math/Farnsworth/Functions/GoogleTranslate.pm
 lib/Math/Farnsworth/Functions/Standard.pm
 lib/Math/Farnsworth/Functions/StdMath.pm
 lib/Math/Farnsworth/Output.pm
+lib/Math/Farnsworth/Error.pm
 lib/Math/Farnsworth/Parser.pm
 lib/Math/Farnsworth/Units.pm
 lib/Math/Farnsworth/Units/Standard.pm
