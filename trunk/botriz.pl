@@ -13,10 +13,10 @@ use Encode;
 # with all known options
 my $bot = POE::Component::IRC->spawn(
 
-           server => "irc.rizon.net",
-           port   => "6667",
+           server => "localhost",
+           port   => "6668",
            nick      => "farnsworth",
-           username  => "farnsworth",
+           username  => "farnsworthriz",
            name      => "Hubert J. Farnsworth",
            password  => "farnsworth",
 

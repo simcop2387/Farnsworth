@@ -223,3 +223,6 @@ MST7MDT{x isa #today#} := {setzone[x, "MST7MDT"]};
 CST6CDT{x isa #today#} := {setzone[x, "CST6CDT"]};
 
 updatecurrencies[];
+
+mkstr{x} := {if (x conforms "") {x} else {"$x"}};
+prettyout{dome, _measures isa []} := {var measures=sort[{`a,b` var a1=eval[mkstr[a]]; var b1=eval[mkstr[b]]; b1 <=> a1}, _measures]; var i=0; var ret=""; map[{`x` var val=eval[mkstr[x]]; var size=1.0 dome/val; i=i+1; if ((i == length[measures]) && (size > 0)) {ret = ret + " $size" +mkstr[x];} else {if (size >= 1.0) {ret = ret + " ${int[size]}" + mkstr[x]; dome=dome-val*int[size]}};}, measures]; ret };
