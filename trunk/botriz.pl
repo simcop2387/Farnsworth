@@ -4,16 +4,24 @@ use strict;
 use warnings;
 use Data::Dumper;
 #use base 'Bot::BasicBot';
-use POE qw(Component::IRC Queue::Array);
+use POE qw(Component::IRC 
+           Queue::Array 
+           Component::IRC::Plugin::NickReclaim 
+           Component::IRC::Plugin::CTCP 
+           Component::IRC::Plugin::NickServID);
+
 use WWW::Mechanize;
 use URI::Escape;
 use Math::BigFloat;
 use Encode;
 
+my $password;
+$password=$ARGV[0] if @ARGV;
+
 # with all known options
 my $bot = POE::Component::IRC->spawn(
 
-           server => "localhost",
+           server => "andromeda128",
            port   => "6668",
            nick      => "farnsworth",
            username  => "farnsworthriz",
@@ -46,8 +54,18 @@ sub _start {
             # retrieve our component's object from the heap where we stashed it
             my $irc = $heap->{irc};
 
+            $irc->plugin_add( 'CTCP' => POE::Component::IRC::Plugin::CTCP->new(
+                version => "Math::Farnsworth SVN",
+                userinfo => "See simcop2387 for more info", 
+            ));
+            $irc->plugin_add( 'NickReclaim' => POE::Component::IRC::Plugin::NickReclaim->new( poll => 30 ) );
+            $irc->plugin_add( 'NickServID', POE::Component::IRC::Plugin::NickServID->new(
+                Password => $password,
+            )) if $password;
+
             $irc->yield( register => 'all' );
             $irc->yield( connect => { } );
+
             return;
 }
 
@@ -63,25 +81,17 @@ sub irc_001 {
             print "Connected to ", $irc->server_name(), "\n";
 
             # we join our channels
-            $irc->yield( join => $_ ) for ("#DCTP", "#kienai", "#azfs");
-			$kernel->delay_add(tock=>0.5);
-			$kernel->delay_add(comfuck=>50);
-			return;
+            $irc->yield( join => $_ ) for ("#yapb", "#buubot", "#codeyard", "#perlcafe", "##turtles");
+            $kernel->delay_add(tock=>0.5);
+            $kernel->delay_add(comfuck=>50);
+
+            $irc->yield(nick => "farnsworth");
 }
 
 sub _ignore
 {
   my $who = shift;
   return (grep {$who =~ /\Q$_/i} @ignore) ? 1 : 0
-}
-
-sub comfuck
-{    
-  my ($sender, $kernel, $heap) = @_[SENDER, KERNEL, HEAP];
-
-  my $d = $heap->{irc}->server_name();
-  $heap->{irc}->yield( quote => "PONG $d\n");
-  $kernel->delay_add(comfuck => 50);
 }
 
 sub irc_public
@@ -92,8 +102,9 @@ sub irc_public
 
   print Dumper($who);
   return if _ignore($nick);
+  return if ($what =~ /^farnsworth\+\+/);
 
-  if (my ($equation) = $what =~ /^farnsworth[[:punct:]]\s*(.*)$/i)
+  if (my ($equation) = $what =~ /^farnswor(?:th|i)[[:punct:]]\s*(.*)$/i)
   {
     my $response = submitform($equation, "chan");	
 	my @lines = messagebreak($response); #this should really never be needed, but is here so that its consistent
@@ -133,6 +144,15 @@ sub irc_msg
 	}
 #	$heap->{irc}->yield( privmsg => $nick => "$response" );
   }
+}
+
+sub comfuck
+{
+  my ($sender, $kernel, $heap) = @_[SENDER, KERNEL, HEAP];
+
+  my $d = $heap->{irc}->server_name();
+  $heap->{irc}->yield( quote => "PONG $d\n");
+  $kernel->delay_add(comfuck => 50);
 }
 
 sub tock
@@ -252,9 +272,10 @@ sub submitform
     $q =~ s/\n/ /g; #filter a few annoying things
     $q =~ s/\s{2,}/ /g;
 
-    if ((length $q > 300) && $ad ne "msg")
+    if ((length $q > 320) && $ad ne "msg")
     {
-      $q = "".(substr $q, 0, 300) . ".... tl;dr, use /msg";
+      $q = "".(substr $q, 0, 320) . ".... tl;dr, use /msg";
+      $q =~ s/\n//g; #tr probably faster, but who cares
     }
 
     return $q;
