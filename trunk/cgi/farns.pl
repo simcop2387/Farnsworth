@@ -1,0 +1,1 @@
+/var/www/farnsworth/cgi-bin/farns.pl
