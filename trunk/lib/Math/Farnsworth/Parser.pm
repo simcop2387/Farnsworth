@@ -3624,7 +3624,7 @@ sub yylex
 #	$s =~ s|\G/\*.*?\*/||g;
 
     #i want a complete number regex
-	$s =~ /\G(0[xb]?[[:xdigit:].]+)/igc and return 'HEXNUMBER', $1;
+	$s =~ /\G(0[xb]?[[:xdigit:]](?:[[:xdigit:].]+))/igc and return 'HEXNUMBER', $1;
 	#$s =~ /\G(0b[01]+)/igc and return 'HEXNUMBER', $1; #binary
 	#$s =~ /\G(0[0-7]+)/igc and return 'HEXNUMBER', $1; #octal
 	$s =~ /\G((\d+(\.\d*)?|\.\d+)([Ee][Ee]?[-+]?\d+))/gc 
