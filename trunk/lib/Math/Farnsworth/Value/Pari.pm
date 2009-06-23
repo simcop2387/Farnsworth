@@ -6,6 +6,7 @@ use warnings;
 use Math::Pari;
 use Math::Farnsworth::Dimension;
 use Math::Farnsworth::Value;
+use Math::Farnsworth::Error;
 use Carp qw(confess cluck croak carp);
 
 use Data::Dumper;
@@ -117,6 +118,8 @@ sub checkdigit
 	my ($digit, $base, $input) = @_;
 	my $valid = "0123456789ABCDEF";
 	my $v = index($valid, uc $digit);
+
+	print("Invalid digit '$digit' in number '$input' for base $base");
 
 	if ($v == -1 || $v >= $base)
 	{
