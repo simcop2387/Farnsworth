@@ -182,14 +182,14 @@ sub yylex
 #	$s =~ s|\G/\*.*?\*/||g;
 
     #i want a complete number regex
-	$s =~ /\G(0x[[:xdigit:]]+)/igc and return 'HEXNUMBER', $1;
-	$s =~ /\G(0b[01]+)/igc and return 'HEXNUMBER', $1; #binary
-	$s =~ /\G(0[0-7]+)/igc and return 'HEXNUMBER', $1; #octal
+	$s =~ /\G(0[xb]?[[:xdigit:].]+)/igc and return 'HEXNUMBER', $1;
+	#$s =~ /\G(0b[01]+)/igc and return 'HEXNUMBER', $1; #binary
+	#$s =~ /\G(0[0-7]+)/igc and return 'HEXNUMBER', $1; #octal
 	$s =~ /\G((\d+(\.\d*)?|\.\d+)([Ee][Ee]?[-+]?\d+))/gc 
 	      and return 'NUMBER', $1;
 	$s =~ /\G((\d+(\.\d*)?|\.\d+))/gc 
 	      and return 'NUMBER', $1;
-    $s =~ /\G(0[xX][0-9A-Fa-f])/gc and return $1;
+    #$s =~ /\G(0[xX][0-9A-Fa-f])/gc and return $1; #this never happens?!?
 
     #token out the date
     $s =~ /\G\s*#([^#]*)#\s*/gc and return 'DATE', $1;
