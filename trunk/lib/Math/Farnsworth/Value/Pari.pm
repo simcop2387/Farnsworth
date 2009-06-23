@@ -39,6 +39,7 @@ sub new
   my $value = shift;
   my $dimen = shift; #should only really be used internally?
   my $outmagic = shift; #i'm still not sure on this one
+  my $hex = shift;
 
   my $self = {};
 
@@ -57,9 +58,72 @@ sub new
   }
 
   $value =~ s/(ee|E)/e/i; #fixes double ee's, i could probably eventually remove this, but it doesn't do any harm for now
-  $self->{pari} = PARI $value;
+  
+  if ($hex)
+  {
+	$self->{pari} = parsehex($value);
+  }
+  else
+  {
+	$self->{pari} = PARI $value;
+  }
 
   return $self;
+}
+
+#helpers for parsing hex, binary, and octal formats, could also extend support to others
+sub parsehex
+{
+    my $input = shift;
+    if ($input =~ /0x(.*)/i)
+    {
+		return parsedigits(16, $1, $input);
+    }
+    elsif ($input =~ /0b(.*)/i)
+    {
+		return parsedigits(2, $1, $input);
+    }
+	elsif ($input =~ /0(.*)/i)
+    {
+		return parsedigits(8, $1, $input);
+    }
+	else
+	{
+		error("How did you manage to get here? \$input=$input at Pari.pm");
+	}
+}
+
+sub parsedigits
+{
+	my ($base, $digits, $input) = @_;
+	my $value = PARI '0';
+	my $div = $value + 1.0;
+	my $flag = 0;
+
+	for my $d (split //, $digits)
+	{
+		$flag=1,next if ($d eq '.' && !$flag); #only set $flag once, that way it'll trigger invalid digit properly afterwords
+		my $v = checkdigit($d, $base, $input);
+		$value = $value * $base + $v; #build it up from left to right we need to multiply by $base each iterartion, starting at 0 this causes no issues at all
+		$div *= $base if $flag;		
+	}
+
+	return $value/$div if $flag;
+	return $value;
+}
+
+sub checkdigit
+{
+	my ($digit, $base, $input) = @_;
+	my $valid = "0123456789ABCDEF";
+	my $v = index($valid, uc $digit);
+
+	if ($v == -1 || $v >= $base)
+	{
+		error("Invalid digit '$digit' in number '$input' for base $base");
+	}
+
+	return $v;
 }
 
 ####

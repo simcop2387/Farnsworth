@@ -23,7 +23,7 @@ use Math::Farnsworth::Value::Boolean;
 use Math::Farnsworth::Output;
 use Math::Farnsworth::Error;
 
-use Math::Pari ':hex'; #why not?
+use Math::Pari;# ':hex'; #why not? because it fucks up so fucking badly that fuck isn't a strong enough word
 
 sub new
 {
@@ -689,8 +689,8 @@ sub makevalue
 	{
 		#need to make a value here with Math::Farnsworth::Value!
 		#print "HEX VALUE: ".$input->[0]."\n";
-		my $value = eval $input->[0]; #this SHOULD work, shouldn't be a security risk since its validated through the lexer and parser.
-		my $val = new Math::Farnsworth::Value::Pari($value);
+		#my $value = eval $input->[0]; #this SHOULD work, shouldn't be a security risk since its validated through the lexer and parser.
+		my $val = new Math::Farnsworth::Value::Pari($input->[0],undef,undef,1);
 		return $val;
 	}
 	elsif (ref($input) eq "Fetch")
