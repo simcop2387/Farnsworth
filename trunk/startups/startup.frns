@@ -31,7 +31,7 @@ dutchmangle{x} :=[x -> DutchToEnglish] -> mangle -> EnglishToDutch
 tobase{x isa 1, b = 16 isa 1} := { var getchr = {`x` substrLen["0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_\\| <>/;:'[]{}=+`~.,?", x, 1]};
 
 x=x*1.0;/*newer pari's for some reason forbid mixing of ints and reals like i was, have to watch out for that*/
-b=x*1.0;
+b=b*1.0;
 /*dbgprint["-----STARTING TOBASE-----","getchr = $getchr", "x = $x", "b = $b"]*/ 1;
 
 if (b < 2) {error["Can't use a base lower than 2"]};
