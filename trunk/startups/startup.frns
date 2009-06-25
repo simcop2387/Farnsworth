@@ -72,7 +72,7 @@ if (floor[x] < x)
  {
     /*dbgprint["MIDROUND----", "i = $i", "x = $x"]*/ 1;
 	var c;
-			c = x % b;
+			c = int[x % b];
 			dbgprint["c = $c"];
 			x = floor[x / b];
 			if (c >= 0) { /*i don't think i need this check, was in original algorithm*/
@@ -91,7 +91,7 @@ if (floor[x] < x)
  {
 	var c;
 	        /*dbgprint["MIDROUND----", "x = $x"]*/ 1;
-			c = x % b;
+			c = int[x % b];
 			/*dbgprint["c = $c"]*/ 1;
 			x = floor[x / b];
 			if (c >= 0) { /*i don't think i need this check, was in original algorithm*/
