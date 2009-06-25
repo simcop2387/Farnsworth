@@ -15,14 +15,19 @@ use POE;
 use Encode;
 
 use Math::Farnsworth;
+use Math::Farnsworth::Error;
+use Math::Farnsworth::Units;
 
 use utf8;
+
+$Math::Farnsworth::Error::level = 3; #get all debugging
 
 my $farnsworth = new Math::Farnsworth;
 $farnsworth->runFile("startups/startup.frns");
 $farnsworth->runFile("startups/combodefaults.frns");
 $farnsworth->runFile("startups/datable.frns");
 print "DONE STARTING UP!\n";
+$Math::Farnsworth::Units::lock = 1; #need better interface!
 
 my $aliases = POE::Component::Server::HTTP->new(
   Port => 8080,

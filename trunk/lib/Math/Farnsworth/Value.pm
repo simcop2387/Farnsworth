@@ -139,4 +139,21 @@ sub clone
 	$newself;
 }
 
+sub getpari
+{
+	#error("Attempting to use ");
+}
+
+sub getarray
+{
+}
+
+sub getarrayref
+{
+}
+
+sub getstring
+{
+}
+
 1;

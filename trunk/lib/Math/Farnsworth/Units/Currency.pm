@@ -7,6 +7,9 @@ use Data::Dumper;
 
 use Math::Farnsworth::Value;
 use Math::Farnsworth::Value::Pari;
+use Math::Farnsworth::Units;
+use Math::Farnsworth::Error;
+
 
 use Finance::Currency::Convert::XE;
 
@@ -50,6 +53,9 @@ sub doupdate
 {
 	my ($args, $env, $branches)= @_;
     
+	my $lock = $Math::Farnsworth::Units::lock;
+	$Math::Farnsworth::Units::lock = 0;
+
 	for my $x (@currencies)
 	{
 		print "Fetching currency $x\n";
@@ -71,6 +77,8 @@ sub doupdate
 			die $@ if ("".$@ !~ "Undefined symbol"); #ignore ones that aren't there anymore, dunno WHY that happens though, i blame XE
 		}
 	}
+
+	$Math::Farnsworth::Units::lock = $lock;
 
 	return undef;
 }

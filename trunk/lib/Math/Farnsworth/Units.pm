@@ -7,6 +7,9 @@ use Data::Dumper;
 use Math::Farnsworth::Value::Pari;
 use Math::Pari;
 use Math::Farnsworth::Output;
+use Math::Farnsworth::Error;
+
+our $lock = 0;
 
 sub new
 {
@@ -21,8 +24,9 @@ sub addunit
 	my $name = shift;
 	my $value = shift;
 
+	error("won't redefine existing units") if (exists($self->{units}{$name}) && $lock);
 	$self->{units}{$name} = $value;
-	$self->{units}{$name."s"} = $value; #HACK!
+	$self->{units}{$name."s"} = $value; #HACK! #causes issues with ms not meaning milliseconds
 }
 
 sub getunit

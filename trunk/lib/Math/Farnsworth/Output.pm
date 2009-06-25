@@ -8,6 +8,7 @@ use overload '""' => \&tostring;
 use Data::Dumper;
 use Date::Manip;
 use Carp qw(cluck carp confess);
+use Math::Farnsworth::Error;
 
 our %combos;
 our %displays;
@@ -61,8 +62,16 @@ sub getdisplay
 	my $self = shift;
 	my $name = shift;
 
+	debug 2, "GETDISP: ",$name, "\n";
+
 	if (defined($name) && exists($displays{$name}))
 	{
+		debug 2, "GETDISP:", (Dumper($displays{$name})), "\n";
+		if (ref($displays{$name}) eq "Fetch" && $displays{$name}[0] eq "undef")
+		{
+			return undef;
+		}	
+
 		return $displays{$name}; #guess i'll just do the rest in there?
 	}
 
