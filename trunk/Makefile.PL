@@ -15,7 +15,8 @@ requires 'REST::Google::Translate' => 0;
 requires 'Finance::Currency::Convert::XE' => 0;
 
 requires 'List::MoreUtils' => 0;
-requires 'Date::Manip' => 0;
+requires 'DateTimeX::Easy' => 0;
+requires 'DateTime' => 0;
 requires 'Math::Pari' => 0;
 
 test_requires 'Test::More' => 0;

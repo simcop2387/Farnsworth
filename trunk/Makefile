@@ -1,7 +1,7 @@
 # This Makefile is for the Math::Farnsworth extension to perl.
 #
 # It was generated automatically by MakeMaker version
-# 6.50 (Revision: 65000) from the contents of
+# 6.42 (Revision: 41145) from the contents of
 # Makefile.PL. Don't edit this file, edit Makefile.PL instead.
 #
 #       ANY CHANGES MADE HERE WILL BE LOST!
@@ -17,17 +17,19 @@
 #     NAME => q[Math::Farnsworth]
 #     NO_META => q[1]
 #     PL_FILES => {  }
-#     PREREQ_PM => { Finance::Currency::Convert::XE=>q[0], Test::Exception=>q[0], ExtUtils::MakeMaker=>q[6.50], REST::Google::Translate=>q[0], Test::More=>q[0], Math::Pari=>q[0], Date::Manip=>q[0], List::MoreUtils=>q[0] }
+#     PREREQ_PM => { DateTime=>q[0], Finance::Currency::Convert::XE=>q[0], Test::Exception=>q[0], ExtUtils::MakeMaker=>q[6.42], DateTimeX::Easy=>q[0], REST::Google::Translate=>q[0], Math::Pari=>q[0], Test::More=>q[0], List::MoreUtils=>q[0] }
 #     VERSION => q[0.6.0]
 #     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
+#     realclean => { FILES=>q[MYMETA.yml] }
 
 # --- MakeMaker post_initialize section:
 
 
 # --- MakeMaker const_config section:
 
-# These definitions are from config.sh (via /usr/lib/perl5/5.10.0/x86_64-linux-thread-multi/Config.pm).
-# They may have been overridden via Makefile.PL or on the command line.
+# These definitions are from config.sh (via /usr/lib/perl5/5.10.0/x86_64-linux-thread-multi/Config.pm)
+
+# They may have been overridden via Makefile.PL or on the command line
 AR = ar
 CC = x86_64-pc-linux-gnu-gcc
 CCCDLFLAGS = -fPIC
@@ -37,13 +39,13 @@ DLSRC = dl_dlopen.xs
 EXE_EXT = 
 FULL_AR = /usr/bin/ar
 LD = x86_64-pc-linux-gnu-gcc
-LDDLFLAGS = -shared -march=athlon64 -O2 -ftree-vectorize -msse -msse2 -mmmx -m3dnow -msse3 -pipe
+LDDLFLAGS = -shared -march=athlon64-sse3 -O2 -ftree-vectorize -msse -msse2 -mmmx -m3dnow -msse3 -pipe -ggdb
 LDFLAGS = 
-LIBC = /lib/libc-2.9.so
+LIBC = /lib/libc-2.10.1.so
 LIB_EXT = .a
 OBJ_EXT = .o
 OSNAME = linux
-OSVERS = 2.6.28-gentoo
+OSVERS = 2.6.29-gentoo-r2
 RANLIB = :
 SITELIBEXP = /usr/lib/perl5/site_perl/5.10.0
 SITEARCHEXP = /usr/lib/perl5/site_perl/5.10.0/x86_64-linux-thread-multi
@@ -137,8 +139,8 @@ PERM_RW = 644
 PERM_RWX = 755
 
 MAKEMAKER   = /usr/lib/perl5/5.10.0/ExtUtils/MakeMaker.pm
-MM_VERSION  = 6.50
-MM_REVISION = 65000
+MM_VERSION  = 6.42
+MM_REVISION = 41145
 
 # FULLEXT = Pathname for extension directory (eg Foo/Bar/Oracle).
 # BASEEXT = Basename part of FULLEXT. May be just equal FULLEXT. (eg Oracle)
@@ -190,15 +192,12 @@ TO_INST_PM = bot2.pl \
 	botriz.pl \
 	farnsworth.pl \
 	lib/Math/Farnsworth.pm \
-	lib/Math/Farnsworth/.Variables.pm.swp \
 	lib/Math/Farnsworth/Dimension.pm \
 	lib/Math/Farnsworth/Docs/Functions.pm \
 	lib/Math/Farnsworth/Docs/Syntax.pm \
 	lib/Math/Farnsworth/Error.pm \
 	lib/Math/Farnsworth/Evaluate.pm \
 	lib/Math/Farnsworth/FunctionDispatch.pm \
-	lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp \
-	lib/Math/Farnsworth/Functions/.Standard.pm.swp \
 	lib/Math/Farnsworth/Functions/GoogleTranslate.pm \
 	lib/Math/Farnsworth/Functions/Standard.pm \
 	lib/Math/Farnsworth/Functions/StdMath.pm \
@@ -251,8 +250,6 @@ PM_TO_BLIB = lib/Math/Farnsworth/Value/Lambda.pm \
 	blib/lib/Math/Farnsworth/Value/Array.pm \
 	lib/Math/Farnsworth/Docs/Functions.pm \
 	blib/lib/Math/Farnsworth/Docs/Functions.pm \
-	lib/Math/Farnsworth/.Variables.pm.swp \
-	blib/lib/Math/Farnsworth/.Variables.pm.swp \
 	server.pl \
 	$(INST_LIB)/Math/server.pl \
 	lib/Math/Farnsworth/Units/Standard.pm \
@@ -271,10 +268,6 @@ PM_TO_BLIB = lib/Math/Farnsworth/Value/Lambda.pm \
 	blib/lib/Math/Farnsworth/Units/e.2mil \
 	lib/Math/Farnsworth/Value_old.pm \
 	blib/lib/Math/Farnsworth/Value_old.pm \
-	lib/Math/Farnsworth/Functions/.Standard.pm.swp \
-	blib/lib/Math/Farnsworth/Functions/.Standard.pm.swp \
-	lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp \
-	blib/lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp \
 	loadunits.pl \
 	$(INST_LIB)/Math/loadunits.pl \
 	lib/Math/Farnsworth/FunctionDispatch.pm \
@@ -310,7 +303,7 @@ PM_TO_BLIB = lib/Math/Farnsworth/Value/Lambda.pm \
 
 
 # --- MakeMaker platform_constants section:
-MM_Unix_VERSION = 6.50
+MM_Unix_VERSION = 6.42
 PERL_MALLOC_DEF = -DPERL_EXTMALLOC_DEF -Dmalloc=Perl_malloc -Dfree=Perl_mfree -Drealloc=Perl_realloc -Dcalloc=Perl_calloc
 
 
@@ -592,7 +585,7 @@ realclean purge ::  clean realclean_subdirs
 	- $(RM_F) \
 	  $(MAKEFILE_OLD) $(FIRST_MAKEFILE) 
 	- $(RM_RF) \
-	  $(DISTVNAME) 
+	  MYMETA.yml $(DISTVNAME) 
 
 
 # --- MakeMaker metafile section:
@@ -892,8 +885,9 @@ ppd :
 	$(NOECHO) $(ECHO) '    <ABSTRACT>A Turing Complete Language for Mathematics</ABSTRACT>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <AUTHOR>Ryan Voots &lt;simcop@cpan.org&gt;</AUTHOR>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Date-Manip" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="ExtUtils-MakeMaker" VERSION="6,50,0,0" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="DateTime" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="DateTimeX-Easy" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="ExtUtils-MakeMaker" VERSION="6,42,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Finance-Currency-Convert-XE" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="List-MoreUtils" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Math-Pari" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
@@ -923,7 +917,6 @@ pm_to_blib : $(TO_INST_PM)
 	  maukes.pl $(INST_LIB)/Math/maukes.pl \
 	  lib/Math/Farnsworth/Value/Array.pm blib/lib/Math/Farnsworth/Value/Array.pm \
 	  lib/Math/Farnsworth/Docs/Functions.pm blib/lib/Math/Farnsworth/Docs/Functions.pm \
-	  lib/Math/Farnsworth/.Variables.pm.swp blib/lib/Math/Farnsworth/.Variables.pm.swp \
 	  server.pl $(INST_LIB)/Math/server.pl \
 	  lib/Math/Farnsworth/Units/Standard.pm blib/lib/Math/Farnsworth/Units/Standard.pm \
 	  lib/Math/Farnsworth/Parser.pm blib/lib/Math/Farnsworth/Parser.pm \
@@ -933,8 +926,6 @@ pm_to_blib : $(TO_INST_PM)
 	  lib/Math/Farnsworth/Units.pm blib/lib/Math/Farnsworth/Units.pm \
 	  lib/Math/Farnsworth/Units/e.2mil blib/lib/Math/Farnsworth/Units/e.2mil \
 	  lib/Math/Farnsworth/Value_old.pm blib/lib/Math/Farnsworth/Value_old.pm \
-	  lib/Math/Farnsworth/Functions/.Standard.pm.swp blib/lib/Math/Farnsworth/Functions/.Standard.pm.swp \
-	  lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp blib/lib/Math/Farnsworth/Functions/.GoogleTranslate.pm.swp \
 	  loadunits.pl $(INST_LIB)/Math/loadunits.pl \
 	  lib/Math/Farnsworth/FunctionDispatch.pm blib/lib/Math/Farnsworth/FunctionDispatch.pm \
 	  lib/Math/Farnsworth/Value/Pari.pm blib/lib/Math/Farnsworth/Value/Pari.pm \
@@ -948,8 +939,7 @@ pm_to_blib : $(TO_INST_PM)
 	  lib/Math/Farnsworth/Functions/StdMath.pm blib/lib/Math/Farnsworth/Functions/StdMath.pm \
 	  lib/Math/Farnsworth/Value/Date.pm blib/lib/Math/Farnsworth/Value/Date.pm \
 	  lib/Math/Farnsworth/Output.pm blib/lib/Math/Farnsworth/Output.pm \
-	  botriz.pl $(INST_LIB)/Math/botriz.pl 
-	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', '\''$(PM_FILTER)'\'')' -- \
+	  botriz.pl $(INST_LIB)/Math/botriz.pl \
 	  lib/Math/Farnsworth/Value/NewValue.pm blib/lib/Math/Farnsworth/Value/NewValue.pm \
 	  farnsworth.pl $(INST_LIB)/Math/farnsworth.pl 
 	$(NOECHO) $(TOUCH) pm_to_blib
@@ -962,13 +952,14 @@ pm_to_blib : $(TO_INST_PM)
 
 
 # End.
-# Postamble by Module::Install 0.77
+# Postamble by Module::Install 0.91
 # --- Module::Install::Admin::Makefile section:
 
 realclean purge ::
 	$(RM_F) $(DISTVNAME).tar$(SUFFIX)
-	$(RM_RF) inc MANIFEST.bak _build
-	$(PERL) -I. "-MModule::Install::Admin" -e "remove_meta()"
+	$(RM_F) MANIFEST.bak _build
+	$(PERL) "-Ilib" "-MModule::Install::Admin" -e "remove_meta()"
+	$(RM_RF) inc
 
 reset :: purge
 
