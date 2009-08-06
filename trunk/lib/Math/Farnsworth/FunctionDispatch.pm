@@ -162,7 +162,7 @@ sub callfunc
 	else
 	{
 		#this should get scrapped once i fix the other modules!
-		carp "SETTING UP PARENT SCOPE OUT OF NO WHERE!";
+		#carp "SETTING UP PARENT SCOPE OUT OF NO WHERE!";
 		my $nvars = new Math::Farnsworth::Variables($eval->{vars});
 
 		my %nopts = (vars => $nvars, funcs => $self, units => $eval->{units}, parser => $eval->{parser});

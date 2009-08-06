@@ -3,6 +3,8 @@ package Math::Farnsworth::Variables;
 use strict;
 use warnings;
 
+use Math::Farnsworth::Error;
+
 use Data::Dumper;
 use Carp qw(cluck carp);
 
@@ -17,6 +19,11 @@ sub new
 	my $self = {parent => undef, vars => {}};
 	$self->{parent} = $state if (ref($state) eq "Math::Farnsworth::Variables");
 	bless $self;
+}
+
+sub DESTROY
+{
+	debug 1,"VARIABLES DIE: $_[0]";
 }
 
 sub setvar

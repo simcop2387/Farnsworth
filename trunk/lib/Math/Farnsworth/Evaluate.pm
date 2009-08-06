@@ -74,6 +74,11 @@ sub new
     return $self;
 }
 
+sub DESTROY
+{
+	debug 1,"SCOPE DIE: $_[0]";
+}
+
 sub eval
 {
 	my $self = shift;
@@ -293,8 +298,8 @@ sub evalbranch
 		#$self->{vars}->setvar($name, $value);
 		
 		my $cloned = $value->clone();
-		warn "SETTING VALUES";
-		warn Data::Dumper->Dump([$lvalue, $lvalue->getref(), $value, $cloned], [qw($lvalue \$ref $value $cloned)]);
+		#warn "SETTING VALUES";
+		#warn Data::Dumper->Dump([$lvalue, $lvalue->getref(), $value, $cloned], [qw($lvalue \$ref $value $cloned)]);
 		${$lvalue->getref()} = $cloned;
 	}
 	elsif ($type eq "DeclareVar")
