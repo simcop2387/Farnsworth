@@ -1,0 +1,30 @@
+---
+abstract: 'A Turing Complete Language for Mathematics'
+author:
+  - 'Ryan Voots <simcop@cpan.org>'
+build_requires:
+  Test::Exception: 0
+  Test::More: 0
+distribution_type: module
+generated_by: 'Module::Install version 0.77'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Math-Farnsworth
+no_index:
+  directory:
+    - inc
+    - t
+recommends:
+  Finance::Currency::Convert::XE: 0
+  REST::Google::Translate: 0
+requires:
+  Date::Manip: 0
+  Finance::Currency::Convert::XE: 0
+  List::MoreUtils: 0
+  Math::Pari: 0
+  REST::Google::Translate: 0
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.6.0
