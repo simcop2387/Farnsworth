@@ -30,16 +30,16 @@ my $defaultcurrency = "USD";
 my $obj = Finance::Currency::Convert::WebserviceX->new()
                 || die "Failed to create object\n" ;
 
-my @currencies = $obj->currencies; #go get a list of symbols
-
 #this is a quick and dirty list of proper names and symbols for defining them below
-my %symbols = (Afghanis=>'AFN',Baht=>'THB',Balboa=>'PAB',Bolivares_Fuertes=>'VEF',Bolivianos=>'BOB',Cedis=>'GHC', Colon=>'CRC',Colones=>'SVC',
-	Convertible_Marka=>'BAM',Cordobas=>'NIO',Denars=>'MKD',Dinars=>'RSD',Dollars=>'USD',Dong=>'VND',Euro=>'EUR',Forint=>'HUF',Francs=>'CHF',Guarani=>'PYG',
+my %symbols = (Baht=>'THB',Balboa=>'PAB',Bolivianos=>'BOB',Cedis=>'GHC', Colon=>'CRC',Colones=>'SVC',
+	Cordobas=>'NIO',Denars=>'MKD',Dollars=>'USD',Dong=>'VND',Euro=>'EUR',Forint=>'HUF',Francs=>'CHF',Guarani=>'PYG',
 	Guilders=>'ANG',Hryvnia=>'UAH',Kips=>'LAK',Koruny=>'CZK',Krone=>'NOK',Kroner=>'DKK',Kronor=>'SEK',Kronur=>'ISK',Krooni=>'EEK',Kuna=>'HRK',Lati=>'LVL',
-	Leke=>'ALL',Lempiras=>'HNL',Leva=>'BGN',Liras=>'TRL',Lira=>'TRY',Litai=>'LTL',Meticais=>'MZN',Nairas=>'NGN',New_Dollars=>'TWD',New_Lei=>'RON',
-	New_Manats=>'AZN',New_Shekels=>'ILS',Pesos=>'MXN',Pounds=>'GBP',Pulas=>'BWP',Quetzales=>'GTQ',Rand=>'ZAR',Reais=>'BRL',Ringgits=>'MYR',Riyals=>'SAR',
-	Rubles=>'BYR',Rubles=>'RUB',Rupees=>'INR',Rupiahs=>'IDR',Shillings=>'SOS',Soms=>'KGS',Sums=>'UZS',Switzerland_Francs=>'CHF',Tenge=>'KZT',Tugriks=>'MNT',
+	Leke=>'ALL',Lempiras=>'HNL',Liras=>'TRL',Lira=>'TRY',Litai=>'LTL',Nairas=>'NGN',New_Dollars=>'TWD',
+	New_Shekels=>'ILS',Pesos=>'MXN',Pounds=>'GBP',Pulas=>'BWP',Quetzales=>'GTQ',Rand=>'ZAR',Reais=>'BRL',Ringgits=>'MYR',Riyals=>'SAR',
+	Rubles=>'BYR',Rubles=>'RUB',Rupees=>'INR',Rupiahs=>'IDR',Shillings=>'SOS',Switzerland_Francs=>'CHF',Tenge=>'KZT',Tugriks=>'MNT',
 	Won=>'KRW',Yen=>'JPY',Yuan_Renminbi=>'CNY',Zimbabwe_Dollars=>'ZWD',Zlotych=>'PLN');
+
+my @currencies = values %symbols;
 
 sub init
 {
@@ -59,8 +59,16 @@ sub doupdate
 	for my $x (@currencies)
 	{
 		print "Fetching currency $x\n";
-		my $currentval = $obj->convert(100000, $x, "USD") || die "Could not convert\n";
-		$env->eval("$x := $currentval / 100000. dollars;");
+		my $currentval = $obj->convert(100000, $x, "USD");# || die "Could not convert\n";
+		
+		if ($currentval)
+		{
+			$env->eval("$x := $currentval / 100000. dollars;");
+		}
+		else
+		{
+			print "Can't convert $x\n";
+		}
 	}
 
 	for my $name (keys %symbols)

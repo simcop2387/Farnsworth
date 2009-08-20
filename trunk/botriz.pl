@@ -81,7 +81,7 @@ sub irc_001 {
             print "Connected to ", $irc->server_name(), "\n";
 
             # we join our channels
-            $irc->yield( join => $_ ) for ("#yapb", "#buubot", "#codeyard", "#perlcafe", "##turtles", "#dctv");
+            $irc->yield( join => $_ ) for ("#dctv", "#dctp", "#uc-fansubs", "#yami", "#azfs", "#kienai");
             $kernel->delay_add(tock=>0.5);
             $kernel->delay_add(comfuck=>50);
 
