@@ -28,7 +28,7 @@ sub new
 	my @modules = @_; #i get passed a list of modules to use for standard stuff;
 
 	Math::Pari::setprecision(100);
-	Math::Pari::allocatemem(40_000_000);
+	Math::Pari::allocatemem(400_000_000);
 
 	if (@modules < 1)
 	{
