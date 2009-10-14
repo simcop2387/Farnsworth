@@ -45,7 +45,7 @@ LIBC = /lib/libc-2.10.1.so
 LIB_EXT = .a
 OBJ_EXT = .o
 OSNAME = linux
-OSVERS = 2.6.29-gentoo-r2
+OSVERS = 2.6.30-gentoo-r4
 RANLIB = :
 SITELIBEXP = /usr/lib/perl5/site_perl/5.10.0
 SITEARCHEXP = /usr/lib/perl5/site_perl/5.10.0/x86_64-linux-thread-multi
@@ -189,6 +189,7 @@ PERL_ARCHIVE_AFTER =
 
 
 TO_INST_PM = bot2.pl \
+	botmag.pl \
 	botriz.pl \
 	farnsworth.pl \
 	lib/Math/Farnsworth.pm \
@@ -262,6 +263,8 @@ PM_TO_BLIB = lib/Math/Farnsworth/Value/Lambda.pm \
 	blib/lib/Math/Farnsworth/Error.pm \
 	mgr.pl \
 	$(INST_LIB)/Math/mgr.pl \
+	botmag.pl \
+	$(INST_LIB)/Math/botmag.pl \
 	lib/Math/Farnsworth/Units.pm \
 	blib/lib/Math/Farnsworth/Units.pm \
 	lib/Math/Farnsworth/Units/e.2mil \
@@ -923,6 +926,7 @@ pm_to_blib : $(TO_INST_PM)
 	  bot2.pl $(INST_LIB)/Math/bot2.pl \
 	  lib/Math/Farnsworth/Error.pm blib/lib/Math/Farnsworth/Error.pm \
 	  mgr.pl $(INST_LIB)/Math/mgr.pl \
+	  botmag.pl $(INST_LIB)/Math/botmag.pl \
 	  lib/Math/Farnsworth/Units.pm blib/lib/Math/Farnsworth/Units.pm \
 	  lib/Math/Farnsworth/Units/e.2mil blib/lib/Math/Farnsworth/Units/e.2mil \
 	  lib/Math/Farnsworth/Value_old.pm blib/lib/Math/Farnsworth/Value_old.pm \

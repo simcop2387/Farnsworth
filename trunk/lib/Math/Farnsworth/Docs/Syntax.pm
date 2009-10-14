@@ -24,11 +24,11 @@ In Math::Farnsworth two tokens that are separated by a space or parenthesis are
 
 Variables in Math::Farnsworth are pretty simple to understand
 
-	a = 1
-	b = a + a
-	c = b * b
+	var a = 1
+	var b = a + a
+	var c = b * b
 
-You can also explicitly declare a variable so that it will only stay local to the scope that it is defined in, this allows you to define a variable that won't cause problems for anybody calling a function or lambda
+You must explicitly declare a variable and they will stay local to the scope that it is defined in, and any child scopes that are defined in the current one
 
 	var i;
 	var x = 10;
@@ -59,9 +59,11 @@ Like all good programming languages Math::Farnsworth has strings
 
 	"Text goes here"
 
+Note that single quotes ' are not used for strings, they may eventually be used for strings that do not interpolate but that hasn't been decided yet.
+
 =head4 String Escapes
 
-Math::Farnsworth currently only supports two escapes, this will be rectified in future versions of Math::Farnsworth but was not a priority for the first release which is intended to just be not much more than a proof of concept
+Math::Farnsworth currently only supports two escapes, this will be rectified in future versions of Math::Farnsworth but was not a priority for the early releases which are intended to just be not much more than a proof of concept
 
 	\" # to escape a quote inside a string
 	\\ # to escape a backslash inside a string
@@ -93,7 +95,7 @@ The syntax looks like this
 	#March 3rd, 2008#
 	#2008-12-25# + 1 year
 
-Math::Farnsworth uses Date::Manip to do the parsing and calculations involving dates, so it can parse and work with any date format that Date::Manip supports
+Math::Farnsworth uses DateTime and DateTimeX::Easy to do the parsing and calculations involving dates, so it can parse and work with any date format that DateTimeX::Easy supports
 
 =head3 Arrays
 
@@ -106,6 +108,7 @@ You can have any number of elements and they can contain anything that you can s
 =head4 Accessing elements of the Array
 
 	NOTE: This section and its syntax is VERY likely to change in future releases
+	NOTE: There is currently a known issue with push[] and arrays where one can cause it to keep from altering the original array, this will be fixed in future versions
 	
 You can access elements of arrays with syntax that looks like this
 
@@ -121,7 +124,7 @@ You can also do an array slice by putting multiple elements in between the @ and
 
 The Farnsworth Language is a simple language to learn, the basic operators +-/* are all there and do exactly what you think they should do (assuming you know any math or have programmed before)
 
-There are however two additional operators that you should be aware of to start with
+There are however a few additional operators that you should be aware of to start with
 
 =head3 Logical Operators
 
@@ -160,6 +163,7 @@ Like most reasonable programming languages Math::Farnsworth has functions, the s
 To define a function you'll want to do something like this
 
 	f{x} := x+x
+	NOTE: This syntax will be depreciated and removed by 1.0.0, the new syntax has not been added to this version
 
 First we've got 'B<f>' which is the name of the function, then we've got this weird little part following it 'B<{x}>' this defines the arguments that the functions takes, in this case its a single argument named 'B<x>', next we've got 'B<:=>' this is the assignment operator for defining a function (it is also used for units, but we'll cover that later) then we've got the expression 'B<x+x>' which is what the function actually does, in this case we're adding the argument to the function to itself
 
@@ -359,7 +363,23 @@ The basic syntax for defining a lambda is similar to how functions are defined
 
 As you can see here, a lambda is actually stored inside a variable rather than a different namespace like functions are, this allows you to have a variable contain the lambda and use it only inside the scope it was defined in, this also allows for fun results when nesting lambdas
 
-=head3 Calling Lambdas
+=head3 Calling Lambdas (New Syntax)
+
+Calling a lambda is fairly simple, the syntax looks a lot like the syntax for calling functions or for using units
+
+        lambda[arguments]
+	lambda argument
+	lambda * argument
+
+What's going on here is that you are multiplying the lambda by its argument, which is either a single value or an array.  When you do this the lambda gets passed the other item as its argument(s).  This lets lambdas act and look like normal functions while behaving as a variable at the same time.
+
+	argument lambda
+
+This order will also work, but should be used sparingly because it can be confusing.
+
+=head3 Calling Lambdas (Old Syntax)
+
+	Note: This section is entirely depreciated and will be removed in future versions
 
 Calling a lambda is fairly simple, the syntax looks a lot like the syntax for doing unit conversion or calling a function implicitly.
 
