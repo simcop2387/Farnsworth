@@ -27,8 +27,8 @@ sub new
 	my $self = {};
 	my @modules = @_; #i get passed a list of modules to use for standard stuff;
 
-	Math::Pari::setprecision(100);
-	Math::Pari::allocatemem(400_000_000);
+	Math::Pari::setprecision(100); #both of these need to be user configurable!
+	Math::Pari::allocatemem(400_000_00);
 
 	if (@modules < 1)
 	{
@@ -129,9 +129,9 @@ Math::Farnsworth - A Turing Complete Language for Mathematics
 
 =head1 DESCRIPTION
 
-THIS IS A BETA RELEASE! There are typos in the error messages and in the POD.  There are also probably plenty of bugs.  It is being released early because there have been a number of people who have shown interest in having it released.  Not every feature is documented yet and a future release will have that cleaned up along with some of the hairier parts of the internal API.
+THIS IS A BETA RELEASE, perpetually so! There are typos in the error messages and in the POD.  There are also probably plenty of bugs.  It is being released early because there have been a number of people who have shown interest in having it released.  Not every feature is documented yet and a future release will have that cleaned up along with some of the hairier parts of the internal API.
 Math::Farnsworth is a programming language originally inspired by Frink (see http://futureboy.homeip.net/frinkdocs/ ).
-However due to certain difficulties during the creation of it, the syntax has changed slightly and the capabilities are also different.
+However due to creative during the creation of it, the syntax has changed significantly and the capabilities are also different.
 Some things Math::Farnsworth can do a little better than Frink, other areas Math::Farnsworth lacks.
 
 =head2 PREREQUISITS
@@ -150,7 +150,8 @@ L<Math::Pari>
 
 =item *
 
-L<Date::Manip>
+L<DateTime>
+L<DateTimeX::Easy>
 
 The following are optional
 
@@ -163,6 +164,14 @@ L<REST::Google::Translate>
 =item *
 
 L<HTML::Entities>
+
+For the currency support
+
+=item *
+
+L<Finance::Currency::Convert::XE>
+
+	NOTE: For the currency units to work you currently need to call C<updatecurrencies[]> before they will be available, this will change
 
 =back
 
@@ -190,6 +199,9 @@ None by default.
 =head2 KNOWN BUGS
 
 At the moment all known bugs are related to badly formatted output, this will be rectified in a future release.
+And there are a number of unfinished error messages, and a few issues with the way arrays work.
+
+There is also a known issue with the size of scopes.  I do not know if I will be able to fix it, and until then i recommend NOT using recursive algorithms because it will cause everything to balloon way up in memory usage.
 
 =head2 MISSING FEATURES
 
@@ -215,15 +227,15 @@ Better defaults for certain types of output
 
 =item *
 
-Passing arguments by reference
-
-=item *
-
 Syntax tree introspection inside the language itself
 
 =item *
 
 Better Documentation
+
+=item *
+
+Objects!
 
 =back
 
@@ -231,9 +243,7 @@ Better Documentation
 
 L<Math::Farnsworth::Docs::Syntax> L<Math::Farnsworth::Docs::Functions>
 
-
-There is also an RT tracker for the module (this may change) setup at
-L<http://farnsworth.sexypenguins.com/>, you can also reach the tracker by sending an email to E<lt>farnsworth.rt@gmail.comE<gt>
+Please use the bug tracker available from CPAN to submit bugs.
 
 =head1 AUTHOR
 
@@ -241,11 +251,8 @@ Ryan Voots E<lt>simcop@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2008 by Ryan Voots
+Copyright (C) 2009 by Ryan Voots
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.8.0 or,
-at your option, any later version of Perl 5 you may have available.
-
+This library is free software; It is licensed exclusively under the Artistic License version 2.0 only.
 
 =cut
