@@ -17,7 +17,7 @@
 #     NAME => q[Math::Farnsworth]
 #     NO_META => q[1]
 #     PL_FILES => {  }
-#     PREREQ_PM => { DateTime=>q[0], Finance::Currency::Convert::XE=>q[0], Test::Exception=>q[0], ExtUtils::MakeMaker=>q[6.42], DateTimeX::Easy=>q[0], REST::Google::Translate=>q[0], Math::Pari=>q[0], Test::More=>q[0], List::MoreUtils=>q[0] }
+#     PREREQ_PM => { Math::Pari=>q[0], DateTime=>q[0], Test::More=>q[0], Test::Exception=>q[0], ExtUtils::MakeMaker=>q[6.42], DateTimeX::Easy=>q[0], List::MoreUtils=>q[0] }
 #     VERSION => q[0.6.0]
 #     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
 #     realclean => { FILES=>q[MYMETA.yml] }
@@ -891,10 +891,8 @@ ppd :
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="DateTime" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="DateTimeX-Easy" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="ExtUtils-MakeMaker" VERSION="6,42,0,0" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Finance-Currency-Convert-XE" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="List-MoreUtils" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Math-Pari" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="REST-Google-Translate" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Test-Exception" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Test-More" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <OS NAME="$(OSNAME)" />' >> $(DISTNAME).ppd

@@ -10,7 +10,7 @@ configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
 generated_by: 'Module::Install version 0.91'
-license: perl
+license: artistic
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
@@ -25,10 +25,8 @@ recommends:
 requires:
   DateTime: 0
   DateTimeX::Easy: 0
-  Finance::Currency::Convert::XE: 0
   List::MoreUtils: 0
   Math::Pari: 0
-  REST::Google::Translate: 0
 resources:
-  license: http://dev.perl.org/licenses/
+  license: http://opensource.org/licenses/artistic-license.php
 version: 0.6.0
