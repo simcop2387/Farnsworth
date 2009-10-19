@@ -1,4 +1,4 @@
-%left '\n' ';'
+%left ';'
 %right '=' ':=' '=!=' '::-' ':-' '|||'
 %left '->' ':->' '=>'
 %left ARRAYFETCH
@@ -32,7 +32,7 @@ stma
     : {undef}
 	|   stmt						 { bless [ $_[1] ], 'Stmt' }
 	|   stmt ';' stma				 { bless [ $_[1], ref($_[3]) eq "Stmt" ? @{$_[3]} : $_[3]], 'Stmt' }
-	|   stmt '\n' stma				 { bless [ $_[1], ref($_[3]) eq "Stmt" ? @{$_[3]} : $_[3]], 'Stmt' }
+#	|   stmt '\n' stma				 { bless [ $_[1], ref($_[3]) eq "Stmt" ? @{$_[3]} : $_[3]], 'Stmt' }
 	;
 
 stmt
@@ -161,19 +161,29 @@ expr
 	;
 %%
 
+#helpers!
+my $ws = qr/[^\S\n]/; #whitespace without the \n
+
 sub yylex
 	{
-	#i THINK this isn't what i want, since whitespace is significant in a few areas
-	#i'm going to instead shrink all whitespace down to no more than one space
-	#$s =~ s/\G\s{2,}/ /c; #don't need global?
-	$s =~ /\G\n/gc and redo; #remove \n from the string, need to figure out a good way to make this count the lines later
+	my $line = $_[-2];
+	my $charline = $_[-1];
+	
+	#remove \n or whatever from the string
+	if ($s =~ /\G$ws*\n$ws*/gc)
+	{
+		$$line++;
+		$$charline = pos $s;
+		print "LEX: ${$line} ${$charline} || ".substr($s, $$charline, index($s, "\n", $$charline)-$$charline)."\n";
+		redo
+	}
+	
 	$s =~ /\G\s*(?=\s)/gc;
 		
 	#1 while $s =~ /\G\s+/cg; #remove extra whitespace?
 
 	$s =~ m|\G\s*/\*.*?\*/\s*|gcs and redo; #skip C comments
-	$s =~ m|\G\s*//.*\n?|gc and redo;
-#	$s =~ s|\G/\*.*?\*/||g;
+	$s =~ m|\G\s*//.*(?=\n)?|gc and redo;
 
     #i want a complete number regex
 	$s =~ /\G(0[xb]?[[:xdigit:]](?:[[:xdigit:].]+))/igc and return 'HEXNUMBER', $1;
@@ -197,12 +207,12 @@ sub yylex
 	$s =~ /\G\s*(while|conforms|else|if)\b\s*/cg and return $1;
 
 	#seperated this to shorten the lines, and hopefully to make parts of it more readable
-	$s =~ /\G\s*(:=|==|!=|<=>|>=|<=|=>|->|:->|\*\*)\s*/icg and return lc $1;
-	$s =~ /\G\s*(var\b|per\b|isa\b|byref\b|\:?\:\-|\=\!\=|\|\|\|)\s*/icg and return lc $1;
-    $s =~ /\G\s*(\})/cg and return $1;
-	$s =~ /\G\s*(\+|\*|-|\/|\%|\^\^?|=|;|\n|\{\s*\`|\{|\}|\>|\<|\?|\:|\,|\&\&|\|\||\!|\||\.\.\.|\`)\s*/cg and return $1;
-	$s =~ /\G\s*(\)|\])/cg and return $1; #freaking quirky lexers!
-	$s =~ /\G(\(|\[)\s*/cg and return $1;
+	$s =~ /\G$ws*(:=|==|!=|<=>|>=|<=|=>|->|:->|\*\*)$ws*/icg and return lc $1;
+	$s =~ /\G$ws*(var\b|per\b|isa\b|byref\b|\:?\:\-|\=\!\=|\|\|\|)$ws*/icg and return lc $1;
+    $s =~ /\G$ws*(\})/cg and return $1;
+	$s =~ /\G$ws*(\+|\*|-|\/|\%|\^\^?|=|;|\{\s*\`|\{|\}|\>|\<|\?|\:|\,|\&\&|\|\||\!|\||\.\.\.|\`)$ws*/cg and return $1;
+	$s =~ /\G$ws*(\)|\])/cg and return $1; #freaking quirky lexers!
+	$s =~ /\G(\(|\[)$ws*/cg and return $1;
 	$s =~ /\G(\w[\w\d]*)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here
 	$s =~ /\G(.)/cgs and return $1;
     return '';
@@ -212,7 +222,13 @@ sub yylex
 sub yylexwatch
 {
    my @r = &yylex;
-   #print Dumper(\@r,[pos $s]);
+
+   my $charlines = $_[-1];
+   my $line = $_[-2];
+   my $pos = pos $s;
+
+   #print Dumper(\@_);
+   print "LEX: ${$line} ${$charlines} $pos :: ".substr($s, $$charlines, $pos - $$charlines)."\n";
    #$charcount+=pos $s;
    #$s = substr($s, pos $s);
    return @r;
@@ -221,19 +237,25 @@ sub yylexwatch
 sub yyerror
 	{
 	my $pos = pos $s;
+	my $charlines = $_[-1];
+	my $lines = $_[-2];
+	my $char = $pos-$charlines;
+
 	substr($fullstring,$pos,0) = '<###YYLEX###>';
 	$fullstring =~ s/^/### /mg;
-	die "### Syntax Error \@ $pos of\n$fullstring\n";
+	die "### Syntax Error \@ $lines : $char ($charlines $pos) of\n";#$fullstring\n";
 	}
 
 sub parse
 	{
 	$charcount=0;
+	my $line = 1;
+	my $charlines = 0;
 	my $self = shift;
 	$s = join ' ', @_;
 	$fullstring = $s; #preserve it for errors
 	my $code = eval
-		{ $self->new(yylex => \&yylexwatch, yyerror => \&yyerror)->YYParse };
+		{ $self->new(yylex => sub {yylexwatch(@_, \$line, \$charlines)}, yyerror => sub {yyerror(@_, $line, $charlines)})->YYParse };
 	die $@ if $@;
 	$code
 	}
