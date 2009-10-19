@@ -1,5 +1,5 @@
 %left ';'
-%right '=' ':=' '=!=' '::-' ':-' '|||'
+%right '=' ':=' '=!=' '::-' ':-' '|||' '+=' '-=' '*=' '%=' '**=' '/=' '^='
 %left '->' ':->' '=>'
 %left ARRAYFETCH
 #//%left '|'
@@ -97,6 +97,19 @@ number : 	NUMBER			{ bless [ $_[1] ], 'Num' }
 assignexpr : 	expr '=' expr	{ bless [ @_[1,3] ], 'Store' }
 		   ;
 
+assignexpr2:	expr '+=' expr 	{ bless [ @_[1,3] ], 'StoreAdd' }
+		   |	expr '-=' expr 	{ bless [ @_[1,3] ], 'StoreSub' }
+		   |	expr '/=' expr 	{ bless [ @_[1,3] ], 'StoreDiv' }
+		   |	expr '*=' expr 	{ bless [ @_[1,3] ], 'StoreMul' }
+		   |	expr '%=' expr 	{ bless [ @_[1,3] ], 'StoreMod' }
+		   |	expr '**=' expr	{ bless [ @_[1,3] ], 'StorePow' }
+		   |	expr '^=' expr	{ bless [ @_[1,3] ], 'StorePow' }
+		   ;
+
+assigncomb: assignexpr
+		  |	assignexpr2
+		  ;
+
 lambda :	'{`' arglist '`' stma '}' {bless [ @_[2,4] ], 'Lambda'} #i'm not sure how or when i'll implement these
 	   ;
 
@@ -136,8 +149,8 @@ singleval: value
 		 | parens
 		 ;
 
-#
 exprnouminus:	singleval { $_[1] }
+	|	expr '**' expr	{ bless [ @_[1,3] ], 'Pow' }
 	|   multexpr
 	|	expr '+' expr	{ bless [ @_[1,3]], 'Add' }
 	|	expr '-' expr	{ bless [ @_[1,3]], 'Sub' }
@@ -145,7 +158,6 @@ exprnouminus:	singleval { $_[1] }
 	|	expr 'per' expr	{ bless [ @_[1,3], 'per' ], 'Div' }
 	|	expr '%' expr	{ bless [ @_[1,3] ], 'Mod' }
 	|	expr '^' expr	{ bless [ @_[1,3] ], 'Pow' }
-	|	expr '**' expr	{ bless [ @_[1,3] ], 'Pow' }
 	|	expr 'conforms' expr	{ bless [ @_[1,3] ], 'Conforms' }
 	|   expr '?' expr ':' expr { bless [@_[1,3,5]], 'Ternary' }
 	|   logic
@@ -160,7 +172,7 @@ exprnouminus:	singleval { $_[1] }
 	|   expr '->' expr  { bless [ @_[1,3]], 'Trans' }
 #	|	DATE			{ bless [ $_[1] ], 'Date' }
 #	|	STRING			{ bless [ $_[1] ], 'String' } #this will have to be reparsed later, just before evaluating
-	|   assignexpr
+	|   assigncomb
 	;
 
 expr: exprnouminus
