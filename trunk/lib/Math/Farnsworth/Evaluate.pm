@@ -306,73 +306,55 @@ sub evalbranch
 	{
 		my $lvalue = $self->makevalue($branch->[0]);
 		my $value = $self->makevalue($branch->[1]);
-		$return = $value; #make stores evaluate to the value on the right
-		#$self->{vars}->setvar($name, $value);
-		
+				
 		my $cloned = $value->clone();
-		#warn "SETTING VALUES";
-		#warn Data::Dumper->Dump([$lvalue, $lvalue->getref(), $value, $cloned], [qw($lvalue \$ref $value $cloned)]);
 		${$lvalue->getref()} = $lvalue + $cloned;
+		$return = $lvalue; #make stores evaluate to the value on the right
 	}
 	elsif ($type eq "StoreSub")
 	{
 		my $lvalue = $self->makevalue($branch->[0]);
 		my $value = $self->makevalue($branch->[1]);
-		$return = $value; #make stores evaluate to the value on the right
-		#$self->{vars}->setvar($name, $value);
 		
 		my $cloned = $value->clone();
-		#warn "SETTING VALUES";
-		#warn Data::Dumper->Dump([$lvalue, $lvalue->getref(), $value, $cloned], [qw($lvalue \$ref $value $cloned)]);
 		${$lvalue->getref()} = $lvalue - $cloned;
+		$return = $lvalue; #make stores evaluate to the value on the right
 	}
 	elsif ($type eq "StoreDiv")
 	{
 		my $lvalue = $self->makevalue($branch->[0]);
 		my $value = $self->makevalue($branch->[1]);
-		$return = $value; #make stores evaluate to the value on the right
-		#$self->{vars}->setvar($name, $value);
 		
 		my $cloned = $value->clone();
-		#warn "SETTING VALUES";
-		#warn Data::Dumper->Dump([$lvalue, $lvalue->getref(), $value, $cloned], [qw($lvalue \$ref $value $cloned)]);
 		${$lvalue->getref()} = $lvalue / $cloned;
+		$return = $lvalue; #make stores evaluate to the value on the right
 	}
 	elsif ($type eq "StoreMul")
 	{
 		my $lvalue = $self->makevalue($branch->[0]);
 		my $value = $self->makevalue($branch->[1]);
-		$return = $value; #make stores evaluate to the value on the right
-		#$self->{vars}->setvar($name, $value);
 		
 		my $cloned = $value->clone();
-		#warn "SETTING VALUES";
-		#warn Data::Dumper->Dump([$lvalue, $lvalue->getref(), $value, $cloned], [qw($lvalue \$ref $value $cloned)]);
 		${$lvalue->getref()} = $lvalue * $cloned;
+		$return = $lvalue; #make stores evaluate to the value on the right
 	}
 	elsif ($type eq "StoreMod")
 	{
 		my $lvalue = $self->makevalue($branch->[0]);
 		my $value = $self->makevalue($branch->[1]);
-		$return = $value; #make stores evaluate to the value on the right
-		#$self->{vars}->setvar($name, $value);
-		
+	
 		my $cloned = $value->clone();
-		#warn "SETTING VALUES";
-		#warn Data::Dumper->Dump([$lvalue, $lvalue->getref(), $value, $cloned], [qw($lvalue \$ref $value $cloned)]);
 		${$lvalue->getref()} = $lvalue % $cloned;
+		$return = $lvalue; #make stores evaluate to the value on the right
 	}
 	elsif ($type eq "StorePow")
 	{
 		my $lvalue = $self->makevalue($branch->[0]);
 		my $value = $self->makevalue($branch->[1]);
-		$return = $value; #make stores evaluate to the value on the right
-		#$self->{vars}->setvar($name, $value);
 		
 		my $cloned = $value->clone();
-		#warn "SETTING VALUES";
-		#warn Data::Dumper->Dump([$lvalue, $lvalue->getref(), $value, $cloned], [qw($lvalue \$ref $value $cloned)]);
 		${$lvalue->getref()} = $lvalue ** $cloned;
+		$return = $lvalue; #make stores evaluate to the value on the right
 	}
 	elsif ($type eq "DeclareVar")
 	{
