@@ -23,10 +23,10 @@ my $bot = POE::Component::IRC->spawn(
 
            server => "andromeda128",
            port   => "6668",
-           nick      => "farnsworth",
-           username  => "farnsworth",
-           name      => "Hubert J. Farnsworth",
-           password  => "farnsworth",
+           nick      => "cubert",
+           username  => "cubert",
+           name      => "Cubert Farnsworth",
+           password  => "cubert",
 
            charset => "utf-8", # charset the bot assumes the channel is using
 
@@ -85,7 +85,7 @@ sub irc_001 {
             $kernel->delay_add(tock=>0.5);
             $kernel->delay_add(comfuck=>50);
 
-            $irc->yield(nick => "farnsworth");
+            $irc->yield(nick => "cubert");
 }
 
 sub _ignore
@@ -102,9 +102,9 @@ sub irc_public
 
   print Dumper($who);
   return if _ignore($nick);
-  return if ($what =~ /^farnsworth\+\+/);
+  return if ($what =~ /^cubert\+\+/);
 
-  if (my ($equation) = $what =~ /^farnswor(?:th|i)[[:punct:]]\s*(.*)$/i)
+  if (my ($equation) = $what =~ /^cubert[[:punct:]]\s*(.*)$/i)
   {
     my $response = submitform($equation, "chan");	
 	my @lines = messagebreak($response); #this should really never be needed, but is here so that its consistent
@@ -255,7 +255,7 @@ sub submitform
 
   $eq = uri_escape($eq);
 
-  my $url="http://localhost:8080/$eq";
+  my $url="http://localhost:8081/$eq";
 
   print "URL: $url\n";
 

@@ -30,20 +30,10 @@ print "DONE STARTING UP!\n";
 $Math::Farnsworth::Units::lock = 1; #need better interface!
 
 my $aliases = POE::Component::Server::HTTP->new(
-  Port => 8080,
+  Port => 8081,
   ContentHandler => {"/", \&runfarnsworth},
 	Headers => { Server => "Farnsworth Server 1.2" },
   );
-
-my $tcpserv = POE::Component::Server::TCP->new(
-Port => 8081, 
-ClientConnected =>
-sub {
-  print "HEARTBEAT\n";
-  $_[HEAP]{client}->put("HEART");
-},
-ClientInput => sub {print "Dummy\n";}
-);
 
 sub runfarnsworth
 {

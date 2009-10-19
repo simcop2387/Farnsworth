@@ -12,7 +12,7 @@
 %left 'per'
 %left '*' '/' '%' ' ' IMPLICIT
 %left UMINUS IFNONL
-%left NAME IFNL
+%left NAME
 %right '^' '**'
 %right FUNCCALL
 %right DECLAREVAR
@@ -50,17 +50,8 @@ ifstartcond :'if' '(' expr ')' {$_[3]}
 ifstmts : '{' stma '}' {$_[2]}
 		;
 
-#i'm really going to clean this up by instead making \n whitespace, that'll require ;'s like C but i don't mind that anymore
 if : ifstartcond ifstmts %prec IFNONL {bless [@_[1,2], undef], 'If'}
    | ifstartcond ifstmts 'else' ifstmts {bless [@_[1,2,4]], 'If'}
-   | ifstartcond '\n' ifstmts %prec IFNONL {bless [@_[1,3], undef], 'If'}
-   | ifstartcond '\n' ifstmts 'else' ifstmts {bless [@_[1,3,5]], 'If'}
-   | ifstartcond '\n' ifstmts '\n' 'else' ifstmts %prec IFNL {bless [@_[1,3,6]], 'If'}
-   | ifstartcond '\n' ifstmts 'else' '\n' ifstmts {bless [@_[1,3,6]], 'If'}
-   | ifstartcond '\n' ifstmts '\n' 'else' '\n' ifstmts %prec IFNL {bless [@_[1,3,7]], 'If'}
-   | ifstartcond ifstmts '\n' 'else' ifstmts %prec IFNL {bless [@_[1,2,5]], 'If'}
-   | ifstartcond ifstmts 'else' '\n' ifstmts {bless [@_[1,2,5]], 'If'}
-   | ifstartcond ifstmts '\n' 'else' '\n' ifstmts %prec IFNL {bless [@_[1,2,6]], 'If'}
    ;
 
 #for :	'for' '(' expr ';' expr ';' expr ')' '{' stmt '}'
@@ -173,6 +164,7 @@ sub yylex
 	#i THINK this isn't what i want, since whitespace is significant in a few areas
 	#i'm going to instead shrink all whitespace down to no more than one space
 	#$s =~ s/\G\s{2,}/ /c; #don't need global?
+	$s =~ /\G\n/gc and redo; #remove \n from the string, need to figure out a good way to make this count the lines later
 	$s =~ /\G\s*(?=\s)/gc;
 		
 	#1 while $s =~ /\G\s+/cg; #remove extra whitespace?

@@ -4,7 +4,7 @@ help := "see http://search.cpan.org/~SIMCOP/Math-Farnsworth-0.5.1/lib/Math/Farns
 bug := "think you found a bug? file it at http://farnsworth.sexypenguins.com/ OR send an email to farnsworth.rt@gmail.com";
 
 frozen := C[0];
-microwavetime{mass isa kg, end isa K, start = frozen isa K, watts = 1000W isa watt, sh = 1 calorie/gram/degC isa calorie/gram/degC} := (mass sh)(end - start)/watts -> "seconds"
+microwavetime{mass isa kg, end isa K, start = frozen isa K, watts = 1000W isa watt, sh = 1 calorie/gram/degC isa calorie/gram/degC} := (mass sh)(end - start)/watts -> "seconds";
 
 []=>{``
 var steps = [];
@@ -26,7 +26,7 @@ mangle{x} := {steps = [];
 tracemangle{} := {steps};
 };
 
-dutchmangle{x} :=[x -> DutchToEnglish] -> mangle -> EnglishToDutch
+dutchmangle{x} :=[x -> DutchToEnglish] -> mangle -> EnglishToDutch;
 
 tobase{x isa 1, b = 16 isa 1} := { var getchr = {`x` substrLen["0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_\\| <>/;:'[]{}=+`~.,?", x, 1]};
 
