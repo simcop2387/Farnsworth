@@ -101,7 +101,8 @@ lambda :	'{`' arglist '`' stma '}' {bless [ @_[2,4] ], 'Lambda'} #i'm not sure h
 	   ;
 
 multexpr :	expr '*' expr	{ bless [ @_[1,3], '*'], 'Mul' }
-	|   singleval singleval  %prec IMPLICIT { bless [ @_[1,2], 'imp'], 'Mul' }
+	|   singleval singleval %prec IMPLICIT { bless [ @_[1,2], 'imp'], 'Mul' }
+	|   singleval singleval expr %prec IMPLICIT { bless [bless([ @_[1,2], 'imp'], 'Mul'), $_[3], 'imp'], 'Mul' }
 	|   expr ' ' expr { bless [ @_[1,3], ''], 'Mul' }
 	;
 
@@ -136,8 +137,7 @@ singleval: value
 		 ;
 
 #
-expr:	singleval { $_[1] }
-	|   '-' expr     %prec UMINUS { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' } #unary -
+exprnouminus:	singleval { $_[1] }
 	|   multexpr
 	|	expr '+' expr	{ bless [ @_[1,3]], 'Add' }
 	|	expr '-' expr	{ bless [ @_[1,3]], 'Sub' }
@@ -161,6 +161,10 @@ expr:	singleval { $_[1] }
 #	|	DATE			{ bless [ $_[1] ], 'Date' }
 #	|	STRING			{ bless [ $_[1] ], 'String' } #this will have to be reparsed later, just before evaluating
 	|   assignexpr
+	;
+
+expr: exprnouminus
+	|   '-' expr     %prec UMINUS { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' } #unary -
 	;
 %%
 
