@@ -36,3 +36,5 @@ MANIFEST
 META.yml
 t/01-operators.t
 t/00-sanity.t
+t/02-stdlib.t
+LICENSE
