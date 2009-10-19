@@ -229,7 +229,7 @@ sub yylex
 	$s =~ /\G\s*(while|conforms|else|if)\b\s*/cg and return $1;
 
 	#seperated this to shorten the lines, and hopefully to make parts of it more readable
-	$s =~ /\G$ws*(:=|==|!=|<=>|>=|<=|=>|->|:->|\*\*)$ws*/icg and return lc $1;
+	$s =~ /\G$ws*(:=|==|!=|<=>|>=|<=|=>|->|:->|\*\*|\+=|-=|\*=|\/=|%=|\*\*=|\^=)$ws*/icg and return lc $1;
 	$s =~ /\G$ws*(var\b|per\b|isa\b|byref\b|\:?\:\-|\=\!\=|\|\|\|)$ws*/icg and return lc $1;
     $s =~ /\G$ws*(\})/cg and return $1;
 	$s =~ /\G$ws*(\+|\*|-|\/|\%|\^\^?|=|;|\{\s*\`|\{|\}|\>|\<|\?|\:|\,|\&\&|\|\||\!|\||\.\.\.|\`)$ws*/cg and return $1;
