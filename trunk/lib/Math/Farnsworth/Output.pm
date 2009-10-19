@@ -383,7 +383,7 @@ sub deparsetree
 	}
 	elsif ($type eq "Store")
 	{
-		my $name = $branch->[0];
+		my $name = $self->deparsetree($branch->[0]);
 		my $value = $self->deparsetree($branch->[1]);
 
 		return "$name = $value";
