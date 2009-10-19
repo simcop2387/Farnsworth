@@ -726,7 +726,7 @@ Rules:
 40:	logic -> expr '&&' expr
 41:	logic -> expr '||' expr
 42:	logic -> expr '^^' expr
-43:	logic -> '!' exprval
+43:	logic -> '!' singleval
 44:	compare -> expr '<' expr
 45:	compare -> expr '>' expr
 46:	compare -> expr '<=' expr
@@ -908,9 +908,20 @@ State 11:
 
 State 12:
 
-	logic -> '!' . exprval	(Rule 43)
+	logic -> '!' . singleval	(Rule 43)
 
-	exprval	shift, and go to state 35
+	'('	shift, and go to state 25
+	'['	shift, and go to state 15
+	DATE	shift, and go to state 6
+	HEXNUMBER	shift, and go to state 27
+	NAME	shift, and go to state 33
+	NUMBER	shift, and go to state 16
+	STRING	shift, and go to state 8
+
+	parens	go to state 10
+	singleval	go to state 35
+	number	go to state 5
+	value	go to state 20
 
 State 13:
 
@@ -1249,7 +1260,10 @@ State 34:
 
 State 35:
 
-	logic -> '!' exprval .	(Rule 43)
+	logic -> '!' singleval .	(Rule 43)
+	value -> singleval . '@' array '$'	(Rule 54)
+
+	'@'	shift, and go to state 32
 
 	$default	reduce using rule 43 (logic)
 
@@ -4482,6 +4496,6 @@ State 155:
 Summary:
 --------
 Number of rules         : 82
-Number of terminals     : 62
+Number of terminals     : 61
 Number of non-terminals : 21
 Number of states        : 156
