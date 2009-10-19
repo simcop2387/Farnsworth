@@ -308,8 +308,7 @@ sub evalbranch
 		my $value = $self->makevalue($branch->[1]);
 				
 		my $cloned = $value->clone();
-		${$lvalue->getref()} = $lvalue + $cloned;
-		$return = $lvalue; #make stores evaluate to the value on the right
+		$return = (${$lvalue->getref()} = $lvalue + $cloned);
 	}
 	elsif ($type eq "StoreSub")
 	{
@@ -317,8 +316,7 @@ sub evalbranch
 		my $value = $self->makevalue($branch->[1]);
 		
 		my $cloned = $value->clone();
-		${$lvalue->getref()} = $lvalue - $cloned;
-		$return = $lvalue; #make stores evaluate to the value on the right
+		$return = (${$lvalue->getref()} = $lvalue - $cloned);
 	}
 	elsif ($type eq "StoreDiv")
 	{
@@ -326,8 +324,7 @@ sub evalbranch
 		my $value = $self->makevalue($branch->[1]);
 		
 		my $cloned = $value->clone();
-		${$lvalue->getref()} = $lvalue / $cloned;
-		$return = $lvalue; #make stores evaluate to the value on the right
+		$return = (${$lvalue->getref()} = $lvalue / $cloned);
 	}
 	elsif ($type eq "StoreMul")
 	{
@@ -335,8 +332,7 @@ sub evalbranch
 		my $value = $self->makevalue($branch->[1]);
 		
 		my $cloned = $value->clone();
-		${$lvalue->getref()} = $lvalue * $cloned;
-		$return = $lvalue; #make stores evaluate to the value on the right
+		$return = (${$lvalue->getref()} = $lvalue * $cloned);
 	}
 	elsif ($type eq "StoreMod")
 	{
@@ -344,8 +340,7 @@ sub evalbranch
 		my $value = $self->makevalue($branch->[1]);
 	
 		my $cloned = $value->clone();
-		${$lvalue->getref()} = $lvalue % $cloned;
-		$return = $lvalue; #make stores evaluate to the value on the right
+		$return = (${$lvalue->getref()} = $lvalue % $cloned);
 	}
 	elsif ($type eq "StorePow")
 	{
@@ -353,8 +348,7 @@ sub evalbranch
 		my $value = $self->makevalue($branch->[1]);
 		
 		my $cloned = $value->clone();
-		${$lvalue->getref()} = $lvalue ** $cloned;
-		$return = $lvalue; #make stores evaluate to the value on the right
+		$return = (${$lvalue->getref()} = $lvalue ** $cloned);
 	}
 	elsif ($type eq "DeclareVar")
 	{
