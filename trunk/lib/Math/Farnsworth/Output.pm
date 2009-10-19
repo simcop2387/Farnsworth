@@ -388,6 +388,48 @@ sub deparsetree
 
 		return "$name = $value";
 	}
+	elsif ($type eq "StoreAdd")
+	{
+		my $name = $self->deparsetree($branch->[0]);
+		my $value = $self->deparsetree($branch->[1]);
+
+		return "$name += $value";
+	}
+	elsif ($type eq "StoreSub")
+	{
+		my $name = $self->deparsetree($branch->[0]);
+		my $value = $self->deparsetree($branch->[1]);
+
+		return "$name -= $value";
+	}
+	elsif ($type eq "StoreMul")
+	{
+		my $name = $self->deparsetree($branch->[0]);
+		my $value = $self->deparsetree($branch->[1]);
+
+		return "$name *= $value";
+	}
+	elsif ($type eq "StoreDiv")
+	{
+		my $name = $self->deparsetree($branch->[0]);
+		my $value = $self->deparsetree($branch->[1]);
+
+		return "$name /= $value";
+	}
+	elsif ($type eq "StoreMod")
+	{
+		my $name = $self->deparsetree($branch->[0]);
+		my $value = $self->deparsetree($branch->[1]);
+
+		return "$name %= $value";
+	}
+	elsif ($type eq "StorePow")
+	{
+		my $name = $self->deparsetree($branch->[0]);
+		my $value = $self->deparsetree($branch->[1]);
+
+		return "$name ^= $value";
+	}
 	elsif ($type eq "DeclareVar")
 	{
 		my $name = $branch->[0];
