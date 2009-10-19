@@ -17,7 +17,7 @@ use Math::Farnsworth::Value::Pari;
 use Math::Farnsworth::Value::Lambda;
 use Math::Farnsworth::Value::Undef;
 
-our @EXPORT = qw(TYPE_BOOLEAN TYPE_STRING TYPE_DATE TYPE_PLAIN TYPE_TIME TYPE_LAMBDA TYPE_UNDEF TYPE_ARRAY);
+our @EXPORT = qw(TYPE_BOOLEAN TYPE_STRING TYPE_DATE TYPE_PLAIN TYPE_TIME TYPE_LAMBDA TYPE_UNDEF TYPE_ARRAY VALUE_ONE);
 
 ####
 #THESE FUNCTIONS WILL BE MOVED TO Math::Farnsworth::Value, or somewhere more appropriate
@@ -89,12 +89,14 @@ sub ismediumtype
 	my $lambda;
 	my $undef;
 	my $array;
+	my $valueone;
 
 	sub TYPE_BOOLEAN{return $boolean if $boolean; $boolean=new Math::Farnsworth::Value::Boolean(0)}
 	sub TYPE_STRING	{return $string if $string; $string=new Math::Farnsworth::Value::String("")}
 	sub TYPE_DATE	{return $date if $date; $date=new Math::Farnsworth::Value::Date("today")}
 	#this tells it that it is the same as a constraint of "1", e.g. no units
 	sub TYPE_PLAIN 	{return $plain if $plain; $plain=new Math::Farnsworth::Value::Pari(0)}
+	sub VALUE_ONE   {return $valueone if $valueone; $valueone=new Math::Farnsworth::Value::Pari(1,{},undef,undef,1)}
 	#this tells it that it is the same as a constraint of "1 s", e.g. seconds
 	sub TYPE_TIME	{return $time if $time; $time=new Math::Farnsworth::Value::Pari(0, {time=>1})}
 	sub TYPE_LAMBDA	{return $lambda if $lambda; $lambda=new Math::Farnsworth::Value::Lambda()}
@@ -116,6 +118,7 @@ sub conforms
 		if (ref($self) eq "Math::Farnsworth::Value::Pari")
 		{
 			my $ret = $self->getdimen()->compare($comparator->getdimen());
+			return 1 if ($comparator->isvalueone()); #read the sentinal value
 			return $ret;
 		}
 		else

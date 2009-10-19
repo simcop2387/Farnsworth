@@ -350,6 +350,32 @@ sub evalbranch
 		my $cloned = $value->clone();
 		$return = (${$lvalue->getref()} = $lvalue ** $cloned);
 	}
+	elsif ($type eq "PreInc")
+	{
+		my $lvalue = $self->makevalue($branch->[0]);
+		$return = (${$lvalue->getref()} = $lvalue+VALUE_ONE());
+	}
+	elsif ($type eq "PostInc")
+	{
+		my $lvalue = $self->makevalue($branch->[0]);
+		my $val = $lvalue->clone();
+		${$lvalue->getref()} = $val+VALUE_ONE();
+
+		$return = $val;
+	}
+	elsif ($type eq "PreDec")
+	{
+		my $lvalue = $self->makevalue($branch->[0]);
+		$return = (${$lvalue->getref()} = $lvalue-VALUE_ONE());	
+	}
+	elsif ($type eq "PostDec")
+	{
+		my $lvalue = $self->makevalue($branch->[0]);
+		my $val = $lvalue->clone();
+		${$lvalue->getref()} = $val-VALUE_ONE();
+
+		$return = $val;	
+	}
 	elsif ($type eq "DeclareVar")
 	{
 		my $name = $branch->[0];

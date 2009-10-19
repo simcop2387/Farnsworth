@@ -41,12 +41,14 @@ sub new
   my $dimen = shift; #should only really be used internally?
   my $outmagic = shift; #i'm still not sure on this one
   my $hex = shift;
+  my $valueone = shift; #sentinal value 
 
   my $self = {};
 
   bless $self, $class;
 
   $self->{outmagic} = $outmagic;
+  $self->{valueone} = $valueone; #sentinal value for increment and postcrement, ignores dimens
 
   if (ref($dimen) eq "Math::Farnsworth::Dimension")
   {
@@ -70,6 +72,11 @@ sub new
   }
 
   return $self;
+}
+
+sub isvalueone
+{
+	return $_[0]->{valueone};
 }
 
 #helpers for parsing hex, binary, and octal formats, could also extend support to others
