@@ -32,7 +32,6 @@ stma
     : {undef}
 	|   stmt						 { bless [ $_[1] ], 'Stmt' }
 	|   stmt ';' stma				 { bless [ $_[1], ref($_[3]) eq "Stmt" ? @{$_[3]} : $_[3]], 'Stmt' }
-#	|   stmt '\n' stma				 { bless [ $_[1], ref($_[3]) eq "Stmt" ? @{$_[3]} : $_[3]], 'Stmt' }
 	;
 
 stmt
@@ -52,7 +51,7 @@ ifstartcond :'if' '(' expr ')' {$_[3]}
 ifstmts : '{' stma '}' {$_[2]}
 		;
 
-if : ifstartcond ifstmts %prec IFNONL {bless [@_[1,2], undef], 'If'}
+if : ifstartcond ifstmts {bless [@_[1,2], undef], 'If'}
    | ifstartcond ifstmts 'else' ifstmts {bless [@_[1,2,4]], 'If'}
    ;
 
@@ -91,40 +90,68 @@ arglist : argelement ',' arglist { bless [ $_[1], ref($_[3]) eq 'Arglist' ? @{$_
 		| argelement {bless [ $_[1] ], 'Arglist'}
 		;
 
-exprval1 : 	NUMBER			{ bless [ $_[1] ], 'Num' }
+number : 	NUMBER			{ bless [ $_[1] ], 'Num' }
 		| 	HEXNUMBER		{ bless [ $_[1] ], 'HexNum' }
 #		|   '(' expr ')' '|' array 	%prec ARRAYFETCH { bless [ $_[2],$_[4] ], 'ArrayFetch' }
 		;
 
-exprval2 :	NAME			%prec NAME { bless [ $_[1] ], 'Fetch' }
-		|	'(' expr ')'	{ bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything
-		;
+#exprval2 :	NAME			%prec NAME { bless [ $_[1] ], 'Fetch' }
+#		|	'(' expr ')'	{ bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything
+#		;
 
-exprval : exprval1
-		| exprval2
-		| arrayfetchexpr
-		;
+#exprval : number
+#		| exprval2
+#		| arrayfetchexpr
+#		;
 
 assignexpr : 	expr '=' expr	{ bless [ @_[1,3] ], 'Store' }
 		   ;
 
-arrayfetchexpr : exprval '@' array '$' %prec ARRAYFETCH { bless [ @_[1,3] ], 'ArrayFetch' }
-			   ;
+#arrayfetchexpr : exprval '@' array '$' %prec ARRAYFETCH { bless [ @_[1,3] ], 'ArrayFetch' }
+#			   ;
 
 lambda :	'{`' arglist '`' stma '}' {bless [ @_[2,4] ], 'Lambda'} #i'm not sure how or when i'll implement these
 	   ;
 
 multexpr :	expr '*' expr	{ bless [ @_[1,3], '*'], 'Mul' }
-	|   exprval exprval  %prec IMPLICIT { bless [ @_[1,2], 'imp'], 'Mul' }
-#	|   exprval multexpr  %prec IMPLICIT { bless [ @_[1,2], 'imp'], 'Mul' }
-#	|   expr lambda %prec IMPLICIT { bless [ @_[1,2], 'imp'], 'Mul' }
-	|   NAME '[' array ']' %prec FUNCCALL { bless [ (bless [$_[1]], 'Fetch'), $_[3], 'imp' ], 'Mul' }
+	|   singleval singleval  %prec IMPLICIT { bless [ @_[1,2], 'imp'], 'Mul' }
+#	|   NAME '[' array ']' %prec FUNCCALL { bless [ (bless [$_[1]], 'Fetch'), $_[3], 'imp' ], 'Mul' }
 	|   expr ' ' expr { bless [ @_[1,3], ''], 'Mul' }
 	;
 
-expr
-	:   exprval { $_[1] }
-	|	'-' expr     %prec UMINUS { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' } #unary -
+logic:	expr '&&' expr	{ bless [ @_[1,3] ], 'And' }
+	|	expr '||' expr	{ bless [ @_[1,3] ], 'Or' }
+	|	expr '^^' expr	{ bless [ @_[1,3] ], 'Xor' }
+	|	'!' singleval		{ bless [ $_[2] ], 'Not' }
+	;
+
+compare:expr '<' expr	{ bless [ @_[1,3] ], 'Lt' }
+	|	expr '>' expr	{ bless [ @_[1,3] ], 'Gt' }
+	|	expr '<=' expr	{ bless [ @_[1,3] ], 'Le' }
+	|	expr '>=' expr	{ bless [ @_[1,3] ], 'Ge' }
+	|	expr '==' expr	{ bless [ @_[1,3] ], 'Eq' }
+	|	expr '<=>' expr { bless [ @_[1,3] ], 'Compare' }
+	|	expr '!=' expr	{ bless [ @_[1,3] ], 'Ne' }
+	;
+
+value:	number
+     |	DATE			{ bless [ $_[1] ], 'Date' }
+	 |	STRING			{ bless [ $_[1] ], 'String' } #this will have to be reparsed later, just before evaluating
+	 |	singleval '@' array '$' %prec ARRAYFETCH { bless [ @_[1,3] ], 'ArrayFetch' }
+	 |	NAME			%prec NAME { bless [ $_[1] ], 'Fetch' }
+	 |   '[' array ']'              { $_[2] } 
+	 ;
+
+parens:	'(' expr ')'	{ bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything correctly
+	  ;
+
+singleval: value
+		 | parens
+		 ;
+
+#
+expr:	singleval { $_[1] }
+	|   '-' expr     %prec UMINUS { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' } #unary -
 	|   multexpr
 	|	expr '+' expr	{ bless [ @_[1,3]], 'Add' }
 	|	expr '-' expr	{ bless [ @_[1,3]], 'Sub' }
@@ -135,28 +162,18 @@ expr
 	|	expr '**' expr	{ bless [ @_[1,3] ], 'Pow' }
 	|	expr 'conforms' expr	{ bless [ @_[1,3] ], 'Conforms' }
 	|   expr '?' expr ':' expr { bless [@_[1,3,5]], 'Ternary' }
-	|	expr '&&' expr	{ bless [ @_[1,3] ], 'And' }
-	|	expr '||' expr	{ bless [ @_[1,3] ], 'Or' }
-	|	expr '^^' expr	{ bless [ @_[1,3] ], 'Xor' }
-	|	'!' exprval		{ bless [ $_[2] ], 'Not' }
-	|	expr '<' expr	{ bless [ @_[1,3] ], 'Lt' }
-	|	expr '>' expr	{ bless [ @_[1,3] ], 'Gt' }
-	|	expr '<=' expr	{ bless [ @_[1,3] ], 'Le' }
-	|	expr '>=' expr	{ bless [ @_[1,3] ], 'Ge' }
-	|	expr '==' expr	{ bless [ @_[1,3] ], 'Eq' }
-	|	expr '<=>' expr { bless [ @_[1,3] ], 'Compare' }
-	|	expr '!=' expr	{ bless [ @_[1,3] ], 'Ne' }
+	|   logic
+	|	compare
 	|	NAME '::-'  expr	{ bless [ @_[1,3] ], 'SetPrefix' }
 	|   NAME ':-' expr		{ bless [ @_[1,3] ], 'SetPrefixAbrv' }
 	|	NAME '{' arglist '}' ':=' expr { bless [@_[1,3], (bless [$_[6]], 'Stmt')], 'FuncDef' }
 	|   NAME '{' arglist '}' ':=' '{' stma '}' { bless [@_[1,3,7]], 'FuncDef' } #i really want scoping here, should i do it?
-	|   '[' array ']'              { $_[2] } 
 	|   lambda
 	|   expr '=>' expr {bless [@_[1,3]], 'LambdaCall'}
 #//	|   arrayfetchexpr '=' expr { bless [($_[1]->[0][0]), ($_[1]->[1]), $_[3]], 'ArrayStore' } #this may no longer be needed!
 	|   expr '->' expr  { bless [ @_[1,3]], 'Trans' }
-	|	DATE			{ bless [ $_[1] ], 'Date' }
-	|	STRING			{ bless [ $_[1] ], 'String' } #this will have to be reparsed later, just before evaluating
+#	|	DATE			{ bless [ $_[1] ], 'Date' }
+#	|	STRING			{ bless [ $_[1] ], 'String' } #this will have to be reparsed later, just before evaluating
 	|   assignexpr
 	;
 %%
@@ -169,11 +186,13 @@ sub yylex
 	no warnings 'exiting'; #needed because perl doesn't seem to like me using redo there now;
 	my $line = $_[-2];
 	my $charline = $_[-1];
+	my $lastcharline = $_[-3];
 	
 	#remove \n or whatever from the string
 	if ($s =~ /\G$ws*\n$ws*/gc)
 	{
 		$$line++;
+		$$lastcharline = $$charline;
 		$$charline = pos $s;
 		#print "LEX: ${$line} ${$charline} || ".substr($s, $$charline, index($s, "\n", $$charline)-$$charline)."\n";
 		redo
@@ -240,11 +259,13 @@ sub yyerror
 	my $pos = pos $s;
 	my $charlines = $_[-1];
 	my $lines = $_[-2];
+    my $lastcharline = $_[-3];
 	my $char = $pos-$charlines;
 
 	substr($fullstring,$pos,0) = '<###YYLEX###>';
-	$fullstring =~ s/^/### /mg;
-	die "### Syntax Error \@ $lines : $char ($charlines $pos) of\n";#$fullstring\n";
+	my $fewlines = substr($fullstring, $lastcharline, index($fullstring, "\n", index($fullstring, "\n", $pos)+1) - $lastcharline);
+	$fewlines =~ s/^/### /mg;
+	die "### Syntax Error \@ $lines : $char ($charlines $pos) of $fewlines\n";
 	}
 
 sub parse
@@ -252,11 +273,12 @@ sub parse
 	$charcount=0;
 	my $line = 1;
 	my $charlines = 0;
+	my $lastcharlines = 0;
 	my $self = shift;
 	$s = join ' ', @_;
 	$fullstring = $s; #preserve it for errors
 	my $code = eval
-		{ $self->new(yylex => sub {yylexwatch(@_, \$line, \$charlines)}, yyerror => sub {yyerror(@_, $line, $charlines)})->YYParse };
+		{ $self->new(yylex => sub {yylexwatch(@_, \$lastcharlines, \$line, \$charlines)}, yyerror => sub {yyerror(@_, $lastcharlines, $line, $charlines)})->YYParse };
 	die $@ if $@;
 	$code
 	}

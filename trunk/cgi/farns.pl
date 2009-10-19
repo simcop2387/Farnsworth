@@ -59,7 +59,7 @@ __DATA__
 <pre>[%codeoutput%]
 </pre>
 <hr/>
-<form action="http://farnsworth.sexypenguins.com/cgi-bin/farns.pl">
+<form action="http://farnsworth.simcop2387.info/cgi-bin/farns.pl">
 <textarea name="inputcode" cols="80" rows="25">[%inputcode%]</textarea><br/>
 <input type="submit"/>
 <input type="reset"/>
