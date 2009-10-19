@@ -1,0 +1,11 @@
+#!./farnsworth.pl
+
+P{n isa 1} := n(3n-1)/2
+invH{H isa 1} := {(1 + sqrt[1+8H])/4}; 1/*find index of number in sequence of hexagonal numbers, all hex are tri, if this is an integer it IS in the sequence*/;
+isHaT {x isa 1} := {var Nh = invH[x]; (int[Nh] == Nh)}; 1/*test its viability as a hex*/;
+var i = 0; 
+var packs=[]; 
+var Pn = 0; 
+while((i=i+1) < 2**32) {Pn=P[i]; if (isHaT[Pn]) {push[packs, [i, Pn]];}};
+1 /*give back the results here*/ 1;
+packs

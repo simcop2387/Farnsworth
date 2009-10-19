@@ -1,0 +1,3 @@
+#!./farnsworth.pl
+
+G * earthmass *  208kg * (earthradius + 559 km)**-2 -> "pounds gravity"

@@ -1,0 +1,244 @@
+dbgprint["------BOT START------"];
+source := "I'm the latest and greatest version of farnsworth, you can find me at; git clone git://isuckatdomains.net/farnsworth.git";
+help := "I've got a number of experimental changes to the language, because of that i'm not very well documented";
+bug := "think you found a bug? file it at http://farnsworth.simcop2387.info/ OR send an email to farnsworth.rt@gmail.com";
+
+frozen := C[0];
+microwavetime{mass isa kg, end isa K, start = frozen isa K, watts = 1000W isa watt, sh = 1 calorie/gram/degC isa calorie/gram/degC} := (mass sh)(end - start)/watts -> "seconds";
+
+[]=>{``
+var steps = [];
+var languages = ["Arabic","Bulgarian","Catalan","Czech","Danish","German","Greek","English","Spanish","Estonian","Finnish","French","Galician","Hindi","Croatian","Hungarian","Indonesian","Italian","Hebrew","Japanese","Korean","Lithuanian","Latvian","Maltese","Dutch","Norwegian","Polish","Portuguese","Romanian","Russian","Slovak","Slovenian","Albanian","Serbian","Swedish","Thai","Filipino","Turkish","Ukrainian","Vietnamese","Chinese","Chinese_Traditional"];
+var getlang = {`` languages@random[]*(length[languages])$};
+mangle{x} := {steps = []; 
+              var origlang = x -> DetectLanguage; 
+              push[steps, x]; 
+              var targetlangs = int[random[]*42]+1;
+	      
+	      while (targetlangs=targetlangs-1)
+              {
+                push[steps, eval["steps@-1$ -> "+getlang[]]]; 
+              };
+
+              push[steps, eval["steps@-1$ -> "+origlang]]; 
+              steps@-1$};
+1 1/* -> Arabic -> German -> Chinese -> French -> Hindi; var lang = x -> DetectLanguage; eval["s -> HindiTo" + lang] };*/;
+tracemangle{} := {steps};
+};
+
+dutchmangle{x} :=[x -> DutchToEnglish] -> mangle -> EnglishToDutch;
+
+tobase{x isa 1, b = 16 isa 1} := { var getchr = {`x` substrLen["0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_\\| <>/;:'[]{}=+`~.,?", x, 1]};
+
+x=x*1.0;/*newer pari's for some reason forbid mixing of ints and reals like i was, have to watch out for that*/
+b=b*1.0;
+/*dbgprint["-----STARTING TOBASE-----","getchr = $getchr", "x = $x", "b = $b"]*/ 1;
+
+if (b < 2) {error["Can't use a base lower than 2"]};
+
+var output = "";
+
+var sign = "";
+if (x < 0)
+{
+sign = "-";
+x=-x;
+};
+
+/*dbgprint["x = $x", "floor[x] = ${floor[x]}", "sign = $sign"]*/ 1;
+
+if (floor[x] < x)
+{var foo; var bar;
+ var rounds;
+ foo = 1 + floor[log[10**30]/log[b]];
+ bar = x > 0 ? 1 + floor[log[x]/log[b]] : 0;
+ rounds = bar >= foo ? 0 : foo - bar;
+
+ /*dbgprint["inside floor loop", "foo = $foo", "bar = $bar", "rounds = $rounds"]*/ 1;
+
+ var i = 0;
+
+ while ((i < rounds) && (floor[x] < x))
+ {
+   /*dbgprint["DOROUND", "i = $i", "x = $x"]*/ 1;
+   i = i + 1;
+
+   x = x * b;
+ };
+ i = i + 1;
+
+ x = floor[x];
+ while (i = i - 1)
+ {
+    /*dbgprint["MIDROUND----", "i = $i", "x = $x"]*/ 1;
+	var c;
+			c = int[x % b];
+			dbgprint["c = $c"];
+			x = floor[x / b];
+			if (c >= 0) { /*i don't think i need this check, was in original algorithm*/
+				output = output + (getchr [c]);
+			};
+			/*dbgprint["output = $output"]*/ 1;
+ };
+
+ output = output + ".";
+};
+
+ /*dbgprint["endfloorloop---", "x = $x"]*/ 1;
+ if (x <= 0) {output = output + "0";};
+
+ while (x > 0)
+ {
+	var c;
+	        /*dbgprint["MIDROUND----", "x = $x"]*/ 1;
+			c = int[x % b];
+			/*dbgprint["c = $c"]*/ 1;
+			x = floor[x / b];
+			if (c >= 0) { /*i don't think i need this check, was in original algorithm*/
+				/*dbgprint["in if", "getchr [c ($c)] = "+(getchr [c])]*/ 1;
+				output = output + (getchr [c]);
+			};
+			/*dbgprint["output = $output"]*/ 1;
+ };
+ /*dbgprint["TOTALOUT = ${sign+reverse[output]}"]*/ 1;
+ sign+reverse[output]
+};
+
+frombase{x isa "",y isa 1} := {
+var sign = 1; 
+
+if (y < 2) {error["Can't use a base lower than 2"]};
+
+/*dbgprint["----FROMBASE----", "input = $x", "base = $y"]*/ 1;
+
+if (index[x,"-"] == 0) {sign=-1; x=right[x,length[x]-1];}; 
+/*dbgprint["sign = $sign", "input = $x"]*/ 1;
+
+var p = index[x,"."]; 
+var e= p>=0?p:length[x]; 
+var getord = {`x` index["0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_\\| <>/;:'[]{}=+`~.,?", x]};
+
+/*dbgprint["p = $p", "e = $e", "getord = $getord"]*/ 1;
+
+var out=[]; 
+var t=0; 
+var s=1; 
+var n = length[x]; 
+
+while(n>0) {
+	n=n-1;
+	var c=substrLen[x,length[x]-n-1,1]; 
+
+	if (c != ".") {e=e-1; var v=(c=>getord); t=t+v*(y**e); };
+};
+
+	var r = p != -1 ? sign t +0.0 : sign t;
+	/*dbgprint[r]*/ 1;
+	r
+};
+
+
+ping =!= pong; ping := pong; /*make it respond to ping*/
+pixel =!= pixel; /*by popular request*/
+bpp := bits/pixel;
+C := {`x` C[x]}; F := {`x` F[x]}; /*by popular request for the bot, makes temperatures work REALLY well*/
+square := {`x` {`y` x * y ** 2} }; /*these are experimental, there's bugs related to similar situations, not sure why yet, the bugs are fixed, still not sure why*/
+cubic := {`x` {`y` x * y ** 3} }; 
+
+Delisle{x} := {if (x conforms unit[K]) {(373.15 - x/unit[K])*3/2} else {(373.15- 2x/3) unit[K]}}; D{x} := {Delisle[x]}; D := {`x` Delisle[x]};
+Delisle := {`x` Delisle[x]};
+Celsius := {`x` Celsius[x]};
+Fahrenheit := {`x` Fahrenheit[x]};
+Kelvin := K;
+
+/*for eval[]*/
+I:=i;
+
+/*likely to change names but a great function! converts coordinates from cartesian (complex or normal form) into polar coords*/
+polar{x isa 1, y = undef } := {var a = x; var b = y; if (y conforms undef) {a = real[x]; b = imag[x];}; var r = sqrt[a^2 + b^2]; var t = atan2[b,a];  t = real[t] i - i imag[t]; "$r * e ^ $t"};
+inc{x byref,y=1}:=x=x+y;
+dec{x byref,y=1}:=x=x-y;
+postdec{x byref,y=1}:={var t=x; x=x-y; t};
+postinc{x byref,y=1}:={var t=x; x=x+y; t};
+
+reduce{sub isa {``}, x isa ...} := {var input = x@0$ conforms [] ? x@0$ : x; var st = shift[input]; while(length[input] >= 1) {var next = shift[input]; st = sub[st, next];}; st};
+eta{amount,speed,perc=0 isa 1,zone="UTC" isa ""} := {if (!(speed conforms amount/s)) {error["units of Speed and Amount do not match!"];}; if ((perc > 1) || (perc < 0)) {error["percentage must be between 0.00 and 1.00"]}; now[zone]+(1-perc) amount per speed};
+
+newhash{} := {
+{`` 
+	var store=[]; 
+	var names=[]; 
+
+	var findname={`x` 
+		var i=-1; 
+		var ret=-1; 
+		while((i=i+1) < length[names]) {if ((names@i$ conforms x) && (names@i$ == x)) {ret = i}}; 
+		ret}; 
+
+	var getval={`x` 
+		var ind=(findname)*[x];
+		dbgprint["x = $x", "ind = $ind"];
+		if (ind==-1)
+		{setval[x, undef]; ind = (findname)*[x]};
+		store@ind$
+	}; 
+
+	var setval = {`x, val` 
+			var ind=(findname)*[x];
+			dbgprint["SETVAL: x = $x ind = $ind"];
+			if (ind==-1) 
+			{push[names,x]; push[store,val]; val} 
+			else 
+			{store@ind$ = val; val};
+		}; 
+
+	var t = {`x, val isa ...` 
+			if ((x conforms "") && (x == "__keys"))
+			{
+			  names+[]
+			}
+			else
+			{
+				if ((x conforms "") && (x == "__values"))
+				{
+					store+[]
+				}
+				else
+				{
+					if (length[val] == 0 ) 
+					{getval[x]} 
+					else 
+					{setval[x, val@0$]}
+				}
+			}
+		};
+
+} [];
+};
+
+UTC{x isa #today#} := {setzone[x, "UTC"]};
+CET{x isa #today#} := {setzone[x, "CET"]};
+GMT{x isa #today#} := {setzone[x, "GMT"]};
+PST8PDT{x isa #today#} := {setzone[x, "PST8PDT"]};
+EST5EDT{x isa #today#} := {setzone[x, "EST5EDT"]};
+MST7MDT{x isa #today#} := {setzone[x, "MST7MDT"]};
+CST6CDT{x isa #today#} := {setzone[x, "CST6CDT"]};
+
+1//updatecurrencies[]
+;
+
+
+mkstr{x} := {if (x conforms "") {x} else {"$x"}};
+prettyout{dome, _measures isa []} := {var measures=sort[{`a,b` var a1=eval[mkstr[a]]; var b1=eval[mkstr[b]]; b1 <=> a1}, _measures]; var i=0; var ret=""; map[{`x` var val=eval[mkstr[x]]; var size=1.0 dome/val; i=i+1; if ((i == length[measures]) && (size > 0)) {ret = ret + " $size" +mkstr[x];} else {if (size >= 1.0) {ret = ret + " ${int[size]}" + mkstr[x]; dome=dome-val*int[size]}};}, measures]; ret };
+
+{``
+var metric=1;
+
+prettyout_length{x isa m} := {metric ? prettyout_length_SI[x] : prettyout_length_US[x]};
+
+setmetric{} := metric=1;
+setus{} := metric=0;
+} [];
+
+prettyout_length_SI{x isa m} := {var large = ["lightyears", "au", "parsecs", "kilometers"]; var medium = ["kilometers", "meters", "centimeters"]; var small = ["centimeters", "millimeters", "micrometers"]; var verysmall = ["millimeters", "micrometers", ]; prettyout[x, x > 1 cm ? x >= 1 m ? x > 1/4 au ? large : medium : small : verysmall];};
+prettyout_length_US{x isa m} := {var large = ["lightyears", "au", "parsec", "miles"]; var medium = ["miles", "yards", "feet"]; var small = ["yards", "feet", "inches"]; var verysmall = ["inches", "thou"]; prettyout[x, x > 6 inches ? x > 200 yards ? x > 1/4 au ? large : medium : small : verysmall];};
