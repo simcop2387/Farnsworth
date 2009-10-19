@@ -1,4 +1,4 @@
-# This Makefile is for the Math::Farnsworth extension to perl.
+# This Makefile is for the Language::Farnsworth extension to perl.
 #
 # It was generated automatically by MakeMaker version
 # 6.42 (Revision: 41145) from the contents of
@@ -14,7 +14,7 @@
 #     AUTHOR => q[Ryan Voots <simcop@cpan.org>]
 #     DIR => []
 #     DISTNAME => q[Math-Farnsworth]
-#     NAME => q[Math::Farnsworth]
+#     NAME => q[Language::Farnsworth]
 #     NO_META => q[1]
 #     PL_FILES => {  }
 #     PREREQ_PM => { Math::Pari=>q[0], DateTime=>q[0], Test::More=>q[0], Test::Exception=>q[0], ExtUtils::MakeMaker=>q[6.42], DateTimeX::Easy=>q[0], List::MoreUtils=>q[0] }
@@ -58,7 +58,7 @@ VENDORLIBEXP = /usr/lib/perl5/vendor_perl/5.10.0
 AR_STATIC_ARGS = cr
 DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
-NAME = Math::Farnsworth
+NAME = Language::Farnsworth
 NAME_SYM = Math_Farnsworth
 VERSION = 0.6.0
 VERSION_MACRO = VERSION
@@ -527,10 +527,10 @@ manifypods : pure_all  \
 	lib/Math/Farnsworth/Docs/Syntax.pm \
 	lib/Math/Farnsworth.pm
 	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW) \
-	  lib/Math/Farnsworth/Docs/Functions.pm $(INST_MAN3DIR)/Math::Farnsworth::Docs::Functions.$(MAN3EXT) \
-	  lib/Math/Farnsworth/Output.pm $(INST_MAN3DIR)/Math::Farnsworth::Output.$(MAN3EXT) \
-	  lib/Math/Farnsworth/Docs/Syntax.pm $(INST_MAN3DIR)/Math::Farnsworth::Docs::Syntax.$(MAN3EXT) \
-	  lib/Math/Farnsworth.pm $(INST_MAN3DIR)/Math::Farnsworth.$(MAN3EXT) 
+	  lib/Math/Farnsworth/Docs/Functions.pm $(INST_MAN3DIR)/Language::Farnsworth::Docs::Functions.$(MAN3EXT) \
+	  lib/Math/Farnsworth/Output.pm $(INST_MAN3DIR)/Language::Farnsworth::Output.$(MAN3EXT) \
+	  lib/Math/Farnsworth/Docs/Syntax.pm $(INST_MAN3DIR)/Language::Farnsworth::Docs::Syntax.$(MAN3EXT) \
+	  lib/Math/Farnsworth.pm $(INST_MAN3DIR)/Language::Farnsworth.$(MAN3EXT) 
 
 
 

@@ -1,11 +1,11 @@
-package Math::Farnsworth::Functions::GoogleTranslate;
+package Language::Farnsworth::Functions::GoogleTranslate;
 
 use strict;
 use warnings;
 
 use Data::Dumper;
 
-use Math::Farnsworth::Value;
+use Language::Farnsworth::Value;
 
 use REST::Google::Translate;
 use HTML::Entities;
@@ -80,7 +80,7 @@ sub init
 
     REST::Google::Translate->http_referer('http://farnsworth.sexypenguins.com/'); #for now, i need a real website for this!
 
-	my $string = new Math::Farnsworth::Value::String("");
+	my $string = new Language::Farnsworth::Value::String("");
 
 	#generate lang to lang
 	for my $x (keys %langs)
@@ -159,7 +159,7 @@ sub translate
 
   #print "TRANSLATED: $langa|$langb '$translated'\n";
 
-  $translated = new Math::Farnsworth::Value::String(decode_entities($translated), $langb);
+  $translated = new Language::Farnsworth::Value::String(decode_entities($translated), $langb);
 
   return $translated;
 }
@@ -172,7 +172,7 @@ sub detectlang
   {
     my $lang = $args->getarrayref()->[0]->getlang();
     my $txt = $langs{$lang};
-    return new Math::Farnsworth::Value::String($txt, "en"); #NOT INTERNATIONALIZED NAMES!
+    return new Language::Farnsworth::Value::String($txt, "en"); #NOT INTERNATIONALIZED NAMES!
   }
 
   my $response = callgoogle("", "en", $args->getarrayref()->[0]->getstring());
@@ -182,7 +182,7 @@ sub detectlang
 
   $translated = $langs{$translated} || $translated; #either its got a name, or we return the code
 
-  $translated = new Math::Farnsworth::Value::String($translated, "en");
+  $translated = new Language::Farnsworth::Value::String($translated, "en");
 
   return $translated;
 }
@@ -194,7 +194,7 @@ sub islang
 
   my $text = $args->getarrayref()->[0]->getstring();
 
-  return new Math::Farnsworth::Value::String($text, $lang);
+  return new Language::Farnsworth::Value::String($text, $lang);
 }
 
 1;

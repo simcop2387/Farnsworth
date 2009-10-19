@@ -1,4 +1,4 @@
-# This Makefile is for the Math::Farnsworth extension to perl.
+# This Makefile is for the Language::Farnsworth extension to perl.
 #
 # It was generated automatically by MakeMaker version
 # 6.42 (Revision: 41145) from the contents of
@@ -13,8 +13,8 @@
 #     ABSTRACT => q[A Turing Complete Language for Mathematics]
 #     AUTHOR => q[Ryan Voots <simcop@cpan.org>]
 #     DIR => []
-#     DISTNAME => q[Math-Farnsworth]
-#     NAME => q[Math::Farnsworth]
+#     DISTNAME => q[Language-Farnsworth]
+#     NAME => q[Language::Farnsworth]
 #     NO_META => q[1]
 #     PL_FILES => {  }
 #     PREREQ_PM => { Math::Pari=>q[0], DateTime=>q[0], Test::More=>q[0], Test::Exception=>q[0], ExtUtils::MakeMaker=>q[6.42], DateTimeX::Easy=>q[0], List::MoreUtils=>q[0] }
@@ -58,8 +58,8 @@ VENDORLIBEXP = /usr/lib/perl5/vendor_perl/5.10.0
 AR_STATIC_ARGS = cr
 DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
-NAME = Math::Farnsworth
-NAME_SYM = Math_Farnsworth
+NAME = Language::Farnsworth
+NAME_SYM = Language_Farnsworth
 VERSION = 0.6.0
 VERSION_MACRO = VERSION
 VERSION_SYM = 0_6_0
@@ -147,9 +147,9 @@ MM_REVISION = 41145
 # PARENT_NAME = NAME without BASEEXT and no trailing :: (eg Foo::Bar)
 # DLBASE  = Basename part of dynamic library. May be just equal BASEEXT.
 MAKE = make
-FULLEXT = Math/Farnsworth
+FULLEXT = Language/Farnsworth
 BASEEXT = Farnsworth
-PARENT_NAME = Math
+PARENT_NAME = Language
 DLBASE = $(BASEEXT)
 VERSION_FROM = 
 OBJECT = 
@@ -163,17 +163,17 @@ C_FILES  =
 O_FILES  = 
 H_FILES  = 
 MAN1PODS = 
-MAN3PODS = lib/Math/Farnsworth.pm \
-	lib/Math/Farnsworth/Docs/Functions.pm \
-	lib/Math/Farnsworth/Docs/Syntax.pm \
-	lib/Math/Farnsworth/Output.pm
+MAN3PODS = lib/Language/Farnsworth.pm \
+	lib/Language/Farnsworth/Docs/Functions.pm \
+	lib/Language/Farnsworth/Docs/Syntax.pm \
+	lib/Language/Farnsworth/Output.pm
 
 # Where is the Config information that we are using/depend on
 CONFIGDEP = $(PERL_ARCHLIB)$(DFSEP)Config.pm $(PERL_INC)$(DFSEP)config.h
 
 # Where to build things
-INST_LIBDIR      = $(INST_LIB)/Math
-INST_ARCHLIBDIR  = $(INST_ARCHLIB)/Math
+INST_LIBDIR      = $(INST_LIB)/Language
+INST_ARCHLIBDIR  = $(INST_ARCHLIB)/Language
 
 INST_AUTODIR     = $(INST_LIB)/auto/$(FULLEXT)
 INST_ARCHAUTODIR = $(INST_ARCHLIB)/auto/$(FULLEXT)
@@ -192,34 +192,65 @@ TO_INST_PM = bot2.pl \
 	botmag.pl \
 	botriz.pl \
 	farnsworth.pl \
-	lib/Math/Farnsworth.pm \
-	lib/Math/Farnsworth/Dimension.pm \
-	lib/Math/Farnsworth/Docs/Functions.pm \
-	lib/Math/Farnsworth/Docs/Syntax.pm \
-	lib/Math/Farnsworth/Error.pm \
-	lib/Math/Farnsworth/Evaluate.pm \
-	lib/Math/Farnsworth/FunctionDispatch.pm \
-	lib/Math/Farnsworth/Functions/GoogleTranslate.pm \
-	lib/Math/Farnsworth/Functions/Standard.pm \
-	lib/Math/Farnsworth/Functions/StdMath.pm \
-	lib/Math/Farnsworth/Output.pm \
-	lib/Math/Farnsworth/Parser.pm \
-	lib/Math/Farnsworth/Units.pm \
-	lib/Math/Farnsworth/Units/Currency.pm \
-	lib/Math/Farnsworth/Units/Pi10-6.html \
-	lib/Math/Farnsworth/Units/Standard.pm \
-	lib/Math/Farnsworth/Units/e.2mil \
-	lib/Math/Farnsworth/Value.pm \
-	lib/Math/Farnsworth/Value/Array.pm \
-	lib/Math/Farnsworth/Value/Boolean.pm \
-	lib/Math/Farnsworth/Value/Date.pm \
-	lib/Math/Farnsworth/Value/Lambda.pm \
-	lib/Math/Farnsworth/Value/NewValue.pm \
-	lib/Math/Farnsworth/Value/Pari.pm \
-	lib/Math/Farnsworth/Value/String.pm \
-	lib/Math/Farnsworth/Value/Undef.pm \
-	lib/Math/Farnsworth/Value_old.pm \
-	lib/Math/Farnsworth/Variables.pm \
+	lib/Language/Farnsworth.pm \
+	lib/Language/Farnsworth.pm.bak \
+	lib/Language/Farnsworth/Dimension.pm \
+	lib/Language/Farnsworth/Dimension.pm.bak \
+	lib/Language/Farnsworth/Docs/Functions.pm \
+	lib/Language/Farnsworth/Docs/Functions.pm.bak \
+	lib/Language/Farnsworth/Docs/Syntax.pm \
+	lib/Language/Farnsworth/Docs/Syntax.pm.bak \
+	lib/Language/Farnsworth/Error.pm \
+	lib/Language/Farnsworth/Error.pm.bak \
+	lib/Language/Farnsworth/Evaluate.pm \
+	lib/Language/Farnsworth/Evaluate.pm.bak \
+	lib/Language/Farnsworth/FunctionDispatch.pm \
+	lib/Language/Farnsworth/FunctionDispatch.pm.bak \
+	lib/Language/Farnsworth/Functions/GoogleTranslate.pm \
+	lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak \
+	lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak.bak \
+	lib/Language/Farnsworth/Functions/Standard.pm \
+	lib/Language/Farnsworth/Functions/Standard.pm.bak \
+	lib/Language/Farnsworth/Functions/Standard.pm.bak.bak \
+	lib/Language/Farnsworth/Functions/StdMath.pm \
+	lib/Language/Farnsworth/Functions/StdMath.pm.bak \
+	lib/Language/Farnsworth/Functions/StdMath.pm.bak.bak \
+	lib/Language/Farnsworth/Output.pm \
+	lib/Language/Farnsworth/Output.pm.bak \
+	lib/Language/Farnsworth/Parser.pm \
+	lib/Language/Farnsworth/Parser.pm.bak \
+	lib/Language/Farnsworth/Units.pm \
+	lib/Language/Farnsworth/Units.pm.bak \
+	lib/Language/Farnsworth/Units/Currency.pm \
+	lib/Language/Farnsworth/Units/Currency.pm.bak \
+	lib/Language/Farnsworth/Units/Pi10-6.html \
+	lib/Language/Farnsworth/Units/Pi10-6.html.bak \
+	lib/Language/Farnsworth/Units/Standard.pm \
+	lib/Language/Farnsworth/Units/Standard.pm.bak \
+	lib/Language/Farnsworth/Units/e.2mil \
+	lib/Language/Farnsworth/Units/e.2mil.bak \
+	lib/Language/Farnsworth/Value.pm \
+	lib/Language/Farnsworth/Value.pm.bak \
+	lib/Language/Farnsworth/Value/Array.pm \
+	lib/Language/Farnsworth/Value/Array.pm.bak \
+	lib/Language/Farnsworth/Value/Boolean.pm \
+	lib/Language/Farnsworth/Value/Boolean.pm.bak \
+	lib/Language/Farnsworth/Value/Date.pm \
+	lib/Language/Farnsworth/Value/Date.pm.bak \
+	lib/Language/Farnsworth/Value/Lambda.pm \
+	lib/Language/Farnsworth/Value/Lambda.pm.bak \
+	lib/Language/Farnsworth/Value/NewValue.pm \
+	lib/Language/Farnsworth/Value/NewValue.pm.bak \
+	lib/Language/Farnsworth/Value/Pari.pm \
+	lib/Language/Farnsworth/Value/Pari.pm.bak \
+	lib/Language/Farnsworth/Value/String.pm \
+	lib/Language/Farnsworth/Value/String.pm.bak \
+	lib/Language/Farnsworth/Value/Undef.pm \
+	lib/Language/Farnsworth/Value/Undef.pm.bak \
+	lib/Language/Farnsworth/Value_old.pm \
+	lib/Language/Farnsworth/Value_old.pm.bak \
+	lib/Language/Farnsworth/Variables.pm \
+	lib/Language/Farnsworth/Variables.pm.bak \
 	loadunits.pl \
 	maukes.pl \
 	mgr.pl \
@@ -227,82 +258,144 @@ TO_INST_PM = bot2.pl \
 	server.pl \
 	temp.pl
 
-PM_TO_BLIB = lib/Math/Farnsworth/Value/Lambda.pm \
-	blib/lib/Math/Farnsworth/Value/Lambda.pm \
-	lib/Math/Farnsworth/Evaluate.pm \
-	blib/lib/Math/Farnsworth/Evaluate.pm \
-	paritest.pl \
-	$(INST_LIB)/Math/paritest.pl \
-	lib/Math/Farnsworth/Units/Pi10-6.html \
-	blib/lib/Math/Farnsworth/Units/Pi10-6.html \
-	lib/Math/Farnsworth/Docs/Syntax.pm \
-	blib/lib/Math/Farnsworth/Docs/Syntax.pm \
-	lib/Math/Farnsworth/Variables.pm \
-	blib/lib/Math/Farnsworth/Variables.pm \
-	lib/Math/Farnsworth/Value/Undef.pm \
-	blib/lib/Math/Farnsworth/Value/Undef.pm \
-	lib/Math/Farnsworth/Functions/Standard.pm \
-	blib/lib/Math/Farnsworth/Functions/Standard.pm \
-	lib/Math/Farnsworth/Value/String.pm \
-	blib/lib/Math/Farnsworth/Value/String.pm \
-	maukes.pl \
-	$(INST_LIB)/Math/maukes.pl \
-	lib/Math/Farnsworth/Value/Array.pm \
-	blib/lib/Math/Farnsworth/Value/Array.pm \
-	lib/Math/Farnsworth/Docs/Functions.pm \
-	blib/lib/Math/Farnsworth/Docs/Functions.pm \
-	server.pl \
-	$(INST_LIB)/Math/server.pl \
-	lib/Math/Farnsworth/Units/Standard.pm \
-	blib/lib/Math/Farnsworth/Units/Standard.pm \
-	lib/Math/Farnsworth/Parser.pm \
-	blib/lib/Math/Farnsworth/Parser.pm \
+PM_TO_BLIB = lib/Language/Farnsworth/Parser.pm \
+	blib/lib/Language/Farnsworth/Parser.pm \
+	lib/Language/Farnsworth/Evaluate.pm \
+	blib/lib/Language/Farnsworth/Evaluate.pm \
+	lib/Language/Farnsworth/Value/Boolean.pm.bak \
+	blib/lib/Language/Farnsworth/Value/Boolean.pm.bak \
+	lib/Language/Farnsworth/Value/NewValue.pm \
+	blib/lib/Language/Farnsworth/Value/NewValue.pm \
+	lib/Language/Farnsworth/Functions/Standard.pm.bak.bak \
+	blib/lib/Language/Farnsworth/Functions/Standard.pm.bak.bak \
+	lib/Language/Farnsworth/Units/Standard.pm \
+	blib/lib/Language/Farnsworth/Units/Standard.pm \
+	lib/Language/Farnsworth/Value/NewValue.pm.bak \
+	blib/lib/Language/Farnsworth/Value/NewValue.pm.bak \
+	lib/Language/Farnsworth/Docs/Syntax.pm.bak \
+	blib/lib/Language/Farnsworth/Docs/Syntax.pm.bak \
+	lib/Language/Farnsworth.pm \
+	blib/lib/Language/Farnsworth.pm \
+	lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak.bak \
+	blib/lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak.bak \
+	lib/Language/Farnsworth/Output.pm.bak \
+	blib/lib/Language/Farnsworth/Output.pm.bak \
+	lib/Language/Farnsworth/Error.pm.bak \
+	blib/lib/Language/Farnsworth/Error.pm.bak \
 	bot2.pl \
-	$(INST_LIB)/Math/bot2.pl \
-	lib/Math/Farnsworth/Error.pm \
-	blib/lib/Math/Farnsworth/Error.pm \
+	$(INST_LIB)/Language/bot2.pl \
 	mgr.pl \
-	$(INST_LIB)/Math/mgr.pl \
-	botmag.pl \
-	$(INST_LIB)/Math/botmag.pl \
-	lib/Math/Farnsworth/Units.pm \
-	blib/lib/Math/Farnsworth/Units.pm \
-	lib/Math/Farnsworth/Units/e.2mil \
-	blib/lib/Math/Farnsworth/Units/e.2mil \
-	lib/Math/Farnsworth/Value_old.pm \
-	blib/lib/Math/Farnsworth/Value_old.pm \
-	loadunits.pl \
-	$(INST_LIB)/Math/loadunits.pl \
-	lib/Math/Farnsworth/FunctionDispatch.pm \
-	blib/lib/Math/Farnsworth/FunctionDispatch.pm \
-	lib/Math/Farnsworth/Value/Pari.pm \
-	blib/lib/Math/Farnsworth/Value/Pari.pm \
-	lib/Math/Farnsworth/Functions/GoogleTranslate.pm \
-	blib/lib/Math/Farnsworth/Functions/GoogleTranslate.pm \
-	temp.pl \
-	$(INST_LIB)/Math/temp.pl \
-	lib/Math/Farnsworth/Dimension.pm \
-	blib/lib/Math/Farnsworth/Dimension.pm \
-	lib/Math/Farnsworth.pm \
-	blib/lib/Math/Farnsworth.pm \
-	lib/Math/Farnsworth/Value/Boolean.pm \
-	blib/lib/Math/Farnsworth/Value/Boolean.pm \
-	lib/Math/Farnsworth/Units/Currency.pm \
-	blib/lib/Math/Farnsworth/Units/Currency.pm \
-	lib/Math/Farnsworth/Value.pm \
-	blib/lib/Math/Farnsworth/Value.pm \
-	lib/Math/Farnsworth/Functions/StdMath.pm \
-	blib/lib/Math/Farnsworth/Functions/StdMath.pm \
-	lib/Math/Farnsworth/Value/Date.pm \
-	blib/lib/Math/Farnsworth/Value/Date.pm \
-	lib/Math/Farnsworth/Output.pm \
-	blib/lib/Math/Farnsworth/Output.pm \
+	$(INST_LIB)/Language/mgr.pl \
+	lib/Language/Farnsworth/Value/Array.pm.bak \
+	blib/lib/Language/Farnsworth/Value/Array.pm.bak \
+	lib/Language/Farnsworth/Units/e.2mil \
+	blib/lib/Language/Farnsworth/Units/e.2mil \
+	lib/Language/Farnsworth/Value/Date.pm.bak \
+	blib/lib/Language/Farnsworth/Value/Date.pm.bak \
+	lib/Language/Farnsworth/Functions/GoogleTranslate.pm \
+	blib/lib/Language/Farnsworth/Functions/GoogleTranslate.pm \
+	lib/Language/Farnsworth/Units/Pi10-6.html \
+	blib/lib/Language/Farnsworth/Units/Pi10-6.html \
+	lib/Language/Farnsworth/Functions/Standard.pm \
+	blib/lib/Language/Farnsworth/Functions/Standard.pm \
+	lib/Language/Farnsworth/Value/Date.pm \
+	blib/lib/Language/Farnsworth/Value/Date.pm \
+	lib/Language/Farnsworth/Units/e.2mil.bak \
+	blib/lib/Language/Farnsworth/Units/e.2mil.bak \
+	lib/Language/Farnsworth/Value/Lambda.pm \
+	blib/lib/Language/Farnsworth/Value/Lambda.pm \
+	lib/Language/Farnsworth/Docs/Functions.pm.bak \
+	blib/lib/Language/Farnsworth/Docs/Functions.pm.bak \
+	lib/Language/Farnsworth/Value_old.pm.bak \
+	blib/lib/Language/Farnsworth/Value_old.pm.bak \
+	lib/Language/Farnsworth/Value_old.pm \
+	blib/lib/Language/Farnsworth/Value_old.pm \
+	lib/Language/Farnsworth/Functions/StdMath.pm \
+	blib/lib/Language/Farnsworth/Functions/StdMath.pm \
+	lib/Language/Farnsworth/Dimension.pm.bak \
+	blib/lib/Language/Farnsworth/Dimension.pm.bak \
+	lib/Language/Farnsworth.pm.bak \
+	blib/lib/Language/Farnsworth.pm.bak \
+	lib/Language/Farnsworth/Value/Pari.pm.bak \
+	blib/lib/Language/Farnsworth/Value/Pari.pm.bak \
+	lib/Language/Farnsworth/Output.pm \
+	blib/lib/Language/Farnsworth/Output.pm \
+	lib/Language/Farnsworth/Docs/Syntax.pm \
+	blib/lib/Language/Farnsworth/Docs/Syntax.pm \
+	lib/Language/Farnsworth/Units.pm \
+	blib/lib/Language/Farnsworth/Units.pm \
 	botriz.pl \
-	$(INST_LIB)/Math/botriz.pl \
-	lib/Math/Farnsworth/Value/NewValue.pm \
-	blib/lib/Math/Farnsworth/Value/NewValue.pm \
+	$(INST_LIB)/Language/botriz.pl \
+	lib/Language/Farnsworth/Error.pm \
+	blib/lib/Language/Farnsworth/Error.pm \
+	lib/Language/Farnsworth/FunctionDispatch.pm.bak \
+	blib/lib/Language/Farnsworth/FunctionDispatch.pm.bak \
+	lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak \
+	blib/lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak \
+	paritest.pl \
+	$(INST_LIB)/Language/paritest.pl \
+	lib/Language/Farnsworth/Units/Standard.pm.bak \
+	blib/lib/Language/Farnsworth/Units/Standard.pm.bak \
+	lib/Language/Farnsworth/Functions/StdMath.pm.bak.bak \
+	blib/lib/Language/Farnsworth/Functions/StdMath.pm.bak.bak \
+	lib/Language/Farnsworth/Value.pm \
+	blib/lib/Language/Farnsworth/Value.pm \
+	lib/Language/Farnsworth/Variables.pm \
+	blib/lib/Language/Farnsworth/Variables.pm \
+	lib/Language/Farnsworth/Value/Undef.pm \
+	blib/lib/Language/Farnsworth/Value/Undef.pm \
+	lib/Language/Farnsworth/Functions/Standard.pm.bak \
+	blib/lib/Language/Farnsworth/Functions/Standard.pm.bak \
+	maukes.pl \
+	$(INST_LIB)/Language/maukes.pl \
+	server.pl \
+	$(INST_LIB)/Language/server.pl \
+	lib/Language/Farnsworth/Docs/Functions.pm \
+	blib/lib/Language/Farnsworth/Docs/Functions.pm \
+	lib/Language/Farnsworth/Value/String.pm.bak \
+	blib/lib/Language/Farnsworth/Value/String.pm.bak \
+	lib/Language/Farnsworth/Variables.pm.bak \
+	blib/lib/Language/Farnsworth/Variables.pm.bak \
+	lib/Language/Farnsworth/Value.pm.bak \
+	blib/lib/Language/Farnsworth/Value.pm.bak \
+	lib/Language/Farnsworth/Value/Undef.pm.bak \
+	blib/lib/Language/Farnsworth/Value/Undef.pm.bak \
+	lib/Language/Farnsworth/Units/Currency.pm \
+	blib/lib/Language/Farnsworth/Units/Currency.pm \
+	lib/Language/Farnsworth/Evaluate.pm.bak \
+	blib/lib/Language/Farnsworth/Evaluate.pm.bak \
+	lib/Language/Farnsworth/Value/Pari.pm \
+	blib/lib/Language/Farnsworth/Value/Pari.pm \
+	lib/Language/Farnsworth/Units/Pi10-6.html.bak \
+	blib/lib/Language/Farnsworth/Units/Pi10-6.html.bak \
+	lib/Language/Farnsworth/Units.pm.bak \
+	blib/lib/Language/Farnsworth/Units.pm.bak \
+	lib/Language/Farnsworth/Dimension.pm \
+	blib/lib/Language/Farnsworth/Dimension.pm \
+	botmag.pl \
+	$(INST_LIB)/Language/botmag.pl \
+	lib/Language/Farnsworth/Value/Boolean.pm \
+	blib/lib/Language/Farnsworth/Value/Boolean.pm \
+	lib/Language/Farnsworth/Parser.pm.bak \
+	blib/lib/Language/Farnsworth/Parser.pm.bak \
+	loadunits.pl \
+	$(INST_LIB)/Language/loadunits.pl \
+	lib/Language/Farnsworth/Value/String.pm \
+	blib/lib/Language/Farnsworth/Value/String.pm \
+	temp.pl \
+	$(INST_LIB)/Language/temp.pl \
+	lib/Language/Farnsworth/Value/Array.pm \
+	blib/lib/Language/Farnsworth/Value/Array.pm \
+	lib/Language/Farnsworth/Functions/StdMath.pm.bak \
+	blib/lib/Language/Farnsworth/Functions/StdMath.pm.bak \
+	lib/Language/Farnsworth/Units/Currency.pm.bak \
+	blib/lib/Language/Farnsworth/Units/Currency.pm.bak \
+	lib/Language/Farnsworth/Value/Lambda.pm.bak \
+	blib/lib/Language/Farnsworth/Value/Lambda.pm.bak \
+	lib/Language/Farnsworth/FunctionDispatch.pm \
+	blib/lib/Language/Farnsworth/FunctionDispatch.pm \
 	farnsworth.pl \
-	$(INST_LIB)/Math/farnsworth.pl
+	$(INST_LIB)/Language/farnsworth.pl
 
 
 # --- MakeMaker platform_constants section:
@@ -368,8 +461,8 @@ CI = ci -u
 RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
-DISTNAME = Math-Farnsworth
-DISTVNAME = Math-Farnsworth-0.6.0
+DISTNAME = Language-Farnsworth
+DISTVNAME = Language-Farnsworth-0.6.0
 
 
 # --- MakeMaker macro section:
@@ -522,15 +615,15 @@ POD2MAN = $(POD2MAN_EXE)
 
 
 manifypods : pure_all  \
-	lib/Math/Farnsworth/Docs/Functions.pm \
-	lib/Math/Farnsworth/Output.pm \
-	lib/Math/Farnsworth/Docs/Syntax.pm \
-	lib/Math/Farnsworth.pm
+	lib/Language/Farnsworth/Docs/Functions.pm \
+	lib/Language/Farnsworth.pm \
+	lib/Language/Farnsworth/Output.pm \
+	lib/Language/Farnsworth/Docs/Syntax.pm
 	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW) \
-	  lib/Math/Farnsworth/Docs/Functions.pm $(INST_MAN3DIR)/Math::Farnsworth::Docs::Functions.$(MAN3EXT) \
-	  lib/Math/Farnsworth/Output.pm $(INST_MAN3DIR)/Math::Farnsworth::Output.$(MAN3EXT) \
-	  lib/Math/Farnsworth/Docs/Syntax.pm $(INST_MAN3DIR)/Math::Farnsworth::Docs::Syntax.$(MAN3EXT) \
-	  lib/Math/Farnsworth.pm $(INST_MAN3DIR)/Math::Farnsworth.$(MAN3EXT) 
+	  lib/Language/Farnsworth/Docs/Functions.pm $(INST_MAN3DIR)/Language::Farnsworth::Docs::Functions.$(MAN3EXT) \
+	  lib/Language/Farnsworth.pm $(INST_MAN3DIR)/Language::Farnsworth.$(MAN3EXT) \
+	  lib/Language/Farnsworth/Output.pm $(INST_MAN3DIR)/Language::Farnsworth::Output.$(MAN3EXT) \
+	  lib/Language/Farnsworth/Docs/Syntax.pm $(INST_MAN3DIR)/Language::Farnsworth::Docs::Syntax.$(MAN3EXT) 
 
 
 
@@ -906,44 +999,76 @@ ppd :
 
 pm_to_blib : $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', '\''$(PM_FILTER)'\'')' -- \
-	  lib/Math/Farnsworth/Value/Lambda.pm blib/lib/Math/Farnsworth/Value/Lambda.pm \
-	  lib/Math/Farnsworth/Evaluate.pm blib/lib/Math/Farnsworth/Evaluate.pm \
-	  paritest.pl $(INST_LIB)/Math/paritest.pl \
-	  lib/Math/Farnsworth/Units/Pi10-6.html blib/lib/Math/Farnsworth/Units/Pi10-6.html \
-	  lib/Math/Farnsworth/Docs/Syntax.pm blib/lib/Math/Farnsworth/Docs/Syntax.pm \
-	  lib/Math/Farnsworth/Variables.pm blib/lib/Math/Farnsworth/Variables.pm \
-	  lib/Math/Farnsworth/Value/Undef.pm blib/lib/Math/Farnsworth/Value/Undef.pm \
-	  lib/Math/Farnsworth/Functions/Standard.pm blib/lib/Math/Farnsworth/Functions/Standard.pm \
-	  lib/Math/Farnsworth/Value/String.pm blib/lib/Math/Farnsworth/Value/String.pm \
-	  maukes.pl $(INST_LIB)/Math/maukes.pl \
-	  lib/Math/Farnsworth/Value/Array.pm blib/lib/Math/Farnsworth/Value/Array.pm \
-	  lib/Math/Farnsworth/Docs/Functions.pm blib/lib/Math/Farnsworth/Docs/Functions.pm \
-	  server.pl $(INST_LIB)/Math/server.pl \
-	  lib/Math/Farnsworth/Units/Standard.pm blib/lib/Math/Farnsworth/Units/Standard.pm \
-	  lib/Math/Farnsworth/Parser.pm blib/lib/Math/Farnsworth/Parser.pm \
-	  bot2.pl $(INST_LIB)/Math/bot2.pl \
-	  lib/Math/Farnsworth/Error.pm blib/lib/Math/Farnsworth/Error.pm \
-	  mgr.pl $(INST_LIB)/Math/mgr.pl \
-	  botmag.pl $(INST_LIB)/Math/botmag.pl \
-	  lib/Math/Farnsworth/Units.pm blib/lib/Math/Farnsworth/Units.pm \
-	  lib/Math/Farnsworth/Units/e.2mil blib/lib/Math/Farnsworth/Units/e.2mil \
-	  lib/Math/Farnsworth/Value_old.pm blib/lib/Math/Farnsworth/Value_old.pm \
-	  loadunits.pl $(INST_LIB)/Math/loadunits.pl \
-	  lib/Math/Farnsworth/FunctionDispatch.pm blib/lib/Math/Farnsworth/FunctionDispatch.pm \
-	  lib/Math/Farnsworth/Value/Pari.pm blib/lib/Math/Farnsworth/Value/Pari.pm \
-	  lib/Math/Farnsworth/Functions/GoogleTranslate.pm blib/lib/Math/Farnsworth/Functions/GoogleTranslate.pm \
-	  temp.pl $(INST_LIB)/Math/temp.pl \
-	  lib/Math/Farnsworth/Dimension.pm blib/lib/Math/Farnsworth/Dimension.pm \
-	  lib/Math/Farnsworth.pm blib/lib/Math/Farnsworth.pm \
-	  lib/Math/Farnsworth/Value/Boolean.pm blib/lib/Math/Farnsworth/Value/Boolean.pm \
-	  lib/Math/Farnsworth/Units/Currency.pm blib/lib/Math/Farnsworth/Units/Currency.pm \
-	  lib/Math/Farnsworth/Value.pm blib/lib/Math/Farnsworth/Value.pm \
-	  lib/Math/Farnsworth/Functions/StdMath.pm blib/lib/Math/Farnsworth/Functions/StdMath.pm \
-	  lib/Math/Farnsworth/Value/Date.pm blib/lib/Math/Farnsworth/Value/Date.pm \
-	  lib/Math/Farnsworth/Output.pm blib/lib/Math/Farnsworth/Output.pm \
-	  botriz.pl $(INST_LIB)/Math/botriz.pl \
-	  lib/Math/Farnsworth/Value/NewValue.pm blib/lib/Math/Farnsworth/Value/NewValue.pm \
-	  farnsworth.pl $(INST_LIB)/Math/farnsworth.pl 
+	  lib/Language/Farnsworth/Parser.pm blib/lib/Language/Farnsworth/Parser.pm \
+	  lib/Language/Farnsworth/Evaluate.pm blib/lib/Language/Farnsworth/Evaluate.pm \
+	  lib/Language/Farnsworth/Value/Boolean.pm.bak blib/lib/Language/Farnsworth/Value/Boolean.pm.bak \
+	  lib/Language/Farnsworth/Value/NewValue.pm blib/lib/Language/Farnsworth/Value/NewValue.pm \
+	  lib/Language/Farnsworth/Functions/Standard.pm.bak.bak blib/lib/Language/Farnsworth/Functions/Standard.pm.bak.bak \
+	  lib/Language/Farnsworth/Units/Standard.pm blib/lib/Language/Farnsworth/Units/Standard.pm \
+	  lib/Language/Farnsworth/Value/NewValue.pm.bak blib/lib/Language/Farnsworth/Value/NewValue.pm.bak \
+	  lib/Language/Farnsworth/Docs/Syntax.pm.bak blib/lib/Language/Farnsworth/Docs/Syntax.pm.bak \
+	  lib/Language/Farnsworth.pm blib/lib/Language/Farnsworth.pm \
+	  lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak.bak blib/lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak.bak \
+	  lib/Language/Farnsworth/Output.pm.bak blib/lib/Language/Farnsworth/Output.pm.bak \
+	  lib/Language/Farnsworth/Error.pm.bak blib/lib/Language/Farnsworth/Error.pm.bak \
+	  bot2.pl $(INST_LIB)/Language/bot2.pl \
+	  mgr.pl $(INST_LIB)/Language/mgr.pl \
+	  lib/Language/Farnsworth/Value/Array.pm.bak blib/lib/Language/Farnsworth/Value/Array.pm.bak \
+	  lib/Language/Farnsworth/Units/e.2mil blib/lib/Language/Farnsworth/Units/e.2mil \
+	  lib/Language/Farnsworth/Value/Date.pm.bak blib/lib/Language/Farnsworth/Value/Date.pm.bak \
+	  lib/Language/Farnsworth/Functions/GoogleTranslate.pm blib/lib/Language/Farnsworth/Functions/GoogleTranslate.pm \
+	  lib/Language/Farnsworth/Units/Pi10-6.html blib/lib/Language/Farnsworth/Units/Pi10-6.html \
+	  lib/Language/Farnsworth/Functions/Standard.pm blib/lib/Language/Farnsworth/Functions/Standard.pm \
+	  lib/Language/Farnsworth/Value/Date.pm blib/lib/Language/Farnsworth/Value/Date.pm \
+	  lib/Language/Farnsworth/Units/e.2mil.bak blib/lib/Language/Farnsworth/Units/e.2mil.bak \
+	  lib/Language/Farnsworth/Value/Lambda.pm blib/lib/Language/Farnsworth/Value/Lambda.pm \
+	  lib/Language/Farnsworth/Docs/Functions.pm.bak blib/lib/Language/Farnsworth/Docs/Functions.pm.bak \
+	  lib/Language/Farnsworth/Value_old.pm.bak blib/lib/Language/Farnsworth/Value_old.pm.bak \
+	  lib/Language/Farnsworth/Value_old.pm blib/lib/Language/Farnsworth/Value_old.pm \
+	  lib/Language/Farnsworth/Functions/StdMath.pm blib/lib/Language/Farnsworth/Functions/StdMath.pm \
+	  lib/Language/Farnsworth/Dimension.pm.bak blib/lib/Language/Farnsworth/Dimension.pm.bak \
+	  lib/Language/Farnsworth.pm.bak blib/lib/Language/Farnsworth.pm.bak \
+	  lib/Language/Farnsworth/Value/Pari.pm.bak blib/lib/Language/Farnsworth/Value/Pari.pm.bak \
+	  lib/Language/Farnsworth/Output.pm blib/lib/Language/Farnsworth/Output.pm \
+	  lib/Language/Farnsworth/Docs/Syntax.pm blib/lib/Language/Farnsworth/Docs/Syntax.pm \
+	  lib/Language/Farnsworth/Units.pm blib/lib/Language/Farnsworth/Units.pm \
+	  botriz.pl $(INST_LIB)/Language/botriz.pl \
+	  lib/Language/Farnsworth/Error.pm blib/lib/Language/Farnsworth/Error.pm \
+	  lib/Language/Farnsworth/FunctionDispatch.pm.bak blib/lib/Language/Farnsworth/FunctionDispatch.pm.bak 
+	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', '\''$(PM_FILTER)'\'')' -- \
+	  lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak blib/lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak \
+	  paritest.pl $(INST_LIB)/Language/paritest.pl \
+	  lib/Language/Farnsworth/Units/Standard.pm.bak blib/lib/Language/Farnsworth/Units/Standard.pm.bak \
+	  lib/Language/Farnsworth/Functions/StdMath.pm.bak.bak blib/lib/Language/Farnsworth/Functions/StdMath.pm.bak.bak \
+	  lib/Language/Farnsworth/Value.pm blib/lib/Language/Farnsworth/Value.pm \
+	  lib/Language/Farnsworth/Variables.pm blib/lib/Language/Farnsworth/Variables.pm \
+	  lib/Language/Farnsworth/Value/Undef.pm blib/lib/Language/Farnsworth/Value/Undef.pm \
+	  lib/Language/Farnsworth/Functions/Standard.pm.bak blib/lib/Language/Farnsworth/Functions/Standard.pm.bak \
+	  maukes.pl $(INST_LIB)/Language/maukes.pl \
+	  server.pl $(INST_LIB)/Language/server.pl \
+	  lib/Language/Farnsworth/Docs/Functions.pm blib/lib/Language/Farnsworth/Docs/Functions.pm \
+	  lib/Language/Farnsworth/Value/String.pm.bak blib/lib/Language/Farnsworth/Value/String.pm.bak \
+	  lib/Language/Farnsworth/Variables.pm.bak blib/lib/Language/Farnsworth/Variables.pm.bak \
+	  lib/Language/Farnsworth/Value.pm.bak blib/lib/Language/Farnsworth/Value.pm.bak \
+	  lib/Language/Farnsworth/Value/Undef.pm.bak blib/lib/Language/Farnsworth/Value/Undef.pm.bak \
+	  lib/Language/Farnsworth/Units/Currency.pm blib/lib/Language/Farnsworth/Units/Currency.pm \
+	  lib/Language/Farnsworth/Evaluate.pm.bak blib/lib/Language/Farnsworth/Evaluate.pm.bak \
+	  lib/Language/Farnsworth/Value/Pari.pm blib/lib/Language/Farnsworth/Value/Pari.pm \
+	  lib/Language/Farnsworth/Units/Pi10-6.html.bak blib/lib/Language/Farnsworth/Units/Pi10-6.html.bak \
+	  lib/Language/Farnsworth/Units.pm.bak blib/lib/Language/Farnsworth/Units.pm.bak \
+	  lib/Language/Farnsworth/Dimension.pm blib/lib/Language/Farnsworth/Dimension.pm \
+	  botmag.pl $(INST_LIB)/Language/botmag.pl \
+	  lib/Language/Farnsworth/Value/Boolean.pm blib/lib/Language/Farnsworth/Value/Boolean.pm \
+	  lib/Language/Farnsworth/Parser.pm.bak blib/lib/Language/Farnsworth/Parser.pm.bak \
+	  loadunits.pl $(INST_LIB)/Language/loadunits.pl \
+	  lib/Language/Farnsworth/Value/String.pm blib/lib/Language/Farnsworth/Value/String.pm \
+	  temp.pl $(INST_LIB)/Language/temp.pl \
+	  lib/Language/Farnsworth/Value/Array.pm blib/lib/Language/Farnsworth/Value/Array.pm \
+	  lib/Language/Farnsworth/Functions/StdMath.pm.bak blib/lib/Language/Farnsworth/Functions/StdMath.pm.bak \
+	  lib/Language/Farnsworth/Units/Currency.pm.bak blib/lib/Language/Farnsworth/Units/Currency.pm.bak \
+	  lib/Language/Farnsworth/Value/Lambda.pm.bak blib/lib/Language/Farnsworth/Value/Lambda.pm.bak \
+	  lib/Language/Farnsworth/FunctionDispatch.pm blib/lib/Language/Farnsworth/FunctionDispatch.pm \
+	  farnsworth.pl $(INST_LIB)/Language/farnsworth.pl 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
 

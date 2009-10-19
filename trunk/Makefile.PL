@@ -5,9 +5,9 @@ use warnings;
 
 use inc::Module::Install;
 
-name "Math-Farnsworth";
-all_from       'lib/Math/Farnsworth.pm';
-version_from "lib/Math/Farnsworth.pm";
+name "Language-Farnsworth";
+all_from       'lib/Language/Farnsworth.pm';
+version_from "lib/Language/Farnsworth.pm";
 license 'artistic';
 recommends 'REST::Google::Translate' => 0;
 recommends 'Finance::Currency::Convert::XE' => 0;

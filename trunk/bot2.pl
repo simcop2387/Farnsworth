@@ -55,7 +55,7 @@ sub _start {
             my $irc = $heap->{irc};
 
             $irc->plugin_add( 'CTCP' => POE::Component::IRC::Plugin::CTCP->new(
-                version => "Math::Farnsworth SVN",
+                version => "Language::Farnsworth SVN",
                 userinfo => "See simcop2387 for more info", 
             ));
             $irc->plugin_add( 'NickReclaim' => POE::Component::IRC::Plugin::NickReclaim->new( poll => 30 ) );

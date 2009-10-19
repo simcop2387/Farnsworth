@@ -13,15 +13,15 @@
 	    eval 'use Test::More; plan no_plan';
     }
 
-	  use_ok( 'Math::Farnsworth' ); use_ok('Math::Farnsworth::Value'); use_ok('Math::Farnsworth::Output');
+	  use_ok( 'Language::Farnsworth' ); use_ok('Language::Farnsworth::Value'); use_ok('Language::Farnsworth::Output');
   }
 
-require_ok( 'Math::Farnsworth' );
-require_ok( 'Math::Farnsworth::Value' );
-require_ok( 'Math::Farnsworth::Output' );
+require_ok( 'Language::Farnsworth' );
+require_ok( 'Language::Farnsworth::Value' );
+require_ok( 'Language::Farnsworth::Output' );
 
 my $hubert;
-lives_ok { $hubert = Math::Farnsworth->new();} 'Startup'; #will attempt to load everything, doesn't die if it fails though, need a way to check that!.
+lives_ok { $hubert = Language::Farnsworth->new();} 'Startup'; #will attempt to load everything, doesn't die if it fails though, need a way to check that!.
 
 my @tests = 
 (   

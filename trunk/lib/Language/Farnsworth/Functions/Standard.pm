@@ -1,10 +1,10 @@
-package Math::Farnsworth::Functions::Standard;
+package Language::Farnsworth::Functions::Standard;
 
 use strict;
 use warnings;
 
-use Math::Farnsworth::Value;
-use Math::Farnsworth::Error;
+use Language::Farnsworth::Value;
+use Language::Farnsworth::Error;
 use utf8;
 
 use Data::Dumper;
@@ -16,12 +16,12 @@ sub init
    my $env = shift;
 
    #i should really make some stuff to make this easier
-   #maybe some subs in Math::Farnsworth::Value that get exported
-   #my $array = new Math::Farnsworth::Value::Array([]);
-   #my $string = new Math::Farnsworth::Value::String("");
-   #my $lambda = new Math::Farnsworth::Value::Lambda();
-   #my $number = new Math::Farnsworth::Value::Pari(0);
-   #my $date = new Math::Farnsworth::Value::Date("today"); #create a date type for use
+   #maybe some subs in Language::Farnsworth::Value that get exported
+   #my $array = new Language::Farnsworth::Value::Array([]);
+   #my $string = new Language::Farnsworth::Value::String("");
+   #my $lambda = new Language::Farnsworth::Value::Lambda();
+   #my $number = new Language::Farnsworth::Value::Pari(0);
+   #my $date = new Language::Farnsworth::Value::Date("today"); #create a date type for use
     
    $env->eval("push{arr byref isa [], x isa ...} := {arr = arr + x};");
    $env->eval("unshift{arr byref isa [], x isa ...} := {arr =x+arr};");
@@ -78,7 +78,7 @@ sub dbgprint
 	print "DEBUGLOG: $string\n";
 	print $log "$string\n";
 
-	return Math::Farnsworth::Value::Pari->new(1);
+	return Language::Farnsworth::Value::Pari->new(1);
 }
 
 sub dbgbranch
@@ -88,7 +88,7 @@ sub dbgbranch
 
 	$eval->{dumpbranches} = 1-   $eval->{dumpbranches};
 
-	return Math::Farnsworth::Value::Pari->new($eval->{dumpbranches});
+	return Language::Farnsworth::Value::Pari->new($eval->{dumpbranches});
 }
 
 sub doerror
@@ -123,7 +123,7 @@ sub units
 
 	my $units = $input->getdimen();
 
-	return  Math::Farnsworth::Value::Pari->new(1.0, $units);
+	return  Language::Farnsworth::Value::Pari->new(1.0, $units);
 }
 
 sub setzone
@@ -141,7 +141,7 @@ sub setzone
 
 sub unit
 {
-	#args is... a Math::Farnsworth::Value array
+	#args is... a Language::Farnsworth::Value array
 	my ($args, $eval, $branches)= @_;
 	
 	#print Dumper($branches);
@@ -158,14 +158,14 @@ sub unit
 
 sub sort
 {
-	#args is... a Math::Farnsworth::Value array
+	#args is... a Language::Farnsworth::Value array
 	my ($args, $eval, $branches)= @_;
 
 	my $argcount = $args->getarray();
 
 	my $sortlambda;
 
-	if (ref($args->getarrayref()->[0]) eq "Math::Farnsworth::Value::Lambda")
+	if (ref($args->getarrayref()->[0]) eq "Language::Farnsworth::Value::Lambda")
 	{
 		$sortlambda = shift(@{$args->getarrayref});
 	}
@@ -189,7 +189,7 @@ sub sort
 		#we've been given a bunch of things, assume we need to sort them like that
 		push @sorts, $args->getarray();
 	}
-	elsif (($args->getarray() == 1) && (ref($args->getarrayref()->[0]) eq "Math::Farnsworth::Value::Array"))
+	elsif (($args->getarray() == 1) && (ref($args->getarrayref()->[0]) eq "Language::Farnsworth::Value::Array"))
 	{
 		#given an array as a second value, dereference it since its the only thing we've got
 		push @sorts, $args->getarrayref()->[0]->getarray();
@@ -205,12 +205,12 @@ sub sort
 	#print "SORT RETURNING!\n";
 	#print Dumper(\@rets);
 
-	return new Math::Farnsworth::Value::Array([@rets]);
+	return new Language::Farnsworth::Value::Array([@rets]);
 }
 
 sub push
 {
-	#args is... a Math::Farnsworth::Value array
+	#args is... a Language::Farnsworth::Value array
 	my ($args, $eval, $branches)= @_;
 	
 	if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{vars}->isvar($branches->[1][0][0])))
@@ -220,7 +220,7 @@ sub push
 
 	my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
 
-	unless (ref($arrayvar) eq "Math::Farnsworth::Value::Array")
+	unless (ref($arrayvar) eq "Language::Farnsworth::Value::Array")
 	{
 		die "First argument to push must be an array";
 	}
@@ -234,12 +234,12 @@ sub push
 
 	CORE::push @{$arrayvar->getarrayref()}, @input;
 
-	return new Math::Farnsworth::Value::Pari(0+@input); #returns number of items pushed
+	return new Language::Farnsworth::Value::Pari(0+@input); #returns number of items pushed
 }
 
 sub unshift
 {
-	#args is... a Math::Farnsworth::Value array
+	#args is... a Language::Farnsworth::Value array
 	my ($args, $eval, $branches)= @_;
 	
 	if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{vars}->isvar($branches->[1][0][0])))
@@ -249,7 +249,7 @@ sub unshift
 
 	my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
 
-	unless (ref($arrayvar) eq "Math::Farnsworth::Value::Array")
+	unless (ref($arrayvar) eq "Language::Farnsworth::Value::Array")
 	{
 		die "First argument to push must be an array";
 	}
@@ -263,12 +263,12 @@ sub unshift
 
 	CORE::unshift @{$arrayvar->getarrayref()}, @input;
 
-	return new Math::Farnsworth::Value::Pari(0+@input); 
+	return new Language::Farnsworth::Value::Pari(0+@input); 
 }
 
 sub pop
 {
-	#args is... a Math::Farnsworth::Value array
+	#args is... a Language::Farnsworth::Value array
 	my ($args, $eval, $branches)= @_;
 	
 	if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{vars}->isvar($branches->[1][0][0])))
@@ -278,7 +278,7 @@ sub pop
 
 	my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
 
-	unless (ref($arrayvar) eq "Math::Farnsworth::Value::Array")
+	unless (ref($arrayvar) eq "Language::Farnsworth::Value::Array")
 	{
 		die "Argument to pop must be an array";
 	}
@@ -292,7 +292,7 @@ sub pop
 
 sub shift
 {
-	#args is... a Math::Farnsworth::Value array
+	#args is... a Language::Farnsworth::Value array
 	my ($args, $eval, $branches)= @_;
 	
 	my $var = $eval->{vars}->getvar("arr");
@@ -307,7 +307,7 @@ sub shift
 
 	#my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
 
-	unless (ref($var) eq "Math::Farnsworth::Value::Array")
+	unless (ref($var) eq "Language::Farnsworth::Value::Array")
 	{
 		die "Argument to shift must be an array";
 	}
@@ -329,24 +329,24 @@ sub length
 
 	for my $arg (@argsarry)
 	{
-		if (ref($arg) eq "Math::Farnsworth::Value::Array")
+		if (ref($arg) eq "Language::Farnsworth::Value::Array")
 		{
-			CORE::push @rets, Math::Farnsworth::Value::Pari->new(scalar $arg->getarray());
+			CORE::push @rets, Language::Farnsworth::Value::Pari->new(scalar $arg->getarray());
 		}
-		elsif (ref($arg) eq "Math::Farnsworth::Value::String")
+		elsif (ref($arg) eq "Language::Farnsworth::Value::String")
 		{
-			CORE::push @rets, Math::Farnsworth::Value::Pari->new(length $arg->getstring());
+			CORE::push @rets, Language::Farnsworth::Value::Pari->new(length $arg->getstring());
 		}
 		else
 		{
 			#until i decide how this should work on regular numbers, just do this
-			CORE::push @rets, Math::Farnsworth::Value::Pari->new(0);
+			CORE::push @rets, Language::Farnsworth::Value::Pari->new(0);
 		}
 	}
 
 	if (@rets > 1)
 	{
-		return Math::Farnsworth::Value::Array->new(\@rets);
+		return Language::Farnsworth::Value::Array->new(\@rets);
 	}
 	else
 	{
@@ -364,13 +364,13 @@ sub reverse
 
 	for my $arg (reverse @argsarry) #this will make reverse[1,2,3,4] return [4,3,2,1]
 	{
-		if (ref($arg) eq "Math::Farnsworth::Value::Array")
+		if (ref($arg) eq "Language::Farnsworth::Value::Array")
 		{
-			CORE::push @rets, Math::Farnsworth::Value::Array->new([reverse $arg->getarray()]);
+			CORE::push @rets, Language::Farnsworth::Value::Array->new([reverse $arg->getarray()]);
 		}
-		elsif (ref($arg) eq "Math::Farnsworth::Value::String")
+		elsif (ref($arg) eq "Language::Farnsworth::Value::String")
 		{
-			CORE::push @rets, Math::Farnsworth::Value::String->new("".reverse($arg->getstring()));
+			CORE::push @rets, Language::Farnsworth::Value::String->new("".reverse($arg->getstring()));
 		}
 		else
 		{
@@ -380,7 +380,7 @@ sub reverse
 
 	if (@rets > 1)
 	{
-		return Math::Farnsworth::Value::Array->new(\@rets);
+		return Language::Farnsworth::Value::Array->new(\@rets);
 	}
 	else
 	{
@@ -394,12 +394,12 @@ sub substrlen
 	my ($args, $eval, $branches)= @_;
 	my @arg = $args->getarray();
 
-	if (ref $arg[0] eq "Math::Farnsworth::Value::String")
+	if (ref $arg[0] eq "Language::Farnsworth::Value::String")
 	{
 		#do i need to do something to convert these to work? (the 1,2 anyway?)
 		my $ns = substr($arg[0]->getstring(), $arg[1]->toperl(), $arg[2]->toperl());
 		#print "SUBSTR :: $ns\n";
-		return Math::Farnsworth::Value::String->new($ns);
+		return Language::Farnsworth::Value::String->new($ns);
 	}
 	else
 	{
@@ -415,7 +415,7 @@ sub ord
         my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
 	my $ns = ord($input->getstring()); 
-	return Math::Farnsworth::Value::Pari->new($ns);
+	return Language::Farnsworth::Value::Pari->new($ns);
 }
 
 sub chr
@@ -426,7 +426,7 @@ sub chr
         my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
 	my $ns = chr($input->toperl()); 
-	return Math::Farnsworth::Value::String->new($ns);
+	return Language::Farnsworth::Value::String->new($ns);
 }
 
 sub index
@@ -439,7 +439,7 @@ sub index
 	my $pos = $eval->{vars}->getvar("pos")->toperl();
 
 	my $ns = index $string, $substr, $pos; #substr($arg[0]{pari}, "".$arg[1]{pari}, "".$arg[2]{pari});
-	return Math::Farnsworth::Value::Pari->new($ns); #give string flag of 1, since we don't know what language is intended
+	return Language::Farnsworth::Value::Pari->new($ns); #give string flag of 1, since we don't know what language is intended
 }
 
 sub eval
@@ -448,7 +448,7 @@ sub eval
 	my ($args, $eval, $branches, $reval)= @_;
 	my $evalstr = $eval->{vars}->getvar("str")->getstring();
 
-#	my $nvars = new Math::Farnsworth::Variables($eval->{vars});
+#	my $nvars = new Language::Farnsworth::Variables($eval->{vars});
 #	my %nopts = (vars => $nvars, funcs => $eval->{funcs}, units => $eval->{units}, parser => $eval->{parser});
 #	my $neval = $eval->new(%nopts);
 

@@ -2,12 +2,12 @@
 
 use lib 'lib';
 
-use Math::Farnsworth;
-use Math::Farnsworth::Error;
+use Language::Farnsworth;
+use Language::Farnsworth::Error;
 
-$Math::Farnsworth::Error::level = 0;
+$Language::Farnsworth::Error::level = 0;
 
-my $farnsworth = new Math::Farnsworth;
+my $farnsworth = new Language::Farnsworth;
 print STDERR "DONE STARTING UP!\n";
 
 my $first = 1;
@@ -26,7 +26,7 @@ while(<>)
   my $out = $farnsworth->runString($file);
   my $output;
 
-   if (ref($out) eq "Math::Farnsworth::Output")
+   if (ref($out) eq "Language::Farnsworth::Output")
     {
       $output = "".$out;
     }

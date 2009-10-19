@@ -14,20 +14,20 @@ use HTTP::Status;
 use POE;
 use Encode;
 
-use Math::Farnsworth;
-use Math::Farnsworth::Error;
-use Math::Farnsworth::Units;
+use Language::Farnsworth;
+use Language::Farnsworth::Error;
+use Language::Farnsworth::Units;
 
 use utf8;
 
-$Math::Farnsworth::Error::level = 3; #get all debugging
+$Language::Farnsworth::Error::level = 3; #get all debugging
 
-my $farnsworth = new Math::Farnsworth;
+my $farnsworth = new Language::Farnsworth;
 $farnsworth->runFile("startups/startup.frns");
 $farnsworth->runFile("startups/combodefaults.frns");
 $farnsworth->runFile("startups/datable.frns");
 print "DONE STARTING UP!\n";
-$Math::Farnsworth::Units::lock = 1; #need better interface!
+$Language::Farnsworth::Units::lock = 1; #need better interface!
 
 my $aliases = POE::Component::Server::HTTP->new(
   Port => 8081,
@@ -66,7 +66,7 @@ sub runfarnsworth
     {
 	  	$output = $@;
     }
-    elsif (ref($out) eq "Math::Farnsworth::Output")
+    elsif (ref($out) eq "Language::Farnsworth::Output")
     {
       $output = "".$out;
     }

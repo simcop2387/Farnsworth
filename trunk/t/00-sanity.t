@@ -1,12 +1,12 @@
 #use Test::More tests => 23;
 use Test::More qw(no_plan);
 
-BEGIN { use_ok( 'Math::Farnsworth' ); use_ok('Math::Farnsworth::Value'); use_ok('Math::Farnsworth::Output');}
-require_ok( 'Math::Farnsworth' );
-require_ok( 'Math::Farnsworth::Value' );
-require_ok( 'Math::Farnsworth::Output' );
+BEGIN { use_ok( 'Language::Farnsworth' ); use_ok('Language::Farnsworth::Value'); use_ok('Language::Farnsworth::Output');}
+require_ok( 'Language::Farnsworth' );
+require_ok( 'Language::Farnsworth::Value' );
+require_ok( 'Language::Farnsworth::Output' );
 
-my $new = Math::Farnsworth->new(); #will attempt to load everything, doesn't die if it fails though, need a way to check that!.
+my $new = Language::Farnsworth->new(); #will attempt to load everything, doesn't die if it fails though, need a way to check that!.
 
 my $expected; 
 my $result = $new->runString("2+2");

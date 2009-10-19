@@ -2,9 +2,9 @@
 
 use lib 'lib';
 
-use Math::Farnsworth;
+use Language::Farnsworth;
 
-my $farnsworth = new Math::Farnsworth;
+my $farnsworth = new Language::Farnsworth;
 print "DONE STARTING UP!\n";
 
 
