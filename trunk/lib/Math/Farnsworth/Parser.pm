@@ -3420,6 +3420,7 @@ my $ws = qr/[^\S\n]/; #whitespace without the \n
 
 sub yylex
 	{
+	no warnings 'exiting';
 	my $line = $_[-2];
 	my $charline = $_[-1];
 	
@@ -3428,7 +3429,7 @@ sub yylex
 	{
 		$$line++;
 		$$charline = pos $s;
-		print "LEX: ${$line} ${$charline} || ".substr($s, $$charline, index($s, "\n", $$charline)-$$charline)."\n";
+		#print "LEX: ${$line} ${$charline} || ".substr($s, $$charline, index($s, "\n", $$charline)-$$charline)."\n";
 		redo
 	}
 	
@@ -3482,7 +3483,7 @@ sub yylexwatch
    my $pos = pos $s;
 
    #print Dumper(\@_);
-   print "LEX: ${$line} ${$charlines} $pos :: ".substr($s, $$charlines, $pos - $$charlines)."\n";
+   #print "LEX: ${$line} ${$charlines} $pos :: ".substr($s, $$charlines, $pos - $$charlines)."\n";
    #$charcount+=pos $s;
    #$s = substr($s, pos $s);
    return @r;
