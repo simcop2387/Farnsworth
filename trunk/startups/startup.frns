@@ -1,7 +1,7 @@
 dbgprint["------BOT START------"];
-source := "I'm on CPAN! see Math::Farnsworth there. you can also see the latest changes at svn co https://vdiddy.sexypenguins.com/subversion/frinkbot/modules";
-help := "see http://search.cpan.org/~SIMCOP/Math-Farnsworth-0.5.1/lib/Math/Farnsworth/Docs/Syntax.pm for an almost complete tutorial on my language!";
-bug := "think you found a bug? file it at http://farnsworth.sexypenguins.com/ OR send an email to farnsworth.rt@gmail.com";
+source := "I'm the latest and greatest version of farnsworth, you can find me at; git clone git://isuckatdomains.net/farnsworth.git";
+help := "I've got a number of experimental changes to the language, because of that i'm not very well documented";
+bug := "think you found a bug? file it at http://farnsworth.simcop2387.info/ OR send an email to farnsworth.rt@gmail.com";
 
 frozen := C[0];
 microwavetime{mass isa kg, end isa K, start = frozen isa K, watts = 1000W isa watt, sh = 1 calorie/gram/degC isa calorie/gram/degC} := (mass sh)(end - start)/watts -> "seconds";
