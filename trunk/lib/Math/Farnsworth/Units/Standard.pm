@@ -6,13 +6,20 @@ sub init
 {
 	my $env = shift;
 	
-	while(<DATA>)
+#	while(<DATA>)
+#	{
+#		$_=decode('UTF-8', $_); #fixes unicode variables
+#		chomp;
+#		s|//.*$||;
+#		s|\s*$||;
+#		$env->eval($_) if ($_ !~ /^\s*$/);
+#	}
+
 	{
-		$_=decode('UTF-8', $_); #fixes unicode variables
-		chomp;
-		s|//.*$||;
-		s|\s*$||;
-		$env->eval($_) if ($_ !~ /^\s*$/);
+		local $/;
+		undef $/;
+		my $data = <DATA>;
+		$env->eval($data);
 	}
 
 	close(DATA); #this helps prevent annoyces in error messages
@@ -864,7 +871,7 @@ zerocelsius := 273.15 K;      // Defined by the 10th CGPM, 1954, Resolution 3;
                              // and a degree Celsius are the same, but
                              // the zero point of the Celsius scale is actually
                              // set to .01 Kelvin below the triple point.
-                        
+
 
 degfahrenheit :=  (5/9) degC;   // The *size* of a degree in the Fahrenheit scale.
 degreeFahrenheit := degfahrenheit; // The *size* of a degree in the Fahrenheit scale.
@@ -1662,7 +1669,7 @@ plutoradius :=          1137. km;
 // in mapping.
 earthradius_equatorial :=   6378137. m;
 earthradius_polar :=        6356752.3142 m;
-earth_flattening :=         (earthradius_equatorial-earthradius_polar)/earthradius_equatorial
+earth_flattening :=         (earthradius_equatorial-earthradius_polar)/earthradius_equatorial;
                     // http://www.uwgb.edu/dutchs/UsefulData/UTMFormulas.HTM
                             // http://ssd.jpl.nasa.gov/phys_props_earth.html
 
@@ -2424,7 +2431,7 @@ K / W       ||| thermal_resistance;
 m K / W     ||| thermal_resistivity;
 
 // Term not defined by SI, somewhat questionable.  Used in building trade.
-W / (m^2 K) ||| thermal_conductance
+W / (m^2 K) ||| thermal_conductance;
 
 // Defined by the BIPM,
 //  http://www.bipm.org/pdf/si-brochure.pdf
@@ -3482,7 +3489,7 @@ rem :=                 1ee-2 Sv;     //   keV X-rays.  Different types of
 roentgen :=          258ee-6 C / kg; // Ionizing radiation that produces
                                     //   1 statcoulomb of charge in 1 cc of
                                     //   dry air at stp.
-rontgen :=             roentgen     // Sometimes it appears spelled this way
+rontgen :=             roentgen;     // Sometimes it appears spelled this way
 sievertunit :=         8.38 rontgen; // Unit of gamma ray dose delivered in one
                                     //   hour at a distance of 1 cm from a
                                     //   point source of 1 mg of radium

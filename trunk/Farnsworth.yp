@@ -22,6 +22,8 @@ use Data::Dumper; #boobs
 my $s;		# warning - not re-entrant
 my $fullstring;
 my $charcount;
+use warnings;
+use diagnostics;
 %}
 
 %%
