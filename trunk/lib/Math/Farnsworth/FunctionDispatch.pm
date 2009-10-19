@@ -151,7 +151,7 @@ sub callfunc
 
 	if (defined $self->{funcs}{$name}{parentscope})
 	{
-		print "PARENTSCOPE! ".$self->{funcs}{$name}{parentscope}{vars}."\n";
+		debug 2, "PARENTSCOPE! ".$self->{funcs}{$name}{parentscope}{vars}."\n";
 		$neval = $self->{funcs}{$name}{parentscope};
 		
 		my $nvars = new Math::Farnsworth::Variables($neval->{vars});

@@ -5,7 +5,7 @@ use lib 'lib';
 use Math::Farnsworth;
 use Math::Farnsworth::Error;
 
-$Math::Farnsworth::Error::level = 2;
+$Math::Farnsworth::Error::level = 0;
 
 my $farnsworth = new Math::Farnsworth;
 print STDERR "DONE STARTING UP!\n";

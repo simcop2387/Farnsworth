@@ -6,6 +6,7 @@ use warnings;
 use Math::Farnsworth::Dimension;
 use Math::Farnsworth::Value;
 use Carp;
+use Math::Farnsworth::Error;
 
 use Data::Dumper;
 
@@ -40,7 +41,7 @@ sub new
   my $branches = shift;
   my $outmagic = shift; #i'm still not sure on this one
 
-  warn "Need error checking in lambda creation!";
+  debug 5, "Need error checking in lambda creation!";
 
   my $self = {};
 

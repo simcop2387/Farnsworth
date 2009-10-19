@@ -9,6 +9,7 @@ use Math::Farnsworth::Value::Pari;
 use Math::Farnsworth::Value::Array;
 use Math::Farnsworth::Value::Lambda;
 use Math::Farnsworth::Value::Boolean;
+use Math::Farnsworth::Error;
 
 sub init
 {
@@ -259,7 +260,7 @@ sub int
 
 	my $e = PARI '0';
 	my $r = Math::Farnsworth::Value::Pari->new(Math::Pari::truncate($input->getpari(),$e), $input->getdimen());
-	print Data::Dumper->Dump([$r], ["\$r"]);
+	debug 5, Data::Dumper->Dump([$r], ["\$r"]);
 	return $r;
 }
 

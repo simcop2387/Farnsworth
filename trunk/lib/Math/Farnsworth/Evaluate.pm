@@ -76,7 +76,7 @@ sub new
 
 sub DESTROY
 {
-	debug 1,"SCOPE DIE: $_[0]";
+	debug 2,"SCOPE DIE: $_[0]";
 }
 
 sub eval
@@ -89,7 +89,7 @@ sub eval
 
 	my $tree = $self->{parser}->parse($code); #should i catch the exceptions here? dunno
 
-	print Dumper($tree);
+	debug 3, Dumper($tree);
 
     $self->evalbranch($tree);
 }
