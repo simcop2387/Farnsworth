@@ -292,60 +292,68 @@ sub evalbranch
 	}
 	elsif ($type eq "Store")
 	{
-		my $lvalue = $self->makevalue($branch->[0]);
 		my $value = $self->makevalue($branch->[1]);
+		my $lvalue = $self->makevalue($branch->[0]);
 		$return = $value; #make stores evaluate to the value on the right
 		#$self->{vars}->setvar($name, $value);
-		
+		$lvalue->{stored}++; #testing
 		my $cloned = $value->clone();
 		#warn "SETTING VALUES";
 		#warn Data::Dumper->Dump([$lvalue, $lvalue->getref(), $value, $cloned], [qw($lvalue \$ref $value $cloned)]);
-		${$lvalue->getref()} = $cloned;
+		$cloned->setref(\$cloned);
+		debug 2, "---STORE---\n",Data::Dumper->Dump([$lvalue, $value, $cloned, $lvalue->getref()],[qw(lvalue value cloned lvalref)]);
+		${$lvalue->{_ref}} = $cloned;
+		debug 2, "---STORE---\n",Data::Dumper->Dump([$lvalue, $value, $cloned, $lvalue->getref()],[qw(lvalue value cloned lvalref)]);
+#		eval {
+#			my $rrval = $self->makevalue($branch->[0]);
+#			debug 2, Data::Dumper->Dump([$rrval, $lvalue, $cloned], [qw(rrval lvalue cloned)]);
+#		}; #keep it from killing things ahead of time
+#		undef $@;
 	}
 	elsif ($type eq "StoreAdd")
 	{
-		my $lvalue = $self->makevalue($branch->[0]);
 		my $value = $self->makevalue($branch->[1]);
+		my $lvalue = $self->makevalue($branch->[0]);
 				
 		my $cloned = $value->clone();
 		$return = (${$lvalue->getref()} = $lvalue + $cloned);
 	}
 	elsif ($type eq "StoreSub")
 	{
-		my $lvalue = $self->makevalue($branch->[0]);
 		my $value = $self->makevalue($branch->[1]);
+		my $lvalue = $self->makevalue($branch->[0]);
 		
 		my $cloned = $value->clone();
 		$return = (${$lvalue->getref()} = $lvalue - $cloned);
 	}
 	elsif ($type eq "StoreDiv")
 	{
-		my $lvalue = $self->makevalue($branch->[0]);
 		my $value = $self->makevalue($branch->[1]);
+		my $lvalue = $self->makevalue($branch->[0]);
 		
 		my $cloned = $value->clone();
 		$return = (${$lvalue->getref()} = $lvalue / $cloned);
 	}
 	elsif ($type eq "StoreMul")
 	{
-		my $lvalue = $self->makevalue($branch->[0]);
 		my $value = $self->makevalue($branch->[1]);
+		my $lvalue = $self->makevalue($branch->[0]);
 		
 		my $cloned = $value->clone();
 		$return = (${$lvalue->getref()} = $lvalue * $cloned);
 	}
 	elsif ($type eq "StoreMod")
 	{
-		my $lvalue = $self->makevalue($branch->[0]);
 		my $value = $self->makevalue($branch->[1]);
+		my $lvalue = $self->makevalue($branch->[0]);
 	
 		my $cloned = $value->clone();
 		$return = (${$lvalue->getref()} = $lvalue % $cloned);
 	}
 	elsif ($type eq "StorePow")
 	{
-		my $lvalue = $self->makevalue($branch->[0]);
 		my $value = $self->makevalue($branch->[1]);
+		my $lvalue = $self->makevalue($branch->[0]);
 		
 		my $cloned = $value->clone();
 		$return = (${$lvalue->getref()} = $lvalue ** $cloned);
@@ -833,7 +841,7 @@ sub makevalue
 	}
 	elsif (ref($input) =~ /Language::Farnsworth::Value/)
 	{
-		warn "Got a Language::Farnsworth::Value::*, i PROBABLY shouldn't be getting these, i'm just going to let it fall through";
+		debug 5, "Got a Language::Farnsworth::Value::*, i PROBABLY shouldn't be getting these, i'm just going to let it fall through";
 		return $input;
 	}
 
