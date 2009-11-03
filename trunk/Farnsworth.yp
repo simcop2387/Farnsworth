@@ -148,6 +148,7 @@ value:	number
 	 |	singleval '@' array '$' %prec ARRAYFETCH { bless [ @_[1,3] ], 'ArrayFetch' }
 	 |	NAME			%prec NAME { bless [ $_[1] ], 'Fetch' }
 	 |   '[' array ']'              { $_[2] } 
+	 |   lambda
 	 ;
 
 parens:	'(' expr ')'	{ bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything correctly
@@ -175,7 +176,7 @@ exprnouminus:	singleval { $_[1] }
 	|   NAME ':-' expr		{ bless [ @_[1,3] ], 'SetPrefixAbrv' }
 	|	NAME '{' arglist '}' ':=' expr { bless [@_[1,3], (bless [$_[6]], 'Stmt')], 'FuncDef' }
 	|   NAME '{' arglist '}' ':=' '{' stma '}' { bless [@_[1,3,7]], 'FuncDef' } #i really want scoping here, should i do it?
-	|   lambda
+#	|   lambda #moved to singleval
 	|   expr '=>' expr {bless [@_[1,3]], 'LambdaCall'}
 #//	|   arrayfetchexpr '=' expr { bless [($_[1]->[0][0]), ($_[1]->[1]), $_[3]], 'ArrayStore' } #this may no longer be needed!
 	|   expr '->' expr  { bless [ @_[1,3]], 'Trans' }

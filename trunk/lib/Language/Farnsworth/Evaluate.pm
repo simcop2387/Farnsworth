@@ -301,9 +301,9 @@ sub evalbranch
 		#warn "SETTING VALUES";
 		#warn Data::Dumper->Dump([$lvalue, $lvalue->getref(), $value, $cloned], [qw($lvalue \$ref $value $cloned)]);
 		$cloned->setref(\$cloned);
-		debug 2, "---STORE---\n",Data::Dumper->Dump([$lvalue, $value, $cloned, $lvalue->getref()],[qw(lvalue value cloned lvalref)]);
+		debug 6, "---STORE---\n",Data::Dumper->Dump([$lvalue, $value, $cloned, $lvalue->getref()],[qw(lvalue value cloned lvalref)]);
 		${$lvalue->{_ref}} = $cloned;
-		debug 2, "---STORE---\n",Data::Dumper->Dump([$lvalue, $value, $cloned, $lvalue->getref()],[qw(lvalue value cloned lvalref)]);
+		debug 6, "---STORE---\n",Data::Dumper->Dump([$lvalue, $value, $cloned, $lvalue->getref()],[qw(lvalue value cloned lvalref)]);
 #		eval {
 #			my $rrval = $self->makevalue($branch->[0]);
 #			debug 2, Data::Dumper->Dump([$rrval, $lvalue, $cloned], [qw(rrval lvalue cloned)]);

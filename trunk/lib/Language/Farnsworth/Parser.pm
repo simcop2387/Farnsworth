@@ -581,13 +581,13 @@ sub new {
 		}
 	},
 	{#State 2
-		DEFAULT => -86
+		DEFAULT => -87
 	},
 	{#State 3
 		DEFAULT => -66
 	},
 	{#State 4
-		DEFAULT => -87
+		DEFAULT => -88
 	},
 	{#State 5
 		DEFAULT => -43
@@ -596,27 +596,29 @@ sub new {
 		DEFAULT => -11
 	},
 	{#State 7
-		DEFAULT => -73
+		DEFAULT => -74
 	},
 	{#State 8
 		ACTIONS => {
+			"{`" => 12,
 			'NAME' => 38,
-			'HEXNUMBER' => 18,
-			"(" => 17,
 			'DATE' => 3,
+			'STRING' => 23,
+			"(" => 17,
+			'HEXNUMBER' => 18,
 			"[" => 10,
-			'NUMBER' => 27,
-			'STRING' => 23
+			'NUMBER' => 27
 		},
 		GOTOS => {
 			'parens' => 7,
 			'singleval' => 37,
 			'number' => 21,
+			'lambda' => 22,
 			'value' => 14
 		}
 	},
 	{#State 9
-		DEFAULT => -76
+		DEFAULT => -77
 	},
 	{#State 10
 		ACTIONS => {
@@ -655,18 +657,20 @@ sub new {
 	},
 	{#State 11
 		ACTIONS => {
+			"{`" => 12,
 			'NAME' => 38,
-			'HEXNUMBER' => 18,
-			"(" => 17,
 			'DATE' => 3,
+			'STRING' => 23,
+			"(" => 17,
+			'HEXNUMBER' => 18,
 			"[" => 10,
-			'NUMBER' => 27,
-			'STRING' => 23
+			'NUMBER' => 27
 		},
 		GOTOS => {
 			'parens' => 7,
 			'singleval' => 42,
 			'number' => 21,
+			'lambda' => 22,
 			'value' => 14
 		}
 	},
@@ -686,7 +690,7 @@ sub new {
 		}
 	},
 	{#State 14
-		DEFAULT => -72
+		DEFAULT => -73
 	},
 	{#State 15
 		ACTIONS => {
@@ -735,7 +739,7 @@ sub new {
 		DEFAULT => -34
 	},
 	{#State 19
-		DEFAULT => -85
+		DEFAULT => -86
 	},
 	{#State 20
 		ACTIONS => {
@@ -743,6 +747,7 @@ sub new {
 			'DATE' => 3,
 			"[" => 10,
 			"--" => 51,
+			"{`" => 12,
 			'HEXNUMBER' => 18,
 			"(" => 17,
 			'STRING' => 23,
@@ -750,11 +755,12 @@ sub new {
 			'NUMBER' => 27,
 			'NAME' => 38
 		},
-		DEFAULT => -74,
+		DEFAULT => -75,
 		GOTOS => {
 			'parens' => 7,
 			'singleval' => 52,
 			'number' => 21,
+			'lambda' => 22,
 			'value' => 14
 		}
 	},
@@ -762,7 +768,7 @@ sub new {
 		DEFAULT => -65
 	},
 	{#State 22
-		DEFAULT => -92
+		DEFAULT => -71
 	},
 	{#State 23
 		DEFAULT => -67
@@ -774,18 +780,20 @@ sub new {
 	},
 	{#State 25
 		ACTIONS => {
+			"{`" => 12,
 			'NAME' => 38,
-			'HEXNUMBER' => 18,
-			"(" => 17,
 			'DATE' => 3,
+			'STRING' => 23,
+			"(" => 17,
+			'HEXNUMBER' => 18,
 			"[" => 10,
-			'NUMBER' => 27,
-			'STRING' => 23
+			'NUMBER' => 27
 		},
 		GOTOS => {
 			'parens' => 7,
 			'singleval' => 55,
 			'number' => 21,
+			'lambda' => 22,
 			'value' => 14
 		}
 	},
@@ -2586,7 +2594,7 @@ sub new {
 		}
 	},
 	{#State 107
-		DEFAULT => -71
+		DEFAULT => -72
 	},
 	{#State 108
 		ACTIONS => {
@@ -2646,7 +2654,7 @@ sub new {
 			"per" => 79,
 			"/" => 85
 		},
-		DEFAULT => -78
+		DEFAULT => -79
 	},
 	{#State 112
 		ACTIONS => {
@@ -2667,7 +2675,7 @@ sub new {
 			"/" => 85,
 			"<=>" => 88
 		},
-		DEFAULT => -83
+		DEFAULT => -84
 	},
 	{#State 113
 		ACTIONS => {
@@ -2731,7 +2739,7 @@ sub new {
 			"**" => 77,
 			"^" => 78
 		},
-		DEFAULT => -81
+		DEFAULT => -82
 	},
 	{#State 116
 		ACTIONS => {
@@ -3098,21 +3106,21 @@ sub new {
 			"per" => 79,
 			"/" => 85
 		},
-		DEFAULT => -77
+		DEFAULT => -78
 	},
 	{#State 132
 		ACTIONS => {
 			"**" => 77,
 			"^" => 78
 		},
-		DEFAULT => -75
+		DEFAULT => -76
 	},
 	{#State 133
 		ACTIONS => {
 			"**" => 77,
 			"^" => 78
 		},
-		DEFAULT => -82
+		DEFAULT => -83
 	},
 	{#State 134
 		ACTIONS => {
@@ -3123,7 +3131,7 @@ sub new {
 			"^" => 78,
 			"/" => 85
 		},
-		DEFAULT => -80
+		DEFAULT => -81
 	},
 	{#State 135
 		ACTIONS => {
@@ -3267,7 +3275,7 @@ sub new {
 			"**" => 77,
 			"^" => 78
 		},
-		DEFAULT => -79
+		DEFAULT => -80
 	},
 	{#State 141
 		ACTIONS => {
@@ -3396,7 +3404,7 @@ sub new {
 			"=" => 87,
 			"<=>" => 88
 		},
-		DEFAULT => -88
+		DEFAULT => -89
 	},
 	{#State 145
 		ACTIONS => {
@@ -3476,7 +3484,7 @@ sub new {
 			"=" => 87,
 			"<=>" => 88
 		},
-		DEFAULT => -89
+		DEFAULT => -90
 	},
 	{#State 149
 		ACTIONS => {
@@ -3827,7 +3835,7 @@ sub new {
 			"/" => 85,
 			"<=>" => 88
 		},
-		DEFAULT => -84
+		DEFAULT => -85
 	},
 	{#State 172
 		ACTIONS => {
@@ -3940,7 +3948,7 @@ sub new {
 			"=" => 87,
 			"<=>" => 88
 		},
-		DEFAULT => -90
+		DEFAULT => -91
 	},
 	{#State 176
 		ACTIONS => {
@@ -3997,7 +4005,7 @@ sub new {
 		DEFAULT => -17
 	},
 	{#State 180
-		DEFAULT => -91
+		DEFAULT => -92
 	}
 ],
                                   yyrules  =>
@@ -4405,82 +4413,82 @@ sub
 { $_[2] }
 	],
 	[#Rule 71
-		 'parens', 3,
-sub
-#line 153 "Farnsworth.yp"
-{ bless [$_[2]], 'Paren' }
+		 'value', 1, undef
 	],
 	[#Rule 72
-		 'singleval', 1, undef
+		 'parens', 3,
+sub
+#line 154 "Farnsworth.yp"
+{ bless [$_[2]], 'Paren' }
 	],
 	[#Rule 73
 		 'singleval', 1, undef
 	],
 	[#Rule 74
-		 'exprnouminus', 1,
-sub
-#line 160 "Farnsworth.yp"
-{ $_[1] }
+		 'singleval', 1, undef
 	],
 	[#Rule 75
-		 'exprnouminus', 3,
+		 'exprnouminus', 1,
 sub
 #line 161 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Pow' }
+{ $_[1] }
 	],
 	[#Rule 76
-		 'exprnouminus', 1, undef
-	],
-	[#Rule 77
 		 'exprnouminus', 3,
 sub
-#line 163 "Farnsworth.yp"
-{ bless [ @_[1,3]], 'Add' }
+#line 162 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'Pow' }
+	],
+	[#Rule 77
+		 'exprnouminus', 1, undef
 	],
 	[#Rule 78
 		 'exprnouminus', 3,
 sub
 #line 164 "Farnsworth.yp"
-{ bless [ @_[1,3]], 'Sub' }
+{ bless [ @_[1,3]], 'Add' }
 	],
 	[#Rule 79
 		 'exprnouminus', 3,
 sub
 #line 165 "Farnsworth.yp"
-{ bless [ @_[1,3], '/'], 'Div' }
+{ bless [ @_[1,3]], 'Sub' }
 	],
 	[#Rule 80
 		 'exprnouminus', 3,
 sub
 #line 166 "Farnsworth.yp"
-{ bless [ @_[1,3], 'per' ], 'Div' }
+{ bless [ @_[1,3], '/'], 'Div' }
 	],
 	[#Rule 81
 		 'exprnouminus', 3,
 sub
 #line 167 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Mod' }
+{ bless [ @_[1,3], 'per' ], 'Div' }
 	],
 	[#Rule 82
 		 'exprnouminus', 3,
 sub
 #line 168 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Pow' }
+{ bless [ @_[1,3] ], 'Mod' }
 	],
 	[#Rule 83
 		 'exprnouminus', 3,
 sub
 #line 169 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Conforms' }
+{ bless [ @_[1,3] ], 'Pow' }
 	],
 	[#Rule 84
-		 'exprnouminus', 5,
+		 'exprnouminus', 3,
 sub
 #line 170 "Farnsworth.yp"
-{ bless [@_[1,3,5]], 'Ternary' }
+{ bless [ @_[1,3] ], 'Conforms' }
 	],
 	[#Rule 85
-		 'exprnouminus', 1, undef
+		 'exprnouminus', 5,
+sub
+#line 171 "Farnsworth.yp"
+{ bless [@_[1,3,5]], 'Ternary' }
 	],
 	[#Rule 86
 		 'exprnouminus', 1, undef
@@ -4489,42 +4497,42 @@ sub
 		 'exprnouminus', 1, undef
 	],
 	[#Rule 88
-		 'exprnouminus', 3,
-sub
-#line 174 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'SetPrefix' }
+		 'exprnouminus', 1, undef
 	],
 	[#Rule 89
 		 'exprnouminus', 3,
 sub
 #line 175 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'SetPrefixAbrv' }
+{ bless [ @_[1,3] ], 'SetPrefix' }
 	],
 	[#Rule 90
-		 'exprnouminus', 6,
+		 'exprnouminus', 3,
 sub
 #line 176 "Farnsworth.yp"
-{ bless [@_[1,3], (bless [$_[6]], 'Stmt')], 'FuncDef' }
+{ bless [ @_[1,3] ], 'SetPrefixAbrv' }
 	],
 	[#Rule 91
-		 'exprnouminus', 8,
+		 'exprnouminus', 6,
 sub
 #line 177 "Farnsworth.yp"
-{ bless [@_[1,3,7]], 'FuncDef' }
+{ bless [@_[1,3], (bless [$_[6]], 'Stmt')], 'FuncDef' }
 	],
 	[#Rule 92
-		 'exprnouminus', 1, undef
+		 'exprnouminus', 8,
+sub
+#line 178 "Farnsworth.yp"
+{ bless [@_[1,3,7]], 'FuncDef' }
 	],
 	[#Rule 93
 		 'exprnouminus', 3,
 sub
-#line 179 "Farnsworth.yp"
+#line 180 "Farnsworth.yp"
 {bless [@_[1,3]], 'LambdaCall'}
 	],
 	[#Rule 94
 		 'exprnouminus', 3,
 sub
-#line 181 "Farnsworth.yp"
+#line 182 "Farnsworth.yp"
 { bless [ @_[1,3]], 'Trans' }
 	],
 	[#Rule 95
@@ -4536,7 +4544,7 @@ sub
 	[#Rule 97
 		 'expr', 2,
 sub
-#line 188 "Farnsworth.yp"
+#line 189 "Farnsworth.yp"
 { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' }
 	]
 ],
@@ -4544,7 +4552,7 @@ sub
     bless($self,$class);
 }
 
-#line 190 "Farnsworth.yp"
+#line 191 "Farnsworth.yp"
 
 
 #helpers!

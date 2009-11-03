@@ -12,6 +12,8 @@ use HTML::Entities;
 
 use Encode;
 
+our $VERSION = "0.9.0";
+
 #note that this is fairly C<en> centric!
 
 my $defaultcode = "en";
