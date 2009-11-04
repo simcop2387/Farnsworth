@@ -13,7 +13,6 @@ lib/Language/Farnsworth/Docs/Functions.pm
 lib/Language/Farnsworth/Docs/Syntax.pm
 lib/Language/Farnsworth/Evaluate.pm
 lib/Language/Farnsworth/FunctionDispatch.pm
-lib/Language/Farnsworth/Functions/GoogleTranslate.pm
 lib/Language/Farnsworth/Functions/Standard.pm
 lib/Language/Farnsworth/Functions/StdMath.pm
 lib/Language/Farnsworth/Output.pm

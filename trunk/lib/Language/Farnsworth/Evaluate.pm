@@ -496,7 +496,7 @@ sub evalbranch
 			push @$vargs, [$name, $default, $constraint, $reference];
 		}
 
-		$return = new Language::Farnsworth::Value::Lambda($scope, $args, $code, $branch);
+		$return = new Language::Farnsworth::Value::Lambda($scope, $vargs, $code, $branch);
 	}
 	elsif ($type eq "LambdaCall")
 	{		

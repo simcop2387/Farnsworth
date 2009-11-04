@@ -1,0 +1,4 @@
+#!./farnsworth.pl
+
+var primes=[]; var n=6785612387; var i=999; while(i++ < 9999) {var q=n*10000+i; dbgprint[q]; dbgprint[i]; if (isprime[i] && isprime[q]) {push[primes, i]}};
+[primes, i]
