@@ -760,8 +760,8 @@ sub evalbranch
 
 sub makevalue
 {
-	my $self = shift;
-	my $input = shift;
+	my $self = $_[0];
+	my $input = $_[1]; #switching from shift here, so that i can keep @_ intact for recursing
 
 #	print "MAKEVALUE---------\n";
 #	print Dumper($input);
@@ -845,7 +845,8 @@ sub makevalue
 		return $input;
 	}
 
-	return $self->evalbranch($input);
+	#return $self->evalbranch($input);
+	goto &evalbranch; #EVIL GOTO! but might save a stack frame! OMG!
 }
 
 1;
