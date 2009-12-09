@@ -21,8 +21,8 @@ $password=$ARGV[0] if @ARGV;
 # with all known options
 my $bot = POE::Component::IRC->spawn(
 
-           server => "andromeda128",
-           port   => "6668",
+           server => "irc.rizon.net",
+           port   => "6667",
            nick      => "farnsworth",
            username  => "farnsworthriz",
            name      => "Hubert J. Farnsworth",

@@ -151,7 +151,7 @@ sub comfuck
   my ($sender, $kernel, $heap) = @_[SENDER, KERNEL, HEAP];
 
   my $d = $heap->{irc}->server_name();
-  $heap->{irc}->yield( quote => "PONG $d\n");
+#  $heap->{irc}->yield( quote => "PONG $d\n");
   $kernel->delay_add(comfuck => 50);
 }
 
