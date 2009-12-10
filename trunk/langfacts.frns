@@ -1,0 +1,76 @@
+#!./farnsworth.pl
+
+newhash{} := {
+{`` 
+        var store=[]; 
+        var names=[]; 
+
+        var findname={`x` 
+                var i=-1; 
+                var ret=-1; 
+                while((i=i+1) < length[names]) {if ((names@i$ conforms x) && (names@i$ == x)) {ret = i}}; 
+                ret}; 
+
+        var getval={`x` 
+                var ind=(findname)*[x];
+                dbgprint["x = $x", "ind = $ind"];
+                if (ind==-1)
+                {setval[x, undef]; ind = (findname)*[x]};
+                store@ind$
+        }; 
+
+        var setval = {`x, val` 
+                        var ind=(findname)*[x];
+                        dbgprint["SETVAL: x = $x ind = $ind"];
+                        if (ind==-1) 
+                        {push[names,x]; push[store,val]; val} 
+                        else 
+                        {store@ind$ = val; val};
+                }; 
+
+        var t = {`x, val isa ...` 
+                        if ((x conforms "") && (x == "__keys"))
+                        {
+                          names+[]
+                        }
+                        else
+                        {
+                                if ((x conforms "") && (x == "__values"))
+                                {
+                                        store+[]
+                                }
+                                else
+                                {
+                                        if (length[val] == 0 ) 
+                                        {getval[x]} 
+                                        else 
+                                        {setval[x, val@0$]}
+                                }
+                        }
+                };
+
+} [];
+};
+
+tolang{text isa "", lang isa ""} := {eval["$text -> "+lang]};
+
+var specialmessage=newhash[];
+
+specialmessage["Portuguese"] = "Please try #perl.br";
+specialmessage["Italian"] = "Please try #perl.it";
+specialmessage["Korean"] = "Please try #perl-kr";
+specialmessage["Chinese"] = "Please try #perl.tw" /*that one should be for taiwan*/;
+specialmessage["French"] = "Please try #perlfr";
+//var q=specialmessage["__values"];
+//error["$q"];
+
+var languages = ["Albanian" , "Arabic" , "Bulgarian" , "Catalan" , "Chinese" , "Croatian" , "Czech" , "Danish" , "Dutch" , "English" , "Estonian" , "Filipino" , "Finnish" , "French" , "Galician" , "German" , "Greek" , "Hebrew" , "Hindi" , "Hungarian" , "Indonesian" , "Italian" , "Japanese" , "Korean" , "Latvian" , "Lithuanian" , "Maltese" , "Norwegian" , "Polish" , "Portuguese" , "Romanian" , "Russian" , "Serbian" , "Slovak" , "Slovenian" , "Spanish" , "Swedish" , "Thai" , "Turkish" , "Ukrainian" , "Vietnamese"];
+var translations = map[{`language` var message="Unfortunately there is no one that speaks "+language+" currently.  "; if (specialmessage[language] conforms "") {message=message+specialmessage[language]}; "speak-"+language+" is "+tolang[message, language]}, languages];
+
+var trans2=map[{`x` x}, translations];
+var end = "";
+while(length[trans2] > 0)
+{
+  end = end +chr[10]+ pop[trans2];
+};
+error[end]
