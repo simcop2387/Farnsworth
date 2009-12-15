@@ -1,11 +1,3 @@
-Warnings:
----------
-Unused terminals:
-
-	FUNCCALL, declared line 18
-	IFNONL, declared line 14
-
-
 Conflicts:
 ----------
 Conflict in state 35 between rule 97 and token '-' resolved as reduce.

@@ -11,11 +11,10 @@
 %left '+' '-'
 %left 'per'
 %left '*' '/' '%' ' ' IMPLICIT
-%left UMINUS IFNONL
+%left UMINUS
 %left NAME
 %right '^' '**'
 %nonassoc '++' '--'
-%right FUNCCALL
 %right DECLAREVAR
 
 %{
