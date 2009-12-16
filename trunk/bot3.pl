@@ -170,15 +170,20 @@ sub irc_msg
 sub tock
 {
   my ($sender, $kernel, $heap) = @_[SENDER, KERNEL, HEAP];
+  my @bots = keys %{$heap->{bots}};
 
-  my $np = $heap->{queue}->get_next_priority();
- 
-  if ((defined($np)) && (time() - $heap->{lastsend} > 3))
+  for my $bot (@bots)
   {
-	my ($priority, $queue_id, $payload) = $heap->{queue}->dequeue_next();
-	print "TOCK: $priority, $queue_id\n";
-	$heap->{irc}->yield( privmsg => $payload->[0] => $payload->[1] );
-	$heap->{lastsend} = time();
+     my $myself = $heap->{bots}{$bot};
+     my $np = $myself->{queue}->get_next_priority();
+
+	 if ((defined($np)) && (time() - $myself->{lastsend} > 3))
+	 {
+	   my ($priority, $queue_id, $payload) = $myself->{queue}->dequeue_next();
+	   print "TOCK: $priority, $queue_id\n";
+	   $myself->{irc}->yield( privmsg => $payload->[0] => $payload->[1] );
+	   $myself->{lastsend} = time();
+     }
   }
 
   $kernel->delay_add(tock=>0.5);
