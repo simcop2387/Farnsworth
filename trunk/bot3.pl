@@ -15,77 +15,113 @@ use URI::Escape;
 use Math::BigFloat;
 use Encode;
 
-my $password;
-$password=$ARGV[0] if @ARGV;
-
-# with all known options
-my $bot = POE::Component::IRC->spawn(
-
-           server => "andromeda128",
-           port   => "6668",
-           nick      => "cubert",
-           username  => "cubert",
-           name      => "Cubert Farnsworth",
-           password  => "cubert",
-
-           charset => "utf-8", # charset the bot assumes the channel is using
-
-         );
+#i should really move this to an external config
+my $bots = {
+	cubert => {
+		poe => {
+			server => "andromeda128",
+			port => 6668,
+			nick => "cubert",
+			username => "cubert",
+			ircname => "Cubert Farnsworth",
+			password => "cubert",
+			charset => "utf-8",
+			},
+		url => "http://127.0.0.1:8081/",
+		channels => ["#yapb", "#buubot", "#perlcafe", "##turtles"],
+	},
+	farnsworth => {
+		poe => {
+			server => "andromeda128",
+			port => 6668,
+			nick => "farnsworth",
+			username => "farnsworth",
+			ircname => "Hubert J. Farnsworth",
+			password => "farnsworth",
+			charset => "utf-8",
+			},
+		url => "http://127.0.0.1:8080/",
+		channels => ["#yapb", "#buubot", "#perlcafe", "##turtles"],
+	},
+	farnsworthriz => {
+		poe => {
+			server => "andromeda128",
+			port => 6668,
+			nick => "farnsworth",
+			username => "farnsworth",
+			ircname => "Hubert J. Farnsworth",
+			password => "farnsworth",
+			charset => "utf-8",
+			},
+		url => "http://127.0.0.1:8080/",
+		channels => ["#yapb", "#buubot", "#perlcafe", "##turtles"],
+	},
+}
 
 my @ignore = qw(ChanServ GumbyBRAIN perlbot buubot frogbot NickServ *status);
-
-#channels => ["#yapb", "#buubot", "#perl", "#codeyard"],
-#           alt_nicks => [map {"farnsworth".$_} 2..100],
 
 my $queue = POE::Queue::Array->new();
 
 POE::Session->create(
   package_states => 
     [
-      main => [ qw(_start irc_001 irc_public irc_msg tock comfuck) ],
+      main => [ qw(_start irc_001 irc_public irc_msg tock) ],
 	],
-    heap => { irc => $bot, queue => $queue, lastsend=>time()},);
+    heap => { _config => $bots, bots => {}, irc => $bot, queue => {}, lastsend=>time()},);
 
 POE::Kernel->run();
 
 sub _start {
             my $heap = $_[HEAP];
+			my $config = $heap->{_config};
 
-            # retrieve our component's object from the heap where we stashed it
-            my $irc = $heap->{irc};
+			for my $bot (keys %$config)
+			{
+				#create new IRC object from the config
+				my $irc = POE::Component::IRC->spawn(%{$config->{$bot}{poe}});
+				
+				#fill out the heap
+				$heap->{bots}{$irc}{id} = $bot;
+				$heap->{bots}{$irc}{conf} = $config->{$bot};
+				$heap->{bots}{$irc}{queue} = POE::Queue::Array->new();
+				$heap->{bots}{$irc}{lastsend} = time();
+				$heap->{bots}{$irc}{irc} = $irc;
 
-            $irc->plugin_add( 'CTCP' => POE::Component::IRC::Plugin::CTCP->new(
-                version => "Language::Farnsworth SVN",
-                userinfo => "See simcop2387 for more info", 
-            ));
-            $irc->plugin_add( 'NickReclaim' => POE::Component::IRC::Plugin::NickReclaim->new( poll => 30 ) );
-            $irc->plugin_add( 'NickServID', POE::Component::IRC::Plugin::NickServID->new(
-                Password => $password,
-            )) if $password;
+				$irc->plugin_add( 'CTCP' => POE::Component::IRC::Plugin::CTCP->new(
+	                version => "Language::Farnsworth SVN",
+					userinfo => "See simcop2387 for more info", 
+				));
+				$irc->plugin_add( 'NickReclaim' => POE::Component::IRC::Plugin::NickReclaim->new( poll => 30 ) );
+#need an external config for this to start again
+#				$irc->plugin_add( 'NickServID', POE::Component::IRC::Plugin::NickServID->new(
+#	                Password => $password,
+#				)) if $password;
 
-            $irc->yield( register => 'all' );
-            $irc->yield( connect => { } );
+	            $irc->yield( register => 'all' );
+				$irc->yield( connect => { } );
+			}
 
+            $kernel->delay_add(tock=>0.5); #tock sends out messages from the queues
             return;
 }
 
 sub irc_001 {
             my $sender = $_[SENDER];
 			my $kernel = $_[KERNEL];
+			my $heap = $_[HEAP];
 
             # Since this is an irc_* event, we can get the component's object by
             # accessing the heap of the sender. Then we register and connect to the
             # specified server.
             my $irc = $sender->get_heap();
+			my @channels = @{$heap->{bots}{$irc}{conf}{channels}};
 
-            print "Connected to ", $irc->server_name(), "\n";
+            print "Connected ", $heap->{bots}{$irc}{id}, " to ", $irc->server_name(), "\n";
 
             # we join our channels
-            $irc->yield( join => $_ ) for ("#yapb", "#buubot", "#perlcafe", "##turtles");
-            $kernel->delay_add(tock=>0.5);
-            $kernel->delay_add(comfuck=>50);
+            $irc->yield( join => $_ ) for (@channels);
 
-            $irc->yield(nick => "cubert");
+            $irc->yield(nick => $heap->{bots}{$irc}{conf}{poe}{nick});
 }
 
 sub _ignore
@@ -99,23 +135,17 @@ sub irc_public
   my ($sender, $who, $where, $what, $heap) = @_[SENDER, ARG0 .. ARG2, HEAP];
   my $nick = ( split /!/, $who )[0];
   my $channel = $where->[0];
-
-  print Dumper($who);
+  my $irc = $sender->get_heap();
+  my $myself = $heap->{bots}{$irc};
+  my $mynick = $myself->{poe}{nick};
+ 
   return if _ignore($nick);
-  return if ($what =~ /^cubert\+\+/);
+  return if ($what =~ /^$mynick\+\+/);
 
-  if (my ($equation) = $what =~ /^cubert[[:punct:]]\s*(.*)$/i)
+  #+|- is because of shitty freenode shit
+  if (my ($equation) = $what =~ /^(?:\+|\-)?$mynick[[:punct:]]\s*(.*)$/i)
   {
-    my $response = submitform($equation, "chan");	
-	my @lines = messagebreak($response); #this should really never be needed, but is here so that its consistent
-	
-	my $pd = getpristart($heap->{queue}, $channel);
-
-	for my $p (0..$#lines)
-	{
-		$heap->{queue}->enqueue($p+$pd, [$channel, "$nick: $lines[$p]"]);
-	}
-	#$heap->{irc}->yield( privmsg => $channel => "$nick: $response" );
+	#this needs to go to the new PoCo::Client::HTTP!
   }
 }
 
@@ -124,35 +154,17 @@ sub irc_msg
   my ($sender, $who, $where, $what, $heap) = @_[SENDER, ARG0 .. ARG2, HEAP];
   my $nick = ( split /!/, $who )[0];
   my $channel = $where->[0];
-
-  print "PRIVMSG $nick: $what\n";
+  my $irc = $sender->get_heap();
+  my $myself = $heap->{bots}{$irc};
+  my $mynick = $myself->{poe}{nick};
 
   return if _ignore($nick);
   return if ($what =~ /nknown command \[\] try 'Help'/);
 
   if (my $equation = $what)
   {
-    my $response = submitform($equation, "msg");	
-	my @lines = messagebreak($response);
-
-    my $pd = getpristart($heap->{queue}, $nick);
-
-	for my $p (0..$#lines)
-	{
-	    print "LINE: $lines[$p]\n";
-		$heap->{queue}->enqueue($p+$pd, [$nick, $p == $#lines?"$lines[$p]":"$lines[$p] .."]);
-	}
-#	$heap->{irc}->yield( privmsg => $nick => "$response" );
+    #this needs the new PoCo::Client::HTTP!
   }
-}
-
-sub comfuck
-{
-  my ($sender, $kernel, $heap) = @_[SENDER, KERNEL, HEAP];
-
-  my $d = $heap->{irc}->server_name();
-#  $heap->{irc}->yield( quote => "PONG $d\n");
-  $kernel->delay_add(comfuck => 50);
 }
 
 sub tock
@@ -243,45 +255,4 @@ sub getpristart
 
    $max ||= 0; #make sure its a numba!
    return $max+1; 
-}
-
-sub submitform
-{
-  my $eq = shift;
-  my $ad = shift;
-
-  #set the escape for \cpn to be newline
-  $eq =~ s/(\cp|\\cp)n/\n/g;
-
-  $eq = uri_escape($eq);
-
-  my $url="http://localhost:8081/$eq";
-
-  print "URL: $url\n";
-
-  my $ua = WWW::Mechanize->new(agent => "irc://irc.freenode.net/perl frinkbot madeby simcop2387");
-  
-  my $resp = $ua->get($url);
-
-  if ($resp->is_success)
-  {
-    my $q = $ua->content();
-    $q = decode("UTF-8", $q);
-
-    #these MAY dissappear!
-    $q =~ s/\n/ /g; #filter a few annoying things
-    $q =~ s/\s{2,}/ /g;
-
-    if ((length $q > 320) && $ad ne "msg")
-    {
-      $q = "".(substr $q, 0, 320) . ".... tl;dr, use /msg";
-      $q =~ s/\n//g; #tr probably faster, but who cares
-    }
-
-    return $q;
-  }
-  else
-  {
-    return "OH DEAR GOD NO! ".$resp->status_line;
-  }
 }
