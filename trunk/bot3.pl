@@ -29,7 +29,7 @@ my $bots = {
 #			password => "cubert",
 			charset => "utf-8",
 			},
-		url => "http://127.0.0.1:8081",
+		url => "http://simcop2387.info:8081",
 		channels => ["#yapb", "#buubot", "#perlcafe", "##turtles"],
 	},
 	farnsworth => {
@@ -42,7 +42,7 @@ my $bots = {
 #			password => "farnsworth",
 			charset => "utf-8",
 			},
-		url => "http://127.0.0.1:8080",
+		url => "http://simcop2387.info:8080",
 		channels => ["#yapb", "#buubot", "#perlcafe", "##turtles"],
 	},
 	farnsworthriz => {
@@ -55,8 +55,8 @@ my $bots = {
 #			password => "farnsworth",
 			charset => "utf-8",
 			},
-		url => "http://127.0.0.1:8080",
-		channels => ["#DCTV"],
+		url => "http://simcop2387.info:8080",
+		channels => ["#dctv", "#dctp", "#uc-fansubs", "#yami", "#azfs", "#kienai"],
 	},
 };
 
