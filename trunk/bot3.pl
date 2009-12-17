@@ -15,18 +15,18 @@ use HTTP::Request;
 use HTTP::Response;
 use URI::Escape;
 use Math::BigFloat;
-#use Encode;
+use Encode;
 
 #i should really move this to an external config
 my $bots = {
 	cubert => {
 		poe => {
-			server => "andromeda128",
-			port => 6668,
+			server => "irc.freenode.net",
+#			port => 6668,
 			nick => "cubert",
 			username => "cubert",
 			ircname => "Cubert Farnsworth",
-			password => "cubert",
+#			password => "cubert",
 			charset => "utf-8",
 			},
 		url => "http://127.0.0.1:8081",
@@ -34,12 +34,12 @@ my $bots = {
 	},
 	farnsworth => {
 		poe => {
-			server => "andromeda128",
-			port => 6668,
+			server => "irc.freenode.net",
+#			port => 6668,
 			nick => "farnsworth",
 			username => "farnsworth",
 			ircname => "Hubert J. Farnsworth",
-			password => "farnsworth",
+#			password => "farnsworth",
 			charset => "utf-8",
 			},
 		url => "http://127.0.0.1:8080",
@@ -47,16 +47,16 @@ my $bots = {
 	},
 	farnsworthriz => {
 		poe => {
-			server => "andromeda128",
-			port => 6668,
+			server => "irc.rizon.net",
+#			port => 6668,
 			nick => "farnsworth",
 			username => "farnsworth",
 			ircname => "Hubert J. Farnsworth",
-			password => "farnsworth",
+#			password => "farnsworth",
 			charset => "utf-8",
 			},
 		url => "http://127.0.0.1:8080",
-		channels => ["#yapb", "#buubot", "#perlcafe", "##turtles"],
+		channels => ["#DCTV"],
 	},
 };
 
@@ -144,7 +144,7 @@ sub irc_public
   my $channel = $where->[0];
   my $irc = $sender->get_heap();
   my $myself = $heap->{bots}{$irc};
-  my $mynick = $myself->{poe}{nick};
+  my $mynick = $irc->nick_name;
  
   return if _ignore($nick);
   return if ($what =~ /^$mynick\+\+/);
@@ -164,7 +164,7 @@ sub irc_msg
   my $channel = $where->[0];
   my $irc = $sender->get_heap();
   my $myself = $heap->{bots}{$irc};
-  my $mynick = $myself->{poe}{nick};
+  my $mynick = $irc->nick_name(); #whoami!
 
   return if _ignore($nick);
   return if ($what =~ /nknown command \[\] try 'Help'/);
@@ -218,11 +218,11 @@ sub makerequest
   $eq = uri_escape($eq);
 
   my $realurl = "$url/$eq";
-  my $req = GET $realurl; # a simple HTTP request
+  my $req =  HTTP::Request->new(GET => $realurl); # a simple HTTP request
 
   $kernel->post(
     'ua', 'request',# http session alias & state
-    'httpresponse', # my state to receive responses
+    'httpback', # my state to receive responses
     $req, # a simple HTTP request
     $reqid, # a tag to identify the request
   );  
@@ -230,7 +230,7 @@ sub makerequest
   $heap->{httpqueue}{$reqid} = {who => $who, where => $where, type => $type, equation => $equation, myself => $myself, reqobj => $req, id => $reqid};
 }
 
-sub httpresponse
+sub httpback
 {
   my ($sender, $kernel, $heap) = @_[SENDER, KERNEL, HEAP];
   my ($request_packet, $response_packet) = @_[ARG0, ARG1];
@@ -246,6 +246,7 @@ sub httpresponse
   if ($response->is_success)
   {
     my $q = $response->content();
+	print Dumper($q, $response);
     $q = decode("UTF-8", $q);
 
     #these MAY dissappear!
@@ -265,7 +266,7 @@ sub httpresponse
     $outtext = "OH DEAR GOD NO! ".$response->status_line;
   }
 
-  my @lines = messagebreak($response);
+  my @lines = messagebreak($outtext);
 
   if ($reqheap->{type} eq "msg")
   {
