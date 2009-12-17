@@ -8,12 +8,14 @@ use POE qw(Component::IRC
            Queue::Array 
            Component::IRC::Plugin::NickReclaim 
            Component::IRC::Plugin::CTCP 
-           Component::IRC::Plugin::NickServID);
+           Component::IRC::Plugin::NickServID
+		   Component::Client::HTTP);
 
-use WWW::Mechanize;
+use HTTP::Request;
+use HTTP::Response;
 use URI::Escape;
 use Math::BigFloat;
-use Encode;
+#use Encode;
 
 #i should really move this to an external config
 my $bots = {
@@ -27,7 +29,7 @@ my $bots = {
 			password => "cubert",
 			charset => "utf-8",
 			},
-		url => "http://127.0.0.1:8081/",
+		url => "http://127.0.0.1:8081",
 		channels => ["#yapb", "#buubot", "#perlcafe", "##turtles"],
 	},
 	farnsworth => {
@@ -40,7 +42,7 @@ my $bots = {
 			password => "farnsworth",
 			charset => "utf-8",
 			},
-		url => "http://127.0.0.1:8080/",
+		url => "http://127.0.0.1:8080",
 		channels => ["#yapb", "#buubot", "#perlcafe", "##turtles"],
 	},
 	farnsworthriz => {
@@ -53,26 +55,31 @@ my $bots = {
 			password => "farnsworth",
 			charset => "utf-8",
 			},
-		url => "http://127.0.0.1:8080/",
+		url => "http://127.0.0.1:8080",
 		channels => ["#yapb", "#buubot", "#perlcafe", "##turtles"],
 	},
-}
+};
 
 my @ignore = qw(ChanServ GumbyBRAIN perlbot buubot frogbot NickServ *status);
 
-my $queue = POE::Queue::Array->new();
+my $http = POE::Component::Client::HTTP->spawn(
+    Agent     => 'Farnsworth IRC 2000',
+    Alias     => 'ua',
+    From      => 'simcop2387@simcop2387.info',
+);
 
 POE::Session->create(
   package_states => 
     [
-      main => [ qw(_start irc_001 irc_public irc_msg tock) ],
+      main => [ qw(_start irc_001 irc_public irc_msg tock httpback) ],
 	],
-    heap => { _config => $bots, bots => {}, irc => $bot, queue => {}, lastsend=>time()},);
+    heap => { _config => $bots, bots => {}, http=>$http, httpqueue=>{}, reqcount=>0},);
 
 POE::Kernel->run();
 
 sub _start {
             my $heap = $_[HEAP];
+			my $kernel = $_[KERNEL];
 			my $config = $heap->{_config};
 
 			for my $bot (keys %$config)
@@ -132,7 +139,7 @@ sub _ignore
 
 sub irc_public
 {
-  my ($sender, $who, $where, $what, $heap) = @_[SENDER, ARG0 .. ARG2, HEAP];
+  my ($kernel, $sender, $who, $where, $what, $heap) = @_[KERNEL, SENDER, ARG0 .. ARG2, HEAP];
   my $nick = ( split /!/, $who )[0];
   my $channel = $where->[0];
   my $irc = $sender->get_heap();
@@ -146,12 +153,13 @@ sub irc_public
   if (my ($equation) = $what =~ /^(?:\+|\-)?$mynick[[:punct:]]\s*(.*)$/i)
   {
 	#this needs to go to the new PoCo::Client::HTTP!
+	makerequest($kernel, $heap, $myself, $equation, $nick, $channel, "pub");
   }
 }
 
 sub irc_msg
 {
-  my ($sender, $who, $where, $what, $heap) = @_[SENDER, ARG0 .. ARG2, HEAP];
+  my ($kernel, $sender, $who, $where, $what, $heap) = @_[KERNEL, SENDER, ARG0 .. ARG2, HEAP];
   my $nick = ( split /!/, $who )[0];
   my $channel = $where->[0];
   my $irc = $sender->get_heap();
@@ -164,6 +172,7 @@ sub irc_msg
   if (my $equation = $what)
   {
     #this needs the new PoCo::Client::HTTP!
+	makerequest($kernel, $heap, $myself, $equation, $nick, $channel, "msg");
   }
 }
 
@@ -187,6 +196,101 @@ sub tock
   }
 
   $kernel->delay_add(tock=>0.5);
+}
+
+sub makerequest
+{
+  my $kernel = shift;
+  my $heap = shift; #get this from them!
+  my $myself = shift;
+  my $equation = shift;
+  my $who = shift;
+  my $where = shift;
+  my $type = shift; #msg or pub
+
+  my $reqid = $heap->{reqcount}++;
+  my $url = $myself->{conf}{url};
+
+  #set the escape for \cpn to be newline
+  my $eq = $equation;
+  $eq =~ s/(\cp|\\cp)n/\n/g;
+
+  $eq = uri_escape($eq);
+
+  my $realurl = "$url/$eq";
+  my $req = GET $realurl; # a simple HTTP request
+
+  $kernel->post(
+    'ua', 'request',# http session alias & state
+    'httpresponse', # my state to receive responses
+    $req, # a simple HTTP request
+    $reqid, # a tag to identify the request
+  );  
+
+  $heap->{httpqueue}{$reqid} = {who => $who, where => $where, type => $type, equation => $equation, myself => $myself, reqobj => $req, id => $reqid};
+}
+
+sub httpresponse
+{
+  my ($sender, $kernel, $heap) = @_[SENDER, KERNEL, HEAP];
+  my ($request_packet, $response_packet) = @_[ARG0, ARG1];
+
+  my $reqid = $request_packet->[1];
+  my $response = $response_packet->[0];
+
+  my $reqheap = $heap->{httpqueue}{$reqid};
+  my $myself = $reqheap->{myself};
+
+  my $outtext;
+
+  if ($response->is_success)
+  {
+    my $q = $response->content();
+    $q = decode("UTF-8", $q);
+
+    #these MAY dissappear!
+    $q =~ s/\n/ /g; #filter a few annoying things
+    $q =~ s/\s{2,}/ /g;
+
+    if ((length $q > 300) && $reqheap->{type} ne "msg")
+    {
+      $q = "".(substr $q, 0, 300) . ".... tl;dr, use /msg";
+      $q =~ s/\n//g; #tr probably faster, but who cares
+    }
+
+	$outtext = $q;
+  }
+  else
+  {
+    $outtext = "OH DEAR GOD NO! ".$response->status_line;
+  }
+
+  my @lines = messagebreak($response);
+
+  if ($reqheap->{type} eq "msg")
+  {
+    my $pd = getpristart($myself->{queue}, $reqheap->{who});
+
+    for my $p (0..$#lines)
+    {
+      print "LINE: $lines[$p]\n";
+	
+	  $myself->{queue}->enqueue($p+$pd, [$reqheap->{who}, $p == $#lines?"$lines[$p]":"$lines[$p] .."]);
+	}
+  }
+  else
+  {
+    my $pd = getpristart($myself->{queue}, $reqheap->{where});
+
+    for my $p (0..$#lines)
+    {
+      print "LINE: $lines[$p]\n";
+	
+	  $myself->{queue}->enqueue($p+$pd, [$reqheap->{where}, $reqheap->{who}.": $lines[$p]"]);
+	}    
+  }
+
+  delete $heap->{httpqueue}{$reqid}; #clear out the old requests!
 }
 
 sub messagebreak
