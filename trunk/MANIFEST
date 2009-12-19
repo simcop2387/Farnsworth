@@ -18,6 +18,7 @@ lib/Language/Farnsworth/Functions/StdMath.pm
 lib/Language/Farnsworth/Output.pm
 lib/Language/Farnsworth/Error.pm
 lib/Language/Farnsworth/Parser.pm
+lib/Language/Farnsworth/Parser/Extra.pm
 lib/Language/Farnsworth/Units.pm
 lib/Language/Farnsworth/Units/Standard.pm
 lib/Language/Farnsworth/Units/Currency.pm
