@@ -25,6 +25,9 @@ my $fullstring;
 my $charcount;
 use warnings;
 use diagnostics;
+use Language::Farnsworth::Parser::Extra; #provides a really nasty regex for lots of fun unicode symbols
+my $uni = $Language::Farnsworth::Parser::Extra::regex; #get the really annoyingly named regex
+my $identifier = qr/(?:\w|$uni)(?:[\w\d]|$uni)*/;
 %}
 
 %%
@@ -245,7 +248,7 @@ sub yylex
 	$s =~ /\G$ws*(\+|\*|-|\/|\%|\^\^?|=|;|\{\s*\`|\{|\}|\>|\<|\?|\:|\,|\&\&|\|\||\!|\||\.\.\.|\`)$ws*/cg and return $1;
 	$s =~ /\G$ws*(\)|\])/cg and return $1; #freaking quirky lexers!
 	$s =~ /\G(\(|\[)$ws*/cg and return $1;
-	$s =~ /\G(\w[\w\d]*)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here
+	$s =~ /\G($identifier)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here
 	$s =~ /\G(.)/cgs and return $1;
     return '';
 	}
