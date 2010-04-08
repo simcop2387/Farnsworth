@@ -1,8 +1,7 @@
-stma = (stmt
-	|   stmt ";" stma)
-	;
+stma = stmt
+	|   stmt ";" stma;
 
-stmt = (	expr
+stmt = 	expr
 	|   "var" NAME
 	|   "var" NAME "=" expr
 	|	NAME ":=" expr
@@ -10,112 +9,106 @@ stmt = (	expr
 	|   NAME "=!=" NAME
 	|   expr "|||" NAME
 	|   if
-	|   while
-        )
+	|   while	;
+
+ifstartcond = "if" "(" expr ")" ;
+
+ifstmts="{" stma "}" ;
+
+if = ifstartcond ifstmts
+   | ifstartcond ifstmts "else" ifstmts ;
+
+while = "while" "(" expr ")" "{" stma "}"
 	;
 
-ifstartcond =("if" "(" expr ")");
-
-ifstmts=("{" stma "}")
-		;
-
-if =( ifstartcond ifstmts
-   | ifstartcond ifstmts "else" ifstmts
-   );
-
-while =( "while" "(" expr ")" "{" stma "}")
-	;
-
-array =( expr "," array
+array = expr "," array
 	  | expr
-	  | "," array)
+	  | "," array
 	  ;
 
-constraint=( expr
-		  | "..." )
+constraint= expr
+		  | "..."
 		  ;
 
-argelement=( NAME "=" expr "isa" constraint
+argelement= NAME "=" expr "isa" constraint
 		   | NAME "isa" constraint  
 		   | NAME "=" expr     
 		   | NAME
 		   | NAME "byref" "isa" constraint
-		   | NAME "byref"
-		   )
-		   ;
+		   | NAME "byref" ;
 
-arglist=( argelement "," arglist
-		| argelement)
+arglist= argelement "," arglist
+		| argelement
 		;
 
-number=( 	NUMBER
-		| 	HEXNUMBER)
+number= 	NUMBER
+		| 	HEXNUMBER
 		;
 
-assignexpr=( 	expr "=" expr)
+assignexpr= 	expr "=" expr
 		   ;
 
-assignexpr2=(	expr "+=" expr
+assignexpr2=	expr "+=" expr
 		   |	expr "-=" expr
 		   |	expr "/=" expr
 		   |	expr "*=" expr
 		   |	expr "%=" expr
 		   |	expr "**=" expr
-		   |	expr "^=" expr)
+		   |	expr "^=" expr
 		   ;
 
-assigncomb=( assignexpr
-		  |	assignexpr2)
+assigncomb= assignexpr
+		  |	assignexpr2
 		  ;
 
-lambda=("{`" arglist "`" stma "}")
+lambda="{`" arglist "`" stma "}"
 	   ;
 
-multexpr=(	expr "*" expr
+multexpr=	expr "*" expr
 	|   singleval singleval
 	|   singleval singleval expr
-	|   expr " " expr)
+	|   expr " " expr
 	;
 
-logic=(	expr "&&" expr
+logic=	expr "&&" expr
 	|	expr "||" expr
 	|	expr "^^" expr
-	|	"!" singleval)
+	|	"!" singleval
 	;
 
-compare=(expr "<" expr
+compare=expr "<" expr
 	|	expr ">" expr
 	|	expr "<=" expr
 	|	expr ">=" expr
 	|	expr "==" expr
 	|	expr "<=>" expr
-	|	expr "!=" expr)
+	|	expr "!=" expr
 	;
 
-crement=( "++" singleval
+crement= "++" singleval
 	   | "--" singleval
 	   | singleval "++"
-	   | singleval "--")
+	   | singleval "--"
 	   ;
 	   
 
-value=(	number
+value=	number
      |	DATE
 	 |	STRING
 	 |	singleval "@" array "$"
 	 |	NAME
 	 |   "[" array "]"
-	 |   lambda)
+	 |   lambda
 	 ;
 
-parens=(	"(" expr ")")
+parens=	"(" expr ")"
 	  ;
 
-singleval=( value
-	 | parens)
+singleval= value
+	 | parens
 	 ;
 
-exprnouminus=(	singleval
+exprnouminus=	singleval
 	|   multexpr
         | expr "**" expr
         | expr "^" expr
@@ -135,9 +128,9 @@ exprnouminus=(	singleval
 	|   NAME "{" arglist "}" ":=" "{" stma "}"
 	|   expr "=>" expr
 	|   expr "->" expr
-	|   assigncomb)
+	|   assigncomb
 	;
 
-expr=( exprnouminus
-	|   "-" expr)
+expr= exprnouminus
+	|   "-" expr
 	;

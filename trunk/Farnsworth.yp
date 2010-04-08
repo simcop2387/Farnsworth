@@ -87,11 +87,14 @@ argelement : NAME '=' expr 'isa' constraint {bless [ $_[1], $_[3], $_[5], 0], 'A
 		   | NAME                           {bless [ $_[1], undef, undef, 0], 'Argele'}
 		   | NAME 'byref' 'isa' constraint  {bless [ $_[1], undef, $_[4], 1], 'Argele'} #constraint
 		   | NAME 'byref'                   {bless [ $_[1], undef, undef, 1], 'Argele'}
-		   |
+#		   | #why do i have this?
 		   ;
-
-arglist : argelement ',' arglist { bless [ $_[1], ref($_[3]) eq 'Arglist' ? @{$_[3]} : $_[3] ], 'Arglist' }
+arglistfilled : argelement ',' arglistfilled { bless [ $_[1], ref($_[3]) eq 'Arglist' ? @{$_[3]} : $_[3] ], 'Arglist' }
 		| argelement {bless [ $_[1] ], 'Arglist'}
+		;
+
+arglist : arglistfilled
+		|
 		;
 
 number : 	NUMBER			{ bless [ $_[1] ], 'Num' }
