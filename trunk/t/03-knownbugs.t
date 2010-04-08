@@ -33,6 +33,7 @@ my @tests =
 	['var sub={`x,y` x+y}; vararg{sub isa {``}, x isa ...} := {var input = x@0$ conforms [] ? x@0$ : x; var st = shift[input]; while(length[input] >= 1) {var next = shift[input]; var st2 = sub[st, next];st=st2}; st}; vararg[sub, 1,1]',        "2 ",             "assignment during use in a loop, with work around"],
 	['var a=2; var sub={`x,y` x+y}; a=sub[a,a]; a;', '4 ', 'simpler case of above'],
 	['{`x=1` x} []', '1 ', 'Default arguments in lambdas'],
+        ['foo{bar,} := 1;', undef, 'Empty arguments in functions'],
 );
 
 
