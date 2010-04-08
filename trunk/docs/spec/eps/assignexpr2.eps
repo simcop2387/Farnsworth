@@ -1,0 +1,202 @@
+%!PS-Adobe-2.0 EPSF-2.0
+%%Creator: Ebnf2ps Version 1.07 (Mar 2008)(C) 1996-2000 by Peter Thiemann
+%%CreationDate: Thu Apr  8 13:33:53 EDT 2010%%DocumentFonts: Times-Roman
+%%Title: assignexpr2
+%%Pages: 0
+%%BoundingBox: 0 0 133 170
+%%EndComments
+/$Ebnf2psDict 100 dict def
+$Ebnf2psDict begin
+/l {lineto} bind def
+/m {moveto} bind def
+/rl {rlineto} bind def
+/rm {rmoveto} bind def
+/s {stroke} bind def
+/n {newpath} bind def
+/gs {gsave} bind def
+/gr {grestore} bind def
+/clp {closepath} bind def
+/slw {setlinewidth} bind def
+/graycol {dup dup currentrgbcolor 4 -2 roll mul 4 -2 roll mul
+4 -2 roll mul setrgbcolor} bind def
+/scol {3 {255 div 3 1 roll} repeat setrgbcolor} bind def
+ /apr {arcto 4 {pop} repeat} def
+/Box {
+  /bgB exch def
+  /bgG exch def
+  /bgR exch def
+  /linewidth exch def
+  /height exch def
+  /width  exch def
+  /lly exch def
+  /llx exch def
+  linewidth 2 div dup llx add /llx exch def lly add /lly exch def
+  /height height linewidth sub def
+  /width width linewidth sub def
+  /linewidth0 {clp gsave bgR bgG bgB scol fill grestore} def
+  /linewidth1 {clp linewidth gsave bgR bgG bgB scol fill grestore slw s} def
+   n llx lly m
+  width 0 rl
+  0 height rl
+  width neg 0 rl
+  0 height neg rl
+  linewidth 0 eq {linewidth0} {linewidth1} ifelse
+} def
+/RBox {
+  /bgB exch def
+  /bgG exch def
+  /bgR exch def
+  /linewidth exch def
+  /height exch def
+  /width exch def
+  /lly exch def
+  /llx exch def
+  linewidth 2 div dup llx add /llx exch def lly add /lly exch def
+  /height height linewidth sub def
+  /width  width  linewidth sub def
+  /height2 height 2 div def
+  /width2  width  2 div def
+  /urx llx width add def
+  /ury lly height add def
+  /mmx llx width2 add def
+  /mmy lly height2 add def
+  /linewidth0 {clp gsave bgR bgG bgB scol fill grestore} def
+  /linewidth1 {clp linewidth gsave bgR bgG bgB scol fill grestore slw s} def
+  /radius width2 height2 ge {height2} {width2} ifelse def
+   n mmx lly m
+  urx lly urx mmy radius apr
+  urx ury mmx ury radius apr
+  llx ury llx mmy radius apr
+  llx lly mmx lly radius apr
+  mmx lly l
+  linewidth 0 eq {linewidth0} {linewidth1} ifelse
+} def
+end
+/$Ebnf2psBegin {$Ebnf2psDict begin /$Ebnf2psEnteredState save def} def
+/$Ebnf2psEnd {$Ebnf2psEnteredState restore end} def
+
+%%EndProlog
+
+$Ebnf2psBegin
+ 0 0 0 scol  20 132.50 29.77 17 1 255 255 255 Box
+/Times-Roman findfont 10 scalefont setfont
+ 26 138.17 m(expr) show
+ 0.30 slw
+n 49.77 141 m 5 0 rl s
+n 52.77 143 m 2 -2 rl -2 -2 rl s
+ 54.77 132.50 23.28 17 1 255 255 255 RBox
+ 60.77 138.17 m(+=) show
+ 0.30 slw
+n 78.05 141 m 5 0 rl s
+n 81.05 143 m 2 -2 rl -2 -2 rl s
+ 83.05 132.50 29.77 17 1 255 255 255 Box
+ 89.05 138.17 m(expr) show
+ 20 110.50 29.77 17 1 255 255 255 Box
+ 26 116.17 m(expr) show
+ 0.30 slw
+n 49.77 119 m 5 0 rl s
+n 52.77 121 m 2 -2 rl -2 -2 rl s
+ 54.77 110.50 20.97 17 1 255 255 255 RBox
+ 60.77 116.17 m(\261=) show
+ 0.30 slw
+n 75.74 119 m 5 0 rl s
+n 78.74 121 m 2 -2 rl -2 -2 rl s
+ 80.74 110.50 29.77 17 1 255 255 255 Box
+ 86.74 116.17 m(expr) show
+ 20 88.50 29.77 17 1 255 255 255 Box
+ 26 94.17 m(expr) show
+ 0.30 slw
+n 49.77 97 m 5 0 rl s
+n 52.77 99 m 2 -2 rl -2 -2 rl s
+ 54.77 88.50 20.42 17 1 255 255 255 RBox
+ 60.77 94.17 m(/=) show
+ 0.30 slw
+n 75.19 97 m 5 0 rl s
+n 78.19 99 m 2 -2 rl -2 -2 rl s
+ 80.19 88.50 29.77 17 1 255 255 255 Box
+ 86.19 94.17 m(expr) show
+ 20 66.50 29.77 17 1 255 255 255 Box
+ 26 72.17 m(expr) show
+ 0.30 slw
+n 49.77 75 m 5 0 rl s
+n 52.77 77 m 2 -2 rl -2 -2 rl s
+ 54.77 66.50 22.64 17 1 255 255 255 RBox
+ 60.77 72.17 m(*=) show
+ 0.30 slw
+n 77.41 75 m 5 0 rl s
+n 80.41 77 m 2 -2 rl -2 -2 rl s
+ 82.41 66.50 29.77 17 1 255 255 255 Box
+ 88.41 72.17 m(expr) show
+ 20 44.50 29.77 17 1 255 255 255 Box
+ 26 50.17 m(expr) show
+ 0.30 slw
+n 49.77 53 m 5 0 rl s
+n 52.77 55 m 2 -2 rl -2 -2 rl s
+ 54.77 44.50 25.97 17 1 255 255 255 RBox
+ 60.77 50.17 m(%=) show
+ 0.30 slw
+n 80.74 53 m 5 0 rl s
+n 83.74 55 m 2 -2 rl -2 -2 rl s
+ 85.74 44.50 29.77 17 1 255 255 255 Box
+ 91.74 50.17 m(expr) show
+ 20 22.50 29.77 17 1 255 255 255 Box
+ 26 28.17 m(expr) show
+ 0.30 slw
+n 49.77 31 m 5 0 rl s
+n 52.77 33 m 2 -2 rl -2 -2 rl s
+ 54.77 22.50 27.64 17 1 255 255 255 RBox
+ 60.77 28.17 m(**=) show
+ 0.30 slw
+n 82.41 31 m 5 0 rl s
+n 85.41 33 m 2 -2 rl -2 -2 rl s
+ 87.41 22.50 29.77 17 1 255 255 255 Box
+ 93.41 28.17 m(expr) show
+ 20 0.50 29.77 17 1 255 255 255 Box
+ 26 6.17 m(expr) show
+ 0.30 slw
+n 49.77 9 m 5 0 rl s
+n 52.77 11 m 2 -2 rl -2 -2 rl s
+ 54.77 0.50 22.33 17 1 255 255 255 RBox
+ 60.77 6.17 m(^=) show
+ 0.30 slw
+n 77.10 9 m 5 0 rl s
+n 80.10 11 m 2 -2 rl -2 -2 rl s
+ 82.10 0.50 29.77 17 1 255 255 255 Box
+ 88.10 6.17 m(expr) show
+ 0.30 slw
+n 10 75 m 5 0 rl s
+n 122.18 75 m 5 0 rl s
+n 15 136 m 15 141 20 141 5 apr
+ 20 141 l s
+n 20 9 m 15 9 15 14 5 apr
+ 15 14 l s
+n 15 14 m 0 122 rl s
+n 122.18 136 m 122.18 141 117.18 141 5 apr
+ 117.18 141 l s
+n 117.18 9 m 122.18 9 122.18 14 5 apr
+ 122.18 14 l s
+n 122.18 14 m 0 122 rl s
+n 15 119 m 5 0 rl s
+n 15 97 m 5 0 rl s
+n 15 75 m 5 0 rl s
+n 15 53 m 5 0 rl s
+n 15 31 m 5 0 rl s
+n 117.18 119 m 5 0 rl s
+n 117.18 97 m 5 0 rl s
+n 117.18 75 m 5 0 rl s
+n 117.18 53 m 5 0 rl s
+n 117.18 31 m 5 0 rl s
+n 112.82 141 m 4.36 0 rl s
+n 110.51 119 m 6.67 0 rl s
+n 109.96 97 m 7.22 0 rl s
+n 112.18 75 m 5 0 rl s
+n 115.51 53 m 1.67 0 rl s
+n 117.18 31 m 0 0 rl s
+n 111.87 9 m 5.31 0 rl s
+n 127.18 75 m 5 0 rl s
+n 130.18 77 m 2 -2 rl -2 -2 rl s
+ 0 161.67 m(assignexpr2) show
+n 0 75 m 10 0 rl s
+n 8 77 m 2 -2 rl -2 -2 rl s
+
+$Ebnf2psEnd

@@ -1,0 +1,157 @@
+%!PS-Adobe-2.0 EPSF-2.0
+%%Creator: Ebnf2ps Version 1.07 (Mar 2008)(C) 1996-2000 by Peter Thiemann
+%%CreationDate: Thu Apr  8 13:33:53 EDT 2010%%DocumentFonts: Times-Roman
+%%Title: value
+%%Pages: 0
+%%BoundingBox: 0 0 169 170
+%%EndComments
+/$Ebnf2psDict 100 dict def
+$Ebnf2psDict begin
+/l {lineto} bind def
+/m {moveto} bind def
+/rl {rlineto} bind def
+/rm {rmoveto} bind def
+/s {stroke} bind def
+/n {newpath} bind def
+/gs {gsave} bind def
+/gr {grestore} bind def
+/clp {closepath} bind def
+/slw {setlinewidth} bind def
+/graycol {dup dup currentrgbcolor 4 -2 roll mul 4 -2 roll mul
+4 -2 roll mul setrgbcolor} bind def
+/scol {3 {255 div 3 1 roll} repeat setrgbcolor} bind def
+ /apr {arcto 4 {pop} repeat} def
+/Box {
+  /bgB exch def
+  /bgG exch def
+  /bgR exch def
+  /linewidth exch def
+  /height exch def
+  /width  exch def
+  /lly exch def
+  /llx exch def
+  linewidth 2 div dup llx add /llx exch def lly add /lly exch def
+  /height height linewidth sub def
+  /width width linewidth sub def
+  /linewidth0 {clp gsave bgR bgG bgB scol fill grestore} def
+  /linewidth1 {clp linewidth gsave bgR bgG bgB scol fill grestore slw s} def
+   n llx lly m
+  width 0 rl
+  0 height rl
+  width neg 0 rl
+  0 height neg rl
+  linewidth 0 eq {linewidth0} {linewidth1} ifelse
+} def
+/RBox {
+  /bgB exch def
+  /bgG exch def
+  /bgR exch def
+  /linewidth exch def
+  /height exch def
+  /width exch def
+  /lly exch def
+  /llx exch def
+  linewidth 2 div dup llx add /llx exch def lly add /lly exch def
+  /height height linewidth sub def
+  /width  width  linewidth sub def
+  /height2 height 2 div def
+  /width2  width  2 div def
+  /urx llx width add def
+  /ury lly height add def
+  /mmx llx width2 add def
+  /mmy lly height2 add def
+  /linewidth0 {clp gsave bgR bgG bgB scol fill grestore} def
+  /linewidth1 {clp linewidth gsave bgR bgG bgB scol fill grestore slw s} def
+  /radius width2 height2 ge {height2} {width2} ifelse def
+   n mmx lly m
+  urx lly urx mmy radius apr
+  urx ury mmx ury radius apr
+  llx ury llx mmy radius apr
+  llx lly mmx lly radius apr
+  mmx lly l
+  linewidth 0 eq {linewidth0} {linewidth1} ifelse
+} def
+end
+/$Ebnf2psBegin {$Ebnf2psDict begin /$Ebnf2psEnteredState save def} def
+/$Ebnf2psEnd {$Ebnf2psEnteredState restore end} def
+
+%%EndProlog
+
+$Ebnf2psBegin
+ 0 0 0 scol  20 132.50 42.55 17 1 255 255 255 Box
+/Times-Roman findfont 10 scalefont setfont
+ 26 138.17 m(number) show
+ 20 110.50 38.66 17 1 255 255 255 Box
+ 26 116.17 m(DATE) show
+ 20 88.50 48.11 17 1 255 255 255 Box
+ 26 94.17 m(STRING) show
+ 20 66.50 48.11 17 1 255 255 255 Box
+ 26 72.17 m(singleval) show
+ 0.30 slw
+n 68.11 75 m 5 0 rl s
+n 71.11 77 m 2 -2 rl -2 -2 rl s
+ 73.11 66.50 21.21 17 1 255 255 255 RBox
+ 79.11 72.17 m(@) show
+ 0.30 slw
+n 94.32 75 m 5 0 rl s
+n 97.32 77 m 2 -2 rl -2 -2 rl s
+ 99.32 66.50 32.54 17 1 255 255 255 Box
+ 105.32 72.17 m(array) show
+ 0.30 slw
+n 131.86 75 m 5 0 rl s
+n 134.86 77 m 2 -2 rl -2 -2 rl s
+ 136.86 66.50 17 17 1 255 255 255 RBox
+ 142.86 72.17 m($) show
+ 20 44.50 41.44 17 1 255 255 255 Box
+ 26 50.17 m(NAME) show
+ 20 22.50 15.33 17 1 255 255 255 RBox
+ 26 28.17 m([) show
+ 0.30 slw
+n 35.33 31 m 5 0 rl s
+n 38.33 33 m 2 -2 rl -2 -2 rl s
+ 40.33 22.50 32.54 17 1 255 255 255 Box
+ 46.33 28.17 m(array) show
+ 0.30 slw
+n 72.87 31 m 5 0 rl s
+n 75.87 33 m 2 -2 rl -2 -2 rl s
+ 77.87 22.50 15.33 17 1 255 255 255 RBox
+ 83.87 28.17 m(]) show
+ 20 0.50 41.44 17 1 255 255 255 Box
+ 26 6.17 m(lambda) show
+ 0.30 slw
+n 10 75 m 5 0 rl s
+n 158.86 75 m 5 0 rl s
+n 15 136 m 15 141 20 141 5 apr
+ 20 141 l s
+n 20 9 m 15 9 15 14 5 apr
+ 15 14 l s
+n 15 14 m 0 122 rl s
+n 158.86 136 m 158.86 141 153.86 141 5 apr
+ 153.86 141 l s
+n 153.86 9 m 158.86 9 158.86 14 5 apr
+ 158.86 14 l s
+n 158.86 14 m 0 122 rl s
+n 15 119 m 5 0 rl s
+n 15 97 m 5 0 rl s
+n 15 75 m 5 0 rl s
+n 15 53 m 5 0 rl s
+n 15 31 m 5 0 rl s
+n 153.86 119 m 5 0 rl s
+n 153.86 97 m 5 0 rl s
+n 153.86 75 m 5 0 rl s
+n 153.86 53 m 5 0 rl s
+n 153.86 31 m 5 0 rl s
+n 62.55 141 m 91.31 0 rl s
+n 58.66 119 m 95.20 0 rl s
+n 68.11 97 m 85.75 0 rl s
+n 153.86 75 m 0 0 rl s
+n 61.44 53 m 92.42 0 rl s
+n 93.20 31 m 60.66 0 rl s
+n 61.44 9 m 92.42 0 rl s
+n 163.86 75 m 5 0 rl s
+n 166.86 77 m 2 -2 rl -2 -2 rl s
+ 0 161.67 m(value) show
+n 0 75 m 10 0 rl s
+n 8 77 m 2 -2 rl -2 -2 rl s
+
+$Ebnf2psEnd

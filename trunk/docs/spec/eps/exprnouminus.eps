@@ -1,0 +1,402 @@
+%!PS-Adobe-2.0 EPSF-2.0
+%%Creator: Ebnf2ps Version 1.07 (Mar 2008)(C) 1996-2000 by Peter Thiemann
+%%CreationDate: Thu Apr  8 13:33:53 EDT 2010%%DocumentFonts: Times-Roman
+%%Title: exprnouminus
+%%Pages: 0
+%%BoundingBox: 0 0 267 478
+%%EndComments
+/$Ebnf2psDict 100 dict def
+$Ebnf2psDict begin
+/l {lineto} bind def
+/m {moveto} bind def
+/rl {rlineto} bind def
+/rm {rmoveto} bind def
+/s {stroke} bind def
+/n {newpath} bind def
+/gs {gsave} bind def
+/gr {grestore} bind def
+/clp {closepath} bind def
+/slw {setlinewidth} bind def
+/graycol {dup dup currentrgbcolor 4 -2 roll mul 4 -2 roll mul
+4 -2 roll mul setrgbcolor} bind def
+/scol {3 {255 div 3 1 roll} repeat setrgbcolor} bind def
+ /apr {arcto 4 {pop} repeat} def
+/Box {
+  /bgB exch def
+  /bgG exch def
+  /bgR exch def
+  /linewidth exch def
+  /height exch def
+  /width  exch def
+  /lly exch def
+  /llx exch def
+  linewidth 2 div dup llx add /llx exch def lly add /lly exch def
+  /height height linewidth sub def
+  /width width linewidth sub def
+  /linewidth0 {clp gsave bgR bgG bgB scol fill grestore} def
+  /linewidth1 {clp linewidth gsave bgR bgG bgB scol fill grestore slw s} def
+   n llx lly m
+  width 0 rl
+  0 height rl
+  width neg 0 rl
+  0 height neg rl
+  linewidth 0 eq {linewidth0} {linewidth1} ifelse
+} def
+/RBox {
+  /bgB exch def
+  /bgG exch def
+  /bgR exch def
+  /linewidth exch def
+  /height exch def
+  /width exch def
+  /lly exch def
+  /llx exch def
+  linewidth 2 div dup llx add /llx exch def lly add /lly exch def
+  /height height linewidth sub def
+  /width  width  linewidth sub def
+  /height2 height 2 div def
+  /width2  width  2 div def
+  /urx llx width add def
+  /ury lly height add def
+  /mmx llx width2 add def
+  /mmy lly height2 add def
+  /linewidth0 {clp gsave bgR bgG bgB scol fill grestore} def
+  /linewidth1 {clp linewidth gsave bgR bgG bgB scol fill grestore slw s} def
+  /radius width2 height2 ge {height2} {width2} ifelse def
+   n mmx lly m
+  urx lly urx mmy radius apr
+  urx ury mmx ury radius apr
+  llx ury llx mmy radius apr
+  llx lly mmx lly radius apr
+  mmx lly l
+  linewidth 0 eq {linewidth0} {linewidth1} ifelse
+} def
+end
+/$Ebnf2psBegin {$Ebnf2psDict begin /$Ebnf2psEnteredState save def} def
+/$Ebnf2psEnd {$Ebnf2psEnteredState restore end} def
+
+%%EndProlog
+
+$Ebnf2psBegin
+ 0 0 0 scol  20 440.50 48.11 17 1 255 255 255 Box
+/Times-Roman findfont 10 scalefont setfont
+ 26 446.17 m(singleval) show
+ 20 418.50 48.11 17 1 255 255 255 Box
+ 26 424.17 m(multexpr) show
+ 20 396.50 29.77 17 1 255 255 255 Box
+ 26 402.17 m(expr) show
+ 0.30 slw
+n 49.77 405 m 5 0 rl s
+n 52.77 407 m 2 -2 rl -2 -2 rl s
+ 54.77 396.50 22 17 1 255 255 255 RBox
+ 60.77 402.17 m(**) show
+ 0.30 slw
+n 76.77 405 m 5 0 rl s
+n 79.77 407 m 2 -2 rl -2 -2 rl s
+ 81.77 396.50 29.77 17 1 255 255 255 Box
+ 87.77 402.17 m(expr) show
+ 20 374.50 29.77 17 1 255 255 255 Box
+ 26 380.17 m(expr) show
+ 0.30 slw
+n 49.77 383 m 5 0 rl s
+n 52.77 385 m 2 -2 rl -2 -2 rl s
+ 54.77 374.50 16.69 17 1 255 255 255 RBox
+ 60.77 380.17 m(^) show
+ 0.30 slw
+n 71.46 383 m 5 0 rl s
+n 74.46 385 m 2 -2 rl -2 -2 rl s
+ 76.46 374.50 29.77 17 1 255 255 255 Box
+ 82.46 380.17 m(expr) show
+ 20 352.50 29.77 17 1 255 255 255 Box
+ 26 358.17 m(expr) show
+ 0.30 slw
+n 49.77 361 m 5 0 rl s
+n 52.77 363 m 2 -2 rl -2 -2 rl s
+ 54.77 352.50 17.64 17 1 255 255 255 RBox
+ 60.77 358.17 m(+) show
+ 0.30 slw
+n 72.41 361 m 5 0 rl s
+n 75.41 363 m 2 -2 rl -2 -2 rl s
+ 77.41 352.50 29.77 17 1 255 255 255 Box
+ 83.41 358.17 m(expr) show
+ 20 330.50 29.77 17 1 255 255 255 Box
+ 26 336.17 m(expr) show
+ 0.30 slw
+n 49.77 339 m 5 0 rl s
+n 52.77 341 m 2 -2 rl -2 -2 rl s
+ 54.77 330.50 15.33 17 1 255 255 255 RBox
+ 60.77 336.17 m(\261) show
+ 0.30 slw
+n 70.10 339 m 5 0 rl s
+n 73.10 341 m 2 -2 rl -2 -2 rl s
+ 75.10 330.50 29.77 17 1 255 255 255 Box
+ 81.10 336.17 m(expr) show
+ 20 308.50 29.77 17 1 255 255 255 Box
+ 26 314.17 m(expr) show
+ 0.30 slw
+n 49.77 317 m 5 0 rl s
+n 52.77 319 m 2 -2 rl -2 -2 rl s
+ 54.77 308.50 14.78 17 1 255 255 255 RBox
+ 60.77 314.17 m(/) show
+ 0.30 slw
+n 69.55 317 m 5 0 rl s
+n 72.55 319 m 2 -2 rl -2 -2 rl s
+ 74.55 308.50 29.77 17 1 255 255 255 Box
+ 80.55 314.17 m(expr) show
+ 20 286.50 29.77 17 1 255 255 255 Box
+ 26 292.17 m(expr) show
+ 0.30 slw
+n 49.77 295 m 5 0 rl s
+n 52.77 297 m 2 -2 rl -2 -2 rl s
+ 54.77 286.50 24.77 17 1 255 255 255 RBox
+ 60.77 292.17 m(per) show
+ 0.30 slw
+n 79.54 295 m 5 0 rl s
+n 82.54 297 m 2 -2 rl -2 -2 rl s
+ 84.54 286.50 29.77 17 1 255 255 255 Box
+ 90.54 292.17 m(expr) show
+ 20 264.50 29.77 17 1 255 255 255 Box
+ 26 270.17 m(expr) show
+ 0.30 slw
+n 49.77 273 m 5 0 rl s
+n 52.77 275 m 2 -2 rl -2 -2 rl s
+ 54.77 264.50 20.33 17 1 255 255 255 RBox
+ 60.77 270.17 m(%) show
+ 0.30 slw
+n 75.10 273 m 5 0 rl s
+n 78.10 275 m 2 -2 rl -2 -2 rl s
+ 80.10 264.50 29.77 17 1 255 255 255 Box
+ 86.10 270.17 m(expr) show
+ 20 242.50 29.77 17 1 255 255 255 Box
+ 26 248.17 m(expr) show
+ 0.30 slw
+n 49.77 251 m 5 0 rl s
+n 52.77 253 m 2 -2 rl -2 -2 rl s
+ 54.77 242.50 49.77 17 1 255 255 255 RBox
+ 60.77 248.17 m(conforms) show
+ 0.30 slw
+n 104.54 251 m 5 0 rl s
+n 107.54 253 m 2 -2 rl -2 -2 rl s
+ 109.54 242.50 29.77 17 1 255 255 255 Box
+ 115.54 248.17 m(expr) show
+ 20 220.50 29.77 17 1 255 255 255 Box
+ 26 226.17 m(expr) show
+ 0.30 slw
+n 49.77 229 m 5 0 rl s
+n 52.77 231 m 2 -2 rl -2 -2 rl s
+ 54.77 220.50 16.44 17 1 255 255 255 RBox
+ 60.77 226.17 m(?) show
+ 0.30 slw
+n 71.21 229 m 5 0 rl s
+n 74.21 231 m 2 -2 rl -2 -2 rl s
+ 76.21 220.50 29.77 17 1 255 255 255 Box
+ 82.21 226.17 m(expr) show
+ 0.30 slw
+n 105.98 229 m 5 0 rl s
+n 108.98 231 m 2 -2 rl -2 -2 rl s
+ 110.98 220.50 14.78 17 1 255 255 255 RBox
+ 116.98 226.17 m(:) show
+ 0.30 slw
+n 125.76 229 m 5 0 rl s
+n 128.76 231 m 2 -2 rl -2 -2 rl s
+ 130.76 220.50 29.77 17 1 255 255 255 Box
+ 136.76 226.17 m(expr) show
+ 20 198.50 32 17 1 255 255 255 Box
+ 26 204.17 m(logic) show
+ 20 176.50 46.43 17 1 255 255 255 Box
+ 26 182.17 m(compare) show
+ 20 154.50 44.21 17 1 255 255 255 Box
+ 26 160.17 m(crement) show
+ 20 132.50 41.44 17 1 255 255 255 Box
+ 26 138.17 m(NAME) show
+ 0.30 slw
+n 61.44 141 m 5 0 rl s
+n 64.44 143 m 2 -2 rl -2 -2 rl s
+ 66.44 132.50 20.89 17 1 255 255 255 RBox
+ 72.44 138.17 m(::\261) show
+ 0.30 slw
+n 87.33 141 m 5 0 rl s
+n 90.33 143 m 2 -2 rl -2 -2 rl s
+ 92.33 132.50 29.77 17 1 255 255 255 Box
+ 98.33 138.17 m(expr) show
+ 20 110.50 41.44 17 1 255 255 255 Box
+ 26 116.17 m(NAME) show
+ 0.30 slw
+n 61.44 119 m 5 0 rl s
+n 64.44 121 m 2 -2 rl -2 -2 rl s
+ 66.44 110.50 18.11 17 1 255 255 255 RBox
+ 72.44 116.17 m(:\261) show
+ 0.30 slw
+n 84.55 119 m 5 0 rl s
+n 87.55 121 m 2 -2 rl -2 -2 rl s
+ 89.55 110.50 29.77 17 1 255 255 255 Box
+ 95.55 116.17 m(expr) show
+ 20 88.50 41.44 17 1 255 255 255 Box
+ 26 94.17 m(NAME) show
+ 0.30 slw
+n 61.44 97 m 5 0 rl s
+n 64.44 99 m 2 -2 rl -2 -2 rl s
+ 66.44 88.50 16.80 17 1 255 255 255 RBox
+ 72.44 94.17 m({) show
+ 0.30 slw
+n 83.24 97 m 5 0 rl s
+n 86.24 99 m 2 -2 rl -2 -2 rl s
+ 88.24 88.50 37 17 1 255 255 255 Box
+ 94.24 94.17 m(arglist) show
+ 0.30 slw
+n 125.24 97 m 5 0 rl s
+n 128.24 99 m 2 -2 rl -2 -2 rl s
+ 130.24 88.50 16.80 17 1 255 255 255 RBox
+ 136.24 94.17 m(}) show
+ 0.30 slw
+n 147.04 97 m 5 0 rl s
+n 150.04 99 m 2 -2 rl -2 -2 rl s
+ 152.04 88.50 20.42 17 1 255 255 255 RBox
+ 158.04 94.17 m(:=) show
+ 0.30 slw
+n 172.46 97 m 5 0 rl s
+n 175.46 99 m 2 -2 rl -2 -2 rl s
+ 177.46 88.50 29.77 17 1 255 255 255 Box
+ 183.46 94.17 m(expr) show
+ 20 66.50 41.44 17 1 255 255 255 Box
+ 26 72.17 m(NAME) show
+ 0.30 slw
+n 61.44 75 m 5 0 rl s
+n 64.44 77 m 2 -2 rl -2 -2 rl s
+ 66.44 66.50 16.80 17 1 255 255 255 RBox
+ 72.44 72.17 m({) show
+ 0.30 slw
+n 83.24 75 m 5 0 rl s
+n 86.24 77 m 2 -2 rl -2 -2 rl s
+ 88.24 66.50 37 17 1 255 255 255 Box
+ 94.24 72.17 m(arglist) show
+ 0.30 slw
+n 125.24 75 m 5 0 rl s
+n 128.24 77 m 2 -2 rl -2 -2 rl s
+ 130.24 66.50 16.80 17 1 255 255 255 RBox
+ 136.24 72.17 m(}) show
+ 0.30 slw
+n 147.04 75 m 5 0 rl s
+n 150.04 77 m 2 -2 rl -2 -2 rl s
+ 152.04 66.50 20.42 17 1 255 255 255 RBox
+ 158.04 72.17 m(:=) show
+ 0.30 slw
+n 172.46 75 m 5 0 rl s
+n 175.46 77 m 2 -2 rl -2 -2 rl s
+ 177.46 66.50 16.80 17 1 255 255 255 RBox
+ 183.46 72.17 m({) show
+ 0.30 slw
+n 194.26 75 m 5 0 rl s
+n 197.26 77 m 2 -2 rl -2 -2 rl s
+ 199.26 66.50 30.89 17 1 255 255 255 Box
+ 205.26 72.17 m(stma) show
+ 0.30 slw
+n 230.15 75 m 5 0 rl s
+n 233.15 77 m 2 -2 rl -2 -2 rl s
+ 235.15 66.50 16.80 17 1 255 255 255 RBox
+ 241.15 72.17 m(}) show
+ 20 44.50 29.77 17 1 255 255 255 Box
+ 26 50.17 m(expr) show
+ 0.30 slw
+n 49.77 53 m 5 0 rl s
+n 52.77 55 m 2 -2 rl -2 -2 rl s
+ 54.77 44.50 23.28 17 1 255 255 255 RBox
+ 60.77 50.17 m(=>) show
+ 0.30 slw
+n 78.05 53 m 5 0 rl s
+n 81.05 55 m 2 -2 rl -2 -2 rl s
+ 83.05 44.50 29.77 17 1 255 255 255 Box
+ 89.05 50.17 m(expr) show
+ 20 22.50 29.77 17 1 255 255 255 Box
+ 26 28.17 m(expr) show
+ 0.30 slw
+n 49.77 31 m 5 0 rl s
+n 52.77 33 m 2 -2 rl -2 -2 rl s
+ 54.77 22.50 20.97 17 1 255 255 255 RBox
+ 60.77 28.17 m(\261>) show
+ 0.30 slw
+n 75.74 31 m 5 0 rl s
+n 78.74 33 m 2 -2 rl -2 -2 rl s
+ 80.74 22.50 29.77 17 1 255 255 255 Box
+ 86.74 28.17 m(expr) show
+ 20 0.50 59.22 17 1 255 255 255 Box
+ 26 6.17 m(assigncomb) show
+ 0.30 slw
+n 10 229 m 5 0 rl s
+n 256.95 229 m 5 0 rl s
+n 15 444 m 15 449 20 449 5 apr
+ 20 449 l s
+n 20 9 m 15 9 15 14 5 apr
+ 15 14 l s
+n 15 14 m 0 430 rl s
+n 256.95 444 m 256.95 449 251.95 449 5 apr
+ 251.95 449 l s
+n 251.95 9 m 256.95 9 256.95 14 5 apr
+ 256.95 14 l s
+n 256.95 14 m 0 430 rl s
+n 15 427 m 5 0 rl s
+n 15 405 m 5 0 rl s
+n 15 383 m 5 0 rl s
+n 15 361 m 5 0 rl s
+n 15 339 m 5 0 rl s
+n 15 317 m 5 0 rl s
+n 15 295 m 5 0 rl s
+n 15 273 m 5 0 rl s
+n 15 251 m 5 0 rl s
+n 15 229 m 5 0 rl s
+n 15 207 m 5 0 rl s
+n 15 185 m 5 0 rl s
+n 15 163 m 5 0 rl s
+n 15 141 m 5 0 rl s
+n 15 119 m 5 0 rl s
+n 15 97 m 5 0 rl s
+n 15 75 m 5 0 rl s
+n 15 53 m 5 0 rl s
+n 15 31 m 5 0 rl s
+n 251.95 427 m 5 0 rl s
+n 251.95 405 m 5 0 rl s
+n 251.95 383 m 5 0 rl s
+n 251.95 361 m 5 0 rl s
+n 251.95 339 m 5 0 rl s
+n 251.95 317 m 5 0 rl s
+n 251.95 295 m 5 0 rl s
+n 251.95 273 m 5 0 rl s
+n 251.95 251 m 5 0 rl s
+n 251.95 229 m 5 0 rl s
+n 251.95 207 m 5 0 rl s
+n 251.95 185 m 5 0 rl s
+n 251.95 163 m 5 0 rl s
+n 251.95 141 m 5 0 rl s
+n 251.95 119 m 5 0 rl s
+n 251.95 97 m 5 0 rl s
+n 251.95 75 m 5 0 rl s
+n 251.95 53 m 5 0 rl s
+n 251.95 31 m 5 0 rl s
+n 68.11 449 m 183.84 0 rl s
+n 68.11 427 m 183.84 0 rl s
+n 111.54 405 m 140.41 0 rl s
+n 106.23 383 m 145.72 0 rl s
+n 107.18 361 m 144.77 0 rl s
+n 104.87 339 m 147.08 0 rl s
+n 104.32 317 m 147.63 0 rl s
+n 114.31 295 m 137.64 0 rl s
+n 109.87 273 m 142.08 0 rl s
+n 139.31 251 m 112.64 0 rl s
+n 160.53 229 m 91.42 0 rl s
+n 52 207 m 199.95 0 rl s
+n 66.43 185 m 185.52 0 rl s
+n 64.21 163 m 187.74 0 rl s
+n 122.10 141 m 129.85 0 rl s
+n 119.32 119 m 132.63 0 rl s
+n 207.23 97 m 44.72 0 rl s
+n 251.95 75 m 0 0 rl s
+n 112.82 53 m 139.13 0 rl s
+n 110.51 31 m 141.44 0 rl s
+n 79.22 9 m 172.73 0 rl s
+n 261.95 229 m 5 0 rl s
+n 264.95 231 m 2 -2 rl -2 -2 rl s
+ 0 469.67 m(exprnouminus) show
+n 0 229 m 10 0 rl s
+n 8 231 m 2 -2 rl -2 -2 rl s
+
+$Ebnf2psEnd
