@@ -1,148 +1,116 @@
-%left ';'
-%right '=' ':=' '=!=' '::-' ':-' '|||' '+=' '-=' '*=' '%=' '**=' '/=' '^='
-%left '->' ':->' '=>'
-%left ARRAYFETCH
-#//%left '|'
-%nonassoc ':'
-%left '?'
-%left '&&' '||' '!' '^^'
-%left 'conforms'
-%nonassoc '<' '>' '==' '!=' '>=' '<=' '<=>' 
-%left '+' '-'
-%left 'per'
-%left '*' '/' '%' ' '
-%right IMPLICIT
-%left UMINUS
-%left NAME
-%right '^' '**'
-%nonassoc '++' '--'
-%right DECLAREVAR
-
-%%
-
-stma 
-    : {undef}
-	|   stmt						 { bless [ $_[1] ], 'Stmt' }
-	|   stmt ';' stma				 { bless [ $_[1], ref($_[3]) eq "Stmt" ? @{$_[3]} : $_[3]], 'Stmt' }
+stma = (stmt
+	|   stmt ";" stma)
 	;
 
-stmt
-	:	expr						 { $_[1] }
-	|   'var' NAME			%prec DECLAREVAR { bless [ $_[2] ], 'DeclareVar' }
-	|   'var' NAME '=' expr	%prec DECLAREVAR { bless [ $_[2], $_[4] ], 'DeclareVar' }
-	|	NAME ':=' expr				 { bless [@_[1,3]], 'UnitDef' }
-	|	expr ':->' expr				 { bless [ @_[1,3] ], 'SetDisplay' }
-	|   NAME '=!=' NAME              { bless [ @_[1,3] ], 'DefineDimen' }
-	|   expr '|||' NAME				 { bless [ @_[1,3] ], 'DefineCombo' }
+stmt = (	expr
+	|   'var' NAME
+	|   'var' NAME '=' expr
+	|	NAME ':=' expr
+	|	expr ':->' expr
+	|   NAME '=!=' NAME
+	|   expr '|||' NAME
 	|   if
 	|   while
+        )
 	;
 
-ifstartcond :'if' '(' expr ')' {$_[3]}
+ifstartcond :'if' '(' expr ')'
+
 			;
-ifstmts : '{' stma '}' {$_[2]}
+ifstmts : '{' stma '}'
 		;
 
-if : ifstartcond ifstmts {bless [@_[1,2], undef], 'If'}
-   | ifstartcond ifstmts 'else' ifstmts {bless [@_[1,2,4]], 'If'}
+if : ifstartcond ifstmts
+   | ifstartcond ifstmts 'else' ifstmts
    ;
 
-#for :	'for' '(' expr ';' expr ';' expr ')' '{' stmt '}'
-#			{ bless [ @_[3,5,7,10] ], 'For' }
-#	;
-
 while : 'while' '(' expr ')' '{' stma '}'
-			{ bless [ @_[3,6] ], 'While' }
 	;
 
-#// i hate bad syntax highlighting
-#// ( ref($_[1]) eq 'Array' ? ( bless [@$_[1]], 'SubArray' ) : $_[1] )
-#// this is a really messed up looking tree building, BUT it allows me to detect when someone does something like [ [ 1,2,3], 1,2,3] versus, a = [1,2,3]; [a,1,2,3]; and allows me to act appropriately
-
-array : expr ',' array  {bless [ ( ref($_[1]) eq 'Array' ? ( bless [@{$_[1]}], 'SubArray' ) : $_[1] ), ref($_[3]) eq 'Array' ? @{$_[3]} : $_[3] ], 'Array' }
-	  | expr {bless [ ( ref($_[1]) eq 'Array' ? ( bless [@{$_[1]}], 'SubArray' ) : $_[1] ) ], 'Array'}
-	  | {bless [], 'Array'} #//need to do this for empty arrays
-	  | ',' array  {bless [ undef, ref($_[2]) eq 'Array' ? @{$_[2]} : $_[2] ], 'Array' }
+array : expr ',' array
+	  | expr
+	  | 
+	  | ',' array
 	  ;
 
-constraint: expr #// this MIGHT have to change slightly, mostly to make it allow things like, flow, volume
-		  | '...' {bless [], 'VarArg'} #// for having variable arguments
+constraint: expr
+		  | '...' 
 		  ;
 
-argelement : NAME '=' expr 'isa' constraint {bless [ $_[1], $_[3], $_[5], 0], 'Argele'} #default value AND constraint 
-		   | NAME 'isa' constraint          {bless [ $_[1], undef, $_[3], 0], 'Argele'} #constraint
-		   | NAME '=' expr                  {bless [ $_[1], $_[3], undef, 0], 'Argele'} #default value
-		   | NAME                           {bless [ $_[1], undef, undef, 0], 'Argele'}
-		   | NAME 'byref' 'isa' constraint  {bless [ $_[1], undef, $_[4], 1], 'Argele'} #constraint
-		   | NAME 'byref'                   {bless [ $_[1], undef, undef, 1], 'Argele'}
+argelement : NAME '=' expr 'isa' constraint
+		   | NAME 'isa' constraint  
+		   | NAME '=' expr     
+		   | NAME
+		   | NAME 'byref' 'isa' constraint
+		   | NAME 'byref'
 		   |
 		   ;
 
-arglist : argelement ',' arglist { bless [ $_[1], ref($_[3]) eq 'Arglist' ? @{$_[3]} : $_[3] ], 'Arglist' }
-		| argelement {bless [ $_[1] ], 'Arglist'}
+arglist : argelement ',' arglist
+		| argelement
 		;
 
-number : 	NUMBER			{ bless [ $_[1] ], 'Num' }
-		| 	HEXNUMBER		{ bless [ $_[1] ], 'HexNum' }
+number : 	NUMBER
+		| 	HEXNUMBER
 		;
 
-assignexpr : 	expr '=' expr	{ bless [ @_[1,3] ], 'Store' }
+assignexpr : 	expr '=' expr
 		   ;
 
-assignexpr2:	expr '+=' expr 	{ bless [ @_[1,3] ], 'StoreAdd' }
-		   |	expr '-=' expr 	{ bless [ @_[1,3] ], 'StoreSub' }
-		   |	expr '/=' expr 	{ bless [ @_[1,3] ], 'StoreDiv' }
-		   |	expr '*=' expr 	{ bless [ @_[1,3] ], 'StoreMul' }
-		   |	expr '%=' expr 	{ bless [ @_[1,3] ], 'StoreMod' }
-		   |	expr '**=' expr	{ bless [ @_[1,3] ], 'StorePow' }
-		   |	expr '^=' expr	{ bless [ @_[1,3] ], 'StorePow' }
+assignexpr2:	expr '+=' expr
+		   |	expr '-=' expr
+		   |	expr '/=' expr
+		   |	expr '*=' expr
+		   |	expr '%=' expr
+		   |	expr '**=' expr
+		   |	expr '^=' expr
 		   ;
 
 assigncomb: assignexpr
 		  |	assignexpr2
 		  ;
 
-lambda :	'{`' arglist '`' stma '}' {bless [ @_[2,4] ], 'Lambda'} #i'm not sure how or when i'll implement these
+lambda :	'{`' arglist '`' stma '}'
 	   ;
 
-multexpr :	expr '*' expr	{ bless [ @_[1,3], '*'], 'Mul' }
-	|   singleval singleval %prec IMPLICIT { bless [ @_[1,2], 'imp'], 'Mul' }
-	|   singleval singleval expr %prec IMPLICIT { bless [bless([ @_[1,2], 'imp'], 'Mul'), $_[3], 'imp'], 'Mul' }
-	|   expr ' ' expr { bless [ @_[1,3], ''], 'Mul' }
+multexpr :	expr '*' expr
+	|   singleval singleval
+	|   singleval singleval expr
+	|   expr ' ' expr
 	;
 
-logic:	expr '&&' expr	{ bless [ @_[1,3] ], 'And' }
-	|	expr '||' expr	{ bless [ @_[1,3] ], 'Or' }
-	|	expr '^^' expr	{ bless [ @_[1,3] ], 'Xor' }
-	|	'!' singleval		{ bless [ $_[2] ], 'Not' }
+logic:	expr '&&' expr
+	|	expr '||' expr
+	|	expr '^^' expr
+	|	'!' singleval
 	;
 
-compare:expr '<' expr	{ bless [ @_[1,3] ], 'Lt' }
-	|	expr '>' expr	{ bless [ @_[1,3] ], 'Gt' }
-	|	expr '<=' expr	{ bless [ @_[1,3] ], 'Le' }
-	|	expr '>=' expr	{ bless [ @_[1,3] ], 'Ge' }
-	|	expr '==' expr	{ bless [ @_[1,3] ], 'Eq' }
-	|	expr '<=>' expr { bless [ @_[1,3] ], 'Compare' }
-	|	expr '!=' expr	{ bless [ @_[1,3] ], 'Ne' }
+compare:expr '<' expr
+	|	expr '>' expr
+	|	expr '<=' expr
+	|	expr '>=' expr
+	|	expr '==' expr
+	|	expr '<=>' expr
+	|	expr '!=' expr
 	;
 
-crement: '++' singleval { bless [ $_[2] ], 'PreInc' }
-	   | '--' singleval { bless [ $_[2] ], 'PreDec' }
-	   | singleval '++' { bless [ $_[1] ], 'PostInc' }
-	   | singleval '--' { bless [ $_[1] ], 'PostDec' }
+crement: '++' singleval
+	   | '--' singleval
+	   | singleval '++'
+	   | singleval '--'
 	   ;
 	   
 
 value:	number
-     |	DATE			{ bless [ $_[1] ], 'Date' }
-	 |	STRING			{ bless [ $_[1] ], 'String' } #this will have to be reparsed later, just before evaluating
-	 |	singleval '@' array '$' %prec ARRAYFETCH { bless [ @_[1,3] ], 'ArrayFetch' }
-	 |	NAME			%prec NAME { bless [ $_[1] ], 'Fetch' }
-	 |   '[' array ']'              { $_[2] } 
+     |	DATE
+	 |	STRING
+	 |	singleval '@' array '$'
+	 |	NAME
+	 |   '[' array ']'
 	 |   lambda
 	 ;
 
-parens:	'(' expr ')'	{ bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything correctly
+parens:	'(' expr ')'
 	  ;
 
 singleval: value
@@ -151,31 +119,27 @@ singleval: value
 
 exprnouminus:	singleval
 	|   multexpr
-        | expr '**' expr { bless [ @_[1,3] ], 'Pow' }
-        | expr '^' expr  { bless [ @_[1,3] ], 'Pow' }
-	|	expr '+' expr	{ bless [ @_[1,3]], 'Add' }
-	|	expr '-' expr	{ bless [ @_[1,3]], 'Sub' }
-	|	expr '/' expr	{ bless [ @_[1,3], '/'], 'Div' }
-	|	expr 'per' expr	{ bless [ @_[1,3], 'per' ], 'Div' }
-	|	expr '%' expr	{ bless [ @_[1,3] ], 'Mod' }
-	|	expr 'conforms' expr	{ bless [ @_[1,3] ], 'Conforms' }
-	|   expr '?' expr ':' expr { bless [@_[1,3,5]], 'Ternary' }
+        | expr '**' expr
+        | expr '^' expr
+	|	expr '+' expr
+	|	expr '-' expr
+	|	expr '/' expr
+	|	expr 'per' expr
+	|	expr '%' expr
+	|	expr 'conforms' expr
+	|   expr '?' expr ':' expr
 	|   logic
 	|	compare
 	|	crement
-	|	NAME '::-'  expr	{ bless [ @_[1,3] ], 'SetPrefix' }
-	|   NAME ':-' expr		{ bless [ @_[1,3] ], 'SetPrefixAbrv' }
-	|	NAME '{' arglist '}' ':=' expr { bless [@_[1,3], (bless [$_[6]], 'Stmt')], 'FuncDef' }
-	|   NAME '{' arglist '}' ':=' '{' stma '}' { bless [@_[1,3,7]], 'FuncDef' } #i really want scoping here, should i do it?
-#	|   lambda #moved to singleval
-	|   expr '=>' expr {bless [@_[1,3]], 'LambdaCall'}
-#//	|   arrayfetchexpr '=' expr { bless [($_[1]->[0][0]), ($_[1]->[1]), $_[3]], 'ArrayStore' } #this may no longer be needed!
-	|   expr '->' expr  { bless [ @_[1,3]], 'Trans' }
-#	|	DATE			{ bless [ $_[1] ], 'Date' }
-#	|	STRING			{ bless [ $_[1] ], 'String' } #this will have to be reparsed later, just before evaluating
+	|	NAME '::-'  expr
+	|   NAME ':-' expr
+	|	NAME '{' arglist '}' ':=' expr
+	|   NAME '{' arglist '}' ':=' '{' stma '}'
+	|   expr '=>' expr
+	|   expr '->' expr
 	|   assigncomb
 	;
 
 expr: exprnouminus
-	|   '-' expr     %prec UMINUS { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' } #unary -
+	|   '-' expr
 	;
