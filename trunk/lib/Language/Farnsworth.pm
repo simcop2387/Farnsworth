@@ -41,8 +41,9 @@ sub new
 
 	for my $a (@modules)
 	{
+		local $@;
 		eval 'use Language::Farnsworth::'.$a.'; Language::Farnsworth::'.$a.'::init($self->{eval});';
-		die $@ if $@;
+		#die $@ if $@;
 		#print "-------FAILED? $a\n";
 		#print $@;
 		#print "\n";
@@ -217,7 +218,7 @@ Better control over the output
 
 =item *
 
-Adjustable precision of numbers
+Adjustable precision of numbers (this includes significant digits!)
 
 =item *
 
@@ -251,7 +252,7 @@ Ryan Voots E<lt>simcop@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2009 by Ryan Voots
+Copyright (C) 2010 by Ryan Voots
 
 This library is free software; It is licensed exclusively under the Artistic License version 2.0 only.
 
