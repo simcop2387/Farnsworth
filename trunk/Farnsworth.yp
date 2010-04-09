@@ -99,6 +99,22 @@ number: NUMBER    { bless [ $_[1] ], 'Num' }
       | HEXNUMBER { bless [ $_[1] ], 'HexNum' }
 	  ;
 
+value:	number
+     |	DATE			{ bless [ $_[1] ], 'Date' }
+	 |	STRING			{ bless [ $_[1] ], 'String' } #this will have to be reparsed later, just before evaluating
+	 |	singleval '@' array '$' %prec ARRAYFETCH { bless [ @_[1,3] ], 'ArrayFetch' }
+	 |	NAME			%prec NAME { bless [ $_[1] ], 'Fetch' }
+	 |   '[' array ']'              { $_[2] } 
+	 |   lambda
+	 ;
+
+parens:	'(' expr ')'	{ bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything correctly
+	  ;
+
+singleval: value
+         | parens
+         ;
+
 assignexpr: 	expr '=' expr	{ bless [ @_[1,3] ], 'Store' }
 		  ;
 
@@ -145,23 +161,6 @@ crement: '++' singleval { bless [ $_[2] ], 'PreInc' }
 	   | singleval '--' { bless [ $_[1] ], 'PostDec' }
 	   ;
 	   
-
-value:	number
-     |	DATE			{ bless [ $_[1] ], 'Date' }
-	 |	STRING			{ bless [ $_[1] ], 'String' } #this will have to be reparsed later, just before evaluating
-	 |	singleval '@' array '$' %prec ARRAYFETCH { bless [ @_[1,3] ], 'ArrayFetch' }
-	 |	NAME			%prec NAME { bless [ $_[1] ], 'Fetch' }
-	 |   '[' array ']'              { $_[2] } 
-	 |   lambda
-	 ;
-
-parens:	'(' expr ')'	{ bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything correctly
-	  ;
-
-singleval: value
-         | parens
-         ;
-
 powexp: expr '**' expr { bless [ @_[1,3] ], 'Pow' }
       | expr '^' expr  { bless [ @_[1,3] ], 'Pow' }
       ;

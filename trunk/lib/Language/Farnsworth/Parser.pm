@@ -591,19 +591,19 @@ sub new {
 		DEFAULT => -90
 	},
 	{#State 3
-		DEFAULT => -67
+		DEFAULT => -37
 	},
 	{#State 4
 		DEFAULT => -91
 	},
 	{#State 5
-		DEFAULT => -44
+		DEFAULT => -54
 	},
 	{#State 6
 		DEFAULT => -11
 	},
 	{#State 7
-		DEFAULT => -75
+		DEFAULT => -45
 	},
 	{#State 8
 		ACTIONS => {
@@ -700,7 +700,7 @@ sub new {
 		}
 	},
 	{#State 14
-		DEFAULT => -74
+		DEFAULT => -44
 	},
 	{#State 15
 		ACTIONS => {
@@ -777,13 +777,13 @@ sub new {
 		}
 	},
 	{#State 21
-		DEFAULT => -66
+		DEFAULT => -36
 	},
 	{#State 22
-		DEFAULT => -72
+		DEFAULT => -42
 	},
 	{#State 23
-		DEFAULT => -68
+		DEFAULT => -38
 	},
 	{#State 24
 		ACTIONS => {
@@ -858,7 +858,7 @@ sub new {
 			"{" => 94,
 			":-" => 96
 		},
-		DEFAULT => -70
+		DEFAULT => -40
 	},
 	{#State 29
 		DEFAULT => -85
@@ -889,7 +889,7 @@ sub new {
 		DEFAULT => -12
 	},
 	{#State 36
-		DEFAULT => -45
+		DEFAULT => -55
 	},
 	{#State 37
 		ACTIONS => {
@@ -904,16 +904,16 @@ sub new {
 			"{" => 94,
 			":-" => 96
 		},
-		DEFAULT => -70
+		DEFAULT => -40
 	},
 	{#State 39
 		ACTIONS => {
 			"\@" => 53
 		},
-		DEFAULT => -54
+		DEFAULT => -64
 	},
 	{#State 40
-		DEFAULT => -70
+		DEFAULT => -40
 	},
 	{#State 41
 		ACTIONS => {
@@ -998,7 +998,7 @@ sub new {
 		ACTIONS => {
 			"\@" => 53
 		},
-		DEFAULT => -63
+		DEFAULT => -73
 	},
 	{#State 45
 		ACTIONS => {
@@ -1148,7 +1148,7 @@ sub new {
 		}
 	},
 	{#State 54
-		DEFAULT => -65
+		DEFAULT => -75
 	},
 	{#State 55
 		ACTIONS => {
@@ -1165,7 +1165,7 @@ sub new {
 			'NUMBER' => 27,
 			'NAME' => 38
 		},
-		DEFAULT => -48,
+		DEFAULT => -58,
 		GOTOS => {
 			'compare' => 2,
 			'singleval' => 20,
@@ -1186,7 +1186,7 @@ sub new {
 		}
 	},
 	{#State 56
-		DEFAULT => -64
+		DEFAULT => -74
 	},
 	{#State 57
 		ACTIONS => {
@@ -1226,7 +1226,7 @@ sub new {
 		ACTIONS => {
 			"\@" => 53
 		},
-		DEFAULT => -62
+		DEFAULT => -72
 	},
 	{#State 59
 		ACTIONS => {
@@ -2526,7 +2526,7 @@ sub new {
 		DEFAULT => -21
 	},
 	{#State 101
-		DEFAULT => -71
+		DEFAULT => -41
 	},
 	{#State 102
 		ACTIONS => {
@@ -2707,7 +2707,7 @@ sub new {
 		}
 	},
 	{#State 110
-		DEFAULT => -73
+		DEFAULT => -43
 	},
 	{#State 111
 		ACTIONS => {
@@ -2719,7 +2719,7 @@ sub new {
 			"**" => 80,
 			"^" => 81
 		},
-		DEFAULT => -49
+		DEFAULT => -59
 	},
 	{#State 113
 		ACTIONS => {
@@ -2809,7 +2809,7 @@ sub new {
 			"/" => 88,
 			"<=>" => undef
 		},
-		DEFAULT => -55
+		DEFAULT => -65
 	},
 	{#State 117
 		ACTIONS => {
@@ -2845,7 +2845,7 @@ sub new {
 			"=" => 90,
 			"<=>" => 91
 		},
-		DEFAULT => -40
+		DEFAULT => -50
 	},
 	{#State 118
 		ACTIONS => {
@@ -2873,7 +2873,7 @@ sub new {
 			"/" => 88,
 			"<=>" => undef
 		},
-		DEFAULT => -59
+		DEFAULT => -69
 	},
 	{#State 120
 		ACTIONS => {
@@ -2894,21 +2894,21 @@ sub new {
 			"/" => 88,
 			"<=>" => undef
 		},
-		DEFAULT => -58
+		DEFAULT => -68
 	},
 	{#State 121
 		ACTIONS => {
 			"**" => 80,
 			"^" => 81
 		},
-		DEFAULT => -50
+		DEFAULT => -60
 	},
 	{#State 122
 		ACTIONS => {
 			"**" => 80,
 			"^" => 81
 		},
-		DEFAULT => -47
+		DEFAULT => -57
 	},
 	{#State 123
 		ACTIONS => {
@@ -2944,7 +2944,7 @@ sub new {
 			"=" => 90,
 			"<=>" => 91
 		},
-		DEFAULT => -42
+		DEFAULT => -52
 	},
 	{#State 124
 		DEFAULT => -10
@@ -2969,7 +2969,7 @@ sub new {
 			"/" => 88,
 			"<=>" => 91
 		},
-		DEFAULT => -52
+		DEFAULT => -62
 	},
 	{#State 126
 		ACTIONS => {
@@ -3031,7 +3031,7 @@ sub new {
 			"=" => 90,
 			"<=>" => 91
 		},
-		DEFAULT => -38
+		DEFAULT => -48
 	},
 	{#State 128
 		ACTIONS => {
@@ -3067,7 +3067,7 @@ sub new {
 			"=" => 90,
 			"<=>" => 91
 		},
-		DEFAULT => -39
+		DEFAULT => -49
 	},
 	{#State 129
 		ACTIONS => {
@@ -3114,7 +3114,7 @@ sub new {
 			"/" => 88,
 			"<=>" => undef
 		},
-		DEFAULT => -57
+		DEFAULT => -67
 	},
 	{#State 131
 		ACTIONS => {
@@ -3135,7 +3135,7 @@ sub new {
 			"/" => 88,
 			"<=>" => undef
 		},
-		DEFAULT => -56
+		DEFAULT => -66
 	},
 	{#State 132
 		ACTIONS => {
@@ -3171,7 +3171,7 @@ sub new {
 			"=" => 90,
 			"<=>" => 91
 		},
-		DEFAULT => -41
+		DEFAULT => -51
 	},
 	{#State 133
 		ACTIONS => {
@@ -3207,7 +3207,7 @@ sub new {
 			"=" => 90,
 			"<=>" => 91
 		},
-		DEFAULT => -43
+		DEFAULT => -53
 	},
 	{#State 134
 		ACTIONS => {
@@ -3301,7 +3301,7 @@ sub new {
 			"/" => 88,
 			"<=>" => undef
 		},
-		DEFAULT => -61
+		DEFAULT => -71
 	},
 	{#State 140
 		ACTIONS => {
@@ -3359,7 +3359,7 @@ sub new {
 			"/" => 88,
 			"<=>" => 91
 		},
-		DEFAULT => -51
+		DEFAULT => -61
 	},
 	{#State 142
 		ACTIONS => {
@@ -3381,7 +3381,7 @@ sub new {
 			"/" => 88,
 			"<=>" => 91
 		},
-		DEFAULT => -53
+		DEFAULT => -63
 	},
 	{#State 143
 		ACTIONS => {
@@ -3424,7 +3424,7 @@ sub new {
 			"=" => 90,
 			"<=>" => 91
 		},
-		DEFAULT => -37
+		DEFAULT => -47
 	},
 	{#State 145
 		ACTIONS => {
@@ -3460,7 +3460,7 @@ sub new {
 			"=" => 90,
 			"<=>" => 91
 		},
-		DEFAULT => -36
+		DEFAULT => -46
 	},
 	{#State 146
 		ACTIONS => {
@@ -3481,7 +3481,7 @@ sub new {
 			"/" => 88,
 			"<=>" => undef
 		},
-		DEFAULT => -60
+		DEFAULT => -70
 	},
 	{#State 147
 		ACTIONS => {
@@ -3805,7 +3805,7 @@ sub new {
 		DEFAULT => -14
 	},
 	{#State 165
-		DEFAULT => -69
+		DEFAULT => -39
 	},
 	{#State 166
 		DEFAULT => -13
@@ -3930,7 +3930,7 @@ sub new {
 		}
 	},
 	{#State 173
-		DEFAULT => -46
+		DEFAULT => -56
 	},
 	{#State 174
 		ACTIONS => {
@@ -4336,267 +4336,267 @@ sub
 { bless [ $_[1] ], 'HexNum' }
 	],
 	[#Rule 36
-		 'assignexpr', 3,
-sub
-#line 102 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Store' }
+		 'value', 1, undef
 	],
 	[#Rule 37
-		 'assignexpr2', 3,
-sub
-#line 105 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'StoreAdd' }
-	],
-	[#Rule 38
-		 'assignexpr2', 3,
-sub
-#line 106 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'StoreSub' }
-	],
-	[#Rule 39
-		 'assignexpr2', 3,
-sub
-#line 107 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'StoreDiv' }
-	],
-	[#Rule 40
-		 'assignexpr2', 3,
-sub
-#line 108 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'StoreMul' }
-	],
-	[#Rule 41
-		 'assignexpr2', 3,
-sub
-#line 109 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'StoreMod' }
-	],
-	[#Rule 42
-		 'assignexpr2', 3,
-sub
-#line 110 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'StorePow' }
-	],
-	[#Rule 43
-		 'assignexpr2', 3,
-sub
-#line 111 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'StorePow' }
-	],
-	[#Rule 44
-		 'assigncomb', 1, undef
-	],
-	[#Rule 45
-		 'assigncomb', 1, undef
-	],
-	[#Rule 46
-		 'lambda', 5,
-sub
-#line 118 "Farnsworth.yp"
-{bless [ @_[2,4] ], 'Lambda'}
-	],
-	[#Rule 47
-		 'multexpr', 3,
-sub
-#line 121 "Farnsworth.yp"
-{ bless [ @_[1,3], '*'], 'Mul' }
-	],
-	[#Rule 48
-		 'multexpr', 2,
-sub
-#line 122 "Farnsworth.yp"
-{ bless [ @_[1,2], 'imp'], 'Mul' }
-	],
-	[#Rule 49
-		 'multexpr', 3,
-sub
-#line 123 "Farnsworth.yp"
-{ bless [bless([ @_[1,2], 'imp'], 'Mul'), $_[3], 'imp'], 'Mul' }
-	],
-	[#Rule 50
-		 'multexpr', 3,
-sub
-#line 124 "Farnsworth.yp"
-{ bless [ @_[1,3], ''], 'Mul' }
-	],
-	[#Rule 51
-		 'logic', 3,
-sub
-#line 127 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'And' }
-	],
-	[#Rule 52
-		 'logic', 3,
-sub
-#line 128 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Or' }
-	],
-	[#Rule 53
-		 'logic', 3,
-sub
-#line 129 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Xor' }
-	],
-	[#Rule 54
-		 'logic', 2,
-sub
-#line 130 "Farnsworth.yp"
-{ bless [ $_[2] ], 'Not' }
-	],
-	[#Rule 55
-		 'compare', 3,
-sub
-#line 133 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Lt' }
-	],
-	[#Rule 56
-		 'compare', 3,
-sub
-#line 134 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Gt' }
-	],
-	[#Rule 57
-		 'compare', 3,
-sub
-#line 135 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Le' }
-	],
-	[#Rule 58
-		 'compare', 3,
-sub
-#line 136 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Ge' }
-	],
-	[#Rule 59
-		 'compare', 3,
-sub
-#line 137 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Eq' }
-	],
-	[#Rule 60
-		 'compare', 3,
-sub
-#line 138 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Compare' }
-	],
-	[#Rule 61
-		 'compare', 3,
-sub
-#line 139 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Ne' }
-	],
-	[#Rule 62
-		 'crement', 2,
-sub
-#line 142 "Farnsworth.yp"
-{ bless [ $_[2] ], 'PreInc' }
-	],
-	[#Rule 63
-		 'crement', 2,
-sub
-#line 143 "Farnsworth.yp"
-{ bless [ $_[2] ], 'PreDec' }
-	],
-	[#Rule 64
-		 'crement', 2,
-sub
-#line 144 "Farnsworth.yp"
-{ bless [ $_[1] ], 'PostInc' }
-	],
-	[#Rule 65
-		 'crement', 2,
-sub
-#line 145 "Farnsworth.yp"
-{ bless [ $_[1] ], 'PostDec' }
-	],
-	[#Rule 66
-		 'value', 1, undef
-	],
-	[#Rule 67
 		 'value', 1,
 sub
-#line 150 "Farnsworth.yp"
+#line 103 "Farnsworth.yp"
 { bless [ $_[1] ], 'Date' }
 	],
-	[#Rule 68
+	[#Rule 38
 		 'value', 1,
 sub
-#line 151 "Farnsworth.yp"
+#line 104 "Farnsworth.yp"
 { bless [ $_[1] ], 'String' }
 	],
-	[#Rule 69
+	[#Rule 39
 		 'value', 4,
 sub
-#line 152 "Farnsworth.yp"
+#line 105 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'ArrayFetch' }
 	],
-	[#Rule 70
+	[#Rule 40
 		 'value', 1,
 sub
-#line 153 "Farnsworth.yp"
+#line 106 "Farnsworth.yp"
 { bless [ $_[1] ], 'Fetch' }
 	],
-	[#Rule 71
+	[#Rule 41
 		 'value', 3,
 sub
-#line 154 "Farnsworth.yp"
+#line 107 "Farnsworth.yp"
 { $_[2] }
 	],
-	[#Rule 72
+	[#Rule 42
 		 'value', 1, undef
 	],
-	[#Rule 73
+	[#Rule 43
 		 'parens', 3,
 sub
-#line 158 "Farnsworth.yp"
+#line 111 "Farnsworth.yp"
 { bless [$_[2]], 'Paren' }
 	],
-	[#Rule 74
+	[#Rule 44
 		 'singleval', 1, undef
 	],
-	[#Rule 75
+	[#Rule 45
 		 'singleval', 1, undef
+	],
+	[#Rule 46
+		 'assignexpr', 3,
+sub
+#line 118 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'Store' }
+	],
+	[#Rule 47
+		 'assignexpr2', 3,
+sub
+#line 121 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'StoreAdd' }
+	],
+	[#Rule 48
+		 'assignexpr2', 3,
+sub
+#line 122 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'StoreSub' }
+	],
+	[#Rule 49
+		 'assignexpr2', 3,
+sub
+#line 123 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'StoreDiv' }
+	],
+	[#Rule 50
+		 'assignexpr2', 3,
+sub
+#line 124 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'StoreMul' }
+	],
+	[#Rule 51
+		 'assignexpr2', 3,
+sub
+#line 125 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'StoreMod' }
+	],
+	[#Rule 52
+		 'assignexpr2', 3,
+sub
+#line 126 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'StorePow' }
+	],
+	[#Rule 53
+		 'assignexpr2', 3,
+sub
+#line 127 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'StorePow' }
+	],
+	[#Rule 54
+		 'assigncomb', 1, undef
+	],
+	[#Rule 55
+		 'assigncomb', 1, undef
+	],
+	[#Rule 56
+		 'lambda', 5,
+sub
+#line 134 "Farnsworth.yp"
+{bless [ @_[2,4] ], 'Lambda'}
+	],
+	[#Rule 57
+		 'multexpr', 3,
+sub
+#line 137 "Farnsworth.yp"
+{ bless [ @_[1,3], '*'], 'Mul' }
+	],
+	[#Rule 58
+		 'multexpr', 2,
+sub
+#line 138 "Farnsworth.yp"
+{ bless [ @_[1,2], 'imp'], 'Mul' }
+	],
+	[#Rule 59
+		 'multexpr', 3,
+sub
+#line 139 "Farnsworth.yp"
+{ bless [bless([ @_[1,2], 'imp'], 'Mul'), $_[3], 'imp'], 'Mul' }
+	],
+	[#Rule 60
+		 'multexpr', 3,
+sub
+#line 140 "Farnsworth.yp"
+{ bless [ @_[1,3], ''], 'Mul' }
+	],
+	[#Rule 61
+		 'logic', 3,
+sub
+#line 143 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'And' }
+	],
+	[#Rule 62
+		 'logic', 3,
+sub
+#line 144 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'Or' }
+	],
+	[#Rule 63
+		 'logic', 3,
+sub
+#line 145 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'Xor' }
+	],
+	[#Rule 64
+		 'logic', 2,
+sub
+#line 146 "Farnsworth.yp"
+{ bless [ $_[2] ], 'Not' }
+	],
+	[#Rule 65
+		 'compare', 3,
+sub
+#line 149 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'Lt' }
+	],
+	[#Rule 66
+		 'compare', 3,
+sub
+#line 150 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'Gt' }
+	],
+	[#Rule 67
+		 'compare', 3,
+sub
+#line 151 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'Le' }
+	],
+	[#Rule 68
+		 'compare', 3,
+sub
+#line 152 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'Ge' }
+	],
+	[#Rule 69
+		 'compare', 3,
+sub
+#line 153 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'Eq' }
+	],
+	[#Rule 70
+		 'compare', 3,
+sub
+#line 154 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'Compare' }
+	],
+	[#Rule 71
+		 'compare', 3,
+sub
+#line 155 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'Ne' }
+	],
+	[#Rule 72
+		 'crement', 2,
+sub
+#line 158 "Farnsworth.yp"
+{ bless [ $_[2] ], 'PreInc' }
+	],
+	[#Rule 73
+		 'crement', 2,
+sub
+#line 159 "Farnsworth.yp"
+{ bless [ $_[2] ], 'PreDec' }
+	],
+	[#Rule 74
+		 'crement', 2,
+sub
+#line 160 "Farnsworth.yp"
+{ bless [ $_[1] ], 'PostInc' }
+	],
+	[#Rule 75
+		 'crement', 2,
+sub
+#line 161 "Farnsworth.yp"
+{ bless [ $_[1] ], 'PostDec' }
 	],
 	[#Rule 76
 		 'powexp', 3,
 sub
-#line 165 "Farnsworth.yp"
+#line 164 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Pow' }
 	],
 	[#Rule 77
 		 'powexp', 3,
 sub
-#line 166 "Farnsworth.yp"
+#line 165 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Pow' }
 	],
 	[#Rule 78
 		 'standardmath', 3,
 sub
-#line 169 "Farnsworth.yp"
+#line 168 "Farnsworth.yp"
 { bless [ @_[1,3]], 'Add' }
 	],
 	[#Rule 79
 		 'standardmath', 3,
 sub
-#line 170 "Farnsworth.yp"
+#line 169 "Farnsworth.yp"
 { bless [ @_[1,3]], 'Sub' }
 	],
 	[#Rule 80
 		 'standardmath', 3,
 sub
-#line 171 "Farnsworth.yp"
+#line 170 "Farnsworth.yp"
 { bless [ @_[1,3], '/'], 'Div' }
 	],
 	[#Rule 81
 		 'standardmath', 3,
 sub
-#line 172 "Farnsworth.yp"
+#line 171 "Farnsworth.yp"
 { bless [ @_[1,3], 'per' ], 'Div' }
 	],
 	[#Rule 82
 		 'standardmath', 3,
 sub
-#line 173 "Farnsworth.yp"
+#line 172 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Mod' }
 	],
 	[#Rule 83
@@ -4614,13 +4614,13 @@ sub
 	[#Rule 87
 		 'exprnouminus', 3,
 sub
-#line 180 "Farnsworth.yp"
+#line 179 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'Conforms' }
 	],
 	[#Rule 88
 		 'exprnouminus', 5,
 sub
-#line 181 "Farnsworth.yp"
+#line 180 "Farnsworth.yp"
 { bless [@_[1,3,5]], 'Ternary' }
 	],
 	[#Rule 89
@@ -4635,37 +4635,37 @@ sub
 	[#Rule 92
 		 'exprnouminus', 3,
 sub
-#line 185 "Farnsworth.yp"
+#line 184 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'SetPrefix' }
 	],
 	[#Rule 93
 		 'exprnouminus', 3,
 sub
-#line 186 "Farnsworth.yp"
+#line 185 "Farnsworth.yp"
 { bless [ @_[1,3] ], 'SetPrefixAbrv' }
 	],
 	[#Rule 94
 		 'exprnouminus', 6,
 sub
-#line 187 "Farnsworth.yp"
+#line 186 "Farnsworth.yp"
 { bless [@_[1,3], (bless [$_[6]], 'Stmt')], 'FuncDef' }
 	],
 	[#Rule 95
 		 'exprnouminus', 8,
 sub
-#line 188 "Farnsworth.yp"
+#line 187 "Farnsworth.yp"
 { bless [@_[1,3,7]], 'FuncDef' }
 	],
 	[#Rule 96
 		 'exprnouminus', 3,
 sub
-#line 189 "Farnsworth.yp"
+#line 188 "Farnsworth.yp"
 {bless [@_[1,3]], 'LambdaCall'}
 	],
 	[#Rule 97
 		 'exprnouminus', 3,
 sub
-#line 190 "Farnsworth.yp"
+#line 189 "Farnsworth.yp"
 { bless [ @_[1,3]], 'Trans' }
 	],
 	[#Rule 98
@@ -4677,7 +4677,7 @@ sub
 	[#Rule 100
 		 'expr', 2,
 sub
-#line 195 "Farnsworth.yp"
+#line 194 "Farnsworth.yp"
 { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' }
 	]
 ],
@@ -4685,7 +4685,7 @@ sub
     bless($self,$class);
 }
 
-#line 197 "Farnsworth.yp"
+#line 196 "Farnsworth.yp"
 
 
 #helpers!
