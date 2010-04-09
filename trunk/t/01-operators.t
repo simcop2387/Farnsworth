@@ -36,14 +36,19 @@ my @tests =
 	["3 + 3 s", undef,           "inconsistent units"], #undef signals it should die
 	["2 ** (2 s)", undef,        "units in power"], #undef signals it should die
 	["2**2",    "4 ",            "exponents"], #undef signals it should die
-#	["4s ** 2",  "4 s^2 ",      "operator precedence"], #operator precedence when having no space doesn't work right! bug in parser
+	["4s ** 2",  "4 s^2 ",      "operator precedence"], #operator precedence when having no space doesn't work right! bug in parser
 	["log[10 m]", undef,         "log of units"],
 	["log[10]",  "1.0 ",         "log"], 
 #	["sin[0 radians]",  "(0.e-115) ",      "sin"],  #SAME AS ABOVE!
 	["sin[45 degrees]^2",  "0.5 ",         "sin squared"], 
 	["var q={`x` x + x}", "{`x` x + x; }",     "lambda + assignment"],
-	["1=>q", "2 ",                         "lambda call from variable"],
-	["[3,2] => {`x,y` x * x + x * y + y * y}", "19 ", "multi argument lambda call, direct"],
+	["q 1", "2 ",                         "lambda call from variable"],
+	["q[1]", "2 ",                        "lambda call from variable function syntax"],
+        ["(q)[1]", "2 ",                      "lambda call from variable forced syntax"],
+        ["{`x` 42} 1", "42 ",                 "lambda call from anonymous lambda"],
+        ["{`x` 42}[2]", "42 ",                "lambda call from anonymous lambda, function syntax"],
+        ["({`x` 42})[2]", "42 ",              "lambda call from anonymous lambda forced syntax"],
+	["({`x,y` x * x + x * y + y * y})[3,2]", "19 ", "multi argument lambda call, direct"],
 	["foo{x=1,y = 2 m isa m} := {x y}; 1", "1 ", "Function definition, with defaults and constraints"],
 	["foo[]", "2 m /* length */", "function call using defaults"],
 	["foo[2]", "4 m /* length */", "function call using one default"],

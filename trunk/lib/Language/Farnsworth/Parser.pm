@@ -4737,16 +4737,35 @@ sub yylex
 	$s =~ /\G\s*(while|conforms|else|if)\b\s*/cg and return $1;
 
 	#seperated this to shorten the lines, and hopefully to make parts of it more readable
-	$s =~ /\G$ws*(:=|==|!=|<=>|>=|<=|=>|->|:->|\+\+|--|\*\*=|\*\*|\+=|-=|\*=|\/=|%=|\^=)$ws*/icg and return lc $1;
+	#$s =~ /\G$ws*()$ws*/icg and return lc $1;
+	
+	#comparators
+	$s =~ /\G$ws*(==|!=|<=>|>=|<=)$ws*/icg and return lc $1;
+	
+	#pre and post decrements, needs to be two statements for \s
+	$s =~ /\G$ws*(\+\+|--)$ws*/icg and return lc $1;
+	
+	#farnsworth specific operators
+	$s =~ /\G$ws*(:=|->|:->)$ws*/icg and return lc $1;
+	
 	$s =~ /\G$ws*(var\b|per\b|isa\b|byref\b|\:?\:\-|\=\!\=|\|\|\|)$ws*/icg and return lc $1;
-    $s =~ /\G$ws*(\})/cg and return $1;
-	$s =~ /\G$ws*(\+|\*|-|\/|\%|\^\^?|=|;|\{\s*\`|\{|\}|\>|\<|\?|\:|\,|\&\&|\|\||\!|\||\.\.\.|\`)$ws*/cg and return $1;
+	
+	#assignment operators
+	$s =~ /\G$ws*(\*\*=|\+=|-=|\*=|\/=|%=|\^=|=)$ws*/icg and return lc $1;
+    
+    #logical operators
+    $s =~ /\G$ws*(\^\^|\&\&|\|\||\!)$ws*/icg and return lc $1;
+	
+	#math operators
+	$s =~ /\G$ws*(\*\*|\+|\*|-|\/|\%|\^)$ws*/icg and return lc $1;
+	
+	$s =~ /\G$ws*(;|\{\s*\`|\{|\}|\>|\<|\?|\:|\,|\.\.\.|\`)$ws*/cg and return $1;
 	$s =~ /\G$ws*(\)|\])/cg and return $1; #freaking quirky lexers!
 	$s =~ /\G(\(|\[)$ws*/cg and return $1;
 	$s =~ /\G($identifier)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here
 	$s =~ /\G(.)/cgs and return $1;
     return '';
-	}
+}
 
 
 sub yylexwatch

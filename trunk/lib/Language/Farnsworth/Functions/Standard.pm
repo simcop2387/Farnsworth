@@ -43,7 +43,7 @@ sub init
    $env->{funcs}->addfunc("_dbgprint", [["str", undef, TYPE_STRING, 0]], \&dbgprint);
    $env->{funcs}->addfunc("__dbgbranches", [[undef, undef, undef, 0]], \&dbgbranch);
    
-   $env->eval('map{sub isa {`x`}, x isa ...} := {var xx=[]+x; if (length[xx] == 1 && xx@0$ conforms []) {xx = x@0$}; if (length[xx] == 1 && !(xx conforms [])) {xx = [xx]}; var z=[]+xx; var e; var out=[]; while(length[z]) {e = shift[z]; dbgprint[e]; push[out,e => sub]}; dbgprint[out]; out}');
+   $env->eval('map{sub isa {`x`}, x isa ...} := {var xx=[]+x; if (length[xx] == 1 && xx@0$ conforms []) {xx = x@0$}; if (length[xx] == 1 && !(xx conforms [])) {xx = [xx]}; var z=[]+xx; var e; var out=[]; while(length[z]) {e = shift[z]; dbgprint[e]; push[out, (sub)[e]]}; dbgprint[out]; out}');
 
    $env->{funcs}->addfunc("substrLen", [["str", undef, TYPE_STRING, 0],["left", undef, TYPE_PLAIN, 0],["length", undef, TYPE_PLAIN, 0]],\&substrlen); #this one works like perls
    $env->eval("substr{str,left,right}:={substrLen[str,left,right-left]}");
