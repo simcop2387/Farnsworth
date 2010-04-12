@@ -5,7 +5,7 @@ use warnings;
 
 use inc::Module::Install;
 
-name "Language-Farnsworth";
+name "Language-Farnsworth-Functions-GoogleTranslate";
 all_from       'lib/Language/Farnsworth/Functions/GoogleTranslate.pm';
 version_from "lib/Language/Farnsworth/Functions/GoogleTranslate.pm";
 license 'artistic';

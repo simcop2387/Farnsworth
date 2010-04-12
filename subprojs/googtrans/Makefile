@@ -1,4 +1,4 @@
-# This Makefile is for the Language::Farnsworth extension to perl.
+# This Makefile is for the Language::Farnsworth::Functions::GoogleTranslate extension to perl.
 #
 # It was generated automatically by MakeMaker version
 # 6.56 (Revision: 65600) from the contents of
@@ -13,8 +13,8 @@
 
 #     BUILD_REQUIRES => {  }
 #     DIR => []
-#     DISTNAME => q[Language-Farnsworth]
-#     NAME => q[Language::Farnsworth]
+#     DISTNAME => q[Language-Farnsworth-Functions-GoogleTranslate]
+#     NAME => q[Language::Farnsworth::Functions::GoogleTranslate]
 #     NO_META => q[1]
 #     PL_FILES => {  }
 #     PREREQ_PM => { Language::Farnsworth=>q[0], ExtUtils::MakeMaker=>q[6.42], REST::Google::Translate=>q[0] }
@@ -57,8 +57,8 @@ VENDORLIBEXP = /usr/lib64/perl5/vendor_perl/5.10.1
 AR_STATIC_ARGS = cr
 DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
-NAME = Language::Farnsworth
-NAME_SYM = Language_Farnsworth
+NAME = Language::Farnsworth::Functions::GoogleTranslate
+NAME_SYM = Language_Farnsworth_Functions_GoogleTranslate
 VERSION = 0.9.0
 VERSION_MACRO = VERSION
 VERSION_SYM = 0_9_0
@@ -147,9 +147,9 @@ MM_REVISION = 65600
 # PARENT_NAME = NAME without BASEEXT and no trailing :: (eg Foo::Bar)
 # DLBASE  = Basename part of dynamic library. May be just equal BASEEXT.
 MAKE = make
-FULLEXT = Language/Farnsworth
-BASEEXT = Farnsworth
-PARENT_NAME = Language
+FULLEXT = Language/Farnsworth/Functions/GoogleTranslate
+BASEEXT = GoogleTranslate
+PARENT_NAME = Language::Farnsworth::Functions
 DLBASE = $(BASEEXT)
 VERSION_FROM = 
 OBJECT = 
@@ -169,8 +169,8 @@ MAN3PODS =
 CONFIGDEP = $(PERL_ARCHLIB)$(DFSEP)Config.pm $(PERL_INC)$(DFSEP)config.h
 
 # Where to build things
-INST_LIBDIR      = $(INST_LIB)/Language
-INST_ARCHLIBDIR  = $(INST_ARCHLIB)/Language
+INST_LIBDIR      = $(INST_LIB)/Language/Farnsworth/Functions
+INST_ARCHLIBDIR  = $(INST_ARCHLIB)/Language/Farnsworth/Functions
 
 INST_AUTODIR     = $(INST_LIB)/auto/$(FULLEXT)
 INST_ARCHAUTODIR = $(INST_ARCHLIB)/auto/$(FULLEXT)
@@ -256,8 +256,8 @@ CI = ci -u
 RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
-DISTNAME = Language-Farnsworth
-DISTVNAME = Language-Farnsworth-0.9.0
+DISTNAME = Language-Farnsworth-Functions-GoogleTranslate
+DISTVNAME = Language-Farnsworth-Functions-GoogleTranslate-0.9.0
 
 
 # --- MakeMaker macro section:
