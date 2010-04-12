@@ -4697,6 +4697,7 @@ sub yylex
 	my $line = $_[-2];
 	my $charline = $_[-1];
 	my $lastcharline = $_[-3];
+	my $gotnumber = $_[-4];
 	
 	#remove \n or whatever from the string
 	if ($s =~ /\G$ws*\n$ws*/gc)
@@ -4708,22 +4709,44 @@ sub yylex
 		redo
 	}
 	
-	$s =~ /\G\s*(?=\s)/gc;
+	#this has got to be the most fucked up work around in the entire code base.
+	#i'm doing this to check if i've gotten something like; 2a so that i can insert a fictious space token. so that 2a**2 will properly parse as 2 * (a ** 2) 
+	if ($$gotnumber) #we had a number
+	{
+	  #print "INGOTNUMBER\n";
+	  $$gotnumber = 0; #unset it
+	  if ($s =~ /\G(?=$identifier)/gc) #match opening array brace
+	  {#<NUMBER><IDENTIFIER> needs a space (or a *, but we'll use \s for now)
+	    #print "OMG IDENTIFIER!\n";
+	    return ' '; 
+	  }
+	}
+	
+	$s =~ /\G\s*(?=\s)/gc; #skip whitespace up to a single space, makes \s+ always look like \s to the rest of the code, simplifies some regex below
 		
 	#1 while $s =~ /\G\s+/cg; #remove extra whitespace?
 
 	$s =~ m|\G\s*/\*.*?\*/\s*|gcs and redo; #skip C comments
 	$s =~ m|\G\s*//.*(?=\n)?|gc and redo;
 
+    if ($s=~ /\G(?=
+    	0[xb]?[[:xdigit:]](?:[[:xdigit:].]+)| #hex octal or binary numbers
+    	(?:\d+(\.\d*)?|\.\d+)(?:[Ee][Ee]?[-+]?\d+)| #scientific notation
+    	(?:\d+(?:\.\d*)?|\.\d+) #plain notation
+    )/cgx)
+    {
+       #print "GOT NUMBER!";
+       $$gotnumber = 1; #store the fact that the last token was a number of some kind, so that we can do funky stuff on the next token if its an identifier
+    }
+
     #i want a complete number regex
 	$s =~ /\G(0[xb]?[[:xdigit:]](?:[[:xdigit:].]+))/igc and return 'HEXNUMBER', $1;
-	#$s =~ /\G(0b[01]+)/igc and return 'HEXNUMBER', $1; #binary
-	#$s =~ /\G(0[0-7]+)/igc and return 'HEXNUMBER', $1; #octal
 	$s =~ /\G((\d+(\.\d*)?|\.\d+)([Ee][Ee]?[-+]?\d+))/gc 
 	      and return 'NUMBER', $1;
 	$s =~ /\G((\d+(\.\d*)?|\.\d+))/gc 
 	      and return 'NUMBER', $1;
-    #$s =~ /\G(0[xX][0-9A-Fa-f])/gc and return $1; #this never happens?!?
+
+
 
     #token out the date
     $s =~ /\G\s*#([^#]*)#\s*/gc and return 'DATE', $1;
@@ -4762,6 +4785,7 @@ sub yylex
 	$s =~ /\G$ws*(;|\{\s*\`|\{|\}|\>|\<|\?|\:|\,|\.\.\.|\`)$ws*/cg and return $1;
 	$s =~ /\G$ws*(\)|\])/cg and return $1; #freaking quirky lexers!
 	$s =~ /\G(\(|\[)$ws*/cg and return $1;
+	
 	$s =~ /\G($identifier)/cg and return 'NAME', $1; #i need to handle -NAME later on when evaluating, or figure out a sane way to do it here
 	$s =~ /\G(.)/cgs and return $1;
     return '';
@@ -4770,6 +4794,7 @@ sub yylex
 
 sub yylexwatch
 {
+   my $oldp = pos $s;
    my @r = &yylex;
 
    my $charlines = $_[-1];
@@ -4777,7 +4802,8 @@ sub yylexwatch
    my $pos = pos $s;
 
    #print Dumper(\@_);
-   #print "LEX: ${$line} ${$charlines} $pos :: ".substr($s, $$charlines, $pos - $$charlines)."\n";
+   #my $nextn = index($s, "\n", $pos+1);
+   #print "LEX: ${$line} ${$charlines} $pos :: ".substr($s, $pos, $nextn).":: ".substr($s, $pos, $nextn-$pos+1)."\n";
    #$charcount+=pos $s;
    #$s = substr($s, pos $s);
    return @r;
@@ -4789,6 +4815,7 @@ sub yyerror
 	my $charlines = $_[-1];
 	my $lines = $_[-2];
     my $lastcharline = $_[-3];
+    my $gotnumber = $_[-4];
 	my $char = $pos-$charlines;
 
 	substr($fullstring,$pos,0) = '<###YYLEX###>';
@@ -4803,11 +4830,13 @@ sub parse
 	my $line = 1;
 	my $charlines = 0;
 	my $lastcharlines = 0;
+	my $gotnumber = 0;
 	my $self = shift;
+	
 	$s = join ' ', @_;
 	$fullstring = $s; #preserve it for errors
 	my $code = eval
-		{ $self->new(yylex => sub {yylexwatch(@_, \$lastcharlines, \$line, \$charlines)}, yyerror => sub {yyerror(@_, $lastcharlines, $line, $charlines)})->YYParse };
+		{ $self->new(yylex => sub {yylexwatch(@_, \$lastcharlines, \$line, \$charlines, \$gotnumber)}, yyerror => sub {yyerror(@_, $lastcharlines, $line, $charlines, $gotnumber)})->YYParse };
 	die $@ if $@;
 	$code
 	}
