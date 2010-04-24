@@ -441,18 +441,6 @@ sub evalbranch
 		$self->{funcs}->addfunc($name, $vargs, $value, $scope);
 		$return = undef; #cause an error should someone manage to make it parse other than the way i think it should be
 	}
-	elsif ($type eq "FuncCall")
-	{
-		print "DEPRECIATED FUNCTION CALL!\n";
-		my $name = $branch->[0];
-		my $args = $self->makevalue($branch->[1]); #this is an array, need to evaluate it
-
-		$return = $self->{funcs}->callfunc($self, $name, $args, $branch);
-
-		#print "FUNCCALL RETURNED\n";
-		#print Dumper($return);
-
-	}
 	elsif ($type eq "Lambda")
 	{
 		my $args = $branch->[0];
@@ -655,6 +643,7 @@ sub evalbranch
 		my $unitsize = $self->makevalue($branch->[1]);
 		my $name = $branch->[0];
 		$self->{units}->addunit($name, $unitsize);
+		$return = $unitsize;
 	}
 	elsif ($type eq "DefineDimen")
 	{

@@ -14,16 +14,8 @@ use Math::Pari;
 sub init
 {
    my $env = shift;
-
-   #i should really make some stuff to make this easier
-   #maybe some subs in Language::Farnsworth::Value that get exported
-   #my $array = new Language::Farnsworth::Value::Array([]);
-   #my $string = new Language::Farnsworth::Value::String("");
-   #my $lambda = new Language::Farnsworth::Value::Lambda();
-   #my $number = new Language::Farnsworth::Value::Pari(0);
-   #my $date = new Language::Farnsworth::Value::Date("today"); #create a date type for use
     
-   $env->eval("push{arr byref isa [], x isa ...} := {arr = arr + x};");
+   $env->eval("push{arr byref isa [], x isa ...} := {arr =arr+x};");
    $env->eval("unshift{arr byref isa [], x isa ...} := {arr =x+arr};");
 
    #$env->{funcs}->addfunc("push", [["arr", undef, $array, 0], ["in", undef, "VarArg", 0]],\&push); #actually i might rewrite this in farnsworth now that it can do it
@@ -38,10 +30,6 @@ sub init
    $env->{funcs}->addfunc("chr", [["in", undef, TYPE_PLAIN, 0]],\&chr);
    $env->{funcs}->addfunc("index", [["str", undef, TYPE_STRING, 0],["substr", undef, TYPE_STRING, 0],["pos", TYPE_PLAIN, TYPE_PLAIN, 0]],\&index);
    $env->{funcs}->addfunc("eval", [["str", undef, TYPE_STRING, 0]],\&eval);
-
-   $env->eval('dbgprint{x isa ...} := {var z; var n = 0; var p; while(n != length[x]) {p = shift[x]; if (p conforms "") {z = p} else {z = "$p"}; _dbgprint[z]}}');
-   $env->{funcs}->addfunc("_dbgprint", [["str", undef, TYPE_STRING, 0]], \&dbgprint);
-   $env->{funcs}->addfunc("__dbgbranches", [[undef, undef, undef, 0]], \&dbgbranch);
    
    $env->eval('map{sub isa {`x`}, x isa ...} := {var xx=[]+x; if (length[xx] == 1 && xx@0$ conforms []) {xx = x@0$}; if (length[xx] == 1 && !(xx conforms [])) {xx = [xx]}; var z=[]+xx; var e; var out=[]; while(length[z]) {e = shift[z]; dbgprint[e]; push[out, (sub)[e]]}; dbgprint[out]; out}');
 
@@ -62,33 +50,6 @@ sub init
 
    $env->eval('max{x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var m = pop[z]; var n = length[z]; var q; while((n=n-1)>=0){q=pop[z]; q>m?m=q:0}; m}'); 
    $env->eval('min{x isa ...} := {if (length[x] == 1 && x@0$ conforms []) {x = x@0$}; var z=[x]; var m = pop[z]; var n = length[z]; var q; while((n=n-1)>=0){q=pop[z]; q<m?m=q:0}; m}'); 
-}
-
-open(my $log, ">>", "/var/www/farnsworth/htdocs/test/debuglog.log");
-$log->autoflush(1);
-
-sub dbgprint
-{
-	#with an array we give the number of elements, with a string we give the length of the string
-	my ($args, $eval, $branches)= @_;
-
-	my $input = $eval->{vars}->getvar("str"); #i should clean this up more too
-    my $string = $input->getstring();
-
-	print "DEBUGLOG: $string\n";
-	print $log "$string\n";
-
-	return Language::Farnsworth::Value::Pari->new(1);
-}
-
-sub dbgbranch
-{
-	#with an array we give the number of elements, with a string we give the length of the string
-	my ($args, $eval, $branches)= @_;
-
-	$eval->{dumpbranches} = 1-   $eval->{dumpbranches};
-
-	return Language::Farnsworth::Value::Pari->new($eval->{dumpbranches});
 }
 
 sub doerror

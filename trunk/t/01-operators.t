@@ -30,7 +30,7 @@ my @tests =
 	["4 per 4", "1 ",            "division, per"],
 	["4 / 4",  "1 ",             "division"],
 	["4 - 4",  "0 ",             "subtraction"],
-#	["4 - 4.", "(0.e-114) ",     "subtraction, floating"], #commented out for errors in floating point stuff, need to fix
+#	["4 - 4.", "(0.e-114) ",     "subtraction, floating"], #commented out for errors in floating point stuff, need to fix the tests
 	["4 s",    "4 s /* time */", "units, time"],
 	["4/0",    undef,            "division by zero"], #undef signals it should die
 	["3 + 3 s", undef,           "inconsistent units"], #undef signals it should die
@@ -59,10 +59,9 @@ my @tests =
 	['"foo" + "bar"', '"foobar"', "string concat"],
 	['var a=[1,2,3]; a@2$', '3 ', "array access"],
 	['var a=[1,2,3,4]; a@2/2$', '2 ', "array access, rational"],
-        ['var a=[1,2,3,4]; a@2$=10; a@2$', '10 ', "array storage"],
+    ['var a=[1,2,3,4]; a@2$=10; a@2$', '10 ', "array storage"],
 	['10 m^(3/2)', '10.0 m^(3/2)', "rational powers"],
 	['10 m^(1/2)', '10.0 m^(1/2)', "rational powers < 1 with 1 as numerator"],
-
 );
 
 
