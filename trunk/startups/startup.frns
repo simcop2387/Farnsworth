@@ -1,5 +1,5 @@
-dbgprint["------BOT START------"];
-source := "I'm the latest and greatest version of farnsworth, you can find me at; git clone git://isuckatdomains.net/farnsworth.git";
+//dbgprint["------BOT START------"];
+source := "I'm the latest and greatest version of farnsworth, you can find me at http://github.com/simcop2387/Farnsworth";
 help := "I've got a number of experimental changes to the language, because of that i'm not very well documented";
 bug := "think you found a bug? file it at http://farnsworth.simcop2387.info/ OR send an email to farnsworth.rt@gmail.com";
 
@@ -73,7 +73,7 @@ if (floor[x] < x)
     /*dbgprint["MIDROUND----", "i = $i", "x = $x"]*/ 1;
 	var c;
 			c = int[x % b];
-			dbgprint["c = $c"];
+			//dbgprint["c = $c"];
 			x = floor[x / b];
 			if (c >= 0) { /*i don't think i need this check, was in original algorithm*/
 				output = output + (getchr [c]);
@@ -177,7 +177,7 @@ newhash{} := {
 
 	var getval={`x` 
 		var ind=(findname)*[x];
-		dbgprint["x = $x", "ind = $ind"];
+		//dbgprint["x = $x", "ind = $ind"];
 		if (ind==-1)
 		{setval[x, undef]; ind = (findname)*[x]};
 		store@ind$
@@ -185,7 +185,7 @@ newhash{} := {
 
 	var setval = {`x, val` 
 			var ind=(findname)*[x];
-			dbgprint["SETVAL: x = $x ind = $ind"];
+			//dbgprint["SETVAL: x = $x ind = $ind"];
 			if (ind==-1) 
 			{push[names,x]; push[store,val]; val} 
 			else 
