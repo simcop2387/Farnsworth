@@ -2,7 +2,7 @@
 
 package Language::Farnsworth;
 
-our $VERSION = "0.7.0";
+our $VERSION = "0.7.2";
 
 use strict;
 use warnings;

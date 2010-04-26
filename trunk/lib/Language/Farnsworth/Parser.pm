@@ -514,87 +514,89 @@ sub new {
 		ACTIONS => {
 			"-" => 1,
 			'DATE' => 3,
-			'STRING' => 23,
-			"if" => 24,
-			"++" => 25,
+			'STRING' => 24,
+			"if" => 25,
+			"++" => 26,
 			"!" => 8,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11,
 			"{`" => 12,
-			'NAME' => 28,
-			"var" => 30,
-			"while" => 32,
-			"(" => 17,
-			'HEXNUMBER' => 18
+			'NAME' => 29,
+			"{|" => 14,
+			"var" => 31,
+			"while" => 33,
+			"(" => 18,
+			'HEXNUMBER' => 19
 		},
 		DEFAULT => -1,
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'lambda' => 22,
-			'number' => 21,
+			'singleval' => 21,
+			'lambda' => 23,
+			'number' => 22,
 			'crement' => 4,
 			'if' => 6,
 			'assignexpr' => 5,
 			'parens' => 7,
-			'expr' => 26,
+			'expr' => 27,
 			'multexpr' => 9,
 			'stma' => 13,
-			'powexp' => 29,
-			'value' => 14,
-			'standardmath' => 31,
-			'ifstartcond' => 15,
-			'stmt' => 34,
-			'exprnouminus' => 33,
-			'assigncomb' => 16,
-			'while' => 35,
-			'assignexpr2' => 36,
-			'logic' => 19
+			'powexp' => 30,
+			'value' => 15,
+			'standardmath' => 32,
+			'ifstartcond' => 16,
+			'stmt' => 35,
+			'exprnouminus' => 34,
+			'assigncomb' => 17,
+			'while' => 36,
+			'assignexpr2' => 37,
+			'logic' => 20
 		}
 	},
 	{#State 1
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 37,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 38,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 2
-		DEFAULT => -90
+		DEFAULT => -91
 	},
 	{#State 3
 		DEFAULT => -37
 	},
 	{#State 4
-		DEFAULT => -91
+		DEFAULT => -92
 	},
 	{#State 5
 		DEFAULT => -54
@@ -608,3531 +610,3658 @@ sub new {
 	{#State 8
 		ACTIONS => {
 			"{`" => 12,
-			'NAME' => 40,
+			'NAME' => 41,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			'STRING' => 24,
+			"(" => 18,
+			'HEXNUMBER' => 19,
 			"[" => 10,
-			'NUMBER' => 27
+			'NUMBER' => 28
 		},
 		GOTOS => {
 			'parens' => 7,
-			'singleval' => 39,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14
+			'singleval' => 40,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15
 		}
 	},
 	{#State 9
-		DEFAULT => -84
+		DEFAULT => -85
 	},
 	{#State 10
 		ACTIONS => {
-			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
 			'DATE' => 3,
-			"," => 41,
-			'STRING' => 23,
-			"++" => 25,
-			'HEXNUMBER' => 18,
+			"," => 42,
+			'STRING' => 24,
+			"++" => 26,
 			"!" => 8,
-			"(" => 17,
 			"[" => 10,
-			'NUMBER' => 27,
-			"--" => 11
+			'NUMBER' => 28,
+			"--" => 11,
+			"{`" => 12,
+			'NAME' => 39,
+			"{|" => 14,
+			"(" => 18,
+			'HEXNUMBER' => 19
 		},
 		DEFAULT => -20,
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'number' => 21,
-			'lambda' => 22,
+			'singleval' => 21,
+			'number' => 22,
+			'lambda' => 23,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'array' => 42,
+			'array' => 43,
 			'parens' => 7,
-			'expr' => 43,
+			'expr' => 44,
 			'multexpr' => 9,
-			'powexp' => 29,
-			'value' => 14,
-			'standardmath' => 31,
-			'assigncomb' => 16,
-			'exprnouminus' => 33,
-			'assignexpr2' => 36,
-			'logic' => 19
+			'powexp' => 30,
+			'value' => 15,
+			'standardmath' => 32,
+			'assigncomb' => 17,
+			'exprnouminus' => 34,
+			'assignexpr2' => 37,
+			'logic' => 20
 		}
 	},
 	{#State 11
 		ACTIONS => {
 			"{`" => 12,
-			'NAME' => 40,
+			'NAME' => 41,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			'STRING' => 24,
+			"(" => 18,
+			'HEXNUMBER' => 19,
 			"[" => 10,
-			'NUMBER' => 27
+			'NUMBER' => 28
 		},
 		GOTOS => {
 			'parens' => 7,
-			'singleval' => 44,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14
+			'singleval' => 45,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15
 		}
 	},
 	{#State 12
 		ACTIONS => {
-			'NAME' => 47
+			'NAME' => 48
 		},
 		DEFAULT => -33,
 		GOTOS => {
-			'arglist' => 48,
-			'argelement' => 45,
-			'arglistfilled' => 46
+			'arglist' => 49,
+			'argelement' => 46,
+			'arglistfilled' => 47
 		}
 	},
 	{#State 13
 		ACTIONS => {
-			'' => 49
+			'' => 50
 		}
 	},
 	{#State 14
-		DEFAULT => -44
-	},
-	{#State 15
 		ACTIONS => {
-			"{" => 51
+			'NAME' => 48
 		},
+		DEFAULT => -33,
 		GOTOS => {
-			'ifstmts' => 50
+			'arglist' => 51,
+			'argelement' => 46,
+			'arglistfilled' => 47
 		}
 	},
+	{#State 15
+		DEFAULT => -44
+	},
 	{#State 16
-		DEFAULT => -98
+		ACTIONS => {
+			"{" => 53
+		},
+		GOTOS => {
+			'ifstmts' => 52
+		}
 	},
 	{#State 17
+		DEFAULT => -99
+	},
+	{#State 18
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 52,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 54,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
-	},
-	{#State 18
-		DEFAULT => -35
 	},
 	{#State 19
-		DEFAULT => -89
+		DEFAULT => -35
 	},
 	{#State 20
-		ACTIONS => {
-			"\@" => 53,
-			'DATE' => 3,
-			"[" => 10,
-			"--" => 54,
-			"{`" => 12,
-			'HEXNUMBER' => 18,
-			"(" => 17,
-			'STRING' => 23,
-			"++" => 56,
-			'NUMBER' => 27,
-			'NAME' => 40
-		},
-		DEFAULT => -83,
-		GOTOS => {
-			'parens' => 7,
-			'singleval' => 55,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14
-		}
+		DEFAULT => -90
 	},
 	{#State 21
-		DEFAULT => -36
+		ACTIONS => {
+			"\@" => 55,
+			'DATE' => 3,
+			"[" => 10,
+			"--" => 56,
+			"{`" => 12,
+			"{|" => 14,
+			'HEXNUMBER' => 19,
+			"(" => 18,
+			'STRING' => 24,
+			"++" => 58,
+			'NUMBER' => 28,
+			'NAME' => 41
+		},
+		DEFAULT => -84,
+		GOTOS => {
+			'parens' => 7,
+			'singleval' => 57,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15
+		}
 	},
 	{#State 22
-		DEFAULT => -42
+		DEFAULT => -36
 	},
 	{#State 23
-		DEFAULT => -38
+		DEFAULT => -42
 	},
 	{#State 24
-		ACTIONS => {
-			"(" => 57
-		}
+		DEFAULT => -38
 	},
 	{#State 25
 		ACTIONS => {
-			"{`" => 12,
-			'NAME' => 40,
-			'DATE' => 3,
-			'STRING' => 23,
-			"(" => 17,
-			'HEXNUMBER' => 18,
-			"[" => 10,
-			'NUMBER' => 27
-		},
-		GOTOS => {
-			'parens' => 7,
-			'singleval' => 58,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14
+			"(" => 59
 		}
 	},
 	{#State 26
 		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"|||" => 69,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			":->" => 83,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"=" => 90,
-			"+=" => 89,
-			"<=>" => 91
+			"{`" => 12,
+			'NAME' => 41,
+			"{|" => 14,
+			'DATE' => 3,
+			'STRING' => 24,
+			"(" => 18,
+			'HEXNUMBER' => 19,
+			"[" => 10,
+			'NUMBER' => 28
+		},
+		GOTOS => {
+			'parens' => 7,
+			'singleval' => 60,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15
+		}
+	},
+	{#State 27
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"|||" => 71,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			":->" => 85,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"=" => 92,
+			"+=" => 91,
+			"<=>" => 93
 		},
 		DEFAULT => -4
 	},
-	{#State 27
+	{#State 28
 		DEFAULT => -34
 	},
-	{#State 28
+	{#State 29
 		ACTIONS => {
-			"::-" => 92,
-			":=" => 93,
-			"=!=" => 95,
-			"{" => 94,
-			":-" => 96
+			"::-" => 94,
+			":=" => 95,
+			"=!=" => 97,
+			"{" => 96,
+			":-" => 98
 		},
 		DEFAULT => -40
 	},
-	{#State 29
-		DEFAULT => -85
-	},
 	{#State 30
-		ACTIONS => {
-			'NAME' => 97
-		}
-	},
-	{#State 31
 		DEFAULT => -86
 	},
-	{#State 32
+	{#State 31
 		ACTIONS => {
-			"(" => 98
+			'NAME' => 99
 		}
 	},
+	{#State 32
+		DEFAULT => -87
+	},
 	{#State 33
-		DEFAULT => -99
+		ACTIONS => {
+			"(" => 100
+		}
 	},
 	{#State 34
+		DEFAULT => -100
+	},
+	{#State 35
 		ACTIONS => {
-			";" => 99
+			";" => 101
 		},
 		DEFAULT => -2
 	},
-	{#State 35
+	{#State 36
 		DEFAULT => -12
 	},
-	{#State 36
-		DEFAULT => -55
-	},
 	{#State 37
-		ACTIONS => {
-			"**" => 80,
-			"^" => 81
-		},
-		DEFAULT => -100
+		DEFAULT => -55
 	},
 	{#State 38
 		ACTIONS => {
-			"::-" => 92,
-			"{" => 94,
-			":-" => 96
+			"**" => 82,
+			"^" => 83
 		},
-		DEFAULT => -40
+		DEFAULT => -101
 	},
 	{#State 39
 		ACTIONS => {
-			"\@" => 53
+			"::-" => 94,
+			"{" => 96,
+			":-" => 98
 		},
-		DEFAULT => -64
-	},
-	{#State 40
 		DEFAULT => -40
 	},
+	{#State 40
+		ACTIONS => {
+			"\@" => 55
+		},
+		DEFAULT => -65
+	},
 	{#State 41
+		DEFAULT => -40
+	},
+	{#State 42
 		ACTIONS => {
 			"-" => 1,
 			'DATE' => 3,
-			"," => 41,
-			'STRING' => 23,
-			"++" => 25,
+			"," => 42,
+			'STRING' => 24,
+			"++" => 26,
 			"!" => 8,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11,
 			"{`" => 12,
-			'NAME' => 38,
-			"(" => 17,
-			'HEXNUMBER' => 18
+			'NAME' => 39,
+			"{|" => 14,
+			"(" => 18,
+			'HEXNUMBER' => 19
 		},
 		DEFAULT => -20,
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'number' => 21,
-			'lambda' => 22,
+			'singleval' => 21,
+			'number' => 22,
+			'lambda' => 23,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'array' => 100,
+			'array' => 102,
 			'parens' => 7,
-			'expr' => 43,
+			'expr' => 44,
 			'multexpr' => 9,
-			'powexp' => 29,
-			'value' => 14,
-			'standardmath' => 31,
-			'assigncomb' => 16,
-			'exprnouminus' => 33,
-			'assignexpr2' => 36,
-			'logic' => 19
-		}
-	},
-	{#State 42
-		ACTIONS => {
-			"]" => 101
+			'powexp' => 30,
+			'value' => 15,
+			'standardmath' => 32,
+			'assigncomb' => 17,
+			'exprnouminus' => 34,
+			'assignexpr2' => 37,
+			'logic' => 20
 		}
 	},
 	{#State 43
 		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"," => 102,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
-		},
-		DEFAULT => -19
+			"]" => 103
+		}
 	},
 	{#State 44
 		ACTIONS => {
-			"\@" => 53
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"," => 104,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
 		},
-		DEFAULT => -73
+		DEFAULT => -19
 	},
 	{#State 45
 		ACTIONS => {
-			"," => 103
+			"\@" => 55
+		},
+		DEFAULT => -74
+	},
+	{#State 46
+		ACTIONS => {
+			"," => 105
 		},
 		DEFAULT => -31
 	},
-	{#State 46
-		DEFAULT => -32
-	},
 	{#State 47
-		ACTIONS => {
-			"isa" => 105,
-			"byref" => 104,
-			"=" => 106
-		},
-		DEFAULT => -27
+		DEFAULT => -32
 	},
 	{#State 48
 		ACTIONS => {
-			"`" => 107
-		}
+			"isa" => 107,
+			"byref" => 106,
+			"=" => 108
+		},
+		DEFAULT => -27
 	},
 	{#State 49
-		DEFAULT => 0
+		ACTIONS => {
+			"`" => 109
+		}
 	},
 	{#State 50
-		ACTIONS => {
-			"else" => 108
-		},
-		DEFAULT => -15
+		DEFAULT => 0
 	},
 	{#State 51
 		ACTIONS => {
-			"-" => 1,
-			'DATE' => 3,
-			'STRING' => 23,
-			"if" => 24,
-			"++" => 25,
-			"!" => 8,
-			"[" => 10,
-			'NUMBER' => 27,
-			"--" => 11,
-			"{`" => 12,
-			'NAME' => 28,
-			"var" => 30,
-			"while" => 32,
-			"(" => 17,
-			'HEXNUMBER' => 18
-		},
-		DEFAULT => -1,
-		GOTOS => {
-			'compare' => 2,
-			'singleval' => 20,
-			'number' => 21,
-			'lambda' => 22,
-			'crement' => 4,
-			'if' => 6,
-			'assignexpr' => 5,
-			'parens' => 7,
-			'expr' => 26,
-			'multexpr' => 9,
-			'stma' => 109,
-			'powexp' => 29,
-			'value' => 14,
-			'standardmath' => 31,
-			'ifstartcond' => 15,
-			'stmt' => 34,
-			'exprnouminus' => 33,
-			'assigncomb' => 16,
-			'while' => 35,
-			'assignexpr2' => 36,
-			'logic' => 19
+			"|" => 110
 		}
 	},
 	{#State 52
 		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			")" => 110,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
-		}
+			"else" => 111
+		},
+		DEFAULT => -15
 	},
 	{#State 53
 		ACTIONS => {
+			"-" => 1,
+			'DATE' => 3,
+			'STRING' => 24,
+			"if" => 25,
+			"++" => 26,
+			"!" => 8,
+			"[" => 10,
+			'NUMBER' => 28,
+			"--" => 11,
+			"{`" => 12,
+			'NAME' => 29,
+			"{|" => 14,
+			"var" => 31,
+			"while" => 33,
+			"(" => 18,
+			'HEXNUMBER' => 19
+		},
+		DEFAULT => -1,
+		GOTOS => {
+			'compare' => 2,
+			'singleval' => 21,
+			'number' => 22,
+			'lambda' => 23,
+			'crement' => 4,
+			'if' => 6,
+			'assignexpr' => 5,
+			'parens' => 7,
+			'expr' => 27,
+			'multexpr' => 9,
+			'stma' => 112,
+			'powexp' => 30,
+			'value' => 15,
+			'standardmath' => 32,
+			'ifstartcond' => 16,
+			'stmt' => 35,
+			'exprnouminus' => 34,
+			'assigncomb' => 17,
+			'while' => 36,
+			'assignexpr2' => 37,
+			'logic' => 20
+		}
+	},
+	{#State 54
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			")" => 113,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
+		}
+	},
+	{#State 55
+		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			"," => 41,
-			'STRING' => 23,
-			"++" => 25,
-			'HEXNUMBER' => 18,
+			"," => 42,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
+			"(" => 18,
 			"!" => 8,
-			"(" => 17,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		DEFAULT => -20,
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'number' => 21,
-			'lambda' => 22,
+			'singleval' => 21,
+			'number' => 22,
+			'lambda' => 23,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'array' => 111,
+			'array' => 114,
 			'parens' => 7,
-			'expr' => 43,
+			'expr' => 44,
 			'multexpr' => 9,
-			'powexp' => 29,
-			'value' => 14,
-			'standardmath' => 31,
-			'assigncomb' => 16,
-			'exprnouminus' => 33,
-			'assignexpr2' => 36,
-			'logic' => 19
+			'powexp' => 30,
+			'value' => 15,
+			'standardmath' => 32,
+			'assigncomb' => 17,
+			'exprnouminus' => 34,
+			'assignexpr2' => 37,
+			'logic' => 20
 		}
 	},
-	{#State 54
-		DEFAULT => -75
+	{#State 56
+		DEFAULT => -76
 	},
-	{#State 55
+	{#State 57
 		ACTIONS => {
-			"\@" => 53,
+			"\@" => 55,
 			'DATE' => 3,
 			"!" => 8,
 			"[" => 10,
 			"--" => 11,
 			"{`" => 12,
-			"(" => 17,
-			'HEXNUMBER' => 18,
-			'STRING' => 23,
-			"++" => 25,
-			'NUMBER' => 27,
-			'NAME' => 38
+			"{|" => 14,
+			"(" => 18,
+			'HEXNUMBER' => 19,
+			'STRING' => 24,
+			"++" => 26,
+			'NUMBER' => 28,
+			'NAME' => 39
 		},
-		DEFAULT => -58,
+		DEFAULT => -59,
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 112,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 115,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
-		}
-	},
-	{#State 56
-		DEFAULT => -74
-	},
-	{#State 57
-		ACTIONS => {
-			"{`" => 12,
-			"-" => 1,
-			'NAME' => 38,
-			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
-			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
-			"[" => 10,
-			'NUMBER' => 27,
-			"--" => 11
-		},
-		GOTOS => {
-			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
-			'crement' => 4,
-			'assignexpr' => 5,
-			'exprnouminus' => 33,
-			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 113,
-			'assignexpr2' => 36,
-			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 58
-		ACTIONS => {
-			"\@" => 53
-		},
-		DEFAULT => -72
+		DEFAULT => -75
 	},
 	{#State 59
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 114,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 116,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 60
 		ACTIONS => {
-			"{`" => 12,
-			"-" => 1,
-			'NAME' => 38,
-			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
-			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
-			"[" => 10,
-			'NUMBER' => 27,
-			"--" => 11
+			"\@" => 55
 		},
-		GOTOS => {
-			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
-			'crement' => 4,
-			'assignexpr' => 5,
-			'exprnouminus' => 33,
-			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 115,
-			'assignexpr2' => 36,
-			'multexpr' => 9,
-			'logic' => 19
-		}
+		DEFAULT => -73
 	},
 	{#State 61
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 116,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 117,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 62
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 117,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 118,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 63
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 118,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 119,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 64
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 119,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 120,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 65
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 120,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 121,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 66
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 121,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 122,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 67
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 122,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 123,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 68
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 123,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 124,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 69
 		ACTIONS => {
-			'NAME' => 124
+			"{`" => 12,
+			"-" => 1,
+			'NAME' => 39,
+			"{|" => 14,
+			'DATE' => 3,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
+			"!" => 8,
+			"(" => 18,
+			"[" => 10,
+			'NUMBER' => 28,
+			"--" => 11
+		},
+		GOTOS => {
+			'compare' => 2,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
+			'crement' => 4,
+			'assignexpr' => 5,
+			'exprnouminus' => 34,
+			'parens' => 7,
+			'assigncomb' => 17,
+			'expr' => 125,
+			'assignexpr2' => 37,
+			'multexpr' => 9,
+			'logic' => 20
 		}
 	},
 	{#State 70
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 125,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 126,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 71
 		ACTIONS => {
-			"{`" => 12,
-			"-" => 1,
-			'NAME' => 38,
-			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
-			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
-			"[" => 10,
-			'NUMBER' => 27,
-			"--" => 11
-		},
-		GOTOS => {
-			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
-			'crement' => 4,
-			'assignexpr' => 5,
-			'exprnouminus' => 33,
-			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 126,
-			'assignexpr2' => 36,
-			'multexpr' => 9,
-			'logic' => 19
+			'NAME' => 127
 		}
 	},
 	{#State 72
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 127,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 128,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 73
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 128,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 129,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 74
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 129,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 130,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 75
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 130,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 131,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 76
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 131,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 132,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 77
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 132,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 133,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 78
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 133,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 134,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 79
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 134,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 135,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 80
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 135,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 136,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 81
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 136,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 137,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 82
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 137,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 138,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 83
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 138,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 139,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 84
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 139,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 140,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 85
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 140,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 141,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 86
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 141,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 142,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 87
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 142,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 143,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 88
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 143,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 144,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 89
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 144,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 145,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 90
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 145,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 146,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 91
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 146,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 147,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 92
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 147,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 148,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 93
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 148,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 149,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 94
 		ACTIONS => {
-			'NAME' => 47
-		},
-		DEFAULT => -33,
-		GOTOS => {
-			'arglist' => 149,
-			'argelement' => 45,
-			'arglistfilled' => 46
-		}
-	},
-	{#State 95
-		ACTIONS => {
-			'NAME' => 150
-		}
-	},
-	{#State 96
-		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 151,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 150,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
+		}
+	},
+	{#State 95
+		ACTIONS => {
+			"{`" => 12,
+			"-" => 1,
+			'NAME' => 39,
+			"{|" => 14,
+			'DATE' => 3,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
+			"!" => 8,
+			"(" => 18,
+			"[" => 10,
+			'NUMBER' => 28,
+			"--" => 11
+		},
+		GOTOS => {
+			'compare' => 2,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
+			'crement' => 4,
+			'assignexpr' => 5,
+			'exprnouminus' => 34,
+			'parens' => 7,
+			'assigncomb' => 17,
+			'expr' => 151,
+			'assignexpr2' => 37,
+			'multexpr' => 9,
+			'logic' => 20
+		}
+	},
+	{#State 96
+		ACTIONS => {
+			'NAME' => 48
+		},
+		DEFAULT => -33,
+		GOTOS => {
+			'arglist' => 152,
+			'argelement' => 46,
+			'arglistfilled' => 47
 		}
 	},
 	{#State 97
 		ACTIONS => {
-			"=" => 152
-		},
-		DEFAULT => -5
+			'NAME' => 153
+		}
 	},
 	{#State 98
 		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
+			'exprnouminus' => 34,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 153,
-			'assignexpr2' => 36,
+			'assigncomb' => 17,
+			'expr' => 154,
+			'assignexpr2' => 37,
 			'multexpr' => 9,
-			'logic' => 19
+			'logic' => 20
 		}
 	},
 	{#State 99
 		ACTIONS => {
+			"=" => 155
+		},
+		DEFAULT => -5
+	},
+	{#State 100
+		ACTIONS => {
+			"{`" => 12,
+			"-" => 1,
+			'NAME' => 39,
+			"{|" => 14,
+			'DATE' => 3,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
+			"!" => 8,
+			"(" => 18,
+			"[" => 10,
+			'NUMBER' => 28,
+			"--" => 11
+		},
+		GOTOS => {
+			'compare' => 2,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
+			'crement' => 4,
+			'assignexpr' => 5,
+			'exprnouminus' => 34,
+			'parens' => 7,
+			'assigncomb' => 17,
+			'expr' => 156,
+			'assignexpr2' => 37,
+			'multexpr' => 9,
+			'logic' => 20
+		}
+	},
+	{#State 101
+		ACTIONS => {
 			"-" => 1,
 			'DATE' => 3,
-			'STRING' => 23,
-			"if" => 24,
-			"++" => 25,
+			'STRING' => 24,
+			"if" => 25,
+			"++" => 26,
 			"!" => 8,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11,
 			"{`" => 12,
-			'NAME' => 28,
-			"var" => 30,
-			"while" => 32,
-			"(" => 17,
-			'HEXNUMBER' => 18
+			'NAME' => 29,
+			"{|" => 14,
+			"var" => 31,
+			"while" => 33,
+			"(" => 18,
+			'HEXNUMBER' => 19
 		},
 		DEFAULT => -1,
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'number' => 21,
-			'lambda' => 22,
+			'singleval' => 21,
+			'number' => 22,
+			'lambda' => 23,
 			'crement' => 4,
 			'if' => 6,
 			'assignexpr' => 5,
 			'parens' => 7,
-			'expr' => 26,
+			'expr' => 27,
 			'multexpr' => 9,
-			'stma' => 154,
-			'powexp' => 29,
-			'value' => 14,
-			'standardmath' => 31,
-			'ifstartcond' => 15,
-			'stmt' => 34,
-			'exprnouminus' => 33,
-			'assigncomb' => 16,
-			'while' => 35,
-			'assignexpr2' => 36,
-			'logic' => 19
+			'stma' => 157,
+			'powexp' => 30,
+			'value' => 15,
+			'standardmath' => 32,
+			'ifstartcond' => 16,
+			'stmt' => 35,
+			'exprnouminus' => 34,
+			'assigncomb' => 17,
+			'while' => 36,
+			'assignexpr2' => 37,
+			'logic' => 20
 		}
 	},
-	{#State 100
+	{#State 102
 		DEFAULT => -21
 	},
-	{#State 101
+	{#State 103
 		DEFAULT => -41
 	},
-	{#State 102
+	{#State 104
 		ACTIONS => {
 			"-" => 1,
 			'DATE' => 3,
-			"," => 41,
-			'STRING' => 23,
-			"++" => 25,
+			"," => 42,
+			'STRING' => 24,
+			"++" => 26,
 			"!" => 8,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11,
 			"{`" => 12,
-			'NAME' => 38,
-			"(" => 17,
-			'HEXNUMBER' => 18
+			'NAME' => 39,
+			"{|" => 14,
+			"(" => 18,
+			'HEXNUMBER' => 19
 		},
 		DEFAULT => -20,
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'number' => 21,
-			'lambda' => 22,
+			'singleval' => 21,
+			'number' => 22,
+			'lambda' => 23,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'array' => 155,
+			'array' => 158,
 			'parens' => 7,
-			'expr' => 43,
+			'expr' => 44,
 			'multexpr' => 9,
-			'powexp' => 29,
-			'value' => 14,
-			'standardmath' => 31,
-			'assigncomb' => 16,
-			'exprnouminus' => 33,
-			'assignexpr2' => 36,
-			'logic' => 19
+			'powexp' => 30,
+			'value' => 15,
+			'standardmath' => 32,
+			'assigncomb' => 17,
+			'exprnouminus' => 34,
+			'assignexpr2' => 37,
+			'logic' => 20
 		}
-	},
-	{#State 103
-		ACTIONS => {
-			'NAME' => 47
-		},
-		GOTOS => {
-			'argelement' => 45,
-			'arglistfilled' => 156
-		}
-	},
-	{#State 104
-		ACTIONS => {
-			"isa" => 157
-		},
-		DEFAULT => -29
 	},
 	{#State 105
 		ACTIONS => {
-			"{`" => 12,
-			"-" => 1,
-			'NAME' => 38,
-			'DATE' => 3,
-			"..." => 160,
-			'STRING' => 23,
-			"++" => 25,
-			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
-			"[" => 10,
-			'NUMBER' => 27,
-			"--" => 11
+			'NAME' => 48
 		},
 		GOTOS => {
-			'compare' => 2,
-			'singleval' => 20,
-			'number' => 21,
-			'lambda' => 22,
-			'crement' => 4,
-			'assignexpr' => 5,
-			'parens' => 7,
-			'expr' => 159,
-			'multexpr' => 9,
-			'constraint' => 158,
-			'powexp' => 29,
-			'value' => 14,
-			'standardmath' => 31,
-			'assigncomb' => 16,
-			'exprnouminus' => 33,
-			'assignexpr2' => 36,
-			'logic' => 19
+			'argelement' => 46,
+			'arglistfilled' => 159
 		}
 	},
 	{#State 106
 		ACTIONS => {
+			"isa" => 160
+		},
+		DEFAULT => -29
+	},
+	{#State 107
+		ACTIONS => {
 			"{`" => 12,
 			"-" => 1,
-			'NAME' => 38,
+			'NAME' => 39,
+			"{|" => 14,
 			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
+			"..." => 163,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
 			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
+			"(" => 18,
 			"[" => 10,
-			'NUMBER' => 27,
+			'NUMBER' => 28,
 			"--" => 11
 		},
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
+			'singleval' => 21,
+			'number' => 22,
+			'lambda' => 23,
 			'crement' => 4,
 			'assignexpr' => 5,
-			'exprnouminus' => 33,
 			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 161,
-			'assignexpr2' => 36,
+			'expr' => 162,
 			'multexpr' => 9,
-			'logic' => 19
-		}
-	},
-	{#State 107
-		ACTIONS => {
-			"-" => 1,
-			'DATE' => 3,
-			'STRING' => 23,
-			"if" => 24,
-			"++" => 25,
-			"!" => 8,
-			"[" => 10,
-			'NUMBER' => 27,
-			"--" => 11,
-			"{`" => 12,
-			'NAME' => 28,
-			"var" => 30,
-			"while" => 32,
-			"(" => 17,
-			'HEXNUMBER' => 18
-		},
-		DEFAULT => -1,
-		GOTOS => {
-			'compare' => 2,
-			'singleval' => 20,
-			'number' => 21,
-			'lambda' => 22,
-			'crement' => 4,
-			'if' => 6,
-			'assignexpr' => 5,
-			'parens' => 7,
-			'expr' => 26,
-			'multexpr' => 9,
-			'stma' => 162,
-			'powexp' => 29,
-			'value' => 14,
-			'standardmath' => 31,
-			'ifstartcond' => 15,
-			'stmt' => 34,
-			'exprnouminus' => 33,
-			'assigncomb' => 16,
-			'while' => 35,
-			'assignexpr2' => 36,
-			'logic' => 19
+			'constraint' => 161,
+			'powexp' => 30,
+			'value' => 15,
+			'standardmath' => 32,
+			'assigncomb' => 17,
+			'exprnouminus' => 34,
+			'assignexpr2' => 37,
+			'logic' => 20
 		}
 	},
 	{#State 108
 		ACTIONS => {
-			"{" => 51
+			"{`" => 12,
+			"-" => 1,
+			'NAME' => 39,
+			"{|" => 14,
+			'DATE' => 3,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
+			"!" => 8,
+			"(" => 18,
+			"[" => 10,
+			'NUMBER' => 28,
+			"--" => 11
 		},
 		GOTOS => {
-			'ifstmts' => 163
+			'compare' => 2,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
+			'crement' => 4,
+			'assignexpr' => 5,
+			'exprnouminus' => 34,
+			'parens' => 7,
+			'assigncomb' => 17,
+			'expr' => 164,
+			'assignexpr2' => 37,
+			'multexpr' => 9,
+			'logic' => 20
 		}
 	},
 	{#State 109
 		ACTIONS => {
-			"}" => 164
+			"-" => 1,
+			'DATE' => 3,
+			'STRING' => 24,
+			"if" => 25,
+			"++" => 26,
+			"!" => 8,
+			"[" => 10,
+			'NUMBER' => 28,
+			"--" => 11,
+			"{`" => 12,
+			'NAME' => 29,
+			"{|" => 14,
+			"var" => 31,
+			"while" => 33,
+			"(" => 18,
+			'HEXNUMBER' => 19
+		},
+		DEFAULT => -1,
+		GOTOS => {
+			'compare' => 2,
+			'singleval' => 21,
+			'number' => 22,
+			'lambda' => 23,
+			'crement' => 4,
+			'if' => 6,
+			'assignexpr' => 5,
+			'parens' => 7,
+			'expr' => 27,
+			'multexpr' => 9,
+			'stma' => 165,
+			'powexp' => 30,
+			'value' => 15,
+			'standardmath' => 32,
+			'ifstartcond' => 16,
+			'stmt' => 35,
+			'exprnouminus' => 34,
+			'assigncomb' => 17,
+			'while' => 36,
+			'assignexpr2' => 37,
+			'logic' => 20
 		}
 	},
 	{#State 110
-		DEFAULT => -43
+		ACTIONS => {
+			"-" => 1,
+			'DATE' => 3,
+			'STRING' => 24,
+			"if" => 25,
+			"++" => 26,
+			"!" => 8,
+			"[" => 10,
+			'NUMBER' => 28,
+			"--" => 11,
+			"{`" => 12,
+			'NAME' => 29,
+			"{|" => 14,
+			"var" => 31,
+			"while" => 33,
+			"(" => 18,
+			'HEXNUMBER' => 19
+		},
+		DEFAULT => -1,
+		GOTOS => {
+			'compare' => 2,
+			'singleval' => 21,
+			'number' => 22,
+			'lambda' => 23,
+			'crement' => 4,
+			'if' => 6,
+			'assignexpr' => 5,
+			'parens' => 7,
+			'expr' => 27,
+			'multexpr' => 9,
+			'stma' => 166,
+			'powexp' => 30,
+			'value' => 15,
+			'standardmath' => 32,
+			'ifstartcond' => 16,
+			'stmt' => 35,
+			'exprnouminus' => 34,
+			'assigncomb' => 17,
+			'while' => 36,
+			'assignexpr2' => 37,
+			'logic' => 20
+		}
 	},
 	{#State 111
 		ACTIONS => {
-			"\$" => 165
+			"{" => 53
+		},
+		GOTOS => {
+			'ifstmts' => 167
 		}
 	},
 	{#State 112
 		ACTIONS => {
-			"**" => 80,
-			"^" => 81
-		},
-		DEFAULT => -59
+			"}" => 168
+		}
 	},
 	{#State 113
-		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			")" => 166,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
-		}
+		DEFAULT => -43
 	},
 	{#State 114
 		ACTIONS => {
-			"%" => 63,
-			" " => 66,
-			"*" => 67,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"/" => 88
-		},
-		DEFAULT => -79
+			"\$" => 169
+		}
 	},
 	{#State 115
 		ACTIONS => {
-			"-" => 59,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"<=" => 75,
-			">" => 76,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"/" => 88,
-			"<=>" => 91
-		},
-		DEFAULT => -87
-	},
-	{#State 116
-		ACTIONS => {
-			"-" => 59,
-			"<" => undef,
-			"%" => 63,
-			"==" => undef,
-			">=" => undef,
-			" " => 66,
-			"*" => 67,
-			"<=" => undef,
-			">" => undef,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => undef,
-			"/" => 88,
-			"<=>" => undef
-		},
-		DEFAULT => -65
-	},
-	{#State 117
-		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
-		},
-		DEFAULT => -50
-	},
-	{#State 118
-		ACTIONS => {
-			"**" => 80,
-			"^" => 81
-		},
-		DEFAULT => -82
-	},
-	{#State 119
-		ACTIONS => {
-			"-" => 59,
-			"<" => undef,
-			"%" => 63,
-			"==" => undef,
-			">=" => undef,
-			" " => 66,
-			"*" => 67,
-			"<=" => undef,
-			">" => undef,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => undef,
-			"/" => 88,
-			"<=>" => undef
-		},
-		DEFAULT => -69
-	},
-	{#State 120
-		ACTIONS => {
-			"-" => 59,
-			"<" => undef,
-			"%" => 63,
-			"==" => undef,
-			">=" => undef,
-			" " => 66,
-			"*" => 67,
-			"<=" => undef,
-			">" => undef,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => undef,
-			"/" => 88,
-			"<=>" => undef
-		},
-		DEFAULT => -68
-	},
-	{#State 121
-		ACTIONS => {
-			"**" => 80,
-			"^" => 81
+			"**" => 82,
+			"^" => 83
 		},
 		DEFAULT => -60
 	},
-	{#State 122
+	{#State 116
 		ACTIONS => {
-			"**" => 80,
-			"^" => 81
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			")" => 170,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
+		}
+	},
+	{#State 117
+		ACTIONS => {
+			"%" => 65,
+			" " => 68,
+			"*" => 69,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"/" => 90
 		},
-		DEFAULT => -57
+		DEFAULT => -80
 	},
-	{#State 123
+	{#State 118
 		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
+			"-" => 61,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"<=" => 77,
+			">" => 78,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"/" => 90,
+			"<=>" => 93
 		},
-		DEFAULT => -52
+		DEFAULT => -88
 	},
-	{#State 124
-		DEFAULT => -10
-	},
-	{#State 125
+	{#State 119
 		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"<=" => 75,
-			">" => 76,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"/" => 88,
-			"<=>" => 91
-		},
-		DEFAULT => -62
-	},
-	{#State 126
-		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"||" => 70,
-			"<=" => 75,
-			">" => 76,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"<=>" => 91
-		},
-		DEFAULT => -97
-	},
-	{#State 127
-		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
-		},
-		DEFAULT => -48
-	},
-	{#State 128
-		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
-		},
-		DEFAULT => -49
-	},
-	{#State 129
-		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"||" => 70,
-			"<=" => 75,
-			">" => 76,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"<=>" => 91
-		},
-		DEFAULT => -96
-	},
-	{#State 130
-		ACTIONS => {
-			"-" => 59,
+			"-" => 61,
 			"<" => undef,
-			"%" => 63,
+			"%" => 65,
 			"==" => undef,
 			">=" => undef,
-			" " => 66,
-			"*" => 67,
+			" " => 68,
+			"*" => 69,
 			"<=" => undef,
 			">" => undef,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
 			"!=" => undef,
-			"/" => 88,
-			"<=>" => undef
-		},
-		DEFAULT => -67
-	},
-	{#State 131
-		ACTIONS => {
-			"-" => 59,
-			"<" => undef,
-			"%" => 63,
-			"==" => undef,
-			">=" => undef,
-			" " => 66,
-			"*" => 67,
-			"<=" => undef,
-			">" => undef,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => undef,
-			"/" => 88,
+			"/" => 90,
 			"<=>" => undef
 		},
 		DEFAULT => -66
 	},
-	{#State 132
+	{#State 120
 		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
 		},
-		DEFAULT => -51
+		DEFAULT => -50
 	},
-	{#State 133
+	{#State 121
 		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
+			"**" => 82,
+			"^" => 83
 		},
-		DEFAULT => -53
+		DEFAULT => -83
 	},
-	{#State 134
+	{#State 122
 		ACTIONS => {
-			"%" => 63,
-			" " => 66,
-			"*" => 67,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"/" => 88
-		},
-		DEFAULT => -78
-	},
-	{#State 135
-		ACTIONS => {
-			"**" => 80,
-			"^" => 81
-		},
-		DEFAULT => -76
-	},
-	{#State 136
-		ACTIONS => {
-			"**" => 80,
-			"^" => 81
-		},
-		DEFAULT => -77
-	},
-	{#State 137
-		ACTIONS => {
-			"%" => 63,
-			" " => 66,
-			"*" => 67,
-			"**" => 80,
-			"^" => 81,
-			"/" => 88
-		},
-		DEFAULT => -81
-	},
-	{#State 138
-		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
-		},
-		DEFAULT => -8
-	},
-	{#State 139
-		ACTIONS => {
-			"-" => 59,
+			"-" => 61,
 			"<" => undef,
-			"%" => 63,
+			"%" => 65,
 			"==" => undef,
 			">=" => undef,
-			" " => 66,
-			"*" => 67,
+			" " => 68,
+			"*" => 69,
 			"<=" => undef,
 			">" => undef,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
 			"!=" => undef,
-			"/" => 88,
-			"<=>" => undef
-		},
-		DEFAULT => -71
-	},
-	{#State 140
-		ACTIONS => {
-			":" => 167,
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
-		}
-	},
-	{#State 141
-		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"<=" => 75,
-			">" => 76,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"/" => 88,
-			"<=>" => 91
-		},
-		DEFAULT => -61
-	},
-	{#State 142
-		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"<=" => 75,
-			">" => 76,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"/" => 88,
-			"<=>" => 91
-		},
-		DEFAULT => -63
-	},
-	{#State 143
-		ACTIONS => {
-			"**" => 80,
-			"^" => 81
-		},
-		DEFAULT => -80
-	},
-	{#State 144
-		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
-		},
-		DEFAULT => -47
-	},
-	{#State 145
-		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
-		},
-		DEFAULT => -46
-	},
-	{#State 146
-		ACTIONS => {
-			"-" => 59,
-			"<" => undef,
-			"%" => 63,
-			"==" => undef,
-			">=" => undef,
-			" " => 66,
-			"*" => 67,
-			"<=" => undef,
-			">" => undef,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => undef,
-			"/" => 88,
+			"/" => 90,
 			"<=>" => undef
 		},
 		DEFAULT => -70
 	},
+	{#State 123
+		ACTIONS => {
+			"-" => 61,
+			"<" => undef,
+			"%" => 65,
+			"==" => undef,
+			">=" => undef,
+			" " => 68,
+			"*" => 69,
+			"<=" => undef,
+			">" => undef,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => undef,
+			"/" => 90,
+			"<=>" => undef
+		},
+		DEFAULT => -69
+	},
+	{#State 124
+		ACTIONS => {
+			"**" => 82,
+			"^" => 83
+		},
+		DEFAULT => -61
+	},
+	{#State 125
+		ACTIONS => {
+			"**" => 82,
+			"^" => 83
+		},
+		DEFAULT => -58
+	},
+	{#State 126
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
+		},
+		DEFAULT => -52
+	},
+	{#State 127
+		DEFAULT => -10
+	},
+	{#State 128
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"<=" => 77,
+			">" => 78,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"/" => 90,
+			"<=>" => 93
+		},
+		DEFAULT => -63
+	},
+	{#State 129
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"||" => 72,
+			"<=" => 77,
+			">" => 78,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"<=>" => 93
+		},
+		DEFAULT => -98
+	},
+	{#State 130
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
+		},
+		DEFAULT => -48
+	},
+	{#State 131
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
+		},
+		DEFAULT => -49
+	},
+	{#State 132
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"||" => 72,
+			"<=" => 77,
+			">" => 78,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"<=>" => 93
+		},
+		DEFAULT => -97
+	},
+	{#State 133
+		ACTIONS => {
+			"-" => 61,
+			"<" => undef,
+			"%" => 65,
+			"==" => undef,
+			">=" => undef,
+			" " => 68,
+			"*" => 69,
+			"<=" => undef,
+			">" => undef,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => undef,
+			"/" => 90,
+			"<=>" => undef
+		},
+		DEFAULT => -68
+	},
+	{#State 134
+		ACTIONS => {
+			"-" => 61,
+			"<" => undef,
+			"%" => 65,
+			"==" => undef,
+			">=" => undef,
+			" " => 68,
+			"*" => 69,
+			"<=" => undef,
+			">" => undef,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => undef,
+			"/" => 90,
+			"<=>" => undef
+		},
+		DEFAULT => -67
+	},
+	{#State 135
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
+		},
+		DEFAULT => -51
+	},
+	{#State 136
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
+		},
+		DEFAULT => -53
+	},
+	{#State 137
+		ACTIONS => {
+			"%" => 65,
+			" " => 68,
+			"*" => 69,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"/" => 90
+		},
+		DEFAULT => -79
+	},
+	{#State 138
+		ACTIONS => {
+			"**" => 82,
+			"^" => 83
+		},
+		DEFAULT => -77
+	},
+	{#State 139
+		ACTIONS => {
+			"**" => 82,
+			"^" => 83
+		},
+		DEFAULT => -78
+	},
+	{#State 140
+		ACTIONS => {
+			"%" => 65,
+			" " => 68,
+			"*" => 69,
+			"**" => 82,
+			"^" => 83,
+			"/" => 90
+		},
+		DEFAULT => -82
+	},
+	{#State 141
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
+		},
+		DEFAULT => -8
+	},
+	{#State 142
+		ACTIONS => {
+			"-" => 61,
+			"<" => undef,
+			"%" => 65,
+			"==" => undef,
+			">=" => undef,
+			" " => 68,
+			"*" => 69,
+			"<=" => undef,
+			">" => undef,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => undef,
+			"/" => 90,
+			"<=>" => undef
+		},
+		DEFAULT => -72
+	},
+	{#State 143
+		ACTIONS => {
+			":" => 171,
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
+		}
+	},
+	{#State 144
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"<=" => 77,
+			">" => 78,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"/" => 90,
+			"<=>" => 93
+		},
+		DEFAULT => -62
+	},
+	{#State 145
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"<=" => 77,
+			">" => 78,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"/" => 90,
+			"<=>" => 93
+		},
+		DEFAULT => -64
+	},
+	{#State 146
+		ACTIONS => {
+			"**" => 82,
+			"^" => 83
+		},
+		DEFAULT => -81
+	},
 	{#State 147
 		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
 		},
-		DEFAULT => -92
+		DEFAULT => -47
 	},
 	{#State 148
 		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
 		},
-		DEFAULT => -7
+		DEFAULT => -46
 	},
 	{#State 149
 		ACTIONS => {
-			"}" => 168
-		}
+			"-" => 61,
+			"<" => undef,
+			"%" => 65,
+			"==" => undef,
+			">=" => undef,
+			" " => 68,
+			"*" => 69,
+			"<=" => undef,
+			">" => undef,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => undef,
+			"/" => 90,
+			"<=>" => undef
+		},
+		DEFAULT => -71
 	},
 	{#State 150
-		DEFAULT => -9
-	},
-	{#State 151
 		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
 		},
 		DEFAULT => -93
 	},
+	{#State 151
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
+		},
+		DEFAULT => -7
+	},
 	{#State 152
 		ACTIONS => {
-			"{`" => 12,
-			"-" => 1,
-			'NAME' => 38,
-			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
-			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
-			"[" => 10,
-			'NUMBER' => 27,
-			"--" => 11
-		},
-		GOTOS => {
-			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
-			'crement' => 4,
-			'assignexpr' => 5,
-			'exprnouminus' => 33,
-			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 169,
-			'assignexpr2' => 36,
-			'multexpr' => 9,
-			'logic' => 19
+			"}" => 172
 		}
 	},
 	{#State 153
-		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			")" => 170,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
-		}
+		DEFAULT => -9
 	},
 	{#State 154
-		DEFAULT => -3
-	},
-	{#State 155
-		DEFAULT => -18
-	},
-	{#State 156
-		DEFAULT => -30
-	},
-	{#State 157
 		ACTIONS => {
-			"{`" => 12,
-			"-" => 1,
-			'NAME' => 38,
-			'DATE' => 3,
-			"..." => 160,
-			'STRING' => 23,
-			"++" => 25,
-			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
-			"[" => 10,
-			'NUMBER' => 27,
-			"--" => 11
-		},
-		GOTOS => {
-			'compare' => 2,
-			'singleval' => 20,
-			'number' => 21,
-			'lambda' => 22,
-			'crement' => 4,
-			'assignexpr' => 5,
-			'parens' => 7,
-			'expr' => 159,
-			'multexpr' => 9,
-			'constraint' => 171,
-			'powexp' => 29,
-			'value' => 14,
-			'standardmath' => 31,
-			'assigncomb' => 16,
-			'exprnouminus' => 33,
-			'assignexpr2' => 36,
-			'logic' => 19
-		}
-	},
-	{#State 158
-		DEFAULT => -25
-	},
-	{#State 159
-		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
-		},
-		DEFAULT => -22
-	},
-	{#State 160
-		DEFAULT => -23
-	},
-	{#State 161
-		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"isa" => 172,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
-		},
-		DEFAULT => -26
-	},
-	{#State 162
-		ACTIONS => {
-			"}" => 173
-		}
-	},
-	{#State 163
-		DEFAULT => -16
-	},
-	{#State 164
-		DEFAULT => -14
-	},
-	{#State 165
-		DEFAULT => -39
-	},
-	{#State 166
-		DEFAULT => -13
-	},
-	{#State 167
-		ACTIONS => {
-			"{`" => 12,
-			"-" => 1,
-			'NAME' => 38,
-			'DATE' => 3,
-			'STRING' => 23,
-			"++" => 25,
-			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
-			"[" => 10,
-			'NUMBER' => 27,
-			"--" => 11
-		},
-		GOTOS => {
-			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
-			'crement' => 4,
-			'assignexpr' => 5,
-			'exprnouminus' => 33,
-			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 174,
-			'assignexpr2' => 36,
-			'multexpr' => 9,
-			'logic' => 19
-		}
-	},
-	{#State 168
-		ACTIONS => {
-			":=" => 175
-		}
-	},
-	{#State 169
-		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
-		},
-		DEFAULT => -6
-	},
-	{#State 170
-		ACTIONS => {
-			"{" => 176
-		}
-	},
-	{#State 171
-		DEFAULT => -28
-	},
-	{#State 172
-		ACTIONS => {
-			"{`" => 12,
-			"-" => 1,
-			'NAME' => 38,
-			'DATE' => 3,
-			"..." => 160,
-			'STRING' => 23,
-			"++" => 25,
-			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
-			"[" => 10,
-			'NUMBER' => 27,
-			"--" => 11
-		},
-		GOTOS => {
-			'compare' => 2,
-			'singleval' => 20,
-			'number' => 21,
-			'lambda' => 22,
-			'crement' => 4,
-			'assignexpr' => 5,
-			'parens' => 7,
-			'expr' => 159,
-			'multexpr' => 9,
-			'constraint' => 177,
-			'powexp' => 29,
-			'value' => 14,
-			'standardmath' => 31,
-			'assigncomb' => 16,
-			'exprnouminus' => 33,
-			'assignexpr2' => 36,
-			'logic' => 19
-		}
-	},
-	{#State 173
-		DEFAULT => -56
-	},
-	{#State 174
-		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"||" => 70,
-			"<=" => 75,
-			">" => 76,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"<=>" => 91
-		},
-		DEFAULT => -88
-	},
-	{#State 175
-		ACTIONS => {
-			"{`" => 12,
-			"-" => 1,
-			'NAME' => 38,
-			'DATE' => 3,
-			"{" => 179,
-			'STRING' => 23,
-			"++" => 25,
-			"!" => 8,
-			"(" => 17,
-			'HEXNUMBER' => 18,
-			"[" => 10,
-			'NUMBER' => 27,
-			"--" => 11
-		},
-		GOTOS => {
-			'compare' => 2,
-			'singleval' => 20,
-			'powexp' => 29,
-			'number' => 21,
-			'lambda' => 22,
-			'value' => 14,
-			'standardmath' => 31,
-			'crement' => 4,
-			'assignexpr' => 5,
-			'exprnouminus' => 33,
-			'parens' => 7,
-			'assigncomb' => 16,
-			'expr' => 178,
-			'assignexpr2' => 36,
-			'multexpr' => 9,
-			'logic' => 19
-		}
-	},
-	{#State 176
-		ACTIONS => {
-			"-" => 1,
-			'DATE' => 3,
-			'STRING' => 23,
-			"if" => 24,
-			"++" => 25,
-			"!" => 8,
-			"[" => 10,
-			'NUMBER' => 27,
-			"--" => 11,
-			"{`" => 12,
-			'NAME' => 28,
-			"var" => 30,
-			"while" => 32,
-			"(" => 17,
-			'HEXNUMBER' => 18
-		},
-		DEFAULT => -1,
-		GOTOS => {
-			'compare' => 2,
-			'singleval' => 20,
-			'number' => 21,
-			'lambda' => 22,
-			'crement' => 4,
-			'if' => 6,
-			'assignexpr' => 5,
-			'parens' => 7,
-			'expr' => 26,
-			'multexpr' => 9,
-			'stma' => 180,
-			'powexp' => 29,
-			'value' => 14,
-			'standardmath' => 31,
-			'ifstartcond' => 15,
-			'stmt' => 34,
-			'exprnouminus' => 33,
-			'assigncomb' => 16,
-			'while' => 35,
-			'assignexpr2' => 36,
-			'logic' => 19
-		}
-	},
-	{#State 177
-		DEFAULT => -24
-	},
-	{#State 178
-		ACTIONS => {
-			"-" => 59,
-			"conforms" => 60,
-			"*=" => 62,
-			"<" => 61,
-			"%" => 63,
-			"==" => 64,
-			">=" => 65,
-			" " => 66,
-			"*" => 67,
-			"**=" => 68,
-			"||" => 70,
-			"->" => 71,
-			"-=" => 72,
-			"/=" => 73,
-			"=>" => 74,
-			"<=" => 75,
-			"%=" => 77,
-			">" => 76,
-			"^=" => 78,
-			"+" => 79,
-			"**" => 80,
-			"^" => 81,
-			"per" => 82,
-			"!=" => 84,
-			"?" => 85,
-			"&&" => 86,
-			"^^" => 87,
-			"/" => 88,
-			"+=" => 89,
-			"=" => 90,
-			"<=>" => 91
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
 		},
 		DEFAULT => -94
 	},
-	{#State 179
+	{#State 155
 		ACTIONS => {
-			"-" => 1,
-			'DATE' => 3,
-			'STRING' => 23,
-			"if" => 24,
-			"++" => 25,
-			"!" => 8,
-			"[" => 10,
-			'NUMBER' => 27,
-			"--" => 11,
 			"{`" => 12,
-			'NAME' => 28,
-			"var" => 30,
-			"while" => 32,
-			"(" => 17,
-			'HEXNUMBER' => 18
+			"-" => 1,
+			'NAME' => 39,
+			"{|" => 14,
+			'DATE' => 3,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
+			"!" => 8,
+			"(" => 18,
+			"[" => 10,
+			'NUMBER' => 28,
+			"--" => 11
 		},
-		DEFAULT => -1,
 		GOTOS => {
 			'compare' => 2,
-			'singleval' => 20,
-			'number' => 21,
-			'lambda' => 22,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
 			'crement' => 4,
-			'if' => 6,
+			'assignexpr' => 5,
+			'exprnouminus' => 34,
+			'parens' => 7,
+			'assigncomb' => 17,
+			'expr' => 173,
+			'assignexpr2' => 37,
+			'multexpr' => 9,
+			'logic' => 20
+		}
+	},
+	{#State 156
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			")" => 174,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
+		}
+	},
+	{#State 157
+		DEFAULT => -3
+	},
+	{#State 158
+		DEFAULT => -18
+	},
+	{#State 159
+		DEFAULT => -30
+	},
+	{#State 160
+		ACTIONS => {
+			"{`" => 12,
+			"-" => 1,
+			'NAME' => 39,
+			"{|" => 14,
+			'DATE' => 3,
+			"..." => 163,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
+			"!" => 8,
+			"(" => 18,
+			"[" => 10,
+			'NUMBER' => 28,
+			"--" => 11
+		},
+		GOTOS => {
+			'compare' => 2,
+			'singleval' => 21,
+			'number' => 22,
+			'lambda' => 23,
+			'crement' => 4,
 			'assignexpr' => 5,
 			'parens' => 7,
-			'expr' => 26,
+			'expr' => 162,
 			'multexpr' => 9,
-			'stma' => 181,
-			'powexp' => 29,
-			'value' => 14,
-			'standardmath' => 31,
-			'ifstartcond' => 15,
-			'stmt' => 34,
-			'exprnouminus' => 33,
-			'assigncomb' => 16,
-			'while' => 35,
-			'assignexpr2' => 36,
-			'logic' => 19
+			'constraint' => 175,
+			'powexp' => 30,
+			'value' => 15,
+			'standardmath' => 32,
+			'assigncomb' => 17,
+			'exprnouminus' => 34,
+			'assignexpr2' => 37,
+			'logic' => 20
 		}
+	},
+	{#State 161
+		DEFAULT => -25
+	},
+	{#State 162
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
+		},
+		DEFAULT => -22
+	},
+	{#State 163
+		DEFAULT => -23
+	},
+	{#State 164
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"isa" => 176,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
+		},
+		DEFAULT => -26
+	},
+	{#State 165
+		ACTIONS => {
+			"}" => 177
+		}
+	},
+	{#State 166
+		ACTIONS => {
+			"}" => 178
+		}
+	},
+	{#State 167
+		DEFAULT => -16
+	},
+	{#State 168
+		DEFAULT => -14
+	},
+	{#State 169
+		DEFAULT => -39
+	},
+	{#State 170
+		DEFAULT => -13
+	},
+	{#State 171
+		ACTIONS => {
+			"{`" => 12,
+			"-" => 1,
+			'NAME' => 39,
+			"{|" => 14,
+			'DATE' => 3,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
+			"!" => 8,
+			"(" => 18,
+			"[" => 10,
+			'NUMBER' => 28,
+			"--" => 11
+		},
+		GOTOS => {
+			'compare' => 2,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
+			'crement' => 4,
+			'assignexpr' => 5,
+			'exprnouminus' => 34,
+			'parens' => 7,
+			'assigncomb' => 17,
+			'expr' => 179,
+			'assignexpr2' => 37,
+			'multexpr' => 9,
+			'logic' => 20
+		}
+	},
+	{#State 172
+		ACTIONS => {
+			":=" => 180
+		}
+	},
+	{#State 173
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
+		},
+		DEFAULT => -6
+	},
+	{#State 174
+		ACTIONS => {
+			"{" => 181
+		}
+	},
+	{#State 175
+		DEFAULT => -28
+	},
+	{#State 176
+		ACTIONS => {
+			"{`" => 12,
+			"-" => 1,
+			'NAME' => 39,
+			"{|" => 14,
+			'DATE' => 3,
+			"..." => 163,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
+			"!" => 8,
+			"(" => 18,
+			"[" => 10,
+			'NUMBER' => 28,
+			"--" => 11
+		},
+		GOTOS => {
+			'compare' => 2,
+			'singleval' => 21,
+			'number' => 22,
+			'lambda' => 23,
+			'crement' => 4,
+			'assignexpr' => 5,
+			'parens' => 7,
+			'expr' => 162,
+			'multexpr' => 9,
+			'constraint' => 182,
+			'powexp' => 30,
+			'value' => 15,
+			'standardmath' => 32,
+			'assigncomb' => 17,
+			'exprnouminus' => 34,
+			'assignexpr2' => 37,
+			'logic' => 20
+		}
+	},
+	{#State 177
+		DEFAULT => -56
+	},
+	{#State 178
+		DEFAULT => -57
+	},
+	{#State 179
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"||" => 72,
+			"<=" => 77,
+			">" => 78,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"<=>" => 93
+		},
+		DEFAULT => -89
 	},
 	{#State 180
 		ACTIONS => {
-			"}" => 182
+			"{`" => 12,
+			"-" => 1,
+			'NAME' => 39,
+			"{|" => 14,
+			'DATE' => 3,
+			"{" => 184,
+			'STRING' => 24,
+			"++" => 26,
+			'HEXNUMBER' => 19,
+			"!" => 8,
+			"(" => 18,
+			"[" => 10,
+			'NUMBER' => 28,
+			"--" => 11
+		},
+		GOTOS => {
+			'compare' => 2,
+			'singleval' => 21,
+			'powexp' => 30,
+			'number' => 22,
+			'lambda' => 23,
+			'value' => 15,
+			'standardmath' => 32,
+			'crement' => 4,
+			'assignexpr' => 5,
+			'exprnouminus' => 34,
+			'parens' => 7,
+			'assigncomb' => 17,
+			'expr' => 183,
+			'assignexpr2' => 37,
+			'multexpr' => 9,
+			'logic' => 20
 		}
 	},
 	{#State 181
 		ACTIONS => {
-			"}" => 183
+			"-" => 1,
+			'DATE' => 3,
+			'STRING' => 24,
+			"if" => 25,
+			"++" => 26,
+			"!" => 8,
+			"[" => 10,
+			'NUMBER' => 28,
+			"--" => 11,
+			"{`" => 12,
+			'NAME' => 29,
+			"{|" => 14,
+			"var" => 31,
+			"while" => 33,
+			"(" => 18,
+			'HEXNUMBER' => 19
+		},
+		DEFAULT => -1,
+		GOTOS => {
+			'compare' => 2,
+			'singleval' => 21,
+			'number' => 22,
+			'lambda' => 23,
+			'crement' => 4,
+			'if' => 6,
+			'assignexpr' => 5,
+			'parens' => 7,
+			'expr' => 27,
+			'multexpr' => 9,
+			'stma' => 185,
+			'powexp' => 30,
+			'value' => 15,
+			'standardmath' => 32,
+			'ifstartcond' => 16,
+			'stmt' => 35,
+			'exprnouminus' => 34,
+			'assigncomb' => 17,
+			'while' => 36,
+			'assignexpr2' => 37,
+			'logic' => 20
 		}
 	},
 	{#State 182
-		DEFAULT => -17
+		DEFAULT => -24
 	},
 	{#State 183
+		ACTIONS => {
+			"-" => 61,
+			"conforms" => 62,
+			"*=" => 64,
+			"<" => 63,
+			"%" => 65,
+			"==" => 66,
+			">=" => 67,
+			" " => 68,
+			"*" => 69,
+			"**=" => 70,
+			"||" => 72,
+			"->" => 73,
+			"-=" => 74,
+			"/=" => 75,
+			"=>" => 76,
+			"<=" => 77,
+			"%=" => 79,
+			">" => 78,
+			"^=" => 80,
+			"+" => 81,
+			"**" => 82,
+			"^" => 83,
+			"per" => 84,
+			"!=" => 86,
+			"?" => 87,
+			"&&" => 88,
+			"^^" => 89,
+			"/" => 90,
+			"+=" => 91,
+			"=" => 92,
+			"<=>" => 93
+		},
 		DEFAULT => -95
+	},
+	{#State 184
+		ACTIONS => {
+			"-" => 1,
+			'DATE' => 3,
+			'STRING' => 24,
+			"if" => 25,
+			"++" => 26,
+			"!" => 8,
+			"[" => 10,
+			'NUMBER' => 28,
+			"--" => 11,
+			"{`" => 12,
+			'NAME' => 29,
+			"{|" => 14,
+			"var" => 31,
+			"while" => 33,
+			"(" => 18,
+			'HEXNUMBER' => 19
+		},
+		DEFAULT => -1,
+		GOTOS => {
+			'compare' => 2,
+			'singleval' => 21,
+			'number' => 22,
+			'lambda' => 23,
+			'crement' => 4,
+			'if' => 6,
+			'assignexpr' => 5,
+			'parens' => 7,
+			'expr' => 27,
+			'multexpr' => 9,
+			'stma' => 186,
+			'powexp' => 30,
+			'value' => 15,
+			'standardmath' => 32,
+			'ifstartcond' => 16,
+			'stmt' => 35,
+			'exprnouminus' => 34,
+			'assigncomb' => 17,
+			'while' => 36,
+			'assignexpr2' => 37,
+			'logic' => 20
+		}
+	},
+	{#State 185
+		ACTIONS => {
+			"}" => 187
+		}
+	},
+	{#State 186
+		ACTIONS => {
+			"}" => 188
+		}
+	},
+	{#State 187
+		DEFAULT => -17
+	},
+	{#State 188
+		DEFAULT => -96
 	}
 ],
                                   yyrules  =>
@@ -4444,124 +4573,124 @@ sub
 {bless [ @_[2,4] ], 'Lambda'}
 	],
 	[#Rule 57
-		 'multexpr', 3,
+		 'lambda', 5,
 sub
-#line 137 "Farnsworth.yp"
-{ bless [ @_[1,3], '*'], 'Mul' }
+#line 135 "Farnsworth.yp"
+{bless [ @_[2,4] ], 'Lambda'}
 	],
 	[#Rule 58
-		 'multexpr', 2,
-sub
-#line 138 "Farnsworth.yp"
-{ bless [ @_[1,2], 'imp'], 'Mul' }
-	],
-	[#Rule 59
 		 'multexpr', 3,
 sub
+#line 138 "Farnsworth.yp"
+{ bless [ @_[1,3], '*'], 'Mul' }
+	],
+	[#Rule 59
+		 'multexpr', 2,
+sub
 #line 139 "Farnsworth.yp"
-{ bless [bless([ @_[1,2], 'imp'], 'Mul'), $_[3], 'imp'], 'Mul' }
+{ bless [ @_[1,2], 'imp'], 'Mul' }
 	],
 	[#Rule 60
 		 'multexpr', 3,
 sub
 #line 140 "Farnsworth.yp"
-{ bless [ @_[1,3], ''], 'Mul' }
+{ bless [bless([ @_[1,2], 'imp'], 'Mul'), $_[3], 'imp'], 'Mul' }
 	],
 	[#Rule 61
-		 'logic', 3,
+		 'multexpr', 3,
 sub
-#line 143 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'And' }
+#line 141 "Farnsworth.yp"
+{ bless [ @_[1,3], ''], 'Mul' }
 	],
 	[#Rule 62
 		 'logic', 3,
 sub
 #line 144 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Or' }
+{ bless [ @_[1,3] ], 'And' }
 	],
 	[#Rule 63
 		 'logic', 3,
 sub
 #line 145 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Xor' }
+{ bless [ @_[1,3] ], 'Or' }
 	],
 	[#Rule 64
-		 'logic', 2,
+		 'logic', 3,
 sub
 #line 146 "Farnsworth.yp"
-{ bless [ $_[2] ], 'Not' }
+{ bless [ @_[1,3] ], 'Xor' }
 	],
 	[#Rule 65
-		 'compare', 3,
+		 'logic', 2,
 sub
-#line 149 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Lt' }
+#line 147 "Farnsworth.yp"
+{ bless [ $_[2] ], 'Not' }
 	],
 	[#Rule 66
 		 'compare', 3,
 sub
 #line 150 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Gt' }
+{ bless [ @_[1,3] ], 'Lt' }
 	],
 	[#Rule 67
 		 'compare', 3,
 sub
 #line 151 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Le' }
+{ bless [ @_[1,3] ], 'Gt' }
 	],
 	[#Rule 68
 		 'compare', 3,
 sub
 #line 152 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Ge' }
+{ bless [ @_[1,3] ], 'Le' }
 	],
 	[#Rule 69
 		 'compare', 3,
 sub
 #line 153 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Eq' }
+{ bless [ @_[1,3] ], 'Ge' }
 	],
 	[#Rule 70
 		 'compare', 3,
 sub
 #line 154 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Compare' }
+{ bless [ @_[1,3] ], 'Eq' }
 	],
 	[#Rule 71
 		 'compare', 3,
 sub
 #line 155 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Ne' }
+{ bless [ @_[1,3] ], 'Compare' }
 	],
 	[#Rule 72
-		 'crement', 2,
+		 'compare', 3,
 sub
-#line 158 "Farnsworth.yp"
-{ bless [ $_[2] ], 'PreInc' }
+#line 156 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'Ne' }
 	],
 	[#Rule 73
 		 'crement', 2,
 sub
 #line 159 "Farnsworth.yp"
-{ bless [ $_[2] ], 'PreDec' }
+{ bless [ $_[2] ], 'PreInc' }
 	],
 	[#Rule 74
 		 'crement', 2,
 sub
 #line 160 "Farnsworth.yp"
-{ bless [ $_[1] ], 'PostInc' }
+{ bless [ $_[2] ], 'PreDec' }
 	],
 	[#Rule 75
 		 'crement', 2,
 sub
 #line 161 "Farnsworth.yp"
-{ bless [ $_[1] ], 'PostDec' }
+{ bless [ $_[1] ], 'PostInc' }
 	],
 	[#Rule 76
-		 'powexp', 3,
+		 'crement', 2,
 sub
-#line 164 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Pow' }
+#line 162 "Farnsworth.yp"
+{ bless [ $_[1] ], 'PostDec' }
 	],
 	[#Rule 77
 		 'powexp', 3,
@@ -4570,37 +4699,40 @@ sub
 { bless [ @_[1,3] ], 'Pow' }
 	],
 	[#Rule 78
-		 'standardmath', 3,
+		 'powexp', 3,
 sub
-#line 168 "Farnsworth.yp"
-{ bless [ @_[1,3]], 'Add' }
+#line 166 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'Pow' }
 	],
 	[#Rule 79
 		 'standardmath', 3,
 sub
 #line 169 "Farnsworth.yp"
-{ bless [ @_[1,3]], 'Sub' }
+{ bless [ @_[1,3]], 'Add' }
 	],
 	[#Rule 80
 		 'standardmath', 3,
 sub
 #line 170 "Farnsworth.yp"
-{ bless [ @_[1,3], '/'], 'Div' }
+{ bless [ @_[1,3]], 'Sub' }
 	],
 	[#Rule 81
 		 'standardmath', 3,
 sub
 #line 171 "Farnsworth.yp"
-{ bless [ @_[1,3], 'per' ], 'Div' }
+{ bless [ @_[1,3], '/'], 'Div' }
 	],
 	[#Rule 82
 		 'standardmath', 3,
 sub
 #line 172 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Mod' }
+{ bless [ @_[1,3], 'per' ], 'Div' }
 	],
 	[#Rule 83
-		 'exprnouminus', 1, undef
+		 'standardmath', 3,
+sub
+#line 173 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'Mod' }
 	],
 	[#Rule 84
 		 'exprnouminus', 1, undef
@@ -4612,19 +4744,19 @@ sub
 		 'exprnouminus', 1, undef
 	],
 	[#Rule 87
-		 'exprnouminus', 3,
-sub
-#line 179 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'Conforms' }
+		 'exprnouminus', 1, undef
 	],
 	[#Rule 88
-		 'exprnouminus', 5,
+		 'exprnouminus', 3,
 sub
 #line 180 "Farnsworth.yp"
-{ bless [@_[1,3,5]], 'Ternary' }
+{ bless [ @_[1,3] ], 'Conforms' }
 	],
 	[#Rule 89
-		 'exprnouminus', 1, undef
+		 'exprnouminus', 5,
+sub
+#line 181 "Farnsworth.yp"
+{ bless [@_[1,3,5]], 'Ternary' }
 	],
 	[#Rule 90
 		 'exprnouminus', 1, undef
@@ -4633,51 +4765,54 @@ sub
 		 'exprnouminus', 1, undef
 	],
 	[#Rule 92
-		 'exprnouminus', 3,
-sub
-#line 184 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'SetPrefix' }
+		 'exprnouminus', 1, undef
 	],
 	[#Rule 93
 		 'exprnouminus', 3,
 sub
 #line 185 "Farnsworth.yp"
-{ bless [ @_[1,3] ], 'SetPrefixAbrv' }
+{ bless [ @_[1,3] ], 'SetPrefix' }
 	],
 	[#Rule 94
-		 'exprnouminus', 6,
-sub
-#line 186 "Farnsworth.yp"
-{ bless [@_[1,3], (bless [$_[6]], 'Stmt')], 'FuncDef' }
-	],
-	[#Rule 95
-		 'exprnouminus', 8,
-sub
-#line 187 "Farnsworth.yp"
-{ bless [@_[1,3,7]], 'FuncDef' }
-	],
-	[#Rule 96
 		 'exprnouminus', 3,
 sub
+#line 186 "Farnsworth.yp"
+{ bless [ @_[1,3] ], 'SetPrefixAbrv' }
+	],
+	[#Rule 95
+		 'exprnouminus', 6,
+sub
+#line 187 "Farnsworth.yp"
+{ bless [@_[1,3], (bless [$_[6]], 'Stmt')], 'FuncDef' }
+	],
+	[#Rule 96
+		 'exprnouminus', 8,
+sub
 #line 188 "Farnsworth.yp"
-{bless [@_[1,3]], 'LambdaCall'}
+{ bless [@_[1,3,7]], 'FuncDef' }
 	],
 	[#Rule 97
 		 'exprnouminus', 3,
 sub
 #line 189 "Farnsworth.yp"
-{ bless [ @_[1,3]], 'Trans' }
+{bless [@_[1,3]], 'LambdaCall'}
 	],
 	[#Rule 98
-		 'exprnouminus', 1, undef
+		 'exprnouminus', 3,
+sub
+#line 190 "Farnsworth.yp"
+{ bless [ @_[1,3]], 'Trans' }
 	],
 	[#Rule 99
-		 'expr', 1, undef
+		 'exprnouminus', 1, undef
 	],
 	[#Rule 100
+		 'expr', 1, undef
+	],
+	[#Rule 101
 		 'expr', 2,
 sub
-#line 194 "Farnsworth.yp"
+#line 195 "Farnsworth.yp"
 { bless [ $_[2] , (bless ['-1'], 'Num'), '-name'], 'Mul' }
 	]
 ],
@@ -4685,7 +4820,7 @@ sub
     bless($self,$class);
 }
 
-#line 196 "Farnsworth.yp"
+#line 197 "Farnsworth.yp"
 
 
 #helpers!
@@ -4697,7 +4832,7 @@ sub yylex
 	my $line = $_[-2];
 	my $charline = $_[-1];
 	my $lastcharline = $_[-3];
-	my $gotnumber = $_[-4];
+	my $gotsingleval = $_[-4];
 	
 	#remove \n or whatever from the string
 	if ($s =~ /\G$ws*\n$ws*/gc)
@@ -4711,11 +4846,16 @@ sub yylex
 	
 	#this has got to be the most fucked up work around in the entire code base.
 	#i'm doing this to check if i've gotten something like; 2a so that i can insert a fictious space token. so that 2a**2 will properly parse as 2 * (a ** 2) 
-	if ($$gotnumber) #we had a number
+	if ($$gotsingleval) #we had a number
 	{
 	  #print "INGOTNUMBER\n";
-	  $$gotnumber = 0; #unset it
-	  if ($s =~ /\G(?=$identifier)/gc) #match opening array brace
+	  $$gotsingleval = 0; #unset it
+	  if ($s =~ /\G(?=$identifier|
+	  	      	0[xb]?[[:xdigit:]](?:[[:xdigit:].]+)| #hex octal or binary numbers
+    			(?:\d+(\.\d*)?|\.\d+)(?:[Ee][Ee]?[-+]?\d+)| #scientific notation
+    			(?:\d+(?:\.\d*)?|\.\d+)| #plain notation
+	    		(?:\($ws*) #paren value
+	  )/gcx) #match opening array brace
 	  {#<NUMBER><IDENTIFIER> needs a space (or a *, but we'll use \s for now)
 	    #print "OMG IDENTIFIER!\n";
 	    return ' '; 
@@ -4732,11 +4872,12 @@ sub yylex
     if ($s=~ /\G(?=
     	0[xb]?[[:xdigit:]](?:[[:xdigit:].]+)| #hex octal or binary numbers
     	(?:\d+(\.\d*)?|\.\d+)(?:[Ee][Ee]?[-+]?\d+)| #scientific notation
-    	(?:\d+(?:\.\d*)?|\.\d+) #plain notation
+    	(?:\d+(?:\.\d*)?|\.\d+)| #plain notation
+	    (?:$ws*\)) #paren value
     )/cgx)
     {
-       #print "GOT NUMBER!";
-       $$gotnumber = 1; #store the fact that the last token was a number of some kind, so that we can do funky stuff on the next token if its an identifier
+       #print "GOT SINGLEVAL!";
+       $$gotsingleval = 1; #store the fact that the last token was a number of some kind, so that we can do funky stuff on the next token if its an identifier
     }
 
     #i want a complete number regex
@@ -4782,7 +4923,7 @@ sub yylex
 	#math operators
 	$s =~ /\G$ws*(\*\*|\+|\*|-|\/|\%|\^)$ws*/icg and return lc $1;
 	
-	$s =~ /\G$ws*(;|\{\s*\`|\{|\}|\>|\<|\?|\:|\,|\.\.\.|\`)$ws*/cg and return $1;
+	$s =~ /\G$ws*(;|\{\s*\`|\{\s*\||\{|\}|\>|\<|\?|\:|\,|\.\.\.|\`)$ws*/cg and return $1;
 	$s =~ /\G$ws*(\)|\])/cg and return $1; #freaking quirky lexers!
 	$s =~ /\G(\(|\[)$ws*/cg and return $1;
 	
@@ -4794,12 +4935,12 @@ sub yylex
 
 sub yylexwatch
 {
-   my $oldp = pos $s;
+   #my $oldp = pos $s;
    my @r = &yylex;
 
-   my $charlines = $_[-1];
-   my $line = $_[-2];
-   my $pos = pos $s;
+   #my $charlines = $_[-1];
+   #my $line = $_[-2];
+   #my $pos = pos $s;
 
    #print Dumper(\@_);
    #my $nextn = index($s, "\n", $pos+1);

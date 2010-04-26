@@ -37,6 +37,11 @@ my @tests =
 	["2 ** (2 s)", undef,        "units in power"], #undef signals it should die
 	["2**2",    "4 ",            "exponents"], #undef signals it should die
 	["4s ** 2",  "4 s^2",      "operator precedence"], #operator precedence when having no space doesn't work right! bug in parser
+	["4(s)** 2",  "4 s^2",      "operator precedence, with parens 1"],
+	["(4)s** 2",  "4 s^2",      "operator precedence, with parens 2"], 
+	["(4)(s)** 2",  "4 s^2",      "operator precedence, with parens 3"],
+	["(4)2** 2",  "16 ",      "operator precedence, with parens and nums"],
+	["4(2)** 2",  "16 ",      "operator precedence, with parens and nums"],
 	["log[10 m]", undef,         "log of units"],
 	["log[10]",  "1.0 ",         "log"], 
 #	["sin[0 radians]",  "(0.e-115) ",      "sin"],  #SAME AS ABOVE!
