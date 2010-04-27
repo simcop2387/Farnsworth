@@ -110,8 +110,6 @@ sub runFile
 1;
 __END__
 
-# Below is stub documentation for your module. You'd better edit it!
-
 =head1 NAME
 
 Language::Farnsworth - A Turing Complete Language for Mathematics
@@ -130,10 +128,9 @@ Language::Farnsworth - A Turing Complete Language for Mathematics
 
 =head1 DESCRIPTION
 
-THIS IS A BETA RELEASE, perpetually so! There are typos in the error messages and in the POD.  There are also probably plenty of bugs.  It is being released early because there have been a number of people who have shown interest in having it released.  Not every feature is documented yet and a future release will have that cleaned up along with some of the hairier parts of the internal API.
-Language::Farnsworth is a programming language originally inspired by Frink (see http://futureboy.homeip.net/frinkdocs/ ).
-However due to creative during the creation of it, the syntax has changed significantly and the capabilities are also different.
-Some things Language::Farnsworth can do a little better than Frink, other areas Language::Farnsworth lacks.
+THIS IS A BETA RELEASE, perpetually so! There are typos in the error messages and in the POD.  
+There are also probably plenty of bugs.  While it is not ready for production use, it is most certainly usable as a toy and to see a pure interpreter written in perl.
+Not every feature is documented yet (This 0.7.x series will be striving to fix that) and a future release will fix the hairier parts of the internal API (scheduled for 0.8.x).
 
 =head2 PREREQUISITS
 
@@ -240,15 +237,24 @@ Objects!
 
 =back
 
+=head1 HISTORY
+
+Language::Farnsworth is a programming language originally inspired by Frink (see http://futureboy.homeip.net/frinkdocs/ ).
+However due to creative during the creation of it, the syntax has changed significantly and the capabilities are also different.
+Some things Language::Farnsworth can do a little better than Frink, other areas Language::Farnsworth lacks.  
+And while ostensibly the language may appear to be named in a similar vein after another cartoon professor that brings good news to everyone,
+it is in fact named after the famous physicist Philo T. Farnsworth.
+
 =head1 SEE ALSO
 
 L<Language::Farnsworth::Docs::Syntax> L<Language::Farnsworth::Docs::Functions>
 
 Please use the bug tracker available from CPAN to submit bugs.
+There are also things to be 
 
 =head1 AUTHOR
 
-Ryan Voots E<lt>simcop@cpan.orgE<gt>
+Ryan Voots E<lt>L<simcop@cpan.org>E<gt>
 
 =head1 COPYRIGHT AND LICENSE
 

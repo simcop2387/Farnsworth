@@ -22,7 +22,7 @@ sub init
    $env->{funcs}->addfunc("pop", [["arr", undef, TYPE_ARRAY, 0]],\&pop); #eventually this maybe too
    $env->{funcs}->addfunc("shift", [["arr", undef, TYPE_ARRAY, 1]], \&shift);
    #$env->{funcs}->addfunc("unshift", [["arr", undef, $array, 0], ["in", undef, "VarArg", 0]], \&unshift);
-   $env->{funcs}->addfunc("sort", [["sortsub", undef, TYPE_LAMBDA, 0],["arr", undef, TYPE_ARRAY, 0]],\&sort);
+   $env->{funcs}->addfunc("sort", [["arr", undef, "VarArg", 0]],\&sort);
 
    $env->{funcs}->addfunc("length", [["in", undef, undef, 0]],\&length);
 
@@ -121,19 +121,20 @@ sub sort
 {
 	#args is... a Language::Farnsworth::Value array
 	my ($args, $eval, $branches)= @_;
-
-	my $argcount = $args->getarray();
+    my $arr = $eval->{vars}->getvar("arr");
+    
+   	my $argcount = $arr->getarray();
 
 	my $sortlambda;
 
-	if (ref($args->getarrayref()->[0]) eq "Language::Farnsworth::Value::Lambda")
+	if (ref($arr->getarrayref()->[0]) eq "Language::Farnsworth::Value::Lambda")
 	{
-		$sortlambda = shift(@{$args->getarrayref});
+		$sortlambda = shift(@{$arr->getarrayref});
 	}
 	else
 	{
 		#i should really do this outside the sub ONCE, but i'm lazy for now
-		$sortlambda = $eval->eval("{|a,b| a <=> b}");
+		$sortlambda = $eval->eval("{`a,b` a <=> b}");
 	}
 
 	my $sortsub = sub
@@ -145,20 +146,20 @@ sub sort
 
 	my @sorts;
 
-	if ($args->getarray() > 1)
+	if ($arr->getarray() > 1)
 	{
 		#we've been given a bunch of things, assume we need to sort them like that
-		push @sorts, $args->getarray();
+		push @sorts, $arr->getarray();
 	}
-	elsif (($args->getarray() == 1) && (ref($args->getarrayref()->[0]) eq "Language::Farnsworth::Value::Array"))
+	elsif (($arr->getarray() == 1) && (ref($arr->getarrayref()->[0]) eq "Language::Farnsworth::Value::Array"))
 	{
 		#given an array as a second value, dereference it since its the only thing we've got
-		push @sorts, $args->getarrayref()->[0]->getarray();
+		push @sorts, $arr->getarrayref()->[0]->getarray();
 	}
 	else
 	{
 		#ok you want me to sort ONE thing? i'll sort that one thing, in O(1) time!
-		return $args->getarrayref()->[0];
+		return $arr->getarrayref()->[0];
 	}
 
 	my @rets = CORE::sort $sortsub @sorts;

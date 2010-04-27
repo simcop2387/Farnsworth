@@ -190,3 +190,7 @@ sub compare
   return 0;
 }
 
+sub toperl
+{
+	return undef;
+}
