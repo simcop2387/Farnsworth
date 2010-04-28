@@ -46,7 +46,14 @@ my @tests =
 	['map[{`x` x**2}, a]', '[1  , 4  , 9  , 16  , 1  , 4  , 9 ]', "map[]"],
 	["reverse[a]",        "[3  , 2  , 1  , 4  , 3  , 2  , 1 ]",   "reverse[array]"],
 	['reverse["petrified"]', '"deifirtep"',   "reverse[array]"],
-	
+	['min[a]', '1 ',   "min[]"],
+	['max[a]', '4 ',   "max[]"],
+	['index["the quick brown dog jumps over the lazy fox", "z"]', "37 ", "index"],
+	['eval["sort[a]"]', "[1  , 1  , 2  , 2  , 3  , 3  , 4 ]", "eval[]"],
+	['substr["the quick brown dog jumps over the lazy fox", 4, 9]', '"quick"', "substr[]"],
+	['substrLen["the quick brown dog jumps over the lazy fox", 4, 5]', '"quick"', "substrLen[]"],
+	['left["the quick brown dog jumps over the lazy fox", 3]', '"the"', "left[]"],
+	['right["the quick brown dog jumps over the lazy fox", 3]', '"fox"', "right[]"],
 );
 
 
