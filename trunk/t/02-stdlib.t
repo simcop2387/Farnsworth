@@ -43,6 +43,10 @@ my @tests =
 	['ord["は"]', "12399 ", "ord[] unicode"],
 	['chr[97]', '"a"', "chr[]"],
 	['chr[12399]', '"は"', "chr[] unicode"],
+	['map[{`x` x**2}, a]', '[1  , 4  , 9  , 16  , 1  , 4  , 9 ]', "map[]"],
+	["reverse[a]",        "[3  , 2  , 1  , 4  , 3  , 2  , 1 ]",   "reverse[array]"],
+	['reverse["petrified"]', '"deifirtep"',   "reverse[array]"],
+	
 );
 
 

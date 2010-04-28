@@ -1,4 +1,4 @@
-<div name="index"><p><a name="__index__"></a><ul><li><a href="#name">NAME</a><li><a href="#synopsis">SYNOPSIS</a><li><a href="#description">DESCRIPTION</a><ul><li><a href="#implicit_multiplication">IMPLICIT MULTIPLICATION</a><li><a href="#variables">VARIABLES</a><ul><li><a href="#strings">Strings</a><ul><li><a href="#string_escapes">String Escapes</a><li><a href="#variable_interpolation">Variable Interpolation</a><li><a href="#expression_interpolation">Expression Interpolation</a></ul><li><a href="#dates">Dates</a><li><a href="#arrays">Arrays</a><ul><li><a href="#accessing_elements_of_the_array">Accessing elements of the Array</a></ul></ul><li><a href="#operators">OPERATORS</a><ul><li><a href="#logical_operators">Logical Operators</a><li><a href="#per">per</a><li><a href="#implicit_multiplication">Implicit Multiplication</a></ul><li><a href="#functions">Functions</a><ul><li><a href="#defining">Defining</a><li><a href="#calling_functions">Calling Functions</a><li><a href="#default_parameters">Default Parameters</a><li><a href="#type_constraints">Type Constraints</a><li><a href="#variable_number_of_arguments">Variable Number of Arguments</a></ul><li><a href="#units">Units</a><ul><li><a href="#unit_conversions">Unit Conversions</a><li><a href="#unit_definitions">Unit Definitions</a><li><a href="#unit_prefixes">Unit Prefixes</a><li><a href="#more_advanced_unit_manipulation">More Advanced Unit Manipulation</a></ul><li><a href="#flow_control">Flow Control</a><ul><li><a href="#if">If</a><li><a href="#while">While</a></ul><li><a href="#lambdas">Lambdas</a><ul><li><a href="#defining_a_lambda">Defining a Lambda</a><li><a href="#calling_lambdas__new_syntax_">Calling Lambdas (New Syntax)</a><li><a href="#calling_lambdas__old_syntax_">Calling Lambdas (Old Syntax)</a><li><a href="#nesting_lambdas">Nesting Lambdas</a></ul></ul><li><a href="#see_also">SEE ALSO</a><li><a href="#author">AUTHOR</a><li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></ul><hr name="index" /></div>
+<div name="index"><p><a name="__index__"></a><ul><li><a href="#name">NAME</a><li><a href="#synopsis">SYNOPSIS</a><li><a href="#description">DESCRIPTION</a><ul><li><a href="#implicit_multiplication">IMPLICIT MULTIPLICATION</a><li><a href="#variables">VARIABLES</a><ul><li><a href="#strings">Strings</a><ul><li><a href="#string_escapes">String Escapes</a><li><a href="#variable_interpolation">Variable Interpolation</a><li><a href="#expression_interpolation">Expression Interpolation</a></ul><li><a href="#dates">Dates</a><li><a href="#arrays">Arrays</a><ul><li><a href="#accessing_elements_of_the_array">Accessing elements of the Array</a></ul></ul><li><a href="#operators">OPERATORS</a><ul><li><a href="#logical_operators">Logical Operators</a><li><a href="#per">per</a><li><a href="#implicit_multiplication">Implicit Multiplication</a></ul><li><a href="#functions">Functions</a><ul><li><a href="#defining">Defining</a><li><a href="#calling_functions">Calling Functions</a><li><a href="#default_parameters">Default Parameters</a><li><a href="#type_constraints">Type Constraints</a><li><a href="#variable_number_of_arguments">Variable Number of Arguments</a></ul><li><a href="#units">Units</a><ul><li><a href="#unit_conversions">Unit Conversions</a><li><a href="#unit_definitions">Unit Definitions</a><li><a href="#unit_prefixes">Unit Prefixes</a><li><a href="#more_advanced_unit_manipulation">More Advanced Unit Manipulation</a></ul><li><a href="#flow_control">Flow Control</a><ul><li><a href="#if">If</a><li><a href="#while">While</a></ul><li><a href="#lambdas">Lambdas</a><ul><li><a href="#defining_a_lambda">Defining a Lambda</a><li><a href="#calling_lambdas__new_syntax_">Calling Lambdas (New Syntax)</a><li><a href="#nesting_lambdas">Nesting Lambdas</a></ul></ul><li><a href="#see_also">SEE ALSO</a><li><a href="#author">AUTHOR</a><li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></ul><hr name="index" /></div>
 
 <p>
 
@@ -120,9 +120,9 @@
 
 <pre>
         NOTE: This section and its syntax is VERY likely to change in future releases
-        NOTE: There is currently a known issue with push[] and arrays where one can cause it to keep from altering the original array, this will be fixed in future versions
-        
-You can access elements of arrays with syntax that looks like this</pre>
+        NOTE: There is currently a known issue with push[] and arrays where one can cause it to keep from altering the original array, this will be fixed in future versions</pre>
+
+<p>You can access elements of arrays with syntax that looks like this
 
 <pre>
         a = [1,2,3]
@@ -369,9 +369,7 @@ Since Farnsworth represents everything as a single unit it will always want to g
 
 <h3><a name="more_advanced_unit_manipulation">More Advanced Unit Manipulation</a></h3>
 
-<pre>
-
-You can also define your own basic units like length, time and mass, you do this by syntax like the following</pre>
+<p>You can also define your own basic units like length, time and mass, you do this by syntax like the following
 
 <pre>
         name =!= basicunit</pre>
@@ -381,9 +379,9 @@ You can also define your own basic units like length, time and mass, you do this
 <p>so lets say we wanted to be able to count pixels as units
 
 <pre>
-        pixels =!= pixel
-        
-and now you&#39;ve got a basic unit B&lt;pixel&gt; that you can use to define other things like how many pixels are in a VGA screen</pre>
+        pixels =!= pixel</pre>
+
+<p>and now you&#39;ve got a basic unit <strong>pixel</strong> that you can use to define other things like how many pixels are in a VGA screen
 
 <pre>
         VGA := 640 * 480 pixels</pre>
@@ -450,30 +448,25 @@ and now you&#39;ve got a basic unit B&lt;pixel&gt; that you can use to define ot
         lambda argument
         lambda * argument</pre>
 
-<p>What&#39;s going on here is that you are multiplying the lambda by its argument, which is either a single value or an array. When you do this the lambda gets passed the other item as its argument(s). This lets lambdas act and look like normal functions while behaving as a variable at the same time.
+<p>What&#39;s going on here is that you are multiplying the lambda by its argument, which is either a single value or an array. When you do this the lambda gets passed the other item as its argument(s). This lets lambdas act and look like normal functions while behaving as a variable at the same time. The only thing to watch out for here though is that if you do something like
+
+<pre>
+        var mylamb = {`x` x^2};
+        var b = mylamb[10];</pre>
+
+<p>It will first try to find a FUNCTION named mylamb before calling your variable. So if you&#39;ve got a variable you&#39;re storing a lambda in named the same as an existing function you&#39;d want to do something like
+
+<pre>
+        var b = mylamb [10]; 
+        var b = (mylamb)[10];
+        var b = mylamb*[10];</pre>
+
+<p>I am considering changing this since the lambda would be scoped but it will not be until i have a way to explicitly get/use the function that was already defined.
 
 <pre>
         argument lambda</pre>
 
 <p>This order will also work, but should be used sparingly because it can be confusing.
-
-<p>
-
-<h3><a name="calling_lambdas__old_syntax_">Calling Lambdas (Old Syntax)</a></h3>
-
-<pre>
-        Note: This section is entirely depreciated and will be removed in future versions</pre>
-
-<p>Calling a lambda is fairly simple, the syntax looks a lot like the syntax for doing unit conversion or calling a function implicitly.
-
-<pre>
-        argument =&gt; lambda
-        [arguments] =&gt; lambda</pre>
-
-<p>This syntax also makes it easy to chain several lambdas up to do multiple calculations and have the order of execution blatantly obvious
-
-<pre>
-        [arguments] =&gt; lambda1 =&gt; lambda2 =&gt; lambda3</pre>
 
 <p>
 
@@ -494,7 +487,7 @@ and now you&#39;ve got a basic unit B&lt;pixel&gt; that you can use to define ot
 
 <p><a href="/docs/language/farnsworth/evaluate">the Language::Farnsworth::Evaluate manpage</a> <a href="/docs/language/farnsworth/value">the Language::Farnsworth::Value manpage</a> <a href="/docs/language/farnsworth/docs/syntax">the Language::Farnsworth::Docs::Syntax manpage</a> <a href="/docs/language/farnsworth/docs/functions">the Language::Farnsworth::Docs::Functions manpage</a>
 
-<p>There is also an RT tracker for the module (this may change) setup at <a href="http://farnsworth.sexypenguins.com/">http://farnsworth.sexypenguins.com/</a>, you can also reach the tracker by sending an email to &lt;<a href="mailto:farnsworth.rt@gmail.com">farnsworth.rt@gmail.com</a>&gt;
+<p>For submitting any bugs please use the one provided by cpan <a href="https://rt.cpan.org/Public/Bug/Report.html?Queue=Language-Farnsworth">https://rt.cpan.org/Public/Bug/Report.html?Queue=Language-Farnsworth</a>.
 
 <p>
 
@@ -510,7 +503,7 @@ and now you&#39;ve got a basic unit B&lt;pixel&gt; that you can use to define ot
 
 <h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
 
-<p>Copyright (C) 2008 by Ryan Voots
+<p>Copyright (C) 2010 by Ryan Voots
 
 <p>This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself, either Perl version 5.8.0 or, at your option, any later version of Perl 5 you may have available.
 

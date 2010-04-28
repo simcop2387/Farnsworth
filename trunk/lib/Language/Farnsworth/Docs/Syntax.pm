@@ -109,7 +109,7 @@ You can have any number of elements and they can contain anything that you can s
 
 	NOTE: This section and its syntax is VERY likely to change in future releases
 	NOTE: There is currently a known issue with push[] and arrays where one can cause it to keep from altering the original array, this will be fixed in future versions
-	
+
 You can access elements of arrays with syntax that looks like this
 
 	a = [1,2,3]
@@ -306,7 +306,7 @@ This allows you to add any prefixes you need to make a calculation simple and ea
 NOTE: bits and bytes use the SI units of 1000 for kilobit, megabit, etc. to get the normal meaning of 1024 instead, use the of prefixes such as kibibit, mebibyte, etc. see http://en.wikipedia.org/wiki/Binary_prefix for more information on them.
 
 =head3 More Advanced Unit Manipulation
- 
+
 You can also define your own basic units like length, time and mass, you do this by syntax like the following 
 
 	name =!= basicunit
@@ -316,7 +316,7 @@ You can also define your own basic units like length, time and mass, you do this
 so lets say we wanted to be able to count pixels as units 
 
 	pixels =!= pixel
-	
+
 and now you've got a basic unit B<pixel> that you can use to define other things like how many pixels are in a VGA screen
 
 	VGA := 640 * 480 pixels
@@ -375,7 +375,7 @@ What's going on here is that you are multiplying the lambda by its argument, whi
 
 	var mylamb = {`x` x^2};
 	var b = mylamb[10];
-	
+
 It will first try to find a FUNCTION named mylamb before calling your variable. So if you've got a variable you're storing a lambda in named the same as an existing function you'd want to do something like
 
 	var b = mylamb [10]; 
@@ -387,19 +387,6 @@ I am considering changing this since the lambda would be scoped but it will not 
 	argument lambda
 
 This order will also work, but should be used sparingly because it can be confusing.
-
-=head3 Calling Lambdas (Old Syntax)
-
-	Note: This section is entirely depreciated and will be removed in future versions
-
-Calling a lambda is fairly simple, the syntax looks a lot like the syntax for doing unit conversion or calling a function implicitly.
-
-	argument => lambda
-	[arguments] => lambda
-
-This syntax also makes it easy to chain several lambdas up to do multiple calculations and have the order of execution blatantly obvious
-
-	[arguments] => lambda1 => lambda2 => lambda3
 
 =head3 Nesting Lambdas
 

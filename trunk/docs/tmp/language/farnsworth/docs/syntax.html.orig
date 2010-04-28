@@ -81,7 +81,6 @@
 
 			<li><a href="#defining_a_lambda">Defining a Lambda</a></li>
 			<li><a href="#calling_lambdas__new_syntax_">Calling Lambdas (New Syntax)</a></li>
-			<li><a href="#calling_lambdas__old_syntax_">Calling Lambdas (Old Syntax)</a></li>
 			<li><a href="#nesting_lambdas">Nesting Lambdas</a></li>
 		</ul>
 
@@ -180,9 +179,8 @@ The syntax looks like this</p>
 <h4><a name="accessing_elements_of_the_array">Accessing elements of the Array</a></h4>
 <pre>
         NOTE: This section and its syntax is VERY likely to change in future releases
-        NOTE: There is currently a known issue with push[] and arrays where one can cause it to keep from altering the original array, this will be fixed in future versions
-        
-You can access elements of arrays with syntax that looks like this</pre>
+        NOTE: There is currently a known issue with push[] and arrays where one can cause it to keep from altering the original array, this will be fixed in future versions</pre>
+<p>You can access elements of arrays with syntax that looks like this</p>
 <pre>
         a = [1,2,3]
         b = a@0$</pre>
@@ -348,17 +346,14 @@ Since Farnsworth represents everything as a single unit it will always want to g
 <p>
 </p>
 <h3><a name="more_advanced_unit_manipulation">More Advanced Unit Manipulation</a></h3>
-<pre>
-
-You can also define your own basic units like length, time and mass, you do this by syntax like the following</pre>
+<p>You can also define your own basic units like length, time and mass, you do this by syntax like the following</p>
 <pre>
         name =!= basicunit</pre>
 <p>'<strong>name</strong>' is some unique name for the type of measurement that is going to be represented and '<strong>basicunit</strong>' is the primary unit of measure for this &quot;dimension&quot;</p>
 <p>so lets say we wanted to be able to count pixels as units</p>
 <pre>
-        pixels =!= pixel
-        
-and now you've got a basic unit B&lt;pixel&gt; that you can use to define other things like how many pixels are in a VGA screen</pre>
+        pixels =!= pixel</pre>
+<p>and now you've got a basic unit <strong>pixel</strong> that you can use to define other things like how many pixels are in a VGA screen</p>
 <pre>
         VGA := 640 * 480 pixels</pre>
 <p>
@@ -406,22 +401,19 @@ Also Note: the syntax for them MIGHT change as i begin to learn how to rewrite t
         lambda[arguments]
         lambda argument
         lambda * argument</pre>
-<p>What's going on here is that you are multiplying the lambda by its argument, which is either a single value or an array.  When you do this the lambda gets passed the other item as its argument(s).  This lets lambdas act and look like normal functions while behaving as a variable at the same time.</p>
+<p>What's going on here is that you are multiplying the lambda by its argument, which is either a single value or an array.  When you do this the lambda gets passed the other item as its argument(s).  This lets lambdas act and look like normal functions while behaving as a variable at the same time. The only thing to watch out for here though is that if you do something like</p>
+<pre>
+        var mylamb = {`x` x^2};
+        var b = mylamb[10];</pre>
+<p>It will first try to find a FUNCTION named mylamb before calling your variable. So if you've got a variable you're storing a lambda in named the same as an existing function you'd want to do something like</p>
+<pre>
+        var b = mylamb [10]; 
+        var b = (mylamb)[10];
+        var b = mylamb*[10];</pre>
+<p>I am considering changing this since the lambda would be scoped but it will not be until i have a way to explicitly get/use the function that was already defined.</p>
 <pre>
         argument lambda</pre>
 <p>This order will also work, but should be used sparingly because it can be confusing.</p>
-<p>
-</p>
-<h3><a name="calling_lambdas__old_syntax_">Calling Lambdas (Old Syntax)</a></h3>
-<pre>
-        Note: This section is entirely depreciated and will be removed in future versions</pre>
-<p>Calling a lambda is fairly simple, the syntax looks a lot like the syntax for doing unit conversion or calling a function implicitly.</p>
-<pre>
-        argument =&gt; lambda
-        [arguments] =&gt; lambda</pre>
-<p>This syntax also makes it easy to chain several lambdas up to do multiple calculations and have the order of execution blatantly obvious</p>
-<pre>
-        [arguments] =&gt; lambda1 =&gt; lambda2 =&gt; lambda3</pre>
 <p>
 </p>
 <h3><a name="nesting_lambdas">Nesting Lambdas</a></h3>
@@ -438,8 +430,8 @@ And because <strong>count</strong> was declared in the first lambda it isn't ava
 <a href="/docs/Language/Farnsworth/Value.html">the Language::Farnsworth::Value manpage</a> 
 <a href="/docs/Language/Farnsworth/Docs/Syntax.html">the Language::Farnsworth::Docs::Syntax manpage</a> 
 <a href="/docs/Language/Farnsworth/Docs/Functions.html">the Language::Farnsworth::Docs::Functions manpage</a></p>
-<p>There is also an RT tracker for the module (this may change) setup at
-<a href="http://farnsworth.sexypenguins.com/">http://farnsworth.sexypenguins.com/</a>, you can also reach the tracker by sending an email to &lt;<a href="mailto:farnsworth.rt@gmail.com">farnsworth.rt@gmail.com</a>&gt;</p>
+<p>For submitting any bugs please use the one provided by cpan
+<a href="https://rt.cpan.org/Public/Bug/Report.html?Queue=Language-Farnsworth">https://rt.cpan.org/Public/Bug/Report.html?Queue=Language-Farnsworth</a>.</p>
 <p>
 </p>
 <hr />
@@ -449,7 +441,7 @@ And because <strong>count</strong> was declared in the first lambda it isn't ava
 </p>
 <hr />
 <h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
-<p>Copyright (C) 2008 by Ryan Voots</p>
+<p>Copyright (C) 2010 by Ryan Voots</p>
 <p>This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.0 or,
 at your option, any later version of Perl 5 you may have available.</p>
