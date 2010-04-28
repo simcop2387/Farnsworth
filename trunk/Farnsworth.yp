@@ -186,7 +186,6 @@ exprnouminus: singleval
 	        | NAME ':-' expr		{ bless [ @_[1,3] ], 'SetPrefixAbrv' }
 	        | NAME '{' arglist '}' ':=' expr { bless [@_[1,3], (bless [$_[6]], 'Stmt')], 'FuncDef' }
 	        | NAME '{' arglist '}' ':=' '{' stma '}' { bless [@_[1,3,7]], 'FuncDef' }
-	        | expr '=>' expr {bless [@_[1,3]], 'LambdaCall'}
             | expr '->' expr  { bless [ @_[1,3]], 'Trans' }
 	        | assigncomb
 	        ;

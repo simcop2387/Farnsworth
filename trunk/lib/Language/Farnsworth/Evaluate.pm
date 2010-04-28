@@ -486,7 +486,7 @@ sub evalbranch
 
 		$return = new Language::Farnsworth::Value::Lambda($scope, $vargs, $code, $branch);
 	}
-	elsif ($type eq "LambdaCall")
+	elsif ($type eq "LambdaCall") #still used in ONE place, sort[] in Standard.pm, i need to get the code to use mult but that's being a pita and i'm done trying to do it at the moment
 	{		
 		my $left = $self->makevalue($branch->[0]);
 		my $right = $self->makevalue($branch->[1]);

@@ -1,4 +1,5 @@
 #use Test::More tests => 23;
+use utf8; #needed for the unicode tests
   
   BEGIN 
   {
@@ -32,14 +33,16 @@ my @tests =
     ["pop[a]",                "[3.14  , 4.5 ]",  "pop[] pull off last push"],
     ["shift[a]",              "1 ",  "shift[] off first element"],
 	["unshift[a,1]",          "[1  , 2  , 3  , 4  , 1  , 2  , 3 ]", "unshift[] back onto array"],
-#	["sort[{`a,b` a <=> b}, 2,1,4,3]", "[1  , 2  , 3  , 4 ]", "sort[] list"],
+	["sort[{`a,b` a <=> b}, 2,1,4,3]", "[1  , 2  , 3  , 4 ]", "sort[] list"],
 	["sort[{`a,b` a <=> b}, a]", "[1  , 1  , 2  , 2  , 3  , 3  , 4 ]", "sort[] array"],
+	["sort[2,1,4,3]", "[1  , 2  , 3  , 4 ]", "sort[] list, no sub"],
+	["sort[a]", "[1  , 1  , 2  , 2  , 3  , 3  , 4 ]", "sort[] array, no sub"],	
 	["length[a]", "7 ", "length[] array"],
 	['length["Hello World"]', "11 ", "length[] string"],
 	['ord["a"]', "97 ", "ord[] ascii"],
-#	['ord["# "]', "97 ", "ord[] unicode"], #can't type from here
-#	['chr[97]', '"a"' 
-
+	['ord["は"]', "12399 ", "ord[] unicode"],
+	['chr[97]', '"a"', "chr[]"],
+	['chr[12399]', '"は"', "chr[] unicode"],
 );
 
 
