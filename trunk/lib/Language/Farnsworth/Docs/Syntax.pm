@@ -371,7 +371,18 @@ Calling a lambda is fairly simple, the syntax looks a lot like the syntax for ca
 	lambda argument
 	lambda * argument
 
-What's going on here is that you are multiplying the lambda by its argument, which is either a single value or an array.  When you do this the lambda gets passed the other item as its argument(s).  This lets lambdas act and look like normal functions while behaving as a variable at the same time.
+What's going on here is that you are multiplying the lambda by its argument, which is either a single value or an array.  When you do this the lambda gets passed the other item as its argument(s).  This lets lambdas act and look like normal functions while behaving as a variable at the same time. The only thing to watch out for here though is that if you do something like
+
+	var mylamb = {`x` x^2};
+	var b = mylamb[10];
+	
+It will first try to find a FUNCTION named mylamb before calling your variable. So if you've got a variable you're storing a lambda in named the same as an existing function you'd want to do something like
+
+	var b = mylamb [10]; 
+	var b = (mylamb)[10];
+	var b = mylamb*[10];
+
+I am considering changing this since the lambda would be scoped but it will not be until i have a way to explicitly get/use the function that was already defined.
 
 	argument lambda
 
@@ -406,8 +417,8 @@ L<Language::Farnsworth::Value>
 L<Language::Farnsworth::Docs::Syntax> 
 L<Language::Farnsworth::Docs::Functions>
 
-There is also an RT tracker for the module (this may change) setup at
-L<http://farnsworth.sexypenguins.com/>, you can also reach the tracker by sending an email to E<lt>farnsworth.rt@gmail.comE<gt>
+For submitting any bugs please use the one provided by cpan
+L<https://rt.cpan.org/Public/Bug/Report.html?Queue=Language-Farnsworth>.
 
 =head1 AUTHOR
 
@@ -415,7 +426,7 @@ Ryan Voots E<lt>simcop@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2008 by Ryan Voots
+Copyright (C) 2010 by Ryan Voots
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.0 or,

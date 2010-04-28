@@ -1,0 +1,516 @@
+<div name="index"><p><a name="__index__"></a><ul><li><a href="#name">NAME</a><li><a href="#synopsis">SYNOPSIS</a><li><a href="#description">DESCRIPTION</a><ul><li><a href="#implicit_multiplication">IMPLICIT MULTIPLICATION</a><li><a href="#variables">VARIABLES</a><ul><li><a href="#strings">Strings</a><ul><li><a href="#string_escapes">String Escapes</a><li><a href="#variable_interpolation">Variable Interpolation</a><li><a href="#expression_interpolation">Expression Interpolation</a></ul><li><a href="#dates">Dates</a><li><a href="#arrays">Arrays</a><ul><li><a href="#accessing_elements_of_the_array">Accessing elements of the Array</a></ul></ul><li><a href="#operators">OPERATORS</a><ul><li><a href="#logical_operators">Logical Operators</a><li><a href="#per">per</a><li><a href="#implicit_multiplication">Implicit Multiplication</a></ul><li><a href="#functions">Functions</a><ul><li><a href="#defining">Defining</a><li><a href="#calling_functions">Calling Functions</a><li><a href="#default_parameters">Default Parameters</a><li><a href="#type_constraints">Type Constraints</a><li><a href="#variable_number_of_arguments">Variable Number of Arguments</a></ul><li><a href="#units">Units</a><ul><li><a href="#unit_conversions">Unit Conversions</a><li><a href="#unit_definitions">Unit Definitions</a><li><a href="#unit_prefixes">Unit Prefixes</a><li><a href="#more_advanced_unit_manipulation">More Advanced Unit Manipulation</a></ul><li><a href="#flow_control">Flow Control</a><ul><li><a href="#if">If</a><li><a href="#while">While</a></ul><li><a href="#lambdas">Lambdas</a><ul><li><a href="#defining_a_lambda">Defining a Lambda</a><li><a href="#calling_lambdas__new_syntax_">Calling Lambdas (New Syntax)</a><li><a href="#calling_lambdas__old_syntax_">Calling Lambdas (Old Syntax)</a><li><a href="#nesting_lambdas">Nesting Lambdas</a></ul></ul><li><a href="#see_also">SEE ALSO</a><li><a href="#author">AUTHOR</a><li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></ul><hr name="index" /></div>
+
+<p>
+
+<h1><a name="name">NAME</a></h1>
+
+<p>Language::Farnsworth::Docs::Syntax - A bunch of examples of all the syntax in Language::Farnsworth
+
+<p>
+
+<hr />
+
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+
+<p>This document is intended to help you understand how Language::Farnsworth syntax looks
+
+<p>
+
+<hr />
+
+<h1><a name="description">DESCRIPTION</a></h1>
+
+<p>Language::Farnsworth is a programming language originally inspired by Frink (see <a href="http://futureboy.homeip.net/frinkdocs/">http://futureboy.homeip.net/frinkdocs/</a> ). However due to certain difficulties during the creation of it, the syntax has changed slightly and the capabilities are also different. Some things Language::Farnsworth can do a little better than Frink, other areas Language::Farnsworth lacks (sometimes greatly).
+
+<p>
+
+<h2><a name="implicit_multiplication">IMPLICIT MULTIPLICATION</a></h2>
+
+<p>In Language::Farnsworth two tokens that are separated by a space or parenthesis are
+
+<p>
+
+<h2><a name="variables">VARIABLES</a></h2>
+
+<p>Variables in Language::Farnsworth are pretty simple to understand
+
+<pre>
+        var a = 1
+        var b = a + a
+        var c = b * b</pre>
+
+<p>You must explicitly declare a variable and they will stay local to the scope that it is defined in, and any child scopes that are defined in the current one
+
+<pre>
+        var i;
+        var x = 10;</pre>
+
+<p>
+
+<h3><a name="strings">Strings</a></h3>
+
+<p>Like all good programming languages Language::Farnsworth has strings
+
+<pre>
+        &quot;Text goes here&quot;</pre>
+
+<p>Note that single quotes &#39; are not used for strings, they may eventually be used for strings that do not interpolate but that hasn&#39;t been decided yet.
+
+<p>
+
+<h4><a name="string_escapes">String Escapes</a></h4>
+
+<p>Language::Farnsworth currently only supports two escapes, this will be rectified in future versions of Language::Farnsworth but was not a priority for the early releases which are intended to just be not much more than a proof of concept
+
+<pre>
+        \&quot; # to escape a quote inside a string
+        \\ # to escape a backslash inside a string</pre>
+
+<p>
+
+<h4><a name="variable_interpolation">Variable Interpolation</a></h4>
+
+<p>Language::Farnsworth also supports interpolating variables inside of a string so that you can either stringify a number or just use them to produce nicer output. The syntax looks something like this
+
+<pre>
+        &quot;There are $days until Halloween&quot;</pre>
+
+<p>Upon evaluating that string <strong>$days</strong> will be replaced by the value of the variable <strong>days</strong>
+
+<p>
+
+<h4><a name="expression_interpolation">Expression Interpolation</a></h4>
+
+<p>Language::Farnsworth also supports simple expressions to be interpolated inside of a string itself, the syntax is very similar to variable interpolation and can be used to interpolate a variable when you don&#39;t want to have some space around it.
+
+<pre>
+        &quot;One foot is the same as ${1.0 foot -&gt; \&quot;meters\&quot;}.&quot;</pre>
+
+<p>And the result will look like.
+
+<pre>
+        &quot;One foot is the same as 0.3048 meters.&quot;</pre>
+
+<p>
+
+<h3><a name="dates">Dates</a></h3>
+
+<p>Language::Farnsworth also supports dates as an inherent feature of the language meaning that you can use Language::Farnsworth to perform calculations involving dates The syntax looks like this
+
+<pre>
+        #March 3rd, 2008#
+        #2008-12-25# + 1 year</pre>
+
+<p>Language::Farnsworth uses DateTime and DateTimeX::Easy to do the parsing and calculations involving dates, so it can parse and work with any date format that DateTimeX::Easy supports
+
+<p>
+
+<h3><a name="arrays">Arrays</a></h3>
+
+<p>Arrays in Language::Farnsworth are pretty simple to understand and create
+
+<pre>
+        [element, element, element, ...]</pre>
+
+<p>You can have any number of elements and they can contain anything that you can store in a variable (currently the only thing you cannot store in a variable is a function, but there is a solution to that, see below about Lambdas)
+
+<p>
+
+<h4><a name="accessing_elements_of_the_array">Accessing elements of the Array</a></h4>
+
+<pre>
+        NOTE: This section and its syntax is VERY likely to change in future releases
+        NOTE: There is currently a known issue with push[] and arrays where one can cause it to keep from altering the original array, this will be fixed in future versions
+        
+You can access elements of arrays with syntax that looks like this</pre>
+
+<pre>
+        a = [1,2,3]
+        b = a@0$</pre>
+
+<p>You can also do an array slice by putting multiple elements in between the @ and $. For example:
+
+<pre>
+        a = [1,2,3]
+        b = a@0,2,1$</pre>
+
+<p>
+
+<h2><a name="operators">OPERATORS</a></h2>
+
+<p>The Farnsworth Language is a simple language to learn, the basic operators +-/* are all there and do exactly what you think they should do (assuming you know any math or have programmed before)
+
+<p>There are however a few additional operators that you should be aware of to start with
+
+<p>
+
+<h3><a name="logical_operators">Logical Operators</a></h3>
+
+<p>Farnsworth has logical operators for dealing with boolean values, it has the standard ones <strong>||</strong> for OR, and <strong>&amp;&amp;</strong> for AND, and <strong>!boolean</strong> for NOT. It also has one more additional one <strong>^^</strong> for XOR as I&#39;ve found that to be useful in many situations
+
+<p>
+
+<h3><a name="per">per</a></h3>
+
+<p>This is almost exactly the same as the division operator except that it has a different precedence. This allows you to do things like
+
+<pre>
+        10 meters per 3 hours</pre>
+
+<p>This means the same as
+
+<pre>
+        10 meters / (3 hours)</pre>
+
+<p>but it can be much easier to understand
+
+<p>
+
+<h3><a name="implicit_multiplication">Implicit Multiplication</a></h3>
+
+<p>White space or parenthesis between things (numbers, variables, function calls, etc.) means that you want to implicitly multiply the two tokens
+
+<pre>
+        10 meters</pre>
+
+<p>is the same as
+
+<pre>
+        10 * meters</pre>
+
+<p>note that space around operators such as +-*/ does not imply multiplication, this means that if you wanted to multiply something by a negative number you MUST use a *, otherwise it will think you want to subtract
+
+<p>
+
+<h2><a name="functions">Functions</a></h2>
+
+<p>Like most reasonable programming languages Language::Farnsworth has functions, the standard library contains many math related functions see <a href="/docs/language/farnsworth/functions">the Language::Farnsworth::Functions manpage</a> for a reference of them
+
+<p>
+
+<h3><a name="defining">Defining</a></h3>
+
+<p>To define a function you&#39;ll want to do something like this
+
+<pre>
+        f{x} := x+x
+        NOTE: This syntax will be depreciated and removed by 1.0.0, the new syntax has not been added to this version</pre>
+
+<p>First we&#39;ve got &#39;<strong>f</strong>&#39; which is the name of the function, then we&#39;ve got this weird little part following it &#39;<strong>{x}</strong>&#39; this defines the arguments that the functions takes, in this case its a single argument named &#39;<strong>x</strong>&#39;, next we&#39;ve got &#39;<strong>:=</strong>&#39; this is the assignment operator for defining a function (it is also used for units, but we&#39;ll cover that later) then we&#39;ve got the expression &#39;<strong>x+x</strong>&#39; which is what the function actually does, in this case we&#39;re adding the argument to the function to itself
+
+<p>Now lets have a look at a slightly more complicated function
+
+<pre>
+        max{x,y} := { var z; if (x &gt; y) {z = x} else {z = y}; z}</pre>
+
+<p>here we&#39;ve got a function &#39;<strong>max</strong>&#39; that takes two arguments, &#39;<strong>x</strong>&#39; and &#39;<strong>y</strong>&#39;, then we&#39;ve got something new on the right side, &#39;<strong>{ var z; if (x &gt; y) {z = x} else {z = y}; z}</strong>&#39;, we&#39;ve surrounded the expression on the right with &#39; <strong>{ }</strong> &#39;, this lets us use multiple statements to build up the function if you&#39;ve programmed before you&#39;ll realize that we&#39;re separating each expression with a &#39;<strong>;</strong>&#39;
+
+<p>the very last expression that gets evaluated, in this case, &#39;<strong>z</strong>&#39; is what the function returns (NOTE: there are plans to add the ability to return at any point in the function but those have not been implemented yet)
+
+<p>
+
+<h3><a name="calling_functions">Calling Functions</a></h3>
+
+<p>After defining a function you really should be able to call them shouldn&#39;t you? there are two basic ways to call functions in Farnsworth
+
+<p>The simplest way is this
+
+<pre>
+        max[1,2]</pre>
+
+<p>this will call the function &#39;<strong>max</strong>&#39; with the arguments &#39;<strong>1</strong>&#39;and &#39;<strong>2</strong>&#39;
+
+<p>There is also another way to call functions indirectly, this way shouldn&#39;t be used in most cases as it can be confused with unit conversions which we will cover later
+
+<pre>
+        [1,2] -&gt; max
+        10 -&gt; f</pre>
+
+<p>both of these methods call the functions to the right of &#39;<strong>-&gt;</strong>&#39; using the expressions on the left as arguments. This method should be used sparingly because it can be ambiguous and can actually cause problems when there is a unit the same name as a function that just happens to allow a proper conversion. In the standard library there is a unit <strong>f</strong> (short for <strong>femto</strong>) that will cause the following example to not work properly
+
+<pre>
+        f{x} := {x * x}
+        10 -&gt; f</pre>
+
+<p>This will not in fact call the function <strong>f</strong>, but will end up telling you how many <strong>femto</strong>s will fit into <strong>10</strong>. This is however a good way to do certain things that APPEAR to be a conversion between two things, but don&#39;t easily convert because there&#39;s some other factor involved. Temperature conversions between Celsius and Kelvin are possible this way.
+
+<pre>
+        C{x} := (x / K) - 273.15
+        10 K -&gt; C</pre>
+
+<p>and you&#39;ll get back the result <strong>-263.15</strong>. That kind of conversion isn&#39;t possible to do with standard units as you&#39;ll begin to understand below.
+
+<p>
+
+<h3><a name="default_parameters">Default Parameters</a></h3>
+
+<p>Arguments to functions in Language::Farnsworth can have default parameters so that they don&#39;t always have to be specified explicitly. They are set when you create the function by setting the arguments equal to the default value
+
+<pre>
+        f{x = 1} := {x * x}</pre>
+
+<p>
+
+<h3><a name="type_constraints">Type Constraints</a></h3>
+
+<p>Arguments can also be told that they have to be of a certain type in order to be given to a function, otherwise an exception is raised and the execution of the code stops
+
+<p>These also are create at the time you define the function
+
+<pre>
+        f{x isa meter} := {x per 10 seconds}</pre>
+
+<p>Currently type constraints have to be some expression that describes the type of input you are expecting, in this case we used &quot;meter&quot; however meter describes a length, and any expression that describes a length can be used as the argument to the function e.g.
+
+<pre>
+        f[10 feet]</pre>
+
+<p>is perfectly valid. There are plans to implement the ability to say something like &#39;<strong>f{x isa length}</strong> however they have not been implemented yet. You can combine default arguments and constraints by specifying the default argument first, e.g.
+
+<pre>
+        f{x = 10 cm isa meter} := {x per 10 seconds}</pre>
+
+<p>
+
+<h3><a name="variable_number_of_arguments">Variable Number of Arguments</a></h3>
+
+<p>Sometimes you want to be able to take any number of arguments in order to perform some action on many different things, this is possible in Language::Farnsworth. You can do this by adding a constraint to the last argument to the function.
+
+<pre>
+        dostuff{x, y isa ...} := {/*something*/};</pre>
+
+<p>From this example you can see that we use the type constraint &#39;<strong>...</strong>&#39;. What this does is tell Language::Farnsworth to take any additional arguments and place them into an array and pass that array as the variable <strong>y</strong>. Here&#39;s an example of what use this can be to do something like recreate the <code>map</code> function from perl.
+
+<pre>
+        map{sub isa {`x`}, x isa ...} := {var e; var out=[]; while(e = shift[x]) {push[out, (e =&gt; sub)]}; out};
+        map[{`x` x+1}, 1,2,3];</pre>
+
+<p>What we&#39;ve got here is the first argument <strong>sub</strong> must be a Lambda (see below for more information on them). And the second argument swallows up ALL of the other arguments to the function allowing you to take any number of them.
+
+<p>
+
+<h2><a name="units">Units</a></h2>
+
+<p>What are units? Units are things like: inches, feet, meters, gallons, volts, liters, etc.
+
+<p>Farnsworth tracks units throughout all calculations that you do with it this allows you to do things like add two lengths together, or multiply them to get an area.
+
+<p>It also does unit conversions along the way allowing you to do things like &#39;<strong>1 foot + 12 inches</strong> &#39; and Farnsworth will handle it for you correctly.
+
+<p>Farnsworth handles this by converting everything into a single base unit when performing calculations, in the case of lengths it represents them all as meters
+
+<p>
+
+<h3><a name="unit_conversions">Unit Conversions</a></h3>
+
+<pre>
+
+Since Farnsworth represents everything as a single unit it will always want to give you back your calculations in that base unit; This isn&#39;t always what you want. So you can tell it to convert between the units to get exactly what you are after.</pre>
+
+<pre>
+        1 foot + 12 inches</pre>
+
+<p>When doing that calculation you would most likely want your answer back in &#39;<strong>feet</strong>&#39;, however farnsworth gives you back something like
+
+<pre>
+        0.6096 m</pre>
+
+<p>Now what the heck is that? You wanted feet didn&#39;t you? This is what the &#39;<strong>-&gt;</strong>&#39; operator is for, it will make farnsworth tell you the result in any unit you wish, so lets try this again
+
+<pre>
+        1 foot + 12 inches -&gt; feet</pre>
+
+<p>and Farnsworth gives you back the single number &#39;<strong>2</strong>&#39;. That&#39;s the correct answer, but what if you wanted it to tell you &#39;<strong>2 feet</strong>&#39; instead? you can do this by putting the unit you want the result in in quotes that will tell Farnsworth that you want the answer to contain the unit also. So lets do this one more time
+
+<pre>
+        1 foot + 12 inches -&gt; &quot;feet&quot;</pre>
+
+<p>And Farnsworth will give you back
+
+<pre>
+        2 feet</pre>
+
+<p>
+
+<h3><a name="unit_definitions">Unit Definitions</a></h3>
+
+<p>Now that you know how to convert between units, lets talk about how to create your own, the basic syntax is
+
+<pre>
+        UnitName := Expression</pre>
+
+<p>This allows you to create any unit you would desire, say you want to be able to use smoots to measure things?
+
+<pre>
+        smoot := 5 feet + 7 inches</pre>
+
+<p>now you can talk about measurements like &#39;<strong>6.5 smoots</strong>&#39; in any other calculation, or convert any distance to smoots, e.g. &#39;<strong>1 au -&gt; &quot;smoots&quot;</strong> &#39;
+
+<p>
+
+<h3><a name="unit_prefixes">Unit Prefixes</a></h3>
+
+<p>Farnsworth also supports the SI standard prefixes such as kilo, centi, nano, etc.
+
+<p>It however supports them on ALL units, so you can in fact say &#39;<strong>1 kilosmoot</strong>&#39; to mean 1000 smoots.
+
+<p>you can also define your own prefixes by doing this
+
+<pre>
+
+        kibi :- 1024
+        mibi :- 1024 * 1024</pre>
+
+<p>This allows you to add any prefixes you need to make a calculation simple and easy to do
+
+<p>NOTE: bits and bytes use the SI units of 1000 for kilobit, megabit, etc. to get the normal meaning of 1024 instead, use the of prefixes such as kibibit, mebibyte, etc. see <a href="http://en.wikipedia.org/wiki/Binary_prefix">http://en.wikipedia.org/wiki/Binary_prefix</a> for more information on them.
+
+<p>
+
+<h3><a name="more_advanced_unit_manipulation">More Advanced Unit Manipulation</a></h3>
+
+<pre>
+
+You can also define your own basic units like length, time and mass, you do this by syntax like the following</pre>
+
+<pre>
+        name =!= basicunit</pre>
+
+<p>&#39;<strong>name</strong>&#39; is some unique name for the type of measurement that is going to be represented and &#39;<strong>basicunit</strong>&#39; is the primary unit of measure for this &quot;dimension&quot;
+
+<p>so lets say we wanted to be able to count pixels as units
+
+<pre>
+        pixels =!= pixel
+        
+and now you&#39;ve got a basic unit B&lt;pixel&gt; that you can use to define other things like how many pixels are in a VGA screen</pre>
+
+<pre>
+        VGA := 640 * 480 pixels</pre>
+
+<p>
+
+<h2><a name="flow_control">Flow Control</a></h2>
+
+<p>Like all useful programming languages Language::Farnsworth has ways to do loops and branching
+
+<p>
+
+<h3><a name="if">If</a></h3>
+
+<p>As you&#39;ve seen above Language::Farnsworth does have <strong>if</strong> statements, they look very similar to the languages C or Perl or Java
+
+<pre>
+        if ( condition ) { statements to run if the previous condition is true } else { the optional else clause to run if the previous condition is false };
+        if (x &gt; y) {z = x} else {z = y};</pre>
+
+<p>The braces around the statements are necessary as they are in Perl and Java. You also need to have a semi-colon after the braces when you want to begin the next statement.
+
+<p>
+
+<h3><a name="while">While</a></h3>
+
+<p>Farnsworth also has loops, they look exactly like they do in C or Perl or Java
+
+<pre>
+        while ( condition ) { statements to run while the condition is true }</pre>
+
+<p>This is currently the only kind of loop that exists in Farnsworth, however ALL types of loops can be made from this, which is an exercise currently outside the scope of this document The braces around the statements are necessary as they are in Perl and Java. As with <strong>if</strong>s you also need to have a semi-colon after the braces when you want to begin the next statement.
+
+<p>NOTE: for loops are definitely going to be added, i just haven&#39;t gotten to them yet.
+
+<p>
+
+<h2><a name="lambdas">Lambdas</a></h2>
+
+<p>Lambdas are a very neat feature of the Language::Farnsworth language, they are best described as something very similar to a subroutine reference in perl. When you create a lambda it keeps the environment with it that it was defined in (as far as variables are concerned anyway). This allows you to do things like create static variables between calls
+
+<p>Note: if anyone can think of a better name for these feel free to contact me about it. Also Note: the syntax for them MIGHT change as i begin to learn how to rewrite the parser to be smarter and fix a number of problems i have with it
+
+<p>
+
+<h3><a name="defining_a_lambda">Defining a Lambda</a></h3>
+
+<p>The basic syntax for defining a lambda is similar to how functions are defined
+
+<pre>
+        variable = {`arguments` statements};
+        distance = {`x, y` sqrt[x * x + y * y]};</pre>
+
+<p>As you can see here, a lambda is actually stored inside a variable rather than a different namespace like functions are, this allows you to have a variable contain the lambda and use it only inside the scope it was defined in, this also allows for fun results when nesting lambdas
+
+<p>
+
+<h3><a name="calling_lambdas__new_syntax_">Calling Lambdas (New Syntax)</a></h3>
+
+<p>Calling a lambda is fairly simple, the syntax looks a lot like the syntax for calling functions or for using units
+
+<pre>
+        lambda[arguments]
+        lambda argument
+        lambda * argument</pre>
+
+<p>What&#39;s going on here is that you are multiplying the lambda by its argument, which is either a single value or an array. When you do this the lambda gets passed the other item as its argument(s). This lets lambdas act and look like normal functions while behaving as a variable at the same time.
+
+<pre>
+        argument lambda</pre>
+
+<p>This order will also work, but should be used sparingly because it can be confusing.
+
+<p>
+
+<h3><a name="calling_lambdas__old_syntax_">Calling Lambdas (Old Syntax)</a></h3>
+
+<pre>
+        Note: This section is entirely depreciated and will be removed in future versions</pre>
+
+<p>Calling a lambda is fairly simple, the syntax looks a lot like the syntax for doing unit conversion or calling a function implicitly.
+
+<pre>
+        argument =&gt; lambda
+        [arguments] =&gt; lambda</pre>
+
+<p>This syntax also makes it easy to chain several lambdas up to do multiple calculations and have the order of execution blatantly obvious
+
+<pre>
+        [arguments] =&gt; lambda1 =&gt; lambda2 =&gt; lambda3</pre>
+
+<p>
+
+<h3><a name="nesting_lambdas">Nesting Lambdas</a></h3>
+
+<p>Since i&#39;ve mentioned it before and example is necessary of what nesting a lambda really means
+
+<pre>
+        index = ([] =&gt; {`` var count=0; {`` count = count + 1}});</pre>
+
+<p>What we&#39;ve got here is a lambda call inside of an expression that returns a lambda. Since lambdas carry the scopes that they were defined in around with them the lambda that <strong>index</strong> contains has access to the variable <strong>count</strong> and since it was defined outside of the nested lambda it does not get reset between calls, allowing it to continue incrementing <strong>count</strong> over and over. And because <strong>count</strong> was declared in the first lambda it isn&#39;t available to anything outside of that scope, meaning that <strong>count</strong> cannot be altered by anything other than the lambda that <strong>index</strong> now contains.
+
+<p>
+
+<hr />
+
+<h1><a name="see_also">SEE ALSO</a></h1>
+
+<p><a href="/docs/language/farnsworth/evaluate">the Language::Farnsworth::Evaluate manpage</a> <a href="/docs/language/farnsworth/value">the Language::Farnsworth::Value manpage</a> <a href="/docs/language/farnsworth/docs/syntax">the Language::Farnsworth::Docs::Syntax manpage</a> <a href="/docs/language/farnsworth/docs/functions">the Language::Farnsworth::Docs::Functions manpage</a>
+
+<p>There is also an RT tracker for the module (this may change) setup at <a href="http://farnsworth.sexypenguins.com/">http://farnsworth.sexypenguins.com/</a>, you can also reach the tracker by sending an email to &lt;<a href="mailto:farnsworth.rt@gmail.com">farnsworth.rt@gmail.com</a>&gt;
+
+<p>
+
+<hr />
+
+<h1><a name="author">AUTHOR</a></h1>
+
+<p>Ryan Voots &lt;<a href="mailto:simcop@cpan.org">simcop@cpan.org</a>&gt;
+
+<p>
+
+<hr />
+
+<h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
+
+<p>Copyright (C) 2008 by Ryan Voots
+
+<p>This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself, either Perl version 5.8.0 or, at your option, any later version of Perl 5 you may have available.
+

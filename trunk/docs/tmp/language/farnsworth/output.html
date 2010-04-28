@@ -1,0 +1,54 @@
+<div name="index"><p><a name="__index__"></a><ul><li><a href="#name">NAME</a><li><a href="#synopsis">SYNOPSIS</a><li><a href="#methods">METHODS</a><li><a href="#author">AUTHOR</a><li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></ul><hr name="index" /></div>
+
+<p>
+
+<h1><a name="name">NAME</a></h1>
+
+<p>Language::Farnsworth::Output - Wrapper class for making output simpler
+
+<p>
+
+<hr />
+
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+
+<pre>
+  use Language::Farnsworth;
+  
+  my $hubert = Language::Farnsworth-&gt;new();</pre>
+
+<pre>
+  my $result = $hubert-&gt;runString(&quot;10 km -&gt; miles&quot;);</pre>
+
+<pre>
+  my $result = $hubert-&gt;runFile(&quot;file.frns&quot;);</pre>
+
+<pre>
+  print $result;</pre>
+
+<p>
+
+<hr />
+
+<h1><a name="methods">METHODS</a></h1>
+
+<p>This has only one method that a user should be aware of, <code>tostring</code>; you can call this directly on the object, e.g. $result-&gt;<code>tostring()</code>
+
+<p>
+
+<hr />
+
+<h1><a name="author">AUTHOR</a></h1>
+
+<p>Ryan Voots &lt;<a href="mailto:simcop@cpan.org">simcop@cpan.org</a>&gt;
+
+<p>
+
+<hr />
+
+<h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
+
+<p>Copyright (C) 2008 by Ryan Voots
+
+<p>This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself, either Perl version 5.8.0 or, at your option, any later version of Perl 5 you may have available.
+

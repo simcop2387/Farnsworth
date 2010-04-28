@@ -1,0 +1,388 @@
+<div name="index"><p><a name="__index__"></a><ul><li><a href="#description">DESCRIPTION</a><li><a href="#array_functions">Array Functions</a><ul><li><a href="#push__">push[]</a><li><a href="#pop__">pop[]</a><li><a href="#unshift__">unshift[]</a><li><a href="#shift__">shift[]</a><li><a href="#sort__">sort[]</a><li><a href="#map__">map[]</a><li><a href="#length__">length[]</a><li><a href="#reverse__">reverse[]</a><li><a href="#min___and_max__">min[] and max[]</a></ul><li><a href="#string_functions">String Functions</a><ul><li><a href="#reverse__">reverse[]</a><li><a href="#length__">length[]</a><li><a href="#ord__">ord[]</a><li><a href="#chr__">chr[]</a><li><a href="#index__">index[]</a><li><a href="#eval__">eval[]</a><li><a href="#substrlen__">substrLen[]</a><li><a href="#substr__">substr[]</a><li><a href="#left__">left[]</a><li><a href="#right__">right[]</a></ul><li><a href="#math_functions">Math Functions</a><ul><li><a href="#trigonometry_functions">Trigonometry Functions</a><li><a href="#miscellaneous_math_functions">Miscellaneous Math Functions</a><li><a href="#rounding_functions">Rounding Functions</a><li><a href="#functions_for_rational_numbers">Functions for Rational Numbers</a><li><a href="#prime_numbers">Prime Numbers</a><li><a href="#complex_number_math_functions">Complex Number Math Functions</a><li><a href="#random_number_functions">Random Number Functions</a></ul><li><a href="#miscellaneous_functions">Miscellaneous Functions</a><ul><li><a href="#now__">now[]</a><li><a href="#unit__">unit[]</a></ul></ul><hr name="index" /></div>
+
+<p>
+
+<h1><a name="description">DESCRIPTION</a></h1>
+
+<p>This document is intended to document all of the functions that Language::Farnsworth includes in its standard library.
+
+<p>
+
+<hr />
+
+<h1><a name="array_functions">Array Functions</a></h1>
+
+<p>
+
+<h2><a name="push__">push[]</a></h2>
+
+<pre>
+        push[array, elements, ...]</pre>
+
+<p>Push will take an array and place all arguments following the array onto the end. Just like a <code>stack</code>.
+
+<p>
+
+<h2><a name="pop__">pop[]</a></h2>
+
+<pre>
+        result = pop[array]</pre>
+
+<p>Pop is the antithesis (ED NOTE: need better word!) to push, instead of placing an element on the end of the array, pop[] removes it.
+
+<p>
+
+<h2><a name="unshift__">unshift[]</a></h2>
+
+<pre>
+        unshift[array, elements, ...]</pre>
+
+<p>Unshift is very similar to pop[]. However instead of putting the elements on the end of the array; unshift puts them at the beginning.
+
+<p>
+
+<h2><a name="shift__">shift[]</a></h2>
+
+<pre>
+        shift[array]</pre>
+
+<p>Just as pop is the antithesis (ED NOTE: need better word, STILL!) to push, shift[] is the antithesis to unshift[]
+
+<p>
+
+<h2><a name="sort__">sort[]</a></h2>
+
+<pre>
+        sortedarray = sort[elements, ... ]
+        sortedarray = sort[array]
+        sortedarray = sort[{`a,b` a &lt;=&gt; b}, elements, ... &gt;]
+        sortedarray = sort[{`a,b` a &lt;=&gt; b}, array]</pre>
+
+<p>sort[] will take a series of numbers or strings and sort them into either alphabetical or numerical order. If you give a lambda as the first argument to sort[] it will use that to do all of the logic for comparing each element of the array. This lambda must perform the comparison in a stable manner or the results will not be deterministic. The lambda must take two arguments and then return either a -1, 0, or 1 as the <strong>&lt;=&gt;</strong> operator does.
+
+<p>
+
+<h2><a name="map__">map[]</a></h2>
+
+<pre>
+        mappedarray = map[maplambda, array]
+        mappedarray = map[maplambda, elements, ...]
+        mappedarray = map[{`x` x + 10}, array]
+        mappedarray = map[{`x` x + 10}, elements, ...]</pre>
+
+<p>map[] will take an array or set of elements and pass each element as the first argument to <strong>maplambda</strong> for <strong>maplambda</strong> to transform. <strong>maplambda</strong> should return the new value for the element to be used in <strong>mappedarray</strong>.
+
+<p>
+
+<h2><a name="length__">length[]</a></h2>
+
+<pre>
+        howmany = length[array]</pre>
+
+<p>When you give length[] and array, it will return how many elements the array has.
+
+<p>
+
+<h2><a name="reverse__">reverse[]</a></h2>
+
+<pre>
+        reversedarray = reverse[array]</pre>
+
+<p>reverse[] will reverse the order of the elements in array and return the result.
+
+<p>
+
+<h2><a name="min___and_max__">min[] and max[]</a></h2>
+
+<pre>
+        minimum = min[array]
+        minimum = min[elements, ...]
+        maximum = max[array]
+        maximum = max[elements, ...]</pre>
+
+<p>These two functions give you the minimum or maximum element from their arguments.
+
+<p>
+
+<hr />
+
+<h1><a name="string_functions">String Functions</a></h1>
+
+<p>
+
+<h2><a name="reverse__">reverse[]</a></h2>
+
+<pre>
+        reversedstring = reverse[string]</pre>
+
+<p>reverse[] will reverse the order of all the characters in the string.
+
+<p>
+
+<h2><a name="length__">length[]</a></h2>
+
+<pre>
+        howlong = length[string]</pre>
+
+<p>When length[] take either a string as its argument it will return the length of the string in characters, this means that a string with unicode characters like <strong>&quot;&aelig;&#151;&yen;&aelig;&#156;&not;&egrave;&ordf;&#158;&quot;</strong> will have a length of <strong>3</strong>.
+
+<p>
+
+<h2><a name="ord__">ord[]</a></h2>
+
+<pre>
+        codepoint = ord[string]</pre>
+
+<p>ord[] will give you the unicode codepoint of the first character of the string you pass it.
+
+<p>
+
+<h2><a name="chr__">chr[]</a></h2>
+
+<pre>
+        string = chr[codepoint]</pre>
+
+<p>chr[] will take a unicode codepoint and give you back a string containing only that character.
+
+<p>
+
+<h2><a name="index__">index[]</a></h2>
+
+<pre>
+        position = index[string, substring]
+        position = index[string, substring, pos]</pre>
+
+<p>index[] will search in <strong>string</strong> for the first occurance of <strong>substring</strong> and return its <strong>position</strong>. If <strong>substring</strong> is not found in <strong>string</strong> it will return -1. The optional parameter <strong>pos</strong> will tell index how far into the string to start looking, 0 being the start of the string.
+
+<p>
+
+<h2><a name="eval__">eval[]</a></h2>
+
+<pre>
+        result = eval[string]</pre>
+
+<p>eval[] will take a string and evaluate it as if it were the Language::Farnsworth language and return the result.
+
+<p>
+
+<h2><a name="substrlen__">substrLen[]</a></h2>
+
+<pre>
+        substring = substrLen[string, start, length]</pre>
+
+<p>substrLen[] will pull out a part of <strong>string</strong> that starts at <strong>start</strong> and is <strong>length</strong> characters. If <strong>length</strong> is longer than the end of <strong>string</strong> then it will <strong>substring</strong> will only contain the text up until the end of the string.
+
+<p>
+
+<h2><a name="substr__">substr[]</a></h2>
+
+<pre>
+        substring = substr[string, start, end]</pre>
+
+<p>substr[] will pull out a part of <strong>string</strong> that starts at <strong>start</strong> and ends at <strong>end</strong>
+
+<p>
+
+<h2><a name="left__">left[]</a></h2>
+
+<pre>
+        substring = left[string, length]</pre>
+
+<p>left[] returns the left &#39;<strong>length</strong>&#39; characters from &#39;<strong>string</strong>&#39;.
+
+<p>
+
+<h2><a name="right__">right[]</a></h2>
+
+<pre>
+        substring = right[string, length]</pre>
+
+<p>right[] returns the right &#39;<strong>length</strong>&#39; characters from &#39;<strong>string</strong>&#39;.
+
+<p>
+
+<hr />
+
+<h1><a name="math_functions">Math Functions</a></h1>
+
+<p>
+
+<h2><a name="trigonometry_functions">Trigonometry Functions</a></h2>
+
+<pre>
+        sin[x]  csc[x]
+        cos[x]  sec[x]
+        tan[x]  cot[x]
+        atan[x] arctan[x]
+        acos[x] arccos[x]
+        asin[x] arcsin[x]</pre>
+
+<pre>
+        sinh[x]
+        cosh[x]
+        tanh[x]
+        atanh[x] arctanh[x]
+        acosh[x] arccosh[x]
+        asinh[x] arcsinh[x]</pre>
+
+<pre>
+        atan2[x, y]</pre>
+
+<p>I will not go into a detailed explination of what these functions are. They are the basic trigonometric functions, they all take a single number in and return the result. atan2[x,y] is best explained by wikipedia <a href="http://en.wikipedia.org/w/index.php?title=Atan2&amp;oldid=246845908">http://en.wikipedia.org/w/index.php</a>.
+
+<p>
+
+<h2><a name="miscellaneous_math_functions">Miscellaneous Math Functions</a></h2>
+
+<pre>
+
+        sqrt[x]</pre>
+
+<p>Returns the square root of <strong>x</strong>
+
+<pre>
+        exp[x]</pre>
+
+<p>Returns <strong>e ** x</strong>.
+
+<pre>
+        ln[x]</pre>
+
+<p>Returns the natural logarithm of <strong>x</strong>
+
+<pre>
+        log[x]</pre>
+
+<p>returns the logarithm base 10 of <strong>x</strong>
+
+<pre>
+        abs[x]</pre>
+
+<p>Returns the absolute value of <strong>x</strong>
+
+<pre>
+        gcd[x, y]</pre>
+
+<p>Returns the greatest common divisor of <strong>x</strong> and <strong>y</strong>
+
+<pre>
+        lcm[x, y]</pre>
+
+<p>Returns the lowest common multiple of <strong>x</strong> and <strong>y</strong>
+
+<pre>
+        quad[a, b, c]
+        quadratic[a, b, c]</pre>
+
+<p>Returns an array containing the two solutions to the quadratic equation described by the equation
+
+<pre>
+        a x^2 + b x + c</pre>
+
+<p>
+
+<h2><a name="rounding_functions">Rounding Functions</a></h2>
+
+<pre>
+        floor[x]        ceil[x]
+        int[x]          trunc[x]
+        
+        rint[x] round[x, digits]</pre>
+
+<p>floor[] and ceil[] do what they say they do. Both int[] and trunc[] will in fact just truncate a floating point number to an integer, dropping all digits past the decimal point. rint[] will round the to the nearest integer. round[x, digits] will round to a specified number of digits, 0 being an integer 1 meaning having one digit past the decimal point.
+
+<p>
+
+<h2><a name="functions_for_rational_numbers">Functions for Rational Numbers</a></h2>
+
+<pre>
+        numerator[x]
+        denominator[x]</pre>
+
+<p>Because Language::Farnsworth uses <a href="/docs/math/pari">the Math::Pari manpage</a> internally for doing all calculations numbers may be represented as a rational number when possible rather than a floating point number in order to preserve precision. When used on floating point numbers numerator[] will return the number back to you, and denominator[] will return 1.
+
+<p>
+
+<h2><a name="prime_numbers">Prime Numbers</a></h2>
+
+<pre>
+        isprime[x]</pre>
+
+<p>Returns true if <strong>x</strong> is a prime number.
+
+<pre>
+        prime[x]</pre>
+
+<p>Returns the <strong>x</strong>th prime number.
+
+<pre>
+        nextprime[x]</pre>
+
+<p>Returns the next prime number after <strong>x</strong>
+
+<pre>
+        precprimep[x]</pre>
+
+<p>Returns the preceeding prime number before <strong>x</strong>
+
+<p>
+
+<h2><a name="complex_number_math_functions">Complex Number Math Functions</a></h2>
+
+<pre>
+        conj[x] # conjugate
+        norm[x] # normal
+        real[x] # gives back the real part of a complex number
+        imag[x] # gives back the imaginary part of a complex number</pre>
+
+<p>
+
+<h2><a name="random_number_functions">Random Number Functions</a></h2>
+
+<pre>
+
+        randmax[x]</pre>
+
+<p>randmax[x] returns a random number between 0 and <strong>x</strong>.
+
+<pre>
+        getrseed[]</pre>
+
+<p>returns the current seed for the random number generator.
+
+<pre>
+        setrseed[x]</pre>
+
+<p>sets the seed for the random number generator to <strong>x</strong>.
+
+<pre>
+        random[]</pre>
+
+<p>returns a random number between 0 and 1 with 30 digits of precision (e.g. 10**30 different random numbers).
+
+<p>
+
+<hr />
+
+<h1><a name="miscellaneous_functions">Miscellaneous Functions</a></h1>
+
+<p>
+
+<h2><a name="now__">now[]</a></h2>
+
+<pre>
+        now[]</pre>
+
+<p>now[] returns the current date and time as a Language::Farnsworth Date value.
+
+<p>
+
+<h2><a name="unit__">unit[]</a></h2>
+
+<pre>
+        unit[unit]
+
+</pre>
+
+<p>unit[] takes the name of a unit <strong>NOT</strong> as a string (in future releases it will take it as a string or barename), and will always return the value of the unit[] named as such. This allows you to have access to a unit even when someone has carelessly defined a variable that stomps on that unit.
+

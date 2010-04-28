@@ -1,0 +1,186 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Language::Farnsworth - A Turing Complete Language for Mathematics</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@localhost" />
+</head>
+
+<body style="background-color: white">
+
+
+<!-- INDEX BEGIN -->
+<div name="index">
+<p><a name="__index__"></a></p>
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#prerequisits">PREREQUISITS</a></li>
+		<li><a href="#methods">METHODS</a></li>
+		<ul>
+
+			<li><a href="#runstring">runString</a></li>
+			<li><a href="#runfile">runFile</a></li>
+			<li><a href="#prettyout">prettyOut</a></li>
+		</ul>
+
+		<li><a href="#export">EXPORT</a></li>
+		<li><a href="#known_bugs">KNOWN BUGS</a></li>
+		<li><a href="#missing_features">MISSING FEATURES</a></li>
+	</ul>
+
+	<li><a href="#history">HISTORY</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></li>
+</ul>
+
+<hr name="index" />
+</div>
+<!-- INDEX END -->
+
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Language::Farnsworth - A Turing Complete Language for Mathematics</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  use Language::Farnsworth;
+  
+  my $hubert = Language::Farnsworth-&gt;new();</pre>
+<pre>
+  my $result = $hubert-&gt;runString(&quot;10 km -&gt; miles&quot;);</pre>
+<pre>
+  my $result = $hubert-&gt;runFile(&quot;file.frns&quot;);</pre>
+<pre>
+  print $result;</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>THIS IS A BETA RELEASE, perpetually so! There are typos in the error messages and in the POD.  
+There are also probably plenty of bugs.  While it is not ready for production use, it is most certainly usable as a toy and to see a pure interpreter written in perl.
+Not every feature is documented yet (This 0.7.x series will be striving to fix that) and a future release will fix the hairier parts of the internal API (scheduled for 0.8.x).</p>
+<p>
+</p>
+<h2><a name="prerequisits">PREREQUISITS</a></h2>
+<p>Modules and Libraries you need before this will work</p>
+<ul>
+<li>
+<p>The PARI library</p>
+</li>
+<li>
+<p><a href="/docs/Math/Pari.html">the Math::Pari manpage</a></p>
+</li>
+<li>
+<p><em>DateTime</em>
+<a href="/docs/DateTimeX/Easy.html">the DateTimeX::Easy manpage</a></p>
+<p>The following are optional</p>
+<p>For the Google Translation library</p>
+</li>
+<li>
+<p><a href="/docs/REST/Google/Translate.html">the REST::Google::Translate manpage</a></p>
+</li>
+<li>
+<p><a href="/docs/HTML/Entities.html">the HTML::Entities manpage</a></p>
+<p>For the currency support</p>
+</li>
+<li>
+<p><a href="/docs/Finance/Currency/Convert/XE.html">the Finance::Currency::Convert::XE manpage</a></p>
+<pre>
+        NOTE: For the currency units to work you currently need to call C&lt;updatecurrencies[]&gt; before they will be available, this will change</pre>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="methods">METHODS</a></h2>
+<p>ALL of the methods here call <code>die</code> whenever something doesn't go right.  This means that unless you want bad input to them to cause your program to fail you should wrap any calls to them with <code>eval {}</code>.   When they call <code>die</code> they will give you back a message explaining what went wrong, this is useful for telling a user what they have done.</p>
+<p>
+</p>
+<h3><a name="runstring">runString</a></h3>
+<p>This method takes a string (or multiple strings) and executes them as Language::Farnsworth expressions.
+For more information on making Language::Farnsworth expressions, see <a href="/docs/Language/Farnsworth/Docs/Syntax.html">the Language::Farnsworth::Docs::Syntax manpage</a>.</p>
+<p>
+</p>
+<h3><a name="runfile">runFile</a></h3>
+<p>This takes a file name and executes the entire file as a single Language::Farnsworth expression.</p>
+<p>
+</p>
+<h3><a name="prettyout">prettyOut</a></h3>
+<p>This takes a Language::Farnsworth::Value and turns it into a string for perl to be able to display.  This method WILL disappear in a future version.</p>
+<p>
+</p>
+<h2><a name="export">EXPORT</a></h2>
+<p>None by default.</p>
+<p>
+</p>
+<h2><a name="known_bugs">KNOWN BUGS</a></h2>
+<p>At the moment all known bugs are related to badly formatted output, this will be rectified in a future release.
+And there are a number of unfinished error messages, and a few issues with the way arrays work.</p>
+<p>There is also a known issue with the size of scopes.  I do not know if I will be able to fix it, and until then i recommend NOT using recursive algorithms because it will cause everything to balloon way up in memory usage.</p>
+<p>
+</p>
+<h2><a name="missing_features">MISSING FEATURES</a></h2>
+<p>The following features are currently missing and WILL be implemented in a future version of Language::Farnsworth</p>
+<ul>
+<li>
+<p>Better control over the output</p>
+<ul>
+<li>
+<p>Adjustable precision of numbers (this includes significant digits!)</p>
+</li>
+<li>
+<p>Better defaults for certain types of output</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Syntax tree introspection inside the language itself</p>
+</li>
+<li>
+<p>Better Documentation</p>
+</li>
+<li>
+<p>Objects!</p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="history">HISTORY</a></h1>
+<p>Language::Farnsworth is a programming language originally inspired by Frink (see <a href="http://futureboy.homeip.net/frinkdocs/">http://futureboy.homeip.net/frinkdocs/</a> ).
+However due to creative during the creation of it, the syntax has changed significantly and the capabilities are also different.
+Some things Language::Farnsworth can do a little better than Frink, other areas Language::Farnsworth lacks.  
+And while ostensibly the language may appear to be named in a similar vein after another cartoon professor that brings good news to everyone,
+it is in fact named after the famous physicist Philo T. Farnsworth.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="/docs/Language/Farnsworth/Docs/Syntax.html">the Language::Farnsworth::Docs::Syntax manpage</a> <a href="/docs/Language/Farnsworth/Docs/Functions.html">the Language::Farnsworth::Docs::Functions manpage</a></p>
+<p>Please use the bug tracker available from CPAN to submit bugs.
+There are also things to be</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Ryan Voots &lt;<em><a href="mailto:simcop@cpan.org">simcop@cpan.org</a></em>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
+<p>Copyright (C) 2010 by Ryan Voots</p>
+<p>This library is free software; It is licensed exclusively under the Artistic License version 2.0 only.</p>
+
+</body>
+
+</html>
