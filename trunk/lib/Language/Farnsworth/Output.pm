@@ -680,13 +680,17 @@ __END__
 
 Language::Farnsworth::Output - Wrapper class for making output simpler
 
+=head1 DESCRIPTION
+
+This class is just a wrapper for some code to convert the data into a format more usable for perl.  Eventually all the code will be spun off into the Language::Farnsworth::Value subclasses so that the code can be used for serialization and loading.
+
 =head1 SYNOPSIS
 
   use Language::Farnsworth;
   
   my $hubert = Language::Farnsworth->new();
 
-  my $result = $hubert->runString("10 km -> miles");
+  my $result = $hubert->runString("10 km -> miles"); # $result here is an object of Language::Farnsworth::Output 
 
   my $result = $hubert->runFile("file.frns");
 
@@ -702,10 +706,8 @@ Ryan Voots E<lt>simcop@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2008 by Ryan Voots
+Copyright (C) 2010 by Ryan Voots
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.8.0 or,
-at your option, any later version of Perl 5 you may have available.
+This library is free software; It is licensed exclusively under the Artistic License version 2.0 only.
 
 =cut

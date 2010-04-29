@@ -390,9 +390,9 @@ This order will also work, but should be used sparingly because it can be confus
 
 =head3 Nesting Lambdas
 
-Since i've mentioned it before and example is necessary of what nesting a lambda really means
+Since i've mentioned it before and an example is necessary of what nesting a lambda really means
 
-	index = ([] => {`` var count=0; {`` count = count + 1}});
+	index = ({`` var count=0; {`` count = count + 1}} []);
 
 What we've got here is a lambda call inside of an expression that returns a lambda.  Since lambdas carry the scopes that they were defined in around with them the lambda that B<index> contains has access to the variable B<count> and since it was defined outside of the nested lambda it does not get reset between calls, allowing it to continue incrementing B<count> over and over.  
 And because B<count> was declared in the first lambda it isn't available to anything outside of that scope, meaning that B<count> cannot be altered by anything other than the lambda that B<index> now contains.
@@ -415,9 +415,6 @@ Ryan Voots E<lt>simcop@cpan.orgE<gt>
 
 Copyright (C) 2010 by Ryan Voots
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.8.0 or,
-at your option, any later version of Perl 5 you may have available.
-
+This library is free software; It is licensed exclusively under the Artistic License version 2.0 only.
 
 =cut

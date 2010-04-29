@@ -839,3 +839,25 @@ sub makevalue
 }
 
 1;
+__END__
+=head1 NAME
+
+Language::Farnsworth::Evaluate
+
+=head1 DESCRIPTION
+
+This is an internally used class and has nothing of value to be used by the "public"
+
+=head1 TODO
+
+Clean up some of the code and try to create/document a public interface, since this will be neccesary for creating the plugin interface.
+
+=head1 AUTHOR
+
+Ryan Voots E<lt>simcop@cpan.orgE<gt>
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright (C) 2010 by Ryan Voots
+
+This library is free software; It is licensed exclusively under the Artistic License version 2.0 only.
