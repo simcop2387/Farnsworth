@@ -153,10 +153,11 @@ sub clone
 	my $class = ref($self);
 
 	my $newself = {};
-	$newself->{$_} = $self->{$_} for (grep /^_/, keys %$self);
+	$newself->{$_} = $self->{$_} for (keys %$self);
 
 	bless $newself, $class;
 
+    $newself->setref(undef);
 	$newself;
 }
 
