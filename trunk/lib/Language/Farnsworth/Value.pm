@@ -17,6 +17,8 @@ use Language::Farnsworth::Value::Pari;
 use Language::Farnsworth::Value::Lambda;
 use Language::Farnsworth::Value::Undef;
 
+use Scalar::Util qw/weaken/; 
+
 our @EXPORT = qw(TYPE_BOOLEAN TYPE_STRING TYPE_DATE TYPE_PLAIN TYPE_TIME TYPE_LAMBDA TYPE_UNDEF TYPE_ARRAY VALUE_ONE);
 
 ####
@@ -27,6 +29,23 @@ sub setref
 	my $self = shift;
 	my $ref = shift;
 	$self->{_ref} = $ref;
+}
+
+sub sethomescope
+{
+	my $self = shift;
+	my $scope = shift; #Farnsworth::Variables type
+	
+	unless ($self->{_homescope})
+	{
+		$self->{_homescope} = $scope;
+		weaken $self->{_homescope};
+	}
+}
+
+sub gethomescope
+{
+	return $_[0]->{_homescope};
 }
 
 sub getref
@@ -134,10 +153,9 @@ sub clone
 	my $class = ref($self);
 
 	my $newself = {};
-	$newself->{$_} = $self->{$_} for (keys %$self);
+	$newself->{$_} = $self->{$_} for (grep /^_/, keys %$self);
 
 	bless $newself, $class;
-	$newself->setref(undef);
 
 	$newself;
 }

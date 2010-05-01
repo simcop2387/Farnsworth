@@ -1,10 +1,20 @@
-<div name="index"><p><a name="__index__"></a><ul><li><a href="#name">NAME</a><li><a href="#synopsis">SYNOPSIS</a><li><a href="#methods">METHODS</a><li><a href="#author">AUTHOR</a><li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></ul><hr name="index" /></div>
+<div name="index"><p><a name="__index__"></a><ul><li><a href="#name">NAME</a><li><a href="#description">DESCRIPTION</a><li><a href="#synopsis">SYNOPSIS</a><li><a href="#methods">METHODS</a><li><a href="#author">AUTHOR</a><li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></ul><hr name="index" /></div>
 
 <p>
+
+<hr />
 
 <h1><a name="name">NAME</a></h1>
 
 <p>Language::Farnsworth::Output - Wrapper class for making output simpler
+
+<p>
+
+<hr />
+
+<h1><a name="description">DESCRIPTION</a></h1>
+
+<p>This class is just a wrapper for some code to convert the data into a format more usable for perl. Eventually all the code will be spun off into the Language::Farnsworth::Value subclasses so that the code can be used for serialization and loading.
 
 <p>
 
@@ -15,15 +25,12 @@
 <pre>
   use Language::Farnsworth;
   
-  my $hubert = Language::Farnsworth-&gt;new();</pre>
-
-<pre>
-  my $result = $hubert-&gt;runString(&quot;10 km -&gt; miles&quot;);</pre>
-
-<pre>
-  my $result = $hubert-&gt;runFile(&quot;file.frns&quot;);</pre>
-
-<pre>
+  my $hubert = Language::Farnsworth-&gt;new();
+  
+  my $result = $hubert-&gt;runString(&quot;10 km -&gt; miles&quot;); # $result here is an object of Language::Farnsworth::Output 
+  
+  my $result = $hubert-&gt;runFile(&quot;file.frns&quot;);
+  
   print $result;</pre>
 
 <p>
@@ -48,7 +55,7 @@
 
 <h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
 
-<p>Copyright (C) 2008 by Ryan Voots
+<p>Copyright (C) 2010 by Ryan Voots
 
-<p>This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself, either Perl version 5.8.0 or, at your option, any later version of Perl 5 you may have available.
+<p>This library is free software; It is licensed exclusively under the Artistic License version 2.0 only.
 

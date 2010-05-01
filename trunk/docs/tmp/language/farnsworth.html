@@ -2,6 +2,8 @@
 
 <p>
 
+<hr />
+
 <h1><a name="name">NAME</a></h1>
 
 <p>Language::Farnsworth - A Turing Complete Language for Mathematics
@@ -13,18 +15,14 @@
 <h1><a name="synopsis">SYNOPSIS</a></h1>
 
 <pre>
-  use Language::Farnsworth;
-  
-  my $hubert = Language::Farnsworth-&gt;new();</pre>
-
-<pre>
-  my $result = $hubert-&gt;runString(&quot;10 km -&gt; miles&quot;);</pre>
-
-<pre>
-  my $result = $hubert-&gt;runFile(&quot;file.frns&quot;);</pre>
-
-<pre>
-  print $result;</pre>
+        use Language::Farnsworth;
+        
+        my $hubert = Language::Farnsworth-&gt;new();
+        
+        my $result = $hubert-&gt;runString(&quot;10 km -&gt; miles&quot;);
+        my $result = $hubert-&gt;runFile(&quot;file.frns&quot;);
+        
+        print $result;</pre>
 
 <p>
 

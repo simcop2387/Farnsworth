@@ -2,6 +2,8 @@
 
 <p>
 
+<hr />
+
 <h1><a name="name">NAME</a></h1>
 
 <p>Language::Farnsworth::Docs::Syntax - A bunch of examples of all the syntax in Language::Farnsworth
@@ -472,10 +474,10 @@ Since Farnsworth represents everything as a single unit it will always want to g
 
 <h3><a name="nesting_lambdas">Nesting Lambdas</a></h3>
 
-<p>Since i&#39;ve mentioned it before and example is necessary of what nesting a lambda really means
+<p>Since i&#39;ve mentioned it before and an example is necessary of what nesting a lambda really means
 
 <pre>
-        index = ([] =&gt; {`` var count=0; {`` count = count + 1}});</pre>
+        index = ({`` var count=0; {`` count = count + 1}} []);</pre>
 
 <p>What we&#39;ve got here is a lambda call inside of an expression that returns a lambda. Since lambdas carry the scopes that they were defined in around with them the lambda that <strong>index</strong> contains has access to the variable <strong>count</strong> and since it was defined outside of the nested lambda it does not get reset between calls, allowing it to continue incrementing <strong>count</strong> over and over. And because <strong>count</strong> was declared in the first lambda it isn&#39;t available to anything outside of that scope, meaning that <strong>count</strong> cannot be altered by anything other than the lambda that <strong>index</strong> now contains.
 
@@ -505,5 +507,5 @@ Since Farnsworth represents everything as a single unit it will always want to g
 
 <p>Copyright (C) 2010 by Ryan Voots
 
-<p>This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself, either Perl version 5.8.0 or, at your option, any later version of Perl 5 you may have available.
+<p>This library is free software; It is licensed exclusively under the Artistic License version 2.0 only.
 

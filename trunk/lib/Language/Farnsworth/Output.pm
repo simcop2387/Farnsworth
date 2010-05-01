@@ -674,7 +674,7 @@ sub makevalue
 1;
 __END__
 
-# Below is stub documentation for your module. You'd better edit it!
+=encoding utf8
 
 =head1 NAME
 
@@ -689,11 +689,11 @@ This class is just a wrapper for some code to convert the data into a format mor
   use Language::Farnsworth;
   
   my $hubert = Language::Farnsworth->new();
-
+  
   my $result = $hubert->runString("10 km -> miles"); # $result here is an object of Language::Farnsworth::Output 
-
+  
   my $result = $hubert->runFile("file.frns");
-
+  
   print $result;
 
 =head1 METHODS

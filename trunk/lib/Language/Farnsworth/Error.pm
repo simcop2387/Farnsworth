@@ -51,6 +51,9 @@ sub debug
 
 1;
 __END__
+
+=encoding utf8
+
 =head1 NAME
 
 Language::Farnsworth - A Turing Complete Language for Mathematics

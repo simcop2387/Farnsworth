@@ -1,5 +1,8 @@
 1;
 __END__
+
+=encoding utf8
+
 =head1 NAME
 
 Language::Farnsworth::Docs::Functions - A big reference to all the functions in the Language::Farnsworth Standard Library 

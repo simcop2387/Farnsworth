@@ -110,21 +110,22 @@ sub runFile
 1;
 __END__
 
+=encoding utf8
+
 =head1 NAME
 
 Language::Farnsworth - A Turing Complete Language for Mathematics
 
 =head1 SYNOPSIS
 
-  use Language::Farnsworth;
-  
-  my $hubert = Language::Farnsworth->new();
-
-  my $result = $hubert->runString("10 km -> miles");
-
-  my $result = $hubert->runFile("file.frns");
-
-  print $result;
+	use Language::Farnsworth;
+	
+	my $hubert = Language::Farnsworth->new();
+	
+	my $result = $hubert->runString("10 km -> miles");
+	my $result = $hubert->runFile("file.frns");
+	
+	print $result;
 
 =head1 DESCRIPTION
 

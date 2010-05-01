@@ -1,2 +1,54 @@
-<div name="index"><p><a name="__index__"></a></div>
+<div name="index"><p><a name="__index__"></a><ul><li><a href="#name">NAME</a><li><a href="#synopsis">SYNOPSIS</a><li><a href="#todo">TODO</a><li><a href="#author">AUTHOR</a><li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></ul><hr name="index" /></div>
+
+<p>
+
+<hr />
+
+<h1><a name="name">NAME</a></h1>
+
+<p>Language::Farnsworth - A Turing Complete Language for Mathematics
+
+<p>
+
+<hr />
+
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+
+<pre>
+  use Language::Farnsworth::Error;
+  
+  error &quot;Error message here&quot;;
+  debug 1, &quot;This only happens when the user isn&#39;t thinking properly&quot;;
+  
+  $Language::Farnsworth::Error::level = 3; # Change the level of debugging output for the current perl interpreter
+  
+=head1 DESCRIPTION</pre>
+
+<p>This is an internally used class for producing errors (Eventually it will be the standard way of producing errors in Language::Farnsworth plugins). As I don&#39;t have a proper plugin system yet, nor all the features in here that i&#39;d like i&#39;m going to leave things like they are.
+
+<p>
+
+<hr />
+
+<h1><a name="todo">TODO</a></h1>
+
+<p>Add capturing information (maybe with a scope walker or something) to capture the current position in the farnsworth source. This will also require support in the parser to annotate the source position and store the filename and things.
+
+<p>
+
+<hr />
+
+<h1><a name="author">AUTHOR</a></h1>
+
+<p>Ryan Voots &lt;<a href="mailto:simcop@cpan.org">simcop@cpan.org</a>&gt;
+
+<p>
+
+<hr />
+
+<h1><a name="copyright_and_license">COPYRIGHT AND LICENSE</a></h1>
+
+<p>Copyright (C) 2010 by Ryan Voots
+
+<p>This library is free software; It is licensed exclusively under the Artistic License version 2.0 only.
 

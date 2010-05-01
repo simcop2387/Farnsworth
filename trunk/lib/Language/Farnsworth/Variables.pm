@@ -109,6 +109,7 @@ sub getvar
 	{
 		$val = $self->{vars}{$name};
 		$val->setref(\$self->{vars}{$name}) unless (ref($val) eq "REF");
+		$val->sethomescope($self);
 	}
 	elsif (defined($self->{parent}))
 	{
