@@ -8,7 +8,7 @@ microwavetime{mass isa kg, end isa K, start = frozen isa K, watts = 1000W isa wa
 
 {``
 var steps = [];
-var languages = ["Arabic","Bulgarian","Catalan","Czech","Danish","German","Greek","English","Spanish","Estonian","Finnish","French","Galician","Hindi","Croatian","Hungarian","Indonesian","Italian","Hebrew","Japanese","Korean","Lithuanian","Latvian","Maltese","Dutch","Norwegian","Polish","Portuguese","Romanian","Russian","Slovak","Slovenian","Albanian","Serbian","Swedish","Thai","Filipino","Turkish","Ukrainian","Vietnamese","Chinese","Chinese_Traditional"];
+var languages = ["Afrikaans","Albanian","Arabic","Belarusian","Bulgarian","Catalan","Chinese","Croatian","Czech","Danish","Dutch","English","Estonian","Filipino","Finnish","French","Galician","German","Greek","HaitianCreole","Hebrew","Hindi","Hungarian","Icelandic","Indonesian","Irish","Italian","Japanese","Korean","Latvian","Lithuanian","Macedonian","Malay","Maltese","Norwegian","Persian","Polish","Portuguese","Romanian","Russian","Serbian","Slovak","Slovenian","Spanish","Swahili","Swedish","Thai","Turkish","Ukrainian","Vietnamese","Welsh","Yiddish"];
 var getlang = {`` languages@random[]*(length[languages])$};
 mangle{x} := {steps = []; 
               var origlang = x -> DetectLanguage; 
