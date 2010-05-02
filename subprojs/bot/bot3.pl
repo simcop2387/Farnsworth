@@ -19,19 +19,6 @@ use Encode;
 
 #i should really move this to an external config
 my $bots = {
-	cubert => {
-		poe => {
-			server => "irc.freenode.net",
-#			port => 6668,
-			nick => "cubert",
-			username => "cubert",
-			ircname => "Cubert Farnsworth",
-#			password => "cubert",
-			charset => "utf-8",
-			},
-		url => "http://simcop2387.info:8081",
-		channels => ["#yapb", "#buubot", "#perlcafe", "##turtles"],
-	},
 	farnsworth => {
 		poe => {
 			server => "irc.freenode.net",
@@ -42,7 +29,7 @@ my $bots = {
 #			password => "farnsworth",
 			charset => "utf-8",
 			},
-		url => "http://simcop2387.info:8080",
+		url => "http://farnsworth.simcop2387.info:8080/cgi-bin/farns.pl",
 		channels => ["#yapb", "#buubot", "#perlcafe", "##turtles"],
 	},
 	farnsworthriz => {
@@ -55,7 +42,7 @@ my $bots = {
 #			password => "farnsworth",
 			charset => "utf-8",
 			},
-		url => "http://simcop2387.info:8080",
+		url => "http://farnsworth.simcop2387.info:8080/cgi-bin/farns.pl",
 		channels => ["#dctv", "#dctp", "#uc-fansubs", "#yami", "#azfs", "#kienai"],
 	},
 };
