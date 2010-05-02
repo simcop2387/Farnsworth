@@ -1,0 +1,105 @@
+%!PS-Adobe-2.0 EPSF-2.0
+%%Creator: Ebnf2ps Version 1.07 (Mar 2008)(C) 1996-2000 by Peter Thiemann
+%%CreationDate: Thu Apr  8 18:53:18 EDT 2010%%DocumentFonts: Times-Roman
+%%Title: arglist
+%%Pages: 0
+%%BoundingBox: 0 0 104 43
+%%EndComments
+/$Ebnf2psDict 100 dict def
+$Ebnf2psDict begin
+/l {lineto} bind def
+/m {moveto} bind def
+/rl {rlineto} bind def
+/rm {rmoveto} bind def
+/s {stroke} bind def
+/n {newpath} bind def
+/gs {gsave} bind def
+/gr {grestore} bind def
+/clp {closepath} bind def
+/slw {setlinewidth} bind def
+/graycol {dup dup currentrgbcolor 4 -2 roll mul 4 -2 roll mul
+4 -2 roll mul setrgbcolor} bind def
+/scol {3 {255 div 3 1 roll} repeat setrgbcolor} bind def
+ /apr {arcto 4 {pop} repeat} def
+/Box {
+  /bgB exch def
+  /bgG exch def
+  /bgR exch def
+  /linewidth exch def
+  /height exch def
+  /width  exch def
+  /lly exch def
+  /llx exch def
+  linewidth 2 div dup llx add /llx exch def lly add /lly exch def
+  /height height linewidth sub def
+  /width width linewidth sub def
+  /linewidth0 {clp gsave bgR bgG bgB scol fill grestore} def
+  /linewidth1 {clp linewidth gsave bgR bgG bgB scol fill grestore slw s} def
+   n llx lly m
+  width 0 rl
+  0 height rl
+  width neg 0 rl
+  0 height neg rl
+  linewidth 0 eq {linewidth0} {linewidth1} ifelse
+} def
+/RBox {
+  /bgB exch def
+  /bgG exch def
+  /bgR exch def
+  /linewidth exch def
+  /height exch def
+  /width exch def
+  /lly exch def
+  /llx exch def
+  linewidth 2 div dup llx add /llx exch def lly add /lly exch def
+  /height height linewidth sub def
+  /width  width  linewidth sub def
+  /height2 height 2 div def
+  /width2  width  2 div def
+  /urx llx width add def
+  /ury lly height add def
+  /mmx llx width2 add def
+  /mmy lly height2 add def
+  /linewidth0 {clp gsave bgR bgG bgB scol fill grestore} def
+  /linewidth1 {clp linewidth gsave bgR bgG bgB scol fill grestore slw s} def
+  /radius width2 height2 ge {height2} {width2} ifelse def
+   n mmx lly m
+  urx lly urx mmy radius apr
+  urx ury mmx ury radius apr
+  llx ury llx mmy radius apr
+  llx lly mmx lly radius apr
+  mmx lly l
+  linewidth 0 eq {linewidth0} {linewidth1} ifelse
+} def
+end
+/$Ebnf2psBegin {$Ebnf2psDict begin /$Ebnf2psEnteredState save def} def
+/$Ebnf2psEnd {$Ebnf2psEnteredState restore end} def
+
+%%EndProlog
+
+$Ebnf2psBegin
+ 0 0 0 scol  25 5.50 58.11 17 1 255 255 255 Box
+/Times-Roman findfont 10 scalefont setfont
+ 31 11.17 m(arglistfilled) show
+ 0.30 slw
+n 23 16 m 2 -2 rl -2 -2 rl s
+n 10 0.50 m 88.11 0 rl s
+n 10 0.50 m 15 0.50 15 5.50 5 apr
+ 15 5.50 l s
+n 15 9 m 15 14 20 14 5 apr
+ 20 14 l s
+n 20 14 m 5 0 rl s
+n 98.11 0.50 m 93.11 0.50 93.11 5.50 5 apr
+ 93.11 5.50 l s
+n 93.11 9 m 93.11 14 88.11 14 5 apr
+ 88.11 14 l s
+n 83.11 14 m 5 0 rl s
+n 15 5.50 m 0 3.50 rl s
+n 93.11 5.50 m 0 3.50 rl s
+n 98.11 0.50 m 5 0 rl s
+n 101.11 2.50 m 2 -2 rl -2 -2 rl s
+ 0 34.67 m(arglist) show
+n 0 0.50 m 10 0 rl s
+n 8 2.50 m 2 -2 rl -2 -2 rl s
+
+$Ebnf2psEnd
