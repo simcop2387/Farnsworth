@@ -11,7 +11,7 @@ license: artistic
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
   version: 1.4
-name: Language-Farnsworth
+name: Language-Farnsworth-Functions-GoogleTranslate
 no_index:
   directory:
     - inc
@@ -20,4 +20,4 @@ requires:
   REST::Google::Translate: 0
 resources:
   license: http://opensource.org/licenses/artistic-license.php
-version: undef
+version: 0.9.1

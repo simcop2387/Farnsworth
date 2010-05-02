@@ -5,14 +5,14 @@ use warnings;
 
 use Data::Dumper;
 
-use Language::Farnsworth::Value;
+use Language::Farnsworth::Value; #i should encapsulate things so this isn't needed, or make a better interface
 
 use REST::Google::Translate;
 use HTML::Entities;
 
 use Encode;
 
-our $VERSION = "0.9.0";
+our $VERSION = "0.9.1";
 
 #note that this is fairly C<en> centric!
 
@@ -20,60 +20,63 @@ my $defaultcode = "en";
 
 	my %langs = (
 		
-		#ar=>"Arabic", bg=>"Bulgarian", ca=>"Catalan", cs=>"Czech",
-		#			 da=>"Danish", de=>"German", el=>"Greek", en=>"English", 
-		#			 es=>"Spanish", fi=>"Finnish", fr=>"French", hi=>"Hindi",
-		#			 hr=>"Croatian", id=>"Indonesian", it=>"Italian", iw=>"Hebrew", 
-		#			 ja=>"Japanese", ko=>"Korean", lt=>"Lithuanian", lv=>"Latvian",
-		#			 nl=>"Dutch", no=>"Norwegian", pl=>"Polish", pt=>"Portuguese",
-		#			 "pt-PT" => "Portuguese", ro=>"Romanian", ru=>"Russian", sk=>"Slovak", sl=>"Slovenian", 
-		#			 sr=>"Serbian", sv=>"Swedish", tl=>"Filipino", uk=>"Ukrainian",
-		#			 vi=>"Vietnamese", "zh-CN"=>"Chinese_Simplified", "zh-CN"=>"Chinese",  #bug here! two chineses! i should really allow array refs here so that i can have all kinds of names for things!
-		#			 "zh-TW"=>"Chinese_Traditional");
-
-ar=>"Arabic",
-bg=>"Bulgarian",
-ca=>"Catalan",
-cs=>"Czech",
-da=>"Danish",
-de=>"German",
+ja=>"Japanese",              
+en=>"English",               
+vi=>"Vietnamese",            
+af=>"Afrikaans",             
+sq=>"Albanian",              
+ar=>"Arabic",                
+be=>"Belarusian",            
+bg=>"Bulgarian",             
+ca=>"Catalan",               
+"zh-CN"=>"Chinese",
+"zh-TW"=>"Chinese_Traditional",
+hr=>"Croatian",              
+cs=>"Czech",                 
+da=>"Danish",                
+nl=>"Dutch",                 
+en=>"English",               
+et=>"Estonian",              
+tl=>"Filipino",              
+fi=>"Finnish",               
+fr=>"French",                
+gl=>"Galician",              
+de=>"German",                
 el=>"Greek",
-en=>"English",
-es=>"Spanish",
-et=>"Estonian",
-fi=>"Finnish",
-fr=>"French",
-gl=>"Galician",
-hi=>"Hindi",
-hr=>"Croatian",
-hu=>"Hungarian",
-id=>"Indonesian",
-it=>"Italian",
+ht=>"HaitianCreole",
 iw=>"Hebrew",
+hi=>"Hindi",
+hu=>"Hungarian",
+is=>"Icelandic",
+id=>"Indonesian",
+ga=>"Irish",
+it=>"Italian",
 ja=>"Japanese",
 ko=>"Korean",
-"lt"=>"Lithuanian",
 lv=>"Latvian",
+lt=>"Lithuanian",
+mk=>"Macedonian",
+ms=>"Malay",
 mt=>"Maltese",
-nl=>"Dutch",
 no=>"Norwegian",
+fa=>"Persian",
 pl=>"Polish",
 pt=>"Portuguese",
-"pt-PT" => "Portuguese",
 ro=>"Romanian",
 ru=>"Russian",
+sr=>"Serbian",
 sk=>"Slovak",
 sl=>"Slovenian",
-sq=>"Albanian",
-sr=>"Serbian",
+es=>"Spanish",
+sw=>"Swahili",
 sv=>"Swedish",
 th=>"Thai",
-tl=>"Filipino",
 tr=>"Turkish",
 uk=>"Ukrainian",
 vi=>"Vietnamese",
-"zh-CN"=>"Chinese",
-"zh-TW"=>"Chinese_Traditional",
+cy=>"Welsh",
+yi=>"Yiddish",
+
 );
 	
 sub init

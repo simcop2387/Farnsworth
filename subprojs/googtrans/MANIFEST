@@ -12,4 +12,5 @@ Language-Farnsworth-undef/MANIFEST
 lib/Language/Farnsworth/Functions/GoogleTranslate.pm
 Makefile.PL
 MANIFEST
+ChangeLog
 META.yml
