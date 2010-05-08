@@ -1,7 +1,7 @@
 ---
 abstract: 'A Turing Complete Language for Mathematics'
 author:
-  - 'Ryan Voots <simcop@cpan.org>'
+  - 'Ryan Voots <L<simcop@cpan.org>>'
 build_requires:
   ExtUtils::MakeMaker: 6.42
   Test::Exception: 0
@@ -17,6 +17,7 @@ meta-spec:
 name: Language-Farnsworth
 no_index:
   directory:
+    - examples
     - inc
     - t
 recommends:

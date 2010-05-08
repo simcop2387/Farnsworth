@@ -62,6 +62,11 @@ sub istype
 	return ref($self) =~ /\Q$allow/i;
 }
 
+sub type
+{
+	return "Value (BUG)";
+}
+
 sub ismediumtype
 {
 	my $self = shift;

@@ -49,6 +49,11 @@ sub new
   return $self;
 }
 
+sub type
+{
+	return "Array";
+}
+
 sub sanitizeself
 {
 	my $self=shift;

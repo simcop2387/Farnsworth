@@ -63,6 +63,11 @@ sub getlang
 	return $_[0]->{lang};
 }
 
+sub type
+{
+	return "String";
+}
+
 #######
 #The rest of this code can be GREATLY cleaned up by assuming that $one is of type, Language::Farnsworth::Value::Pari, this means that i can slowly redo a lot of this code
 

@@ -34,6 +34,7 @@ my @tests =
 	['var a=2; var sub={`x,y` x+y}; a=sub[a,a]; a;', '4 ', 'simpler case of above'],
 	['{`x=1` x} []', '1 ', 'Default arguments in lambdas'],
     ['foo{bar,} := 1;', undef, 'Empty arguments in functions'],
+    ['0x1', '1 ', "Single length hexidecimal numers"],
 # this is going to take some redesign in Variables.pm
 #    ['var a=42; foo{x byref} := {x = 46; bar[x]}; bar{y byref} := {y = 12}; [a, foo[a], a];', '[42 , 12 , 12 ]', 'nested references'],
 );

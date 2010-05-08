@@ -79,6 +79,11 @@ sub isvalueone
 	return $_[0]->{valueone};
 }
 
+sub type
+{
+	return Dumper $_[0]->{dimen}; #TODO: This should instead use the output code once it moves here.
+}
+
 #helpers for parsing hex, binary, and octal formats, could also extend support to others
 sub parsehex
 {

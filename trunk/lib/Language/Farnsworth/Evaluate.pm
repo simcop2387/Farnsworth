@@ -682,10 +682,10 @@ sub evalbranch
 
 		if (!$@)
 		{
-			print "\n\nLEFT\n";
-			print Dumper($left);
-			print "RIGHT\n";
-			print Dumper($right);
+			#print "\n\nLEFT\n";
+			#print Dumper($left);
+			#print "RIGHT\n";
+			#print Dumper($right);
 			if ($left->conforms($right)) #only do this if they are the same
 			{
 				my $dispval = ($left / $right);
@@ -717,9 +717,13 @@ sub evalbranch
 					$return->{outmagic} = [$nm, $rights];
 				}
 			}
+			elsif (ref $right =~ /Lambda/)
+			{
+				$return = $right * $left; #simple enough, just use the overloaded operator
+			}
 			else
 			{
-				error "Conformance error, left side has different units than right side ".Dumper($branch->[1])."\n";
+				error "Conformance error, left side has different units than right side LEFT<".$left->type()."> RIGHT<".$right->type()."\n";
 			}
 		}
 		else
