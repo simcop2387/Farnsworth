@@ -723,7 +723,7 @@ sub evalbranch
 			}
 			else
 			{
-				error "Conformance error, left side has different units than right side LEFT<".$left->type()."> RIGHT<".$right->type()."\n";
+				error "Conformance error, left side has different units than right side LEFT<".($left->type())."> RIGHT<".($right->type())."\n";
 			}
 		}
 		else
