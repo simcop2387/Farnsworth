@@ -717,7 +717,7 @@ sub evalbranch
 					$return->{outmagic} = [$nm, $rights];
 				}
 			}
-			elsif (ref $right =~ /Lambda/)
+			elsif (ref($right) =~ /Lambda/)
 			{
 				$return = $right * $left; #simple enough, just use the overloaded operator
 			}
