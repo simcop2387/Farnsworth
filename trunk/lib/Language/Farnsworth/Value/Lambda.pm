@@ -22,7 +22,7 @@ use overload
 	'%' => \&mod,
 	'**' => \&pow,
 	'<=>' => \&compare,
-;#	'bool' => \&bool;
+	'bool' => \&bool;
 
 use base qw(Language::Farnsworth::Value);
 
@@ -194,17 +194,20 @@ sub div
   die "Dividing lambdas? what did you think this would do, create a black hole?";
 }
 
-#sub bool
-#{
-	#my $self = shift;
+sub bool
+{
+#	my $self = shift;
 
 	#seems good enough of an idea to me
 	#i have a bug HERE
-	#print "BOOLCONV\n";
-	#print Dumper($self);
-	#print "ENDBOOLCONV\n";
-#	return 1; #for now lambdas are ALWAYS true!
-#}
+#	print "BOOLCONV\n";
+#	print Dumper($self);
+#	print "ENDBOOLCONV\n";
+	return 1; #for now lambdas are ALWAYS true!
+	
+#	print Dumper [caller()];
+#	die "FUCK\n";
+}
 
 sub pow
 {

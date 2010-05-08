@@ -632,9 +632,10 @@ sub evalbranch
 	}
 	elsif ($type eq "SetDisplay")
 	{
+		#TODO make error checking
 		print Dumper($branch);
 		my $combo = $branch->[0][0]; #is a string?
-		my $right = $branch->[1];
+		my $right = $self->makevalue($branch->[1]);
 
 		Language::Farnsworth::Output->setdisplay($combo, $right);
 	}
@@ -682,12 +683,14 @@ sub evalbranch
 
 		if (!$@)
 		{
-			#print "\n\nLEFT\n";
-			#print Dumper($left);
-			#print "RIGHT\n";
-			#print Dumper($right);
+			debug 1,"\n\nLEFT\n";
+			debug 1,ref($left);
+			debug 1,"RIGHT\n";
+			debug 1,ref($right);
+			
 			if ($left->conforms($right)) #only do this if they are the same
 			{
+				print "Got Conformity\n";
 				my $dispval = ($left / $right);
 
 				#$return = $left; 
@@ -704,23 +707,25 @@ sub evalbranch
 					$return->{outmagic} = [$dispval];
 				}
 			}
-			elsif ($self->{funcs}->isfunc($branch->[1][0]))
+			elsif ($right->istype("Lambda"))
 			{
-				$left = $left->istype("Array") ? $left : new Language::Farnsworth::Value::Array([$left]);
-				$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
-
-				if ($rights->istype("String"))
-				{
-					#right side was a string, use it
-					my $nm = {%$return}; #do a shallow copy!
-					bless $nm, ref($return); #rebless it
-					$return->{outmagic} = [$nm, $rights];
-				}
-			}
-			elsif (ref($right) =~ /Lambda/)
-			{
+				print "Got a lambda";
 				$return = $right * $left; #simple enough, just use the overloaded operator
 			}
+# this code isn't being used is it? fuck i need better docs and tests
+#			elsif ($self->{funcs}->isfunc($branch->[1][0]))
+#			{
+#				$left = $left->istype("Array") ? $left : new Language::Farnsworth::Value::Array([$left]);
+#				$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
+#
+#				if ($rights->istype("String"))
+#				{
+#					#right side was a string, use it
+#					my $nm = {%$return}; #do a shallow copy!
+#					bless $nm, ref($return); #rebless it
+#					$return->{outmagic} = [$nm, $rights];
+#				}
+#			}
 			else
 			{
 				error "Conformance error, left side has different units than right side LEFT<".($left->type())."> RIGHT<".($right->type())."\n";

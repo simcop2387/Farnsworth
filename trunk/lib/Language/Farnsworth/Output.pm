@@ -30,6 +30,7 @@ sub findcombo
 
 	for my $combo (keys %combos)
 	{
+		print "TRY COMBO: $combo\n";
 		my $cv = $combos{$combo}; #grab the value
 		return $combo if ($value->getdimen()->compare($cv->getdimen()));
 	}
@@ -66,7 +67,7 @@ sub getdisplay
 
 	if (defined($name) && exists($displays{$name}))
 	{
-		debug 2, "GETDISP:", (Dumper($displays{$name})), "\n";
+		debug 3, "GETDISP:", (Dumper($displays{$name})), "\n";
 		if (ref($displays{$name}) eq "Fetch" && $displays{$name}[0] eq "undef")
 		{
 			return undef;
@@ -182,7 +183,7 @@ sub getoutstring
 
 		print "SUPERDISPLAY:\n";
 		my $branch = bless [$value, $disp], 'Trans';
-		print Dumper($branch);
+		#print Dumper($branch);
 		my $newvalue = eval {$self->{eval}->evalbranch($branch);};
 		return $self->getoutstring($newvalue);
 	}
