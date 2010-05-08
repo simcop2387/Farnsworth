@@ -1,0 +1,48 @@
+{`` 
+	var getunit={`u` if (u conforms "") {eval[u]} else {u}}; 
+
+scales{x isa ...} := 
+{
+	var n=0; 
+	var c=getunit[x@0$]; 
+	while (++n < length[x]) 
+	{
+		if (!(getunit[x@n$] conforms c)) 
+		{
+			error["All units in the set must conform to each other"]
+		}
+	};
+	
+	var sorted = sort[{`a,b` getunit[b] <=> getunit[a]}, x]; 
+	
+	{`x` 
+		var n=-1;
+	 	var ret = x->sorted@-1$;/*default to the smallest unit*/ 
+	 
+	 	if (!(x conforms getunit[sorted@0$])) 
+	 	{
+	 		error["input <$x> doesn't conform to <${sorted@0$}>"]
+	 	}; 
+	 
+	 	while(++n < length[sorted]) 
+	 	{
+	 		if (x/getunit[sorted@n$] >= 1) 
+	 		{
+	 			ret=(x -> sorted@n$); 
+	 			n=length[sorted];
+	 		}
+	 	}; 
+	 
+	 	ret
+	 }
+	 
+}; 
+
+} [];
+
+power :-> scales["GW", "MW", "kW", "W", "mW"];
+length :-> scales["km", "meters", "cm", "um", "pm"];
+frequency :-> scales["GHz", "MHz", "kHz", "Hz"];
+capacitance :-> scales["gigafarad", "megafarad", "nF", "pF", "farad", "uF"];
+volume :-> scales["dL", "kL", "mL", "liters"];
+information :-> scales["TiB", "GiB", "MiB", "KiB","B","b"];
