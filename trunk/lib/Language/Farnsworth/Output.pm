@@ -67,7 +67,7 @@ sub getdisplay
 
 	if (defined($name) && exists($displays{$name}))
 	{
-		debug 3, "GETDISP:", (Dumper($displays{$name})), "\n";
+		debug 4, "GETDISP:", (Dumper($displays{$name})), "\n";
 		if (ref($displays{$name}) eq "Fetch" && $displays{$name}[0] eq "undef")
 		{
 			return undef;
