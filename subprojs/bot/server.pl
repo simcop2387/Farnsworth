@@ -26,6 +26,7 @@ my $farnsworth = new Language::Farnsworth;
 $farnsworth->runFile("startups/startup.frns");
 $farnsworth->runFile("startups/combodefaults.frns");
 $farnsworth->runFile("startups/datable.frns");
+$farnsworth->runFile("startups/scales.frns");
 print "DONE STARTING UP!\n";
 $Language::Farnsworth::Units::lock = 1; #need better interface!
 
