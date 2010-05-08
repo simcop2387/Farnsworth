@@ -43,6 +43,6 @@ scales{x isa ...} :=
 power :-> scales["GW", "MW", "kW", "W", "mW"];
 length :-> scales["km", "meters", "cm", "um", "pm"];
 frequency :-> scales["GHz", "MHz", "kHz", "Hz"];
-capacitance :-> scales["gigafarad", "megafarad", "nF", "pF", "farad", "uF"];
+capacitance :-> scales["gigafarad", "megafarad", "nanofarad", "picofarad", "farad", "microfarad"];
 volume :-> scales["dL", "kL", "mL", "liters"];
 information :-> scales["TiB", "GiB", "MiB", "KiB","B","b"];
