@@ -1,7 +1,7 @@
 //dbgprint["------BOT START------"];
 source := "I'm the latest and greatest version of farnsworth, you can find me at http://github.com/simcop2387/Farnsworth";
-help := "I've got a number of experimental changes to the language, because of that i'm not very well documented";
-bug := "think you found a bug? file it at http://farnsworth.simcop2387.info/ OR send an email to farnsworth.rt@gmail.com";
+help := "See the list at http://simcop2387.info/docs/ for more information";
+bug := "think you found a bug? file it at https://rt.cpan.org/Dist/Display.html?Queue=Language-Farnsworth OR send an email to farnsworth-bugs@googlegroups.com";
 
 frozen := C[0];
 microwavetime{mass isa kg, end isa K, start = frozen isa K, watts = 1000W isa watt, sh = 1 calorie/gram/degC isa calorie/gram/degC} := (mass sh)(end - start)/watts -> "seconds";
