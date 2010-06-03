@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Language::Farnsworth::Dimension;
-#use Language::Farnsworth::Value;
+use base 'Language::Farnsworth::Value';
 use Carp;
 use List::MoreUtils 'each_array'; 
 

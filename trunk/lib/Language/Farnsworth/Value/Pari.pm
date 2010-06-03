@@ -2,10 +2,12 @@ package Language::Farnsworth::Value::Pari;
 
 use strict;
 use warnings;
+no warnings 'redefine'; #wtf are these coming from?
 
 use Math::Pari;
 use Language::Farnsworth::Dimension;
-use Language::Farnsworth::Value;
+use base 'Language::Farnsworth::Value';
+use Language::Farnsworth::Value::Types;
 use Language::Farnsworth::Error;
 use Carp qw(confess cluck croak carp);
 

@@ -30,6 +30,7 @@ lib/Language/Farnsworth/Value/Lambda.pm
 lib/Language/Farnsworth/Value/Boolean.pm
 lib/Language/Farnsworth/Value/Undef.pm
 lib/Language/Farnsworth/Value/String.pm
+lib/Language/Farnsworth/Value/Types.pm
 lib/Language/Farnsworth/Variables.pm
 Makefile.PL
 MANIFEST

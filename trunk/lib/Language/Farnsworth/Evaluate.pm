@@ -12,7 +12,7 @@ use Language::Farnsworth::FunctionDispatch;
 use Language::Farnsworth::Variables;
 use Language::Farnsworth::Units;
 use Language::Farnsworth::Parser;
-use Language::Farnsworth::Value;
+use Language::Farnsworth::Value::Types;
 use Language::Farnsworth::Value::Pari;
 use Language::Farnsworth::Value::Date;
 use Language::Farnsworth::Value::String;

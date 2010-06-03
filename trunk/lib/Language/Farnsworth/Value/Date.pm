@@ -4,8 +4,8 @@ use strict;
 use warnings;
 
 use Language::Farnsworth::Dimension;
-use Language::Farnsworth::Value;
-use Language::Farnsworth::Value::Pari;
+use base 'Language::Farnsworth::Value';
+require Language::Farnsworth::Value::Pari;
 use Carp;
 
 use DateTime;

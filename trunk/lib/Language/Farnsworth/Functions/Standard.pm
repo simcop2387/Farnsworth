@@ -3,7 +3,7 @@ package Language::Farnsworth::Functions::Standard;
 use strict;
 use warnings;
 
-use Language::Farnsworth::Value;
+use Language::Farnsworth::Value::Types;
 use Language::Farnsworth::Error;
 use utf8;
 
