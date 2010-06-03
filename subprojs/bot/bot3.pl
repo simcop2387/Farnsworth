@@ -7,7 +7,8 @@ use Data::Dumper;
 use POE qw(Component::IRC 
            Queue::Array 
            Component::IRC::Plugin::NickReclaim 
-           Component::IRC::Plugin::CTCP 
+           Component::IRC::Plugin::CTCP
+           Component::IRC::Plugin::Connector
            Component::IRC::Plugin::NickServID
 		   Component::Client::HTTP);
 
@@ -19,6 +20,19 @@ use Encode;
 
 #i should really move this to an external config
 my $bots = {
+        cubert => {
+                poe => {
+                        server => "irc.freenode.net",
+#                       port => 6668,
+                        nick => "cubert",
+                        username => "cubert",
+                        ircname => "Cubert Farnsworth",
+#                       password => "cubert",
+                        charset => "utf-8",
+                        },
+                url => "http://andromeda128:8081",
+                channels => ["#yapb", "#buubot", "#perlcafe", "##turtles"],
+        },
 	farnsworth => {
 		poe => {
 			server => "irc.freenode.net",
@@ -58,7 +72,7 @@ my $http = POE::Component::Client::HTTP->spawn(
 POE::Session->create(
   package_states => 
     [
-      main => [ qw(_start irc_001 irc_public irc_msg tock httpback) ],
+      main => [ qw(_start irc_001 irc_public irc_msg tock httpback lag_o_meter) ],
 	],
     heap => { _config => $bots, bots => {}, http=>$http, httpqueue=>{}, reqcount=>0},);
 
@@ -80,6 +94,9 @@ sub _start {
 				$heap->{bots}{$irc}{queue} = POE::Queue::Array->new();
 				$heap->{bots}{$irc}{lastsend} = time();
 				$heap->{bots}{$irc}{irc} = $irc;
+				$heap->{bots}{$irc}{connector} = POE::Component::IRC::Plugin::Connector->new();
+
+				$irc->plugin_add( 'Connector' => $heap->{bots}{$irc}{connector} );
 
 				$irc->plugin_add( 'CTCP' => POE::Component::IRC::Plugin::CTCP->new(
 	                version => "Language::Farnsworth SVN",
@@ -96,8 +113,23 @@ sub _start {
 			}
 
             $kernel->delay_add(tock=>0.5); #tock sends out messages from the queues
+            $kernel->delay( 'lag_o_meter' => 60 );
             return;
 }
+
+ sub lag_o_meter {
+     my ($kernel,$heap) = @_[KERNEL,HEAP];
+     
+     print "--------\nTIME: ", time(), "\n";
+     
+     for (keys %{$heap->{bots}})
+     {
+     	print 'Bot: ', $heap->{bots}{$_}{id}, ' Lag: ', $heap->{bots}{$_}{connector}->lag() . "\n";
+     }
+  
+     $kernel->delay( 'lag_o_meter' => 60 );
+     return;
+ }
 
 sub irc_001 {
             my $sender = $_[SENDER];
