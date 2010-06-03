@@ -30,7 +30,7 @@ sub findcombo
 
 	for my $combo (keys %combos)
 	{
-		print "TRY COMBO: $combo\n";
+		#print "TRY COMBO: $combo\n";
 		my $cv = $combos{$combo}; #grab the value
 		return $combo if ($value->getdimen()->compare($cv->getdimen()));
 	}

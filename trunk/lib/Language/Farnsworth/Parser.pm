@@ -4780,7 +4780,9 @@ sub yylex
 	$s =~ m|\G\s*//.*(?=\n)?|gc and redo;
 
     if ($s=~ /\G(?=
-    	0[xb]?[[:xdigit:]](?:[[:xdigit:].]+)| #hex octal or binary numbers
+        0x[[:xdigit:].]+| #hex octal or binary numbers
+        0b[01.]+|
+        0[0-7][0-7.]*|
     	(?:\d+(\.\d*)?|\.\d+)(?:[Ee][Ee]?[-+]?\d+)| #scientific notation
     	(?:\d+(?:\.\d*)?|\.\d+)| #plain notation
 	    (?:$ws*\)) #paren value
@@ -4791,7 +4793,11 @@ sub yylex
     }
 
     #i want a complete number regex
-	$s =~ /\G(0[xb]?[[:xdigit:]](?:[[:xdigit:].]+))/igc and return 'HEXNUMBER', $1;
+    #The 'HEXNUMBER' is really just for numbers of different bases, e.g. Hexidecimal, Binary, and Octal
+	$s =~ /\G(0x[[:xdigit:].]+)/igc and return 'HEXNUMBER', $1;
+	$s =~ /\G(0b[01.]+)/igc and return 'HEXNUMBER', $1;
+	$s =~ /\G(0[0-7][0-7.]*)/igc and return 'HEXNUMBER', $1;
+		
 	$s =~ /\G((\d+(\.\d*)?|\.\d+)([Ee][Ee]?[-+]?\d+))/gc 
 	      and return 'NUMBER', $1;
 	$s =~ /\G((\d+(\.\d*)?|\.\d+))/gc 
