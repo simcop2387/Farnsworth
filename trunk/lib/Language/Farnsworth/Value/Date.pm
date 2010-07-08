@@ -6,7 +6,10 @@ use warnings;
 use Language::Farnsworth::Dimension;
 use base 'Language::Farnsworth::Value';
 require Language::Farnsworth::Value::Pari;
+use Language::Farnsworth::Value::Types;
 use Carp;
+
+sub TYPE_TIME {Language::Farnsworth::Value::Types::TYPE_TIME}; #WTF
 
 use DateTime;
 #use DateTime::Format::DateManip;
@@ -88,7 +91,7 @@ sub add
   
   if ($two->isa("Language::Farnsworth::Value::Pari"))
   {
-	  if ($two->conforms($one->TYPE_TIME))
+	  if ($two->conforms(TYPE_TIME()))
 	  {
 		  return new Language::Farnsworth::Value::Date($one->getdate()->clone()->add(seconds => "".$two->getpari()));
 	  }
@@ -120,7 +123,7 @@ sub subtract
   
   if ($two->isa("Language::Farnsworth::Value::Pari"))
   {
-	  if ($two->conforms($one->TYPE_TIME))
+	  if ($two->conforms(TYPE_TIME()))
 	  {
 		 if (!$rev) #we're first!
 		 {
