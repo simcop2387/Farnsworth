@@ -243,3 +243,8 @@ setus{} := metric=0;
 
 prettyout_length_SI{x isa m} := {var large = ["lightyears", "au", "parsecs", "kilometers"]; var medium = ["kilometers", "meters", "centimeters"]; var small = ["centimeters", "millimeters", "micrometers"]; var verysmall = ["millimeters", "micrometers", ]; prettyout[x, x > 1 cm ? x >= 1 m ? x > 1/4 au ? large : medium : small : verysmall];};
 prettyout_length_US{x isa m} := {var large = ["lightyears", "au", "parsec", "miles"]; var medium = ["miles", "yards", "feet"]; var small = ["yards", "feet", "inches"]; var verysmall = ["inches", "thou"]; prettyout[x, x > 6 inches ? x > 200 yards ? x > 1/4 au ? large : medium : small : verysmall];};
+
+
+/*from Vylen*/
+//ha{x} := { var c = floor[length[x] * 0.75]; left[x, c] + "--NGHHHHhhhhhh" } // old version
+ha{x} := { var c = randmax[length[x]]; left[x, c] + "--NGHHHHhhhhhh" }
