@@ -7,10 +7,7 @@ no warnings 'redefine'; #wtf are these coming from?
 use Math::Pari;
 use Language::Farnsworth::Dimension;
 use base 'Language::Farnsworth::Value';
-use Language::Farnsworth::Value::Types;
 use Language::Farnsworth::Error;
-use Carp qw(confess cluck croak carp);
-
 use Data::Dumper;
 
 use utf8;
@@ -29,6 +26,11 @@ use overload
 	'"' => \&toperl;
 
 use base qw(Language::Farnsworth::Value);
+
+{
+	my $plain;
+	sub TYPE_PLAIN 	{return $plain if $plain; $plain=new Language::Farnsworth::Value::Pari(0)}
+}
 
 #this is the REQUIRED fields for Language::Farnsworth::Value subclasses
 #
@@ -171,13 +173,13 @@ sub add
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to addition" unless (ref($two));
+  error "Non reference given to addition of scalar" unless (ref($two));
 
   #if we're not being added to a Language::Farnsworth::Value::Pari, the higher class object needs to handle it.
   return $two->add($one, !$rev) unless ($two->isa(__PACKAGE__));
 
   #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
-  die "Unable to process different units in addition\n" unless ($one->conforms($two)); 
+  error "Unable to process different units in addition\n" unless ($one->conforms($two)); 
 
   #moving this down so that i don't do any math i don't have to
 
@@ -189,13 +191,13 @@ sub subtract
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to subtraction" unless (ref($two));
+  error "Non reference given to subtraction of scalar" unless (ref($two));
 
   #if we're not being added to a Language::Farnsworth::Value::Pari, the higher class object needs to handle it.
   return $two->subtract($one, !$rev) unless ($two->isa(__PACKAGE__));
 
   #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
-  die "Unable to process different units in subtraction\n" unless ($one->conforms($two)); 
+  error "Unable to process different units in subtraction\n" unless ($one->conforms($two)); 
 
   #moving this down so that i don't do any math i don't have to
   if (!$rev)
@@ -205,7 +207,7 @@ sub subtract
   else
   {
 	  #i've never seen this happen, we'll see if it works
-	  die "some mistake happened here in subtraction\n"; #to test later on
+	  error "some mistake happened here in subtraction\n"; #to test later on
   }
 }
 
@@ -213,14 +215,14 @@ sub mod
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to modulus" unless (ref($two));
+  error "Non reference given to modulus" unless (ref($two));
 
   #as odd as this seems, we need it in order to allow overloading later on
   #if we're not being added to a Language::Farnsworth::Value::Pari, the higher class object needs to handle it.
   return $two->mod($one, !$rev) unless ($two->isa(__PACKAGE__));
 
   #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
-  die "Unable to process different units in modulus\n" unless ($one->conforms($two)); 
+  error "Unable to process different units in modulus\n" unless ($one->conforms($two)); 
 
   #moving this down so that i don't do any math i don't have to
   if (!$rev)
@@ -237,8 +239,8 @@ sub mult
 {
   my ($one, $two, $rev) = @_;
 
-  confess "ARRAY REF WTF?" if (ref($two) eq "ARRAY");
-  confess "Non reference given to multiplication " unless (ref($two));
+  error "ARRAY REF WTF?" if (ref($two) eq "ARRAY");
+  error "Non reference given to multiplication of scalar" unless (ref($two));
 
   #if we're not being added to a Language::Farnsworth::Value::Pari, the higher class object needs to handle it.
   return $two->mult($one, !$rev) unless ($two->isa(__PACKAGE__));
@@ -253,7 +255,7 @@ sub div
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to division" unless (ref($two));
+  error "Non reference given to division of scalar" unless (ref($two));
 
   #if we're not being added to a Language::Farnsworth::Value::Pari, the higher class object needs to handle it.
   return $two->div($one, !$rev) unless ($two->isa(__PACKAGE__));
@@ -291,14 +293,14 @@ sub pow
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to exponentiation" unless (ref($two));
+  error "Non reference given to exponentiation of scalar" unless (ref($two));
 
   #if we're not being added to a Language::Farnsworth::Value::Pari, the higher class object needs to handle it.
   return $two->pow($one, !$rev) unless ($two->isa(__PACKAGE__));
 
   if (!$two->conforms($one->TYPE_PLAIN))
   {
-	  die "A number with units as the exponent doesn't make sense";
+	  error "A number with units as the exponent doesn't make sense";
   }
 
   #moving this down so that i don't do any math i don't have to
@@ -309,7 +311,7 @@ sub pow
   }
   else
   {
-	  die "Wrong order in ->pow()";
+	  error "Wrong order in ->pow()";
   }
 
   return $new;
@@ -319,7 +321,7 @@ sub compare
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to exponentiation" unless (ref($two));
+  error "Non reference given to exponentiation" unless (ref($two));
 
   #if we're not being added to a Language::Farnsworth::Value::Pari, the higher class object needs to handle it.
   return $two->compare($one, !$rev) unless ($two->isa(__PACKAGE__));
@@ -331,7 +333,7 @@ sub compare
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
-  die "Unable to process different units in compare\n" unless $one->conforms($two); #always call this on one, since $two COULD be some other object 
+  error "Unable to process different units in compare\n" unless $one->conforms($two); #always call this on one, since $two COULD be some other object 
 
   #moving this down so that i don't do any math i don't have to
   my $new;
@@ -350,3 +352,4 @@ sub compare
   }
 }
 
+1;

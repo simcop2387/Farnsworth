@@ -4,8 +4,8 @@ use strict;
 use warnings;
 
 use Language::Farnsworth::Dimension;
+use Language::Farnsworth::Error;
 use base 'Language::Farnsworth::Value';
-use Carp;
 
 use utf8;
 
@@ -63,87 +63,87 @@ sub add
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to addition" unless ref($two);
+  error "Non reference given to addition of Boolean" unless ref($two);
 
   #if we're not being added to a Language::Farnsworth::Value::Pari, the higher class object needs to handle it.
-  confess "Scalar value given to addition to boolean" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to addition of boolean" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->add($one, !$rev) unless ($two->ismediumtype());
   if (!$two->istype("Boolean"))
   {
-    confess "Given non boolean to boolean operation";
+    error "Given non boolean to boolean operation";
   }
 
 
   #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
-  die "Adding booleans is not a good idea\n"; 
+  error "Adding booleans is not a good idea\n"; 
 }
 
 sub subtract
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to subtraction" unless ref($two);
+  error "Non reference given to subtraction of Boolean" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  die "Scalar value given to subtraction to Booleans" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to subtraction to Booleans" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->subtract($one, !$rev) unless ($two->ismediumtype());
   if (!$two->istype("Boolean"))
   {
-    confess "Given non boolean to boolean operation";
+    error "Given non boolean to boolean operation";
   }
 
-  die "Subtracting Booleans? what did you think this would do, create a black hole?";
+  error "Subtracting Booleans? what did you think this would do, create a black hole?";
 }
 
 sub modulus
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to modulus" unless ref($two);
+  error "Non reference given to modulus" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to modulus to boolean" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to modulus to boolean" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->mod($one, !$rev) unless ($two->ismediumtype());
   if (!$two->istype("Boolean"))
   {
-    confess "Given non boolean to boolean operation";
+    error "Given non boolean to boolean operation";
   }
 
-  die "Modulusing booleans? what did you think this would do, create a black hole?";
+  error "Modulusing booleans? what did you think this would do, create a black hole?";
 }
 
 sub mult
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to multiplication" unless ref($two);
+  error "Non reference given to multiplication of boolean" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to multiplcation to array" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to multiplcation to boolean" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->mult($one, !$rev) unless ($two->ismediumtype());
   if (!$two->istype("Boolean"))
   {
-    confess "Given non boolean to boolean operation";
+    error "Given non boolean to boolean operation";
   }
 
-  die "Multiplying arrays? what did you think this would do, create a black hole?";
+  error "Multiplying arrays? what did you think this would do, create a black hole?";
 }
 
 sub div
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to division" unless ref($two);
+  error "Non reference given to division of booleans" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to division to array" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to division of booleans" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->div($one, !$rev) unless ($two->ismediumtype());
   if (!$two->istype("Boolean"))
   {
-    confess "Given non boolean to boolean operation";
+    error "Given non boolean to boolean operation";
   }
 
-  die "Dividing arrays? what did you think this would do, create a black hole?";
+  error "Dividing booleans? what did you think this would do, create a black hole?";
 }
 
 sub bool
@@ -162,28 +162,28 @@ sub pow
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to exponentiation" unless ref($two);
+  error "Non reference given to exponentiation of booleans" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Exponentiating arrays? what did you think this would do, create a black hole?" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Exponentiating booleans? what did you think this would do, create a black hole?" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->pow($one, !$rev) unless ($two->ismediumtype());
   if (!$two->istype("Boolean"))
   {
-    confess "Given non boolean to boolean operation";
+    error "Given non boolean to boolean operation";
   }
 
 
-  die "Exponentiating arrays? what did you think this would do, create a black hole?";
+  error "Exponentiating arrays? what did you think this would do, create a black hole?";
 }
 
 sub compare
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to compare" unless ref($two);
+  error "Non reference given to compare of boolean" unless ref($two);
 
   #if we're not being added to a Language::Farnsworth::Value::Pari, the higher class object needs to handle it.
-  confess "Scalar value given to division to array" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to division of boolean" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->compare($one, !$rev) unless ($two->ismediumtype());
 
   my $rv = $rev ? -1 : 1;
@@ -193,7 +193,7 @@ sub compare
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
-  die "Unable to process different units in compare\n" unless $one->conforms($two); #always call this on one, since $two COULD be some other object 
+  error "Unable to process different types in compare of booleans\n" unless $one->conforms($two); #always call this on one, since $two COULD be some other object 
 
   #moving this down so that i don't do any math i don't have to
   my $new = $tv <=> $ov;

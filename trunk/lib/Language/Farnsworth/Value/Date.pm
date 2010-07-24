@@ -6,10 +6,12 @@ use warnings;
 use Language::Farnsworth::Dimension;
 use base 'Language::Farnsworth::Value';
 require Language::Farnsworth::Value::Pari;
-use Language::Farnsworth::Value::Types;
-use Carp;
+use Language::Farnsworth::Error;
 
-sub TYPE_TIME {Language::Farnsworth::Value::Types::TYPE_TIME}; #WTF
+{ #slight inefficiency here, but it fixes the circular reference issue
+	my $time;
+    sub TYPE_TIME	{return $time if $time; $time=new Language::Farnsworth::Value::Pari(0, {time=>1})}
+}
 
 use DateTime;
 #use DateTime::Format::DateManip;
@@ -44,7 +46,7 @@ sub new
   my $value = shift;
   my $outmagic = shift; #i'm still not sure on this one
 
-  confess "Non string or date given as \$value to constructor" unless (ref($value) eq "" || ref($value) eq "DateTime") && defined($value);
+  error "Non string or date given as \$value to constructor" unless (ref($value) eq "" || ref($value) eq "DateTime") && defined($value);
 
   my $self = {};
 
@@ -55,7 +57,7 @@ sub new
   if (ref($value) ne "DateTime")
   {
 	my $dt = DateTimeX::Easy->parse($value);
-	die "failed to parse date!" unless defined $dt;
+	error "failed to parse date!" unless defined $dt;
 	$dt->set_time_zone('UTC'); #supposed to make things easier and more predictable
 
 	$self->{date} = $dt;
@@ -85,7 +87,7 @@ sub add
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to addition" unless ref($two);
+  error "Non reference given to addition of Date" unless ref($two);
 
   #if we're not being added to a Language::Farnsworth::Value::Pari, the higher class object needs to handle it.
   
@@ -97,7 +99,7 @@ sub add
 	  }
 	  else
 	  {
-		  confess "Scalar value given to addition to string" if ($two->isa("Language::Farnsworth::Value::Pari"));
+		  error "Scalar value given to addition of date";
 	  }
   }
   else
@@ -106,10 +108,10 @@ sub add
 	  
 	  if (!$two->istype("Date"))
 	  {
-	    confess "Given non date to date operation";
+	    error "Given non date to date operation";
 	  }
 
-	  die "Adding dates does nothing useful.";
+	  error "Adding dates does nothing useful.";
   }
 }
 
@@ -117,7 +119,7 @@ sub subtract
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to addition" unless ref($two);
+  error "Non reference given to addition of dates" unless ref($two);
 
   #if we're not being added to a Language::Farnsworth::Value::Pari, the higher class object needs to handle it.
   
@@ -131,12 +133,12 @@ sub subtract
 		 }
 		 else
 		 {
-			 die "And just now what is that supposed to do? a negative date? what the hell is that?";
+			 error "And just now what is that supposed to do? a negative date? what the hell is that?";
 		 }
 	  }
 	  else
 	  {
-		  confess "Scalar value given to addition to string" if ($two->isa("Language::Farnsworth::Value::Pari"));
+		  error "Scalar value given to addition to string" if ($two->isa("Language::Farnsworth::Value::Pari"));
 	  }
   }
   else
@@ -145,7 +147,7 @@ sub subtract
 	  
 	  if (!$two->istype("Date"))
 	  {
-	    confess "Given non date to date operation";
+	    error "Given non date to date operation";
 	  }
 
 	  my $diff;
@@ -165,51 +167,51 @@ sub modulus
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to modulus" unless ref($two);
+  error "Non reference given to modulus of date" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to modulus to date" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to modulus of date" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->mod($one, !$rev) unless ($two->ismediumtype());
   if (!$two->istype("Date"))
   {
-    confess "Given non date to date operation";
+    error "Given non date to date operation";
   }
 
-  die "Modulusing dates? what did you think this would do, create a black hole?";
+  error "Modulusing dates? what did you think this would do, create a black hole?";
 }
 
 sub mult
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to multiplication" unless ref($two);
+  error "Non reference given to multiplication of dates" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to multiplcation to dates" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to multiplcation of dates" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->mult($one, !$rev) unless ($two->ismediumtype());
   if (!$two->istype("Date"))
   {
-    confess "Given non date to date operation";
+    error "Given non date to date operation";
   }
 
-  die "Multiplying dates? what did you think this would do, create a black hole?";
+  error "Multiplying dates? what did you think this would do, create a black hole?";
 }
 
 sub div
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to division" unless ref($two);
+  error "Non reference given to division" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to division to date" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to division to date" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->div($one, !$rev) unless ($two->ismediumtype());
   if (!$two->istype("Date"))
   {
-    confess "Given non date to dates operation";
+    error "Given non date to dates operation";
   }
 
-  die "Dividing date? what did you think this would do, create a black hole?";
+  error "Dividing dates? what did you think this would do, create a black hole?";
 }
 
 sub bool
@@ -228,27 +230,27 @@ sub pow
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to exponentiation" unless ref($two);
+  error "Non reference given to exponentiation of dates" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Exponentiating dates? what did you think this would do, create a black hole?" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Exponentiating dates? what did you think this would do, create a black hole?" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->pow($one, !$rev) unless ($two->ismediumtype());
   if (!$two->istype("Date"))
   {
-    confess "Given non date to date operation";
+    error "Given non date to date operation";
   }
 
-  die "Exponentiating dates? what did you think this would do, create a black hole?";
+  error "Exponentiating dates? what did you think this would do, create a black hole?";
 }
 
 sub compare
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to compare" unless ref($two);
+  error "Non reference given to compare of dates" unless ref($two);
 
   #if we're not being added to a Language::Farnsworth::Value::Pari, the higher class object needs to handle it.
-  confess "Scalar value given to division to dates" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to division of dates" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->compare($one, !$rev) unless ($two->ismediumtype());
 
   my $rv = $rev ? -1 : 1;
@@ -258,7 +260,7 @@ sub compare
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
-  die "Unable to process different units in compare\n" unless $one->conforms($two); #always call this on one, since $two COULD be some other object 
+  error "Unable to process different types in compare of dates\n" unless $one->conforms($two); #always call this on one, since $two COULD be some other object 
 
   #moving this down so that i don't do any math i don't have to
   my $new = $ov <=> $tv;

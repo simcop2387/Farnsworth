@@ -1,0 +1,25 @@
+#!./farnsworth.pl
+
+{``
+var steps = [];
+var languages = ["Afrikaans","Albanian","Arabic","Belarusian","Bulgarian","Catalan","Chinese","Croatian","Czech","Danish","Dutch","English","Estonian","Filipino","Finnish","French","Galician","German","Greek","HaitianCreole","Hebrew","Hindi","Hungarian","Icelandic","Indonesian","Irish","Italian","Japanese","Korean","Latvian","Lithuanian","Macedonian","Malay","Maltese","Norwegian","Persian","Polish","Portuguese","Romanian","Russian","Serbian","Slovak","Slovenian","Spanish","Swahili","Swedish","Thai","Turkish","Ukrainian","Vietnamese","Welsh","Yiddish"];
+var getlang = {`` languages@random[]*(length[languages])$};
+mangle{x} := {steps = []; 
+              var origlang = x -> DetectLanguage; 
+              push[steps, x]; 
+              var targetlangs = int[random[]*42]+1;
+              
+              while (targetlangs=targetlangs-1)
+              {
+                push[steps, eval["steps@-1$ -> "+getlang[]]]; 
+              };
+
+              push[steps, eval["steps@-1$ -> "+origlang]]; 
+              steps@-1$};
+tracemangle{} := {steps};
+} [];
+
+fil{x isa ...} := {error["FIL called, $x"]};
+
+"I shall eat a durian just to make you mad" -> DetectLanguage
+
