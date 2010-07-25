@@ -727,7 +727,7 @@ sub evalbranch
 #			}
 			else
 			{
-				error "Conformance error, Can't convert between <".($left->type($self))."> and <".($right->type($self)).">\n";
+				error "Conformance error, can't convert from ".($left->type($self))." to ".($right->type($self))."\n";
 			}
 		}
 		else

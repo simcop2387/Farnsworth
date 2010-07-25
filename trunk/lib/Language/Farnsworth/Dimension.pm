@@ -139,7 +139,7 @@ sub Dump
 	my $self = shift;
 	my $scope = shift;
 	my @returns;
-		
+	
 		#added a sort so its stable, i'll need this...
 		for my $d (sort {$a cmp $b} keys %{$self->{dimen}})
 		{
@@ -161,7 +161,11 @@ sub Dump
 			@returns = $combo;
 		}
 		
-		return join " ", @returns;
+		my $return =join " ", @returns;
+		
+		$return = "($return)"if ($return =~ /\s/);
+		 
+		return $return; 
 }
 
 sub findcombo
