@@ -7,7 +7,6 @@ use overload '""' => \&tostring;
 
 use Data::Dumper;
 use Date::Manip;
-use Carp qw(cluck carp confess);
 use Language::Farnsworth::Error;
 
 our %combos;
@@ -89,7 +88,7 @@ sub new
 
   #warn Dumper($self->{obj});
   die "Attempting to make output class of non Language::Farnsworth::Value" unless ref($self->{obj}) =~ /Language::Farnsworth::Value/;
-  confess "Forgot to add \$eval to params!" unless ref($self->{eval}) eq "Language::Farnsworth::Evaluate";
+  error "Forgot to add \$eval to params!" unless ref($self->{eval}) eq "Language::Farnsworth::Evaluate";
 
   bless $self;
 }
@@ -669,7 +668,7 @@ sub deparsetree
 
 sub makevalue
 {
-	confess "MAKEVALUE WAS CALLED!\n";
+	error "MAKEVALUE WAS CALLED!\n";
 }
 
 1;

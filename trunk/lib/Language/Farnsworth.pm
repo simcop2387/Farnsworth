@@ -2,7 +2,7 @@
 
 package Language::Farnsworth;
 
-our $VERSION = "0.7.2";
+our $VERSION = "0.7.3";
 
 use strict;
 use warnings;
@@ -15,8 +15,6 @@ use Language::Farnsworth::FunctionDispatch;
 use Language::Farnsworth::Variables;
 use Language::Farnsworth::Output;
 use Math::Pari;
-
-use Carp qw(croak);
 
 use Data::Dumper;
 

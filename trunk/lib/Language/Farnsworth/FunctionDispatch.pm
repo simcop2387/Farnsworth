@@ -9,8 +9,6 @@ use Language::Farnsworth::Variables;
 use Language::Farnsworth::Value::Array;
 use Language::Farnsworth::Error;
 
-use Carp;
-
 sub new
 {
 	my $self = {};

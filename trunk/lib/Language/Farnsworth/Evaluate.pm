@@ -6,7 +6,6 @@ use strict;
 use warnings;
 
 use Data::Dumper;
-use Carp;
 
 use Language::Farnsworth::FunctionDispatch;
 use Language::Farnsworth::Variables;
@@ -466,7 +465,7 @@ sub evalbranch
 			if ($reference)
 			{
 				#we've got a reference for lambdas!
-				carp "Passing arguments by reference for lambdas is unsupported at this time";
+				error "Passing arguments by reference for lambdas is unsupported at this time";
 			}
 
 			if (defined($default))

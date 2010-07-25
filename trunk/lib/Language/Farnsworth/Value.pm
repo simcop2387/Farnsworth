@@ -4,7 +4,7 @@ package Language::Farnsworth::Value;
 use strict;
 use warnings;
 
-use Carp;
+use Language::Farnsworth::Error;
 use Data::Dumper;
 
 use Scalar::Util qw/weaken/; 
