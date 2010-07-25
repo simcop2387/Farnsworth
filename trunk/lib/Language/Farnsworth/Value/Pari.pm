@@ -85,7 +85,9 @@ sub isvalueone
 
 sub type
 {
-	return Dumper $_[0]->{dimen}; #TODO: This should instead use the output code once it moves here.
+	my $self = shift;
+	my $scope = shift;
+	return $self->{dimen}->Dump($scope); #TODO: This should instead use the output code once it moves here.
 }
 
 #helpers for parsing hex, binary, and octal formats, could also extend support to others

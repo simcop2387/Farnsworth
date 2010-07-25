@@ -133,6 +133,31 @@ sub prune
 	return $self;
 }
 
+sub Dump
+{
+	my $self = shift;
+	my $scope = shift;
+	my @returns;
+		
+		#added a sort so its stable, i'll need this...
+		for my $d (sort {$a cmp $b} keys %{$self->{dimen}})
+		{
+			my $exp = "";
+			#print Dumper($dimen->{dimen}, $exp);
+			my $dv = "".($self->{dimen}{$d});
+			my $realdv = "".(0.0+$self->{dimen}{$d}); #use this for comparing below, that way i can keep rational exponents when possible
+
+			$dv =~ s/([.]\d+?)0+$/$1/;
+			$dv =~ s/E/e/; #make floating points clearer
+
+			$exp = "^".($dv =~ /^[\d\.]+$/? $dv :"(".$dv.")") unless ($realdv eq "1");
+			
+			push @returns, $scope->{units}->getdimen($d).$exp;
+		}
+		
+		return join " ", @returns;
+}
+
 1;
 
 # vim: filetype=perl
