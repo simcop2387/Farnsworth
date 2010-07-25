@@ -71,7 +71,7 @@ ARG:for my $argc (0..$#$argtypes)
 			#i need a default value!
 			if (!defined($argtypes->[$argc][1]) && defined($argtypes->[$argc][0])  && (defined($const) && ref($const) !~ /Language::Farnsworth::Value/ && $const ne "VarArg"))
 			{
-				die "Required argument $argc to function $name\[\] missing\n";
+				error "Required argument $argc to function $name\[\] missing\n";
 			}
 
 			$v = $argtypes->[$argc][1];
@@ -82,7 +82,7 @@ ARG:for my $argc (0..$#$argtypes)
 			#we have a constraint
 			if (!$v->conforms($const))
 			{
-				die "Constraint not met on argument $argc to $name\[\]\n";
+				error "Constraint not met on argument $argc to $name\[\]\n";
 			}
 		}
 		elsif (defined($const) && $const eq "VarArg")
@@ -140,8 +140,8 @@ sub callfunc
 	#print "Dumper of func: ".Dumper($fval);
 	#print "--------------------THAT IS ALL\n";
 
-	die "Function $name is not defined\n" unless defined($fval);
-	die "Number of arguments not correct to $name\[\]\n" unless $self->checkparams($args, $argtypes); #this should check....
+	error "Function $name is not defined\n" unless defined($fval);
+	error "Number of arguments not correct to $name\[\]\n" unless $self->checkparams($args, $argtypes); #this should check....
 
 #	print Dumper($args);
 
@@ -212,7 +212,7 @@ sub calllambda
 	my %nopts = (vars => $nvars, funcs => $self, units => $eval->{units}, parser => $eval->{parser});
 	my $neval = $eval->new(%nopts);
 
-	die "Number of arguments not correct to lambda\n" unless $self->checkparams($args, $argtypes); #this shoul
+	error "Number of arguments not correct to lambda\n" unless $self->checkparams($args, $argtypes); #this shoul
 
 	$self->setupargs($neval, $args, $argtypes, "lambda");
 	return $self->callbranch($neval, $fval);

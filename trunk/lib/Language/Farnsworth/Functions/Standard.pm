@@ -109,7 +109,7 @@ sub unit
 
 	if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{units}->isunit($branches->[1][0][0])))
 	{
-		die "First argument to unit[] must be a unit name";
+		error "First argument to unit[] must be a unit name";
 	}
 
 	my $unitvar = $eval->{units}->getunit($branches->[1][0][0]);
@@ -177,14 +177,14 @@ sub push
 	
 	if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{vars}->isvar($branches->[1][0][0])))
 	{
-		die "First argument to push must be a variable";
+		error "First argument to push must be a variable";
 	}
 
 	my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
 
 	unless (ref($arrayvar) eq "Language::Farnsworth::Value::Array")
 	{
-		die "First argument to push must be an array";
+		error "First argument to push must be an array";
 	}
 
 	#ok type checking is done, do the push!
@@ -206,14 +206,14 @@ sub unshift
 	
 	if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{vars}->isvar($branches->[1][0][0])))
 	{
-		die "First argument to push must be a variable";
+		error "First argument to push must be a variable";
 	}
 
 	my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
 
 	unless (ref($arrayvar) eq "Language::Farnsworth::Value::Array")
 	{
-		die "First argument to push must be an array";
+		error "First argument to push must be an array";
 	}
 
 	#ok type checking is done, do the push!
@@ -235,14 +235,14 @@ sub pop
 	
 	if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{vars}->isvar($branches->[1][0][0])))
 	{
-		die "Argument to pop must be a variable";
+		error "Argument to pop must be a variable";
 	}
 
 	my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
 
 	unless (ref($arrayvar) eq "Language::Farnsworth::Value::Array")
 	{
-		die "Argument to pop must be an array";
+		error "Argument to pop must be an array";
 	}
 
 	#ok type checking is done, do the pop
@@ -271,7 +271,7 @@ sub shift
 
 	unless (ref($var) eq "Language::Farnsworth::Value::Array")
 	{
-		die "Argument to shift must be an array";
+		error "Argument to shift must be an array";
 	}
 
 	#ok type checking is done, do the pop
@@ -365,7 +365,7 @@ sub substrlen
 	}
 	else
 	{
-		die "substr and friends only works on strings";
+		error "substr and friends only works on strings";
 	}
 }
 

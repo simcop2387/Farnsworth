@@ -53,7 +53,7 @@ sub setdisplay
 	}
 	else
 	{
-		die "No such dimension/combination as $name\n";
+		error "No such dimension/combination as $name\n";
 	}
 }
 
@@ -87,7 +87,7 @@ sub new
   $self->{eval} = shift;
 
   #warn Dumper($self->{obj});
-  die "Attempting to make output class of non Language::Farnsworth::Value" unless ref($self->{obj}) =~ /Language::Farnsworth::Value/;
+  error "Attempting to make output class of non Language::Farnsworth::Value" unless ref($self->{obj}) =~ /Language::Farnsworth::Value/;
   error "Forgot to add \$eval to params!" unless ref($self->{eval}) eq "Language::Farnsworth::Evaluate";
 
   bless $self;
@@ -128,7 +128,7 @@ sub getoutstring
 		else
 		{
 			print Dumper($value);
-			die "Unhandled output magic, this IS A BUG!";
+			error "Unhandled output magic, this IS A BUG!";
 		}
 	}
 	elsif (ref($value) eq "Language::Farnsworth::Value::Boolean")

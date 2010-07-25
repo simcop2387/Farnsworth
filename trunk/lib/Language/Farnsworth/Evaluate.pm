@@ -793,7 +793,7 @@ sub makevalue
 			return $self->{units}->getunit($name);
 		}
 		
-		die "Undefined symbol '$name'\n";
+		error "Undefined symbol '$name'\n";
 	}
 	elsif (ref($input) eq "String") #we've got a string that should be a value!
 	{
