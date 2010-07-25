@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Data::Dumper;
+use Language::Farnsworth::Output;
 
 use List::MoreUtils qw(uniq);
 
@@ -155,7 +156,30 @@ sub Dump
 			push @returns, $scope->{units}->getdimen($d).$exp;
 		}
 		
+		if (my $combo = $self->findcombo($scope)) #this should be a method?
+		{
+			@returns = $combo;
+		}
+		
 		return join " ", @returns;
+}
+
+sub findcombo
+{
+	my $self = shift;
+	my $scope = shift;
+
+	#HACK: THIS NEEDS TO MOVE SOMEWHERE MORE APPROPRIATE AS I DEPRECIATE THE OUTPUT CLASS!
+    my $combos = \%Language::Farnsworth::Output::combos;
+
+	for my $combo (keys %$combos)
+	{
+		#print "TRY COMBO: $combo\n";
+		my $cv = $combos->{$combo}; #grab the value
+		return $combo if ($self->compare($cv->getdimen()));
+	}
+
+	return undef; #none found
 }
 
 1;
