@@ -90,7 +90,17 @@ sub eval
 
 	debug 3, Dumper($tree);
 
-    $self->evalbranch($tree);
+    my $ret = eval{$self->evalbranch($tree)};
+    
+    #capture return[] at minimum level
+    if ($@ && $@->isa("Language::Farnsworth::Error")&&$@->isreturn())
+    {
+    	return $@->getmsg();
+    }
+    else
+    {
+    	return $ret;
+    }
 }
 
 #evaluate a single branch

@@ -46,6 +46,7 @@ sub init
    $env->{funcs}->addfunc("unit", [["in", undef, undef, 0]], \&unit);
    $env->{funcs}->addfunc("units", [["in", undef, undef, 0]], \&units);
    $env->{funcs}->addfunc("error", [["in", undef, TYPE_STRING, 0]], \&doerror);
+   $env->{funcs}->addfunc("return", [["in", undef, undef, 0]], \&doreturn);
    $env->{funcs}->addfunc("match", [["regex", undef, TYPE_STRING, 0], ["input", undef, TYPE_STRING, 0], ["options",TYPE_STRING,TYPE_STRING, 0]], \&match);
 
    $env->eval('max{x isa ...} := {var z; if (length[x] == 1 && x@0$ conforms []) {z = x@0$} else {z=x}; var n = length[z]; var m=z@0$; var q; while((n=n-1)>=0){q=z@n$; q>m?m=q:0}; m}'); 
@@ -60,6 +61,16 @@ sub doerror
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
 	error $input->getstring();
+}
+
+sub doreturn
+{
+	#with an array we give the number of elements, with a string we give the length of the string
+	my ($args, $eval, $branches)= @_;
+
+	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
+
+	farnsreturn $input;
 }
 
 sub match
@@ -102,6 +113,7 @@ sub setzone
 
 sub unit
 {
+	#this code needs to be removed, and turned into an operator, its working in the wrong level all together.
 	#args is... a Language::Farnsworth::Value array
 	my ($args, $eval, $branches)= @_;
 	

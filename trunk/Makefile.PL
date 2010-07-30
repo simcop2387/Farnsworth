@@ -18,6 +18,7 @@ requires 'List::MoreUtils' => 0;
 requires 'DateTimeX::Easy' => 0;
 requires 'DateTime' => 0;
 requires 'Math::Pari' => 0;
+requires 'enum' => 0;
 
 test_requires 'Test::More' => 0;
 test_requires 'Test::Exception' => 0;

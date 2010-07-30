@@ -187,8 +187,8 @@ sub callfunc
 	}
 	else
 	{
-		#we have a code ref, so we need to call it
-		return $fval->($args, $neval, $branches, $eval);
+		#we have a code ref, so we need to call it, we use perlwrap{} to capture
+		return perlwrap {$fval->($args, $neval, $branches, $eval)};
 	}
 }
 
@@ -230,7 +230,27 @@ sub callbranch
 #	print $name if defined $name;
 #	print " :: $eval\n";
 
-	return $eval->evalbranch($branches);
+    my $return = eval {$eval->evalbranch($branches)};
+    #warn Dumper($@);
+    if (ref($@) && $@->isa("Language::Farnsworth::Error"))
+    {
+    	#warn Dumper($@->isreturn);
+    	if ($@->isreturn)
+    	{
+    		return $@->getmsg();
+    	}
+    	else
+    	{   #redie the error
+    		die $@;
+    	}
+    }
+    elsif ($@)
+    {
+    	warn "Unhandled perl exception!!!!!!";
+    	error EPERL, $@;
+    }
+    
+	return $return;
 }
 
 #this was supposed to be the checks for types and such, but now its something else entirely, mostly

@@ -1,24 +1,26 @@
 # This Makefile is for the Language::Farnsworth extension to perl.
 #
 # It was generated automatically by MakeMaker version
-# 6.42 (Revision: 41145) from the contents of
+# 6.56 (Revision: 65600) from the contents of
 # Makefile.PL. Don't edit this file, edit Makefile.PL instead.
 #
 #       ANY CHANGES MADE HERE WILL BE LOST!
 #
 #   MakeMaker ARGV: ()
 #
+
 #   MakeMaker Parameters:
 
 #     ABSTRACT => q[A Turing Complete Language for Mathematics]
-#     AUTHOR => q[Ryan Voots <simcop@cpan.org>]
+#     AUTHOR => q[Ryan Voots <L<simcop@cpan.org>>]
+#     BUILD_REQUIRES => {  }
 #     DIR => []
 #     DISTNAME => q[Language-Farnsworth]
 #     NAME => q[Language::Farnsworth]
 #     NO_META => q[1]
 #     PL_FILES => {  }
-#     PREREQ_PM => { Math::Pari=>q[0], DateTime=>q[0], Test::More=>q[0], Test::Exception=>q[0], ExtUtils::MakeMaker=>q[6.42], DateTimeX::Easy=>q[0], List::MoreUtils=>q[0] }
-#     VERSION => q[0.6.0]
+#     PREREQ_PM => { Test::More=>q[0], DateTime=>q[0], Math::Pari=>q[0], Test::Exception=>q[0], ExtUtils::MakeMaker=>q[6.42], List::MoreUtils=>q[0], DateTimeX::Easy=>q[0] }
+#     VERSION => q[0.7.2]
 #     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
 #     realclean => { FILES=>q[MYMETA.yml] }
 
@@ -27,31 +29,30 @@
 
 # --- MakeMaker const_config section:
 
-# These definitions are from config.sh (via /usr/lib/perl5/5.10.0/x86_64-linux-thread-multi/Config.pm)
-
-# They may have been overridden via Makefile.PL or on the command line
+# These definitions are from config.sh (via /usr/lib64/perl5/5.10.1/x86_64-linux-thread-multi/Config.pm).
+# They may have been overridden via Makefile.PL or on the command line.
 AR = ar
 CC = x86_64-pc-linux-gnu-gcc
 CCCDLFLAGS = -fPIC
-CCDLFLAGS = -rdynamic
+CCDLFLAGS = -Wl,-E
 DLEXT = so
 DLSRC = dl_dlopen.xs
 EXE_EXT = 
 FULL_AR = /usr/bin/ar
 LD = x86_64-pc-linux-gnu-gcc
-LDDLFLAGS = -shared -march=athlon64-sse3 -O2 -ftree-vectorize -msse -msse2 -mmmx -m3dnow -msse3 -pipe -ggdb
-LDFLAGS = 
-LIBC = /lib/libc-2.10.1.so
+LDDLFLAGS = -shared -march=native -O2 -ftree-vectorize -msse -msse2 -mmmx -m3dnow -msse3 -pipe -ggdb -fstack-protector
+LDFLAGS =  -fstack-protector
+LIBC = /lib/libc-2.11.so
 LIB_EXT = .a
 OBJ_EXT = .o
 OSNAME = linux
-OSVERS = 2.6.30-gentoo-r4
+OSVERS = 2.6.31-gentoo-r6
 RANLIB = :
-SITELIBEXP = /usr/lib/perl5/site_perl/5.10.0
-SITEARCHEXP = /usr/lib/perl5/site_perl/5.10.0/x86_64-linux-thread-multi
+SITELIBEXP = /usr/lib64/perl5/site_perl/5.10.1
+SITEARCHEXP = /usr/lib64/perl5/site_perl/5.10.1/x86_64-linux-thread-multi
 SO = so
-VENDORARCHEXP = /usr/lib/perl5/vendor_perl/5.10.0/x86_64-linux-thread-multi
-VENDORLIBEXP = /usr/lib/perl5/vendor_perl/5.10.0
+VENDORARCHEXP = /usr/lib64/perl5/vendor_perl/5.10.1/x86_64-linux-thread-multi
+VENDORLIBEXP = /usr/lib64/perl5/vendor_perl/5.10.1
 
 
 # --- MakeMaker constants section:
@@ -60,11 +61,11 @@ DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
 NAME = Language::Farnsworth
 NAME_SYM = Language_Farnsworth
-VERSION = 0.6.0
+VERSION = 0.7.2
 VERSION_MACRO = VERSION
-VERSION_SYM = 0_6_0
+VERSION_SYM = 0_7_2
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = 0.6.0
+XS_VERSION = 0.7.2
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -74,24 +75,24 @@ INST_LIB = blib/lib
 INST_MAN1DIR = blib/man1
 INST_MAN3DIR = blib/man3
 MAN1EXT = 1
-MAN3EXT = 3pm
+MAN3EXT = 3
 INSTALLDIRS = site
 DESTDIR = 
 PREFIX = $(SITEPREFIX)
 PERLPREFIX = /usr
 SITEPREFIX = /usr
 VENDORPREFIX = /usr
-INSTALLPRIVLIB = /usr/lib/perl5/5.10.0
+INSTALLPRIVLIB = /usr/lib64/perl5/5.10.1
 DESTINSTALLPRIVLIB = $(DESTDIR)$(INSTALLPRIVLIB)
-INSTALLSITELIB = /usr/lib/perl5/site_perl/5.10.0
+INSTALLSITELIB = /usr/lib64/perl5/site_perl/5.10.1
 DESTINSTALLSITELIB = $(DESTDIR)$(INSTALLSITELIB)
-INSTALLVENDORLIB = /usr/lib/perl5/vendor_perl/5.10.0
+INSTALLVENDORLIB = /usr/lib64/perl5/vendor_perl/5.10.1
 DESTINSTALLVENDORLIB = $(DESTDIR)$(INSTALLVENDORLIB)
-INSTALLARCHLIB = /usr/lib/perl5/5.10.0/x86_64-linux-thread-multi
+INSTALLARCHLIB = /usr/lib64/perl5/5.10.1/x86_64-linux-thread-multi
 DESTINSTALLARCHLIB = $(DESTDIR)$(INSTALLARCHLIB)
-INSTALLSITEARCH = /usr/lib/perl5/site_perl/5.10.0/x86_64-linux-thread-multi
+INSTALLSITEARCH = /usr/lib64/perl5/site_perl/5.10.1/x86_64-linux-thread-multi
 DESTINSTALLSITEARCH = $(DESTDIR)$(INSTALLSITEARCH)
-INSTALLVENDORARCH = /usr/lib/perl5/vendor_perl/5.10.0/x86_64-linux-thread-multi
+INSTALLVENDORARCH = /usr/lib64/perl5/vendor_perl/5.10.1/x86_64-linux-thread-multi
 DESTINSTALLVENDORARCH = $(DESTDIR)$(INSTALLVENDORARCH)
 INSTALLBIN = /usr/bin
 DESTINSTALLBIN = $(DESTDIR)$(INSTALLBIN)
@@ -118,15 +119,15 @@ DESTINSTALLSITEMAN3DIR = $(DESTDIR)$(INSTALLSITEMAN3DIR)
 INSTALLVENDORMAN3DIR = /usr/share/man/man3
 DESTINSTALLVENDORMAN3DIR = $(DESTDIR)$(INSTALLVENDORMAN3DIR)
 PERL_LIB =
-PERL_ARCHLIB = /usr/lib/perl5/5.10.0/x86_64-linux-thread-multi
+PERL_ARCHLIB = /usr/lib64/perl5/5.10.1/x86_64-linux-thread-multi
 LIBPERL_A = libperl.a
 FIRST_MAKEFILE = Makefile
 MAKEFILE_OLD = Makefile.old
 MAKE_APERL_FILE = Makefile.aperl
 PERLMAINCC = $(CC)
-PERL_INC = /usr/lib/perl5/5.10.0/x86_64-linux-thread-multi/CORE
-PERL = /usr/bin/perl5.10.0 "-Iinc"
-FULLPERL = /usr/bin/perl5.10.0 "-Iinc"
+PERL_INC = /usr/lib64/perl5/5.10.1/x86_64-linux-thread-multi/CORE
+PERL = /usr/bin/perl5.10.1 "-Iinc"
+FULLPERL = /usr/bin/perl5.10.1 "-Iinc"
 ABSPERL = $(PERL)
 PERLRUN = $(PERL)
 FULLPERLRUN = $(FULLPERL)
@@ -135,12 +136,13 @@ PERLRUNINST = $(PERLRUN) "-I$(INST_ARCHLIB)" "-Iinc" "-I$(INST_LIB)"
 FULLPERLRUNINST = $(FULLPERLRUN) "-I$(INST_ARCHLIB)" "-Iinc" "-I$(INST_LIB)"
 ABSPERLRUNINST = $(ABSPERLRUN) "-I$(INST_ARCHLIB)" "-Iinc" "-I$(INST_LIB)"
 PERL_CORE = 0
+PERM_DIR = 755
 PERM_RW = 644
 PERM_RWX = 755
 
-MAKEMAKER   = /usr/lib/perl5/5.10.0/ExtUtils/MakeMaker.pm
-MM_VERSION  = 6.42
-MM_REVISION = 41145
+MAKEMAKER   = /usr/lib64/perl5/site_perl/5.10.1/ExtUtils/MakeMaker.pm
+MM_VERSION  = 6.56
+MM_REVISION = 65600
 
 # FULLEXT = Pathname for extension directory (eg Foo/Bar/Oracle).
 # BASEEXT = Basename part of FULLEXT. May be just equal FULLEXT. (eg Oracle)
@@ -166,6 +168,8 @@ MAN1PODS =
 MAN3PODS = lib/Language/Farnsworth.pm \
 	lib/Language/Farnsworth/Docs/Functions.pm \
 	lib/Language/Farnsworth/Docs/Syntax.pm \
+	lib/Language/Farnsworth/Error.pm \
+	lib/Language/Farnsworth/Evaluate.pm \
 	lib/Language/Farnsworth/Output.pm
 
 # Where is the Config information that we are using/depend on
@@ -188,218 +192,107 @@ PERL_ARCHIVE       =
 PERL_ARCHIVE_AFTER = 
 
 
-TO_INST_PM = bot2.pl \
-	botmag.pl \
-	botriz.pl \
-	farnsworth.pl \
+TO_INST_PM = farnsworth.pl \
 	lib/Language/Farnsworth.pm \
-	lib/Language/Farnsworth.pm.bak \
 	lib/Language/Farnsworth/Dimension.pm \
-	lib/Language/Farnsworth/Dimension.pm.bak \
 	lib/Language/Farnsworth/Docs/Functions.pm \
-	lib/Language/Farnsworth/Docs/Functions.pm.bak \
 	lib/Language/Farnsworth/Docs/Syntax.pm \
-	lib/Language/Farnsworth/Docs/Syntax.pm.bak \
 	lib/Language/Farnsworth/Error.pm \
-	lib/Language/Farnsworth/Error.pm.bak \
 	lib/Language/Farnsworth/Evaluate.pm \
-	lib/Language/Farnsworth/Evaluate.pm.bak \
 	lib/Language/Farnsworth/FunctionDispatch.pm \
-	lib/Language/Farnsworth/FunctionDispatch.pm.bak \
-	lib/Language/Farnsworth/Functions/GoogleTranslate.pm \
-	lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak \
-	lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak.bak \
+	lib/Language/Farnsworth/Functions/Algebra.pm \
+	lib/Language/Farnsworth/Functions/Calculus.pm \
 	lib/Language/Farnsworth/Functions/Standard.pm \
-	lib/Language/Farnsworth/Functions/Standard.pm.bak \
-	lib/Language/Farnsworth/Functions/Standard.pm.bak.bak \
 	lib/Language/Farnsworth/Functions/StdMath.pm \
-	lib/Language/Farnsworth/Functions/StdMath.pm.bak \
-	lib/Language/Farnsworth/Functions/StdMath.pm.bak.bak \
 	lib/Language/Farnsworth/Output.pm \
-	lib/Language/Farnsworth/Output.pm.bak \
 	lib/Language/Farnsworth/Parser.pm \
-	lib/Language/Farnsworth/Parser.pm.bak \
+	lib/Language/Farnsworth/Parser/Extra.pm \
 	lib/Language/Farnsworth/Units.pm \
-	lib/Language/Farnsworth/Units.pm.bak \
 	lib/Language/Farnsworth/Units/Currency.pm \
-	lib/Language/Farnsworth/Units/Currency.pm.bak \
 	lib/Language/Farnsworth/Units/Pi10-6.html \
-	lib/Language/Farnsworth/Units/Pi10-6.html.bak \
 	lib/Language/Farnsworth/Units/Standard.pm \
-	lib/Language/Farnsworth/Units/Standard.pm.bak \
 	lib/Language/Farnsworth/Units/e.2mil \
-	lib/Language/Farnsworth/Units/e.2mil.bak \
 	lib/Language/Farnsworth/Value.pm \
-	lib/Language/Farnsworth/Value.pm.bak \
 	lib/Language/Farnsworth/Value/Array.pm \
-	lib/Language/Farnsworth/Value/Array.pm.bak \
 	lib/Language/Farnsworth/Value/Boolean.pm \
-	lib/Language/Farnsworth/Value/Boolean.pm.bak \
 	lib/Language/Farnsworth/Value/Date.pm \
-	lib/Language/Farnsworth/Value/Date.pm.bak \
 	lib/Language/Farnsworth/Value/Lambda.pm \
-	lib/Language/Farnsworth/Value/Lambda.pm.bak \
 	lib/Language/Farnsworth/Value/NewValue.pm \
-	lib/Language/Farnsworth/Value/NewValue.pm.bak \
 	lib/Language/Farnsworth/Value/Pari.pm \
-	lib/Language/Farnsworth/Value/Pari.pm.bak \
 	lib/Language/Farnsworth/Value/String.pm \
-	lib/Language/Farnsworth/Value/String.pm.bak \
+	lib/Language/Farnsworth/Value/Types.pm \
 	lib/Language/Farnsworth/Value/Undef.pm \
-	lib/Language/Farnsworth/Value/Undef.pm.bak \
 	lib/Language/Farnsworth/Value_old.pm \
-	lib/Language/Farnsworth/Value_old.pm.bak \
-	lib/Language/Farnsworth/Variables.pm \
-	lib/Language/Farnsworth/Variables.pm.bak \
-	loadunits.pl \
-	maukes.pl \
-	mgr.pl \
-	paritest.pl \
-	server.pl \
-	temp.pl
+	lib/Language/Farnsworth/Variables.pm
 
 PM_TO_BLIB = lib/Language/Farnsworth/Parser.pm \
 	blib/lib/Language/Farnsworth/Parser.pm \
 	lib/Language/Farnsworth/Evaluate.pm \
 	blib/lib/Language/Farnsworth/Evaluate.pm \
-	lib/Language/Farnsworth/Value/Boolean.pm.bak \
-	blib/lib/Language/Farnsworth/Value/Boolean.pm.bak \
+	lib/Language/Farnsworth/Value/Types.pm \
+	blib/lib/Language/Farnsworth/Value/Types.pm \
 	lib/Language/Farnsworth/Value/NewValue.pm \
 	blib/lib/Language/Farnsworth/Value/NewValue.pm \
-	lib/Language/Farnsworth/Functions/Standard.pm.bak.bak \
-	blib/lib/Language/Farnsworth/Functions/Standard.pm.bak.bak \
+	lib/Language/Farnsworth/Value.pm \
+	blib/lib/Language/Farnsworth/Value.pm \
 	lib/Language/Farnsworth/Units/Standard.pm \
 	blib/lib/Language/Farnsworth/Units/Standard.pm \
-	lib/Language/Farnsworth/Value/NewValue.pm.bak \
-	blib/lib/Language/Farnsworth/Value/NewValue.pm.bak \
-	lib/Language/Farnsworth/Docs/Syntax.pm.bak \
-	blib/lib/Language/Farnsworth/Docs/Syntax.pm.bak \
+	lib/Language/Farnsworth/Variables.pm \
+	blib/lib/Language/Farnsworth/Variables.pm \
+	lib/Language/Farnsworth/Value/Undef.pm \
+	blib/lib/Language/Farnsworth/Value/Undef.pm \
 	lib/Language/Farnsworth.pm \
 	blib/lib/Language/Farnsworth.pm \
-	lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak.bak \
-	blib/lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak.bak \
-	lib/Language/Farnsworth/Output.pm.bak \
-	blib/lib/Language/Farnsworth/Output.pm.bak \
-	lib/Language/Farnsworth/Error.pm.bak \
-	blib/lib/Language/Farnsworth/Error.pm.bak \
-	bot2.pl \
-	$(INST_LIB)/Language/bot2.pl \
-	mgr.pl \
-	$(INST_LIB)/Language/mgr.pl \
-	lib/Language/Farnsworth/Value/Array.pm.bak \
-	blib/lib/Language/Farnsworth/Value/Array.pm.bak \
+	lib/Language/Farnsworth/Docs/Functions.pm \
+	blib/lib/Language/Farnsworth/Docs/Functions.pm \
+	lib/Language/Farnsworth/Units/Currency.pm \
+	blib/lib/Language/Farnsworth/Units/Currency.pm \
+	lib/Language/Farnsworth/Value/Pari.pm \
+	blib/lib/Language/Farnsworth/Value/Pari.pm \
+	lib/Language/Farnsworth/Dimension.pm \
+	blib/lib/Language/Farnsworth/Dimension.pm \
+	lib/Language/Farnsworth/Value/Boolean.pm \
+	blib/lib/Language/Farnsworth/Value/Boolean.pm \
+	lib/Language/Farnsworth/Parser/Extra.pm \
+	blib/lib/Language/Farnsworth/Parser/Extra.pm \
 	lib/Language/Farnsworth/Units/e.2mil \
 	blib/lib/Language/Farnsworth/Units/e.2mil \
-	lib/Language/Farnsworth/Value/Date.pm.bak \
-	blib/lib/Language/Farnsworth/Value/Date.pm.bak \
-	lib/Language/Farnsworth/Functions/GoogleTranslate.pm \
-	blib/lib/Language/Farnsworth/Functions/GoogleTranslate.pm \
 	lib/Language/Farnsworth/Units/Pi10-6.html \
 	blib/lib/Language/Farnsworth/Units/Pi10-6.html \
 	lib/Language/Farnsworth/Functions/Standard.pm \
 	blib/lib/Language/Farnsworth/Functions/Standard.pm \
+	lib/Language/Farnsworth/Functions/Algebra.pm \
+	blib/lib/Language/Farnsworth/Functions/Algebra.pm \
 	lib/Language/Farnsworth/Value/Date.pm \
 	blib/lib/Language/Farnsworth/Value/Date.pm \
-	lib/Language/Farnsworth/Units/e.2mil.bak \
-	blib/lib/Language/Farnsworth/Units/e.2mil.bak \
 	lib/Language/Farnsworth/Value/Lambda.pm \
 	blib/lib/Language/Farnsworth/Value/Lambda.pm \
-	lib/Language/Farnsworth/Docs/Functions.pm.bak \
-	blib/lib/Language/Farnsworth/Docs/Functions.pm.bak \
-	lib/Language/Farnsworth/Value_old.pm.bak \
-	blib/lib/Language/Farnsworth/Value_old.pm.bak \
 	lib/Language/Farnsworth/Value_old.pm \
 	blib/lib/Language/Farnsworth/Value_old.pm \
+	lib/Language/Farnsworth/Functions/Calculus.pm \
+	blib/lib/Language/Farnsworth/Functions/Calculus.pm \
 	lib/Language/Farnsworth/Functions/StdMath.pm \
 	blib/lib/Language/Farnsworth/Functions/StdMath.pm \
-	lib/Language/Farnsworth/Dimension.pm.bak \
-	blib/lib/Language/Farnsworth/Dimension.pm.bak \
-	lib/Language/Farnsworth.pm.bak \
-	blib/lib/Language/Farnsworth.pm.bak \
-	lib/Language/Farnsworth/Value/Pari.pm.bak \
-	blib/lib/Language/Farnsworth/Value/Pari.pm.bak \
+	lib/Language/Farnsworth/Value/String.pm \
+	blib/lib/Language/Farnsworth/Value/String.pm \
+	lib/Language/Farnsworth/Value/Array.pm \
+	blib/lib/Language/Farnsworth/Value/Array.pm \
 	lib/Language/Farnsworth/Output.pm \
 	blib/lib/Language/Farnsworth/Output.pm \
 	lib/Language/Farnsworth/Docs/Syntax.pm \
 	blib/lib/Language/Farnsworth/Docs/Syntax.pm \
 	lib/Language/Farnsworth/Units.pm \
 	blib/lib/Language/Farnsworth/Units.pm \
-	botriz.pl \
-	$(INST_LIB)/Language/botriz.pl \
 	lib/Language/Farnsworth/Error.pm \
 	blib/lib/Language/Farnsworth/Error.pm \
-	lib/Language/Farnsworth/FunctionDispatch.pm.bak \
-	blib/lib/Language/Farnsworth/FunctionDispatch.pm.bak \
-	lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak \
-	blib/lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak \
-	paritest.pl \
-	$(INST_LIB)/Language/paritest.pl \
-	lib/Language/Farnsworth/Units/Standard.pm.bak \
-	blib/lib/Language/Farnsworth/Units/Standard.pm.bak \
-	lib/Language/Farnsworth/Functions/StdMath.pm.bak.bak \
-	blib/lib/Language/Farnsworth/Functions/StdMath.pm.bak.bak \
-	lib/Language/Farnsworth/Value.pm \
-	blib/lib/Language/Farnsworth/Value.pm \
-	lib/Language/Farnsworth/Variables.pm \
-	blib/lib/Language/Farnsworth/Variables.pm \
-	lib/Language/Farnsworth/Value/Undef.pm \
-	blib/lib/Language/Farnsworth/Value/Undef.pm \
-	lib/Language/Farnsworth/Functions/Standard.pm.bak \
-	blib/lib/Language/Farnsworth/Functions/Standard.pm.bak \
-	maukes.pl \
-	$(INST_LIB)/Language/maukes.pl \
-	server.pl \
-	$(INST_LIB)/Language/server.pl \
-	lib/Language/Farnsworth/Docs/Functions.pm \
-	blib/lib/Language/Farnsworth/Docs/Functions.pm \
-	lib/Language/Farnsworth/Value/String.pm.bak \
-	blib/lib/Language/Farnsworth/Value/String.pm.bak \
-	lib/Language/Farnsworth/Variables.pm.bak \
-	blib/lib/Language/Farnsworth/Variables.pm.bak \
-	lib/Language/Farnsworth/Value.pm.bak \
-	blib/lib/Language/Farnsworth/Value.pm.bak \
-	lib/Language/Farnsworth/Value/Undef.pm.bak \
-	blib/lib/Language/Farnsworth/Value/Undef.pm.bak \
-	lib/Language/Farnsworth/Units/Currency.pm \
-	blib/lib/Language/Farnsworth/Units/Currency.pm \
-	lib/Language/Farnsworth/Evaluate.pm.bak \
-	blib/lib/Language/Farnsworth/Evaluate.pm.bak \
-	lib/Language/Farnsworth/Value/Pari.pm \
-	blib/lib/Language/Farnsworth/Value/Pari.pm \
-	lib/Language/Farnsworth/Units/Pi10-6.html.bak \
-	blib/lib/Language/Farnsworth/Units/Pi10-6.html.bak \
-	lib/Language/Farnsworth/Units.pm.bak \
-	blib/lib/Language/Farnsworth/Units.pm.bak \
-	lib/Language/Farnsworth/Dimension.pm \
-	blib/lib/Language/Farnsworth/Dimension.pm \
-	botmag.pl \
-	$(INST_LIB)/Language/botmag.pl \
-	lib/Language/Farnsworth/Value/Boolean.pm \
-	blib/lib/Language/Farnsworth/Value/Boolean.pm \
-	lib/Language/Farnsworth/Parser.pm.bak \
-	blib/lib/Language/Farnsworth/Parser.pm.bak \
-	loadunits.pl \
-	$(INST_LIB)/Language/loadunits.pl \
-	lib/Language/Farnsworth/Value/String.pm \
-	blib/lib/Language/Farnsworth/Value/String.pm \
-	temp.pl \
-	$(INST_LIB)/Language/temp.pl \
-	lib/Language/Farnsworth/Value/Array.pm \
-	blib/lib/Language/Farnsworth/Value/Array.pm \
-	lib/Language/Farnsworth/Functions/StdMath.pm.bak \
-	blib/lib/Language/Farnsworth/Functions/StdMath.pm.bak \
-	lib/Language/Farnsworth/Units/Currency.pm.bak \
-	blib/lib/Language/Farnsworth/Units/Currency.pm.bak \
-	lib/Language/Farnsworth/Value/Lambda.pm.bak \
-	blib/lib/Language/Farnsworth/Value/Lambda.pm.bak \
-	lib/Language/Farnsworth/FunctionDispatch.pm \
-	blib/lib/Language/Farnsworth/FunctionDispatch.pm \
 	farnsworth.pl \
-	$(INST_LIB)/Language/farnsworth.pl
+	$(INST_LIB)/Language/farnsworth.pl \
+	lib/Language/Farnsworth/FunctionDispatch.pm \
+	blib/lib/Language/Farnsworth/FunctionDispatch.pm
 
 
 # --- MakeMaker platform_constants section:
-MM_Unix_VERSION = 6.42
+MM_Unix_VERSION = 6.56
 PERL_MALLOC_DEF = -DPERL_EXTMALLOC_DEF -Dmalloc=Perl_malloc -Dfree=Perl_mfree -Drealloc=Perl_realloc -Dcalloc=Perl_calloc
 
 
@@ -417,7 +310,7 @@ SHELL = /bin/sh
 CHMOD = chmod
 CP = cp
 MV = mv
-NOOP = $(SHELL) -c true
+NOOP = $(TRUE)
 NOECHO = @
 RM_F = rm -f
 RM_RF = rm -rf
@@ -425,20 +318,22 @@ TEST_F = test -f
 TOUCH = touch
 UMASK_NULL = umask 0
 DEV_NULL = > /dev/null 2>&1
-MKPATH = $(ABSPERLRUN) "-MExtUtils::Command" -e mkpath
-EQUALIZE_TIMESTAMP = $(ABSPERLRUN) "-MExtUtils::Command" -e eqtime
+MKPATH = $(ABSPERLRUN) -MExtUtils::Command -e 'mkpath' --
+EQUALIZE_TIMESTAMP = $(ABSPERLRUN) -MExtUtils::Command -e 'eqtime' --
+FALSE = false
+TRUE = true
 ECHO = echo
 ECHO_N = echo -n
 UNINST = 0
 VERBINST = 0
-MOD_INSTALL = $(ABSPERLRUN) -MExtUtils::Install -e 'install({@ARGV}, '\''$(VERBINST)'\'', 0, '\''$(UNINST)'\'');' --
-DOC_INSTALL = $(ABSPERLRUN) "-MExtUtils::Command::MM" -e perllocal_install
-UNINSTALL = $(ABSPERLRUN) "-MExtUtils::Command::MM" -e uninstall
-WARN_IF_OLD_PACKLIST = $(ABSPERLRUN) "-MExtUtils::Command::MM" -e warn_if_old_packlist
+MOD_INSTALL = $(ABSPERLRUN) -MExtUtils::Install -e 'install([ from_to => {@ARGV}, verbose => '\''$(VERBINST)'\'', uninstall_shadows => '\''$(UNINST)'\'', dir_mode => '\''$(PERM_DIR)'\'' ]);' --
+DOC_INSTALL = $(ABSPERLRUN) -MExtUtils::Command::MM -e 'perllocal_install' --
+UNINSTALL = $(ABSPERLRUN) -MExtUtils::Command::MM -e 'uninstall' --
+WARN_IF_OLD_PACKLIST = $(ABSPERLRUN) -MExtUtils::Command::MM -e 'warn_if_old_packlist' --
 MACROSTART = 
 MACROEND = 
 USEMAKEFILE = -f
-FIXIN = $(PERLRUN) "-MExtUtils::MY" -e "MY->fixin(shift)"
+FIXIN = $(ABSPERLRUN) -MExtUtils::MY -e 'MY->fixin(shift)' --
 
 
 # --- MakeMaker makemakerdflt section:
@@ -462,7 +357,7 @@ RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
 DISTNAME = Language-Farnsworth
-DISTVNAME = Language-Farnsworth-0.6.0
+DISTVNAME = Language-Farnsworth-0.7.2
 
 
 # --- MakeMaker macro section:
@@ -534,42 +429,42 @@ blibdirs.ts : blibdirs
 
 $(INST_LIBDIR)$(DFSEP).exists :: Makefile.PL
 	$(NOECHO) $(MKPATH) $(INST_LIBDIR)
-	$(NOECHO) $(CHMOD) 755 $(INST_LIBDIR)
+	$(NOECHO) $(CHMOD) $(PERM_DIR) $(INST_LIBDIR)
 	$(NOECHO) $(TOUCH) $(INST_LIBDIR)$(DFSEP).exists
 
 $(INST_ARCHLIB)$(DFSEP).exists :: Makefile.PL
 	$(NOECHO) $(MKPATH) $(INST_ARCHLIB)
-	$(NOECHO) $(CHMOD) 755 $(INST_ARCHLIB)
+	$(NOECHO) $(CHMOD) $(PERM_DIR) $(INST_ARCHLIB)
 	$(NOECHO) $(TOUCH) $(INST_ARCHLIB)$(DFSEP).exists
 
 $(INST_AUTODIR)$(DFSEP).exists :: Makefile.PL
 	$(NOECHO) $(MKPATH) $(INST_AUTODIR)
-	$(NOECHO) $(CHMOD) 755 $(INST_AUTODIR)
+	$(NOECHO) $(CHMOD) $(PERM_DIR) $(INST_AUTODIR)
 	$(NOECHO) $(TOUCH) $(INST_AUTODIR)$(DFSEP).exists
 
 $(INST_ARCHAUTODIR)$(DFSEP).exists :: Makefile.PL
 	$(NOECHO) $(MKPATH) $(INST_ARCHAUTODIR)
-	$(NOECHO) $(CHMOD) 755 $(INST_ARCHAUTODIR)
+	$(NOECHO) $(CHMOD) $(PERM_DIR) $(INST_ARCHAUTODIR)
 	$(NOECHO) $(TOUCH) $(INST_ARCHAUTODIR)$(DFSEP).exists
 
 $(INST_BIN)$(DFSEP).exists :: Makefile.PL
 	$(NOECHO) $(MKPATH) $(INST_BIN)
-	$(NOECHO) $(CHMOD) 755 $(INST_BIN)
+	$(NOECHO) $(CHMOD) $(PERM_DIR) $(INST_BIN)
 	$(NOECHO) $(TOUCH) $(INST_BIN)$(DFSEP).exists
 
 $(INST_SCRIPT)$(DFSEP).exists :: Makefile.PL
 	$(NOECHO) $(MKPATH) $(INST_SCRIPT)
-	$(NOECHO) $(CHMOD) 755 $(INST_SCRIPT)
+	$(NOECHO) $(CHMOD) $(PERM_DIR) $(INST_SCRIPT)
 	$(NOECHO) $(TOUCH) $(INST_SCRIPT)$(DFSEP).exists
 
 $(INST_MAN1DIR)$(DFSEP).exists :: Makefile.PL
 	$(NOECHO) $(MKPATH) $(INST_MAN1DIR)
-	$(NOECHO) $(CHMOD) 755 $(INST_MAN1DIR)
+	$(NOECHO) $(CHMOD) $(PERM_DIR) $(INST_MAN1DIR)
 	$(NOECHO) $(TOUCH) $(INST_MAN1DIR)$(DFSEP).exists
 
 $(INST_MAN3DIR)$(DFSEP).exists :: Makefile.PL
 	$(NOECHO) $(MKPATH) $(INST_MAN3DIR)
-	$(NOECHO) $(CHMOD) 755 $(INST_MAN3DIR)
+	$(NOECHO) $(CHMOD) $(PERM_DIR) $(INST_MAN3DIR)
 	$(NOECHO) $(TOUCH) $(INST_MAN3DIR)$(DFSEP).exists
 
 
@@ -615,13 +510,17 @@ POD2MAN = $(POD2MAN_EXE)
 
 
 manifypods : pure_all  \
+	lib/Language/Farnsworth/Evaluate.pm \
 	lib/Language/Farnsworth/Docs/Functions.pm \
 	lib/Language/Farnsworth.pm \
+	lib/Language/Farnsworth/Error.pm \
 	lib/Language/Farnsworth/Output.pm \
 	lib/Language/Farnsworth/Docs/Syntax.pm
 	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW) \
+	  lib/Language/Farnsworth/Evaluate.pm $(INST_MAN3DIR)/Language::Farnsworth::Evaluate.$(MAN3EXT) \
 	  lib/Language/Farnsworth/Docs/Functions.pm $(INST_MAN3DIR)/Language::Farnsworth::Docs::Functions.$(MAN3EXT) \
 	  lib/Language/Farnsworth.pm $(INST_MAN3DIR)/Language::Farnsworth.$(MAN3EXT) \
+	  lib/Language/Farnsworth/Error.pm $(INST_MAN3DIR)/Language::Farnsworth::Error.$(MAN3EXT) \
 	  lib/Language/Farnsworth/Output.pm $(INST_MAN3DIR)/Language::Farnsworth::Output.$(MAN3EXT) \
 	  lib/Language/Farnsworth/Docs/Syntax.pm $(INST_MAN3DIR)/Language::Farnsworth::Docs::Syntax.$(MAN3EXT) 
 
@@ -794,16 +693,16 @@ distsignature : create_distdir
 
 # --- MakeMaker install section:
 
-install :: all pure_install doc_install
+install :: pure_install doc_install
 	$(NOECHO) $(NOOP)
 
-install_perl :: all pure_perl_install doc_perl_install
+install_perl :: pure_perl_install doc_perl_install
 	$(NOECHO) $(NOOP)
 
-install_site :: all pure_site_install doc_site_install
+install_site :: pure_site_install doc_site_install
 	$(NOECHO) $(NOOP)
 
-install_vendor :: all pure_vendor_install doc_vendor_install
+install_vendor :: pure_vendor_install doc_vendor_install
 	$(NOECHO) $(NOOP)
 
 pure_install :: pure_$(INSTALLDIRS)_install
@@ -818,7 +717,7 @@ pure__install : pure_site_install
 doc__install : doc_site_install
 	$(NOECHO) $(ECHO) INSTALLDIRS not defined, defaulting to INSTALLDIRS=site
 
-pure_perl_install ::
+pure_perl_install :: all
 	$(NOECHO) $(MOD_INSTALL) \
 		read $(PERL_ARCHLIB)/auto/$(FULLEXT)/.packlist \
 		write $(DESTINSTALLARCHLIB)/auto/$(FULLEXT)/.packlist \
@@ -832,7 +731,7 @@ pure_perl_install ::
 		$(SITEARCHEXP)/auto/$(FULLEXT)
 
 
-pure_site_install ::
+pure_site_install :: all
 	$(NOECHO) $(MOD_INSTALL) \
 		read $(SITEARCHEXP)/auto/$(FULLEXT)/.packlist \
 		write $(DESTINSTALLSITEARCH)/auto/$(FULLEXT)/.packlist \
@@ -845,7 +744,7 @@ pure_site_install ::
 	$(NOECHO) $(WARN_IF_OLD_PACKLIST) \
 		$(PERL_ARCHLIB)/auto/$(FULLEXT)
 
-pure_vendor_install ::
+pure_vendor_install :: all
 	$(NOECHO) $(MOD_INSTALL) \
 		read $(VENDORARCHEXP)/auto/$(FULLEXT)/.packlist \
 		write $(DESTINSTALLVENDORARCH)/auto/$(FULLEXT)/.packlist \
@@ -856,7 +755,7 @@ pure_vendor_install ::
 		$(INST_MAN1DIR) $(DESTINSTALLVENDORMAN1DIR) \
 		$(INST_MAN3DIR) $(DESTINSTALLVENDORMAN3DIR)
 
-doc_perl_install ::
+doc_perl_install :: all
 	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
 	-$(NOECHO) $(MKPATH) $(DESTINSTALLARCHLIB)
 	-$(NOECHO) $(DOC_INSTALL) \
@@ -867,7 +766,7 @@ doc_perl_install ::
 		EXE_FILES "$(EXE_FILES)" \
 		>> $(DESTINSTALLARCHLIB)/perllocal.pod
 
-doc_site_install ::
+doc_site_install :: all
 	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
 	-$(NOECHO) $(MKPATH) $(DESTINSTALLARCHLIB)
 	-$(NOECHO) $(DOC_INSTALL) \
@@ -878,7 +777,7 @@ doc_site_install ::
 		EXE_FILES "$(EXE_FILES)" \
 		>> $(DESTINSTALLARCHLIB)/perllocal.pod
 
-doc_vendor_install ::
+doc_vendor_install :: all
 	$(NOECHO) $(ECHO) Appending installation info to $(DESTINSTALLARCHLIB)/perllocal.pod
 	-$(NOECHO) $(MKPATH) $(DESTINSTALLARCHLIB)
 	-$(NOECHO) $(DOC_INSTALL) \
@@ -924,7 +823,7 @@ $(FIRST_MAKEFILE) : Makefile.PL $(CONFIGDEP)
 	$(PERLRUN) Makefile.PL 
 	$(NOECHO) $(ECHO) "==> Your Makefile has been rebuilt. <=="
 	$(NOECHO) $(ECHO) "==> Please rerun the $(MAKE) command.  <=="
-	false
+	$(FALSE)
 
 
 
@@ -932,7 +831,7 @@ $(FIRST_MAKEFILE) : Makefile.PL $(CONFIGDEP)
 
 # --- MakeMaker makeaperl section ---
 MAP_TARGET    = perl
-FULLPERL      = /usr/bin/perl5.10.0
+FULLPERL      = /usr/bin/perl5.10.1
 
 $(MAP_TARGET) :: static $(MAKE_APERL_FILE)
 	$(MAKE) $(USEMAKEFILE) $(MAKE_APERL_FILE) $@
@@ -976,20 +875,18 @@ testdb_static :: testdb_dynamic
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd :
-	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0,6,0,0">' > $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '    <TITLE>$(DISTNAME)</TITLE>' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0.7.2">' > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <ABSTRACT>A Turing Complete Language for Mathematics</ABSTRACT>' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '    <AUTHOR>Ryan Voots &lt;simcop@cpan.org&gt;</AUTHOR>' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '    <AUTHOR>Ryan Voots &lt;L&lt;simcop@cpan.org&gt;&gt;</AUTHOR>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="DateTime" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="DateTimeX-Easy" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="ExtUtils-MakeMaker" VERSION="6,42,0,0" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="List-MoreUtils" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Math-Pari" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Test-Exception" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <DEPENDENCY NAME="Test-More" VERSION="0,0,0,0" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <OS NAME="$(OSNAME)" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="x86_64-linux-thread-multi-5.1" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="DateTime::" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="DateTimeX::Easy" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="ExtUtils::MakeMaker" VERSION="6.42" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="List::MoreUtils" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Math::Pari" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Test::Exception" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Test::More" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="x86_64-linux-thread-multi-5.10" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <CODEBASE HREF="" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    </IMPLEMENTATION>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '</SOFTPKG>' >> $(DISTNAME).ppd
@@ -997,78 +894,41 @@ ppd :
 
 # --- MakeMaker pm_to_blib section:
 
-pm_to_blib : $(TO_INST_PM)
-	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', '\''$(PM_FILTER)'\'')' -- \
+pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
+	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
 	  lib/Language/Farnsworth/Parser.pm blib/lib/Language/Farnsworth/Parser.pm \
 	  lib/Language/Farnsworth/Evaluate.pm blib/lib/Language/Farnsworth/Evaluate.pm \
-	  lib/Language/Farnsworth/Value/Boolean.pm.bak blib/lib/Language/Farnsworth/Value/Boolean.pm.bak \
+	  lib/Language/Farnsworth/Value/Types.pm blib/lib/Language/Farnsworth/Value/Types.pm \
 	  lib/Language/Farnsworth/Value/NewValue.pm blib/lib/Language/Farnsworth/Value/NewValue.pm \
-	  lib/Language/Farnsworth/Functions/Standard.pm.bak.bak blib/lib/Language/Farnsworth/Functions/Standard.pm.bak.bak \
+	  lib/Language/Farnsworth/Value.pm blib/lib/Language/Farnsworth/Value.pm \
 	  lib/Language/Farnsworth/Units/Standard.pm blib/lib/Language/Farnsworth/Units/Standard.pm \
-	  lib/Language/Farnsworth/Value/NewValue.pm.bak blib/lib/Language/Farnsworth/Value/NewValue.pm.bak \
-	  lib/Language/Farnsworth/Docs/Syntax.pm.bak blib/lib/Language/Farnsworth/Docs/Syntax.pm.bak \
+	  lib/Language/Farnsworth/Variables.pm blib/lib/Language/Farnsworth/Variables.pm \
+	  lib/Language/Farnsworth/Value/Undef.pm blib/lib/Language/Farnsworth/Value/Undef.pm \
 	  lib/Language/Farnsworth.pm blib/lib/Language/Farnsworth.pm \
-	  lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak.bak blib/lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak.bak \
-	  lib/Language/Farnsworth/Output.pm.bak blib/lib/Language/Farnsworth/Output.pm.bak \
-	  lib/Language/Farnsworth/Error.pm.bak blib/lib/Language/Farnsworth/Error.pm.bak \
-	  bot2.pl $(INST_LIB)/Language/bot2.pl \
-	  mgr.pl $(INST_LIB)/Language/mgr.pl \
-	  lib/Language/Farnsworth/Value/Array.pm.bak blib/lib/Language/Farnsworth/Value/Array.pm.bak \
+	  lib/Language/Farnsworth/Docs/Functions.pm blib/lib/Language/Farnsworth/Docs/Functions.pm \
+	  lib/Language/Farnsworth/Units/Currency.pm blib/lib/Language/Farnsworth/Units/Currency.pm \
+	  lib/Language/Farnsworth/Value/Pari.pm blib/lib/Language/Farnsworth/Value/Pari.pm \
+	  lib/Language/Farnsworth/Dimension.pm blib/lib/Language/Farnsworth/Dimension.pm \
+	  lib/Language/Farnsworth/Value/Boolean.pm blib/lib/Language/Farnsworth/Value/Boolean.pm \
+	  lib/Language/Farnsworth/Parser/Extra.pm blib/lib/Language/Farnsworth/Parser/Extra.pm \
 	  lib/Language/Farnsworth/Units/e.2mil blib/lib/Language/Farnsworth/Units/e.2mil \
-	  lib/Language/Farnsworth/Value/Date.pm.bak blib/lib/Language/Farnsworth/Value/Date.pm.bak \
-	  lib/Language/Farnsworth/Functions/GoogleTranslate.pm blib/lib/Language/Farnsworth/Functions/GoogleTranslate.pm \
 	  lib/Language/Farnsworth/Units/Pi10-6.html blib/lib/Language/Farnsworth/Units/Pi10-6.html \
 	  lib/Language/Farnsworth/Functions/Standard.pm blib/lib/Language/Farnsworth/Functions/Standard.pm \
+	  lib/Language/Farnsworth/Functions/Algebra.pm blib/lib/Language/Farnsworth/Functions/Algebra.pm \
 	  lib/Language/Farnsworth/Value/Date.pm blib/lib/Language/Farnsworth/Value/Date.pm \
-	  lib/Language/Farnsworth/Units/e.2mil.bak blib/lib/Language/Farnsworth/Units/e.2mil.bak \
 	  lib/Language/Farnsworth/Value/Lambda.pm blib/lib/Language/Farnsworth/Value/Lambda.pm \
-	  lib/Language/Farnsworth/Docs/Functions.pm.bak blib/lib/Language/Farnsworth/Docs/Functions.pm.bak \
-	  lib/Language/Farnsworth/Value_old.pm.bak blib/lib/Language/Farnsworth/Value_old.pm.bak \
 	  lib/Language/Farnsworth/Value_old.pm blib/lib/Language/Farnsworth/Value_old.pm \
+	  lib/Language/Farnsworth/Functions/Calculus.pm blib/lib/Language/Farnsworth/Functions/Calculus.pm \
 	  lib/Language/Farnsworth/Functions/StdMath.pm blib/lib/Language/Farnsworth/Functions/StdMath.pm \
-	  lib/Language/Farnsworth/Dimension.pm.bak blib/lib/Language/Farnsworth/Dimension.pm.bak \
-	  lib/Language/Farnsworth.pm.bak blib/lib/Language/Farnsworth.pm.bak \
-	  lib/Language/Farnsworth/Value/Pari.pm.bak blib/lib/Language/Farnsworth/Value/Pari.pm.bak \
+	  lib/Language/Farnsworth/Value/String.pm blib/lib/Language/Farnsworth/Value/String.pm \
+	  lib/Language/Farnsworth/Value/Array.pm blib/lib/Language/Farnsworth/Value/Array.pm \
 	  lib/Language/Farnsworth/Output.pm blib/lib/Language/Farnsworth/Output.pm \
 	  lib/Language/Farnsworth/Docs/Syntax.pm blib/lib/Language/Farnsworth/Docs/Syntax.pm \
 	  lib/Language/Farnsworth/Units.pm blib/lib/Language/Farnsworth/Units.pm \
-	  botriz.pl $(INST_LIB)/Language/botriz.pl \
 	  lib/Language/Farnsworth/Error.pm blib/lib/Language/Farnsworth/Error.pm \
-	  lib/Language/Farnsworth/FunctionDispatch.pm.bak blib/lib/Language/Farnsworth/FunctionDispatch.pm.bak 
-	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', '\''$(PM_FILTER)'\'')' -- \
-	  lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak blib/lib/Language/Farnsworth/Functions/GoogleTranslate.pm.bak \
-	  paritest.pl $(INST_LIB)/Language/paritest.pl \
-	  lib/Language/Farnsworth/Units/Standard.pm.bak blib/lib/Language/Farnsworth/Units/Standard.pm.bak \
-	  lib/Language/Farnsworth/Functions/StdMath.pm.bak.bak blib/lib/Language/Farnsworth/Functions/StdMath.pm.bak.bak \
-	  lib/Language/Farnsworth/Value.pm blib/lib/Language/Farnsworth/Value.pm \
-	  lib/Language/Farnsworth/Variables.pm blib/lib/Language/Farnsworth/Variables.pm \
-	  lib/Language/Farnsworth/Value/Undef.pm blib/lib/Language/Farnsworth/Value/Undef.pm \
-	  lib/Language/Farnsworth/Functions/Standard.pm.bak blib/lib/Language/Farnsworth/Functions/Standard.pm.bak \
-	  maukes.pl $(INST_LIB)/Language/maukes.pl \
-	  server.pl $(INST_LIB)/Language/server.pl \
-	  lib/Language/Farnsworth/Docs/Functions.pm blib/lib/Language/Farnsworth/Docs/Functions.pm \
-	  lib/Language/Farnsworth/Value/String.pm.bak blib/lib/Language/Farnsworth/Value/String.pm.bak \
-	  lib/Language/Farnsworth/Variables.pm.bak blib/lib/Language/Farnsworth/Variables.pm.bak \
-	  lib/Language/Farnsworth/Value.pm.bak blib/lib/Language/Farnsworth/Value.pm.bak \
-	  lib/Language/Farnsworth/Value/Undef.pm.bak blib/lib/Language/Farnsworth/Value/Undef.pm.bak \
-	  lib/Language/Farnsworth/Units/Currency.pm blib/lib/Language/Farnsworth/Units/Currency.pm \
-	  lib/Language/Farnsworth/Evaluate.pm.bak blib/lib/Language/Farnsworth/Evaluate.pm.bak \
-	  lib/Language/Farnsworth/Value/Pari.pm blib/lib/Language/Farnsworth/Value/Pari.pm \
-	  lib/Language/Farnsworth/Units/Pi10-6.html.bak blib/lib/Language/Farnsworth/Units/Pi10-6.html.bak \
-	  lib/Language/Farnsworth/Units.pm.bak blib/lib/Language/Farnsworth/Units.pm.bak \
-	  lib/Language/Farnsworth/Dimension.pm blib/lib/Language/Farnsworth/Dimension.pm \
-	  botmag.pl $(INST_LIB)/Language/botmag.pl \
-	  lib/Language/Farnsworth/Value/Boolean.pm blib/lib/Language/Farnsworth/Value/Boolean.pm \
-	  lib/Language/Farnsworth/Parser.pm.bak blib/lib/Language/Farnsworth/Parser.pm.bak \
-	  loadunits.pl $(INST_LIB)/Language/loadunits.pl \
-	  lib/Language/Farnsworth/Value/String.pm blib/lib/Language/Farnsworth/Value/String.pm \
-	  temp.pl $(INST_LIB)/Language/temp.pl \
-	  lib/Language/Farnsworth/Value/Array.pm blib/lib/Language/Farnsworth/Value/Array.pm \
-	  lib/Language/Farnsworth/Functions/StdMath.pm.bak blib/lib/Language/Farnsworth/Functions/StdMath.pm.bak \
-	  lib/Language/Farnsworth/Units/Currency.pm.bak blib/lib/Language/Farnsworth/Units/Currency.pm.bak \
-	  lib/Language/Farnsworth/Value/Lambda.pm.bak blib/lib/Language/Farnsworth/Value/Lambda.pm.bak \
-	  lib/Language/Farnsworth/FunctionDispatch.pm blib/lib/Language/Farnsworth/FunctionDispatch.pm \
 	  farnsworth.pl $(INST_LIB)/Language/farnsworth.pl 
+	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
+	  lib/Language/Farnsworth/FunctionDispatch.pm blib/lib/Language/Farnsworth/FunctionDispatch.pm 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
 
