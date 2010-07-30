@@ -164,6 +164,8 @@ sub Dump
 		my $return =join " ", @returns;
 		
 		$return = "($return)"if ($return =~ /\s/);
+		
+		$return = "dimensionless value" if ($return =~ /^\s*$/); 
 		 
 		return $return; 
 }
