@@ -36,6 +36,7 @@ sub error
     #Circumventing this also allows perl code to correctly use error() to signify an error to the script rather than die
 	if (ref($err) && $err->isa("Language::Farnsworth::Error"))
 	{
+		warn Dumper($err);
 		die $err;
 	}
 	
@@ -45,6 +46,7 @@ sub error
     $eobj->{caller} = [caller()];
 	bless $eobj;
 
+    warn Dumper($eobj);
 	die $eobj;
 }
 
