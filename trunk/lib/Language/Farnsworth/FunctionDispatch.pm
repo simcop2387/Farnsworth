@@ -140,8 +140,10 @@ sub callfunc
 	#print "Dumper of func: ".Dumper($fval);
 	#print "--------------------THAT IS ALL\n";
 
-	error "Function $name is not defined\n" unless defined($fval);
-	error "Number of arguments not correct to $name\[\]\n" unless $self->checkparams($args, $argtypes); #this should check....
+    my $string = $name;
+    error "Given object as function name, check should happen before this" if (ref($string)); 
+	error "Function $name is not defined" unless defined($fval);
+	error "Number of arguments not correct to $name\[\]" unless $self->checkparams($args, $argtypes); #this should check....
 
 #	print Dumper($args);
 

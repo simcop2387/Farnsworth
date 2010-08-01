@@ -27,6 +27,12 @@ sub error
 	my $err = shift;
 	
 	#make already existing errors pass through transparently, fixes bug with return[], but i should find more direct route
+	#i had originally thought this might be a bug but now that i think about it, what is going on is...
+	#  foo{x} := {return[1]; 2};
+	#     Function Dispatch, evaluate the function;
+    #     We then end up calling return[] which is a perl function, so it gets wrapped with perlwrap()
+    #     This then causes the error to get wrapped by perlwrap()
+    #Circumventing this also allows perl code to correctly use error() to signify an error to the script rather than die
 	if (ref($err) && $err->isa("Language::Farnsworth::Error"))
 	{
 		die $err;
