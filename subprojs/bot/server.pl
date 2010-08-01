@@ -71,6 +71,10 @@ sub runfarnsworth
     {
       $output = "".$out;
     }
+    elsif (ref($out) eq "Language::Farnsworth::Error")
+    {
+      $output = "Error: ".($out->tostring()); 
+    }
     elsif (!defined($out))
     {
       $output = "Undefined || OK";
