@@ -22,6 +22,7 @@ our $level = 0; #debugging level, 0 means nothing, 1 means informative, 2 means 
 sub error
 {
 	my $type;
+	warn Dumper(\@_);
 	$type = shift if @_==2;
 	$type = EINTERP unless defined $type;
 	my $err = shift;
