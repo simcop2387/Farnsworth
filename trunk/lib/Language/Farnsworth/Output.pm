@@ -87,11 +87,13 @@ sub new
   $self->{eval} = shift;
 
   #warn Dumper($self->{obj});
-  error "Attempting to make output class of non Language::Farnsworth::Value" unless ref($self->{obj}) =~ /Language::Farnsworth::Value/ || ref($self->{obj}) =~ /Language::Farnsworth::Error/;
-  error "Forgot to add \$eval to params!" unless ref($self->{eval}) eq "Language::Farnsworth::Evaluate";
 
   #when we get an error, pass it through, HACK, this is a HACK! the code needs to handle these directly but i need to rewrite the code for output anyway
-  die $self->{obj} if ref($self->{obj}) =~ /Language::Farnsworth::Error/;
+  error $self->{obj} if ref($self->{obj}) =~ /Language::Farnsworth::Error/;
+  
+  error "Attempting to make output class of non Language::Farnsworth::Value" unless ref($self->{obj}) =~ /Language::Farnsworth::Value/;
+  error "Forgot to add \$eval to params!" unless ref($self->{eval}) eq "Language::Farnsworth::Evaluate";
+
  
   bless $self;
 }
