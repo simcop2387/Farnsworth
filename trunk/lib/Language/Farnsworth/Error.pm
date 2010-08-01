@@ -22,7 +22,6 @@ our $level = 0; #debugging level, 0 means nothing, 1 means informative, 2 means 
 sub error
 {
 	my $type;
-	warn Dumper(\@_);
 	$type = shift if @_==2;
 	$type = EINTERP unless defined $type;
 	my $err = shift;
@@ -36,7 +35,6 @@ sub error
     #Circumventing this also allows perl code to correctly use error() to signify an error to the script rather than die
 	if (ref($err) && $err->isa("Language::Farnsworth::Error"))
 	{
-		warn Dumper($err);
 		die $err;
 	}
 	
@@ -46,7 +44,6 @@ sub error
     $eobj->{caller} = [caller()];
 	bless $eobj;
 
-    warn Dumper($eobj);
 	die $eobj;
 }
 
