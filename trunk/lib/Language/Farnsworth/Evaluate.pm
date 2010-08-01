@@ -97,6 +97,10 @@ sub eval
     {
     	return $@->getmsg();
     }
+    elsif ($@ && $@->isa("Language::Farnsworth::Error"))
+    {
+    	return $@;
+    }
     else
     {
     	return $ret;
