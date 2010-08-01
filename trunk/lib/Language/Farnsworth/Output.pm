@@ -80,6 +80,7 @@ sub getdisplay
 
 sub new
 {
+	warn Dumper(\@_);
   shift; #remove the class
   my $self = {};
   $self->{units} = shift;
