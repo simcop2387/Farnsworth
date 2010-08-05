@@ -5,7 +5,7 @@ use lib 'lib';
 use Language::Farnsworth;
 use Language::Farnsworth::Error;
 
-$Language::Farnsworth::Error::level = 1;
+$Language::Farnsworth::Error::level = 0;
 
 my $farnsworth = new Language::Farnsworth;
 print STDERR "DONE STARTING UP!\n";

@@ -91,6 +91,7 @@ sub new
   #when we get an error, pass it through, HACK, this is a HACK! the code needs to handle these directly but i need to rewrite the code for output anyway
   error $self->{obj} if ref($self->{obj}) =~ /Language::Farnsworth::Error/;
   
+  warn Dumper($self->{obj});
   error "Attempting to make output class of non Language::Farnsworth::Value" unless ref($self->{obj}) =~ /Language::Farnsworth::Value/;
   error "Forgot to add \$eval to params!" unless ref($self->{eval}) eq "Language::Farnsworth::Evaluate";
 

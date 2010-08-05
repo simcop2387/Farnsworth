@@ -416,6 +416,18 @@ sub evalbranch
 		$return = $value; #make stores evaluate to the value on the right
 		$self->{vars}->declare($name, $value);
 	}
+	elsif ($type eq "DeclareFunc")
+	{
+		#print Dumper($branch);
+		my $name = $branch->[0];
+		my $lambda = $self->makevalue($branch->[1]);
+
+		#should i allow constants? if i do i'll have to handle them differently, for now it'll be an error
+		error "Right side of function declaration for '$name' did not evaluate to a lambda" unless ($lambda->istype("Lambda"));
+
+		$self->{funcs}->addfunclamb($name, $lambda);
+		$return = $lambda;
+	}	
 	elsif ($type eq "FuncDef")
 	{
 		#print Dumper($branch);

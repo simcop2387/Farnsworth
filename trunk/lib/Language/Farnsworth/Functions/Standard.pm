@@ -19,35 +19,35 @@ sub init
    $env->eval("unshift{arr byref isa [], x isa ...} := {arr =x+arr};");
 
    #$env->{funcs}->addfunc("push", [["arr", undef, $array, 0], ["in", undef, "VarArg", 0]],\&push); #actually i might rewrite this in farnsworth now that it can do it
-   $env->{funcs}->addfunc("pop", [["arr", undef, TYPE_ARRAY, 0]],\&pop); #eventually this maybe too
-   $env->{funcs}->addfunc("shift", [["arr", undef, TYPE_ARRAY, 1]], \&shift);
+   $env->{funcs}->addfunc("pop", [["arr", undef, TYPE_ARRAY, 0]],\&pop, $env); #eventually this maybe too
+   $env->{funcs}->addfunc("shift", [["arr", undef, TYPE_ARRAY, 1]], \&shift, $env);
    #$env->{funcs}->addfunc("unshift", [["arr", undef, $array, 0], ["in", undef, "VarArg", 0]], \&unshift);
-   $env->{funcs}->addfunc("sort", [["arr", undef, "VarArg", 0]],\&sort);
+   $env->{funcs}->addfunc("sort", [["arr", undef, "VarArg", 0]],\&sort, $env);
 
-   $env->{funcs}->addfunc("length", [["in", undef, undef, 0]],\&length);
+   $env->{funcs}->addfunc("length", [["in", undef, undef, 0]],\&length, $env);
 
-   $env->{funcs}->addfunc("ord", [["in", undef, TYPE_STRING, 0]],\&ord);
-   $env->{funcs}->addfunc("chr", [["in", undef, TYPE_PLAIN, 0]],\&chr);
-   $env->{funcs}->addfunc("index", [["str", undef, TYPE_STRING, 0],["substr", undef, TYPE_STRING, 0],["pos", TYPE_PLAIN, TYPE_PLAIN, 0]],\&index);
-   $env->{funcs}->addfunc("eval", [["str", undef, TYPE_STRING, 0]],\&eval);
+   $env->{funcs}->addfunc("ord", [["in", undef, TYPE_STRING, 0]],\&ord, $env);
+   $env->{funcs}->addfunc("chr", [["in", undef, TYPE_PLAIN, 0]],\&chr, $env);
+   $env->{funcs}->addfunc("index", [["str", undef, TYPE_STRING, 0],["substr", undef, TYPE_STRING, 0],["pos", TYPE_PLAIN, TYPE_PLAIN, 0]],\&index, $env);
+   $env->{funcs}->addfunc("eval", [["str", undef, TYPE_STRING, 0]],\&eval, $env);
    
    $env->eval('map{sub isa {`x`}, x isa ...} := {var xx=[]+x; if (length[xx] == 1 && xx@0$ conforms []) {xx = x@0$}; if (length[xx] == 1 && !(xx conforms [])) {xx = [xx]}; var z=[]+xx; var e; var out=[]; while(length[z]) {e = shift[z]; push[out, (sub)[e]]}; out}');
 
-   $env->{funcs}->addfunc("substrLen", [["str", undef, TYPE_STRING, 0],["left", undef, TYPE_PLAIN, 0],["length", undef, TYPE_PLAIN, 0]],\&substrlen); #this one works like perls
+   $env->{funcs}->addfunc("substrLen", [["str", undef, TYPE_STRING, 0],["left", undef, TYPE_PLAIN, 0],["length", undef, TYPE_PLAIN, 0]],\&substrlen, $env); #this one works like perls
    $env->eval("substr{str,left,right}:={substrLen[str,left,right-left]}");
    $env->eval("left{str,pos}:={substrLen[str,0,pos]}");
    $env->eval("right{str,pos}:={substrLen[str,length[str]-pos,pos]}");
 
-   $env->{funcs}->addfunc("reverse", [["in", undef, undef, 0]],\&reverse);
+   $env->{funcs}->addfunc("reverse", [["in", undef, undef, 0]],\&reverse, $env);
 
    $env->eval("now{x = \"UTC\" isa \"\"} := {setzone[#now#, x]}");
-   $env->{funcs}->addfunc("setzone", [["date", undef, TYPE_DATE, 0],["zone", undef, TYPE_STRING, 0]], \&setzone);
+   $env->{funcs}->addfunc("setzone", [["date", undef, TYPE_DATE, 0],["zone", undef, TYPE_STRING, 0]], \&setzone, $env);
 
-   $env->{funcs}->addfunc("unit", [["in", undef, undef, 0]], \&unit);
-   $env->{funcs}->addfunc("units", [["in", undef, undef, 0]], \&units);
-   $env->{funcs}->addfunc("error", [["in", undef, TYPE_STRING, 0]], \&doerror);
-   $env->{funcs}->addfunc("return", [["in", undef, undef, 0]], \&doreturn);
-   $env->{funcs}->addfunc("match", [["regex", undef, TYPE_STRING, 0], ["input", undef, TYPE_STRING, 0], ["options",TYPE_STRING,TYPE_STRING, 0]], \&match);
+   #$env->{funcs}->addfunc("unit", [["in", undef, undef, 0]], \&unit);
+   $env->{funcs}->addfunc("units", [["in", undef, undef, 0]], \&units, $env);
+   $env->{funcs}->addfunc("error", [["in", undef, TYPE_STRING, 0]], \&doerror, $env);
+   $env->{funcs}->addfunc("return", [["in", undef, undef, 0]], \&doreturn, $env);
+   $env->{funcs}->addfunc("match", [["regex", undef, TYPE_STRING, 0], ["input", undef, TYPE_STRING, 0], ["options",TYPE_STRING,TYPE_STRING, 0]], \&match, $env);
 
    $env->eval('max{x isa ...} := {var z; if (length[x] == 1 && x@0$ conforms []) {z = x@0$} else {z=x}; var n = length[z]; var m=z@0$; var q; while((n=n-1)>=0){q=z@n$; q>m?m=q:0}; m}'); 
    $env->eval('min{x isa ...} := {var z; if (length[x] == 1 && x@0$ conforms []) {z = x@0$} else {z=x}; var n = length[z]; var m=z@0$; var q; while((n=n-1)>=0){q=z@n$; q<m?m=q:0}; m}'); 
@@ -111,23 +111,23 @@ sub setzone
         return $date;
 }
 
-sub unit
-{
+#sub unit
+#{
 	#this code needs to be removed, and turned into an operator, its working in the wrong level all together.
 	#args is... a Language::Farnsworth::Value array
-	my ($args, $eval, $branches)= @_;
+#	my ($args, $eval, $branches)= @_;
 	
 	#print Dumper($branches);
 
-	if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{units}->isunit($branches->[1][0][0])))
-	{
-		error "First argument to unit[] must be a unit name";
-	}
+#	if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{units}->isunit($branches->[1][0][0])))
+#	{
+#		error "First argument to unit[] must be a unit name";
+#	}
 
-	my $unitvar = $eval->{units}->getunit($branches->[1][0][0]);
-
-	return $unitvar; #if its undef, its undef! i should really make some kind of error checking here
-}
+#	my $unitvar = $eval->{units}->getunit($branches->[1][0][0]);
+#
+#	return $unitvar; #if its undef, its undef! i should really make some kind of error checking here
+#}
 
 sub sort
 {

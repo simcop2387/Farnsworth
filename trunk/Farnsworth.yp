@@ -38,6 +38,7 @@ stma: {undef}
 stmt: expr                                 { $_[1] }
 	| 'var' NAME          { bless [ $_[2] ], 'DeclareVar' }
 	| 'var' NAME '=' expr { bless [ $_[2], $_[4] ], 'DeclareVar' }
+	| 'defun' NAME '=' expr { bless [ @_[2,4] ], 'DeclareFunc' }
 	| NAME ':=' expr                       { bless [@_[1,3]], 'UnitDef' }
 	| expr ':->' expr                      { bless [ @_[1,3] ], 'SetDisplay' }
 	| NAME '=!=' NAME                      { bless [ @_[1,3] ], 'DefineDimen' }

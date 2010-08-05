@@ -41,7 +41,7 @@ sub new
 	{
 		local $@;
 		eval 'use Language::Farnsworth::'.$a.'; Language::Farnsworth::'.$a.'::init($self->{eval});';
-		#die $@ if $@;
+		die $@ if $@;
 		#print "-------FAILED? $a\n";
 		#print $@;
 		#print "\n";

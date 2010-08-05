@@ -1,3 +1,4 @@
 #!./farnsworth.pl
 
-10 cd/V-> coulombs
+var q={`x` return[x+1]};
+q 1

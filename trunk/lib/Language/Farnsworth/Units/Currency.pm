@@ -46,7 +46,7 @@ sub init
 	my $env = shift;
 	#doupdate([],$env,[]); #ignore this for now
 
-	$env->{funcs}->addfunc("updatecurrencies", [[undef, undef, undef, 0]], \&doupdate);
+	$env->{funcs}->addfunc("updatecurrencies", [[undef, undef, undef, 0]], \&doupdate, $env);
 }
 
 sub doupdate
