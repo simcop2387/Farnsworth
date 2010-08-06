@@ -323,6 +323,9 @@ sub compare
 {
   my ($one, $two, $rev) = @_;
 
+  print Dumper($one, $two);
+  sleep 10;
+  
   error "Non reference given to exponentiation" unless (ref($two));
 
   #if we're not being added to a Language::Farnsworth::Value::Pari, the higher class object needs to handle it.
