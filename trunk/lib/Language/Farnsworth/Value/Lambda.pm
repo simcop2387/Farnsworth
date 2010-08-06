@@ -6,7 +6,7 @@ use warnings;
 use Language::Farnsworth::Dimension;
 use Language::Farnsworth::Error;
 use base 'Language::Farnsworth::Value';
-use Language::Farnsworth::Error;
+use Language::Farnsworth::Value::Array;
 
 use Data::Dumper;
 
@@ -99,7 +99,6 @@ sub add
     error "Given non lambda to lambda operation";
   }
 
-
   #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
   error "Adding lambda is not a good idea\n"; 
 }
@@ -143,7 +142,6 @@ sub mult
   my ($one, $two, $rev) = @_;
 
   error "Non reference given to multiplication of lambdas" unless ref($two);
-
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
   #confess "Scalar value given to multiplcation to lambda. ED: This will make white holes later" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->mult($one, !$rev) unless ($two->ismediumtype() || $two->istype("Pari") || $two->istype("Lambda"));
@@ -153,7 +151,7 @@ sub mult
 #    confess "Given non lambda to lambda operation";
 #  }
 
-  my $args = $two->istype("Array") ? $two :  new Language::Farnsworth::Value::Array([$two]); 
+  my $args = $two->istype("Array") ? $two :  new Language::Farnsworth::Value::Array([$two]);
 
   #this code is debug code, but i'm afraid to take it out, when i put it here it started working properly
   #print "LAMBDAMULT\n";
@@ -247,3 +245,17 @@ sub compare
   return 0; #i don't have any metric for comparing lambdas, so... they'll always be equal
 }
 
+sub eval
+{
+	my ($self, $two, $eval) = @_;
+
+    my $args = $two->istype("Array") ? $two :  new Language::Farnsworth::Value::Array([$two]); 
+
+  #this code is debug code, but i'm afraid to take it out, when i put it here it started working properly
+  #print "LAMBDAMULT\n";
+  #eval{print Dumper($one->{scope}->{vars}->getvar('x'), $one->{scope}->{vars}->getvar('y'))}; #this bug was fixed
+
+    return $eval->{funcs}->calllambda($self, $args); #needs to be updated	
+}
+
+1;

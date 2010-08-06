@@ -39,7 +39,7 @@ sub addfunc
     my $branch = bless [$argbranch, $value], 'Lambda';
 
 	#i should really have some error checking here
-	warn "Depreciated function definition encoutered";
+	#warn "Depreciated function definition encoutered";
 #	debug 3, "--------------------------", "FUNCTION: ".$name;
 #	debug 3, Dumper($branch);
 #	debug 3, Dumper($value);
@@ -172,7 +172,14 @@ sub callfunc
 #	warn "Dumper of func: ".Dumper($lambda->{code});
 #	warn "--------------------THAT IS ALL\n";
 
-	return $lambda * $args;
+    if ($name eq "eval")
+    {
+      return $lambda->eval($args, $eval);
+    }
+    else
+    {
+	  return $lambda * $args;
+    }
 }
 
 #should i really have this here? or should i have it in evaluate.pm?
@@ -269,6 +276,8 @@ sub calllambda
 	error "Number of arguments not correct to lambda\n" unless $self->checkparams($args, $argtypes); #this shoul
 
 	$self->setupargs($neval, $args, $argtypes, "lambda");
+
+#    warn ref($fval);
 
 	if (ref($fval) ne "CODE")
 	{
@@ -381,7 +390,7 @@ sub getref
 
 	my $ref = $self->{funcs}{$name}->{scope}{vars}->getref($argexpr->[0]);
 
-	warn Dumper($argexpr, $ref);
+	#warn Dumper($argexpr, $ref);
 
 	return $ref;
 }

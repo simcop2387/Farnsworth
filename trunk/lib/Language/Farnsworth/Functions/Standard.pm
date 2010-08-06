@@ -29,7 +29,7 @@ sub init
    $env->{funcs}->addfunc("ord", [["in", undef, TYPE_STRING, 0]],\&ord, $env);
    $env->{funcs}->addfunc("chr", [["in", undef, TYPE_PLAIN, 0]],\&chr, $env);
    $env->{funcs}->addfunc("index", [["str", undef, TYPE_STRING, 0],["substr", undef, TYPE_STRING, 0],["pos", TYPE_PLAIN, TYPE_PLAIN, 0]],\&index, $env);
-   $env->{funcs}->addfunc("eval", [["str", undef, TYPE_STRING, 0]],\&eval, $env);
+   $env->{funcs}->addfunc("eval", [["str", undef, TYPE_STRING, 0]],\&eval, $env); #needs special case!
    
    $env->eval('map{sub isa {`x`}, x isa ...} := {var xx=[]+x; if (length[xx] == 1 && xx@0$ conforms []) {xx = x@0$}; if (length[xx] == 1 && !(xx conforms [])) {xx = [xx]}; var z=[]+xx; var e; var out=[]; while(length[z]) {e = shift[z]; push[out, (sub)[e]]}; out}');
 
@@ -56,7 +56,7 @@ sub init
 sub doerror
 {
 	#with an array we give the number of elements, with a string we give the length of the string
-	my ($args, $eval, $branches)= @_;
+	my ($args, $eval)= @_;
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
@@ -66,7 +66,7 @@ sub doerror
 sub doreturn
 {
 	#with an array we give the number of elements, with a string we give the length of the string
-	my ($args, $eval, $branches)= @_;
+	my ($args, $eval)= @_;
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
@@ -75,7 +75,7 @@ sub doreturn
 
 sub match
 {
-	my ($args, $eval, $branches)= @_;
+	my ($args, $eval)= @_;
 
 	my $input = $eval->{vars}->getvar("input"); 
 	my $regex = $eval->{vars}->getvar("regex");
@@ -87,7 +87,7 @@ sub match
 sub units
 {
 	#with an array we give the number of elements, with a string we give the length of the string
-	my ($args, $eval, $branches)= @_;
+	my ($args, $eval)= @_;
 
 	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
@@ -101,7 +101,7 @@ sub units
 sub setzone
 {
         #with an array we give the number of elements, with a string we give the length of the string
-        my ($args, $eval, $branches)= @_;
+        my ($args, $eval)= @_;
            
         my $date = $eval->{vars}->getvar("date"); #i should clean this up more too
         my $zone = $eval->{vars}->getvar("zone"); #i should clean this up more too
@@ -132,7 +132,7 @@ sub setzone
 sub sort
 {
 	#args is... a Language::Farnsworth::Value array
-	my ($args, $eval, $branches)= @_;
+	my ($args, $eval)= @_;
     my $arr = $eval->{vars}->getvar("arr");
     
    	my $argcount = $arr->getarray();
@@ -185,16 +185,11 @@ sub sort
 sub push
 {
 	#args is... a Language::Farnsworth::Value array
-	my ($args, $eval, $branches)= @_;
+	my ($args, $eval)= @_;
 	
-	if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{vars}->isvar($branches->[1][0][0])))
-	{
-		error "First argument to push must be a variable";
-	}
+	my $array = $eval->{vars}->getvar("arr");
 
-	my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
-
-	unless (ref($arrayvar) eq "Language::Farnsworth::Value::Array")
+	unless ($array->istype("Array"))
 	{
 		error "First argument to push must be an array";
 	}
@@ -205,8 +200,9 @@ sub push
 	shift @input; #remove the original array value
 
 	#i should probably flatten arrays here so that; a=[1,2,3]; push[a,a]; will result in a = [1,2,3,1,2,3]; instead of a = [1,2,3,[1,2,3]];
+    #no i shouldn't, i'll be adding the ability to make them flatten in the parser
 
-	CORE::push @{$arrayvar->getarrayref()}, @input;
+	CORE::push @{$array->getarrayref()}, @input;
 
 	return new Language::Farnsworth::Value::Pari(0+@input); #returns number of items pushed
 }
@@ -214,16 +210,11 @@ sub push
 sub unshift
 {
 	#args is... a Language::Farnsworth::Value array
-	my ($args, $eval, $branches)= @_;
+	my ($args, $eval)= @_;
 	
-	if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{vars}->isvar($branches->[1][0][0])))
-	{
-		error "First argument to push must be a variable";
-	}
+	my $array = $eval->{vars}->getvar("arr");
 
-	my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
-
-	unless (ref($arrayvar) eq "Language::Farnsworth::Value::Array")
+	unless ($array->istype("Array"))
 	{
 		error "First argument to push must be an array";
 	}
@@ -234,32 +225,28 @@ sub unshift
 	shift @input; #remove the original array value
 
 	#i should probably flatten arrays here so that; a=[1,2,3]; push[a,a]; will result in a = [1,2,3,1,2,3]; instead of a = [1,2,3,[1,2,3]];
+    #no i shouldn't, i'll be adding the ability to make them flatten in the parser
 
-	CORE::unshift @{$arrayvar->getarrayref()}, @input;
+	CORE::unshift @{$array->getarrayref()}, @input;
 
-	return new Language::Farnsworth::Value::Pari(0+@input); 
+	return new Language::Farnsworth::Value::Pari(0+@input); #returns number of items pushed
 }
 
 sub pop
 {
 	#args is... a Language::Farnsworth::Value array
-	my ($args, $eval, $branches)= @_;
+	my ($args, $eval)= @_;
 	
-	if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{vars}->isvar($branches->[1][0][0])))
-	{
-		error "Argument to pop must be a variable";
-	}
-
-	my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
-
-	unless (ref($arrayvar) eq "Language::Farnsworth::Value::Array")
+	my $array = $eval->{vars}->getvar("arr");
+	
+	unless ($array->istype("Array"))
 	{
 		error "Argument to pop must be an array";
 	}
 
 	#ok type checking is done, do the pop
 	
-	my $retval = CORE::pop @{$arrayvar->getarrayref()};
+	my $retval = CORE::pop @{$array->getarrayref()};
 
 	return $retval; #pop returns the value of the element removed
 }
@@ -267,7 +254,7 @@ sub pop
 sub shift
 {
 	#args is... a Language::Farnsworth::Value array
-	my ($args, $eval, $branches)= @_;
+	my ($args, $eval)= @_;
 	
 	my $var = $eval->{vars}->getvar("arr");
 	my $varref = $var->getref();
@@ -296,7 +283,7 @@ sub shift
 sub length
 {
 	#with an array we give the number of elements, with a string we give the length of the string
-	my ($args, $eval, $branches)= @_;
+	my ($args, $eval)= @_;
 	my @argsarry = $args->getarray();
 
 	my @rets;
@@ -331,7 +318,7 @@ sub length
 sub reverse
 {
 	#with an array we give the number of elements, with a string we give the length of the string
-	my ($args, $eval, $branches)= @_;
+	my ($args, $eval)= @_;
 	my @argsarry = $args->getarray();
 
 	my @rets;
@@ -365,7 +352,7 @@ sub reverse
 sub substrlen
 {
 	#with an array we give the number of elements, with a string we give the length of the string
-	my ($args, $eval, $branches)= @_;
+	my ($args, $eval)= @_;
 	my @arg = $args->getarray();
 
 	if (ref $arg[0] eq "Language::Farnsworth::Value::String")
@@ -384,7 +371,7 @@ sub substrlen
 sub ord
 {
 	#with an array we give the number of elements, with a string we give the length of the string
-	my ($args, $eval, $branches)= @_;
+	my ($args, $eval)= @_;
 
         my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
@@ -395,7 +382,7 @@ sub ord
 sub chr
 {
 	#with an array we give the number of elements, with a string we give the length of the string
-	my ($args, $eval, $branches)= @_;
+	my ($args, $eval)= @_;
 
         my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
 
@@ -406,7 +393,7 @@ sub chr
 sub index
 {
 	#with an array we give the number of elements, with a string we give the length of the string
-	my ($args, $eval, $branches)= @_;
+	my ($args, $eval)= @_;
 
 	my $string = $eval->{vars}->getvar("str")->getstring();
 	my $substr = $eval->{vars}->getvar("substr")->getstring();
@@ -419,7 +406,7 @@ sub index
 sub eval
 {
 	#with an array we give the number of elements, with a string we give the length of the string
-	my ($args, $eval, $branches, $reval)= @_;
+	my ($args, $eval, $reval)= @_;
 	my $evalstr = $eval->{vars}->getvar("str")->getstring();
 
 #	my $nvars = new Language::Farnsworth::Variables($eval->{vars});
