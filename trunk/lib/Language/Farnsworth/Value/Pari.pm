@@ -322,9 +322,6 @@ sub pow
 sub compare
 {
   my ($one, $two, $rev) = @_;
-
-  print Dumper($one, $two);
-  sleep 10;
   
   error "Non reference given to exponentiation" unless (ref($two));
 

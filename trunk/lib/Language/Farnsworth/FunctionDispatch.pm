@@ -167,10 +167,10 @@ sub callfunc
 
 	my $lambda = $self->{funcs}{$name}{lambda};
 
-	warn "-------------ATTEMPTING TO CALL FUNCTION!-------------\n";
-	warn "FUNCTION NAME : $name\n";
-	warn "Dumper of func: ".Dumper($lambda->{code});
-	warn "--------------------THAT IS ALL\n";
+#	warn "-------------ATTEMPTING TO CALL FUNCTION!-------------\n";
+#	warn "FUNCTION NAME : $name\n";
+#	warn "Dumper of func: ".Dumper($lambda->{code});
+#	warn "--------------------THAT IS ALL\n";
 
 	return $lambda * $args;
 }
@@ -258,8 +258,8 @@ sub calllambda
 	my $fval = $lambda->getcode();
     my $eval = $lambda->getscope();
 
-	warn "LAMBDA---------------\n";
-	warn Dumper($argtypes, $args, $fval);
+#	warn "LAMBDA---------------\n";
+#	warn Dumper($argtypes, $args, $fval);
 
 	my $nvars = new Language::Farnsworth::Variables($eval->{vars});
 
@@ -272,10 +272,10 @@ sub calllambda
 
 	if (ref($fval) ne "CODE")
 	{
-		warn "-------------ATTEMPTING TO CALL LAMBDA!-------------\n";
+#		warn "-------------ATTEMPTING TO CALL LAMBDA!-------------\n";
 		#print "FUNCTION NAME : $name\n";
-		warn "Dumper of lambda: ".Dumper($fval);
-		warn "--------------------THAT IS ALL\n";
+#		warn "Dumper of lambda: ".Dumper($fval);
+#		warn "--------------------THAT IS ALL\n";
 
 		return $self->callbranch($neval, $fval);
 	}

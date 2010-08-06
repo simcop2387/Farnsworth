@@ -212,7 +212,7 @@ sub compare
   error "Non reference given to compare" unless ref($two);
 
   #if we're not being added to a Language::Farnsworth::Value::Pari, the higher class object needs to handle it.
-  error "Can't compare scalar with array" if ($two->istype("Pari"));
+  error "Can't compare scalar with array" if ($two->istype("Pari")); #this should be brough into ALL higher level classes
   return $two->compare($one, !$rev) unless ($two->ismediumtype());
   error "Can't compare two things that aren't arrays!" unless $two->isa("Language::Farnsworth::Value::Array");
 
