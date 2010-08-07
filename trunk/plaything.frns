@@ -1,4 +1,4 @@
 #!./farnsworth.pl
 
-var q={`x` x+1};
-q 1 
+var q={`x` x};
+sin[]

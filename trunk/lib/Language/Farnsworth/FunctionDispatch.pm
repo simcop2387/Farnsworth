@@ -45,7 +45,7 @@ sub addfunc
 #	debug 3, Dumper($value);
 #	debug 3, Dumper($args);
 	
-	my $lambda = new Language::Farnsworth::Value::Lambda($scope, $args, $value, $branch);
+	my $lambda = new Language::Farnsworth::Value::Lambda($scope, $args, $value, $branch, $name);
 	
 	$self->{funcs}{$name} = {name=>$name, lambda=>$lambda};
 }
@@ -55,6 +55,8 @@ sub addfunclamb
 	my $self = shift;
 	my $name = shift;
 	my $lambda = shift;
+	
+	$lambda->setname($name);
 	
 	$self->{funcs}{$name} = {name => $name, lambda => $lambda};
 }
@@ -182,88 +184,16 @@ sub callfunc
     }
 }
 
-#should i really have this here? or should i have it in evaluate.pm?
-#sub callfunc
-#{
-#	my $self = shift;
-#	my $eval = shift;
-#	my $name = shift;
-#	my $args = shift;
-#	my $branches = shift;
-#
-#	my $argtypes = $self->{funcs}{$name}{args};
-#
-#	my $fval = $self->{funcs}{$name}{value};
-#
-#	#print "-------------ATTEMPTING TO CALL FUNCTION!-------------\n";
-#	#print "FUNCTION NAME : $name\n";
-#	#print "Dumper of func: ".Dumper($fval);
-#	#print "--------------------THAT IS ALL\n";
-#
-#    error "Given object as function name, check should happen before this" if (ref($name)); 
-#	error "Function $name is not defined" unless defined($fval);
-#	error "Number of arguments not correct to $name\[\]" unless $self->checkparams($args, $argtypes); #this should check....
-#
-#	print Dumper($args);
-#
-#	my $neval;
-#
-#	if (defined $self->{funcs}{$name}{parentscope})
-#	{
-#		debug 2, "PARENTSCOPE! ".$self->{funcs}{$name}{parentscope}{vars}."\n";
-#		$neval = $self->{funcs}{$name}{parentscope};
-#		
-#		my $nvars = new Language::Farnsworth::Variables($neval->{vars});
-#
-#		my %nopts = (vars => $nvars, funcs => $self, units => $neval->{units}, parser => $neval->{parser});
-#		$neval = $neval->new(%nopts);
-#	}
-#	else
-#	{
-#		#this should get scrapped once i fix the other modules!
-#		#carp "SETTING UP PARENT SCOPE OUT OF NO WHERE!";
-#		my $nvars = new Language::Farnsworth::Variables($eval->{vars});
-#
-#		my %nopts = (vars => $nvars, funcs => $self, units => $eval->{units}, parser => $eval->{parser});
-#		$neval = $eval->new(%nopts);
-##		$self->{funcs}{$name}{parentscope} = $neval; #store it for later!
-#	}
-#
-#	#print "NEWSCOPE! ".$neval->{vars}."\n";
-#
-#	#eval #just for fucks sake!
-#	#{
-#	#	my $facts = $neval->{vars}->getvar("facts");
-#	#	print "FACTS!\n";
-#	#	print Dumper($facts, "$facts");
-#	#};
-#
-#	#carp "$@" if $@;
-#
-#	$self->setupargs($neval, $args, $argtypes, $name, $branches); #setup the arguments
-#
-#	if (ref($fval) ne "CODE")
-#	{
-#		return $self->callbranch($neval, $fval, $name);
-#	}
-#	else
-#	{
-#		#we have a code ref, so we need to call it, we use perlwrap{} to capture
-#		return perlwrap {$fval->($args, $neval, $branches, $eval)};
-#	}
-#}
-
 sub calllambda
 {
 	my $self = shift;
 	my $lambda = shift;
 	my $args = shift;
-#	my $refscope = shift;
-#	my $branch = shift; #new for lambdas!
 
 	my $argtypes = $lambda->getargs();
 	my $fval = $lambda->getcode();
     my $eval = $lambda->getscope();
+    my $name = $lambda->getname();
 
 #	warn "LAMBDA---------------\n";
 #	warn Dumper($argtypes, $args, $fval);
@@ -273,9 +203,20 @@ sub calllambda
 	my %nopts = (vars => $nvars, funcs => $self, units => $eval->{units}, parser => $eval->{parser});
 	my $neval = $eval->new(%nopts);
 
-	error "Number of arguments not correct to lambda\n" unless $self->checkparams($args, $argtypes); #this shoul
+    unless($self->checkparams($args, $argtypes))
+    {
+    	if ($lambda->getname())
+    	{
+    		error "Number of arguments not correct to ".$lambda->getname();
+    	}
+    	else
+    	{
+    		error "Number of arguments not correct to lambda";
+    	}
+    }
+	
 
-	$self->setupargs($neval, $args, $argtypes, "lambda");
+	$self->setupargs($neval, $args, $argtypes, $name);
 
 #    warn ref($fval);
 

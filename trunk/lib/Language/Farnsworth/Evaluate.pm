@@ -488,11 +488,11 @@ sub evalbranch
 			my $default = $arg->[1];
 			my $name = $arg->[0]; #name
 
-			if ($reference)
-			{
-				#we've got a reference for lambdas!
-				error "Passing arguments by reference for lambdas is unsupported at this time";
-			}
+#			if ($reference)
+#			{
+#				#we've got a reference for lambdas!
+#				error "Passing arguments by reference for lambdas is unsupported at this time";
+#			}
 
 			if (defined($default))
 			{

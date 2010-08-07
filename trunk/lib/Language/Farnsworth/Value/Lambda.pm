@@ -39,6 +39,8 @@ sub new
   my $args = shift;
   my $code = shift;
   my $branches = shift;
+  my $name = shift;
+ 
   my $outmagic = shift; #i'm still not sure on this one
 
   debug 5, "Need error checking in lambda creation!";
@@ -53,6 +55,8 @@ sub new
   $self->{code} = $code;
   $self->{args} = $args;
   $self->{branches} = $branches;
+  $self->{name} = $name;
+  warn "Setname: $name";
   
   return $self;
 }
@@ -75,6 +79,18 @@ sub getscope
 sub getbranches
 {
 	return $_[0]->{branches};
+}
+
+sub getname
+{
+	warn "getname: ".$_[0]->{name};
+	return defined($_[0]->{name}) ? $_[0]->{name} : "lambda"; 
+}
+
+sub setname
+{
+	warn "Setname: $_[1]";
+	return ($_[0]->{name} = $_[1]);
 }
 
 sub type

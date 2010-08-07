@@ -49,11 +49,12 @@ my @tests =
 	["var q={`x` x + x}", "{`x` x + x; }",     "lambda + assignment"],
 	["q 1", "2 ",                         "lambda call from variable"],
 	["q[1]", "2 ",                        "lambda call from variable function syntax"],
-    ["(q)[1]", "2 ",                      "lambda call from variable forced syntax"],
-    ["{`x` 42} 1", "42 ",                 "lambda call from anonymous lambda"],
-    ["{`x` 42}[2]", "42 ",                "lambda call from anonymous lambda, function syntax"],
-    ["({`x` 42})[2]", "42 ",              "lambda call from anonymous lambda forced syntax"],
+        ["(q)[1]", "2 ",                      "lambda call from variable forced syntax"],
+        ["{`x` 42} 1", "42 ",                 "lambda call from anonymous lambda"],
+        ["{`x` 42}[2]", "42 ",                "lambda call from anonymous lambda, function syntax"],
+        ["({`x` 42})[2]", "42 ",              "lambda call from anonymous lambda forced syntax"],
 	["({`x,y` x * x + x * y + y * y})[3,2]", "19 ", "multi argument lambda call, direct"],
+        ['var q={`x byref` x=x+1}; var a=1; q a; a', '2 ', 'Lambda passing with byref'],
 	["foo{x=1,y = 2 m isa m} := {x y}; 1", "1 ", "Function definition, with defaults and constraints"],
 	["foo[]", "2 m /* length */", "function call using defaults"],
 	["foo[2]", "4 m /* length */", "function call using one default"],
@@ -64,9 +65,10 @@ my @tests =
 	['"foo" + "bar"', '"foobar"', "string concat"],
 	['var a=[1,2,3]; a@2$', '3 ', "array access"],
 	['var a=[1,2,3,4]; a@2/2$', '2 ', "array access, rational"],
-    ['var a=[1,2,3,4]; a@2$=10; a@2$', '10 ', "array storage"],
+        ['var a=[1,2,3,4]; a@2$=10; a@2$', '10 ', "array storage"],
 	['10 m^(3/2)', '10.0 m^(3/2)', "rational powers"],
 	['10 m^(1/2)', '10.0 m^(1/2)', "rational powers < 1 with 1 as numerator"],
+
 );
 
 
