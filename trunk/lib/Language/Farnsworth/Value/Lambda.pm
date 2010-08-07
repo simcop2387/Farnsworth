@@ -721,10 +721,6 @@ sub deparsetree
 	{
 		return "...";
 	}
-	elsif ($branch eq "VarArg")
-	{
-		return "...";
-	}
 	elsif (!defined($branch))
 	{
 		return ""; #got an undefined value, just make it blank
@@ -733,6 +729,10 @@ sub deparsetree
 	{
 		my $output = Language::Farnsworth::Output->new($self->getscope()->{units}, $branch, $self->getscope());
 		return $output."";
+	}
+	elsif ($branch eq "VarArg")
+	{
+		return "...";
 	}
 	else
 	{
