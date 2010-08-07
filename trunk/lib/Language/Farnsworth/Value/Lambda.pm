@@ -725,6 +725,11 @@ sub deparsetree
 	{
 		return ""; #got an undefined value, just make it blank
 	}
+	elsif ($type =~ /^Language::Farnsworth::Value/) # use the output class for all real values
+	{
+		my $output = Language::Farnsworth::Output->new($self->getscope()->{units}, $branch, $self->getscope());
+		return $output."";
+	}
 	else
 	{
 #		cluck "Unhandled input!";
