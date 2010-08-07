@@ -721,6 +721,10 @@ sub deparsetree
 	{
 		return "...";
 	}
+	elsif ($branch eq "VarArg")
+	{
+		return "...";
+	}
 	elsif (!defined($branch))
 	{
 		return ""; #got an undefined value, just make it blank

@@ -1,5 +1,6 @@
 #!./farnsworth.pl
 
-var zztop=1;
-{`x,y` defun foo={`` 42}} [1,2];
-&sin
+defun realsin = &sin;
+defun sin={`x isa 0` -realsin[x]};
+
+sin[pi/2]
