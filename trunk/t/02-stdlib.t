@@ -57,6 +57,7 @@ my @tests =
 	['return[1]; 2', '1 ', "return[]"],
 	['{`x` return[1]; 2} [3]', '1 ', "return[] lambda"],
 	['foo{x} := {return[1]; 2}; foo[3]', '1 ', "return[] function"],
+	['var zztop=1; {`` var zztop=42; eval["zztop"]} []', '42 ', "eval[] dynamically scopes"],
 );
 
 
