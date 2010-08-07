@@ -538,6 +538,14 @@ sub deparsetree
 
 		return "$name\[$args\]";
 	}
+#	| 'defun' NAME '=' expr { bless [ @_[2,4] ], 'DeclareFunc' }
+    elsif ($type eq "DeclareFunc")
+    {
+    	my $name = $branch->[0];
+    	my $value = $self->deparsetree($branch->[1]);
+    	
+    	return "defun $name = $value"; 
+    }		
 	elsif ($type eq "Lambda")
 	{
 		my $args = $branch->[0];

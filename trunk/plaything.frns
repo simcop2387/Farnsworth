@@ -1,4 +1,4 @@
 #!./farnsworth.pl
 
 var zztop=1;
-{`` var zztop=42; eval["zztop"]} []
+{`x,y` var zztop=42; eval["zztop"]}

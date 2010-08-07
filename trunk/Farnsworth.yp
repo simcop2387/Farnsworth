@@ -290,7 +290,7 @@ sub yylex
 	#farnsworth specific operators
 	$s =~ /\G$ws*(:=|->|:->)$ws*/icg and return lc $1;
 	
-	$s =~ /\G$ws*(var\b|per\b|isa\b|byref\b|\:?\:\-|\=\!\=|\|\|\|)$ws*/icg and return lc $1;
+	$s =~ /\G$ws*(var\b|defun\b|per\b|isa\b|byref\b|\:?\:\-|\=\!\=|\|\|\|)$ws*/icg and return lc $1;
 	
 	#assignment operators
 	$s =~ /\G$ws*(\*\*=|\+=|-=|\*=|\/=|%=|\^=|=)$ws*/icg and return lc $1;
