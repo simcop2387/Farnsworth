@@ -101,6 +101,10 @@ sub eval
     {
     	return $@;
     }
+    elsif ($@)
+    {
+    	error EPERL, $@;
+    }
     else
     {
     	return $ret;
@@ -821,6 +825,18 @@ sub makevalue
 		}
 		
 		error "Undefined symbol '$name'\n";
+	}
+	elsif (ref($input) eq "GetFunc")
+	{
+		my $name = $input->[0];
+		if ($self->{funcs}->isfunc($name))
+		{
+			return $self->{funcs}->getfunc($name)->{lambda};
+		}
+		else
+		{
+			error "Undefined function '$name'";			
+		}
 	}
 	elsif (ref($input) eq "String") #we've got a string that should be a value!
 	{

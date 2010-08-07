@@ -106,6 +106,7 @@ value:	number
 	 |	NAME			%prec NAME { bless [ $_[1] ], 'Fetch' }
 	 |   '[' array ']'              { $_[2] } 
 	 |   lambda
+	 |  '&' NAME        { bless [ $_[2] ], 'GetFunc' }
 	 ;
 
 parens:	'(' expr ')'	{ bless [$_[2]], 'Paren' } #do this so i can tell where parens were later, so i can rebuild everything correctly

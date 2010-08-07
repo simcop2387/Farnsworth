@@ -545,7 +545,12 @@ sub deparsetree
     	my $value = $self->deparsetree($branch->[1]);
     	
     	return "defun $name = $value"; 
-    }		
+    }
+    elsif ($type eq "GetFunc")
+    {
+    	my $name = $branch->[0];
+    	return "&$name";
+    }
 	elsif ($type eq "Lambda")
 	{
 		my $args = $branch->[0];

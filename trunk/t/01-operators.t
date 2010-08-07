@@ -65,6 +65,7 @@ my @tests =
 	["lfoo[2]", "4 m /* length */", "lambda function call using one default"],
 	["lfoo[2,3m]", "6 m /* length */", "lambda function call no defaults"],
 	["lfoo[2,3 s]", undef, "lambda function call failing constraint"],
+	["defun foo={`` var q=42; {`x` q}} []; foo[10]", "42 ", "Dynamically defined lambda style function"],
 	["#today# + 4", undef, "units, date + 1"], #real bug involved here, fixed!
 	["#2008-12-13# - #2008-12-12#", "86400 s /* time */", "date subtraction"],
 	['"foo" + "bar"', '"foobar"', "string concat"],
