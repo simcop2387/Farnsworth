@@ -169,21 +169,19 @@ sub callfunc
 
 	my $lambda = $self->{funcs}{$name}{lambda};
 
-	warn "-------------ATTEMPTING TO CALL FUNCTION!-------------\n";
-	warn "FUNCTION NAME : $name\n";
-	warn "Dumper of func: ".Dumper($lambda->{code});
-    warn "$eval";
-    warn "".$lambda->getscope();
-	warn "--------------------THAT IS ALL\n";
+#	warn "-------------ATTEMPTING TO CALL FUNCTION!-------------\n";
+#	warn "FUNCTION NAME : $name\n";
+#	warn "Dumper of func: ".Dumper($lambda->{code});
+#    warn "$eval";
+#    warn "".$lambda->getscope();
+#	warn "--------------------THAT IS ALL\n";
 
     if ($name eq "eval")
     {
-      warn "INEVAL";
       return $lambda->eval($args, $eval);
     }
     else
     {
-      warn "OUTEVAL";
 	  return $lambda * $args;
     }
 }
