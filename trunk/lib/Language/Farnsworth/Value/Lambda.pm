@@ -56,7 +56,6 @@ sub new
   $self->{args} = $args;
   $self->{branches} = $branches;
   $self->{name} = $name;
-  warn "Setname: $name";
   
   return $self;
 }
@@ -83,13 +82,11 @@ sub getbranches
 
 sub getname
 {
-	warn "getname: ".$_[0]->{name};
 	return defined($_[0]->{name}) ? $_[0]->{name} : "lambda"; 
 }
 
 sub setname
 {
-	warn "Setname: $_[1]";
 	return ($_[0]->{name} = $_[1]);
 }
 
@@ -271,7 +268,7 @@ sub eval
   #print "LAMBDAMULT\n";
   #eval{print Dumper($one->{scope}->{vars}->getvar('x'), $one->{scope}->{vars}->getvar('y'))}; #this bug was fixed
 
-    return $eval->{funcs}->calllambda($self, $args); #needs to be updated	
+    return $eval->{funcs}->calllambda($self, $args, $eval); #needs to be updated	
 }
 
 1;

@@ -169,17 +169,21 @@ sub callfunc
 
 	my $lambda = $self->{funcs}{$name}{lambda};
 
-#	warn "-------------ATTEMPTING TO CALL FUNCTION!-------------\n";
-#	warn "FUNCTION NAME : $name\n";
-#	warn "Dumper of func: ".Dumper($lambda->{code});
-#	warn "--------------------THAT IS ALL\n";
+	warn "-------------ATTEMPTING TO CALL FUNCTION!-------------\n";
+	warn "FUNCTION NAME : $name\n";
+	warn "Dumper of func: ".Dumper($lambda->{code});
+    warn "$eval";
+    warn "".$lambda->getscope();
+	warn "--------------------THAT IS ALL\n";
 
     if ($name eq "eval")
     {
+      warn "INEVAL";
       return $lambda->eval($args, $eval);
     }
     else
     {
+      warn "OUTEVAL";
 	  return $lambda * $args;
     }
 }
@@ -189,10 +193,12 @@ sub calllambda
 	my $self = shift;
 	my $lambda = shift;
 	my $args = shift;
+	my $eval = shift;
+
+    $eval = $lambda->getscope() unless defined($eval);
 
 	my $argtypes = $lambda->getargs();
 	my $fval = $lambda->getcode();
-    my $eval = $lambda->getscope();
     my $name = $lambda->getname();
 
 #	warn "LAMBDA---------------\n";
