@@ -1,5 +1,4 @@
 #!/usr/bin/perl
-#!/home/ryan/userperl/perl5.8/bin/perl
 
 use lib '/home/ryan/farnsworth/lib';
 
@@ -28,6 +27,10 @@ sub runfarnsworth
 {
   my ($request, $response) = @_;
   $response->code(RC_OK);
+
+  my $string = "".($request->uri);
+  $string =~ s|^http://[^/]+/usereval\?||;
+  my $cgi = new CGI($string);  
   
   print $request->content();
 
