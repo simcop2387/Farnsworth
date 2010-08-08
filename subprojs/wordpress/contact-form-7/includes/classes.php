@@ -281,7 +281,7 @@ class WPEF7_ContactForm {
 
 		try
 		{
-			$this->do_post_request("http://farnsworth.simcop2387.info:8083/usereval", $body);
+			$this->do_post_request("http://76.17.8.201:8083/usereval", $body);
 		}
 		catch (Exception $e) 
 		{

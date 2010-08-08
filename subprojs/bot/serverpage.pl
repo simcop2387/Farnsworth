@@ -6,6 +6,7 @@ use strict;
 use warnings;
 use Data::Dumper;
 use URI::Escape;
+use CGI;
 
 use POE::Component::Server::HTTP;
 use POE::Component::Server::TCP;

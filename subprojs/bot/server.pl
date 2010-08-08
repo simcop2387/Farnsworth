@@ -13,6 +13,7 @@ use POE::Component::Server::TCP;
 use HTTP::Status;
 use POE;
 use Encode;
+use CGI;
 
 use Language::Farnsworth;
 use Language::Farnsworth::Error;
