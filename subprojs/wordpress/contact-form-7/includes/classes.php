@@ -10,6 +10,7 @@ class WPEF7_ContactForm {
 	var $mail;
 	var $mail_2;
 	var $messages;
+	var $response = "cocks";
 	var $additional_settings;
 
 	var $unit_tag;
@@ -194,6 +195,11 @@ class WPEF7_ContactForm {
 
 		return $result;
 	}
+	
+	function omgresponse()
+	{
+		return $this->response;
+	}
 
 	/* Acceptance */
 
@@ -252,39 +258,22 @@ class WPEF7_ContactForm {
 	function compose_and_send_mail( $mail_template ) {
 		$regex = '/\[\s*([a-zA-Z_][0-9a-zA-Z:._-]*)\s*\]/';
 
-		$use_html = (bool) $mail_template['use_html'];
+		$callback = array( &$this, 'mail_callback' );
 
-		if ( $use_html )
-			$callback = array( &$this, 'mail_callback_html' );
-		else
-			$callback = array( &$this, 'mail_callback' );
-
-		$subject = preg_replace_callback( $regex, $callback, $mail_template['subject'] );
-		$sender = preg_replace_callback( $regex, $callback, $mail_template['sender'] );
-		$recipient = preg_replace_callback( $regex, $callback, $mail_template['recipient'] );
-		$additional_headers =
-			preg_replace_callback( $regex, $callback, $mail_template['additional_headers'] );
 		$body = preg_replace_callback( $regex, $callback, $mail_template['body'] );
 
-		if ( $use_html )
-			$body = wpautop( $body );
-
-		extract( apply_filters( 'wpef7_mail_components',
-			compact( 'subject', 'sender', 'body', 'recipient', 'additional_headers' ) ) );
-
-		$headers = "From: $sender\n";
-
-		if ( $use_html )
-			$headers .= "Content-Type: text/html\n";
-
-		$headers .= trim( $additional_headers ) . "\n";
+//		extract( apply_filters( 'wpef7_mail_components',
+//			compact( 'subject', 'sender', 'body', 'recipient', 'additional_headers' ) ) );
 
 		try
 		{
-			$this->do_post_request("http://76.17.8.201:8083/usereval", $body);
+			$this->response = "ERR: Sending";
+			$this->do_post_request("http://farnsworth.simcop2387.info/usereval", $body);
+			//$this->response = "$php_errorms";
 		}
 		catch (Exception $e) 
 		{
+			$this->response = "EXCEPTION: ".($e->getMessage());
 			return false;
 		}
 		
@@ -322,7 +311,8 @@ class WPEF7_ContactForm {
 
 		$ctx = stream_context_create($params);
 		$fp = @fopen($url, 'rb', false, $ctx);
-		if (!$fp) 
+
+		if (!$fp)
 		{
 			throw new Exception("Problem with $url, $php_errormsg");
 		}
@@ -333,6 +323,7 @@ class WPEF7_ContactForm {
 			throw new Exception("Problem reading data from $url, $php_errormsg");
 		}
 		
+		$this->response=$response;
 		return $response;
 	} 
 

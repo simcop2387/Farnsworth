@@ -71,7 +71,7 @@ function wpef7_ajax_json_echo() {
 
 			} elseif ( $wpef7_contact_form->mail() ) {
 				$items['mailSent'] = true;
-				$items['message'] = $wpef_contact_form->getresponse();
+				$items['message'] = $wpef7_contact_form->omgresponse();
 
 				$on_sent_ok = $wpef7_contact_form->additional_setting( 'on_sent_ok', false );
 				if ( ! empty( $on_sent_ok ) ) {
