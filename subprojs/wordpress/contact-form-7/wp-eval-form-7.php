@@ -26,45 +26,45 @@ Version: 2.3.1
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-define( 'WPCF7_VERSION', '2.3.1' );
+define( 'WPEF7_VERSION', '2.3.1' );
 
-if ( ! defined( 'WPCF7_PLUGIN_BASENAME' ) )
-	define( 'WPCF7_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+if ( ! defined( 'WPEF7_PLUGIN_BASENAME' ) )
+	define( 'WPEF7_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
-if ( ! defined( 'WPCF7_PLUGIN_NAME' ) )
-	define( 'WPCF7_PLUGIN_NAME', trim( dirname( WPCF7_PLUGIN_BASENAME ), '/' ) );
+if ( ! defined( 'WPEF7_PLUGIN_NAME' ) )
+	define( 'WPEF7_PLUGIN_NAME', trim( dirname( WPEF7_PLUGIN_BASENAME ), '/' ) );
 
-if ( ! defined( 'WPCF7_PLUGIN_DIR' ) )
-	define( 'WPCF7_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . WPCF7_PLUGIN_NAME );
+if ( ! defined( 'WPEF7_PLUGIN_DIR' ) )
+	define( 'WPEF7_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . WPEF7_PLUGIN_NAME );
 
-if ( ! defined( 'WPCF7_PLUGIN_URL' ) )
-	define( 'WPCF7_PLUGIN_URL', WP_PLUGIN_URL . '/' . WPCF7_PLUGIN_NAME );
+if ( ! defined( 'WPEF7_PLUGIN_URL' ) )
+	define( 'WPEF7_PLUGIN_URL', WP_PLUGIN_URL . '/' . WPEF7_PLUGIN_NAME );
 
-if ( ! defined( 'WPCF7_PLUGIN_MODULES_DIR' ) )
-	define( 'WPCF7_PLUGIN_MODULES_DIR', WPCF7_PLUGIN_DIR . '/modules' );
+if ( ! defined( 'WPEF7_PLUGIN_MODULES_DIR' ) )
+	define( 'WPEF7_PLUGIN_MODULES_DIR', WPEF7_PLUGIN_DIR . '/modules' );
 
-if ( ! defined( 'WPCF7_LOAD_JS' ) )
-	define( 'WPCF7_LOAD_JS', true );
+if ( ! defined( 'WPEF7_LOAD_JS' ) )
+	define( 'WPEF7_LOAD_JS', true );
 
-if ( ! defined( 'WPCF7_LOAD_CSS' ) )
-	define( 'WPCF7_LOAD_CSS', true );
+if ( ! defined( 'WPEF7_LOAD_CSS' ) )
+	define( 'WPEF7_LOAD_CSS', true );
 
-if ( ! defined( 'WPCF7_AUTOP' ) )
-	define( 'WPCF7_AUTOP', true );
+if ( ! defined( 'WPEF7_AUTOP' ) )
+	define( 'WPEF7_AUTOP', true );
 
-if ( ! defined( 'WPCF7_USE_PIPE' ) )
-	define( 'WPCF7_USE_PIPE', true );
+if ( ! defined( 'WPEF7_USE_PIPE' ) )
+	define( 'WPEF7_USE_PIPE', true );
 
 /* If you or your client hate to see about donation, set this value false. */
-if ( ! defined( 'WPCF7_SHOW_DONATION_LINK' ) )
-	define( 'WPCF7_SHOW_DONATION_LINK', true );
+if ( ! defined( 'WPEF7_SHOW_DONATION_LINK' ) )
+	define( 'WPEF7_SHOW_DONATION_LINK', true );
 
-if ( ! defined( 'WPCF7_ADMIN_READ_CAPABILITY' ) )
-	define( 'WPCF7_ADMIN_READ_CAPABILITY', 'edit_posts' );
+if ( ! defined( 'WPEF7_ADMIN_READ_CAPABILITY' ) )
+	define( 'WPEF7_ADMIN_READ_CAPABILITY', 'edit_posts' );
 
-if ( ! defined( 'WPCF7_ADMIN_READ_WRITE_CAPABILITY' ) )
-	define( 'WPCF7_ADMIN_READ_WRITE_CAPABILITY', 'publish_pages' );
+if ( ! defined( 'WPEF7_ADMIN_READ_WRITE_CAPABILITY' ) )
+	define( 'WPEF7_ADMIN_READ_WRITE_CAPABILITY', 'publish_pages' );
 
-require_once WPCF7_PLUGIN_DIR . '/settings.php';
+require_once WPEF7_PLUGIN_DIR . '/settings.php';
 
 ?>

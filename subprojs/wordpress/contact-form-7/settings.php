@@ -1,14 +1,14 @@
 <?php
 
-function wpcf7_plugin_path( $path = '' ) {
-	return path_join( WPCF7_PLUGIN_DIR, trim( $path, '/' ) );
+function wpef7_plugin_path( $path = '' ) {
+	return path_join( WPEF7_PLUGIN_DIR, trim( $path, '/' ) );
 }
 
-function wpcf7_plugin_url( $path = '' ) {
-	return plugins_url( $path, WPCF7_PLUGIN_BASENAME );
+function wpef7_plugin_url( $path = '' ) {
+	return plugins_url( $path, WPEF7_PLUGIN_BASENAME );
 }
 
-function wpcf7_admin_url( $query = array() ) {
+function wpef7_admin_url( $query = array() ) {
 	global $plugin_page;
 
 	if ( ! isset( $query['page'] ) )
@@ -24,25 +24,25 @@ function wpcf7_admin_url( $query = array() ) {
 	return esc_url_raw( $url );
 }
 
-function wpcf7_table_exists( $table = 'contactforms' ) {
-	global $wpdb, $wpcf7;
+function wpef7_table_exists( $table = 'contactforms' ) {
+	global $wpdb, $wpef7;
 
 	if ( 'contactforms' != $table )
 		return false;
 
-	if ( ! $table = $wpcf7->{$table} )
+	if ( ! $table = $wpef7->{$table} )
 		return false;
 
 	return strtolower( $wpdb->get_var( "SHOW TABLES LIKE '$table'" ) ) == strtolower( $table );
 }
 
-function wpcf7() {
-	global $wpdb, $wpcf7;
+function wpef7() {
+	global $wpdb, $wpef7;
 
-	if ( is_object( $wpcf7 ) )
+	if ( is_object( $wpef7 ) )
 		return;
 
-	$wpcf7 = (object) array(
+	$wpef7 = (object) array(
 		'contactforms' => $wpdb->prefix . "contact_form_7",
 		'processing_within' => '',
 		'widget_count' => 0,
@@ -50,46 +50,46 @@ function wpcf7() {
 		'global_unit_count' => 0 );
 }
 
-wpcf7();
+wpef7();
 
-require_once WPCF7_PLUGIN_DIR . '/includes/functions.php';
-require_once WPCF7_PLUGIN_DIR . '/includes/formatting.php';
-require_once WPCF7_PLUGIN_DIR . '/includes/pipe.php';
-require_once WPCF7_PLUGIN_DIR . '/includes/shortcodes.php';
-require_once WPCF7_PLUGIN_DIR . '/includes/classes.php';
-require_once WPCF7_PLUGIN_DIR . '/includes/taggenerator.php';
+require_once WPEF7_PLUGIN_DIR . '/includes/functions.php';
+require_once WPEF7_PLUGIN_DIR . '/includes/formatting.php';
+require_once WPEF7_PLUGIN_DIR . '/includes/pipe.php';
+require_once WPEF7_PLUGIN_DIR . '/includes/shortcodes.php';
+require_once WPEF7_PLUGIN_DIR . '/includes/classes.php';
+require_once WPEF7_PLUGIN_DIR . '/includes/taggenerator.php';
 
 if ( is_admin() )
-	require_once WPCF7_PLUGIN_DIR . '/admin/admin.php';
+	require_once WPEF7_PLUGIN_DIR . '/admin/admin.php';
 else
-	require_once WPCF7_PLUGIN_DIR . '/includes/controller.php';
+	require_once WPEF7_PLUGIN_DIR . '/includes/controller.php';
 
-function wpcf7_contact_forms() {
-	global $wpdb, $wpcf7;
+function wpef7_contact_forms() {
+	global $wpdb, $wpef7;
 
-	return $wpdb->get_results( "SELECT cf7_unit_id as id, title FROM $wpcf7->contactforms" );
+	return $wpdb->get_results( "SELECT cf7_unit_id as id, title FROM $wpef7->contactforms" );
 }
 
-add_action( 'plugins_loaded', 'wpcf7_set_request_uri', 9 );
+add_action( 'plugins_loaded', 'wpef7_set_request_uri', 9 );
 
-function wpcf7_set_request_uri() {
-	global $wpcf7_request_uri;
+function wpef7_set_request_uri() {
+	global $wpef7_request_uri;
 
-	$wpcf7_request_uri = add_query_arg( array() );
+	$wpef7_request_uri = add_query_arg( array() );
 }
 
-function wpcf7_get_request_uri() {
-	global $wpcf7_request_uri;
+function wpef7_get_request_uri() {
+	global $wpef7_request_uri;
 
-	return (string) $wpcf7_request_uri;
+	return (string) $wpef7_request_uri;
 }
 
 /* Loading modules */
 
-add_action( 'plugins_loaded', 'wpcf7_load_modules', 1 );
+add_action( 'plugins_loaded', 'wpef7_load_modules', 1 );
 
-function wpcf7_load_modules() {
-	$dir = WPCF7_PLUGIN_MODULES_DIR;
+function wpef7_load_modules() {
+	$dir = WPEF7_PLUGIN_MODULES_DIR;
 
 	if ( ! ( is_dir( $dir ) && $dh = opendir( $dir ) ) )
 		return false;
@@ -102,10 +102,10 @@ function wpcf7_load_modules() {
 
 /* L10N */
 
-add_action( 'init', 'wpcf7_load_plugin_textdomain' );
+add_action( 'init', 'wpef7_load_plugin_textdomain' );
 
-function wpcf7_load_plugin_textdomain() {
-	load_plugin_textdomain( 'wpcf7', false, 'contact-form-7/languages' );
+function wpef7_load_plugin_textdomain() {
+	load_plugin_textdomain( 'wpef7', false, 'eval-form-7/languages' );
 }
 
 ?>

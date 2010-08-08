@@ -1,13 +1,13 @@
 <?php
 
-function wpcf7_autop( $pee, $br = 1 ) {
+function wpef7_autop( $pee, $br = 1 ) {
 
 	if ( trim( $pee ) === '' )
 		return '';
 	$pee = $pee . "\n"; // just to make things a little easier, pad the end
 	$pee = preg_replace( '|<br />\s*<br />|', "\n\n", $pee );
 	// Space things out a little
-	/* wpcf7: remove select and input */
+	/* wpef7: remove select and input */
 	$allblocks = '(?:table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li|pre|form|map|area|blockquote|address|math|style|p|h[1-6]|hr|fieldset|legend|section|article|aside|hgroup|header|footer|nav|figure|figcaption|details|menu|summary)';
 	$pee = preg_replace( '!(<' . $allblocks . '[^>]*>)!', "\n$1", $pee );
 	$pee = preg_replace( '!(</' . $allblocks . '>)!', "$1\n\n", $pee );
@@ -31,7 +31,7 @@ function wpcf7_autop( $pee, $br = 1 ) {
 	$pee = preg_replace( '!<p>\s*(</?' . $allblocks . '[^>]*>)!', "$1", $pee );
 	$pee = preg_replace( '!(</?' . $allblocks . '[^>]*>)\s*</p>!', "$1", $pee );
 	if ( $br ) {
-		/* wpcf7: add textarea */
+		/* wpef7: add textarea */
 		$pee = preg_replace_callback( '/<(script|style|textarea).*?<\/\\1>/s', create_function( '$matches', 'return str_replace("\n", "<WPPreserveNewline />", $matches[0]);' ), $pee );
 		$pee = preg_replace( '|(?<!<br />)\s*\n|', "<br />\n", $pee ); // optionally make line breaks
 		$pee = str_replace( '<WPPreserveNewline />', "\n", $pee );
@@ -45,7 +45,7 @@ function wpcf7_autop( $pee, $br = 1 ) {
 	return $pee;
 }
 
-function wpcf7_strip_quote( $text ) {
+function wpef7_strip_quote( $text ) {
 	$text = trim( $text );
 	if ( preg_match( '/^"(.*)"$/', $text, $matches ) )
 		$text = $matches[1];
@@ -54,20 +54,20 @@ function wpcf7_strip_quote( $text ) {
 	return $text;
 }
 
-function wpcf7_strip_quote_deep( $arr ) {
+function wpef7_strip_quote_deep( $arr ) {
 	if ( is_string( $arr ) )
-		return wpcf7_strip_quote( $arr );
+		return wpef7_strip_quote( $arr );
 
 	if ( is_array( $arr ) ) {
 		$result = array();
 		foreach ( $arr as $key => $text ) {
-			$result[$key] = wpcf7_strip_quote( $text );
+			$result[$key] = wpef7_strip_quote( $text );
 		}
 		return $result;
 	}
 }
 
-function wpcf7_canonicalize( $text ) {
+function wpef7_canonicalize( $text ) {
 	if ( function_exists( 'mb_convert_kana' ) && 'UTF-8' == get_option( 'blog_charset' ) )
 		$text = mb_convert_kana( $text, 'asKV', 'UTF-8' );
 
@@ -76,12 +76,12 @@ function wpcf7_canonicalize( $text ) {
 	return $text;
 }
 
-function wpcf7_sanitize_file_name( $filename ) {
+function wpef7_sanitize_file_name( $filename ) {
 	/* Memo:
 	// This function does sanitization introduced in http://core.trac.wordpress.org/ticket/11122
 	// WordPress 2.8.6 will implement it in sanitize_file_name().
 	// While Contact Form 7's file uploading function uses wp_unique_filename(), and
-	// it in turn calls sanitize_file_name(). Therefore this wpcf7_sanitize_file_name() will be
+	// it in turn calls sanitize_file_name(). Therefore this wpef7_sanitize_file_name() will be
 	// redundant and unnecessary when you use Contact Form 7 on WordPress 2.8.6 or higher.
 	// This function is provided just for the sake of protecting who uses older WordPress.
 	*/
@@ -132,7 +132,7 @@ function wpcf7_sanitize_file_name( $filename ) {
 	return $filename;
 }
 
-function wpcf7_is_name( $string ) {
+function wpef7_is_name( $string ) {
 	// See http://www.w3.org/TR/html401/types.html#h-6.2
 	// ID and NAME tokens must begin with a letter ([A-Za-z])
 	// and may be followed by any number of letters, digits ([0-9]),

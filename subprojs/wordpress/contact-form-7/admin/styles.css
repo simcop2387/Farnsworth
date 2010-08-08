@@ -1,14 +1,14 @@
-div.wpcf7 div.cf7com-links {
+div.wpef7 div.cf7com-links {
 	text-align: right;
 	font-size: .8em;
 	margin-top: -1.6em;
 }
 
-div.wpcf7 div.cf7com-links a {
+div.wpef7 div.cf7com-links a {
 	text-decoration: none;
 }
 
-div.wpcf7 div.donation {
+div.wpef7 div.donation {
 	border-width: 1px;
 	border-style: solid;
 	padding: 0 0.6em;
@@ -22,23 +22,23 @@ div.wpcf7 div.donation {
 	text-align: center;
 }
 
-div.wpcf7 div.donation p {
+div.wpef7 div.donation p {
 	margin: .7em 0;
 	line-height: 1;
 	padding: 2px;
 	font-size: 107%;
 }
 
-div.wpcf7 div.donation p a {
+div.wpef7 div.donation p a {
 	font-weight: bold;
 	color: #3f3f3f;
 }
 
-div.wpcf7 div.donation p a.button {
+div.wpef7 div.donation p a.button {
 	margin-left: 1em;
 }
 
-div.wpcf7 ul.subsubsub {
+div.wpef7 ul.subsubsub {
 	white-space: normal;
 }
 
@@ -55,7 +55,7 @@ ul.subsubsub li.addnew a:active {
   color: #999;
 }
 
-div.save-contact-form {
+div.save-eval-form {
 	padding: 1.4em 0 0 0;
 	text-align: right;
 }
@@ -85,7 +85,7 @@ div.actions-link input.delete {
 	color: #bc0b0b;
 }
 
-input#wpcf7-title {
+input#wpef7-title {
 	color: #555;
 	background-color: #fff;
 	border: none;
@@ -97,7 +97,7 @@ p.tagcode {
 	margin: 2ex 0 1ex 1em;
 }
 
-input#contact-form-anchor-text {
+input#eval-form-anchor-text {
 	color: #fff;
 	background: #7e4e0b;
 	border: none;

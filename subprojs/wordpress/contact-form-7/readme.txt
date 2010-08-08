@@ -68,14 +68,14 @@ It is hard to continue development and support for this plugin without contribut
 * Swedish (sv_SE) - [Fredrik Jonsson](http://www.fredda-o-ac.se/), [the Swedish community](http://wp-support.se/)
 * Thai (th) - [kazama](http://blog.wordthai.com/)
 * Turkish (tr_TR) - [Roman Neumuller](http://katpatuka.wordpress.com), [Hasan Yılmaz](http://hedefturkce.com/), [Emin Buğra Saral](http://www.rahmetli.info/)
-* Ukrainian (uk) - [Andrey Kovba](http://myserver.com.ua/), [Ukrainian WordPress localization team](http://wordpress.co.ua/plugins/contact-form-7.html)
+* Ukrainian (uk) - [Andrey Kovba](http://myserver.com.ua/), [Ukrainian WordPress localization team](http://wordpress.co.ua/plugins/eval-form-7.html)
 * Vietnamese (vi) - Thanh Hải, Hà
 
-If you have created your own language pack, or have an update of an existing one, you can send [gettext PO and MO files](http://codex.wordpress.org/Translating_WordPress) to [me](http://ideasilo.wordpress.com/about/) so that I can bundle it into Contact Form 7. You can [download the latest POT file from here](http://plugins.svn.wordpress.org/contact-form-7/trunk/languages/wpcf7.pot).
+If you have created your own language pack, or have an update of an existing one, you can send [gettext PO and MO files](http://codex.wordpress.org/Translating_WordPress) to [me](http://ideasilo.wordpress.com/about/) so that I can bundle it into Contact Form 7. You can [download the latest POT file from here](http://plugins.svn.wordpress.org/eval-form-7/trunk/languages/wpef7.pot).
 
 == Installation ==
 
-1. Upload the entire `contact-form-7` folder to the `/wp-content/plugins/` directory.
+1. Upload the entire `eval-form-7` folder to the `/wp-content/plugins/` directory.
 1. Activate the plugin through the 'Plugins' menu in WordPress.
 
 You will find 'Contact' menu in your WordPress admin panel.
@@ -88,7 +88,7 @@ Do you have questions or issues with Contact Form 7? Use these support channels 
 
 1. [Docs](http://contactform7.com/docs/)
 1. [FAQ](http://contactform7.com/faq/)
-1. [Support Forum](http://wordpress.org/tags/contact-form-7?forum_id=10)
+1. [Support Forum](http://wordpress.org/tags/eval-form-7?forum_id=10)
 1. [WordPress HelpCenter](http://wphelpcenter.com/)
 
 [Support](http://contactform7.com/support/)
@@ -106,7 +106,7 @@ Do you have questions or issues with Contact Form 7? Use these support channels 
 * Fixed: wrong HTML format of the result of [response] tag.
 * Fixed: rewrote a few codes for avoiding warnings.
 * Fixed: wrongly applying 'autop' filter to &lt;textarea&gt; contents.
-* You can customize ajax loader image with new wpcf7_ajax_loader filter.
+* You can customize ajax loader image with new wpef7_ajax_loader filter.
 * Translations for Ukrainian (Ukrainian WordPress localization team), Brazilian Portuguese (Gervásio Antônio) and Serbian (Aleksandar Urošević) have been updated.
 
 = 2.3 =

@@ -5,13 +5,13 @@
 
 /* Shortcode handler */
 
-wpcf7_add_shortcode( 'response', 'wpcf7_response_shortcode_handler' );
+wpef7_add_shortcode( 'response', 'wpef7_response_shortcode_handler' );
 
-function wpcf7_response_shortcode_handler( $tag ) {
-	global $wpcf7_contact_form;
+function wpef7_response_shortcode_handler( $tag ) {
+	global $wpef7_contact_form;
 
-	$wpcf7_contact_form->responses_count += 1;
-	return $wpcf7_contact_form->form_response_output();
+	$wpef7_contact_form->responses_count += 1;
+	return $wpef7_contact_form->form_response_output();
 }
 
 ?>

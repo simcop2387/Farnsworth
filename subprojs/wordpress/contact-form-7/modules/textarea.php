@@ -5,11 +5,11 @@
 
 /* Shortcode handler */
 
-wpcf7_add_shortcode( 'textarea', 'wpcf7_textarea_shortcode_handler', true );
-wpcf7_add_shortcode( 'textarea*', 'wpcf7_textarea_shortcode_handler', true );
+wpef7_add_shortcode( 'textarea', 'wpef7_textarea_shortcode_handler', true );
+wpef7_add_shortcode( 'textarea*', 'wpef7_textarea_shortcode_handler', true );
 
-function wpcf7_textarea_shortcode_handler( $tag ) {
-	global $wpcf7_contact_form;
+function wpef7_textarea_shortcode_handler( $tag ) {
+	global $wpef7_contact_form;
 
 	if ( ! is_array( $tag ) )
 		return '';
@@ -31,7 +31,7 @@ function wpcf7_textarea_shortcode_handler( $tag ) {
 	$tabindex_att = '';
 
 	if ( 'textarea*' == $type )
-		$class_att .= ' wpcf7-validates-as-required';
+		$class_att .= ' wpef7-validates-as-required';
 
 	foreach ( $options as $option ) {
 		if ( preg_match( '%^id:([-0-9a-zA-Z_]+)$%', $option, $matches ) ) {
@@ -70,8 +70,8 @@ function wpcf7_textarea_shortcode_handler( $tag ) {
 		$atts .= sprintf( ' tabindex="%d"', $tabindex_att );
 
 	// Value
-	if ( is_a( $wpcf7_contact_form, 'WPCF7_ContactForm' ) && $wpcf7_contact_form->is_posted() ) {
-		if ( isset( $_POST['_wpcf7_mail_sent'] ) && $_POST['_wpcf7_mail_sent']['ok'] )
+	if ( is_a( $wpef7_contact_form, 'WPEF7_ContactForm' ) && $wpef7_contact_form->is_posted() ) {
+		if ( isset( $_POST['_wpef7_mail_sent'] ) && $_POST['_wpef7_mail_sent']['ok'] )
 			$value = '';
 		else
 			$value = stripslashes_deep( $_POST[$name] );
@@ -85,10 +85,10 @@ function wpcf7_textarea_shortcode_handler( $tag ) {
 	$html = '<textarea name="' . $name . '"' . $atts . '>' . esc_html( $value ) . '</textarea>';
 
 	$validation_error = '';
-	if ( is_a( $wpcf7_contact_form, 'WPCF7_ContactForm' ) )
-		$validation_error = $wpcf7_contact_form->validation_error( $name );
+	if ( is_a( $wpef7_contact_form, 'WPEF7_ContactForm' ) )
+		$validation_error = $wpef7_contact_form->validation_error( $name );
 
-	$html = '<span class="wpcf7-form-control-wrap ' . $name . '">' . $html . $validation_error . '</span>';
+	$html = '<span class="wpef7-form-control-wrap ' . $name . '">' . $html . $validation_error . '</span>';
 
 	return $html;
 }
@@ -96,11 +96,11 @@ function wpcf7_textarea_shortcode_handler( $tag ) {
 
 /* Validation filter */
 
-add_filter( 'wpcf7_validate_textarea', 'wpcf7_textarea_validation_filter', 10, 2 );
-add_filter( 'wpcf7_validate_textarea*', 'wpcf7_textarea_validation_filter', 10, 2 );
+add_filter( 'wpef7_validate_textarea', 'wpef7_textarea_validation_filter', 10, 2 );
+add_filter( 'wpef7_validate_textarea*', 'wpef7_textarea_validation_filter', 10, 2 );
 
-function wpcf7_textarea_validation_filter( $result, $tag ) {
-	global $wpcf7_contact_form;
+function wpef7_textarea_validation_filter( $result, $tag ) {
+	global $wpef7_contact_form;
 
 	$type = $tag['type'];
 	$name = $tag['name'];
@@ -110,7 +110,7 @@ function wpcf7_textarea_validation_filter( $result, $tag ) {
 	if ( 'textarea*' == $type ) {
 		if ( '' == $_POST[$name] ) {
 			$result['valid'] = false;
-			$result['reason'][$name] = $wpcf7_contact_form->message( 'invalid_required' );
+			$result['reason'][$name] = $wpef7_contact_form->message( 'invalid_required' );
 		}
 	}
 
@@ -120,47 +120,47 @@ function wpcf7_textarea_validation_filter( $result, $tag ) {
 
 /* Tag generator */
 
-add_action( 'admin_init', 'wpcf7_add_tag_generator_textarea', 20 );
+add_action( 'admin_init', 'wpef7_add_tag_generator_textarea', 20 );
 
-function wpcf7_add_tag_generator_textarea() {
-	wpcf7_add_tag_generator( 'textarea', __( 'Text area', 'wpcf7' ),
-		'wpcf7-tg-pane-textarea', 'wpcf7_tg_pane_textarea' );
+function wpef7_add_tag_generator_textarea() {
+	wpef7_add_tag_generator( 'textarea', __( 'Text area', 'wpef7' ),
+		'wpef7-tg-pane-textarea', 'wpef7_tg_pane_textarea' );
 }
 
-function wpcf7_tg_pane_textarea( &$contact_form ) {
+function wpef7_tg_pane_textarea( &$contact_form ) {
 ?>
-<div id="wpcf7-tg-pane-textarea" class="hidden">
+<div id="wpef7-tg-pane-textarea" class="hidden">
 <form action="">
 <table>
-<tr><td><input type="checkbox" name="required" />&nbsp;<?php echo esc_html( __( 'Required field?', 'wpcf7' ) ); ?></td></tr>
-<tr><td><?php echo esc_html( __( 'Name', 'wpcf7' ) ); ?><br /><input type="text" name="name" class="tg-name oneline" /></td><td></td></tr>
+<tr><td><input type="checkbox" name="required" />&nbsp;<?php echo esc_html( __( 'Required field?', 'wpef7' ) ); ?></td></tr>
+<tr><td><?php echo esc_html( __( 'Name', 'wpef7' ) ); ?><br /><input type="text" name="name" class="tg-name oneline" /></td><td></td></tr>
 </table>
 
 <table>
 <tr>
-<td><code>id</code> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)<br />
+<td><code>id</code> (<?php echo esc_html( __( 'optional', 'wpef7' ) ); ?>)<br />
 <input type="text" name="id" class="idvalue oneline option" /></td>
 
-<td><code>class</code> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)<br />
+<td><code>class</code> (<?php echo esc_html( __( 'optional', 'wpef7' ) ); ?>)<br />
 <input type="text" name="class" class="classvalue oneline option" /></td>
 </tr>
 
 <tr>
-<td><code>cols</code> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)<br />
+<td><code>cols</code> (<?php echo esc_html( __( 'optional', 'wpef7' ) ); ?>)<br />
 <input type="text" name="cols" class="numeric oneline option" /></td>
 
-<td><code>rows</code> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)<br />
+<td><code>rows</code> (<?php echo esc_html( __( 'optional', 'wpef7' ) ); ?>)<br />
 <input type="text" name="rows" class="numeric oneline option" /></td>
 </tr>
 
 <tr>
-<td><?php echo esc_html( __( 'Default value', 'wpcf7' ) ); ?> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)<br /><input type="text" name="values" class="oneline" /></td>
+<td><?php echo esc_html( __( 'Default value', 'wpef7' ) ); ?> (<?php echo esc_html( __( 'optional', 'wpef7' ) ); ?>)<br /><input type="text" name="values" class="oneline" /></td>
 </tr>
 </table>
 
-<div class="tg-tag"><?php echo esc_html( __( "Copy this code and paste it into the form left.", 'wpcf7' ) ); ?><br /><input type="text" name="textarea" class="tag" readonly="readonly" onfocus="this.select()" /></div>
+<div class="tg-tag"><?php echo esc_html( __( "Copy this code and paste it into the form left.", 'wpef7' ) ); ?><br /><input type="text" name="textarea" class="tag" readonly="readonly" onfocus="this.select()" /></div>
 
-<div class="tg-mail-tag"><?php echo esc_html( __( "And, put this code into the Mail fields below.", 'wpcf7' ) ); ?><br /><span class="arrow">&#11015;</span>&nbsp;<input type="text" class="mail-tag" readonly="readonly" onfocus="this.select()" /></div>
+<div class="tg-mail-tag"><?php echo esc_html( __( "And, put this code into the Mail fields below.", 'wpef7' ) ); ?><br /><span class="arrow">&#11015;</span>&nbsp;<input type="text" class="mail-tag" readonly="readonly" onfocus="this.select()" /></div>
 </form>
 </div>
 <?php

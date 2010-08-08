@@ -1,6 +1,6 @@
 <?php
 
-class WPCF7_ShortcodeManager {
+class WPEF7_ShortcodeManager {
 
 	var $shortcode_tags = array();
 
@@ -62,7 +62,7 @@ class WPCF7_ShortcodeManager {
 				if ( $this->shortcode_tags[$tag]['has_name'] && ! empty( $attr['options'] ) ) {
 					$scanned_tag['name'] = array_shift( $attr['options'] );
 
-					if ( ! wpcf7_is_name( $scanned_tag['name'] ) )
+					if ( ! wpef7_is_name( $scanned_tag['name'] ) )
 						return $m[0]; // Invalid name is used. Ignore this tag.
 				}
 
@@ -71,8 +71,8 @@ class WPCF7_ShortcodeManager {
 
 			$scanned_tag['raw_values'] = (array) $attr['values'];
 
-			if ( WPCF7_USE_PIPE ) {
-				$pipes = new WPCF7_Pipes( $scanned_tag['raw_values'] );
+			if ( WPEF7_USE_PIPE ) {
+				$pipes = new WPEF7_Pipes( $scanned_tag['raw_values'] );
 				$scanned_tag['values'] = $pipes->collect_befores();
 				$scanned_tag['pipes'] = $pipes;
 			} else {
@@ -89,7 +89,7 @@ class WPCF7_ShortcodeManager {
 		$content = preg_replace( "/<br\s*\/?>$/m", '', $content );
 		$scanned_tag['content'] = $content;
 
-		$scanned_tag = apply_filters( 'wpcf7_form_tag', $scanned_tag, $this->exec );
+		$scanned_tag = apply_filters( 'wpef7_form_tag', $scanned_tag, $this->exec );
 
 		$this->scanned_tags[] = $scanned_tag;
 
@@ -114,7 +114,7 @@ class WPCF7_ShortcodeManager {
 			}
 			if ( ! empty( $match[2] ) ) {
 				preg_match_all( '/"[^"]*"|\'[^\']*\'/', $match[2], $matched_values );
-				$atts['values'] = wpcf7_strip_quote_deep( $matched_values[0] );
+				$atts['values'] = wpef7_strip_quote_deep( $matched_values[0] );
 			}
 		} else {
 			$atts = $text;
@@ -125,30 +125,30 @@ class WPCF7_ShortcodeManager {
 
 }
 
-$wpcf7_shortcode_manager = new WPCF7_ShortcodeManager();
+$wpef7_shortcode_manager = new WPEF7_ShortcodeManager();
 
-function wpcf7_add_shortcode( $tag, $func, $has_name = false ) {
-	global $wpcf7_shortcode_manager;
+function wpef7_add_shortcode( $tag, $func, $has_name = false ) {
+	global $wpef7_shortcode_manager;
 
-	return $wpcf7_shortcode_manager->add_shortcode( $tag, $func, $has_name );
+	return $wpef7_shortcode_manager->add_shortcode( $tag, $func, $has_name );
 }
 
-function wpcf7_remove_shortcode( $tag ) {
-	global $wpcf7_shortcode_manager;
+function wpef7_remove_shortcode( $tag ) {
+	global $wpef7_shortcode_manager;
 
-	return $wpcf7_shortcode_manager->remove_shortcode( $tag );
+	return $wpef7_shortcode_manager->remove_shortcode( $tag );
 }
 
-function wpcf7_do_shortcode( $content ) {
-	global $wpcf7_shortcode_manager;
+function wpef7_do_shortcode( $content ) {
+	global $wpef7_shortcode_manager;
 
-	return $wpcf7_shortcode_manager->do_shortcode( $content );
+	return $wpef7_shortcode_manager->do_shortcode( $content );
 }
 
-function wpcf7_get_shortcode_regex() {
-	global $wpcf7_shortcode_manager;
+function wpef7_get_shortcode_regex() {
+	global $wpef7_shortcode_manager;
 
-	return $wpcf7_shortcode_manager->get_shortcode_regex();
+	return $wpef7_shortcode_manager->get_shortcode_regex();
 }
 
 ?>
