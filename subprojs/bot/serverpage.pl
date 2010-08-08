@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-use lib '/home/ryan/farnsworth/lib';
+use lib '../../trunk/lib';
 
 use strict;
 use warnings;
@@ -13,6 +13,20 @@ use POE::Component::Server::TCP;
 use HTTP::Status;
 use POE;
 use Encode;
+
+use Language::Farnsworth;
+use Language::Farnsworth::Error;
+use Language::Farnsworth::Units;
+
+$Language::Farnsworth::Error::level = 3; #get all debugging
+
+my $farnsworth = new Language::Farnsworth;
+$farnsworth->runFile("startups/startup.frns");
+$farnsworth->runFile("startups/combodefaults.frns");
+$farnsworth->runFile("startups/datable.frns");
+$farnsworth->runFile("startups/scales.frns");
+print "DONE STARTING UP!\n";
+$Language::Farnsworth::Units::lock = 1; #need better interface!
 
 use utf8;
 
@@ -33,9 +47,54 @@ sub runfarnsworth
   $string =~ s|^http://[^/]+/usereval\?||;
   my $cgi = new CGI($string);  
   
-  print $request->content();
+  my $program = $request->content();
+  
+  my $output;
+  print "Running\n";
 
-  $response->add_content_utf8("COCKS");
+  my $oa = $SIG{ALRM};
+  my $oat = alarm(0);
+  $SIG{ALRM} = sub {die "Timeout!"};
+  alarm(25); #commented out for testing
+
+  my $out = eval { my $ret=($farnsworth->runString($program)); $ret; };
+
+  alarm(0);
+  $SIG{ALRM} = $oa;
+  alarm($oat);
+
+  if ($@)
+  {
+    $output = $@;
+  }
+  elsif (ref($out) eq "Language::Farnsworth::Output")
+  {
+    $output = "".$out;
+  }
+  elsif (ref($out) eq "Language::Farnsworth::Error")
+  {
+    $output = "Error: ".($out->tostring()); 
+  }
+  elsif (!defined($out))
+  {
+    $output = "Undefined || OK";
+  }
+  elsif (ref($out) eq "")
+  {
+    $output = $out;
+  }
+  else
+  {
+    $output = "BUG! +- ".ref($out)." -+ ".Dumper($out);
+  }
+
+  if (!defined($output) || $output eq "")
+  {
+	$output = "Got back Empty string for output, this is a bug\n";
+  }
+  print "Done Running : $output\n";
+
+  $response->add_content_utf8("".$output);
   return RC_OK;
 }
 

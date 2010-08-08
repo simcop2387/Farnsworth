@@ -122,10 +122,8 @@ function wpef7_process_nonajax_submitting() {
 			$_POST['_wpef7_validation_errors'] = array( 'id' => $id, 'messages' => $validation['reason'] );
 		} elseif ( ! $wpef7_contact_form->accepted() ) { // Not accepted terms
 			$_POST['_wpef7_mail_sent'] = array( 'id' => $id, 'ok' => false, 'message' => $wpef7_contact_form->message( 'accept_terms' ) );
-		} elseif ( $wpef7_contact_form->akismet() ) { // Spam!
-			$_POST['_wpef7_mail_sent'] = array( 'id' => $id, 'ok' => false, 'message' => $wpef7_contact_form->message( 'akismet_says_spam' ), 'spam' => true );
 		} elseif ( $wpef7_contact_form->mail() ) {
-			$_POST['_wpef7_mail_sent'] = array( 'id' => $id, 'ok' => true, 'message' => $wpef7_contact_form->message( 'mail_sent_ok' ) );
+			$_POST['_wpef7_mail_sent'] = array( 'id' => $id, 'ok' => true, 'message' => $wpef7_contact_form->omgresponse() );
 
 			do_action_ref_array( 'wpef7_mail_sent', array( &$wpef7_contact_form ) );
 		} else {
