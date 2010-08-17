@@ -4,8 +4,8 @@ use strict;
 use warnings;
 
 use Language::Farnsworth::Dimension;
-use Language::Farnsworth::Value;
-use Carp;
+use base 'Language::Farnsworth::Value';
+use Language::Farnsworth::Error;
 
 use utf8;
 
@@ -55,87 +55,86 @@ sub add
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to addition" unless ref($two);
+  error "Non reference given to addition of undef" unless ref($two);
 
   #if we're not being added to a Language::Farnsworth::Value::Pari, the higher class object needs to handle it.
-  confess "Scalar value given to addition to boolean" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to addition to undef" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->add($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->istype("Boolean"))
+  if (!$two->istype("Undef"))
   {
-    confess "Given non boolean to boolean operation";
+    error "Given non undef to undef operation";
   }
 
-
   #NOTE TO SELF this needs to be more helpful, i'll probably do this by creating an "error" class that'll be captured in ->evalbranch's recursion and use that to add information from the parse tree about WHERE the error occured
-  die "Adding booleans is not a good idea\n"; 
+  error "Adding undefs is not a good idea\n"; 
 }
 
 sub subtract
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to subtraction" unless ref($two);
+  error "Non reference given to subtraction of undef" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  die "Scalar value given to subtraction to Booleans" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to subtraction to undef" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->subtract($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->istype("Boolean"))
+  if (!$two->istype("Undef"))
   {
-    confess "Given non boolean to boolean operation";
+    error "Given non undef to undef operation";
   }
 
-  die "Subtracting Booleans? what did you think this would do, create a black hole?";
+  error "Subtracting undef? what did you think this would do, create a black hole?";
 }
 
 sub modulus
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to modulus" unless ref($two);
+  error "Non reference given to modulus of undef" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to modulus to boolean" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to modulus to undef" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->mod($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->istype("Boolean"))
+  if (!$two->istype("Undef"))
   {
-    confess "Given non boolean to boolean operation";
+    error "Given non undef to undefoperation";
   }
 
-  die "Modulusing booleans? what did you think this would do, create a black hole?";
+  error "Modulusing undef? what did you think this would do, create a black hole?";
 }
 
 sub mult
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to multiplication" unless ref($two);
+  error "Non reference given to multiplication of undef" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to multiplcation to array" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to multiplcation of undef" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->mult($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->istype("Boolean"))
+  if (!$two->istype("Undef"))
   {
-    confess "Given non boolean to boolean operation";
+    error "Given non undef to undef operation";
   }
 
-  die "Multiplying arrays? what did you think this would do, create a black hole?";
+  error "Multiplying undefs? what did you think this would do, create a black hole?";
 }
 
 sub div
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to division" unless ref($two);
+  error "Non reference given to division of undef" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to division to array" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to division of undef" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->div($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->istype("Boolean"))
+  if (!$two->istype("Undef"))
   {
-    confess "Given non boolean to boolean operation";
+    error "Given non undef to undef operation";
   }
 
-  die "Dividing arrays? what did you think this would do, create a black hole?";
+  error "Dividing undef? what did you think this would do, create a black hole?";
 }
 
 sub bool
@@ -154,42 +153,28 @@ sub pow
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to exponentiation" unless ref($two);
+  error "Non reference given to exponentiation of undef" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Exponentiating arrays? what did you think this would do, create a black hole?" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Exponentiating undef? what did you think this would do, create a black hole?" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->pow($one, !$rev) unless ($two->ismediumtype());
-  if (!$two->istype("Boolean"))
+  if (!$two->istype("Undef"))
   {
-    confess "Given non boolean to boolean operation";
+    error "Given non undef to undef operation";
   }
 
 
-  die "Exponentiating arrays? what did you think this would do, create a black hole?";
-}
-
-sub __compare
-{
-	my ($a1, $a2) = @_;
-	my $same = 0;
-	my $ea = each_array(@$a1, @$a2);
-	
-	while(my ($first, $second) = $ea->()) 
-	{ 
-		$same = $first > $second ? 1 : -1 and last if $first != $second 
-	} # shortcircuits
-
-	return $same;
+  error "Exponentiating undefs? what did you think this would do, create a black hole?";
 }
 
 sub compare
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to compare" unless ref($two);
+  error "Non reference given to compare of undef" unless ref($two);
 
   #if we're not being added to a Language::Farnsworth::Value::Pari, the higher class object needs to handle it.
-  confess "Scalar value given to division to array" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to compare of undef" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->compare($one, !$rev) unless ($two->ismediumtype());
 
   return 0;

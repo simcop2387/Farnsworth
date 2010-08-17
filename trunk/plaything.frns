@@ -1,0 +1,6 @@
+#!./farnsworth.pl
+
+defun realsin = &sin;
+defun sin={`x isa 0` -realsin[x]};
+
+sin[pi/2]

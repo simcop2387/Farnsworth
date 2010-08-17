@@ -6,13 +6,12 @@ use strict;
 use warnings;
 
 use Data::Dumper;
-use Carp;
 
 use Language::Farnsworth::FunctionDispatch;
 use Language::Farnsworth::Variables;
 use Language::Farnsworth::Units;
 use Language::Farnsworth::Parser;
-use Language::Farnsworth::Value;
+use Language::Farnsworth::Value::Types;
 use Language::Farnsworth::Value::Pari;
 use Language::Farnsworth::Value::Date;
 use Language::Farnsworth::Value::String;
@@ -91,7 +90,25 @@ sub eval
 
 	debug 3, Dumper($tree);
 
-    $self->evalbranch($tree);
+    my $ret = eval{$self->evalbranch($tree)};
+    
+    #capture return[] at minimum level
+    if ($@ && $@->isa("Language::Farnsworth::Error")&&$@->isreturn())
+    {
+    	return $@->getmsg();
+    }
+    elsif ($@ && $@->isa("Language::Farnsworth::Error"))
+    {
+    	return $@;
+    }
+    elsif ($@)
+    {
+    	error EPERL, $@;
+    }
+    else
+    {
+    	return $ret;
+    }
 }
 
 #evaluate a single branch
@@ -126,8 +143,9 @@ sub evalbranch
 			my $a = $branch->[0][0]; #grab the function name
 			my $b = $self->makevalue($branch->[1]);
 
-			#print "----------------FUNCCALL! $a\n";
-			#print Dumper($a, $b);
+#			print STDERR "----------------FUNCCALL! $a\n";
+#			print STDERR "$self";
+#			print Dumper($a, $b);
 			
 			if ($self->{funcs}->isfunc($a)) #check if there is a func $a
 			{   #$return = $self->{funcs}->callfunc($self, $name, $args, $branch);
@@ -403,6 +421,18 @@ sub evalbranch
 		$return = $value; #make stores evaluate to the value on the right
 		$self->{vars}->declare($name, $value);
 	}
+	elsif ($type eq "DeclareFunc")
+	{
+		#print Dumper($branch);
+		my $name = $branch->[0];
+		my $lambda = $self->makevalue($branch->[1]);
+
+		#should i allow constants? if i do i'll have to handle them differently, for now it'll be an error
+		error "Right side of function declaration for '$name' did not evaluate to a lambda" unless ($lambda->istype("Lambda"));
+
+		$self->{funcs}->addfunclamb($name, $lambda);
+		$return = $lambda;
+	}	
 	elsif ($type eq "FuncDef")
 	{
 		#print Dumper($branch);
@@ -463,11 +493,11 @@ sub evalbranch
 			my $default = $arg->[1];
 			my $name = $arg->[0]; #name
 
-			if ($reference)
-			{
-				#we've got a reference for lambdas!
-				carp "Passing arguments by reference for lambdas is unsupported at this time";
-			}
+#			if ($reference)
+#			{
+#				#we've got a reference for lambdas!
+#				error "Passing arguments by reference for lambdas is unsupported at this time";
+#			}
 
 			if (defined($default))
 			{
@@ -728,7 +758,7 @@ sub evalbranch
 #			}
 			else
 			{
-				error "Conformance error, left side has different units than right side LEFT<".($left->type())."> RIGHT<".($right->type())."\n";
+				error "Conformance error, can't convert from ".($left->type($self))." to ".($right->type($self))."\n";
 			}
 		}
 		else
@@ -794,7 +824,19 @@ sub makevalue
 			return $self->{units}->getunit($name);
 		}
 		
-		die "Undefined symbol '$name'\n";
+		error "Undefined symbol '$name'\n";
+	}
+	elsif (ref($input) eq "GetFunc")
+	{
+		my $name = $input->[0];
+		if ($self->{funcs}->isfunc($name))
+		{
+			return $self->{funcs}->getfunc($name)->{lambda};
+		}
+		else
+		{
+			error "Undefined function '$name'";			
+		}
 	}
 	elsif (ref($input) eq "String") #we've got a string that should be a value!
 	{

@@ -26,7 +26,7 @@ if ($vars->{inputcode} ne "")
 
   $eq = uri_escape($eq);
 
-  my $url="http://localhost:8080/$eq";
+  my $url="http://farnsworth:8080/$eq";
 
   my $resp = $ua->get($url);
 
@@ -59,7 +59,7 @@ __DATA__
 <pre>[%codeoutput%]
 </pre>
 <hr/>
-<form action="http://farnsworth.simcop2387.info/cgi-bin/farns.pl">
+<form action="http://farnsworth.simcop2387.info/cgi-bin/farns.pl" method="post">
 <textarea name="inputcode" cols="80" rows="25">[%inputcode%]</textarea><br/>
 <input type="submit"/>
 <input type="reset"/>

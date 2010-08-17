@@ -28,6 +28,7 @@ requires:
   DateTimeX::Easy: 0
   List::MoreUtils: 0
   Math::Pari: 0
+  enum: 0
 resources:
   license: http://opensource.org/licenses/artistic-license.php
-version: 0.7.2
+version: 0.7.3

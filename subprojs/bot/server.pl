@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #!/home/ryan/userperl/perl5.8/bin/perl
 
-use lib './lib';
+use lib '/home/ryan/farnsworth/lib';
 
 use strict;
 use warnings;
@@ -13,6 +13,7 @@ use POE::Component::Server::TCP;
 use HTTP::Status;
 use POE;
 use Encode;
+use CGI;
 
 use Language::Farnsworth;
 use Language::Farnsworth::Error;
@@ -51,7 +52,7 @@ sub runfarnsworth
 	  my $oa = $SIG{ALRM};
     my $oat = alarm(0);
     $SIG{ALRM} = sub {die "Timeout!"};
-    alarm(180); #commented out for testing
+    alarm(45); #commented out for testing
 
   my $out = eval 
 	{
@@ -70,6 +71,10 @@ sub runfarnsworth
     elsif (ref($out) eq "Language::Farnsworth::Output")
     {
       $output = "".$out;
+    }
+    elsif (ref($out) eq "Language::Farnsworth::Error")
+    {
+      $output = "Error: ".($out->tostring()); 
     }
     elsif (!defined($out))
     {

@@ -4,8 +4,8 @@ use strict;
 use warnings;
 
 use Language::Farnsworth::Dimension;
-#use Language::Farnsworth::Value;
-use Carp;
+use Language::Farnsworth::Error;
+use base 'Language::Farnsworth::Value';
 use List::MoreUtils 'each_array'; 
 
 use utf8;
@@ -36,7 +36,7 @@ sub new
   my $value = shift;
   my $outmagic = shift; #i'm still not sure on this one
 
-  confess "Non array reference given as \$value to constructor" unless ref($value) eq "ARRAY" && defined($value);
+  error "Non array reference given as \$value to constructor" unless ref($value) eq "ARRAY" && defined($value);
 
   my $self = {};
 
@@ -80,17 +80,16 @@ sub add
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to addition" unless ref($two);
+  error "Non reference given to addition of array" unless ref($two);
 
   #if we're not being added to a Language::Farnsworth::Value::Pari, the higher class object needs to handle it.
-  confess "Scalar value given to addition to array" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to addition to array, <this may become push/unshift>" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->add($one, !$rev) unless ($two->ismediumtype());
   if (!$two->istype("Array"))
   {
-    confess "Given non array to array addition";
+    error "Given non array to array addition";
   }
 
-  #ONLY THIS MODULE SHOULD EVER TOUCH ->{pari} ANYMORE! this might change into, NEVER
   my $order;
   $order = [$one->getarray(), $two->getarray()] unless $rev;
   $order = [$two->getarray(), $one->getarray()] if $rev;
@@ -103,68 +102,68 @@ sub subtract
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to subtraction" unless ref($two);
+  error "Non reference given to subtraction of array" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to subtraction to array" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to subtraction of array" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->subtract($one, !$rev) unless ($two->ismediumtype());
   if (!$two->istype("Array"))
   {
-    confess "Given non array to array subtraction";
+    error "Given non array to array subtraction";
   }
 
-  die "Subtracting arrays? what did you think this would do, create a black hole?";
+  error "Subtracting arrays? what did you think this would do, create a black hole?";
 }
 
 sub modulus
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to modulus" unless ref($two);
+  error "Non reference given to modulus of array" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to modulus to array" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to modulus of array" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->mod($one, !$rev) unless ($two->ismediumtype());
   if (!$two->istype("Array"))
   {
-    confess "Given non array to array modulus";
+    error "Given non array to array modulus";
   }
 
-  die "Modulusing arrays? what did you think this would do, create a black hole?";
+  error "Modulusing arrays? what did you think this would do, create a black hole?";
 }
 
 sub mult
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to multiplication" unless ref($two);
+  error "Non reference given to multiplication of array" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to multiplcation to array" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to multiplcation of array" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->mult($one, !$rev) unless ($two->ismediumtype());
   if (!$two->istype("Array"))
   {
-    confess "Given non array to array multiplication";
+    error "Given non array to array multiplication of array";
   }
 
-  die "Multiplying arrays? what did you think this would do, create a black hole?";
+  error "Multiplying arrays? what did you think this would do, create a black hole?";
 }
 
 sub div
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to division" unless ref($two);
+  error "Non reference given to division of array" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Scalar value given to division to array" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to division of array" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->div($one, !$rev) unless ($two->ismediumtype());
   if (!$two->istype("Array"))
   {
-    confess "Given non array to array division";
+    error "Given non array to array division";
   }
 
-  die "Dividing arrays? what did you think this would do, create a black hole?";
+  error "Dividing arrays? what did you think this would do, create a black hole?";
 }
 
 sub bool
@@ -179,17 +178,17 @@ sub pow
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to exponentiation" unless ref($two);
+  error "Non reference given to exponentiation of array" unless ref($two);
 
   #if there's a higher type, use it, subtraction otherwise doesn't make sense on arrays
-  confess "Exponentiating arrays? what did you think this would do, create a black hole?" if ($two->isa("Language::Farnsworth::Value::Pari"));
+  error "Scalar value given to division of array" if ($two->isa("Language::Farnsworth::Value::Pari"));
   return $two->pow($one, !$rev) unless ($two->ismediumtype());
   if (!$two->istype("Array"))
   {
-    confess "Given non array to array exponentiation";
+    error "Given non array to array exponentiation";
   }
 
-  die "Exponentiating arrays? what did you think this would do, create a black hole?";
+  error "Exponentiating arrays? what did you think this would do, create a black hole?";
 }
 
 sub __compare
@@ -210,11 +209,12 @@ sub compare
 {
   my ($one, $two, $rev) = @_;
 
-  confess "Non reference given to compare" unless ref($two);
+  error "Non reference given to compare" unless ref($two);
 
   #if we're not being added to a Language::Farnsworth::Value::Pari, the higher class object needs to handle it.
+  error "Can't compare scalar with array" if ($two->istype("Pari")); #this should be brough into ALL higher level classes
   return $two->compare($one, !$rev) unless ($two->ismediumtype());
-  die "Can't compare two things that aren't arrays!" unless $two->isa("Language::Farnsworth::Value::Array");
+  error "Can't compare two things that aren't arrays!" unless $two->isa("Language::Farnsworth::Value::Array");
 
   my $rv = $rev ? -1 : 1;
   my $tv = $two->getarray();
@@ -222,7 +222,7 @@ sub compare
 
   #i also need to check the units, but that will come later
   #NOTE TO SELF this needs to be more helpful, i'll probably do something by adding stuff in ->new to be able to fetch more about the processing 
-  die "Unable to process different units in compare\n" unless $one->conforms($two); #always call this on one, since $two COULD be some other object 
+  error "Unable to process different array types in compare\n" unless $one->conforms($two); #always call this on one, since $two COULD be some other object 
 
   #moving this down so that i don't do any math i don't have to
   my $new = __compare($tv, $ov);

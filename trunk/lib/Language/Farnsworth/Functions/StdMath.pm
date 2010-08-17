@@ -72,6 +72,7 @@ sub init
    $env->eval("random{} := randmax[10**30]/10.0**30");
    $env->eval("quad{a isa 1, b isa 1, c isa 1} := [(-b + sqrt[b^2 - 4 a c]) / 2a, (-b - sqrt[b^2 - 4 a c]) / 2a]");
    $env->eval("quadratic{a, b, c} := quad[a,b,c]");
+   $env->eval("randrange{x,y} := {var min=min[x,y]; var max=max[x,y]; min+randmax[max-min+1]}");
 
    $env->{funcs}->addfunc("gcd", [["left", undef, $number, 0],["right", undef, $number, 0]],\&gcd,$env);
    $env->{funcs}->addfunc("lcm", [["left", undef, $number, 0],["right", undef, $number, 0]],\&lcm,$env);

@@ -7,11 +7,12 @@ use warnings;
 
 use Data::Dumper;
 use Carp;
+use enum qw(RETURN EINTERP EPERL EPARI);
 
 require Exporter;
 our @ISA = qw(Exporter);
 
-our @EXPORT = qw(error debug);
+our @EXPORT = qw(error debug perlwrap farnsreturn RETURN EINTERP EPERL EPARI);
 
 use overload '""' => \&tostring,
 			 'eq' => \&eq;
@@ -20,13 +21,83 @@ our $level = 0; #debugging level, 0 means nothing, 1 means informative, 2 means 
 
 sub error
 {
+	my $type;
+	$type = shift if @_==2;
+	$type = EINTERP unless defined $type;
 	my $err = shift;
+	
+	#make already existing errors pass through transparently, fixes bug with return[], but i should find more direct route
+	#i had originally thought this might be a bug but now that i think about it, what is going on is...
+	#  foo{x} := {return[1]; 2};
+	#     Function Dispatch, evaluate the function;
+    #     We then end up calling return[] which is a perl function, so it gets wrapped with perlwrap()
+    #     This then causes the error to get wrapped by perlwrap()
+    #Circumventing this also allows perl code to correctly use error() to signify an error to the script rather than die
+	if (ref($err) && $err->isa("Language::Farnsworth::Error"))
+	{
+		die $err;
+	}
+	
 	my $eobj = {};
     $eobj->{msg} = $err;
+    $eobj->{type} = $type;
     $eobj->{caller} = [caller()];
 	bless $eobj;
 
 	die $eobj;
+}
+
+sub farnsreturn
+{
+	my $return = shift;
+
+	my $eobj = {};
+    $eobj->{msg} = $return;
+    $eobj->{type} = RETURN;
+    $eobj->{caller} = [caller()];
+	bless $eobj;
+
+	die $eobj;
+}
+
+sub isreturn
+{
+	my $self = shift;
+	return 1 if ($self->{type} == RETURN);
+	return 0;
+}
+
+sub getmsg
+{
+	$_[0]->{msg};
+}
+
+#wraps code and catches die() and wraps the error in our class
+sub perlwrap(&;$)
+{
+#	print "INPERLWRAP\n";
+	my $code=shift;
+	my $default=shift;
+	$default=EPERL unless defined $default;
+	
+#	print "WANTARRAY: ", wantarray(), "\n";
+	#preserve the context, makes things easier
+	if (wantarray) #array context
+	{
+		my @ret = eval {$code->()};
+#		print "DUMPER: ", Dumper(@ret), "\n";
+#		print "DUMP ERR: ", Dumper($@), "\n";
+		error $default, $@ if ($@);
+		return @ret;
+	}
+	else #scalar context
+	{
+		my $ret = eval {$code->()};
+#		print "DUMPER: ", Dumper($ret), "\n";
+#		print "DUMP ERR: ", Dumper($@), "\n";
+		error $default, $@ if ($@);
+		return $ret;
+	}
 }
 
 sub tostring
@@ -43,10 +114,11 @@ sub eq
 	return $str eq $two;
 }
 
+#i'd love something a little more efficient but, oh well.
 sub debug
 {
 	my ($mlevel, @messages) = @_;
-	print @messages,"\n" if $mlevel <= $level;
+	print @messages,"\n" if ($mlevel <= $level && @messages);
 }
 
 1;

@@ -1,7 +1,7 @@
 # This Makefile is for the Language::Farnsworth::Functions::GoogleTranslate extension to perl.
 #
 # It was generated automatically by MakeMaker version
-# 6.55_02 (Revision: 65502) from the contents of
+# 6.56 (Revision: 65600) from the contents of
 # Makefile.PL. Don't edit this file, edit Makefile.PL instead.
 #
 #       ANY CHANGES MADE HERE WILL BE LOST!
@@ -19,7 +19,7 @@
 #     PL_FILES => {  }
 #     PREREQ_PM => { Language::Farnsworth=>q[0], ExtUtils::MakeMaker=>q[6.42], REST::Google::Translate=>q[0] }
 #     VERSION => q[0.9.1]
-#     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
+#     dist => {  }
 #     realclean => { FILES=>q[MYMETA.yml] }
 
 # --- MakeMaker post_initialize section:
@@ -38,13 +38,13 @@ DLSRC = dl_dlopen.xs
 EXE_EXT = 
 FULL_AR = /usr/bin/ar
 LD = x86_64-pc-linux-gnu-gcc
-LDDLFLAGS = -shared -march=athlon64 -O2 -ftree-vectorize -msse -msse2 -mmmx -m3dnow -msse3 -pipe -ggdb -fstack-protector
+LDDLFLAGS = -shared -march=native -O2 -ftree-vectorize -msse -msse2 -mmmx -m3dnow -msse3 -pipe -ggdb -fstack-protector
 LDFLAGS =  -fstack-protector
-LIBC = /lib/libc-2.10.1.so
+LIBC = /lib/libc-2.11.so
 LIB_EXT = .a
 OBJ_EXT = .o
 OSNAME = linux
-OSVERS = 2.6.31-gentoo
+OSVERS = 2.6.31-gentoo-r6
 RANLIB = :
 SITELIBEXP = /usr/lib64/perl5/site_perl/5.10.1
 SITEARCHEXP = /usr/lib64/perl5/site_perl/5.10.1/x86_64-linux-thread-multi
@@ -138,9 +138,9 @@ PERM_DIR = 755
 PERM_RW = 644
 PERM_RWX = 755
 
-MAKEMAKER   = /usr/lib64/perl5/5.10.1/ExtUtils/MakeMaker.pm
-MM_VERSION  = 6.55_02
-MM_REVISION = 65502
+MAKEMAKER   = /usr/lib64/perl5/site_perl/5.10.1/ExtUtils/MakeMaker.pm
+MM_VERSION  = 6.56
+MM_REVISION = 65600
 
 # FULLEXT = Pathname for extension directory (eg Foo/Bar/Oracle).
 # BASEEXT = Basename part of FULLEXT. May be just equal FULLEXT. (eg Oracle)
@@ -192,7 +192,7 @@ PM_TO_BLIB = lib/Language/Farnsworth/Functions/GoogleTranslate.pm \
 
 
 # --- MakeMaker platform_constants section:
-MM_Unix_VERSION = 6.55_02
+MM_Unix_VERSION = 6.56
 PERL_MALLOC_DEF = -DPERL_EXTMALLOC_DEF -Dmalloc=Perl_malloc -Dfree=Perl_mfree -Drealloc=Perl_realloc -Dcalloc=Perl_calloc
 
 
@@ -249,7 +249,7 @@ ZIPFLAGS = -r
 COMPRESS = gzip --best
 SUFFIX = .gz
 SHAR = shar
-PREOP = $(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"
+PREOP = $(NOECHO) $(NOOP)
 POSTOP = $(NOECHO) $(NOOP)
 TO_UNIX = $(NOECHO) $(NOOP)
 CI = ci -u
@@ -792,22 +792,3 @@ pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 
 # End.
 # Postamble by Module::Install 0.91
-# --- Module::Install::Admin::Makefile section:
-
-realclean purge ::
-	$(RM_F) $(DISTVNAME).tar$(SUFFIX)
-	$(RM_F) MANIFEST.bak _build
-	$(PERL) "-Ilib" "-MModule::Install::Admin" -e "remove_meta()"
-	$(RM_RF) inc
-
-reset :: purge
-
-upload :: test dist
-	cpan-upload -verbose $(DISTVNAME).tar$(SUFFIX)
-
-grok ::
-	perldoc Module::Install
-
-distsign ::
-	cpansign -s
-

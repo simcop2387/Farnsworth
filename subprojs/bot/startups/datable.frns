@@ -44,7 +44,7 @@
 		{
 			if (them conforms #today#) 
 			{
-				themt = now[] - themt
+				themt = now[] - them
 			} 
 			else 
 			{

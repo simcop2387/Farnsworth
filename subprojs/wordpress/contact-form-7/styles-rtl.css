@@ -1,0 +1,12 @@
+span.wpef7-not-valid-tip {
+	left: auto;
+	right: 20%;
+	direction: rtl;
+}
+span.wpef7-not-valid-tip-no-ajax {
+	direction: rtl;
+}
+span.wpef7-list-item {
+	margin-left: 0;
+	margin-right: 0.5em;
+}

@@ -6,7 +6,6 @@ use warnings;
 use Language::Farnsworth::Error;
 
 use Data::Dumper;
-use Carp qw(cluck carp);
 
 #this is very simple right now but i'll need to make a way to inherit
 #variables from an old Language::Farnsworth::Variables class so that i can do
@@ -58,7 +57,7 @@ sub declare
 
 	if (!defined($name))
 	{
-		cluck "NAME UNDEFINED!\n".Dumper([$self, $name, $value, @_]);
+		error "NAME UNDEFINED!\n".Dumper([$self, $name, $value, @_]);
 	}
 
 	#really all we need to do is just set it in this scope to see it
@@ -72,7 +71,7 @@ sub setref
 
 	if (!defined($name))
 	{
-		cluck "NAME UNDEFINED!\n".Dumper([$self, $name, @_]);
+		error "NAME UNDEFINED!\n".Dumper([$self, $name, @_]);
 	}
 
 	#really all we need to do is just set it in this scope to see it
@@ -85,7 +84,7 @@ sub getref
 	my $name = shift;
 	my $val;
 
-	carp "DEPRECIATED CALL TO Variables->getref()";
+	error "DEPRECIATED CALL TO Variables->getref()";
 
 	if (exists($self->{vars}{$name}))
 	{
