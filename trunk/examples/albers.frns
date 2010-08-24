@@ -1,0 +1,14 @@
+#!./farnsworth.pl
+
+make_albers_projection{par1, par2, origin_lat, origin_long}:={
+   var n=1/2 (sin[par1] + sin[par2]); 
+   var C=cos[par1]**2+2 n sin[par1]; 
+   var p0=sqrt[C - 2 n sin[origin_lat]]/n; 
+   {`lat, long` 
+      var p=sqrt[C - 2 n sin[lat]]/n; 
+      var theta=n(long - origin_long); 
+      var x=p sin[theta];
+      var y=p0 - p cos[theta];
+      [x,y]
+   };
+};
