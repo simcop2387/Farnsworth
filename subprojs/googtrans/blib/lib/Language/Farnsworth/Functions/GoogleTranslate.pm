@@ -19,6 +19,7 @@ our $VERSION = "0.9.1";
 my $defaultcode = "en";
 
 	my %langs = (
+fil=>"Filipino", #google started giving this back recently
 		
 ja=>"Japanese",              
 en=>"English",               
