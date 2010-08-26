@@ -40,7 +40,7 @@ sub init
 
    $env->{funcs}->addfunc("reverse", [["in", undef, undef, 0]],\&reverse, $env);
 
-   $env->eval("now{x = \"UTC\" isa \"\"} := {setzone[#now#, x]}");
+   $env->eval("now{x = \"UTC\" isa \"\"} := {setzone[#this second#, x]}");
    $env->{funcs}->addfunc("setzone", [["date", undef, TYPE_DATE, 0],["zone", undef, TYPE_STRING, 0]], \&setzone, $env);
 
    #$env->{funcs}->addfunc("unit", [["in", undef, undef, 0]], \&unit);
