@@ -30,8 +30,8 @@ my $bots = {
 #                       password => "cubert",
                         charset => "utf-8",
                         },
-                url => "http://andromeda128:8081",
-                channels => ["#yapb", "#buubot", "#perlcafe", "##turtles"],
+                url => "http://farnsworth:8081",
+                channels => ["#yapb", "#buubot", "#perlcafe", "##turtles", "#stackvm"],
         },
 	farnsworth => {
 		poe => {
@@ -43,8 +43,8 @@ my $bots = {
 #			password => "farnsworth",
 			charset => "utf-8",
 			},
-		url => "http://farnsworth.simcop2387.info:8080/cgi-bin/farns.pl",
-		channels => ["#yapb", "#buubot", "#perlcafe", "##turtles"],
+		url => "http://farnsworth:8080",
+		channels => ["#yapb", "#buubot", "#perlcafe", "##turtles", "#stackvm", "#perl-cats"],
 	},
 	farnsworthriz => {
 		poe => {
@@ -56,7 +56,7 @@ my $bots = {
 #			password => "farnsworth",
 			charset => "utf-8",
 			},
-		url => "http://farnsworth.simcop2387.info:8080/cgi-bin/farns.pl",
+		url => "http://farnsworth:8080",
 		channels => ["#dctv", "#dctp", "#uc-fansubs", "#yami", "#azfs", "#kienai"],
 	},
 };
@@ -271,6 +271,9 @@ sub httpback
     #these MAY dissappear!
     $q =~ s/\n/ /g; #filter a few annoying things
     $q =~ s/\s{2,}/ /g;
+    $q =~ s/\s/ /g;
+
+    _sanitize($q);
 
     if ((length $q > 300) && $reqheap->{type} ne "msg")
     {
@@ -384,4 +387,10 @@ sub getpristart
 
    $max ||= 0; #make sure its a numba!
    return $max+1; 
+}
+
+sub _sanitize
+{
+  $_[0]=~y/\000-\x1F//d;
+  return $_[0];
 }
