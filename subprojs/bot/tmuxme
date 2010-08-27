@@ -1,0 +1,4 @@
+start
+new-window ./server.pl
+new-window ./serverpage.pl
+

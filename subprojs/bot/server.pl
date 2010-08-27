@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #!/home/ryan/userperl/perl5.8/bin/perl
 
-use lib '/home/ryan/farnsworth/lib';
+use lib '/home/ryan/Farnsworth/trunk/lib';
 
 use strict;
 use warnings;
