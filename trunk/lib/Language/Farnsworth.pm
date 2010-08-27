@@ -236,13 +236,6 @@ Objects!
 
 =back
 
-=head1 KNOWN ISSUES
-
-If you have DateTime::Format::Flexible v0.10 or greater then there is an issue with DateTimeX::Easy (which is used for the date parsing).
-What happens is that versions prior to v0.10 would give an error when attempting to parse #now# and it would go on to be parsed by DateTime::Format::Natural.
-The problem is that v0.10 of DateTime::Flexible introduced a base index for time that causes it to always return the SAME time everytime you ask for the current time.
-This version works around the problem but you should be aware that #now# may not work correctly in a script, this IS incorrect behavior and I do not have a fix for it yet.
-
 =head1 HISTORY
 
 Language::Farnsworth is a programming language originally inspired by Frink (see http://futureboy.homeip.net/frinkdocs/ ).
