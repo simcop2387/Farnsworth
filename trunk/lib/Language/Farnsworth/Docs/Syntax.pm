@@ -64,7 +64,7 @@ Note that single quotes ' are not used for strings, they may eventually be used 
 
 =head4 String Escapes
 
-Language::Farnsworth currently only supports two escapes, this will be rectified in future versions of Language::Farnsworth but was not a priority for the early releases which are intended to just be not much more than a proof of concept
+Language::Farnsworth currently only supports a few escapes, this will be rectified in future versions of Language::Farnsworth but was not a priority for the early releases which are intended to just be not much more than a proof of concept
 
 	\" # to escape a quote inside a string
 	\\ # to escape a backslash inside a string
@@ -161,10 +161,33 @@ Like most reasonable programming languages Language::Farnsworth has functions, t
 
 =head3 Defining
 
+=head4 New Style Syntax
+
+To define a function you'll want to do something like this
+
+	defun f = {`x` x+x};
+
+First we've got 'B<defun>' this says that we're B<de>fining a B<fun>ction, the name is borrowed from lisp.
+Next we've got 'B<f>' which is the name of the function. After that we've got any expression that evaluates to a lambda.
+You can read about lambdas in more detail below, but here's the basics; We start with B<{`> this is the starting syntax of a lambda.
+Following it are the arguments to the lambda 'B<x>' in this case, we then end the arguements with another 'B<`>'.
+Then we've got the body of the lambda which is just a series of statements that end up return[]ing a result.
+
+Now lets have a look at a slightly more complicated function
+
+	defun max = {`x,y` var z; if (x > y) {z = x} else {z = y}; z}
+
+here we've got a function 'B<max>' that takes two arguments, 'B<x>' and 'B<y>', then we've got something new on the right side, 'B<var z; if (x E<gt> y) {z = x} else {z = y}; z>', if you've programmed before you'll notice that we're separating each expression with a 'B<;>'
+
+the very last expression that gets evaluated, in this case, 'B<z>' is what the function returns if there isn't an explicit call to return[]
+
+=head4 Old Style Syntax
+
+	NOTE: That while this syntax is depreciated it is unlikely to be removed very soon as it does not get in the way of anything in the parser
+
 To define a function you'll want to do something like this
 
 	f{x} := x+x
-	NOTE: This syntax will be depreciated and removed by 1.0.0, the new syntax has not been added to this version
 
 First we've got 'B<f>' which is the name of the function, then we've got this weird little part following it 'B<{x}>' this defines the arguments that the functions takes, in this case its a single argument named 'B<x>', next we've got 'B<:=>' this is the assignment operator for defining a function (it is also used for units, but we'll cover that later) then we've got the expression 'B<x+x>' which is what the function actually does, in this case we're adding the argument to the function to itself
 
@@ -174,7 +197,7 @@ Now lets have a look at a slightly more complicated function
 
 here we've got a function 'B<max>' that takes two arguments, 'B<x>' and 'B<y>', then we've got something new on the right side, 'B<{ var z; if (x E<gt> y) {z = x} else {z = y}; z}>', we've surrounded the expression on the right with ' B<{ }> ', this lets us use multiple statements to build up the function if you've programmed before you'll realize that we're separating each expression with a 'B<;>'
 
-the very last expression that gets evaluated, in this case, 'B<z>' is what the function returns (NOTE: there are plans to add the ability to return at any point in the function but those have not been implemented yet)
+the very last expression that gets evaluated, in this case, 'B<z>' is what the function returns if there isn't an explicit call to return[]
 
 =head3 Calling Functions
 
@@ -213,14 +236,16 @@ Arguments to functions in Language::Farnsworth can have default parameters so th
 They are set when you create the function by setting the arguments equal to the default value
 
 	f{x = 1} := {x * x}
+	defun f={`x = 1` x * x}
 
 =head3 Type Constraints
 
 Arguments can also be told that they have to be of a certain type in order to be given to a function, otherwise an exception is raised and the execution of the code stops
 
-These also are create at the time you define the function
+These also are created at the time you define the function
 
 	f{x isa meter} := {x per 10 seconds}
+	defun f = {`x isa meter` x per 10 seconds}
 
 Currently type constraints have to be some expression that describes the type of input you are expecting, in this case we used "meter" however meter describes a length, and any expression that describes a length can be used as the argument to the function e.g.
 
@@ -230,22 +255,27 @@ is perfectly valid.  There are plans to implement the ability to say something l
 You can combine default arguments and constraints by specifying the default argument first, e.g.
 
 	f{x = 10 cm isa meter} := {x per 10 seconds}
+	defun f = {`x = 10 cm isa meter` x per 10 seconds}
 
 =head3 Variable Number of Arguments
 
 Sometimes you want to be able to take any number of arguments in order to perform some action on many different things, this is possible in Language::Farnsworth.
 You can do this by adding a constraint to the last argument to the function.
 
-	dostuff{x, y isa ...} := {/*something*/};
+	dostuff{x, y isa ...} := {/*something*/}
+	defun dostuff = {`x, y isa ...` /*something*/}
 
 From this example you can see that we use the type constraint 'B<...>'.  What this does is tell Language::Farnsworth to take any additional arguments and place them into an array and pass that array as the variable B<y>.
 Here's an example of what use this can be to do something like recreate the C<map> function from perl.
 
 	map{sub isa {`x`}, x isa ...} := {var e; var out=[]; while(e = shift[x]) {push[out, (e => sub)]}; out};
+	defun map = {`sub isa {`x`}, x isa ...` var e; var out=[]; while(e = shift[x]) {push[out, (e => sub)]}; out};
 	map[{`x` x+1}, 1,2,3];
 
 What we've got here is the first argument B<sub> must be a Lambda (see below for more information on them).  And the second argument swallows up ALL of the other arguments to the function allowing you to take any number of them.
 
+	NOTE: the map actually used in farnsworth is slightly more complex to handle some other edge cases
+	
 =head2 Units
 
 What are units?

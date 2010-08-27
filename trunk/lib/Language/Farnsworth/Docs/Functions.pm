@@ -266,6 +266,12 @@ returns a random number between 0 and 1 with 30 digits of precision (e.g. 10**30
 
 =head1 Miscellaneous Functions
 
+=head2 return[]
+
+	return[]
+	
+return[] lets you return a single value/variable to the previous context just like in almost any other language. 
+
 =head2 now[]
 
 	now[]
