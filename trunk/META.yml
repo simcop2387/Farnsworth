@@ -25,10 +25,11 @@ recommends:
   REST::Google::Translate: 0
 requires:
   DateTime: 0
+  DateTime::Format::Flexible: 0.16
   DateTimeX::Easy: 0
   List::MoreUtils: 0
   Math::Pari: 0
   enum: 0
 resources:
   license: http://opensource.org/licenses/artistic-license.php
-version: 0.7.3
+version: 0.7.5

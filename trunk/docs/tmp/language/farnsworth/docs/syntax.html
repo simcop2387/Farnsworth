@@ -1,4 +1,4 @@
-<div name="index"><p><a name="__index__"></a><ul><li><a href="#name">NAME</a><li><a href="#synopsis">SYNOPSIS</a><li><a href="#description">DESCRIPTION</a><ul><li><a href="#implicit_multiplication">IMPLICIT MULTIPLICATION</a><li><a href="#variables">VARIABLES</a><ul><li><a href="#strings">Strings</a><ul><li><a href="#string_escapes">String Escapes</a><li><a href="#variable_interpolation">Variable Interpolation</a><li><a href="#expression_interpolation">Expression Interpolation</a></ul><li><a href="#dates">Dates</a><li><a href="#arrays">Arrays</a><ul><li><a href="#accessing_elements_of_the_array">Accessing elements of the Array</a></ul></ul><li><a href="#operators">OPERATORS</a><ul><li><a href="#logical_operators">Logical Operators</a><li><a href="#per">per</a><li><a href="#implicit_multiplication">Implicit Multiplication</a></ul><li><a href="#functions">Functions</a><ul><li><a href="#defining">Defining</a><li><a href="#calling_functions">Calling Functions</a><li><a href="#default_parameters">Default Parameters</a><li><a href="#type_constraints">Type Constraints</a><li><a href="#variable_number_of_arguments">Variable Number of Arguments</a></ul><li><a href="#units">Units</a><ul><li><a href="#unit_conversions">Unit Conversions</a><li><a href="#unit_definitions">Unit Definitions</a><li><a href="#unit_prefixes">Unit Prefixes</a><li><a href="#more_advanced_unit_manipulation">More Advanced Unit Manipulation</a></ul><li><a href="#flow_control">Flow Control</a><ul><li><a href="#if">If</a><li><a href="#while">While</a></ul><li><a href="#lambdas">Lambdas</a><ul><li><a href="#defining_a_lambda">Defining a Lambda</a><li><a href="#calling_lambdas__new_syntax_">Calling Lambdas (New Syntax)</a><li><a href="#nesting_lambdas">Nesting Lambdas</a></ul></ul><li><a href="#see_also">SEE ALSO</a><li><a href="#author">AUTHOR</a><li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></ul><hr name="index" /></div>
+<div name="index"><p><a name="__index__"></a><ul><li><a href="#name">NAME</a><li><a href="#synopsis">SYNOPSIS</a><li><a href="#description">DESCRIPTION</a><ul><li><a href="#implicit_multiplication">IMPLICIT MULTIPLICATION</a><li><a href="#variables">VARIABLES</a><ul><li><a href="#strings">Strings</a><ul><li><a href="#string_escapes">String Escapes</a><li><a href="#variable_interpolation">Variable Interpolation</a><li><a href="#expression_interpolation">Expression Interpolation</a></ul><li><a href="#dates">Dates</a><li><a href="#arrays">Arrays</a><ul><li><a href="#accessing_elements_of_the_array">Accessing elements of the Array</a></ul></ul><li><a href="#operators">OPERATORS</a><ul><li><a href="#logical_operators">Logical Operators</a><li><a href="#per">per</a><li><a href="#implicit_multiplication">Implicit Multiplication</a></ul><li><a href="#functions">Functions</a><ul><li><a href="#defining">Defining</a><ul><li><a href="#new_style_syntax">New Style Syntax</a><li><a href="#old_style_syntax">Old Style Syntax</a></ul><li><a href="#calling_functions">Calling Functions</a><li><a href="#default_parameters">Default Parameters</a><li><a href="#type_constraints">Type Constraints</a><li><a href="#variable_number_of_arguments">Variable Number of Arguments</a><li><a href="#turning_functions_into_lambdas">Turning functions into lambdas</a><li><a href="#unit_conversions">Unit Conversions</a><li><a href="#unit_definitions">Unit Definitions</a><li><a href="#unit_prefixes">Unit Prefixes</a><li><a href="#more_advanced_unit_manipulation">More Advanced Unit Manipulation</a></ul><li><a href="#flow_control">Flow Control</a><ul><li><a href="#if">If</a><li><a href="#while">While</a></ul><li><a href="#lambdas">Lambdas</a><ul><li><a href="#defining_a_lambda">Defining a Lambda</a><li><a href="#calling_lambdas__new_syntax_">Calling Lambdas (New Syntax)</a><li><a href="#nesting_lambdas">Nesting Lambdas</a></ul></ul><li><a href="#see_also">SEE ALSO</a><li><a href="#author">AUTHOR</a><li><a href="#copyright_and_license">COPYRIGHT AND LICENSE</a></ul><hr name="index" /></div>
 
 <p>
 
@@ -62,7 +62,7 @@
 
 <h4><a name="string_escapes">String Escapes</a></h4>
 
-<p>Language::Farnsworth currently only supports two escapes, this will be rectified in future versions of Language::Farnsworth but was not a priority for the early releases which are intended to just be not much more than a proof of concept
+<p>Language::Farnsworth currently only supports a few escapes, this will be rectified in future versions of Language::Farnsworth but was not a priority for the early releases which are intended to just be not much more than a proof of concept
 
 <pre>
         \&quot; # to escape a quote inside a string
@@ -192,11 +192,37 @@
 
 <h3><a name="defining">Defining</a></h3>
 
+<p>
+
+<h4><a name="new_style_syntax">New Style Syntax</a></h4>
+
 <p>To define a function you&#39;ll want to do something like this
 
 <pre>
-        f{x} := x+x
-        NOTE: This syntax will be depreciated and removed by 1.0.0, the new syntax has not been added to this version</pre>
+        defun f = {`x` x+x};</pre>
+
+<p>First we&#39;ve got &#39;<strong>defun</strong>&#39; this says that we&#39;re <strong>de</strong>fining a <strong>fun</strong>ction, the name is borrowed from lisp. Next we&#39;ve got &#39;<strong>f</strong>&#39; which is the name of the function. After that we&#39;ve got any expression that evaluates to a lambda. You can read about lambdas in more detail below, but here&#39;s the basics; We start with <strong>{`</strong> this is the starting syntax of a lambda. Following it are the arguments to the lambda &#39;<strong>x</strong>&#39; in this case, we then end the arguements with another &#39;<strong>`</strong>&#39;. Then we&#39;ve got the body of the lambda which is just a series of statements that end up return[]ing a result.
+
+<p>Now lets have a look at a slightly more complicated function
+
+<pre>
+        defun max = {`x,y` var z; if (x &gt; y) {z = x} else {z = y}; z}</pre>
+
+<p>here we&#39;ve got a function &#39;<strong>max</strong>&#39; that takes two arguments, &#39;<strong>x</strong>&#39; and &#39;<strong>y</strong>&#39;, then we&#39;ve got something new on the right side, &#39;<strong>var z; if (x &gt; y) {z = x} else {z = y}; z</strong>&#39;, if you&#39;ve programmed before you&#39;ll notice that we&#39;re separating each expression with a &#39;<strong>;</strong>&#39;
+
+<p>the very last expression that gets evaluated, in this case, &#39;<strong>z</strong>&#39; is what the function returns if there isn&#39;t an explicit call to return[]
+
+<p>
+
+<h4><a name="old_style_syntax">Old Style Syntax</a></h4>
+
+<pre>
+        NOTE: That while this syntax is depreciated it is unlikely to be removed very soon as it does not get in the way of anything in the parser</pre>
+
+<p>To define a function you&#39;ll want to do something like this
+
+<pre>
+        f{x} := x+x</pre>
 
 <p>First we&#39;ve got &#39;<strong>f</strong>&#39; which is the name of the function, then we&#39;ve got this weird little part following it &#39;<strong>{x}</strong>&#39; this defines the arguments that the functions takes, in this case its a single argument named &#39;<strong>x</strong>&#39;, next we&#39;ve got &#39;<strong>:=</strong>&#39; this is the assignment operator for defining a function (it is also used for units, but we&#39;ll cover that later) then we&#39;ve got the expression &#39;<strong>x+x</strong>&#39; which is what the function actually does, in this case we&#39;re adding the argument to the function to itself
 
@@ -207,7 +233,7 @@
 
 <p>here we&#39;ve got a function &#39;<strong>max</strong>&#39; that takes two arguments, &#39;<strong>x</strong>&#39; and &#39;<strong>y</strong>&#39;, then we&#39;ve got something new on the right side, &#39;<strong>{ var z; if (x &gt; y) {z = x} else {z = y}; z}</strong>&#39;, we&#39;ve surrounded the expression on the right with &#39; <strong>{ }</strong> &#39;, this lets us use multiple statements to build up the function if you&#39;ve programmed before you&#39;ll realize that we&#39;re separating each expression with a &#39;<strong>;</strong>&#39;
 
-<p>the very last expression that gets evaluated, in this case, &#39;<strong>z</strong>&#39; is what the function returns (NOTE: there are plans to add the ability to return at any point in the function but those have not been implemented yet)
+<p>the very last expression that gets evaluated, in this case, &#39;<strong>z</strong>&#39; is what the function returns if there isn&#39;t an explicit call to return[]
 
 <p>
 
@@ -249,7 +275,8 @@
 <p>Arguments to functions in Language::Farnsworth can have default parameters so that they don&#39;t always have to be specified explicitly. They are set when you create the function by setting the arguments equal to the default value
 
 <pre>
-        f{x = 1} := {x * x}</pre>
+        f{x = 1} := {x * x}
+        defun f={`x = 1` x * x}</pre>
 
 <p>
 
@@ -257,10 +284,11 @@
 
 <p>Arguments can also be told that they have to be of a certain type in order to be given to a function, otherwise an exception is raised and the execution of the code stops
 
-<p>These also are create at the time you define the function
+<p>These also are created at the time you define the function
 
 <pre>
-        f{x isa meter} := {x per 10 seconds}</pre>
+        f{x isa meter} := {x per 10 seconds}
+        defun f = {`x isa meter` x per 10 seconds}</pre>
 
 <p>Currently type constraints have to be some expression that describes the type of input you are expecting, in this case we used &quot;meter&quot; however meter describes a length, and any expression that describes a length can be used as the argument to the function e.g.
 
@@ -270,7 +298,8 @@
 <p>is perfectly valid. There are plans to implement the ability to say something like &#39;<strong>f{x isa length}</strong> however they have not been implemented yet. You can combine default arguments and constraints by specifying the default argument first, e.g.
 
 <pre>
-        f{x = 10 cm isa meter} := {x per 10 seconds}</pre>
+        f{x = 10 cm isa meter} := {x per 10 seconds}
+        defun f = {`x = 10 cm isa meter` x per 10 seconds}</pre>
 
 <p>
 
@@ -279,19 +308,32 @@
 <p>Sometimes you want to be able to take any number of arguments in order to perform some action on many different things, this is possible in Language::Farnsworth. You can do this by adding a constraint to the last argument to the function.
 
 <pre>
-        dostuff{x, y isa ...} := {/*something*/};</pre>
+        dostuff{x, y isa ...} := {/*something*/}
+        defun dostuff = {`x, y isa ...` /*something*/}</pre>
 
 <p>From this example you can see that we use the type constraint &#39;<strong>...</strong>&#39;. What this does is tell Language::Farnsworth to take any additional arguments and place them into an array and pass that array as the variable <strong>y</strong>. Here&#39;s an example of what use this can be to do something like recreate the <code>map</code> function from perl.
 
 <pre>
         map{sub isa {`x`}, x isa ...} := {var e; var out=[]; while(e = shift[x]) {push[out, (e =&gt; sub)]}; out};
+        defun map = {`sub isa {`x`}, x isa ...` var e; var out=[]; while(e = shift[x]) {push[out, (e =&gt; sub)]}; out};
         map[{`x` x+1}, 1,2,3];</pre>
 
 <p>What we&#39;ve got here is the first argument <strong>sub</strong> must be a Lambda (see below for more information on them). And the second argument swallows up ALL of the other arguments to the function allowing you to take any number of them.
 
+<pre>
+        NOTE: the map actually used in farnsworth is slightly more complex to handle some other edge cases</pre>
+
 <p>
 
-<h2><a name="units">Units</a></h2>
+<h3><a name="turning_functions_into_lambdas">Turning functions into lambdas</a></h3>
+
+<p>With the new function changes all functions are now treated the same as lambdas. This lets us do some neat things. This new syntax with &#39;<strong>&amp;</strong>&#39; is only temporary until I finish the namespace code and add a proper way for when you want to get the value of a function.
+
+<pre>
+        defun foo={`x` x ** 2};
+        defun bar=&amp;foo;
+        
+=head2 Units</pre>
 
 <p>What are units? Units are things like: inches, feet, meters, gallons, volts, liters, etc.
 
@@ -431,7 +473,7 @@ Since Farnsworth represents everything as a single unit it will always want to g
 
 <h3><a name="defining_a_lambda">Defining a Lambda</a></h3>
 
-<p>The basic syntax for defining a lambda is similar to how functions are defined
+<p>The basic syntax for defining a lambda is almost exactly the same as the new syntax for defining functions
 
 <pre>
         variable = {`arguments` statements};
@@ -446,7 +488,7 @@ Since Farnsworth represents everything as a single unit it will always want to g
 <p>Calling a lambda is fairly simple, the syntax looks a lot like the syntax for calling functions or for using units
 
 <pre>
-        lambda[arguments]
+    lambda[arguments]
         lambda argument
         lambda * argument</pre>
 
