@@ -228,12 +228,12 @@ CST6CDT{x isa #today#} := {setzone[x, "CST6CDT"]};
 mkstr{x} := {if (x conforms "") {x} else {"$x"}};
 prettyout{dome, _measures isa []} := {var measures=sort[{`a,b` var a1=eval[mkstr[a]]; var b1=eval[mkstr[b]]; b1 <=> a1}, _measures]; var i=0; var ret=""; map[{`x` var val=eval[mkstr[x]]; var size=1.0 dome/val; i=i+1; if ((i == length[measures]) && (size > 0)) {ret = ret + " $size" +mkstr[x];} else {if (size >= 1.0) {ret = ret + " ${int[size]}" + mkstr[x]; dome=dome-val*int[size]}};}, measures]; ret };
 
-/*{`` var metric=1;
+{`` var metric=1;
 
 prettyout_length{x isa m} := {metric ? prettyout_length_SI[x] : prettyout_length_US[x]};
 setmetric{} := metric=1;
 setus{} := metric=0;
-} [];*/
+} [];
 
 prettyout_length_SI{x isa m} := {var large = ["lightyears", "au", "parsecs", "kilometers"]; var medium = ["kilometers", "meters", "centimeters"]; var small = ["centimeters", "millimeters", "micrometers"]; var verysmall = ["millimeters", "micrometers", ]; prettyout[x, x > 1 cm ? x >= 1 m ? x > 1/4 au ? large : medium : small : verysmall];};
 prettyout_length_US{x isa m} := {var large = ["lightyears", "au", "parsec", "miles"]; var medium = ["miles", "yards", "feet"]; var small = ["yards", "feet", "inches"]; var verysmall = ["inches", "thou"]; prettyout[x, x > 6 inches ? x > 200 yards ? x > 1/4 au ? large : medium : small : verysmall];};
@@ -241,6 +241,6 @@ prettyout_length_US{x isa m} := {var large = ["lightyears", "au", "parsec", "mil
 
 /*from Vylen*/
 //ha{x} := { var c = floor[length[x] * 0.75]; left[x, c] + "--NGHHHHhhhhhh" } // old version
-ha{x} := { var c = randmax[length[x]]; left[x, c] + "--NGHHHHhhhhhh" }
+ha{x} := { var c = randmax[length[x]]; left[x, c] + "--NGHHHHhhhhhh" };
 
 toSeconds{h,m} := { h * 3600 + m * 60 }
