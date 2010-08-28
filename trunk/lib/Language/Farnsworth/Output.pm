@@ -3,7 +3,8 @@ package Language::Farnsworth::Output;
 use strict;
 use warnings;
 
-use overload '""' => \&tostring;
+use overload '""' => \&tostring, "eq" => \&eq;
+
 
 use Data::Dumper;
 use Date::Manip;
@@ -105,6 +106,16 @@ sub tostring
   my $value = $self->{obj};
 
   return $self->getoutstring($value);
+}
+
+sub eq
+{
+  my $one = shift;
+  my $two = shift;
+  my $order = shift;
+
+  my $string = $one->tostring();
+  return $string eq $two;
 }
 
 #this takes a set of dimensions and returns what to display
