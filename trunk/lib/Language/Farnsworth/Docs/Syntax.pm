@@ -275,6 +275,14 @@ Here's an example of what use this can be to do something like recreate the C<ma
 What we've got here is the first argument B<sub> must be a Lambda (see below for more information on them).  And the second argument swallows up ALL of the other arguments to the function allowing you to take any number of them.
 
 	NOTE: the map actually used in farnsworth is slightly more complex to handle some other edge cases
+
+=head3 Turning functions into lambdas
+
+With the new function changes all functions are now treated the same as lambdas.  This lets us do some neat things.
+This new syntax with 'B<&>' is only temporary until I finish the namespace code and add a proper way for when you want to get the value of a function. 
+
+	defun foo={`x` x ** 2};
+	defun bar=&foo;
 	
 =head2 Units
 
@@ -387,7 +395,7 @@ Also Note: the syntax for them MIGHT change as i begin to learn how to rewrite t
 
 =head3 Defining a Lambda
 
-The basic syntax for defining a lambda is similar to how functions are defined
+The basic syntax for defining a lambda is almost exactly the same as the new syntax for defining functions
 
 	variable = {`arguments` statements};
 	distance = {`x, y` sqrt[x * x + y * y]};
@@ -398,7 +406,7 @@ As you can see here, a lambda is actually stored inside a variable rather than a
 
 Calling a lambda is fairly simple, the syntax looks a lot like the syntax for calling functions or for using units
 
-        lambda[arguments]
+    lambda[arguments]
 	lambda argument
 	lambda * argument
 
