@@ -32,7 +32,7 @@ print "DONE STARTING UP!\n";
 $Language::Farnsworth::Units::lock = 1; #need better interface!
 
 my $aliases = POE::Component::Server::HTTP->new(
-  Port => 8081,
+  Port => 8080,
   ContentHandler => {"/", \&runfarnsworth},
 	Headers => { Server => "Farnsworth Server 1.2" },
   );
