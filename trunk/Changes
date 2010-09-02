@@ -1,0 +1,5 @@
+
+* 2010-09-02
+** Changed date code to only set time zone if date is left floating
+
+<insert git log here>
