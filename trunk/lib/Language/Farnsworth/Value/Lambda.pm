@@ -290,7 +290,27 @@ sub deparsetree
 		#got perl code here!
 		return "/* PERL CODE */";
 	}
-	if ($type eq "Add")
+	elsif ($type eq "PreDec")
+	{
+		my $a = $self->deparsetree($branch->[0]);
+		return "--$a"
+	}
+	elsif ($type eq "PreInc")
+	{
+		my $a = $self->deparsetree($branch->[0]);
+		return "++$a"
+	}
+	elsif ($type eq "PostDec")
+	{
+		my $a = $self->deparsetree($branch->[0]);
+		return "$a--"
+	}
+	elsif ($type eq "PostInc")
+	{
+		my $a = $self->deparsetree($branch->[0]);
+		return "$a++"
+	}
+	elsif ($type eq "Add")
 	{
 		my $a = $self->deparsetree($branch->[0]);
 		my $b = $self->deparsetree($branch->[1]);

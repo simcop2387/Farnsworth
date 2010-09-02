@@ -9,7 +9,7 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.91'
+generated_by: 'Module::Install version 1.00'
 license: artistic
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -25,10 +25,11 @@ recommends:
   REST::Google::Translate: 0
 requires:
   DateTime: 0
+  DateTime::Format::Flexible: 0.16
   DateTimeX::Easy: 0
   List::MoreUtils: 0
   Math::Pari: 0
   enum: 0
 resources:
   license: http://opensource.org/licenses/artistic-license.php
-version: 0.7.3
+version: 0.7.5

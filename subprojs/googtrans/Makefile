@@ -11,15 +11,16 @@
 
 #   MakeMaker Parameters:
 
-#     BUILD_REQUIRES => {  }
-#     DIR => []
+#     AUTHOR => q[]
+#     BUILD_REQUIRES => { ExtUtils::MakeMaker=>q[6.42] }
 #     DISTNAME => q[Language-Farnsworth-Functions-GoogleTranslate]
+#     LICENSE => q[artistic]
 #     NAME => q[Language::Farnsworth::Functions::GoogleTranslate]
 #     NO_META => q[1]
-#     PL_FILES => {  }
 #     PREREQ_PM => { Language::Farnsworth=>q[0], ExtUtils::MakeMaker=>q[6.42], REST::Google::Translate=>q[0] }
 #     VERSION => q[0.9.1]
-#     dist => {  }
+#     VERSION_FROM => q[lib/Language/Farnsworth/Functions/GoogleTranslate.pm]
+#     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
 #     realclean => { FILES=>q[MYMETA.yml] }
 
 # --- MakeMaker post_initialize section:
@@ -27,30 +28,30 @@
 
 # --- MakeMaker const_config section:
 
-# These definitions are from config.sh (via /usr/lib64/perl5/5.10.1/x86_64-linux-thread-multi/Config.pm).
+# These definitions are from config.sh (via /usr/lib/perl/5.10/Config.pm).
 # They may have been overridden via Makefile.PL or on the command line.
 AR = ar
-CC = x86_64-pc-linux-gnu-gcc
+CC = cc
 CCCDLFLAGS = -fPIC
 CCDLFLAGS = -Wl,-E
 DLEXT = so
 DLSRC = dl_dlopen.xs
 EXE_EXT = 
 FULL_AR = /usr/bin/ar
-LD = x86_64-pc-linux-gnu-gcc
-LDDLFLAGS = -shared -march=native -O2 -ftree-vectorize -msse -msse2 -mmmx -m3dnow -msse3 -pipe -ggdb -fstack-protector
-LDFLAGS =  -fstack-protector
-LIBC = /lib/libc-2.11.so
+LD = cc
+LDDLFLAGS = -shared -O2 -g -L/usr/local/lib -fstack-protector
+LDFLAGS =  -fstack-protector -L/usr/local/lib
+LIBC = /lib/libc-2.11.1.so
 LIB_EXT = .a
 OBJ_EXT = .o
 OSNAME = linux
-OSVERS = 2.6.31-gentoo-r6
+OSVERS = 2.6.24-27-server
 RANLIB = :
-SITELIBEXP = /usr/lib64/perl5/site_perl/5.10.1
-SITEARCHEXP = /usr/lib64/perl5/site_perl/5.10.1/x86_64-linux-thread-multi
+SITELIBEXP = /usr/local/share/perl/5.10.1
+SITEARCHEXP = /usr/local/lib/perl/5.10.1
 SO = so
-VENDORARCHEXP = /usr/lib64/perl5/vendor_perl/5.10.1/x86_64-linux-thread-multi
-VENDORLIBEXP = /usr/lib64/perl5/vendor_perl/5.10.1
+VENDORARCHEXP = /usr/lib/perl5
+VENDORLIBEXP = /usr/share/perl5
 
 
 # --- MakeMaker constants section:
@@ -72,60 +73,58 @@ INST_BIN = blib/bin
 INST_LIB = blib/lib
 INST_MAN1DIR = blib/man1
 INST_MAN3DIR = blib/man3
-MAN1EXT = 1
-MAN3EXT = 3
+MAN1EXT = 1p
+MAN3EXT = 3pm
 INSTALLDIRS = site
+INSTALL_BASE = /home/ryan/perl5
 DESTDIR = 
-PREFIX = $(SITEPREFIX)
-PERLPREFIX = /usr
-SITEPREFIX = /usr
-VENDORPREFIX = /usr
-INSTALLPRIVLIB = /usr/lib64/perl5/5.10.1
+PREFIX = $(INSTALL_BASE)
+INSTALLPRIVLIB = $(INSTALL_BASE)/lib/perl5
 DESTINSTALLPRIVLIB = $(DESTDIR)$(INSTALLPRIVLIB)
-INSTALLSITELIB = /usr/lib64/perl5/site_perl/5.10.1
+INSTALLSITELIB = $(INSTALL_BASE)/lib/perl5
 DESTINSTALLSITELIB = $(DESTDIR)$(INSTALLSITELIB)
-INSTALLVENDORLIB = /usr/lib64/perl5/vendor_perl/5.10.1
+INSTALLVENDORLIB = $(INSTALL_BASE)/lib/perl5
 DESTINSTALLVENDORLIB = $(DESTDIR)$(INSTALLVENDORLIB)
-INSTALLARCHLIB = /usr/lib64/perl5/5.10.1/x86_64-linux-thread-multi
+INSTALLARCHLIB = $(INSTALL_BASE)/lib/perl5/i486-linux-gnu-thread-multi
 DESTINSTALLARCHLIB = $(DESTDIR)$(INSTALLARCHLIB)
-INSTALLSITEARCH = /usr/lib64/perl5/site_perl/5.10.1/x86_64-linux-thread-multi
+INSTALLSITEARCH = $(INSTALL_BASE)/lib/perl5/i486-linux-gnu-thread-multi
 DESTINSTALLSITEARCH = $(DESTDIR)$(INSTALLSITEARCH)
-INSTALLVENDORARCH = /usr/lib64/perl5/vendor_perl/5.10.1/x86_64-linux-thread-multi
+INSTALLVENDORARCH = $(INSTALL_BASE)/lib/perl5/i486-linux-gnu-thread-multi
 DESTINSTALLVENDORARCH = $(DESTDIR)$(INSTALLVENDORARCH)
-INSTALLBIN = /usr/bin
+INSTALLBIN = $(INSTALL_BASE)/bin
 DESTINSTALLBIN = $(DESTDIR)$(INSTALLBIN)
-INSTALLSITEBIN = /usr/bin
+INSTALLSITEBIN = $(INSTALL_BASE)/bin
 DESTINSTALLSITEBIN = $(DESTDIR)$(INSTALLSITEBIN)
-INSTALLVENDORBIN = /usr/bin
+INSTALLVENDORBIN = $(INSTALL_BASE)/bin
 DESTINSTALLVENDORBIN = $(DESTDIR)$(INSTALLVENDORBIN)
-INSTALLSCRIPT = /usr/bin
+INSTALLSCRIPT = $(INSTALL_BASE)/bin
 DESTINSTALLSCRIPT = $(DESTDIR)$(INSTALLSCRIPT)
-INSTALLSITESCRIPT = /usr/bin
+INSTALLSITESCRIPT = $(INSTALL_BASE)/bin
 DESTINSTALLSITESCRIPT = $(DESTDIR)$(INSTALLSITESCRIPT)
-INSTALLVENDORSCRIPT = /usr/bin
+INSTALLVENDORSCRIPT = $(INSTALL_BASE)/bin
 DESTINSTALLVENDORSCRIPT = $(DESTDIR)$(INSTALLVENDORSCRIPT)
-INSTALLMAN1DIR = /usr/share/man/man1
+INSTALLMAN1DIR = $(INSTALL_BASE)/man/man1
 DESTINSTALLMAN1DIR = $(DESTDIR)$(INSTALLMAN1DIR)
-INSTALLSITEMAN1DIR = /usr/share/man/man1
+INSTALLSITEMAN1DIR = $(INSTALL_BASE)/man/man1
 DESTINSTALLSITEMAN1DIR = $(DESTDIR)$(INSTALLSITEMAN1DIR)
-INSTALLVENDORMAN1DIR = /usr/share/man/man1
+INSTALLVENDORMAN1DIR = $(INSTALL_BASE)/man/man1
 DESTINSTALLVENDORMAN1DIR = $(DESTDIR)$(INSTALLVENDORMAN1DIR)
-INSTALLMAN3DIR = /usr/share/man/man3
+INSTALLMAN3DIR = $(INSTALL_BASE)/man/man3
 DESTINSTALLMAN3DIR = $(DESTDIR)$(INSTALLMAN3DIR)
-INSTALLSITEMAN3DIR = /usr/share/man/man3
+INSTALLSITEMAN3DIR = $(INSTALL_BASE)/man/man3
 DESTINSTALLSITEMAN3DIR = $(DESTDIR)$(INSTALLSITEMAN3DIR)
-INSTALLVENDORMAN3DIR = /usr/share/man/man3
+INSTALLVENDORMAN3DIR = $(INSTALL_BASE)/man/man3
 DESTINSTALLVENDORMAN3DIR = $(DESTDIR)$(INSTALLVENDORMAN3DIR)
 PERL_LIB =
-PERL_ARCHLIB = /usr/lib64/perl5/5.10.1/x86_64-linux-thread-multi
+PERL_ARCHLIB = /usr/lib/perl/5.10
 LIBPERL_A = libperl.a
 FIRST_MAKEFILE = Makefile
 MAKEFILE_OLD = Makefile.old
 MAKE_APERL_FILE = Makefile.aperl
 PERLMAINCC = $(CC)
-PERL_INC = /usr/lib64/perl5/5.10.1/x86_64-linux-thread-multi/CORE
-PERL = /usr/bin/perl5.10.1 "-Iinc"
-FULLPERL = /usr/bin/perl5.10.1 "-Iinc"
+PERL_INC = /usr/lib/perl/5.10/CORE
+PERL = /usr/bin/perl "-Iinc"
+FULLPERL = /usr/bin/perl "-Iinc"
 ABSPERL = $(PERL)
 PERLRUN = $(PERL)
 FULLPERLRUN = $(FULLPERL)
@@ -138,7 +137,7 @@ PERM_DIR = 755
 PERM_RW = 644
 PERM_RWX = 755
 
-MAKEMAKER   = /usr/lib64/perl5/site_perl/5.10.1/ExtUtils/MakeMaker.pm
+MAKEMAKER   = /home/ryan/perl5/lib/perl5/ExtUtils/MakeMaker.pm
 MM_VERSION  = 6.56
 MM_REVISION = 65600
 
@@ -151,7 +150,7 @@ FULLEXT = Language/Farnsworth/Functions/GoogleTranslate
 BASEEXT = GoogleTranslate
 PARENT_NAME = Language::Farnsworth::Functions
 DLBASE = $(BASEEXT)
-VERSION_FROM = 
+VERSION_FROM = lib/Language/Farnsworth/Functions/GoogleTranslate.pm
 OBJECT = 
 LDFROM = $(OBJECT)
 LINKTYPE = dynamic
@@ -249,7 +248,7 @@ ZIPFLAGS = -r
 COMPRESS = gzip --best
 SUFFIX = .gz
 SHAR = shar
-PREOP = $(NOECHO) $(NOOP)
+PREOP = $(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"
 POSTOP = $(NOECHO) $(NOOP)
 TO_UNIX = $(NOECHO) $(NOOP)
 CI = ci -u
@@ -282,7 +281,8 @@ DISTVNAME = Language-Farnsworth-Functions-GoogleTranslate-0.9.1
 
 PASTHRU = LIBPERL_A="$(LIBPERL_A)"\
 	LINKTYPE="$(LINKTYPE)"\
-	PREFIX="$(PREFIX)"
+	PREFIX="$(PREFIX)"\
+	INSTALL_BASE="$(INSTALL_BASE)"
 
 
 # --- MakeMaker special_targets section:
@@ -719,7 +719,7 @@ $(FIRST_MAKEFILE) : Makefile.PL $(CONFIGDEP)
 
 # --- MakeMaker makeaperl section ---
 MAP_TARGET    = perl
-FULLPERL      = /usr/bin/perl5.10.1
+FULLPERL      = /usr/bin/perl
 
 $(MAP_TARGET) :: static $(MAKE_APERL_FILE)
 	$(MAKE) $(USEMAKEFILE) $(MAKE_APERL_FILE) $@
@@ -767,10 +767,9 @@ ppd :
 	$(NOECHO) $(ECHO) '    <ABSTRACT></ABSTRACT>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <AUTHOR></AUTHOR>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <REQUIRE NAME="ExtUtils::MakeMaker" VERSION="6.42" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Language::Farnsworth" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="REST::Google::Translate" />' >> $(DISTNAME).ppd
-	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="x86_64-linux-thread-multi-5.10" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="i486-linux-gnu-thread-multi-5.10" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <CODEBASE HREF="" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    </IMPLEMENTATION>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '</SOFTPKG>' >> $(DISTNAME).ppd
@@ -791,4 +790,23 @@ pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 
 
 # End.
-# Postamble by Module::Install 0.91
+# Postamble by Module::Install 1.00
+# --- Module::Install::Admin::Makefile section:
+
+realclean purge ::
+	$(RM_F) $(DISTVNAME).tar$(SUFFIX)
+	$(RM_F) MANIFEST.bak _build
+	$(PERL) "-Ilib" "-MModule::Install::Admin" -e "remove_meta()"
+	$(RM_RF) inc
+
+reset :: purge
+
+upload :: test dist
+	cpan-upload -verbose $(DISTVNAME).tar$(SUFFIX)
+
+grok ::
+	perldoc Module::Install
+
+distsign ::
+	cpansign -s
+

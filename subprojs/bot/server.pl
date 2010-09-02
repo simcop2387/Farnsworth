@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #!/home/ryan/userperl/perl5.8/bin/perl
 
-use lib '/home/ryan/farnsworth/lib';
+use lib '/home/ryan/Farnsworth/trunk/lib';
 
 use strict;
 use warnings;
@@ -32,7 +32,7 @@ print "DONE STARTING UP!\n";
 $Language::Farnsworth::Units::lock = 1; #need better interface!
 
 my $aliases = POE::Component::Server::HTTP->new(
-  Port => 8081,
+  Port => 8080,
   ContentHandler => {"/", \&runfarnsworth},
 	Headers => { Server => "Farnsworth Server 1.2" },
   );

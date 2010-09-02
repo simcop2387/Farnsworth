@@ -16,6 +16,7 @@ recommends 'Finance::Currency::Convert::XE' => 0;
 
 requires 'List::MoreUtils' => 0;
 requires 'DateTimeX::Easy' => 0;
+requires 'DateTime::Format::Flexible' => 0.16;
 requires 'DateTime' => 0;
 requires 'Math::Pari' => 0;
 requires 'enum' => 0;

@@ -2,7 +2,7 @@
 
 package Language::Farnsworth;
 
-our $VERSION = "0.7.3";
+our $VERSION = "0.7.5";
 
 use strict;
 use warnings;
@@ -26,7 +26,7 @@ sub new
 	my @modules = @_; #i get passed a list of modules to use for standard stuff;
 
 	Math::Pari::setprecision(100); #both of these need to be user configurable!
-	Math::Pari::allocatemem(400_000_00);
+	Math::Pari::allocatemem(40_000_000);
 
 	if (@modules < 1)
 	{

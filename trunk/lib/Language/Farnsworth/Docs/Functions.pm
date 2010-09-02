@@ -266,14 +266,21 @@ returns a random number between 0 and 1 with 30 digits of precision (e.g. 10**30
 
 =head1 Miscellaneous Functions
 
+=head2 return[]
+
+	return[]
+	
+return[] lets you return a single value/variable to the previous context just like in almost any other language. 
+
 =head2 now[]
 
 	now[]
 
 now[] returns the current date and time as a Language::Farnsworth Date value.
 
-=head2 unit[]
-
-	unit[unit]
-
-unit[] takes the name of a unit B<NOT> as a string (in future releases it will take it as a string or barename), and will always return the value of the unit[] named as such.  This allows you to have access to a unit even when someone has carelessly defined a variable that stomps on that unit.
+#=head2 unit[]
+#
+#	unit[unit]
+#
+#unit[] takes the name of a unit B<NOT> as a string (in future releases it will take it as a string or barename), and will always return the value of the unit[] named as such.  This allows you to have access to a unit even when someone has carelessly defined a variable that stomps on that unit.
+#
