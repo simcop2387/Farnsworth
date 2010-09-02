@@ -26,7 +26,7 @@ if ($vars->{inputcode} ne "")
 
   $eq = uri_escape($eq);
 
-  my $url="http://localhost:8081/$eq";
+  my $url="http://farnsworth:8081/$eq";
 
   my $resp = $ua->get($url);
 
