@@ -118,6 +118,8 @@ sub eq
 sub debug
 {
 	my ($mlevel, @messages) = @_;
+    
+    no warnings;
 	print @messages,"\n" if ($mlevel <= $level && @messages);
 }
 

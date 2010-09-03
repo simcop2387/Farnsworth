@@ -7,7 +7,6 @@ use overload '""' => \&tostring, "eq" => \&eq;
 
 
 use Data::Dumper;
-use Date::Manip;
 use Language::Farnsworth::Error;
 
 our %combos;

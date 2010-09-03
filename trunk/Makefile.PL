@@ -20,6 +20,10 @@ requires 'DateTime::Format::Flexible' => 0.16;
 requires 'DateTime' => 0;
 requires 'Math::Pari' => 0;
 requires 'enum' => 0;
+requires 'Scalar::Util' => 0;
+requires 'Encode' => 0;
+requires 'Data::Dumper' => 0;
+requires 'Carp' => 0;
 
 test_requires 'Test::More' => 0;
 test_requires 'Test::Exception' => 0;
