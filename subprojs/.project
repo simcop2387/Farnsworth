@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Farnsroot</name>
+	<name>Farnsworth subprojects</name>
 	<comment></comment>
 	<projects>
+		<project>Farnsworth</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
