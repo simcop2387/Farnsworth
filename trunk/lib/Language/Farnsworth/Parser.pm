@@ -4862,7 +4862,7 @@ sub
 		 'exprnouminus', 2,
 sub
 #line 185 "Farnsworth.yp"
-{ bless [ $_[1] , (bless ['factorial'], 'Fetch'), 'imp'], 'Mul' }
+{ bless [(bless ['factorial'], 'Fetch'), (bless [$_[1]], 'Array') , 'imp'], 'Mul' }
 	],
 	[#Rule 95
 		 'exprnouminus', 1, undef

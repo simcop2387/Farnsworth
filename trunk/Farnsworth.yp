@@ -182,7 +182,7 @@ exprnouminus: singleval
 	        | standardmath
 	        | expr 'conforms' expr	{ bless [ @_[1,3] ], 'Conforms' }
 	        | expr '?' expr ':' expr { bless [@_[1,3,5]], 'Ternary' }
-	        | singleval '!' { bless [ $_[1] , (bless ['factorial'], 'Fetch'), 'imp'], 'Mul' }
+	        | singleval '!' { bless [(bless ['factorial'], 'Fetch'), (bless [$_[1]], 'Array') , 'imp'], 'Mul' }
 	        | logic
 	        | compare
 	        | crement
