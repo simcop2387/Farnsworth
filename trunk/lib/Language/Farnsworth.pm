@@ -2,7 +2,7 @@
 
 package Language::Farnsworth;
 
-our $VERSION = "0.7.6";
+our $VERSION = "0.7.7";
 
 use strict;
 use warnings;
@@ -41,7 +41,7 @@ sub new
 	{
 		local $@;
 		eval 'use Language::Farnsworth::'.$a.'; Language::Farnsworth::'.$a.'::init($self->{eval});';
-		die $@ if $@;
+		#die $@ if $@;
 		#print "-------FAILED? $a\n";
 		#print $@;
 		#print "\n";
