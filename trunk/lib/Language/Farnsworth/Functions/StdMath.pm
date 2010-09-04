@@ -83,7 +83,8 @@ sub init
 #   $env->eval("sqrt{x} := {x ^ 0.5}"); 
    $env->eval("exp{x isa 1} := {e ^ x}");
    $env->eval("inv{x} := {1/x}"); 
-   $env->eval("recip{x} := {1/x}"); 
+   $env->eval("recip{x} := {1/x}");
+   $env->eval("defun factorial={`x isa 1` var r=1; var z=1; while(++z <= x) {r*=z}; return[r]};");
 
    #$env->eval("_tohex{x isa 1} := { if(x < 16) { substrLen[\"0123456789abcdef\", x, 1] } else { _tohex[floor[x/16]] + _tohex[x%16] } }; tohex{x isa 1} := {\"0x\"+_tohex[x]}");
 
