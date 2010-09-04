@@ -36,4 +36,4 @@ requires:
   enum: 0
 resources:
   license: http://opensource.org/licenses/artistic-license.php
-version: 0.7.6
+version: 0.7.7
