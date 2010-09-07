@@ -1,1 +1,49 @@
+{``
+  var bdays = newhash[];
+  bdays["kaitlyn"] = "September 5th";
+  bdays["Altreus"] = "December 21st";
+  bdays["simcop2387"] = "February 12th";
+  bdays["Substack"] = "October 22nd";
 
+  var populate={``
+    var bdates = newhash[];
+
+    var people=bdays["__keys"];
+    var i = 0;
+
+    while (i < length[people]) {
+      var date = eval["#"+people@i$+"#"];
+      
+      if (now[] > date + 1 day) { //add one day so it doesn't do it on a birthday
+        date += 365 days; // fails on leap years, need "magic" time values or a sane way to access DateTime stuff
+      };
+
+      bdates[people@i$] = date;
+    }
+    return[bdates];
+  };
+
+  var toString = {`x isa #now#`
+    if (now[]-x >= 0 s && now[] - x <= 1 day) { // we are on the birthday
+      return["Happy birthday!"];
+    }
+    else
+    {
+      return[now[]-x -> scales["months", "weeks", "days", "hours", "minutes", "seconds"]]
+    }
+  };
+
+  defun catbdays = {``
+    var people=bdays["__keys"];
+    var i = 0;
+    var output = "";
+
+    var dates = populate[];
+
+    while(i < length[people]) {
+      output += people@i$ + ": " + toString[dates[people@i$]] + ", ";
+    }
+
+    return[output];
+  };
+}
