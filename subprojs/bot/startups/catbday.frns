@@ -12,24 +12,26 @@
     var i = 0;
 
     while (i < length[people]) {
-      var date = eval["#"+people@i$+"#"];
+      var date = eval["#"+bdays[people@i$]+"#"];
       
       if (now[] > date + 1 day) { //add one day so it doesn't do it on a birthday
         date += 365 days; // fails on leap years, need "magic" time values or a sane way to access DateTime stuff
       };
 
       bdates[people@i$] = date;
-    }
+      i++;
+    };
     return[bdates];
   };
 
   var toString = {`x isa #now#`
-    if (now[]-x >= 0 s && now[] - x <= 1 day) { // we are on the birthday
+    if (x-now[] >= 0 s && x-now[] <= 1 day) { // we are on the birthday
       return["Happy birthday!"];
     }
     else
     {
-      return[now[]-x -> scales["months", "weeks", "days", "hours", "minutes", "seconds"]]
+      var scaled = x-now[] -> scales["months", "days", "hours", "minutes", "seconds"];
+      return["$scaled"];
     }
   };
 
@@ -39,11 +41,13 @@
     var output = "";
 
     var dates = populate[];
+    var sorted = sort[{`a,b` dates[a] <=> dates[b]}, people];
 
-    while(i < length[people]) {
-      output += people@i$ + ": " + toString[dates[people@i$]] + ", ";
-    }
+    while(i < length[sorted]) {
+      output += sorted@i$ + ": " + toString[dates[sorted@i$]] + ", ";
+      i++;
+    };
 
     return[output];
   };
-}
+} [];
