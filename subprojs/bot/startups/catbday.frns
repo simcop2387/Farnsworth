@@ -1,9 +1,10 @@
 {``
   var bdays = newhash[];
-  bdays["kaitlyn"] = "September 5th";
-  bdays["Altreus"] = "December 21st";
-  bdays["simcop2387"] = "February 12th";
-  bdays["Substack"] = "October 22nd";
+  bdays["kaitlyn"] = "September 5th PST8PDT";
+  bdays["Altreus"] = "December 21st GMT";
+  bdays["simcop2387"] = "February 12th EST5EDT";
+  bdays["Substack"] = "October 22nd AKDT";
+  bdays["kentnl"] = "June 2nd NZDT";
 
   var populate={``
     var bdates = newhash[];
