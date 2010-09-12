@@ -6,6 +6,7 @@
   bdays["Substack"] = "October 22nd AKDT";
   bdays["kentnl"] = "June 2nd NZDT";
   bdays["ik"] = "October 1st EST5EDT";
+  bdays["MooingLemur"] = "October 15th CST6CDT";
 
   defun getcatbdays = {`` bdays};
   var populate={``
