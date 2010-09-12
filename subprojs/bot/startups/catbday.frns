@@ -5,7 +5,9 @@
   bdays["simcop2387"] = "February 12th EST5EDT";
   bdays["Substack"] = "October 22nd AKDT";
   bdays["kentnl"] = "June 2nd NZDT";
+  bdays["ik"] = "October 1st EST5EDT";
 
+  defun getcatbdays = {`` bdays};
   var populate={``
     var bdates = newhash[];
 
