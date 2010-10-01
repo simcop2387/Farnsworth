@@ -7,6 +7,7 @@
   bdays["kentnl"] = "June 2nd NZDT";
   bdays["ik"] = "October 1st EST5EDT";
   bdays["MooingLemur"] = "October 15th CST6CDT";
+  bdays["rindolf"] = "May 5th Israel"
 
   defun getcatbdays = {`` bdays};
   var populate={``
@@ -29,12 +30,12 @@
   };
 
   var toString = {`x isa #now#`
-    if (x-now[] >= 0 s && x-now[] <= 1 day) { // we are on the birthday
+    if (now[]-x >= 0 s && abs[now[]-x] <= 1 day) { // we are on the birthday
       return["Happy birthday!"];
     }
     else
     {
-      var scaled = x-now[] -> scales["months", "days", "hours", "minutes", "seconds"];
+      var scaled = (x-now[])*1.0 -> scales["months", "days", "hours", "minutes", "seconds"];
       return["$scaled"];
     }
   };
