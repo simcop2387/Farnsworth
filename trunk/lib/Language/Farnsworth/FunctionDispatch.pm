@@ -9,6 +9,7 @@ use Language::Farnsworth::Variables;
 use Language::Farnsworth::Value::Lambda;
 use Language::Farnsworth::Value::Array;
 use Language::Farnsworth::Error;
+use Carp qw(croak);
 
 sub new
 {
@@ -166,6 +167,8 @@ sub callfunc
 
     error "Given object as function name, check should happen before this" if (ref($name)); 
 	error "Function $name is not defined" unless $self->isfunc($name);
+	
+	debug 4, "FUNCALL: $name";
 
 	my $lambda = $self->{funcs}{$name}{lambda};
 
@@ -270,6 +273,7 @@ sub callbranch
     elsif ($@)
     {
     	warn "Unhandled perl exception!!!!!!";
+    	warn "branches: ".Dumper($branches);
     	error EPERL, $@;
     }
     

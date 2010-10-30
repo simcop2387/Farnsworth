@@ -75,7 +75,7 @@ sub new
 
 sub DESTROY
 {
-	debug 2,"SCOPE DIE: $_[0]";
+	debug 5,"SCOPE DIE: $_[0]";
 }
 
 sub eval

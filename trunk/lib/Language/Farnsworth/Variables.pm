@@ -22,7 +22,7 @@ sub new
 
 sub DESTROY
 {
-	debug 2,"VARIABLES DIE: $_[0]";
+	debug 5,"VARIABLES DIE: $_[0]";
 }
 
 sub setvar
