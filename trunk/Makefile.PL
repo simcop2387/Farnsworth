@@ -8,7 +8,7 @@ use inc::Module::Install;
 name "Language-Farnsworth";
 all_from       'lib/Language/Farnsworth.pm';
 version_from "lib/Language/Farnsworth.pm";
-license 'artistic';
+license 'artistic_2';
 recommends 'REST::Google::Translate' => 0;
 recommends 'Finance::Currency::Convert::XE' => 0;
 #requires 'REST::Google::Translate' => 0;
