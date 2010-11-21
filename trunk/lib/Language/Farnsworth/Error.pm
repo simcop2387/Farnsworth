@@ -6,7 +6,7 @@ use strict;
 use warnings;
 
 use Data::Dumper;
-use Carp;
+use Carp qw(cluck);
 use enum qw(RETURN EINTERP EPERL EPARI);
 
 require Exporter;
@@ -18,6 +18,7 @@ use overload '""' => \&tostring,
 			 'eq' => \&eq;
 
 our $level = 0; #debugging level, 0 means nothing, 1 means informative, 2 means all kinds of shit.
+our $cluck = 1; # cluck on errors
 
 sub error
 {
@@ -44,6 +45,7 @@ sub error
     $eobj->{caller} = [caller()];
 	bless $eobj;
 
+    cluck $err;
 	die $eobj;
 }
 

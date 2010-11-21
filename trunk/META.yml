@@ -9,7 +9,7 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.91'
+generated_by: 'Module::Install version 1.00'
 license: artistic
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -34,6 +34,7 @@ requires:
   Math::Pari: 0
   Scalar::Util: 0
   enum: 0
+  perl: 5.10.0
 resources:
   license: http://opensource.org/licenses/artistic-license.php
 version: 0.7.7

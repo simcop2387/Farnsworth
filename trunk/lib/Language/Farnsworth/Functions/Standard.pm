@@ -14,40 +14,41 @@ use Math::Pari;
 sub init
 {
    my $env = shift;
+   my $funcs = $env->{ns}->functions;
     
    $env->eval("push{arr byref isa [], x isa ...} := {arr =arr+x};");
    $env->eval("unshift{arr byref isa [], x isa ...} := {arr =x+arr};");
 
-   #$env->{funcs}->addfunc("push", [["arr", undef, $array, 0], ["in", undef, "VarArg", 0]],\&push); #actually i might rewrite this in farnsworth now that it can do it
-   $env->{funcs}->addfunc("pop", [["arr", undef, TYPE_ARRAY, 0]],\&pop, $env); #eventually this maybe too
-   $env->{funcs}->addfunc("shift", [["arr", undef, TYPE_ARRAY, 1]], \&shift, $env);
-   #$env->{funcs}->addfunc("unshift", [["arr", undef, $array, 0], ["in", undef, "VarArg", 0]], \&unshift);
-   $env->{funcs}->addfunc("sort", [["arr", undef, "VarArg", 0]],\&sort, $env);
+   #$funcs->addfunc("push", [["arr", undef, $array, 0], ["in", undef, "VarArg", 0]],\&push); #actually i might rewrite this in farnsworth now that it can do it
+   $funcs->addfunc("pop", [["arr", undef, TYPE_ARRAY, 0]],\&pop, $env); #eventually this maybe too
+   $funcs->addfunc("shift", [["arr", undef, TYPE_ARRAY, 1]], \&shift, $env);
+   #$funcs->addfunc("unshift", [["arr", undef, $array, 0], ["in", undef, "VarArg", 0]], \&unshift);
+   $funcs->addfunc("sort", [["arr", undef, "VarArg", 0]],\&sort, $env);
 
-   $env->{funcs}->addfunc("length", [["in", undef, undef, 0]],\&length, $env);
+   $funcs->addfunc("length", [["in", undef, undef, 0]],\&length, $env);
 
-   $env->{funcs}->addfunc("ord", [["in", undef, TYPE_STRING, 0]],\&ord, $env);
-   $env->{funcs}->addfunc("chr", [["in", undef, TYPE_PLAIN, 0]],\&chr, $env);
-   $env->{funcs}->addfunc("index", [["str", undef, TYPE_STRING, 0],["substr", undef, TYPE_STRING, 0],["pos", TYPE_PLAIN, TYPE_PLAIN, 0]],\&index, $env);
-   $env->{funcs}->addfunc("eval", [["str", undef, TYPE_STRING, 0]],\&eval, $env); #needs special case!
+   $funcs->addfunc("ord", [["in", undef, TYPE_STRING, 0]],\&ord, $env);
+   $funcs->addfunc("chr", [["in", undef, TYPE_PLAIN, 0]],\&chr, $env);
+   $funcs->addfunc("index", [["str", undef, TYPE_STRING, 0],["substr", undef, TYPE_STRING, 0],["pos", TYPE_PLAIN, TYPE_PLAIN, 0]],\&index, $env);
+   $funcs->addfunc("eval", [["str", undef, TYPE_STRING, 0]],\&eval, $env); #needs special case!
    
    $env->eval('map{sub isa {`x`}, x isa ...} := {var xx=[]+x; if (length[xx] == 1 && xx@0$ conforms []) {xx = x@0$}; if (length[xx] == 1 && !(xx conforms [])) {xx = [xx]}; var z=[]+xx; var e; var out=[]; while(length[z]) {e = shift[z]; push[out, (sub)[e]]}; out}');
 
-   $env->{funcs}->addfunc("substrLen", [["str", undef, TYPE_STRING, 0],["left", undef, TYPE_PLAIN, 0],["length", undef, TYPE_PLAIN, 0]],\&substrlen, $env); #this one works like perls
+   $funcs->addfunc("substrLen", [["str", undef, TYPE_STRING, 0],["left", undef, TYPE_PLAIN, 0],["length", undef, TYPE_PLAIN, 0]],\&substrlen, $env); #this one works like perls
    $env->eval("substr{str,left,right}:={substrLen[str,left,right-left]}");
    $env->eval("left{str,pos}:={substrLen[str,0,pos]}");
    $env->eval("right{str,pos}:={substrLen[str,length[str]-pos,pos]}");
 
-   $env->{funcs}->addfunc("reverse", [["in", undef, undef, 0]],\&reverse, $env);
+   $funcs->addfunc("reverse", [["in", undef, undef, 0]],\&reverse, $env);
 
    $env->eval("now{x = \"UTC\" isa \"\"} := {setzone[#now#, x]}");
-   $env->{funcs}->addfunc("setzone", [["date", undef, TYPE_DATE, 0],["zone", undef, TYPE_STRING, 0]], \&setzone, $env);
+   $funcs->addfunc("setzone", [["date", undef, TYPE_DATE, 0],["zone", undef, TYPE_STRING, 0]], \&setzone, $env);
 
-   #$env->{funcs}->addfunc("unit", [["in", undef, undef, 0]], \&unit);
-   $env->{funcs}->addfunc("units", [["in", undef, undef, 0]], \&units, $env);
-   $env->{funcs}->addfunc("error", [["in", undef, TYPE_STRING, 0]], \&doerror, $env);
-   $env->{funcs}->addfunc("return", [["in", undef, undef, 0]], \&doreturn, $env);
-   $env->{funcs}->addfunc("match", [["regex", undef, TYPE_STRING, 0], ["input", undef, TYPE_STRING, 0], ["options",TYPE_STRING,TYPE_STRING, 0]], \&match, $env);
+   #$funcs->addfunc("unit", [["in", undef, undef, 0]], \&unit);
+   $funcs->addfunc("units", [["in", undef, undef, 0]], \&units, $env);
+   $funcs->addfunc("error", [["in", undef, TYPE_STRING, 0]], \&doerror, $env);
+   $funcs->addfunc("return", [["in", undef, undef, 0]], \&doreturn, $env);
+   $funcs->addfunc("match", [["regex", undef, TYPE_STRING, 0], ["input", undef, TYPE_STRING, 0], ["options",TYPE_STRING,TYPE_STRING, 0]], \&match, $env);
 
    $env->eval('max{x isa ...} := {var z; if (length[x] == 1 && x@0$ conforms []) {z = x@0$} else {z=x}; var n = length[z]; var m=z@0$; var q; while((n=n-1)>=0){q=z@n$; q>m?m=q:0}; m}'); 
    $env->eval('min{x isa ...} := {var z; if (length[x] == 1 && x@0$ conforms []) {z = x@0$} else {z=x}; var n = length[z]; var m=z@0$; var q; while((n=n-1)>=0){q=z@n$; q<m?m=q:0}; m}'); 
@@ -58,7 +59,7 @@ sub doerror
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval)= @_;
 
-	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
+	my $input = $eval->{ns}->scope->getvar("in"); #i should clean this up more too
 
 	error $input->getstring();
 }
@@ -68,7 +69,7 @@ sub doreturn
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval)= @_;
 
-	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
+	my $input = $eval->{ns}->scope->getvar("in"); #i should clean this up more too
 
 	farnsreturn $input;
 }
@@ -77,9 +78,9 @@ sub match
 {
 	my ($args, $eval)= @_;
 
-	my $input = $eval->{vars}->getvar("input"); 
-	my $regex = $eval->{vars}->getvar("regex");
-	my $options = $eval->{vars}->getvar("options"); 
+	my $input = $eval->{ns}->scope->getvar("input"); 
+	my $regex = $eval->{ns}->scope->getvar("regex");
+	my $options = $eval->{ns}->scope->getvar("options"); 
 
 	error $@ if $@;
 }
@@ -89,7 +90,7 @@ sub units
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval)= @_;
 
-	my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
+	my $input = $eval->{ns}->scope->getvar("in"); #i should clean this up more too
 
 	error "Need number with units for units[]" unless $input->istype("Pari");
 
@@ -103,8 +104,8 @@ sub setzone
         #with an array we give the number of elements, with a string we give the length of the string
         my ($args, $eval)= @_;
            
-        my $date = $eval->{vars}->getvar("date"); #i should clean this up more too
-        my $zone = $eval->{vars}->getvar("zone"); #i should clean this up more too
+        my $date = $eval->{ns}->scope->getvar("date"); #i should clean this up more too
+        my $zone = $eval->{ns}->scope->getvar("zone"); #i should clean this up more too
 
 	$date->getdate()->set_time_zone($zone->getstring());        
         
@@ -133,7 +134,7 @@ sub sort
 {
 	#args is... a Language::Farnsworth::Value array
 	my ($args, $eval)= @_;
-    my $arr = $eval->{vars}->getvar("arr");
+    my $arr = $eval->{ns}->scope->getvar("arr");
     
    	my $argcount = $arr->getarray();
 
@@ -187,7 +188,7 @@ sub push
 	#args is... a Language::Farnsworth::Value array
 	my ($args, $eval)= @_;
 	
-	my $array = $eval->{vars}->getvar("arr");
+	my $array = $eval->{ns}->scope->getvar("arr");
 
 	unless ($array->istype("Array"))
 	{
@@ -212,7 +213,7 @@ sub unshift
 	#args is... a Language::Farnsworth::Value array
 	my ($args, $eval)= @_;
 	
-	my $array = $eval->{vars}->getvar("arr");
+	my $array = $eval->{ns}->scope->getvar("arr");
 
 	unless ($array->istype("Array"))
 	{
@@ -237,7 +238,7 @@ sub pop
 	#args is... a Language::Farnsworth::Value array
 	my ($args, $eval)= @_;
 	
-	my $array = $eval->{vars}->getvar("arr");
+	my $array = $eval->{ns}->scope->getvar("arr");
 	
 	unless ($array->istype("Array"))
 	{
@@ -256,17 +257,17 @@ sub shift
 	#args is... a Language::Farnsworth::Value array
 	my ($args, $eval)= @_;
 	
-	my $var = $eval->{vars}->getvar("arr");
+	my $var = $eval->{ns}->scope->getvar("arr");
 	my $varref = $var->getref();
 
 	error "Need lvalue for input to shift[]" unless defined $varref;
 
-	#if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{vars}->isvar($branches->[1][0][0])))
+	#if ((ref($branches->[1][0]) ne "Fetch") || (!$eval->{ns}->scope->isvar($branches->[1][0][0])))
 	#{
 	#	die "Argument to shift must be a variable";
 	#}
 
-	#my $arrayvar = $eval->{vars}->getvar($branches->[1][0][0]);
+	#my $arrayvar = $eval->{ns}->scope->getvar($branches->[1][0][0]);
 
 	unless (ref($var) eq "Language::Farnsworth::Value::Array")
 	{
@@ -373,7 +374,7 @@ sub ord
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval)= @_;
 
-        my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
+        my $input = $eval->{ns}->scope->getvar("in"); #i should clean this up more too
 
 	my $ns = ord($input->getstring()); 
 	return Language::Farnsworth::Value::Pari->new($ns);
@@ -384,7 +385,7 @@ sub chr
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval)= @_;
 
-        my $input = $eval->{vars}->getvar("in"); #i should clean this up more too
+        my $input = $eval->{ns}->scope->getvar("in"); #i should clean this up more too
 
 	my $ns = chr($input->toperl()); 
 	return Language::Farnsworth::Value::String->new($ns);
@@ -395,9 +396,9 @@ sub index
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval)= @_;
 
-	my $string = $eval->{vars}->getvar("str")->getstring();
-	my $substr = $eval->{vars}->getvar("substr")->getstring();
-	my $pos = $eval->{vars}->getvar("pos")->toperl();
+	my $string = $eval->{ns}->scope->getvar("str")->getstring();
+	my $substr = $eval->{ns}->scope->getvar("substr")->getstring();
+	my $pos = $eval->{ns}->scope->getvar("pos")->toperl();
 
 	my $ns = index $string, $substr, $pos; #substr($arg[0]{pari}, "".$arg[1]{pari}, "".$arg[2]{pari});
 	return Language::Farnsworth::Value::Pari->new($ns); #give string flag of 1, since we don't know what language is intended
@@ -407,9 +408,9 @@ sub eval
 {
 	#with an array we give the number of elements, with a string we give the length of the string
 	my ($args, $eval, $reval)= @_;
-	my $evalstr = $eval->{vars}->getvar("str")->getstring();
+	my $evalstr = $eval->{ns}->scope->getvar("str")->getstring();
 
-#	my $nvars = new Language::Farnsworth::Variables($eval->{vars});
+#	my $nvars = new Language::Farnsworth::Variables($eval->{ns}->scope);
 #	my %nopts = (vars => $nvars, funcs => $eval->{funcs}, units => $eval->{units}, parser => $eval->{parser});
 #	my $neval = $eval->new(%nopts);
 

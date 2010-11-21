@@ -16,3 +16,4 @@ is("4 ", $result, "Simple addition");
 $result = $new->runString("sqrt[C[-17.15]]");
 
 is("16.0 K^(1/2)", $result, "Simple check for sqrt[] and C[]"); #they happen to be at the END of the files (or near) they come from, meaning that they'll only be there if things didn't bomb out earlier
+

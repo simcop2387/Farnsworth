@@ -170,7 +170,7 @@ sub mult
   #print "LAMBDAMULT\n";
   #eval{print Dumper($one->{scope}->{vars}->getvar('x'), $one->{scope}->{vars}->getvar('y'))}; #this bug was fixed
 
-  return $one->{scope}->{funcs}->calllambda($one, $args); #needs to be updated
+  return $one->{scope}->{ns}->functions->calllambda($one, $args); #needs to be updated
 
 #  die "Multiplying lambdas? what did you think this would do, create a black hole? ED: this will make black holes later";
 }
@@ -268,7 +268,7 @@ sub eval
   #print "LAMBDAMULT\n";
   #eval{print Dumper($one->{scope}->{vars}->getvar('x'), $one->{scope}->{vars}->getvar('y'))}; #this bug was fixed
 
-    return $eval->{funcs}->calllambda($self, $args, $eval); #needs to be updated	
+    return $eval->{ns}->functions->calllambda($self, $args, $eval); #needs to be updated	
 }
 
 sub tostring

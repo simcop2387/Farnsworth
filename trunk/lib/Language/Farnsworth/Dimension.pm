@@ -153,7 +153,7 @@ sub Dump
 
 			$exp = "^".($dv =~ /^[\d\.]+$/? $dv :"(".$dv.")") unless ($realdv eq "1");
 			
-			push @returns, $scope->{units}->getdimen($d).$exp;
+			push @returns, $scope->{ns}->units->getdimen($d).$exp;
 		}
 		
 		if (my $combo = $self->findcombo($scope)) #this should be a method?

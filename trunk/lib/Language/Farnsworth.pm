@@ -7,6 +7,8 @@ our $VERSION = "0.7.7";
 use strict;
 use warnings;
 
+use 5.10.0;
+
 use Language::Farnsworth::Evaluate;
 use Language::Farnsworth::Value;
 use Language::Farnsworth::Dimension;
@@ -30,7 +32,7 @@ sub new
 
 	if (@modules < 1)
 	{
-		@modules = ("Units::Standard", "Functions::Standard", "Functions::StdMath", "Functions::GoogleTranslate", "Units::Currency"); #standard modules to include
+		@modules = ("Units::Standard", "Functions::Standard", "Functions::StdMath"); #standard modules to include
 	}
 
 	#print Dumper(\@modules);
@@ -41,7 +43,7 @@ sub new
 	{
 		local $@;
 		eval 'use Language::Farnsworth::'.$a.'; Language::Farnsworth::'.$a.'::init($self->{eval});';
-		#die $@ if $@;
+		die $@ if $@;
 		#print "-------FAILED? $a\n";
 		#print $@;
 		#print "\n";
@@ -57,7 +59,7 @@ sub runString
 	my @torun = @_; # we can run an array
 	my @results;
 
-	push @results, new Language::Farnsworth::Output($self->{eval}{units},$self->{eval}->eval($_), $self->{eval}) for (@torun);
+	push @results, new Language::Farnsworth::Output($self->{eval}{ns}->units,$self->{eval}->eval($_), $self->{eval}) for (@torun);
 
 	return wantarray ? @results : $results[-1]; #return all of them in array context, only the last in scalar context
 }

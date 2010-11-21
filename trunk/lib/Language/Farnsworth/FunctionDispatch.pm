@@ -86,7 +86,7 @@ sub setupargs
 	my $name = shift; #name to display
 	#my $branch = shift;
 
-	my $vars = $eval->{vars}; #get the scope we need
+	my $vars = $eval->{ns}->scope; #get the scope we need
 
 ARG:for my $argc (0..$#$argtypes)
 	{
@@ -205,10 +205,8 @@ sub calllambda
 #	warn "LAMBDA---------------\n";
 #	warn Dumper($argtypes, $args, $fval);
 
-	my $nvars = new Language::Farnsworth::Variables($eval->{vars});
 
-	my %nopts = (vars => $nvars, funcs => $self, units => $eval->{units}, parser => $eval->{parser});
-	my $neval = $eval->new(%nopts);
+	my $neval = $eval->makechildscope();
 
     unless($self->checkparams($args, $argtypes))
     {

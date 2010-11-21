@@ -8,6 +8,7 @@ use overload '""' => \&tostring, "eq" => \&eq;
 
 use Data::Dumper;
 use Language::Farnsworth::Error;
+use Carp qw(cluck);
 
 our %combos;
 our %displays;
@@ -85,8 +86,6 @@ sub new
   $self->{units} = shift;
   $self->{obj} = shift;
   $self->{eval} = shift;
-
-  #warn Dumper($self->{obj});
 
   #when we get an error, pass it through, HACK, this is a HACK! the code needs to handle these directly but i need to rewrite the code for output anyway
   error $self->{obj} if ref($self->{obj}) =~ /Language::Farnsworth::Error/;

@@ -21,8 +21,12 @@ use Language::Farnsworth::Value::Array;
 use Language::Farnsworth::Value::Boolean;
 use Language::Farnsworth::Output;
 use Language::Farnsworth::Error;
+use Language::Farnsworth::NameSpace;
 
 use Math::Pari;# ':hex'; #why not? because it fucks up so fucking badly that fuck isn't a strong enough word
+
+# no need to keep large amounts of references to this
+our $parser = Language::Farnsworth::Parser->new();
 
 sub new
 {
@@ -31,46 +35,25 @@ sub new
 	bless $self;
 
 	my %opts = (@_);
-
-	if (ref($opts{funcs}) eq "Language::Farnsworth::FunctionDispatch")
+	
+	if (ref($opts{ns}) eq "Language::Farnsworth::NameSpace")
 	{
-		$self->{funcs} = $opts{funcs};
+		$self->{ns} = $opts{ns};
 	}
 	else
 	{
-		$self->{funcs} = new Language::Farnsworth::FunctionDispatch();
+		$self->{ns} = Language::Farnsworth::NameSpace->new();
 	}
-
-	if (ref($opts{vars}) eq "Language::Farnsworth::Variables")
-	{
-		$self->{vars} = $opts{vars};
-	}
-	else
-	{
-		$self->{vars} = new Language::Farnsworth::Variables();
-	}
-
-	if (ref($opts{units}) eq "Language::Farnsworth::Units")
-	{
-		$self->{units} = $opts{units};
-	}
-	else
-	{
-		$self->{units} = new Language::Farnsworth::Units();
-	}
-
-	if (ref($opts{parser}) eq "Language::Farnsworth::Parser")
-	{
-		$self->{parser} = $opts{parser};
-	}
-	else
-	{
-		$self->{parser} = new Language::Farnsworth::Parser();
-	}
-
+	
 	$self->{dumpbranches} = 0;
 
     return $self;
+}
+
+sub makechildscope {
+	my $self = shift;
+	my $childns = $self->{ns}->makechildscope();
+	$self->new(ns => $childns);
 }
 
 sub DESTROY
@@ -86,7 +69,7 @@ sub eval
 	$code =~ s/^\s*//;
 	$code =~ s/\s*$//;
 
-	my $tree = $self->{parser}->parse($code); #should i catch the exceptions here? dunno
+	my $tree = $parser->parse($code); #should i catch the exceptions here? dunno
 
 	debug 3, Dumper($tree);
 
@@ -147,9 +130,9 @@ sub evalbranch
 #			print STDERR "$self";
 #			print Dumper($a, $b);
 			
-			if ($self->{funcs}->isfunc($a)) #check if there is a func $a
+			if ($self->{ns}->functions->isfunc($a)) #check if there is a func $a
 			{   #$return = $self->{funcs}->callfunc($self, $name, $args, $branch);
-				$return = $self->{funcs}->callfunc($self, $a, $b, $branch);
+				$return = $self->{ns}->functions->callfunc($self, $a, $b, $branch);
 			}
 			else #otherwise we try to 
 			{
@@ -419,7 +402,7 @@ sub evalbranch
 		}
 
 		$return = $value; #make stores evaluate to the value on the right
-		$self->{vars}->declare($name, $value);
+		$self->{ns}->scope->declare($name, $value);
 	}
 	elsif ($type eq "DeclareFunc")
 	{
@@ -430,7 +413,7 @@ sub evalbranch
 		#should i allow constants? if i do i'll have to handle them differently, for now it'll be an error
 		error "Right side of function declaration for '$name' did not evaluate to a lambda" unless ($lambda->istype("Lambda"));
 
-		$self->{funcs}->addfunclamb($name, $lambda);
+		$self->{ns}->functions->addfunclamb($name, $lambda);
 		$return = $lambda;
 	}	
 	elsif ($type eq "FuncDef")
@@ -440,9 +423,7 @@ sub evalbranch
 		my $args = $branch->[1];
 		my $value = $branch->[2]; #not really a value, but in fact the tree to run for the function
 
-		my $nvars = new Language::Farnsworth::Variables($self->{vars}); #lamdbas get their own vars
-		my %nopts = (vars => $nvars, funcs => $self->{funcs}, units => $self->{units}, parser => $self->{parser});
-		my $scope = $self->new(%nopts);
+		my $scope = $self->makechildscope();
 
 		my $vargs;
 
@@ -468,7 +449,7 @@ sub evalbranch
 			push @$vargs, [$name, $default, $constraint, $reference];
 		}
 
-		$self->{funcs}->addfunc($name, $vargs, $value, $scope);
+		$self->{ns}->functions->addfunc($name, $vargs, $value, $scope);
 		$return = undef; #cause an error should someone manage to make it parse other than the way i think it should be
 	}
 	elsif ($type eq "Lambda")
@@ -479,9 +460,7 @@ sub evalbranch
 		#print "==========LAMBDA==========\n";
 		#print Data::Dumper->Dump([$args,$code], ["args", "code"]);
 
-		my $nvars = new Language::Farnsworth::Variables($self->{vars}); #lamdbas get their own vars
-		my %nopts = (vars => $nvars, funcs => $self->{funcs}, units => $self->{units}, parser => $self->{parser});
-		my $scope = $self->new(%nopts);
+		my $scope = $self->makechildscope();
 
 		#this should probably get a function in Language::Farnsworth::FunctionDispatch
 		my $vargs;
@@ -526,7 +505,7 @@ sub evalbranch
 		#need $args to be an array
 		my $args = $left->istype("Array") ? $left :  new Language::Farnsworth::Value::Array([$left]); 
 
-		$return = $self->{funcs}->calllambda($right, $args); #needs to be updated
+		$return = $self->{ns}->functions->calllambda($right, $args); #needs to be updated
 	}
 	elsif (($type eq "Array") || ($type eq "SubArray"))
 	{
@@ -673,14 +652,14 @@ sub evalbranch
 	{
 		my $unitsize = $self->makevalue($branch->[1]);
 		my $name = $branch->[0];
-		$self->{units}->addunit($name, $unitsize);
+		$self->{ns}->units->addunit($name, $unitsize);
 		$return = $unitsize;
 	}
 	elsif ($type eq "DefineDimen")
 	{
 		my $unit = $branch->[1];
 		my $dimen = $branch->[0];
-		$self->{units}->adddimen($dimen, $unit);
+		$self->{ns}->units->adddimen($dimen, $unit);
 	}
 	elsif ($type eq "DefineCombo")
 	{
@@ -693,7 +672,7 @@ sub evalbranch
 		my $name = $branch->[0];
 		my $value = $self->makevalue($branch->[1]);
 		#carp "SETTING PREFIX0: $name : $value : ".Dumper($branch->[1]) if ($name eq "m");
-		$self->{units}->setprefix($name, $value);
+		$self->{ns}->units->setprefix($name, $value);
 	}
 	elsif ($type eq "Trans")
 	{
@@ -765,7 +744,7 @@ sub evalbranch
 		{
 			#$right doesn't evaluate... so we check for a function?
 			$left = $left->istype("Array") ? $left : new Language::Farnsworth::Value::Array([$left]);
-			$return = $self->{funcs}->callfunc($self, $branch->[1][0], $left);
+			$return = $self->{ns}->functions->callfunc($self, $branch->[1][0], $left);
 
 			if (defined($rights) && $rights->istype("String"))
 			{
@@ -810,28 +789,14 @@ sub makevalue
 	}
 	elsif (ref($input) eq "Fetch")
 	{
-		#this needs to decide between variable and unit, but that'll come later
-		#esp since i also have to have this overridable for functions!
-
-		my $name = $input->[0];
-		if ($self->{vars}->isvar($name))
-		{
-			return $self->{vars}->getvar($input->[0]);
-		}
-		elsif ($self->{units}->isunit($name))
-		{
-			#print "FETCH: $name\n" if ($name eq "milli");
-			return $self->{units}->getunit($name);
-		}
-		
-		error "Undefined symbol '$name'\n";
+		return $self->{ns}->resolveterm($input->[0]);
 	}
-	elsif (ref($input) eq "GetFunc")
+	elsif (ref($input) eq "GetFunc") # XXXX GET RID OF IT
 	{
 		my $name = $input->[0];
-		if ($self->{funcs}->isfunc($name))
+		if ($self->{ns}->functions->isfunc($name))
 		{
-			return $self->{funcs}->getfunc($name)->{lambda};
+			return $self->{ns}->functions->getfunc($name)->{lambda};
 		}
 		else
 		{
@@ -853,12 +818,12 @@ sub makevalue
 			my $output = undef;
 			if ($var !~ /^{.*}$/) 
 			{
-				$output = new Language::Farnsworth::Output($self->{units}, $self->{vars}->getvar($var), $self);
+				$output = new Language::Farnsworth::Output($self->{ns}->units, $self->{ns}->resolveterm($var), $self);
 			} 
 			else 
 			{
 				$var =~ s/[{}]//g;
-				$output = new Language::Farnsworth::Output($self->{units}, $self->eval($var), $self);
+				$output = new Language::Farnsworth::Output($self->{ns}->units, $self->eval($var), $self);
 			}
 
 			"".$output;

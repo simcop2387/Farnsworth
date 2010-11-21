@@ -32,6 +32,7 @@ lib/Language/Farnsworth/Value/Undef.pm
 lib/Language/Farnsworth/Value/String.pm
 lib/Language/Farnsworth/Value/Types.pm
 lib/Language/Farnsworth/Variables.pm
+lib/Language/Farnsworth/NameSpace.pm
 Makefile.PL
 MANIFEST
 META.yml
