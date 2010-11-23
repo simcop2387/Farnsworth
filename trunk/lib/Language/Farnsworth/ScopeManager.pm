@@ -16,10 +16,21 @@ has 'namespaces' => (is => 'rw', isa => 'Hash', default => {});
 sub resolvesymbol
 {
 	my $self = shift;
-	my $currentscope = shift;
+	my $scope = shift;
 	my $symbol = shift;
-	
-	
+		
+	if ($scope->vars->isvar($symbol))
+	{
+		return $scope->vars->getvar($symbol);
+	}
+	elsif ($scope->units->isunit($symbol))
+	{
+		return $scope->units->getunit($symbol);
+	}
+	else
+	{
+		error "Undefined symbol '$symbol'\n";
+	}
 }
 
 sub makescope
@@ -27,7 +38,7 @@ sub makescope
 	my $self = shift;
 	my $parentscope = shift;
 	
-	my $scope = Language::Farnsworth::Variables->new($parentscope);
+	my $scope = Language::Farnsworth::Variables->new($parentscope->vars);
 	
 	my $weak = \$scope; # use a weakened ref so that we can keep from having living scopes around
 	weaken($weak);
@@ -42,7 +53,7 @@ sub makeeval
 
 	my $newscope = $self->makescope($parenteval->{vars});
 
-    my %nopts = (vars => $newscope, funcs => $parenteval->{funcs}, units => $parenteval->{units}, parser => $parenteval->{parser});
+    my %nopts = (ns => $newscope, funcs => $parenteval->{funcs}, units => $parenteval->{units}, parser => $parenteval->{parser});
 
     my $neweval = $parenteval->new(%nopts);
 	

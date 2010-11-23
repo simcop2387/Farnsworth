@@ -44,6 +44,15 @@ sub new
 	{
 		$self->{ns} = Language::Farnsworth::NameSpace->new();
 	}
+
+	if (ref($opts{sm}) eq "Language::Farnsworth::ScopeManager")
+	{
+		$self->{sm} = $opts{sm};
+	}
+	else
+	{
+		$self->{sm} = Language::Farnsworth::ScopeManager->new();
+	}	
 	
 	$self->{dumpbranches} = 0;
 
