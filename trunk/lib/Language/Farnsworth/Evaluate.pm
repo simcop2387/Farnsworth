@@ -37,16 +37,7 @@ sub new
 
     #shallow clone when done via $self->new();
 	my %opts = (ref $parent?%$parent:(),@_);
-	#print Dumper \%opts;
-	if (ref($opts{ns}) eq "Language::Farnsworth::NameSpace")
-	{
-		$self->{ns} = $opts{ns};
-	}
-	else
-	{
-		$self->{ns} = Language::Farnsworth::NameSpace->new();
-	}
-
+	
 	if (ref($opts{sm}) eq "Language::Farnsworth::ScopeManager")
 	{
 		$self->{sm} = $opts{sm};
@@ -54,7 +45,25 @@ sub new
 	else
 	{
 		$self->{sm} = Language::Farnsworth::ScopeManager->new();
-	}	
+	}
+	
+	#print Dumper \%opts;
+	if (ref($opts{ns}) eq "Language::Farnsworth::NameSpace")
+	{
+		$self->{ns} = $opts{ns};
+	}
+	elsif (ref($opts{ns}))
+	{
+		error "ns must be a reference";
+	}
+	elsif ($opts{ns})
+	{
+		$self->{ns} = $self->sm->makenamespace($opts{ns});
+	}
+	else
+	{
+		$self->{ns} = $self->sm->makenamespace("");
+	}
 	
 	$self->{dumpbranches} = 0;
 
@@ -819,7 +828,7 @@ sub makevalue
 	}
 	elsif (ref($input) eq "Fetch")
 	{
-		return $self->sm->resolvesymbol($self, $input->[0]);
+		return $self->sm->resolvesymbol($self->ns, $input->[0]);
 	}
 	elsif (ref($input) eq "GetFunc") # XXXX GET RID OF IT
 	{

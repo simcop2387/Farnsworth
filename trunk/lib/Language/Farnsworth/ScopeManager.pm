@@ -18,10 +18,28 @@ sub resolvesymbol
 	my $self = shift;
 	my $scope = shift;
 	my $symbol = shift;
-		
-	if ($scope->vars->isvar($symbol))
+	
+	if ($symbol =~ /^(.*)::([^:]*)$/) # we have a new scope!
 	{
-		return $scope->vars->getvar($symbol);
+		my $ns = $1;
+		my $symbol = $2;
+		
+		if ($ns =~ /^UNIT/) #special unit space 
+		{
+			error "UNIT:: not supported at this time";
+		}
+		elsif ($ns =~ /^FUNCTION/) #special function space, name not decided
+		{
+			error "FUNCTION:: not supported at this time";
+		}
+		else
+		{
+			return $self->resolve($self->namespaces->{$ns}, $symbol);
+		}
+	}	
+	elsif ($scope->scope->isvar($symbol))
+	{
+		return $scope->scope->getvar($symbol);
 	}
 	elsif ($scope->units->isunit($symbol))
 	{
@@ -67,11 +85,11 @@ sub makenamespace
 	my ($self, $name) = @_;
 	
 	error "" unless defined $name;
-	error "attempting to redefine existing namespace.  might just have it return later, but now it's an error." if exists($self->namespace()->{$name});
+	error "attempting to redefine existing namespace.  might just have it return later, but now it's an error." if exists($self->namespaces()->{$name});
 	
-	warn "makenamespace";
+#	warn "makenamespace";
 	
-	$self->namespace()->{$name} = Language::Farnsworth::NameSpace->new();
+	$self->namespaces()->{$name} = Language::Farnsworth::NameSpace->new();
 };
 
 1;
