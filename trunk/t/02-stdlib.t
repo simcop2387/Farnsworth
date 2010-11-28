@@ -35,6 +35,7 @@ my @tests =
 	["unshift[a,1]",          "[1  , 2  , 3  , 4  , 1  , 2  , 3 ]", "unshift[] back onto array"],
 	["sort[{`a,b` a <=> b}, 2,1,4,3]", "[1  , 2  , 3  , 4 ]", "sort[] list"],
 	["sort[{`a,b` a <=> b}, a]", "[1  , 1  , 2  , 2  , 3  , 3  , 4 ]", "sort[] array"],
+        ["a", "[1  , 2  , 3  , 4  , 1  , 2  , 3 ]", "sanity check on variable a after sorting"],
 	["sort[2,1,4,3]", "[1  , 2  , 3  , 4 ]", "sort[] list, no sub"],
 	["sort[a]", "[1  , 1  , 2  , 2  , 3  , 3  , 4 ]", "sort[] array, no sub"],	
 	["length[a]", "7 ", "length[] array"],

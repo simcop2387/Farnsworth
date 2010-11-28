@@ -22,6 +22,7 @@ use Language::Farnsworth::Value::Boolean;
 use Language::Farnsworth::Output;
 use Language::Farnsworth::Error;
 use Language::Farnsworth::NameSpace;
+use Language::Farnsworth::ScopeManager;
 
 use Math::Pari;# ':hex'; #why not? because it fucks up so fucking badly that fuck isn't a strong enough word
 
@@ -30,12 +31,13 @@ our $parser = Language::Farnsworth::Parser->new();
 
 sub new
 {
-    my $class = shift;
+    my $parent = shift;
 	my $self = {};
 	bless $self;
 
-	my %opts = (@_);
-	
+    #shallow clone when done via $self->new();
+	my %opts = (ref $parent?%$parent:(),@_);
+	#print Dumper \%opts;
 	if (ref($opts{ns}) eq "Language::Farnsworth::NameSpace")
 	{
 		$self->{ns} = $opts{ns};
@@ -61,9 +63,28 @@ sub new
 
 sub makechildscope {
 	my $self = shift;
-	my $childns = $self->{ns}->makechildscope();
+	my $childns = $self->sm->makechildscope($self->ns);
 	$self->new(ns => $childns);
 }
+
+#accessors
+sub ns {
+	return $_[0]->{ns}
+}
+
+sub sm {
+	return $_[0]->{sm}
+}
+
+sub vars {
+	return $_[0]->ns->scope;
+}
+
+sub units {
+	return $_[0]->ns->units;
+}
+
+#rest of code
 
 sub DESTROY
 {
@@ -798,14 +819,14 @@ sub makevalue
 	}
 	elsif (ref($input) eq "Fetch")
 	{
-		return $self->{ns}->resolveterm($input->[0]);
+		return $self->sm->resolvesymbol($self, $input->[0]);
 	}
 	elsif (ref($input) eq "GetFunc") # XXXX GET RID OF IT
 	{
 		my $name = $input->[0];
-		if ($self->{ns}->functions->isfunc($name))
+		if ($self->ns->functions->isfunc($name))
 		{
-			return $self->{ns}->functions->getfunc($name)->{lambda};
+			return $self->ns->functions->getfunc($name)->{lambda};
 		}
 		else
 		{

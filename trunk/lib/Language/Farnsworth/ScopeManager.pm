@@ -10,8 +10,8 @@ use Data::Dumper;
 
 use Scalar::Util qw(weaken refaddr);
 
-has 'scopes' => (is => 'rw', isa=>'Hash', default => {});
-has 'namespaces' => (is => 'rw', isa => 'Hash', default => {});
+has 'scopes' => (is => 'rw', isa=>'HashRef', default => sub {return {}});
+has 'namespaces' => (is => 'rw', isa => 'HashRef', default => sub {return {}});
 
 sub resolvesymbol
 {
@@ -29,21 +29,23 @@ sub resolvesymbol
 	}
 	else
 	{
-		error "Undefined symbol '$symbol'\n";
+		error "Undefined symbol '$symbol'";
 	}
 }
 
-sub makescope
+sub makechildscope
 {
 	my $self = shift;
-	my $parentscope = shift;
+	my $parentspace = shift;
 	
-	my $scope = Language::Farnsworth::Variables->new($parentscope->vars);
+	my $scope = Language::Farnsworth::Variables->new($parentspace->scope);
 	
 	my $weak = \$scope; # use a weakened ref so that we can keep from having living scopes around
 	weaken($weak);
 	
 	$self->scopes->{refaddr($scope)} = $weak;
+	
+	$parentspace->new({units=>$parentspace->units, scope=>$scope, functions=>$parentspace->functions});
 }
 
 sub makeeval
@@ -51,9 +53,9 @@ sub makeeval
 	my $self = shift;
 	my $parenteval = shift;
 
-	my $newscope = $self->makescope($parenteval->{vars});
+	my $newscope = $self->makechildscope($parenteval->vars);
 
-    my %nopts = (ns => $newscope, funcs => $parenteval->{funcs}, units => $parenteval->{units}, parser => $parenteval->{parser});
+    my %nopts = (ns => $newscope);
 
     my $neweval = $parenteval->new(%nopts);
 	
@@ -67,5 +69,9 @@ sub makenamespace
 	error "" unless defined $name;
 	error "attempting to redefine existing namespace.  might just have it return later, but now it's an error." if exists($self->namespace()->{$name});
 	
+	warn "makenamespace";
+	
 	$self->namespace()->{$name} = Language::Farnsworth::NameSpace->new();
-}
+};
+
+1;

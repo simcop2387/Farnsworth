@@ -1,6 +1,7 @@
 package Language::Farnsworth::NameSpace;
 
 use Moose;
+use Carp qw(cluck);
 
 use Language::Farnsworth::Variables;
 use Language::Farnsworth::FunctionDispatch;
@@ -14,5 +15,12 @@ has 'scope' => (is => 'rw', isa=>'Language::Farnsworth::Variables',
                 default => sub {Language::Farnsworth::Variables->new()});
                 
 has 'units' => (is => 'rw', isa=>'Language::Farnsworth::Units', default => sub {Language::Farnsworth::Units->new()});
+
+
+sub BUILDer {
+	print STDERR "-----------------------\n";
+	cluck "BUILT NEW NAMESPACE";
+    print STDERR "-----------------------\n";
+}
 
 1;
