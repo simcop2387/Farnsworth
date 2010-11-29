@@ -40,5 +40,6 @@ t/01-operators.t
 t/00-sanity.t
 t/02-stdlib.t
 t/03-knownbugs.t
+t/04-modules.t
 LICENSE
 Changes
