@@ -76,44 +76,7 @@ sub resolvesymbol
 
 sub resolvefunc
 {
-	my $self = shift;
-	my $space = shift;
-	my $symbol = shift;
-	
-	if ($symbol =~ /^(.*)::([^:]*)$/) # we have a new scope!
-	{
-		my $ns = $1;
-		my $symbol = $2;
-		
-		if ($ns =~ /^F(UNCTION)?/) #special function space, name not decided
-		{
-			my $rns = $ns;
-			$rns =~ s/^F(UNCTION)?(::)?//; #remove the FUNCTION, we need to grab the right namespace
-			
-			my $space = $self->getspace($rns);
-			
-			if ($space->functions->isfunc($symbol))
-			{
-				return $space->functions->getfunc($symbol)->{lambda};
-			}
-			else
-			{
-				error "Undefined function '$symbol'";			
-			}			
-		}
-		else
-		{
-			return $self->resolvefunc($self->getspace($ns), $symbol);
-		}
-	}	
-	elsif ($space->functions->isfunc($symbol))
-	{
-		return $space->functions->getfunc($symbol)->{lambda};
-	}
-	else
-	{
-		error "Undefined function '$symbol'";
-	}
+	error "SHIT SHOULDN'T BE HERE";
 }
 
 sub callfunc
@@ -136,12 +99,12 @@ sub callfunc
 			
 		if ($space->functions->isfunc($symbol))
 		{
-		  return $space->functions->getfunc($symbol)->{lambda};
+		  return $space->functions->callfunc($eval, $symbol, $args);
 		}
 		else
 		{
 			error "Undefined function '$name'";			
-		}			
+		}
 	}	
 	elsif ($ospace->functions->isfunc($name))
 	{
