@@ -5009,7 +5009,7 @@ sub yylex
 	#math operators
 	$s =~ /\G$ws*(\*\*|\+|\*|-|\/|\%|\^)$ws*/icg and return lc $1;
 	
-	$s =~ /\G$ws*(;|\{\s*\`|\{\s*\||\{|\}|\>|\<|\?|\:|\,|\.\.\.|\`)$ws*/cg and return $1;
+	$s =~ /\G$ws*(;|\{\s*\`|\{\s*\||\{|\}|\>|\<|\?|\:|\,|\.\.\.|\`|\|)$ws*/cg and return $1;
 	$s =~ /\G$ws*(\)|\])/cg and return $1; #freaking quirky lexers!
 	$s =~ /\G(\(|\[)$ws*/cg and return $1;
 	
@@ -5021,16 +5021,17 @@ sub yylex
 
 sub yylexwatch
 {
-   #my $oldp = pos $s;
+   my $oldp = pos $s;
    my @r = &yylex;
 
-   #my $charlines = $_[-1];
-   #my $line = $_[-2];
-   #my $pos = pos $s;
+#   my $charlines = $_[-1];
+#   my $line = $_[-2];
+#   my $pos = pos $s;
 
    #print Dumper(\@_);
-   #my $nextn = index($s, "\n", $pos+1);
-   #print "LEX: ${$line} ${$charlines} $pos :: ".substr($s, $pos, $nextn).":: ".substr($s, $pos, $nextn-$pos+1)."\n";
+#   my $nextn = index($s, "\n", $pos+1);
+   #":: ".substr($s, $pos, $nextn-$pos+1).
+#   print "LEX: ${$line} ${$charlines} $pos :: ".substr($s, $pos, 10)."\n";
    #$charcount+=pos $s;
    #$s = substr($s, pos $s);
    return @r;
