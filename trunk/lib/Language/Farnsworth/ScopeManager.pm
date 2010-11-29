@@ -44,7 +44,7 @@ sub resolvesymbol
 			my $rns = $ns;
 			$rns =~ s/^F(UNCTION)?(::)?//; #remove the FUNCTION, we need to grab the right namespace
 			
-			my $scope = $self->namespaces()->{$rns};
+			my $scope = $self->getspace($rns);
 			
 			if ($scope->functions->isfunc($symbol))
 			{
@@ -57,7 +57,7 @@ sub resolvesymbol
 		}
 		else
 		{
-			return $self->resolve($self->namespaces->{$ns}, $symbol);
+			return $self->resolve($self->getspace($ns), $symbol);
 		}
 	}	
 	elsif ($scope->scope->isvar($symbol))
@@ -81,7 +81,7 @@ sub makechildscope
 	
 	my $scope = Language::Farnsworth::Variables->new($parentspace->scope);
 	
-	my $weak = \$scope; # use a weakened ref so that we can keep from having living scopes around
+	my $weak = \$scope; # use a weakened ref so that we can keep from having living scopes around, while still finding out when we do
 	weaken($weak);
 	
 	$self->scopes->{refaddr($scope)} = $weak;
@@ -114,5 +114,16 @@ sub makenamespace
 	
 	$self->namespaces()->{$name} = Language::Farnsworth::NameSpace->new();
 };
+
+sub getspace
+{
+	my ($self, $ns) = @_;
+	
+	my $nss = $self->namespaces();
+	
+	return $nss->{$ns} if (exist($nss->{$ns}));
+	
+	error "No such namespace $ns";
+}
 
 1;

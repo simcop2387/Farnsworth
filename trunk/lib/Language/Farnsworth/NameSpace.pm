@@ -16,11 +16,4 @@ has 'scope' => (is => 'rw', isa=>'Language::Farnsworth::Variables',
                 
 has 'units' => (is => 'rw', isa=>'Language::Farnsworth::Units', default => sub {Language::Farnsworth::Units->new()});
 
-
-sub BUILDer {
-	print STDERR "-----------------------\n";
-	cluck "BUILT NEW NAMESPACE";
-    print STDERR "-----------------------\n";
-}
-
 1;

@@ -39,6 +39,7 @@ my @tests =
     ['0b1', '1 ', "Single length binary numbers"],
     ['01', '1 ', "Single length octal numbers"],
     ['0.9', '0.9 ', "decimals not parsing as octal"],
+    ['var a=1; "$a"', '"1 "', "symbol resolution in strings"],
 # this is going to take some redesign in Variables.pm
 #    ['var a=42; foo{x byref} := {x = 46; bar[x]}; bar{y byref} := {y = 12}; [a, foo[a], a];', '[42 , 12 , 12 ]', 'nested references'],
 );

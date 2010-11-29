@@ -857,12 +857,12 @@ sub makevalue
 			my $output = undef;
 			if ($var !~ /^{.*}$/) 
 			{
-				$output = new Language::Farnsworth::Output($self->{ns}->units, $self->{ns}->resolveterm($var), $self);
+				$output = new Language::Farnsworth::Output($self->units, $self->sm->resolvesymbol($self->ns, $var), $self);
 			} 
 			else 
 			{
 				$var =~ s/[{}]//g;
-				$output = new Language::Farnsworth::Output($self->{ns}->units, $self->eval($var), $self);
+				$output = new Language::Farnsworth::Output($self->units, $self->eval($var), $self);
 			}
 
 			"".$output;
