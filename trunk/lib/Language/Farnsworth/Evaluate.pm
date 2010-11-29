@@ -169,9 +169,9 @@ sub evalbranch
 #			print STDERR "$self";
 #			print Dumper($a, $b);
 			
-			if ($self->{ns}->functions->isfunc($a)) #check if there is a func $a
+			if ($self->sm->isfunc($self->ns, $a)) #check if there is a func $a
 			{   #$return = $self->{funcs}->callfunc($self, $name, $args, $branch);
-				$return = $self->{ns}->functions->callfunc($self, $a, $b, $branch);
+				$return = $self->sm->callfunc($self, $a, $b);
 			}
 			else #otherwise we try to 
 			{
@@ -712,6 +712,18 @@ sub evalbranch
 		my $value = $self->makevalue($branch->[1]);
 		#carp "SETTING PREFIX0: $name : $value : ".Dumper($branch->[1]) if ($name eq "m");
 		$self->{ns}->units->setprefix($name, $value);
+	}
+	elsif ($type eq "Module")
+	{
+		my $namespace = $branch->[0];
+		my $block = $branch->[1];
+		
+		print "GOT MODULE $namespace!\n";
+		my $ns = $self->sm->makenamespace($namespace, $self->units);
+		my $nsval = $self->new(ns=>$ns);
+		print "EVAL MODULE!\n";
+		$nsval->evalbranch($block);
+		print "DONE EVAL MODULE $namespace\n";
 	}
 	elsif ($type eq "Trans")
 	{

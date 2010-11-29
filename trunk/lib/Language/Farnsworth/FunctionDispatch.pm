@@ -163,7 +163,6 @@ sub callfunc
 	my $eval = shift;
 	my $name = shift;
 	my $args = shift;
-	my $branches = shift;
 
     error "Given object as function name, check should happen before this" if (ref($name)); 
 	error "Function $name is not defined" unless $self->isfunc($name);

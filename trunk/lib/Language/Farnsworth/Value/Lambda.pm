@@ -268,7 +268,7 @@ sub eval
   #print "LAMBDAMULT\n";
   #eval{print Dumper($one->{scope}->{vars}->getvar('x'), $one->{scope}->{vars}->getvar('y'))}; #this bug was fixed
 
-    return $eval->{ns}->functions->calllambda($self, $args, $eval); #needs to be updated	
+    return $eval->ns->functions->calllambda($self, $args, $eval); #needs to be updated	
 }
 
 sub tostring

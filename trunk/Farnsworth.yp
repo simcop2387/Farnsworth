@@ -47,16 +47,16 @@ stmt: expr                                 { $_[1] }
 	| while
 	| NAME '{' arglist '}' ':=' expr { bless [@_[1,3], (bless [$_[6]], 'Stmt')], 'FuncDef' }
 	| NAME '{' arglist '}' ':=' '{' stma '}' { bless [@_[1,3,7]], 'FuncDef' }
+	| module
 	;
+
+block: '{' stma '}' {$_[2]};
 
 ifstartcond: 'if' '(' expr ')' {$_[3]}
            ;
-
-ifstmts: '{' stma '}' {$_[2]}
-       ;
-
-if: ifstartcond ifstmts {bless [@_[1,2], undef], 'If'}
-  | ifstartcond ifstmts 'else' ifstmts {bless [@_[1,2,4]], 'If'}
+           
+if: ifstartcond block {bless [@_[1,2], undef], 'If'}
+  | ifstartcond block 'else' block {bless [@_[1,2,4]], 'If'}
   ;
 
 #not put in simply because i haven't decided if i even want c style for loops
@@ -64,8 +64,11 @@ if: ifstartcond ifstmts {bless [@_[1,2], undef], 'If'}
 #			{ bless [ @_[3,5,7,10] ], 'For' }
 #	;
 
-while: 'while' '(' expr ')' '{' stma '}'  { bless [ @_[3,6] ], 'While' }
+while: 'while' '(' expr ')' block { bless [ @_[3,5] ], 'While' }
 	 ;
+
+module: 'module' NAME block {bless [@_[2,3]], 'Module' }
+      ;
 
 #// i hate bad syntax highlighting
 #// ( ref($_[1]) eq 'Array' ? ( bless [@$_[1]], 'SubArray' ) : $_[1] )
@@ -278,7 +281,7 @@ sub yylex
     #i'll probably ressurect this later too
 	#$s =~ /\G(do|for|elsif|else|if|print|while)\b/cg and return $1;
 	
-	$s =~ /\G\s*(while|conforms|else|if)\b\s*/cg and return $1;
+	$s =~ /\G\s*(while|conforms|else|if|module)\b\s*/cg and return $1;
 
 	#seperated this to shorten the lines, and hopefully to make parts of it more readable
 	#$s =~ /\G$ws*()$ws*/icg and return lc $1;

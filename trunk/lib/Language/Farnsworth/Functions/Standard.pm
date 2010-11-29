@@ -49,9 +49,19 @@ sub init
    $funcs->addfunc("error", [["in", undef, TYPE_STRING, 0]], \&doerror, $env);
    $funcs->addfunc("return", [["in", undef, undef, 0]], \&doreturn, $env);
    $funcs->addfunc("match", [["regex", undef, TYPE_STRING, 0], ["input", undef, TYPE_STRING, 0], ["options",TYPE_STRING,TYPE_STRING, 0]], \&match, $env);
+   $funcs->addfunc("dbgprint", [["output", undef, TYPE_STRING, 0]], \&dbgprint, $env);
 
    $env->eval('max{x isa ...} := {var z; if (length[x] == 1 && x@0$ conforms []) {z = x@0$} else {z=x}; var n = length[z]; var m=z@0$; var q; while((n=n-1)>=0){q=z@n$; q>m?m=q:0}; m}'); 
    $env->eval('min{x isa ...} := {var z; if (length[x] == 1 && x@0$ conforms []) {z = x@0$} else {z=x}; var n = length[z]; var m=z@0$; var q; while((n=n-1)>=0){q=z@n$; q<m?m=q:0}; m}'); 
+}
+
+sub dbgprint
+{
+	my ($args, $eval) = @_;
+	my $output = $eval->ns->scope->getvar("output");
+	
+	print STDERR $output->getstring();
+	sleep 4;
 }
 
 sub doerror

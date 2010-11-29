@@ -57,7 +57,7 @@ sub resolvesymbol
 		}
 		else
 		{
-			return $self->resolve($self->getspace($ns), $symbol);
+			return $self->resolvesymbol($self->getspace($ns), $symbol);
 		}
 	}	
 	elsif ($scope->scope->isvar($symbol))
@@ -71,6 +71,116 @@ sub resolvesymbol
 	else
 	{
 		error "Undefined symbol '$symbol'";
+	}
+}
+
+sub resolvefunc
+{
+	my $self = shift;
+	my $space = shift;
+	my $symbol = shift;
+	
+	if ($symbol =~ /^(.*)::([^:]*)$/) # we have a new scope!
+	{
+		my $ns = $1;
+		my $symbol = $2;
+		
+		if ($ns =~ /^F(UNCTION)?/) #special function space, name not decided
+		{
+			my $rns = $ns;
+			$rns =~ s/^F(UNCTION)?(::)?//; #remove the FUNCTION, we need to grab the right namespace
+			
+			my $space = $self->getspace($rns);
+			
+			if ($space->functions->isfunc($symbol))
+			{
+				return $space->functions->getfunc($symbol)->{lambda};
+			}
+			else
+			{
+				error "Undefined function '$symbol'";			
+			}			
+		}
+		else
+		{
+			return $self->resolvefunc($self->getspace($ns), $symbol);
+		}
+	}	
+	elsif ($space->functions->isfunc($symbol))
+	{
+		return $space->functions->getfunc($symbol)->{lambda};
+	}
+	else
+	{
+		error "Undefined function '$symbol'";
+	}
+}
+
+sub callfunc
+{
+	my $self = shift;
+	my $eval = shift;
+	my $name = shift;
+	my $args = shift;
+	my $ospace = $eval->ns;
+	
+	if ($name =~ /^(.*)::([^:]*)$/) # we have a new scope!
+	{
+		my $ns = $1;
+		my $symbol = $2;
+		
+		my $rns = $ns;
+		$rns =~ s/^F(UNCTION)?(::)?//; #remove the FUNCTION, we need to grab the right namespace
+		
+		my $space = $self->getspace($rns);
+			
+		if ($space->functions->isfunc($symbol))
+		{
+		  return $space->functions->getfunc($symbol)->{lambda};
+		}
+		else
+		{
+			error "Undefined function '$name'";			
+		}			
+	}	
+	elsif ($ospace->functions->isfunc($name))
+	{
+		return $ospace->functions->callfunc($eval, $name, $args);
+	}
+	else
+	{
+		error "Undefined function '$name'";
+	}	
+}
+
+sub isfunc
+{
+	my $self = shift;
+	my $space = shift;
+	my $symbol = shift;
+	
+	if ($symbol =~ /^(.*)::([^:]*)$/) # we have a new scope!
+	{
+		my $ns = $1;
+		my $symbol = $2;
+		
+		if ($ns =~ /^F(UNCTION)?/) #special function space, name not decided
+		{
+			my $rns = $ns;
+			$rns =~ s/^F(UNCTION)?(::)?//; #remove the FUNCTION, we need to grab the right namespace
+			
+			my $space = $self->getspace($rns);
+	
+			return $space->functions->isfunc($symbol) 
+		}
+		else
+		{
+			return $self->isfunc($self->getspace($ns), $symbol);
+		}
+	}	
+	else
+	{
+		return $space->functions->isfunc($symbol);
 	}
 }
 
@@ -105,14 +215,17 @@ sub makeeval
 
 sub makenamespace
 {
-	my ($self, $name) = @_;
+	my ($self, $name, $units) = @_;
 	
 	error "" unless defined $name;
 	error "attempting to redefine existing namespace.  might just have it return later, but now it's an error." if exists($self->namespaces()->{$name});
 	
 #	warn "makenamespace";
+
+    my %opts = ();
+    $opts{units} = $units if defined $units;
 	
-	$self->namespaces()->{$name} = Language::Farnsworth::NameSpace->new();
+	$self->namespaces()->{$name} = Language::Farnsworth::NameSpace->new(\%opts);
 };
 
 sub getspace
@@ -121,7 +234,7 @@ sub getspace
 	
 	my $nss = $self->namespaces();
 	
-	return $nss->{$ns} if (exist($nss->{$ns}));
+	return $nss->{$ns} if (exists($nss->{$ns}));
 	
 	error "No such namespace $ns";
 }
