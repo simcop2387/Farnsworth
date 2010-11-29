@@ -24,13 +24,36 @@ sub resolvesymbol
 		my $ns = $1;
 		my $symbol = $2;
 		
-		if ($ns =~ /^UNIT/) #special unit space 
+		if ($ns =~ /^U(NIT)?::/)
 		{
-			error "UNIT:: not supported at this time";
+			error "Namespaced UNIT:: is unsupported";
 		}
-		elsif ($ns =~ /^FUNCTION/) #special function space, name not decided
+		elsif ($ns =~ /^UNIT/ || $ns eq "U") #special unit space 
 		{
-			error "FUNCTION:: not supported at this time";
+			if ($scope->units->isunit($symbol))
+			{
+				return $scope->units->getunit($symbol);
+			}
+			else
+			{
+				error "No such unit '$symbol'";
+			}
+		}
+		elsif ($ns =~ /^F(UNCTION)?/) #special function space, name not decided
+		{
+			my $rns = $ns;
+			$rns =~ s/^F(UNCTION)?(::)?//; #remove the FUNCTION, we need to grab the right namespace
+			
+			my $scope = $self->namespaces()->{$rns};
+			
+			if ($scope->functions->isfunc($symbol))
+			{
+				return $scope->functions->getfunc($symbol)->{lambda};
+			}
+			else
+			{
+				error "Undefined function '$symbol'";			
+			}			
 		}
 		else
 		{

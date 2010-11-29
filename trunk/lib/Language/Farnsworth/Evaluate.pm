@@ -831,7 +831,7 @@ sub makevalue
 		return $self->sm->resolvesymbol($self->ns, $input->[0]);
 	}
 	elsif (ref($input) eq "GetFunc") # XXXX GET RID OF IT
-	{
+	{   # XXX make it work with namespaces!
 		my $name = $input->[0];
 		if ($self->ns->functions->isfunc($name))
 		{
