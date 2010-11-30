@@ -431,6 +431,8 @@ sub evalbranch
 		#print "\n\n DECLARING $name\n";
 		#print Dumper($branch);
 
+		_valid_symbol($name); #this errors out for me, need to decide if this is really what i want
+
 		if (defined($branch->[1]))
 		{
 			$value = $self->makevalue($branch->[1]);
@@ -441,7 +443,7 @@ sub evalbranch
 		}
 
 		$return = $value; #make stores evaluate to the value on the right
-		$self->{ns}->scope->declare($name, $value);
+		$self->ns->scope->declare($name, $value);
 	}
 	elsif ($type eq "DeclareFunc")
 	{
@@ -452,7 +454,7 @@ sub evalbranch
 		#should i allow constants? if i do i'll have to handle them differently, for now it'll be an error
 		error "Right side of function declaration for '$name' did not evaluate to a lambda" unless ($lambda->istype("Lambda"));
 
-		$self->{ns}->functions->addfunclamb($name, $lambda);
+		$self->ns->functions->addfunclamb($name, $lambda);
 		$return = $lambda;
 	}	
 	elsif ($type eq "FuncDef")
@@ -691,6 +693,7 @@ sub evalbranch
 	{
 		my $unitsize = $self->makevalue($branch->[1]);
 		my $name = $branch->[0];
+		_valid_symbol($name);
 		$self->{ns}->units->addunit($name, $unitsize);
 		$return = $unitsize;
 	}
@@ -903,6 +906,16 @@ sub makevalue
 
 	#return $self->evalbranch($input);
 	goto &evalbranch; #EVIL GOTO! but might save a stack frame! OMG!
+}
+
+sub _valid_symbol
+{
+	my $symbol = shift;
+	
+	error "Cannot define an identifier '$symbol' into a namespace" if ($symbol =~ /::/); # don't let people define things into a namespace directly
+	error "Cannot use reserved word '$symbol' as an identifier" if ($symbol =~ /^(per|while|for|if|defun|isa|byref|var|conforms|else|module)$/);
+	
+	return 1;
 }
 
 1;

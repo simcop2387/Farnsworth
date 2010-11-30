@@ -48,7 +48,7 @@ sub addfunc
 	
 	my $lambda = new Language::Farnsworth::Value::Lambda($scope, $args, $value, $branch, $name);
 	
-	$self->{funcs}{$name} = {name=>$name, lambda=>$lambda};
+	$self->addfunclamb($name, $lambda);
 }
 
 sub addfunclamb
@@ -56,6 +56,8 @@ sub addfunclamb
 	my $self = shift;
 	my $name = shift;
 	my $lambda = shift;
+	
+	_valid_funcname($name);
 	
 	$lambda->setname($name);
 	
@@ -339,6 +341,16 @@ sub getref
 	#warn Dumper($argexpr, $ref);
 
 	return $ref;
+}
+
+sub _valid_funcname
+{
+	my $symbol = shift;
+	
+	error "Cannot define a function '$symbol' into a namespace" if ($symbol =~ /::/); # don't let people define things into a namespace directly
+	error "Cannot use reserved word '$symbol' as function name" if ($symbol =~ /^(per|while|for|if|defun|isa|byref|var|conforms|else|module)$/);
+	
+	return 1;
 }
 
 1;
