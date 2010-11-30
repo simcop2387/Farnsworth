@@ -37,6 +37,7 @@ my @tests =
 	['Test::x', "2 ", "accessing module variable 3, after module func"],
 	['module Test2 { defun test = {`x` eval[x]}; var z=42;}; 2', "2 ", "defining second module"],
 	['F::Test2::test', '{`x` eval[ x ]; }', "getting the value of a function inside a module"],
+	['Test2::test["1"]', '1 ', "Functions inside module calling global functions"],	
 	['F::sin', '{`in isa 0 ` /* PERL CODE */}', "getting the value of a built in function"],
 	['FUNCTION::cos', '{`in isa 0 ` /* PERL CODE */}', "getting the value of a built in function, long style"],
 	['U::m', '1 m /* length */', "getting value of a unit"],

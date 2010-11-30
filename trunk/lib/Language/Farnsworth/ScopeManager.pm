@@ -57,6 +57,7 @@ sub resolvesymbol
 		}
 		else
 		{
+			# I recurse here so that I don't have to duplicate code below
 			return $self->resolvesymbol($self->getspace($ns), $symbol);
 		}
 	}	
@@ -112,7 +113,17 @@ sub callfunc
 	}
 	else
 	{
-		error "Undefined function '$name'";
+		#We check the main space since that's where the standard library lives, This is also where normal user functions exist, i may create a new space for this stuff to exist in
+		my $mainspace = $self->getspace("");
+		
+		if ($mainspace->functions->isfunc($name))
+		{
+			$mainspace->functions->callfunc($eval, $name, $args);
+		}
+		else
+		{
+			error "Undefined function '$name'";
+		}
 	}	
 }
 
@@ -143,7 +154,9 @@ sub isfunc
 	}	
 	else
 	{
-		return $space->functions->isfunc($symbol);
+		my $mainspace = $self->getspace("");
+		
+		return $space->functions->isfunc($symbol) || $mainspace->functions->isfunc($symbol);
 	}
 }
 
