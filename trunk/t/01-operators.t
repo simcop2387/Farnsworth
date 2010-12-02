@@ -74,6 +74,7 @@ my @tests =
 	['var a=[1,2,3,4]; a@2=10; a@2', '10 ', "array storage"],
 	['10 m^(3/2)', '10.0 m^(3/2)', "rational powers"],
 	['10 m^(1/2)', '10.0 m^(1/2)', "rational powers < 1 with 1 as numerator"],
+	['var a=[1,3,5,7,11,13]; var b=[2,4]; var c=1; a@b@c', '11 ', 'nested array index access'],
 
 );
 
