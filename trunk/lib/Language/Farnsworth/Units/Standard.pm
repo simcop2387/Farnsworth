@@ -134,7 +134,7 @@ m :-  milli;
    // "u" to indicate micro?  I've added "uF" for microfarad later on to
    // tackle the most common case.
 //\u00b5 :- micro   // Unicode "MICRO SIGN" //unicode like this doesn't work! in fact all unicode might not...
-//µ :- micro;
+//ï¿½ :- micro;
 u :- micro;
 n :-  nano;
 p :-  pico;
@@ -2702,7 +2702,7 @@ fournierpoint :=       0.1648 inch / 12; // First definition of the printers
                                          // point made by Pierre Fournier who
                                          // defined it in 1737 as 1/12 of a
                                          // cicero which was 0.1648 inches.
-olddidotpoint :=       1/72 frenchinch;  // Fran¿ois Ambroise Didot, one of 
+olddidotpoint :=       1/72 frenchinch;  // Franï¿½ois Ambroise Didot, one of 
                                          // a family of printers, changed
                                          // Fournier's definition around 1770 
                                          // to fit to the French units then in
@@ -4093,7 +4093,7 @@ droit :=               1/24 mite;
 periot :=              1/20 droit;
 blanc :=               1/24 periot;
 
-// Resolution 12 of the BIPM 21st Conf¿rence G¿n¿rale des Poids et Mesures
+// Resolution 12 of the BIPM 21st Confï¿½rence Gï¿½nï¿½rale des Poids et Mesures
 // 11-15 October 1999 endorses uses of katal as SI derived unit:
 // http://www.bipm.org/enus/2_Committees/cgpm21/res12.pdf
 katal := mol/s;
@@ -4106,7 +4106,7 @@ smoot := 5 feet + 7 inches;  // Height of Oliver R. Smoot Jr. see:
 True := (1 > 0);
 False := (0 > 1);
 
-undef := ([1,,2])@1$; //Make the engine generate the value for me, why should i make NEW syntax to do it when this works too, also why should i avoid making something else
+undef := [1,,2]@1; //Make the engine generate the value for me, why should i make NEW syntax to do it when this works too, also why should i avoid making something else
 
 phi := (1 + 5^(1/2))/2;
 

@@ -29,8 +29,8 @@ lives_ok { $hubert = Language::Farnsworth->new();} 'Startup'; #will attempt to l
 
 my @tests = 
 (   
-	['var a=1; var sub={`x,y` x+y}; vararg{sub isa {``}, x isa ...} := {var input = x@0$ conforms [] ? x@0$ : x; var st = shift[input]; while(length[input] >= 1) {var next = shift[input]; st = sub[st, next];}; st}; vararg[sub, a,a]',        "2 ",             "assignment during use in a loop"],
-	['var sub={`x,y` x+y}; vararg{sub isa {``}, x isa ...} := {var input = x@0$ conforms [] ? x@0$ : x; var st = shift[input]; while(length[input] >= 1) {var next = shift[input]; var st2 = sub[st, next];st=st2}; st}; vararg[sub, 1,1]',        "2 ",             "assignment during use in a loop, with work around"],
+	['var a=1; var sub={`x,y` x+y}; vararg{sub isa {``}, x isa ...} := {var input = x@0 conforms [] ? x@0 : x; var st = shift[input]; while(length[input] >= 1) {var next = shift[input]; st = sub[st, next];}; st}; vararg[sub, a,a]',        "2 ",             "assignment during use in a loop"],
+	['var sub={`x,y` x+y}; vararg{sub isa {``}, x isa ...} := {var input = x@0 conforms [] ? x@0 : x; var st = shift[input]; while(length[input] >= 1) {var next = shift[input]; var st2 = sub[st, next];st=st2}; st}; vararg[sub, 1,1]',        "2 ",             "assignment during use in a loop, with work around"],
 	['var a=2; var sub={`x,y` x+y}; a=sub[a,a]; a;', '4 ', 'simpler case of above'],
 	['{`x=1` x} []', '1 ', 'Default arguments in lambdas'],
     ['var q={`x` x=x+1}; var a=1; q a; a', '1 ', 'Arguments to lambda are not passed by reference'],

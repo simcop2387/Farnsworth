@@ -32,7 +32,7 @@ sub init
    $funcs->addfunc("index", [["str", undef, TYPE_STRING, 0],["substr", undef, TYPE_STRING, 0],["pos", TYPE_PLAIN, TYPE_PLAIN, 0]],\&index, $env);
    $funcs->addfunc("eval", [["str", undef, TYPE_STRING, 0]],\&eval, $env); #needs special case!
    
-   $env->eval('map{sub isa {`x`}, x isa ...} := {var xx=[]+x; if (length[xx] == 1 && xx@0$ conforms []) {xx = x@0$}; if (length[xx] == 1 && !(xx conforms [])) {xx = [xx]}; var z=[]+xx; var e; var out=[]; while(length[z]) {e = shift[z]; push[out, (sub)[e]]}; out}');
+   $env->eval('map{sub isa {`x`}, x isa ...} := {var xx=[]+x; if (length[xx] == 1 && xx@0 conforms []) {xx = x@0}; if (length[xx] == 1 && !(xx conforms [])) {xx = [xx]}; var z=[]+xx; var e; var out=[]; while(length[z]) {e = shift[z]; push[out, (sub)[e]]}; out}');
 
    $funcs->addfunc("substrLen", [["str", undef, TYPE_STRING, 0],["left", undef, TYPE_PLAIN, 0],["length", undef, TYPE_PLAIN, 0]],\&substrlen, $env); #this one works like perls
    $env->eval("substr{str,left,right}:={substrLen[str,left,right-left]}");
@@ -51,8 +51,8 @@ sub init
    $funcs->addfunc("match", [["regex", undef, TYPE_STRING, 0], ["input", undef, TYPE_STRING, 0], ["options",TYPE_STRING,TYPE_STRING, 0]], \&match, $env);
    $funcs->addfunc("dbgprint", [["output", undef, TYPE_STRING, 0]], \&dbgprint, $env);
 
-   $env->eval('max{x isa ...} := {var z; if (length[x] == 1 && x@0$ conforms []) {z = x@0$} else {z=x}; var n = length[z]; var m=z@0$; var q; while((n=n-1)>=0){q=z@n$; q>m?m=q:0}; m}'); 
-   $env->eval('min{x isa ...} := {var z; if (length[x] == 1 && x@0$ conforms []) {z = x@0$} else {z=x}; var n = length[z]; var m=z@0$; var q; while((n=n-1)>=0){q=z@n$; q<m?m=q:0}; m}'); 
+   $env->eval('max{x isa ...} := {var z; if (length[x] == 1 && x@0 conforms []) {z = x@0} else {z=x}; var n = length[z]; var m=z@0; var q; while((n=n-1)>=0){q=z@n; q>m?m=q:0}; m}'); 
+   $env->eval('min{x isa ...} := {var z; if (length[x] == 1 && x@0 conforms []) {z = x@0} else {z=x}; var n = length[z]; var m=z@0; var q; while((n=n-1)>=0){q=z@n; q<m?m=q:0}; m}'); 
 }
 
 sub dbgprint

@@ -588,68 +588,60 @@ sub evalbranch
 	}
 	elsif ($type eq "ArrayFetch")
 	{
-		#print "\n\nAFETCH\n";
+		print "\n\nAFETCH\n";
 		my $var = $self->makevalue($branch->[0]); #need to check if this is an array, and die if not
-		my $listval = $self->makevalue($branch->[1]);
+		my $index = $self->makevalue($branch->[1]);
 		my @rval;
 
-		#print Data::Dumper->Dump([$branch, $var, $listval], ["branch","var","listval"]);
-
-		for ($listval->getarray())
+		print Data::Dumper->Dump([$branch, $var, $index], ["branch","var","index"]);
+		
+		if ($index->istype("Array"))
 		{
-			my $index = $_->getpari()*1.0;
-			#print STDERR "ARFET: ".$_->toperl()."\n";
-			#ok this line FOR WHATEVER REASON, makes Math::Pari.xs die in isnull(), WHY i don't know, there's something wrong here somewhere
-			#my $float = $_ * (Language::Farnsworth::Value::Pari->new(1.0)); #makes rationals work right
-			
-			my $input = $var->getarrayref()->[$index]; 
-			
-			#error "Array out of bounds\n" #old message, check is down below now;
+			for ($index->getarray())
+			{
+				my $index = $_->getpari()*1.0;
+				#print STDERR "ARFET: ".$_->toperl()."\n";
+				#ok this line FOR WHATEVER REASON, makes Math::Pari.xs die in isnull(), WHY i don't know, there's something wrong here somewhere
+				#my $float = $_ * (Language::Farnsworth::Value::Pari->new(1.0)); #makes rationals work right
+				
+				my $input = $var->getarrayref()->[$index];
+				
+				#error "Array out of bounds\n" #old message, check is down below now;
+				$var->getarrayref()->[$index] = TYPE_UNDEF unless defined $input; 
+				$input = $var->getarrayref()->[$index] unless defined $input; #reset the value if needed, this code should be redone but i don't feel like it right now XXX
+				
+				$input->setref(\$var->getarrayref()->[$index]);
+				push @rval, $input;
+			}
+	
+			#print Dumper(\@rval);
+	
+			if (@rval > 1)
+			{
+				my $pr = new Language::Farnsworth::Value::Array([@rval]);
+				$return = $pr;
+				$return->setref(\$return); #i think this should work fine
+			}
+			else
+			{
+				$return = $rval[0];
+			}
+		}
+		elsif ($index->istype("Pari"))
+		{
+			my $rindex = $index->getpari()*1.0;
+			my $input = $var->getarrayref()->[$rindex];
+
 			$var->getarrayref()->[$index] = TYPE_UNDEF unless defined $input; 
 			$input = $var->getarrayref()->[$index] unless defined $input; #reset the value if needed, this code should be redone but i don't feel like it right now XXX
-			
-			$input->setref(\$var->getarrayref()->[$index]);
-			push @rval, $input;
-		}
 
-		#print Dumper(\@rval);
-
-		if (@rval > 1)
-		{
-			my $pr = new Language::Farnsworth::Value::Array([@rval]);
-			$return = $pr;
-			$return->setref(\$return); #i think this should work fine
+			$input->setref(\$var->getarrayref()->[$rindex]);
+			$return = $input;
 		}
 		else
 		{
-			$return = $rval[0];
+			error "Can't use type '".$index->type()."' as an array index";
 		}
-	}
-	elsif ($type eq "ArrayStore")
-	{
-		my $var = $self->makevalue(bless [$branch->[0]], 'Fetch'); #need to check if this is an array, and die if not
-		my $listval = $self->makevalue($branch->[1]);
-		my $rval = $self->makevalue($branch->[2]);
-
-		#print Dumper($branch, $var, $listval);
-
-		if ($listval->getarray() > 1)
-		{
-			error "Assigning to slices not implemented yet\n";
-		}
-		
-		error "Only numerics may be given as array indexes!" unless ($listval->getarrayref()->[0]->istype("Pari"));
-
-		my $num = $listval->getarrayref()->[0]->getpari() + 0; #the +0 makes sure its coerced into a number
-
-		$var->getarrayref()->[$num] = $rval;
-
-		for my $value ($var->getarray())
-		{
-			$value = $self->makevalue(bless [0], 'Num') if !defined($value);
-		}
-
-		$return = $rval;
 	}
 	elsif ($type eq "While")
 	{

@@ -69,9 +69,9 @@ my @tests =
 	["#today# + 4", undef, "units, date + 1"], #real bug involved here, fixed!
 	["#2008-12-13# - #2008-12-12#", "86400 s /* time */", "date subtraction"],
 	['"foo" + "bar"', '"foobar"', "string concat"],
-	['var a=[1,2,3]; a@2$', '3 ', "array access"],
-	['var a=[1,2,3,4]; a@2/2$', '2 ', "array access, rational"],
-	['var a=[1,2,3,4]; a@2$=10; a@2$', '10 ', "array storage"],
+	['var a=[1,2,3]; a@2', '3 ', "array access"],
+	['var a=[1,2,3,4]; a@(2/2)', '2 ', "array access, rational"],
+	['var a=[1,2,3,4]; a@2=10; a@2', '10 ', "array storage"],
 	['10 m^(3/2)', '10.0 m^(3/2)', "rational powers"],
 	['10 m^(1/2)', '10.0 m^(1/2)', "rational powers < 1 with 1 as numerator"],
 

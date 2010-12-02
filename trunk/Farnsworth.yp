@@ -1,7 +1,7 @@
 %left ';'
 %right '=' ':=' '=!=' '::-' ':-' '|||' '+=' '-=' '*=' '%=' '**=' '/=' '^='
 %left '->' ':->'
-%left ARRAYFETCH
+%right ARRAYFETCH
 #//%left '|'
 %nonassoc ':'
 %left '?'
@@ -104,10 +104,13 @@ number: NUMBER    { bless [ $_[1] ], 'Num' }
       | HEXNUMBER { bless [ $_[1] ], 'HexNum' }
 	  ;
 
+arrayindex: singleval '@' singleval %prec ARRAYFETCH { bless [ @_[1,3] ], 'ArrayFetch' }
+          ;
+
 value:	number
      |	DATE			{ bless [ $_[1] ], 'Date' }
 	 |	STRING			{ bless [ $_[1] ], 'String' } #this will have to be reparsed later, just before evaluating
-	 |	singleval '@' array '$' %prec ARRAYFETCH { bless [ @_[1,3] ], 'ArrayFetch' }
+	 |  arrayindex
 	 |	NAME			%prec NAME { bless [ $_[1] ], 'Fetch' }
 	 |   '[' array ']'              { $_[2] } 
 	 |   lambda
