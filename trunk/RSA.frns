@@ -1,0 +1,36 @@
+ /*there are 41581 precomputed primes in my pari... why that number?*/
+defun modexp={`a , b , n`
+  var d = 1; 
+  var bin = tobase[ b, 2 ];
+  var i = 1 * -1;
+  while (++i < length[ bin ]) { 
+    d = d ^ 2 % n; 
+    if (substrLen[ bin, i, 1 ] == "1") { 
+    d = d * a % n; 
+    };
+  };
+  return[ d ];
+};
+
+defun RSA_rand={`size1, size2` randrange[2**size1, 2**size2]}; /* find some large random number*/
+defun RSA_findprime={`start`
+      var z=1000 /*1000 trials, naive but who cares*/; 
+      while(--z) {
+        if (isprime[start]) {
+          return[start]
+        } else {
+          start++
+        }
+      };
+      error["Couldn't find prime number after 1000 trials"];
+};
+
+
+defun RSA_enc={`m, e, n` modexp[m, e, n]};
+defun RSA_dec={`c, d, n` modexp[c, d, n]};
+
+defun RSA_makekey={`keysize`
+      var p=RSA_findprime[RSA_rand[(keysize-1)/2, keysize/2]];
+      var _psize=int[log[p]/log[2]]; /*find out how many bits in p*/
+      var q=RSA_findprime[RSA_rand[_psize, keysize]]; /* this will make it a little larger than keysize, i don't care */
+      var n=p q; var _e=randmax[]...};
